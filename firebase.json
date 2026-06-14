@@ -1,0 +1,66 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "questkids-mobile",
+          "appId": "1:882077922348:android:80ef355749cb38f1a5cd89",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "questkids-mobile",
+          "configurations": {
+            "android": "1:882077922348:android:80ef355749cb38f1a5cd89",
+            "ios": "1:882077922348:ios:47caa192c020c507a5cd89",
+            "macos": "1:882077922348:ios:47caa192c020c507a5cd89",
+            "web": "1:882077922348:web:130f4b96e9d2122fa5cd89",
+            "windows": "1:882077922348:web:6193d75972217258a5cd89"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "codebase": "default",
+      "disallowLegacyRuntimeConfig": true,
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix $RESOURCE_DIR run lint",
+        "npm --prefix $RESOURCE_DIR run build"
+      ],
+      "source": "functions"
+    },
+    {
+      "source": "learning",
+      "codebase": "questkids",
+      "disallowLegacyRuntimeConfig": true,
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix $RESOURCE_DIR run lint",
+        "npm --prefix $RESOURCE_DIR run build"
+      ]
+    }
+  ]
+}

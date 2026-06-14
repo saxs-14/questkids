@@ -1,0 +1,112 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ==================== HELPER FUNCTIONS ====================
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isUser(uid) {
+      return request.auth.uid == uid;
+    }
+    
+    function isAdmin() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    function isTeacher() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'teacher';
+    }
+    
+    function isParent() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'parent';
+    }
+    
+    function isLearner() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'learner';
+    }
+    
+    // ==================== USERS COLLECTION ====================
+    match /users/{uid} {
+      // User can read/write their own document
+      allow read: if isUser(uid);
+      allow create: if isUser(uid) && request.resource.data.uid == uid;
+      allow update: if isUser(uid);
+      allow delete: if isUser(uid);
+      
+      // Parents can read their linked children
+      allow read: if isParent() && 
+                      uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      
+      // Teachers can read learners in their class
+      allow read: if isTeacher();
+      
+      // Chats subcollection
+      match /chats/{chatId} {
+        allow read, write: if isUser(uid);
+        allow read: if isParent() && 
+                        uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+        allow read: if isTeacher();
+      }
+    }
+    
+    // ==================== ACTIVITIES COLLECTION ====================
+    match /activities/{activityId} {
+      // Signed-in users can read activities
+      allow read: if isSignedIn();
+      
+      // Only teachers and admins can create/update/delete
+      allow create: if (isTeacher() || isAdmin());
+      allow update: if (isTeacher() || isAdmin());
+      allow delete: if (isAdmin());
+    }
+    
+    // ==================== PROGRESS COLLECTION ====================
+    match /progress/{progressId} {
+      // Users can read their own progress
+      allow read: if isUser(resource.data.uid);
+      
+      // Users can create their own progress
+      allow create: if isUser(request.resource.data.uid);
+      
+      // Users can update their own progress (except verified field)
+      allow update: if isUser(resource.data.uid) && 
+                       !request.resource.data.diff(resource.data).affectedKeys().hasAny(['verified']);
+      
+      // Parents can read progress of their children
+      allow read: if isParent() && 
+                      resource.data.uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      
+      // Parents and teachers can verify progress
+      allow update: if (isParent() || isTeacher()) && 
+                       request.resource.data.diff(resource.data).affectedKeys().hasOnly(['verified', 'proofUrl']);
+    }
+    
+    // ==================== REWARDS COLLECTION ====================
+    match /rewards/{uid} {
+      // Users can read/write their own rewards
+      allow read, write: if isUser(uid);
+      
+      // Parents can read their children's rewards
+      allow read: if isParent() && 
+                      uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+    }
+    
+    // ==================== NOTIFICATIONS COLLECTION ====================
+    match /notifications/{notificationId} {
+      // Users can read notifications meant for them
+      allow read: if isUser(resource.data.targetUid);
+      
+      // Users can update notifications meant for them (e.g. mark as read)
+      allow update: if isUser(resource.data.targetUid) && 
+                       request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isRead']);
+      
+      // Users can create notifications for themselves
+      allow create: if isUser(request.resource.data.targetUid);
+      
+      // Only the recipient or admins can delete
+      allow delete: if isUser(resource.data.targetUid) || isAdmin();
+    }
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "users": {
+    "teacher_1": {
+      "uid": "teacher_1",
+      "name": "John",
+      "surname": "Smith",
+      "email": "teacher@questkids.app",
+      "role": "teacher",
+      "gender": "Male",
+      "title": "Mr",
+      "grade": "Grade 1",
+      "totalPoints": 0,
+      "streakDays": 0,
+      "createdAt": 1716633000000,
+      "linkedChildrenUids": [],
+      "preferredLanguage": "English",
+      "fcmToken": null
+    },
+    "parent_1": {
+      "uid": "parent_1",
+      "name": "Jane",
+      "surname": "Doe",
+      "email": "parent@questkids.app",
+      "role": "parent",
+      "gender": "Female",
+      "title": "Mrs",
+      "relationToChild": "Mother",
+      "grade": "Grade 1",
+      "totalPoints": 0,
+      "streakDays": 0,
+      "createdAt": 1716633000000,
+      "linkedChildrenUids": [
+        "child_1"
+      ],
+      "preferredLanguage": "English",
+      "fcmToken": null
+    },
+    "child_1": {
+      "uid": "child_1",
+      "name": "Tommy",
+      "surname": "Doe",
+      "email": "tommy.1432252800000@questkids.child",
+      "role": "learner",
+      "gender": "Male",
+      "birthDate": 1432252800000,
+      "parentUid": "parent_1",
+      "grade": "Grade 1",
+      "totalPoints": 150,
+      "streakDays": 3,
+      "createdAt": 1716633000000,
+      "linkedChildrenUids": [],
+      "preferredLanguage": "English",
+      "fcmToken": null
+    }
+  },
+  "activities": {
+    "activity_1": {
+      "id": "activity_1",
+      "title": "Basic Addition",
+      "description": "Learn to add simple numbers together.",
+      "subject": "Math",
+      "type": "quiz",
+      "difficulty": "easy",
+      "rewardPoints": 20,
+      "grade": "Grade 1",
+      "requiresProof": false,
+      "createdAt": 1716633000000,
+      "questions": [
+        {
+          "question": "What is 2 + 2?",
+          "options": [
+            "3",
+            "4",
+            "5",
+            "6"
+          ],
+          "correctIndex": 1,
+          "explanation": "2 plus 2 equals 4.",
+          "imageUrl": null
+        },
+        {
+          "question": "What is 5 + 3?",
+          "options": [
+            "7",
+            "8",
+            "9",
+            "10"
+          ],
+          "correctIndex": 1,
+          "explanation": "5 plus 3 equals 8.",
+          "imageUrl": null
+        }
+      ]
+    },
+    "activity_2": {
+      "id": "activity_2",
+      "title": "The Water Cycle",
+      "description": "Understand how water moves around our planet.",
+      "subject": "Science",
+      "type": "quiz",
+      "difficulty": "easy",
+      "rewardPoints": 30,
+      "grade": "Grade 1",
+      "requiresProof": false,
+      "createdAt": 1716633000000,
+      "questions": [
+        {
+          "question": "What is it called when water turns into gas?",
+          "options": [
+            "Evaporation",
+            "Condensation",
+            "Precipitation",
+            "Collection"
+          ],
+          "correctIndex": 0,
+          "explanation": "Evaporation is when the sun heats up water and turns it into vapor.",
+          "imageUrl": null
+        }
+      ]
+    }
+  },
+  "notifications": {
+    "notif_1": {
+      "id": "notif_1",
+      "targetUid": "child_1",
+      "title": "Welcome to QuestKids! 🚀",
+      "body": "We are so excited to have you here. Let's start learning!",
+      "type": "system",
+      "isRead": false,
+      "createdAt": 1716633000000
+    }
+  }
+}
