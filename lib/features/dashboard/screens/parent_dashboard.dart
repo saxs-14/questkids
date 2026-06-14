@@ -1,16 +1,26 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csv/csv.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
+import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:table_calendar/table_calendar.dart';
+
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/theme_provider.dart';
-import '../../../providers/auth_provider.dart';
-import '../../../providers/parent_provider.dart';
-import '../../../data/repositories/parent_repository.dart';
 import '../../../core/services/storage_service.dart';
 import '../../../core/widgets/responsive_scaffold.dart';
+import '../../../data/repositories/parent_repository.dart';
 import '../../../data/repositories/user_repository.dart';
-import '../../../data/models/user_model.dart';
+import '../../../providers/auth_provider.dart';
+import '../../../providers/parent_provider.dart';
 
 class ParentDashboard extends StatefulWidget {
   const ParentDashboard({super.key});
@@ -122,18 +132,6 @@ class _ParentDashboardState extends State<ParentDashboard> {
   }
 }
 
-import 'package:table_calendar/table_calendar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:csv/csv.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'package:share_plus/share_plus.dart';
-import 'package:cross_file/cross_file.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
-import 'package:file_selector/file_selector.dart';
-import 'dart:convert';
-
 class _ParentCalendarTab extends StatefulWidget {
   @override
   State<_ParentCalendarTab> createState() => _ParentCalendarTabState();
@@ -153,8 +151,11 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
         DateTime date;
         if (ts is Timestamp) {
           date = ts.toDate();
-        } else if (ts is DateTime) date = ts;
-        else date = DateTime.tryParse(e['date'].toString()) ?? DateTime.now();
+        } else if (ts is DateTime) {
+          date = ts;
+        } else {
+          date = DateTime.tryParse(e['date'].toString()) ?? DateTime.now();
+        }
         final key = DateTime(date.year, date.month, date.day);
         map.putIfAbsent(key, () => []).add(e);
       }
@@ -203,7 +204,7 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
             } else {
               await ParentRepository().updateCalendarEvent(event['id'], payload);
             }
-            Navigator.of(ctx).pop();
+            if (ctx.mounted) Navigator.of(ctx).pop();
           }, child: const Text('Save'))
         ],
       );
@@ -247,7 +248,7 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
             } else {
               await ParentRepository().updateCalendarEvent(reminder['id'], payload);
             }
-            Navigator.of(ctx).pop();
+            if (ctx.mounted) Navigator.of(ctx).pop();
           }, child: const Text('Save'))
         ],
       );
@@ -293,7 +294,7 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
           children: [
             // reminders list
             if (_reminders.isNotEmpty) ...[
-              const Text('Reminders', style: AppTextStyles.h4),
+              Text('Reminders', style: AppTextStyles.h4),
               const SizedBox(height: 8),
               ..._reminders.map((r) => Card(child: ListTile(
                 title: Text(r['title'] ?? 'Reminder'),
@@ -333,7 +334,7 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
 
   Future<void> _importCsv(String childUid) async {
     try {
-      final XTypeGroup typeGroup = XTypeGroup(label: 'csv', extensions: ['csv']);
+      const XTypeGroup typeGroup = XTypeGroup(label: 'csv', extensions: ['csv']);
       final file = await openFile(acceptedTypeGroups: [typeGroup]);
       if (file == null) return;
       final content = await file.readAsString();
@@ -355,9 +356,9 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
         final desc = row.length > 2 ? row[2].toString() : '';
         await ParentRepository().addCalendarEvent({'childUid': childUid, 'title': title, 'description': desc, 'date': Timestamp.fromDate(date)});
       }
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('CSV imported')));
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('CSV imported')));
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Import failed: $e')));
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Import failed: $e')));
     }
   }
 }
@@ -372,20 +373,6 @@ class _ParentHomeTab extends StatefulWidget {
 }
 
 class _ParentHomeTabState extends State<_ParentHomeTab> {
-  late Future<List<UserModel>> _childrenFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadChildren();
-  }
-
-  void _loadChildren() {
-    _childrenFuture = widget.userRepo.getChildren(
-      widget.user?.linkedChildrenUids ?? []
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 600;
@@ -438,7 +425,7 @@ class _ParentHomeTabState extends State<_ParentHomeTab> {
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: AppColors.primary.withValues(alpha: 0.08)),
                     ),
-                    child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.add), SizedBox(height: 8), Text('Add Child')]),
+                    child: const Column(mainAxisAlignment: MainAxisAlignment.center, children: [Icon(Icons.add), SizedBox(height: 8), Text('Add Child')]),
                   ),
                 );
               },
@@ -489,36 +476,6 @@ class _ParentHomeTabState extends State<_ParentHomeTab> {
     );
   }
 
-  Widget _buildStatsRow(bool isMobile) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          _StatCard(
-            label: 'Children',
-            value: (widget.user?.linkedChildrenUids?.length ?? 0).toString(),
-            emoji: '👧',
-            color: AppColors.primary,
-          ),
-          const SizedBox(width: 12),
-          const _StatCard(
-            label: 'Active',
-            value: '0',
-            emoji: '🎮',
-            color: AppColors.green,
-          ),
-          const SizedBox(width: 12),
-          const _StatCard(
-            label: 'Progress',
-            value: '0%',
-            emoji: '📈',
-            color: AppColors.orange,
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildQuickStats(bool isMobile) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -535,144 +492,6 @@ class _ParentHomeTabState extends State<_ParentHomeTab> {
           _StatRow(label: 'Tasks Completed', value: '0', icon: Icons.check_circle),
           SizedBox(height: 12),
           _StatRow(label: 'Points Earned', value: '0', icon: Icons.star),
-        ],
-      ),
-    );
-  }
-}
-
-class _ChildCard extends StatelessWidget {
-  final UserModel child;
-  
-  const _ChildCard({required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    final birthYear = child.birthDate?.year ?? DateTime.now().year;
-    final age = DateTime.now().year - birthYear;
-
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.primary.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-            color: AppColors.primary.withValues(alpha: 0.2)),
-      ),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              CircleAvatar(
-                radius: 24,
-                backgroundColor: AppColors.primary,
-                child: Text(
-                  child.name[0].toUpperCase(),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      child.name,
-                      style: AppTextStyles.h4,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      '${child.grade} • Age $age',
-                      style: AppTextStyles.bodySmall
-                          .copyWith(color: AppColors.textSecondary),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Divider(color: AppColors.primary.withValues(alpha: 0.1)),
-          const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                children: [
-                  const Text('⭐', style: TextStyle(fontSize: 20)),
-                  const SizedBox(height: 4),
-                  Text('0', style: AppTextStyles.bodySmall),
-                  Text('Points', style: AppTextStyles.bodySmall.copyWith(fontSize: 10)),
-                ],
-              ),
-              Column(
-                children: [
-                  const Text('🏆', style: TextStyle(fontSize: 20)),
-                  const SizedBox(height: 4),
-                  Text('0', style: AppTextStyles.bodySmall),
-                  Text('Badges', style: AppTextStyles.bodySmall.copyWith(fontSize: 10)),
-                ],
-              ),
-              Column(
-                children: [
-                  const Text('🔥', style: TextStyle(fontSize: 20)),
-                  const SizedBox(height: 4),
-                  Text('0', style: AppTextStyles.bodySmall),
-                  Text('Streak', style: AppTextStyles.bodySmall.copyWith(fontSize: 10)),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _StatCard extends StatelessWidget {
-  final String label;
-  final String value;
-  final String emoji;
-  final Color color;
-
-  const _StatCard({
-    required this.label,
-    required this.value,
-    required this.emoji,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 110,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withValues(alpha: 0.2)),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(emoji, style: const TextStyle(fontSize: 32)),
-          const SizedBox(height: 8),
-          Text(value,
-              style: AppTextStyles.score.copyWith(color: color),
-              textAlign: TextAlign.center),
-          const SizedBox(height: 4),
-          Text(label,
-              style: AppTextStyles.bodySmall
-                  .copyWith(color: AppColors.textSecondary),
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis),
         ],
       ),
     );
@@ -840,7 +659,7 @@ class _ParentReportsTabState extends State<_ParentReportsTab> {
       rows.add(['Date', 'Activity', 'Score', 'Points']);
       final progresses = await ParentRepository().getChildProgress(selected.uid, limit: 1000);
       for (final p in progresses) {
-        rows.add([p.completedAt.toIso8601String() ?? '', p.activityTitle ?? '', p.score ?? 0, p.pointsEarned ?? 0]);
+        rows.add([p.completedAt.toIso8601String(), p.activityTitle, p.score, p.pointsEarned]);
       }
       final csv = const ListToCsvConverter().convert(rows);
       final dir = await getTemporaryDirectory();
@@ -848,7 +667,7 @@ class _ParentReportsTabState extends State<_ParentReportsTab> {
       await file.writeAsString(csv);
       await Share.shareXFiles([XFile(file.path)], text: 'Child report CSV');
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Export failed: $e')));
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Export failed: $e')));
     }
   }
 
@@ -860,9 +679,9 @@ class _ParentReportsTabState extends State<_ParentReportsTab> {
         return [
           pw.Header(level: 0, child: pw.Text('Child Report')),
           pw.Paragraph(text: 'Generated on ${DateTime.now().toLocal()}'),
-          pw.Table.fromTextArray(context: ctx, data: <List<String>>[
+          pw.TableHelper.fromTextArray(context: ctx, data: <List<String>>[
             ['Date', 'Activity', 'Score', 'Points'],
-            ...progresses.map((p) => [p.completedAt.toIso8601String() ?? '', p.activityTitle ?? '', (p.score ?? 0).toString(), (p.pointsEarned ?? 0).toString()])
+            ...progresses.map((p) => [p.completedAt.toIso8601String(), p.activityTitle, p.score.toString(), p.pointsEarned.toString()])
           ])
         ];
       }));
@@ -870,7 +689,7 @@ class _ParentReportsTabState extends State<_ParentReportsTab> {
       final bytes = await pdf.save();
       await Printing.sharePdf(bytes: bytes, filename: '${selected.uid}_report.pdf');
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('PDF export failed: $e')));
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('PDF export failed: $e')));
     }
   }
 }

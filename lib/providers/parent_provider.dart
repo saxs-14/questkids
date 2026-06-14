@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../data/models/user_model.dart';
-import '../data/models/progress_model.dart';
 import '../data/repositories/parent_repository.dart';
 import '../data/repositories/notification_repository.dart';
 
@@ -64,8 +63,7 @@ class ParentProvider extends ChangeNotifier {
 
   void watchLinkedChildrenStream(String uid) {
     // watch user's document to get linked children uids
-    _parentRepo._db.collection('users').doc(uid).snapshots().listen((doc) {
-      final data = doc.data();
+    _parentRepo.watchUserDoc(uid).listen((data) {
       final children = List<String>.from(data?['linkedChildrenUids'] ?? []);
       // update linkedChildren list
       _parentRepo.getLinkedChildren(children).then((list) {

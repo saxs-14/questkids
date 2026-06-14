@@ -268,7 +268,7 @@ class Grade4Repository {
   Future<List<String>> getUnlockedWorlds(String uid) async {
     final doc = await _playerStats.doc(uid).get();
     if (!doc.exists) return [];
-    return List<String>.from(doc.data()?['unlockedWorlds'] ?? []);
+    return List<String>.from((doc.data() as Map<String, dynamic>?)?['unlockedWorlds'] ?? []);
   }
 
   Future<void> unlockWorld(String uid, String worldId) async {

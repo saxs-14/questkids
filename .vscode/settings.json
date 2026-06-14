@@ -1,4 +1,7 @@
 {
     "cmake.sourceDirectory": "D:/Projects/QuestKids/windows",
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "files.exclude": {
+        "**/android/build/**": true
+    }
 }

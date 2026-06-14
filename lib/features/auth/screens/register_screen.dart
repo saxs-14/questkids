@@ -259,9 +259,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onTap: () => setState(() => _parentRole = 'mother'),
                 child: Card(
                   color: _parentRole == 'mother' ? AppColors.primary : Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(children: const [Text('👩'), SizedBox(height: 8), Text('Mother')]),
+                  child: const Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: Column(children: [Text('👩'), SizedBox(height: 8), Text('Mother')]),
                   ),
                 ),
               ),
@@ -272,9 +272,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onTap: () => setState(() => _parentRole = 'father'),
                 child: Card(
                   color: _parentRole == 'father' ? AppColors.primary : Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(children: const [Text('👨'), SizedBox(height: 8), Text('Father')]),
+                  child: const Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: Column(children: [Text('👨'), SizedBox(height: 8), Text('Father')]),
                   ),
                 ),
               ),
@@ -285,9 +285,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onTap: () => setState(() => _parentRole = 'guardian'),
                 child: Card(
                   color: _parentRole == 'guardian' ? AppColors.primary : Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(children: const [Text('🧑'), SizedBox(height: 8), Text('Guardian')]),
+                  child: const Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: Column(children: [Text('🧑'), SizedBox(height: 8), Text('Guardian')]),
                   ),
                 ),
               ),

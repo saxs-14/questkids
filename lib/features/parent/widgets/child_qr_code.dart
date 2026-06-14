@@ -1,7 +1,6 @@
-import 'dart:typed_data';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ChildQrCode extends StatelessWidget {
   final String code;
@@ -10,19 +9,23 @@ class ChildQrCode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = Theme.of(context).primaryColor;
     return Column(children: [
-      QrImage(
+      QrImageView(
         data: code,
         version: QrVersions.auto,
         size: size,
         gapless: false,
-        foregroundColor: Theme.of(context).primaryColor,
+        eyeStyle: QrEyeStyle(eyeShape: QrEyeShape.square, color: color),
+        dataModuleStyle: QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: color),
       ),
       const SizedBox(height: 8),
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        ElevatedButton(onPressed: () {
-          // TODO: implement share/download
-        }, child: const Text('Share/Download')),
+        ElevatedButton.icon(
+          onPressed: () => Share.share('QuestKids Link Code: $code'),
+          icon: const Icon(Icons.share),
+          label: const Text('Share Code'),
+        ),
       ])
     ]);
   }

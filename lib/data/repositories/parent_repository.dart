@@ -5,7 +5,7 @@ import '../models/progress_model.dart';
 
 class ParentRepository {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  const _uuid = Uuid();
+  final _uuid = const Uuid();
 
   // Link requests
   Future<void> sendLinkRequest(Map<String, dynamic> data) async {
@@ -55,6 +55,10 @@ class ParentRepository {
       'status': 'declined',
       'resolvedAt': FieldValue.serverTimestamp(),
     });
+  }
+
+  Stream<Map<String, dynamic>?> watchUserDoc(String uid) {
+    return _db.collection('users').doc(uid).snapshots().map((doc) => doc.data());
   }
 
   Stream<List<Map<String, dynamic>>> watchPendingRequests(String primaryParentUid) {

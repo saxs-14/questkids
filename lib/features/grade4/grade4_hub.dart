@@ -7,7 +7,7 @@ import '../games/tug_of_war/tug_of_war_screen.dart';
 
 class Grade4Hub extends StatefulWidget {
   final dynamic user;
-  const Grade4Hub({required this.user});
+  const Grade4Hub({super.key, required this.user});
 
   @override
   State<Grade4Hub> createState() => _Grade4HubState();
@@ -96,20 +96,21 @@ class _Grade4HubState extends State<Grade4Hub> {
                     ...(((_daily?['missions'] ?? []) as List).map((m) => _MissionRow(mission: m, onTap: () async {
                       final uid = widget.user?.uid;
                       if (uid == null) return;
+                      final messenger = ScaffoldMessenger.of(context);
                       try {
                         await _repo.updateMissionProgress(uid, m['id'], 1);
                         final refreshed = await _repo.getOrCreateDailyMissions(uid, widget.user?.grade ?? 'Grade 4');
                         if (mounted) setState(() => _daily = refreshed);
                         final newProgress = (m['progress'] ?? 0) + 1;
                         if (newProgress >= (m['target'] ?? 1)) {
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Mission completed!')));
+                          messenger.showSnackBar(const SnackBar(content: Text('Mission completed!')));
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Mission progress updated')));
+                          messenger.showSnackBar(const SnackBar(content: Text('Mission progress updated')));
                         }
                       } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error updating mission: $e')));
+                        messenger.showSnackBar(SnackBar(content: Text('Error updating mission: $e')));
                       }
-                    }))).toList(),
+                    }))),
                     const SizedBox(height: 8),
                     Text('+ rewards shown on completion', style: AppTextStyles.bodySmall.copyWith(color: AppColors.textSecondary)),
                   ]),

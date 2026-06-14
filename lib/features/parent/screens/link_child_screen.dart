@@ -60,7 +60,7 @@ class _LinkChildScreenState extends State<LinkChildScreen> with SingleTickerProv
     if (me == null || _foundChild == null) return;
     await _repo.sendLinkRequest({
       'requestingParentUid': me.uid,
-      'requestingParentName': me.displayName ?? me.name,
+      'requestingParentName': me.displayName,
       'requestingParentEmail': me.email,
       'requestingParentRole': me.role,
       'childUid': _foundChild!.uid,
@@ -122,7 +122,7 @@ class _LinkChildScreenState extends State<LinkChildScreen> with SingleTickerProv
                   padding: const EdgeInsets.all(16.0),
                   child: kIsWeb
                       ? Column(children: [const Text('Camera not available on web. Use code input above.'), const SizedBox(height: 12), TextField(controller: _codeCtrl, textCapitalization: TextCapitalization.characters, maxLength: 6, decoration: const InputDecoration(labelText: 'Enter Code'))])
-                      : Center(child: Text('QR scanner available on mobile.')),
+                      : const Center(child: Text('QR scanner available on mobile.')),
                 ),
               ],
             ),

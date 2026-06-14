@@ -8,7 +8,7 @@ import '../../../data/repositories/grade4_repository.dart';
 class TugOfWarScreen extends StatefulWidget {
   final String worldId;
   final dynamic user;
-  const TugOfWarScreen({required this.worldId, required this.user});
+  const TugOfWarScreen({super.key, required this.worldId, required this.user});
 
   @override
   State<TugOfWarScreen> createState() => _TugOfWarScreenState();

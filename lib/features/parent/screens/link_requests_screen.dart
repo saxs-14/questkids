@@ -22,9 +22,6 @@ class _LinkRequestsScreenState extends State<LinkRequestsScreen> {
   @override
   Widget build(BuildContext context) {
     final parent = context.watch<ParentProvider>();
-    final auth = context.watch<AuthProvider>();
-    final me = auth.user;
-
     return Scaffold(
       appBar: AppBar(title: const Text('Link Requests')),
       body: SingleChildScrollView(
