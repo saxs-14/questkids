@@ -33,9 +33,18 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _navigate() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 2));
     if (!mounted) return;
     final auth = context.read<AuthProvider>();
+
+    // Firebase resolves auth state asynchronously — wait up to 3s for it to settle
+    int waited = 0;
+    while (auth.status == AuthStatus.unknown && waited < 6) {
+      await Future.delayed(const Duration(milliseconds: 500));
+      waited++;
+      if (!mounted) return;
+    }
+
     if (auth.status == AuthStatus.authenticated && auth.user != null) {
       Navigator.pushReplacement(
         context,

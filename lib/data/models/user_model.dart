@@ -34,6 +34,22 @@ class UserModel {
     return name;
   }
 
+  /// Simple emoji/avatar fallback used in UI when no image is available.
+  String get avatarEmoji {
+    // Prefer an explicit avatarUrl or profile image indication
+    if (avatarUrl != null && avatarUrl!.isNotEmpty) return '🖼️';
+    if (profileImageBase64 != null && profileImageBase64!.isNotEmpty) return '🖼️';
+    // Use first character of name as a friendly fallback (or a default emoji)
+    final trimmed = name.trim();
+    if (trimmed.isNotEmpty) {
+      final first = String.fromCharCode(trimmed.runes.first);
+      // If first character is ASCII letter/number, wrap it; otherwise use it directly
+      if (RegExp(r"[A-Za-z0-9]").hasMatch(first)) return first.toUpperCase();
+      return first;
+    }
+    return '🙂';
+  }
+
   UserModel({
     required this.uid,
     required this.name,

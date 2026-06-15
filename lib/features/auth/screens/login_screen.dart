@@ -68,13 +68,19 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     
     if (success && mounted) {
-      // Navigate to role-based dashboard on success
       final user = auth.user;
       if (user != null) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (_) => NavigationService.getDashboard(user),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Login succeeded but profile could not be loaded. Please try again.'),
+            backgroundColor: Colors.orange,
           ),
         );
       }

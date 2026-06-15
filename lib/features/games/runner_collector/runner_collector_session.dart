@@ -1,0 +1,204 @@
+import 'dart:async';
+
+import '../core/game_config.dart';
+import '../core/game_session_state.dart';
+import 'runner_collector_config.dart';
+import 'runner_collector_engine.dart';
+
+class RunnerCollectorSession extends GameSessionState {
+  final String uid;
+
+  RunnerCollectorSession(GameConfig config, this.uid) : super(config) {
+    _runnerConfig = RunnerCollectorConfig.grammarHero(config);
+    _engine = RunnerCollectorEngine(
+      runnerConfig: _runnerConfig,
+      config: config,
+    );
+    _questions = _engine.generateQuestions();
+    _hearts = _runnerConfig.heartsStart;
+  }
+
+  late final RunnerCollectorConfig _runnerConfig;
+  late final RunnerCollectorEngine _engine;
+  late final List<Map<String, dynamic>> _questions;
+
+  @override
+  RunnerCollectorEngine get engine => _engine;
+
+  @override
+  List<Map<String, dynamic>> get questions => _questions;
+
+  // ── Runner state ───────────────────────────────────────────────────────────
+
+  int _hearts = 3;
+  int _levelIndex = 0;
+  int _wordsCollected = 0;
+  int _playerLane = 1;          // 0=left, 1=center, 2=right
+  bool? _lastCollectionCorrect;
+  final List<LaneWord> _activeWords = [];
+  Timer? _spawnTimer;
+
+  int get hearts => _hearts;
+  int get levelIndex => _levelIndex;
+  int get playerLane => _playerLane;
+  int get wordsCollected => _wordsCollected;
+  bool? get lastCollectionCorrect => _lastCollectionCorrect;
+  List<LaneWord> get activeWords => List.unmodifiable(_activeWords);
+
+  GrammarLevel get currentLevel =>
+      _runnerConfig.levels[_levelIndex.clamp(0, _runnerConfig.levels.length - 1)];
+
+  String get missionLabel => currentLevel.missionLabel;
+
+  // ── Lifecycle ──────────────────────────────────────────────────────────────
+
+  @override
+  void startSession() {
+    super.startSession();
+    _spawnBatch();
+    _startSpawnTimer();
+  }
+
+  @override
+  void dispose() {
+    _spawnTimer?.cancel();
+    super.dispose();
+  }
+
+  // ── Player input ───────────────────────────────────────────────────────────
+
+  void moveLeft() {
+    if (_playerLane > 0) {
+      _playerLane--;
+      _tryCollect();
+      notifyListeners();
+    }
+  }
+
+  void moveRight() {
+    if (_playerLane < 2) {
+      _playerLane++;
+      _tryCollect();
+      notifyListeners();
+    }
+  }
+
+  void tapLane(int lane) {
+    _playerLane = lane.clamp(0, 2);
+    _tryCollect();
+    notifyListeners();
+  }
+
+  // ── Answer submission — called by the game tick or player tap ──────────────
+
+  @override
+  void submitAnswer(dynamic answer) {
+    // Runner does not use submitAnswer directly;
+    // collection is triggered by moveLeft/moveRight/tapLane.
+  }
+
+  // ── Word tick (called by the game's AnimationController every frame) ───────
+
+  /// Advance word positions. [delta] is fraction of screen width per frame.
+  void tickWords(double delta) {
+    if (isFinished) return;
+    bool changed = false;
+
+    for (final w in _activeWords) {
+      if (w.collected) continue;
+      w.xPosition += delta * currentLevel.scrollSpeed;
+      changed = true;
+
+      // Word passed player without collection — miss penalty
+      if (w.xPosition > 0.85 && !w.collected) {
+        final target = currentLevel.targetPOS;
+        if (_engine.isCorrectCollection(w.partOfSpeech, target)) {
+          // Player missed a target word → lose heart
+          w.collected = true;
+          _loseHeart();
+          changed = true;
+        } else {
+          w.collected = true; // harmless miss
+          changed = true;
+        }
+      }
+    }
+
+    _activeWords.removeWhere((w) => w.collected && w.xPosition > 0.9);
+
+    if (changed) notifyListeners();
+  }
+
+  // ── Private helpers ────────────────────────────────────────────────────────
+
+  void _tryCollect() {
+    if (isFinished) return;
+    final target = currentLevel.targetPOS;
+
+    // Find a word in the player's lane that is "reachable"
+    for (final w in _activeWords) {
+      if (w.collected || w.lane != _playerLane) continue;
+      if (w.xPosition < 0.3 || w.xPosition > 0.75) continue;
+
+      w.collected = true;
+      final correct = _engine.isCorrectCollection(w.partOfSpeech, target);
+      _lastCollectionCorrect = correct;
+
+      if (correct) {
+        _wordsCollected++;
+        recordAnswer(true);
+
+        // Advance level every 8 correct collections
+        if (_wordsCollected > 0 && _wordsCollected % 8 == 0) {
+          _advanceLevel();
+        }
+      } else {
+        _loseHeart();
+        recordAnswer(false);
+      }
+
+      // Clear flash after 500ms
+      Future.delayed(const Duration(milliseconds: 500), () {
+        _lastCollectionCorrect = null;
+        notifyListeners();
+      });
+      break;
+    }
+  }
+
+  void _loseHeart() {
+    _hearts = (_hearts - 1).clamp(0, _runnerConfig.heartsStart);
+    notifyListeners();
+    if (_hearts <= 0) {
+      _spawnTimer?.cancel();
+      finishSession(uid, earlyWin: false);
+    }
+  }
+
+  void _advanceLevel() {
+    if (_levelIndex >= _runnerConfig.levels.length - 1) {
+      // Completed all levels
+      _spawnTimer?.cancel();
+      // Use recordAnswer to complete the session
+      while (questionIndex < totalQuestions) {
+        recordAnswer(true);
+      }
+      finishSession(uid, earlyWin: true);
+      return;
+    }
+    _levelIndex++;
+    notifyListeners();
+  }
+
+  void _spawnBatch() {
+    final newWords = _engine.spawnWords(currentLevel, count: 4);
+    _activeWords.addAll(newWords);
+    notifyListeners();
+  }
+
+  void _startSpawnTimer() {
+    _spawnTimer = Timer.periodic(const Duration(seconds: 3), (_) {
+      if (!isFinished) _spawnBatch();
+    });
+  }
+}

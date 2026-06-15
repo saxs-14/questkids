@@ -79,6 +79,7 @@ dependencies:
   shared_preferences: ^2.2.0
   connectivity_plus: ^6.0.0
   image_picker: ^1.0.0
+  flutter_image_compress: ^2.1.0
   speech_to_text: ^6.0.0
   flutter_tts: ^4.0.0
   # QR and scanner

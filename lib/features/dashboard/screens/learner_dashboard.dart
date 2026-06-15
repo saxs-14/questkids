@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:image_picker/image_picker.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/theme_provider.dart';
+import '../../../core/widgets/profile_avatar_picker.dart';
 import '../../../providers/auth_provider.dart';
-import '../../../core/services/storage_service.dart';
 import '../../../core/widgets/responsive_scaffold.dart';
 import '../../grade4/grade4_hub.dart';
-import '../../../data/repositories/user_repository.dart';
 import '../../notifications/screens/notifications_screen.dart';
 import '../../offline/widgets/offline_banner.dart';
 import '../../offline/widgets/sync_button.dart';
@@ -31,8 +29,6 @@ class LearnerDashboard extends StatefulWidget {
 class _LearnerDashboardState extends State<LearnerDashboard> {
   int _selectedIndex = 0;
   String _selectedSubject = 'All';
-  final StorageService _storage = StorageService();
-  final UserRepository _userRepo = UserRepository();
 
   final _subjects = [
     {'label': 'All',            'emoji': '📚', 'color': AppColors.primary},
@@ -185,7 +181,7 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
                 const _QuestsTab(),
                 const _RewardsTab(),
                 const _AiTutorTab(),
-                _ProfileTab(user: user, storage: _storage, userRepo: _userRepo),
+                _ProfileTab(user: user),
                 const _OfflineTab(),
               ],
             ),
@@ -237,33 +233,30 @@ class _HomeTab extends StatelessWidget {
           StreakBanner(streakDays: user?.streakDays ?? 0),
           const SizedBox(height: 16),
 
-          // Stats Row - Responsive
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                StatCard(
-                  label: 'Points',
-                  value: '${user?.totalPoints ?? 0}',
-                  emoji: '⭐',
-                  color: AppColors.gold,
-                ),
-                const SizedBox(width: 12),
-                StatCard(
-                  label: 'Streak',
-                  value: '${user?.streakDays ?? 0}d',
-                  emoji: '🔥',
-                  color: AppColors.orange,
-                ),
-                const SizedBox(width: 12),
-                const StatCard(
-                  label: 'Badges',
-                  value: '0',
-                  emoji: '🏅',
-                  color: AppColors.primary,
-                ),
-              ],
-            ),
+          // Stats Row
+          Row(
+            children: [
+              StatCard(
+                label: 'Points',
+                value: '${user?.totalPoints ?? 0}',
+                emoji: '⭐',
+                color: AppColors.gold,
+              ),
+              const SizedBox(width: 12),
+              StatCard(
+                label: 'Streak',
+                value: '${user?.streakDays ?? 0}d',
+                emoji: '🔥',
+                color: AppColors.orange,
+              ),
+              const SizedBox(width: 12),
+              const StatCard(
+                label: 'Badges',
+                value: '0',
+                emoji: '🏅',
+                color: AppColors.primary,
+              ),
+            ],
           ),
           const SizedBox(height: 20),
 
@@ -357,7 +350,7 @@ class _QuestCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: (quest['color'] as Color).withValues(alpha: 0.2),
@@ -436,7 +429,10 @@ class _QuestCardWidget extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const QuestsScreen()),
+              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: quest['color'] as Color,
                 padding: const EdgeInsets.symmetric(vertical: 10),
@@ -487,63 +483,9 @@ class _AiTutorTab extends StatelessWidget {
   }
 }
 
-class _ProfileTab extends StatefulWidget {
+class _ProfileTab extends StatelessWidget {
   final dynamic user;
-  final StorageService storage;
-  final UserRepository userRepo;
-
-  const _ProfileTab({
-    required this.user,
-    required this.storage,
-    required this.userRepo,
-  });
-
-  @override
-  State<_ProfileTab> createState() => _ProfileTabState();
-}
-
-class _ProfileTabState extends State<_ProfileTab> {
-  bool _isUploading = false;
-
-  Future<void> _pickAndUploadImage() async {
-    try {
-      final picker = ImagePicker();
-      final image = await picker.pickImage(source: ImageSource.gallery);
-      if (image == null) return;
-
-      setState(() => _isUploading = true);
-
-      final bytes = await image.readAsBytes();
-      final extension = image.name.split('.').last;
-      
-      final url = await widget.storage.uploadAvatar(
-        uid: widget.user.uid,
-        imageFile: bytes,
-        extension: extension,
-      );
-
-      if (url != null && mounted) {
-        await widget.userRepo.updateUser(widget.user.uid, {
-          'avatarUrl': url,
-        });
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Profile picture updated!')),
-          );
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _isUploading = false);
-      }
-    }
-  }
+  const _ProfileTab({required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -555,95 +497,48 @@ class _ProfileTabState extends State<_ProfileTab> {
       child: Column(
         children: [
           const SizedBox(height: 20),
-          Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              CircleAvatar(
-                radius: 60,
-                backgroundColor: AppColors.primary.withValues(alpha: 0.15),
-                backgroundImage: widget.user?.avatarUrl != null
-                    ? NetworkImage(widget.user!.avatarUrl!)
-                    : null,
-                child: widget.user?.avatarUrl == null
-                    ? Text(
-                        widget.user?.name.isNotEmpty == true
-                            ? widget.user!.name[0].toUpperCase()
-                            : '?',
-                        style: AppTextStyles.score
-                            .copyWith(color: AppColors.primary),
-                      )
-                    : null,
-              ),
-              GestureDetector(
-                onTap: _isUploading ? null : _pickAndUploadImage,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: const BoxDecoration(
-                    color: AppColors.primary,
-                    shape: BoxShape.circle,
-                  ),
-                  child: _isUploading
-                      ? const SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.white),
-                            strokeWidth: 2,
-                          ),
-                        )
-                      : const Icon(Icons.camera_alt,
-                          color: Colors.white, size: 16),
-                ),
-              ),
-            ],
-          ),
+          const ProfileAvatarPicker(radius: 60),
           const SizedBox(height: 16),
-          Text(widget.user?.name ?? 'Learner', style: AppTextStyles.h2),
-          Text(widget.user?.grade ?? 'Grade 1',
+          Text(user?.name ?? 'Learner', style: AppTextStyles.h2),
+          Text(user?.grade ?? 'Grade 1',
               style: const TextStyle(color: AppColors.textSecondary)),
           const SizedBox(height: 32),
-
-          // Stats Container
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: AppColors.primary.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                  color: AppColors.primary.withValues(alpha: 0.1)),
+              border: Border.all(color: AppColors.primary.withValues(alpha: 0.1)),
             ),
             child: Column(
               children: [
                 _StatRowWidget(
                   icon: Icons.star,
                   label: 'Total Points',
-                  value: '${widget.user?.totalPoints ?? 0}',
+                  value: '${user?.totalPoints ?? 0}',
                 ),
                 const Divider(),
                 _StatRowWidget(
                   icon: Icons.local_fire_department,
                   label: 'Current Streak',
-                  value: '${widget.user?.streakDays ?? 0} days',
+                  value: '${user?.streakDays ?? 0} days',
                 ),
                 const Divider(),
                 _StatRowWidget(
                   icon: Icons.school,
                   label: 'Grade',
-                  value: widget.user?.grade ?? 'Not set',
+                  value: user?.grade ?? 'Not set',
                 ),
                 const Divider(),
                 _StatRowWidget(
                   icon: Icons.cake,
                   label: 'Member Since',
-                  value: _formatDate(widget.user?.createdAt),
+                  value: _formatDate(user?.createdAt),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 32),
-
-          // Sign Out Button
           OutlinedButton.icon(
             onPressed: () {
               auth.signOut();

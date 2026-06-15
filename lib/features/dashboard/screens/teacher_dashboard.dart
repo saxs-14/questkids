@@ -1,11 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/theme_provider.dart';
+import '../../../core/widgets/profile_avatar_picker.dart';
 import '../../../core/widgets/responsive_scaffold.dart';
 import '../../../providers/auth_provider.dart';
 import '../widgets/stat_card.dart';
+import '../../notifications/screens/notifications_screen.dart';
 
 class TeacherDashboard extends StatefulWidget {
   const TeacherDashboard({super.key});
@@ -65,17 +68,28 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
           ),
           IconButton(
               icon: const Icon(Icons.notifications_outlined),
-              onPressed: () {}),
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+              )),
           Padding(
             padding: const EdgeInsets.only(right: 12),
-            child: CircleAvatar(
-              backgroundColor: Colors.white24,
-              child: Text(
-                user?.name.isNotEmpty == true
-                    ? user!.name[0].toUpperCase()
-                    : '?',
-                style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.w700),
+            child: GestureDetector(
+              onTap: () => setState(() => _selectedIndex = 3),
+              child: CircleAvatar(
+                backgroundColor: Colors.white24,
+                backgroundImage: user?.avatarUrl != null
+                    ? CachedNetworkImageProvider(user!.avatarUrl!)
+                    : null,
+                child: user?.avatarUrl == null
+                    ? Text(
+                        user?.name.isNotEmpty == true
+                            ? user!.name[0].toUpperCase()
+                            : '?',
+                        style: const TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w700),
+                      )
+                    : null,
               ),
             ),
           ),
@@ -91,11 +105,12 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Create Activity — coming soon!')),
+        ),
         backgroundColor: AppColors.primary,
         icon: const Icon(Icons.add, color: Colors.white),
-        label: const Text('New Activity',
-            style: TextStyle(color: Colors.white)),
+        label: const Text('New Activity', style: TextStyle(color: Colors.white)),
       ),
     );
   }
@@ -238,32 +253,25 @@ class _TeacherProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = context.read<AuthProvider>();
+    // Watch provider so AppBar and avatar refresh after upload
+    final currentUser = context.watch<AuthProvider>().user;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Column(
         children: [
           const SizedBox(height: 20),
-          CircleAvatar(
-            radius: 50,
-            backgroundColor: AppColors.primary.withValues(alpha: 0.15),
-            child: Text(
-              user?.name.isNotEmpty == true
-                  ? user!.name[0].toUpperCase()
-                  : '?',
-              style: AppTextStyles.score
-                  .copyWith(color: AppColors.primary),
-            ),
-          ),
+          const ProfileAvatarPicker(radius: 55),
           const SizedBox(height: 16),
-          Text(user?.name ?? 'Teacher', style: AppTextStyles.h2),
+          Text(currentUser?.displayName ?? user?.name ?? 'Teacher',
+              style: AppTextStyles.h2),
           const Text('Teacher Account',
               style: TextStyle(color: AppColors.textSecondary)),
           const SizedBox(height: 32),
           ListTile(
-            leading: const Icon(Icons.email_outlined,
-                color: AppColors.primary),
+            leading: const Icon(Icons.email_outlined, color: AppColors.primary),
             title: Text('Email', style: AppTextStyles.bodySmall),
-            subtitle: Text(user?.email ?? '',
+            subtitle: Text(currentUser?.email ?? user?.email ?? '',
                 style: AppTextStyles.bodyMedium),
           ),
           const Divider(),

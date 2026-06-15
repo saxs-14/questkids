@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csv/csv.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
@@ -15,12 +14,13 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/theme_provider.dart';
-import '../../../core/services/storage_service.dart';
+import '../../../core/widgets/profile_avatar_picker.dart';
 import '../../../core/widgets/responsive_scaffold.dart';
 import '../../../data/repositories/parent_repository.dart';
 import '../../../data/repositories/user_repository.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/parent_provider.dart';
+import '../../notifications/screens/notifications_screen.dart';
 
 class ParentDashboard extends StatefulWidget {
   const ParentDashboard({super.key});
@@ -32,7 +32,6 @@ class ParentDashboard extends StatefulWidget {
 class _ParentDashboardState extends State<ParentDashboard> {
   int _selectedIndex = 0;
   final UserRepository _userRepo = UserRepository();
-  final StorageService _storage = StorageService();
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +92,10 @@ class _ParentDashboardState extends State<ParentDashboard> {
           ),
           IconButton(
               icon: const Icon(Icons.notifications_outlined),
-              onPressed: () {}),
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+              )),
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: GestureDetector(
@@ -125,7 +127,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
           _VerificationTab(),
           const _ParentReportsTab(),
           _ParentCalendarTab(),
-          _ParentProfileTab(user: user, storage: _storage, userRepo: _userRepo),
+          _ParentProfileTab(user: user),
         ],
       ),
     );
@@ -741,63 +743,9 @@ class _SubjectBreakdown extends StatelessWidget {
   }
 }
 
-class _ParentProfileTab extends StatefulWidget {
+class _ParentProfileTab extends StatelessWidget {
   final dynamic user;
-  final StorageService storage;
-  final UserRepository userRepo;
-  
-  const _ParentProfileTab({
-    required this.user,
-    required this.storage,
-    required this.userRepo,
-  });
-
-  @override
-  State<_ParentProfileTab> createState() => _ParentProfileTabState();
-}
-
-class _ParentProfileTabState extends State<_ParentProfileTab> {
-  bool _isUploading = false;
-
-  Future<void> _pickAndUploadImage() async {
-    try {
-      final picker = ImagePicker();
-      final image = await picker.pickImage(source: ImageSource.gallery);
-      if (image == null) return;
-
-      setState(() => _isUploading = true);
-
-      final bytes = await image.readAsBytes();
-      final extension = image.name.split('.').last;
-      
-      final url = await widget.storage.uploadAvatar(
-        uid: widget.user.uid,
-        imageFile: bytes,
-        extension: extension,
-      );
-
-      if (url != null && mounted) {
-        await widget.userRepo.updateUser(widget.user.uid, {
-          'avatarUrl': url,
-        });
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Profile picture updated!')),
-          );
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _isUploading = false);
-      }
-    }
-  }
+  const _ParentProfileTab({required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -809,52 +757,10 @@ class _ParentProfileTabState extends State<_ParentProfileTab> {
       child: Column(
         children: [
           const SizedBox(height: 20),
-          Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              CircleAvatar(
-                radius: 60,
-                backgroundColor: AppColors.primary.withValues(alpha: 0.15),
-                backgroundImage: widget.user?.avatarUrl != null
-                    ? NetworkImage(widget.user!.avatarUrl!)
-                    : null,
-                child: widget.user?.avatarUrl == null
-                    ? Text(
-                        widget.user?.name.isNotEmpty == true
-                            ? widget.user!.name[0].toUpperCase()
-                            : '?',
-                        style: AppTextStyles.score
-                            .copyWith(color: AppColors.primary),
-                      )
-                    : null,
-              ),
-              GestureDetector(
-                onTap: _isUploading ? null : _pickAndUploadImage,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: const BoxDecoration(
-                    color: AppColors.primary,
-                    shape: BoxShape.circle,
-                  ),
-                  child: _isUploading
-                      ? const SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.white),
-                            strokeWidth: 2,
-                          ),
-                        )
-                      : const Icon(Icons.camera_alt,
-                          color: Colors.white, size: 16),
-                ),
-              ),
-            ],
-          ),
+          const ProfileAvatarPicker(radius: 60),
           const SizedBox(height: 16),
-          Text(widget.user?.name ?? 'Parent', style: AppTextStyles.h2),
-          Text(widget.user?.displayName ?? 'Parent Account',
+          Text(user?.name ?? 'Parent', style: AppTextStyles.h2),
+          Text(user?.displayName ?? 'Parent Account',
               style: const TextStyle(color: AppColors.textSecondary)),
           const SizedBox(height: 32),
           Container(
@@ -870,25 +776,25 @@ class _ParentProfileTabState extends State<_ParentProfileTab> {
                 _ProfileInfoRow(
                   icon: Icons.email_outlined,
                   label: 'Email',
-                  value: widget.user?.email ?? '',
+                  value: user?.email ?? '',
                 ),
                 const Divider(),
                 _ProfileInfoRow(
                   icon: Icons.person_outline,
                   label: 'Full Name',
-                  value: '${widget.user?.name ?? ''} ${widget.user?.surname ?? ''}',
+                  value: '${user?.name ?? ''} ${user?.surname ?? ''}',
                 ),
                 const Divider(),
                 _ProfileInfoRow(
                   icon: Icons.wc_outlined,
                   label: 'Gender',
-                  value: widget.user?.gender ?? 'Not specified',
+                  value: user?.gender ?? 'Not specified',
                 ),
                 const Divider(),
                 _ProfileInfoRow(
                   icon: Icons.groups_outlined,
                   label: 'Children',
-                  value: '${widget.user?.linkedChildrenUids?.length ?? 0}',
+                  value: '${user?.linkedChildrenUids?.length ?? 0}',
                 ),
               ],
             ),
