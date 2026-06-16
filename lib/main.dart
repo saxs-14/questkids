@@ -6,7 +6,6 @@ import 'core/services/db_bootstrap.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_provider.dart';
 import 'providers/auth_provider.dart';
-import 'providers/quiz_provider.dart';
 import 'providers/rewards_provider.dart';
 import 'providers/ai_tutor_provider.dart';
 import 'providers/connectivity_provider.dart';
@@ -32,7 +31,6 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
           ChangeNotifierProvider(create: (_) => ParentProvider()),
-        ChangeNotifierProvider(create: (_) => QuizProvider()),
         ChangeNotifierProvider(create: (_) => RewardsProvider()),
         ChangeNotifierProvider(create: (_) => AiTutorProvider()),
         ChangeNotifierProvider(

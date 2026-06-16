@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/widgets/shader_background.dart';
 import '../../core/game_engine.dart';
 
 /// Full-screen result shown after a Tug of War session ends.
@@ -27,11 +28,17 @@ class GameResultOverlay extends StatelessWidget {
     final isWin = result.result == 'win' || result.result == 'complete';
     final isPerfect = result.result == 'complete';
 
+    // Animated GPU-shader backdrop, themed to the outcome.
+    final backdropColors = isWin
+        ? const [Color(0xFF0D47A1), AppColors.primary, AppColors.gold]
+        : const [Color(0xFF4A148C), AppColors.accent, Color(0xFFFF80AB)];
+
     return Scaffold(
-      backgroundColor:
-          isWin ? AppColors.blue.withAlpha(230) : AppColors.accent.withAlpha(230),
-      body: SafeArea(
-        child: Center(
+      backgroundColor: Colors.transparent,
+      body: ShaderBackground(
+        colors: backdropColors,
+        child: SafeArea(
+          child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child: Column(
@@ -138,7 +145,8 @@ class GameResultOverlay extends StatelessWidget {
                     ),
                   ),
                 ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,9 +28,10 @@ class AdventureJourneyGame extends StatefulWidget {
 }
 
 class _AdventureJourneyGameState extends State<AdventureJourneyGame>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AdventureJourneySession _session;
   late AnimationController _dropletCtrl;
+  late AnimationController _ambientCtrl;
   late Animation<double> _dropletAnim;
 
   @override
@@ -36,6 +39,10 @@ class _AdventureJourneyGameState extends State<AdventureJourneyGame>
     super.initState();
     final uid = (widget.user?.uid as String?) ?? '';
     _session = AdventureJourneySession(widget.config, uid);
+    _ambientCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 8),
+    )..repeat();
     _dropletCtrl = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 600),
@@ -66,6 +73,7 @@ class _AdventureJourneyGameState extends State<AdventureJourneyGame>
     _session.removeListener(_onSessionChange);
     _session.dispose();
     _dropletCtrl.dispose();
+    _ambientCtrl.dispose();
     super.dispose();
   }
 
@@ -114,7 +122,21 @@ class _AdventureJourneyGameState extends State<AdventureJourneyGame>
                   ],
                 ),
               ),
-              child: SafeArea(
+              child: Stack(
+                children: [
+                  // Ambient drifting motes tinted by the current stage colour.
+                  Positioned.fill(
+                    child: AnimatedBuilder(
+                      animation: _ambientCtrl,
+                      builder: (_, __) => CustomPaint(
+                        painter: _AmbientParticlesPainter(
+                          phase: _ambientCtrl.value,
+                          tint: stage.themeColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SafeArea(
                 child: Column(
                   children: [
                     // Top bar
@@ -175,6 +197,8 @@ class _AdventureJourneyGameState extends State<AdventureJourneyGame>
                   ],
                 ),
               ),
+                ],
+              ),
             ),
           );
         },
@@ -184,6 +208,38 @@ class _AdventureJourneyGameState extends State<AdventureJourneyGame>
 }
 
 // ── Sub-widgets ───────────────────────────────────────────────────────────────
+
+/// Soft drifting motes that rise through the scene, tinted by the stage.
+/// Deterministic per-index so the field is stable frame to frame.
+class _AmbientParticlesPainter extends CustomPainter {
+  final double phase; // 0..1 loop
+  final Color tint;
+
+  _AmbientParticlesPainter({required this.phase, required this.tint});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rnd = math.Random(7);
+    for (int i = 0; i < 18; i++) {
+      final baseX = rnd.nextDouble();
+      final speed = 0.4 + rnd.nextDouble() * 0.8;
+      final radius = 2.0 + rnd.nextDouble() * 4.0;
+      final sway = math.sin((phase * speed + baseX) * 2 * math.pi) * 14;
+      final x = baseX * size.width + sway;
+      // rise from bottom to top, looping
+      final progress = (phase * speed + baseX) % 1.0;
+      final y = size.height * (1.0 - progress);
+      final opacity = 0.10 + 0.18 * math.sin(progress * math.pi);
+      final color = (i % 3 == 0 ? tint : Colors.white)
+          .withValues(alpha: opacity.clamp(0.0, 0.3));
+      canvas.drawCircle(Offset(x, y), radius, Paint()..color = color);
+    }
+  }
+
+  @override
+  bool shouldRepaint(_AmbientParticlesPainter old) =>
+      old.phase != phase || old.tint != tint;
+}
 
 class _TopBar extends StatelessWidget {
   final String stageName;

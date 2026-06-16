@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -192,18 +194,14 @@ class _MapView extends StatelessWidget {
 
       return Stack(
         children: [
-          // Map background — outline SA map
-          Container(
-            margin: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: const Color(0xFF1565C0),
+          // Painted explorer-map backdrop: ocean, landmass, graticule, compass.
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.white24),
-            ),
-            child: const Center(
-              child: Text(
-                '🗺️',
-                style: TextStyle(fontSize: 80, color: Colors.white30),
+              child: CustomPaint(
+                size: Size(w, h),
+                painter: _MapBackdropPainter(),
               ),
             ),
           ),
@@ -223,6 +221,84 @@ class _MapView extends StatelessWidget {
       );
     });
   }
+}
+
+/// Paints a stylised explorer map: ocean gradient, a soft landmass, a
+/// latitude/longitude graticule, and a compass rose in the corner.
+class _MapBackdropPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final w = size.width;
+    final h = size.height;
+
+    // Ocean gradient
+    final ocean = Rect.fromLTWH(0, 0, w, h);
+    canvas.drawRect(
+      ocean,
+      Paint()
+        ..shader = const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF1976D2), Color(0xFF0D47A1), Color(0xFF01579B)],
+        ).createShader(ocean),
+    );
+
+    // Graticule (lat/long grid)
+    final grid = Paint()
+      ..color = Colors.white.withValues(alpha: 0.10)
+      ..strokeWidth = 1;
+    for (double x = w * 0.1; x < w; x += w * 0.12) {
+      canvas.drawLine(Offset(x, 0), Offset(x, h), grid);
+    }
+    for (double y = h * 0.1; y < h; y += h * 0.14) {
+      canvas.drawLine(Offset(0, y), Offset(w, y), grid);
+    }
+
+    // Stylised landmass blob (centre)
+    final land = Path();
+    land.moveTo(w * 0.30, h * 0.20);
+    land.cubicTo(w * 0.55, h * 0.10, w * 0.80, h * 0.22, w * 0.78, h * 0.45);
+    land.cubicTo(w * 0.76, h * 0.70, w * 0.58, h * 0.88, w * 0.42, h * 0.80);
+    land.cubicTo(w * 0.24, h * 0.72, w * 0.18, h * 0.45, w * 0.22, h * 0.34);
+    land.cubicTo(w * 0.24, h * 0.26, w * 0.26, h * 0.22, w * 0.30, h * 0.20);
+    land.close();
+    canvas.drawPath(
+      land,
+      Paint()..color = const Color(0xFF66BB6A).withValues(alpha: 0.55),
+    );
+    canvas.drawPath(
+      land,
+      Paint()
+        ..color = Colors.white.withValues(alpha: 0.35)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2,
+    );
+
+    // Compass rose (top-left)
+    final cc = Offset(w * 0.12, h * 0.14);
+    const r = 16.0;
+    final rosePaint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.7)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+    canvas.drawCircle(cc, r, rosePaint);
+    for (int i = 0; i < 4; i++) {
+      final a = i * math.pi / 2;
+      final p1 = cc + Offset(math.cos(a), math.sin(a)) * r;
+      final p2 = cc - Offset(math.cos(a), math.sin(a)) * r;
+      canvas.drawLine(p1, p2, rosePaint);
+    }
+    // North needle
+    final needle = Path()
+      ..moveTo(cc.dx, cc.dy - r - 4)
+      ..lineTo(cc.dx - 4, cc.dy)
+      ..lineTo(cc.dx + 4, cc.dy)
+      ..close();
+    canvas.drawPath(needle, Paint()..color = const Color(0xFFFF5252));
+  }
+
+  @override
+  bool shouldRepaint(_MapBackdropPainter old) => false;
 }
 
 class _ProvincePin extends StatelessWidget {

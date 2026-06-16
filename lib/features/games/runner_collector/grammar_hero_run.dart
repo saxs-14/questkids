@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -186,10 +188,24 @@ class _RunnerCanvas extends StatelessWidget {
       final h = constraints.maxHeight;
       final laneH = h / 3;
       final flash = session.lastCollectionCorrect;
+      // Continuous scroll phase for the parallax track (time-based, smooth).
+      final phase =
+          (DateTime.now().millisecondsSinceEpoch % 2000) / 2000.0;
 
       return Stack(
         children: [
-          // Lane backgrounds
+          // Painted scrolling track (sky, road, speed dashes, lane glow).
+          Positioned.fill(
+            child: CustomPaint(
+              painter: _TrackPainter(
+                phase: phase,
+                activeLane: session.playerLane,
+                flash: flash,
+              ),
+            ),
+          ),
+
+          // Tap targets per lane
           for (int i = 0; i < 3; i++)
             Positioned(
               top: i * laneH,
@@ -197,26 +213,20 @@ class _RunnerCanvas extends StatelessWidget {
               right: 0,
               height: laneH,
               child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
                 onTap: () => onTapLane(i),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 150),
-                  color: session.playerLane == i
-                      ? (flash == true
-                          ? AppColors.green.withAlpha(80)
-                          : flash == false
-                              ? AppColors.error.withAlpha(80)
-                              : Colors.white12)
-                      : Colors.transparent,
-                  child: const Divider(color: Colors.white10, thickness: 1),
-                ),
               ),
             ),
 
-          // Player character
+          // Player character with motion trail + glow
           Positioned(
             left: 24,
-            top: session.playerLane * laneH + (laneH / 2) - 20,
-            child: const Text('🏃', style: TextStyle(fontSize: 36)),
+            top: session.playerLane * laneH + (laneH / 2) - 26,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 120),
+              curve: Curves.easeOut,
+              child: const _RunnerHero(),
+            ),
           ),
 
           // Scrolling words
@@ -234,6 +244,134 @@ class _RunnerCanvas extends StatelessWidget {
         ],
       );
     });
+  }
+}
+
+/// Paints the endless-runner track: gradient sky, scrolling road with
+/// dashed speed lines, and a soft glow on the player's active lane.
+class _TrackPainter extends CustomPainter {
+  final double phase; // 0..1 scroll loop
+  final int activeLane;
+  final bool? flash; // true=correct, false=wrong, null=neutral
+
+  _TrackPainter({required this.phase, required this.activeLane, this.flash});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final w = size.width;
+    final h = size.height;
+    final laneH = h / 3;
+
+    // Sky-to-track vertical gradient
+    final bg = Rect.fromLTWH(0, 0, w, h);
+    canvas.drawRect(
+      bg,
+      Paint()
+        ..shader = const LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0xFF311B92), Color(0xFF512DA8), Color(0xFF1A1A2E)],
+        ).createShader(bg),
+    );
+
+    // Distant city skyline silhouette near the horizon
+    final skyline = Paint()..color = Colors.black.withValues(alpha: 0.25);
+    for (int i = 0; i < 10; i++) {
+      final bx = (i * w / 9) - (phase * w / 9);
+      final bh = 18.0 + (i % 3) * 14.0;
+      canvas.drawRect(Rect.fromLTWH(bx, h * 0.18 - bh, w / 14, bh), skyline);
+    }
+
+    // Lane glow on the active lane
+    final glowColor = flash == true
+        ? AppColors.success
+        : flash == false
+            ? AppColors.error
+            : AppColors.english;
+    final glowRect = Rect.fromLTWH(0, activeLane * laneH, w, laneH);
+    canvas.drawRect(
+      glowRect,
+      Paint()..color = glowColor.withValues(alpha: 0.16),
+    );
+
+    // Lane separators
+    final sep = Paint()
+      ..color = Colors.white.withValues(alpha: 0.12)
+      ..strokeWidth = 2;
+    for (int i = 1; i < 3; i++) {
+      canvas.drawLine(Offset(0, i * laneH), Offset(w, i * laneH), sep);
+    }
+
+    // Scrolling dashed centre lines per lane (sense of speed)
+    final dash = Paint()
+      ..color = Colors.white.withValues(alpha: 0.35)
+      ..strokeWidth = 4
+      ..strokeCap = StrokeCap.round;
+    const dashW = 34.0;
+    const gap = 26.0;
+    for (int lane = 0; lane < 3; lane++) {
+      final y = lane * laneH + laneH / 2;
+      double x = -((phase * (dashW + gap)) % (dashW + gap));
+      while (x < w) {
+        canvas.drawLine(Offset(x, y), Offset(x + dashW, y), dash);
+        x += dashW + gap;
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(_TrackPainter old) =>
+      old.phase != phase || old.activeLane != activeLane || old.flash != flash;
+}
+
+/// Player avatar with a glow halo and a small speed trail.
+class _RunnerHero extends StatelessWidget {
+  const _RunnerHero();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 64,
+      height: 52,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          // speed trail
+          Positioned(
+            left: 0,
+            child: Row(
+              children: List.generate(3, (i) {
+                return Container(
+                  width: 6 + i * 3.0,
+                  height: 3,
+                  margin: const EdgeInsets.only(right: 4),
+                  decoration: BoxDecoration(
+                    color: AppColors.english.withValues(alpha: 0.25 + i * 0.2),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                );
+              }),
+            ),
+          ),
+          // glow halo
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: RadialGradient(colors: [
+                AppColors.english.withValues(alpha: 0.45),
+                Colors.transparent,
+              ]),
+            ),
+          ),
+          Transform.translate(
+            offset: Offset(0, math.sin(DateTime.now().millisecondsSinceEpoch / 120) * 2),
+            child: const Text('🏃', style: TextStyle(fontSize: 38)),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -255,17 +393,29 @@ class _WordChip extends StatelessWidget {
         : partOfSpeech == targetPOS;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
       decoration: BoxDecoration(
-        color: isTarget ? AppColors.blue : Colors.grey.shade700,
+        gradient: LinearGradient(
+          colors: isTarget
+              ? [AppColors.english, const Color(0xFFFF4081)]
+              : [Colors.blueGrey.shade600, Colors.blueGrey.shade800],
+        ),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white24),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.5), width: 1.5),
+        boxShadow: [
+          BoxShadow(
+            color: (isTarget ? AppColors.english : Colors.black)
+                .withValues(alpha: 0.4),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Text(
         word,
         style: const TextStyle(
           color: Colors.white,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w800,
           fontSize: 15,
         ),
       ),

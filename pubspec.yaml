@@ -91,7 +91,7 @@ dependencies:
   csv: ^5.0.0
   pdf: ^3.10.1
   printing: ^5.10.0
-  share_plus: ^6.3.0
+  share_plus: ^10.0.0
   # Replaced file_picker (caused platform plugin packaging warnings) with
   # file_selector which provides a stable cross-platform file selector API.
   file_selector: ^1.1.0
@@ -107,7 +107,12 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   uses-material-design: true
-  
+
+  # GLSL fragment shaders (GPU graphics). Compiled by the Flutter toolchain and
+  # bundled for both mobile (Impeller) and web (CanvasKit).
+  shaders:
+    - shaders/aurora.frag
+
   assets:
     - assets/images/
     - assets/animations/
