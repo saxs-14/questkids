@@ -1,4 +1,5 @@
 import '../../../core/constants/app_constants.dart';
+import '../../../core/constants/game_catalog.dart';
 
 /// Immutable configuration passed to every game engine.
 /// Engines must NOT contain hardcoded question lists; all tunable
@@ -15,6 +16,7 @@ class GameConfig {
   final String opponentName;     // AI opponent display name
   final String opponentEmoji;    // AI opponent emoji / avatar
   final Map<String, dynamic> extras; // engine-specific config (range, lanes, …)
+  final String? catalogId;       // GameCatalogEntry.id — used for mission completion
 
   const GameConfig({
     required this.engineType,
@@ -28,7 +30,24 @@ class GameConfig {
     this.opponentName = 'CPU',
     this.opponentEmoji = '🤖',
     this.extras = const {},
+    this.catalogId,
   });
+
+  /// Build a GameConfig from a GameCatalogEntry.
+  factory GameConfig.fromCatalogEntry(GameCatalogEntry entry) {
+    return GameConfig(
+      engineType: entry.engineType,
+      subject: entry.subject,
+      grade: entry.grade,
+      topicId: entry.topicId,
+      subtopicId: entry.subtopicId,
+      difficulty: entry.difficulty,
+      opponentName: 'CPU',
+      opponentEmoji: '🤖',
+      extras: Map<String, dynamic>.from(entry.extras),
+      catalogId: entry.id,
+    );
+  }
 
   factory GameConfig.fromMap(Map<String, dynamic> map) {
     return GameConfig(

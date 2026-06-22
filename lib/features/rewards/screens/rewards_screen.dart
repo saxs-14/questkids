@@ -10,6 +10,7 @@ import '../widgets/locked_badge_card.dart';
 import '../../dashboard/widgets/level_progress_bar.dart';
 import '../../dashboard/widgets/streak_banner.dart';
 import '../../dashboard/widgets/stat_card.dart';
+import 'leaderboard_screen.dart';
 
 class RewardsScreen extends StatefulWidget {
   final bool embedded;
@@ -26,7 +27,7 @@ class _RewardsScreenState extends State<RewardsScreen>
   @override
   void initState() {
     super.initState();
-    _tabCtrl = TabController(length: 3, vsync: this);
+    _tabCtrl = TabController(length: 4, vsync: this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final uid = context.read<AuthProvider>().user?.uid;
       if (uid != null) {
@@ -63,6 +64,7 @@ class _RewardsScreenState extends State<RewardsScreen>
         _OverviewTab(rewards: rewards, user: user),
         _BadgesTab(rewards: rewards),
         _HistoryTab(rewards: rewards),
+        const LeaderboardScreen(),
       ],
     );
 
@@ -80,6 +82,7 @@ class _RewardsScreenState extends State<RewardsScreen>
                 Tab(text: 'Overview'),
                 Tab(text: 'Badges'),
                 Tab(text: 'History'),
+                Tab(text: 'Leaderboard'),
               ],
             ),
           ),

@@ -13,6 +13,10 @@ import {onSchedule} from "firebase-functions/v2/scheduler";
 import * as admin from "firebase-admin";
 import * as nodemailer from "nodemailer";
 
+export {questbotChat, analyzeImage, getRecommendation, explainAnswer, generateHint} from "./gemini/proxy";
+export {refreshLeaderboards} from "./leaderboard/refresh";
+export {generateDailyMissions} from "./missions/generate";
+
 // Initialize Firebase Admin SDK
 admin.initializeApp();
 

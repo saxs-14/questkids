@@ -126,20 +126,39 @@ service cloud.firestore {
     }
 
     // ==================== LEADERBOARDS ====================
+    // Written daily by refreshLeaderboards Cloud Function; read-only for clients
     match /leaderboards/{grade} {
       allow read: if isSignedIn();
+      allow write: if false;
 
-      match /entries/{uid} {
+      match /weekly/{entryId} {
         allow read: if isSignedIn();
-        allow write: if isUser(uid);
+        allow write: if false;
+      }
+
+      match /allTime/{entryId} {
+        allow read: if isSignedIn();
+        allow write: if false;
       }
     }
 
     // ==================== DAILY MISSIONS ====================
-    // Doc ID is '{uid}_{date}' — restrict by the uid field in the document
-    match /daily_missions/{docId} {
-      allow read: if isSignedIn() && resource.data.uid == request.auth.uid;
-      allow write: if isSignedIn() && request.resource.data.uid == request.auth.uid;
+    // Structure: daily_missions/{uid}/today/missions
+    //            daily_missions/{uid}/assigned/{missionId}  (teacher writes)
+    match /daily_missions/{uid} {
+      allow read: if isUser(uid);
+      allow write: if false;
+
+      match /today/{doc} {
+        allow read: if isUser(uid);
+        allow update: if isUser(uid); // learner can mark completed
+        allow create, delete: if false; // Cloud Functions only
+      }
+
+      match /assigned/{missionId} {
+        allow read: if isUser(uid);
+        allow write: if isTeacher();
+      }
     }
 
     // ==================== CAPS CURRICULUM ====================

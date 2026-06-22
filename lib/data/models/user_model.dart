@@ -26,6 +26,7 @@ class UserModel {
   final List<String> linkedChildrenUids;
   final String preferredLanguage;
   final String? fcmToken;
+  final String? linkedTeacherUid; // for learners linked to a teacher's class
 
   String get displayName {
     if (role == 'teacher' || role == 'parent') {
@@ -77,6 +78,7 @@ class UserModel {
     this.linkedChildrenUids = const [],
     this.preferredLanguage = 'English',
     this.fcmToken,
+    this.linkedTeacherUid,
   });
 
   static DateTime? _tsToDate(dynamic v) {
@@ -112,6 +114,7 @@ class UserModel {
       linkedChildrenUids: List<String>.from(map['linkedChildrenUids'] ?? []),
       preferredLanguage: map['preferredLanguage'] ?? 'English',
       fcmToken: map['fcmToken'],
+      linkedTeacherUid: map['linkedTeacherUid'],
     );
   }
 
@@ -141,6 +144,7 @@ class UserModel {
       'linkedChildrenUids': linkedChildrenUids,
       'preferredLanguage': preferredLanguage,
       'fcmToken': fcmToken,
+      'linkedTeacherUid': linkedTeacherUid,
     };
   }
 

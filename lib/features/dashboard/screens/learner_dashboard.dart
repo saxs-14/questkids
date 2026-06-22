@@ -19,6 +19,8 @@ import '../../rewards/screens/rewards_screen.dart';
 import '../../ai_tutor/screens/ai_tutor_screen.dart';
 import '../../games/core/game_config.dart';
 import '../../games/core/game_router.dart';
+import '../widgets/daily_missions_card.dart';
+import '../../../providers/mission_provider.dart';
 
 // ---------------------------------------------------------------------------
 // Inline color constants (brand palette for the gaming dashboard)
@@ -62,6 +64,7 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
         context.read<RewardsProvider>()
           ..loadRewards(uid)
           ..watchRewards(uid);
+        context.read<MissionProvider>().watchMissions(uid);
       }
     });
   }
@@ -229,6 +232,8 @@ class _LearnerHomeTab extends StatelessWidget {
               children: [
                 const SizedBox(height: 20),
                 _StatsRow(coins: _coins, streakDays: _streakDays, badgeCount: badgeCount),
+                const SizedBox(height: 24),
+                const DailyMissionsCard(),
                 const SizedBox(height: 24),
                 _DailyChallengeCard(user: user),
                 const SizedBox(height: 24),
