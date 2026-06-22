@@ -7,22 +7,22 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
-import {setGlobalOptions} from "firebase-functions";
-import {onDocumentCreated} from "firebase-functions/v2/firestore";
-import {onSchedule} from "firebase-functions/v2/scheduler";
+import { setGlobalOptions } from "firebase-functions";
+import { onDocumentCreated } from "firebase-functions/v2/firestore";
+import { onSchedule } from "firebase-functions/v2/scheduler";
 import * as admin from "firebase-admin";
 import * as nodemailer from "nodemailer";
 
-export {questbotChat, analyzeImage, getRecommendation, explainAnswer, generateHint} from "./gemini/proxy";
-export {refreshLeaderboards} from "./leaderboard/refresh";
-export {generateDailyMissions} from "./missions/generate";
-export {getTeacherInsight} from "./teacher/insights";
+export { questbotChat, analyzeImage, getRecommendation, explainAnswer, generateHint } from "./gemini/proxy";
+export { refreshLeaderboards } from "./leaderboard/refresh";
+export { generateDailyMissions } from "./missions/generate";
+export { getTeacherInsight } from "./teacher/insights";
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();
 
 // Set global options for cost control
-setGlobalOptions({maxInstances: 10});
+setGlobalOptions({ maxInstances: 10 });
 
 // Get email configuration from environment
 const mailSender = process.env.MAIL_SENDER || "questkids.dev@gmail.com";
@@ -54,7 +54,7 @@ export const sendEmail = onDocumentCreated(
     }
 
     try {
-      const {to, subject, template, data} = emailData;
+      const { to, subject, template, data } = emailData;
 
       // Get email template
       const htmlContent = getEmailTemplate(template, data);

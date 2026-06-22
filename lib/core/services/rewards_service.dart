@@ -9,129 +9,111 @@ class RewardsService {
   static const List<Map<String, dynamic>> allBadges = [
     {
       'id': 'first_quest',
-      'name': 'Quest Starter',
+      'name': 'First Quest',
       'description': 'Complete your first quest',
-      'icon': '🎯',
+      'icon': '🌟',
       'category': 'milestone',
       'requirement': 1,
       'type': 'quests_completed',
     },
     {
-      'id': 'quest_5',
-      'name': 'Quest Explorer',
-      'description': 'Complete 5 quests',
-      'icon': '🗺️',
-      'category': 'milestone',
-      'requirement': 5,
-      'type': 'quests_completed',
+      'id': 'math_wizard',
+      'name': 'Math Wizard',
+      'description': 'Complete 10 Maths games',
+      'icon': '🔢',
+      'category': 'subject',
+      'requirement': 10,
+      'type': 'math_completed',
     },
     {
-      'id': 'quest_10',
-      'name': 'Quest Master',
-      'description': 'Complete 10 quests',
-      'icon': '⚔️',
-      'category': 'milestone',
+      'id': 'bookworm',
+      'name': 'Bookworm',
+      'description': 'Complete 10 English games',
+      'icon': '📚',
+      'category': 'subject',
       'requirement': 10,
-      'type': 'quests_completed',
+      'type': 'english_completed',
+    },
+    {
+      'id': 'science_star',
+      'name': 'Science Star',
+      'description': 'Complete 10 Natural Sciences games',
+      'icon': '🔬',
+      'category': 'subject',
+      'requirement': 10,
+      'type': 'science_completed',
+    },
+    {
+      'id': 'history_hunter',
+      'name': 'History Hunter',
+      'description': 'Complete 10 Social Sciences games',
+      'icon': '🏛️',
+      'category': 'subject',
+      'requirement': 10,
+      'type': 'social_completed',
+    },
+    {
+      'id': 'life_champion',
+      'name': 'Life Champion',
+      'description': 'Complete 10 Life Skills games',
+      'icon': '🌈',
+      'category': 'subject',
+      'requirement': 10,
+      'type': 'lifeskills_completed',
+    },
+    {
+      'id': 'speed_demon',
+      'name': 'Speed Demon',
+      'description': 'Complete a game in under 2 minutes',
+      'icon': '⚡',
+      'category': 'special',
+      'requirement': 120,
+      'type': 'speed',
     },
     {
       'id': 'perfect_score',
-      'name': 'Perfectionist',
-      'description': 'Score 100% on any quiz',
-      'icon': '💯',
+      'name': 'Perfect Score',
+      'description': 'Get 100% in any game',
+      'icon': '🎯',
       'category': 'achievement',
       'requirement': 100,
       'type': 'perfect_score',
     },
     {
-      'id': 'streak_3',
-      'name': 'On Fire',
-      'description': 'Maintain a 3-day streak',
-      'icon': '🔥',
-      'category': 'streak',
-      'requirement': 3,
-      'type': 'streak',
-    },
-    {
       'id': 'streak_7',
-      'name': 'Week Warrior',
-      'description': 'Maintain a 7-day streak',
-      'icon': '🌟',
+      'name': '7-Day Streak',
+      'description': 'Log in for 7 days in a row',
+      'icon': '🔥',
       'category': 'streak',
       'requirement': 7,
       'type': 'streak',
     },
     {
-      'id': 'streak_30',
-      'name': 'Monthly Champion',
-      'description': 'Maintain a 30-day streak',
+      'id': 'quest_master',
+      'name': 'Quest Master',
+      'description': 'Complete 50 games',
       'icon': '👑',
-      'category': 'streak',
-      'requirement': 30,
-      'type': 'streak',
+      'category': 'milestone',
+      'requirement': 50,
+      'type': 'quests_completed',
     },
     {
-      'id': 'math_master',
-      'name': 'Math Wizard',
-      'description': 'Complete 3 Math quests',
-      'icon': '🔢',
-      'category': 'subject',
-      'requirement': 3,
-      'type': 'math_completed',
-    },
-    {
-      'id': 'science_master',
-      'name': 'Science Star',
-      'description': 'Complete 3 Science quests',
-      'icon': '🔬',
-      'category': 'subject',
-      'requirement': 3,
-      'type': 'science_completed',
-    },
-    {
-      'id': 'english_master',
-      'name': 'Word Champion',
-      'description': 'Complete 3 English quests',
-      'icon': '📖',
-      'category': 'subject',
-      'requirement': 3,
-      'type': 'english_completed',
-    },
-    {
-      'id': 'points_100',
-      'name': 'Point Collector',
-      'description': 'Earn 100 points',
-      'icon': '⭐',
-      'category': 'points',
-      'requirement': 100,
-      'type': 'total_points',
-    },
-    {
-      'id': 'points_500',
-      'name': 'Point Hoarder',
-      'description': 'Earn 500 points',
-      'icon': '💎',
-      'category': 'points',
-      'requirement': 500,
-      'type': 'total_points',
-    },
-    {
-      'id': 'level_5',
-      'name': 'Rising Star',
-      'description': 'Reach Level 5',
-      'icon': '🚀',
-      'category': 'level',
-      'requirement': 5,
-      'type': 'level',
-    },
-    {
-      'id': 'speed_demon',
-      'name': 'Speed Demon',
-      'description': 'Complete a quiz in under 60 seconds',
-      'icon': '⚡',
+      'id': 'knowledge_seeker',
+      'name': 'Knowledge Seeker',
+      'description': 'Play all subjects in one day',
+      'icon': '🌍',
       'category': 'special',
-      'requirement': 60,
-      'type': 'speed',
+      'requirement': 1,
+      'type': 'all_subjects_today',
+    },
+    {
+      'id': 'legend',
+      'name': 'Legend',
+      'description': 'Reach Level 10',
+      'icon': '🦁',
+      'category': 'level',
+      'requirement': 10,
+      'type': 'level',
     },
   ];
 
@@ -144,6 +126,7 @@ class RewardsService {
     required int perfectScores,
     required Map<String, int> subjectCounts,
     required int lastQuizTimeSeconds,
+    bool allSubjectsPlayedToday = false,
   }) async {
     final rewards = await _rewardRepo.getRewards(uid);
     if (rewards == null) return [];
@@ -167,15 +150,23 @@ class RewardsService {
           earned = streakDays >= (badge['requirement'] as int);
           break;
         case 'math_completed':
-          earned = (subjectCounts['Math'] ?? 0) >=
+          earned = (subjectCounts['Mathematics'] ?? 0) >=
               (badge['requirement'] as int);
           break;
         case 'science_completed':
-          earned = (subjectCounts['Science'] ?? 0) >=
+          earned = (subjectCounts['Natural Sciences'] ?? 0) >=
               (badge['requirement'] as int);
           break;
         case 'english_completed':
           earned = (subjectCounts['English'] ?? 0) >=
+              (badge['requirement'] as int);
+          break;
+        case 'social_completed':
+          earned = (subjectCounts['Social Sciences'] ?? 0) >=
+              (badge['requirement'] as int);
+          break;
+        case 'lifeskills_completed':
+          earned = (subjectCounts['Life Skills'] ?? 0) >=
               (badge['requirement'] as int);
           break;
         case 'total_points':
@@ -186,8 +177,10 @@ class RewardsService {
           break;
         case 'speed':
           earned = lastQuizTimeSeconds > 0 &&
-              lastQuizTimeSeconds <=
-                  (badge['requirement'] as int);
+              lastQuizTimeSeconds <= (badge['requirement'] as int);
+          break;
+        case 'all_subjects_today':
+          earned = allSubjectsPlayedToday;
           break;
       }
 

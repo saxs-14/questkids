@@ -1,4 +1,4 @@
-import {onSchedule} from "firebase-functions/v2/scheduler";
+import { onSchedule } from "firebase-functions/v2/scheduler";
 import * as admin from "firebase-admin";
 
 const GRADES = [
@@ -7,7 +7,7 @@ const GRADES = [
 ];
 
 export const refreshLeaderboards = onSchedule(
-  {schedule: "every day 01:00", timeZone: "Africa/Johannesburg"},
+  { schedule: "every day 01:00", timeZone: "Africa/Johannesburg" },
   async () => {
     const db = admin.firestore();
     const now = admin.firestore.Timestamp.now();

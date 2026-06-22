@@ -1,0 +1,19 @@
+# Force LF line endings for all text files — prevents CRLF ESLint errors on Windows
+* text=auto eol=lf
+*.ts text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.dart text eol=lf
+*.md text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+
+# Binaries — no line-ending conversion
+*.wasm binary
+*.png binary
+*.jpg binary
+*.ico binary
+*.otf binary
+*.ttf binary
+*.woff binary
+*.woff2 binary

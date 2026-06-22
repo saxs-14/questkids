@@ -42,7 +42,7 @@ class RecommendationCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  'QuestBot is analysing your progress...',
+                  'Questy is analysing your progress...',
                   style: AppTextStyles.bodySmall.copyWith(
                     color: AppColors.primary,
                     fontStyle: FontStyle.italic,
@@ -62,7 +62,7 @@ class RecommendationCard extends StatelessWidget {
                         CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'QuestBot says:',
+                        'Questy says:',
                         style: AppTextStyles.label.copyWith(
                           color: AppColors.primary,
                         ),

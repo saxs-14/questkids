@@ -1,5 +1,5 @@
-import {onCall, HttpsError} from "firebase-functions/v2/https";
-import {GoogleGenerativeAI, Content} from "@google/generative-ai";
+import { onCall, HttpsError } from "firebase-functions/v2/https";
+import { GoogleGenerativeAI, Content } from "@google/generative-ai";
 
 const SYSTEM_PROMPT = `You are QuestBot, a friendly and encouraging AI tutor
 for South African primary school children (Grades 1-7).
@@ -23,13 +23,13 @@ function getModel() {
   const genAI = new GoogleGenerativeAI(apiKey);
   return genAI.getGenerativeModel({
     model: "gemini-1.5-flash",
-    generationConfig: {temperature: 0.7, topK: 40, topP: 0.95, maxOutputTokens: 1024},
-    systemInstruction: {role: "system", parts: [{text: SYSTEM_PROMPT}]},
+    generationConfig: { temperature: 0.7, topK: 40, topP: 0.95, maxOutputTokens: 1024 },
+    systemInstruction: { role: "system", parts: [{ text: SYSTEM_PROMPT }] },
   });
 }
 
 export const questbotChat = onCall(async (request) => {
-  const {message, history = []} = request.data as {
+  const { message, history = [] } = request.data as {
     message: string;
     history?: {role: string; text: string}[];
   };
@@ -38,30 +38,30 @@ export const questbotChat = onCall(async (request) => {
   const model = getModel();
   const chatHistory: Content[] = history.map((h) => ({
     role: h.role === "user" ? "user" : "model",
-    parts: [{text: h.text}],
+    parts: [{ text: h.text }],
   }));
-  const chat = model.startChat({history: chatHistory});
+  const chat = model.startChat({ history: chatHistory });
   const result = await chat.sendMessage(message);
-  return {text: result.response.text() ?? "I did not understand that. Could you rephrase?"};
+  return { text: result.response.text() ?? "I did not understand that. Could you rephrase?" };
 });
 
 export const analyzeImage = onCall(async (request) => {
-  const {imageBase64, prompt} = request.data as {imageBase64: string; prompt: string};
+  const { imageBase64, prompt } = request.data as {imageBase64: string; prompt: string};
   if (!imageBase64 || !prompt) throw new HttpsError("invalid-argument", "imageBase64 and prompt are required");
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) throw new HttpsError("internal", "Gemini API key not configured");
   const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({model: "gemini-1.5-flash"});
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
   const result = await model.generateContent([
     prompt,
-    {inlineData: {mimeType: "image/jpeg", data: imageBase64}},
+    { inlineData: { mimeType: "image/jpeg", data: imageBase64 } },
   ]);
-  return {text: result.response.text() ?? "I could not analyse the image. Please try again."};
+  return { text: result.response.text() ?? "I could not analyse the image. Please try again." };
 });
 
 export const getRecommendation = onCall(async (request) => {
-  const {name, grade, subjectScores, streakDays, totalPoints} = request.data as {
+  const { name, grade, subjectScores, streakDays, totalPoints } = request.data as {
     name: string; grade: string;
     subjectScores: Record<string, number>;
     streakDays: number; totalPoints: number;
@@ -76,11 +76,11 @@ Keep it encouraging, 2-3 sentences, use their name, end with a tip. Use 1-2 emoj
 
   const model = getModel();
   const result = await model.generateContent(prompt);
-  return {text: result.response.text() ?? `Keep up the great work, ${name}! 🌟`};
+  return { text: result.response.text() ?? `Keep up the great work, ${name}! 🌟` };
 });
 
 export const explainAnswer = onCall(async (request) => {
-  const {question, correctAnswer, subject, grade} = request.data as {
+  const { question, correctAnswer, subject, grade } = request.data as {
     question: string; correctAnswer: string; subject: string; grade: string;
   };
   const prompt = `A ${grade} learner answered this ${subject} question wrong:
@@ -90,15 +90,15 @@ Explain WHY this is correct in a simple, fun way a child understands. Use an ana
 
   const model = getModel();
   const result = await model.generateContent(prompt);
-  return {text: result.response.text() ?? `The correct answer is ${correctAnswer}. Keep practising! 💪`};
+  return { text: result.response.text() ?? `The correct answer is ${correctAnswer}. Keep practising! 💪` };
 });
 
 export const generateHint = onCall(async (request) => {
-  const {question, subject} = request.data as {question: string; subject: string};
+  const { question, subject } = request.data as {question: string; subject: string};
   const prompt = `A learner is stuck on this ${subject} question: "${question}"
 Give ONE helpful hint WITHOUT giving the answer away. 1-2 sentences. Be encouraging. 1 emoji.`;
 
   const model = getModel();
   const result = await model.generateContent(prompt);
-  return {text: result.response.text() ?? "Think carefully about what you have learned! 💡"};
+  return { text: result.response.text() ?? "Think carefully about what you have learned! 💡" };
 });

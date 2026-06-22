@@ -184,7 +184,7 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
                     controller: _textCtrl,
                     decoration: InputDecoration(
                       hintText:
-                          'Ask QuestBot anything...',
+                          'Ask Questy anything...',
                       border: OutlineInputBorder(
                         borderRadius:
                             BorderRadius.circular(24),
@@ -256,7 +256,7 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('QuestBot',
+                const Text('Questy',
                     style: TextStyle(
                         fontSize: 16, fontWeight: FontWeight.w700)),
                 Row(

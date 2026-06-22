@@ -20,35 +20,52 @@ class QuestsScreen extends StatefulWidget {
 }
 
 class _QuestsScreenState extends State<QuestsScreen> {
-  String _selectedSubject = 'All';
-  String _selectedDifficulty = 'All';
+  String? _selectedSubject;
 
-  static const _subjectFilters = [
-    {'label': 'All',             'emoji': '📚', 'color': AppColors.primary},
-    {'label': 'Mathematics',     'emoji': '🔢', 'color': AppColors.math},
-    {'label': 'Natural Sciences','emoji': '🔬', 'color': AppColors.science},
-    {'label': 'English',         'emoji': '📖', 'color': AppColors.english},
-    {'label': 'Social Sciences', 'emoji': '🌍', 'color': AppColors.socialSciences},
-    {'label': 'Technology',      'emoji': '⚙️', 'color': AppColors.technology},
-    {'label': 'Life Skills',     'emoji': '🌟', 'color': AppColors.lifeSkills},
-    {'label': 'EMS',             'emoji': '💰', 'color': Color(0xFF009688)},
-  ];
+  // Grade-specific subject lists per CAPS curriculum
+  static const _gradeSubjects = {
+    'foundation': [   // Grade 1-3
+      {'label': 'Mathematics',   'emoji': '🔢', 'color': AppColors.math},
+      {'label': 'English',       'emoji': '📖', 'color': AppColors.english},
+      {'label': 'Life Skills',   'emoji': '🌟', 'color': AppColors.lifeSkills},
+    ],
+    'intermediate': [ // Grade 4-6
+      {'label': 'Mathematics',             'emoji': '🔢', 'color': AppColors.math},
+      {'label': 'English',                 'emoji': '📖', 'color': AppColors.english},
+      {'label': 'Life Skills',             'emoji': '🌟', 'color': AppColors.lifeSkills},
+      {'label': 'Social Sciences',         'emoji': '🌍', 'color': AppColors.socialSciences},
+      {'label': 'Natural Sciences',        'emoji': '🔬', 'color': AppColors.science},
+    ],
+    'senior': [       // Grade 7
+      {'label': 'Mathematics',      'emoji': '🔢', 'color': AppColors.math},
+      {'label': 'English',          'emoji': '📖', 'color': AppColors.english},
+      {'label': 'Life Skills',      'emoji': '🌟', 'color': AppColors.lifeSkills},
+      {'label': 'Social Sciences',  'emoji': '🌍', 'color': AppColors.socialSciences},
+      {'label': 'Natural Sciences', 'emoji': '🔬', 'color': AppColors.science},
+      {'label': 'Technology',       'emoji': '⚙️', 'color': AppColors.technology},
+      {'label': 'EMS',              'emoji': '💰', 'color': Color(0xFF009688)},
+    ],
+  };
 
-  static const _difficultyFilters = ['All', 'Easy', 'Medium', 'Hard'];
+  static String _phaseFor(String gradeKey) {
+    final n = int.tryParse(gradeKey.replaceAll(RegExp(r'[^0-9]'), '')) ?? 4;
+    if (n <= 3) return 'foundation';
+    if (n <= 6) return 'intermediate';
+    return 'senior';
+  }
 
-  List<GameCatalogEntry> _filteredGames(String grade) {
-    var games = GameCatalog.forGrade(grade);
+  List<Map<String, Object>> _subjectsFor(String gradeKey) =>
+      List<Map<String, Object>>.from(
+          _gradeSubjects[_phaseFor(gradeKey)] ?? _gradeSubjects['intermediate']!);
 
-    if (_selectedSubject != 'All') {
-      games = games.where((g) => g.subject == _selectedSubject).toList();
-    }
+  String _defaultSubject(String gradeKey) =>
+      (_subjectsFor(gradeKey).first['label'] as String);
 
-    if (_selectedDifficulty != 'All') {
-      final diff = _selectedDifficulty.toLowerCase();
-      games = games.where((g) => g.difficulty == diff).toList();
-    }
-
-    return games;
+  List<GameCatalogEntry> _filteredGames(String gradeKey) {
+    final subject = _selectedSubject ?? _defaultSubject(gradeKey);
+    return GameCatalog.forGrade(gradeKey)
+        .where((g) => g.subject == subject)
+        .toList();
   }
 
   void _launchGame(GameCatalogEntry entry, String grade) {
@@ -82,55 +99,56 @@ class _QuestsScreenState extends State<QuestsScreen> {
     final grade = user?.grade ?? 'grade4';
     final gradeKey = grade.toLowerCase().replaceAll(' ', '');
 
+    final subjects = _subjectsFor(gradeKey);
+    final activeSubject = _selectedSubject ?? _defaultSubject(gradeKey);
     final featured = GameCatalog.featured(gradeKey);
     final games = _filteredGames(gradeKey);
 
     final body = Column(
       children: [
-        // ── Subject filter chips ──────────────────────────────────────────────
+        // ── Subject tabs (grade-specific, no "All") ───────────────────────────
         Container(
           color: Theme.of(context).scaffoldBackgroundColor,
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
           child: SizedBox(
-            height: 40,
+            height: 44,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              itemCount: _subjectFilters.length,
+              itemCount: subjects.length,
               separatorBuilder: (_, __) => const SizedBox(width: 8),
               itemBuilder: (_, i) {
-                final f = _subjectFilters[i];
+                final f = subjects[i];
                 final label = f['label'] as String;
                 final emoji = f['emoji'] as String;
                 final color = f['color'] as Color;
-                final selected = _selectedSubject == label;
+                final selected = activeSubject == label;
 
                 return GestureDetector(
                   onTap: () => setState(() => _selectedSubject = label),
                   child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                    duration: const Duration(milliseconds: 180),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
-                      color: selected
-                          ? color
-                          : color.withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(20),
+                      color: selected ? color : color.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(22),
                       border: Border.all(
-                        color: selected
-                            ? color
-                            : color.withValues(alpha: 0.30),
+                        color: selected ? color : color.withValues(alpha: 0.30),
                         width: 1.5,
                       ),
+                      boxShadow: selected
+                          ? [BoxShadow(color: color.withValues(alpha: 0.35), blurRadius: 8, offset: const Offset(0, 3))]
+                          : [],
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(emoji, style: const TextStyle(fontSize: 14)),
+                        Text(emoji, style: const TextStyle(fontSize: 15)),
                         const SizedBox(width: 6),
                         Text(
                           label,
                           style: GoogleFonts.nunito(
                             fontSize: 13,
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.w800,
                             color: selected ? Colors.white : color,
                           ),
                         ),
@@ -157,62 +175,32 @@ class _QuestsScreenState extends State<QuestsScreen> {
 
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                  child: Row(
                     children: [
-                      Row(
-                        children: [
-                          const Text('🎮', style: TextStyle(fontSize: 22)),
-                          const SizedBox(width: 8),
-                          Text('All Games', style: AppTextStyles.h3),
-                          const Spacer(),
-                          Text(
-                            '${games.length} games',
-                            style: AppTextStyles.bodySmall,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      SizedBox(
-                        height: 32,
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: _difficultyFilters.length,
-                          separatorBuilder: (_, __) => const SizedBox(width: 8),
-                          itemBuilder: (_, i) {
-                            final d = _difficultyFilters[i];
-                            final selected = _selectedDifficulty == d;
-                            return GestureDetector(
-                              onTap: () => setState(() => _selectedDifficulty = d),
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 200),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: selected
-                                      ? AppColors.primary
-                                      : AppColors.primary.withValues(alpha: 0.10),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: Text(
-                                  d,
-                                  style: GoogleFonts.nunito(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w700,
-                                    color: selected ? Colors.white : AppColors.primary,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
+                      Text(subjects.firstWhere((s) => s['label'] == activeSubject,
+                              orElse: () => subjects.first)['emoji'] as String,
+                          style: const TextStyle(fontSize: 22)),
+                      const SizedBox(width: 8),
+                      Text(activeSubject, style: AppTextStyles.h3),
+                      const Spacer(),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withValues(alpha: 0.10),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          '${games.length} games',
+                          style: AppTextStyles.bodySmall.copyWith(
+                              color: AppColors.primary, fontWeight: FontWeight.w700),
                         ),
                       ),
-                      const SizedBox(height: 16),
                     ],
                   ),
                 ),
               ),
+              const SliverToBoxAdapter(child: SizedBox(height: 16)),
 
               if (games.isEmpty)
                 SliverToBoxAdapter(
@@ -223,10 +211,10 @@ class _QuestsScreenState extends State<QuestsScreen> {
                         children: [
                           const Text('🎯', style: TextStyle(fontSize: 64)),
                           const SizedBox(height: 16),
-                          Text('No games found', style: AppTextStyles.h3),
+                          Text('Games coming soon!', style: AppTextStyles.h3),
                           const SizedBox(height: 4),
                           Text(
-                            'Try a different subject or difficulty',
+                            'More $activeSubject games are on their way',
                             style: AppTextStyles.bodyMedium.copyWith(
                               color: AppColors.textSecondary,
                             ),

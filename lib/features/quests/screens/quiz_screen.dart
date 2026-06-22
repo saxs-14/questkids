@@ -181,7 +181,7 @@ class _QuizScreenState extends State<QuizScreen>
         actions: [
           IconButton(
             icon: const Icon(Icons.lightbulb_outline),
-            tooltip: 'Ask QuestBot for a hint',
+            tooltip: 'Ask Questy for a hint',
             onPressed: () async {
               final tutor = context.read<AiTutorProvider>();
               final hint = await tutor.getHint(
@@ -207,7 +207,7 @@ class _QuizScreenState extends State<QuizScreen>
                         children: [
                           const Text('💡', style: TextStyle(fontSize: 24)),
                           const SizedBox(width: 12),
-                          Text('QuestBot Hint', style: AppTextStyles.h3),
+                          Text('Questy Hint', style: AppTextStyles.h3),
                         ],
                       ),
                       const SizedBox(height: 16),

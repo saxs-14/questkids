@@ -1,7 +1,7 @@
-import {onSchedule} from "firebase-functions/v2/scheduler";
+import { onSchedule } from "firebase-functions/v2/scheduler";
 import * as admin from "firebase-admin";
-import {GoogleGenerativeAI} from "@google/generative-ai";
-import {MISSION_CATALOG} from "./catalog";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { MISSION_CATALOG } from "./catalog";
 
 interface MissionEntry {
   id: string;
@@ -67,7 +67,7 @@ async function getAdaptiveMissions(
   const catalogSubset = MISSION_CATALOG[dayIndex].map((m) => m.gameId).join(", ");
 
   const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({model: "gemini-1.5-flash"});
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   const prompt = `A Grade ${grade} learner is weak in: ${weakSubjects.join(", ")}.
 Available game IDs: ${catalogSubset}
@@ -100,7 +100,7 @@ If no games match the weak subjects, return {"missions":[]}`;
 }
 
 export const generateDailyMissions = onSchedule(
-  {schedule: "every day 00:00", timeZone: "Africa/Johannesburg", memory: "512MiB"},
+  { schedule: "every day 00:00", timeZone: "Africa/Johannesburg", memory: "512MiB" },
   async () => {
     const db = admin.firestore();
     const expiresAt = admin.firestore.Timestamp.fromDate(nextMidnightSAST());
@@ -181,7 +181,7 @@ export const generateDailyMissions = onSchedule(
 
         await db.collection("daily_missions").doc(uid)
           .collection("today").doc("missions")
-          .set({missions, generatedAt, expiresAt}, {merge: false});
+          .set({ missions, generatedAt, expiresAt }, { merge: false });
       }));
     }
 

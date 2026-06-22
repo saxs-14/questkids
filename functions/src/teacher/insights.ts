@@ -1,8 +1,8 @@
-import {onCall, HttpsError} from "firebase-functions/v2/https";
-import {GoogleGenerativeAI} from "@google/generative-ai";
+import { onCall, HttpsError } from "firebase-functions/v2/https";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export const getTeacherInsight = onCall(async (request) => {
-  const {subjectAvg, totalLearners, completionRate, weakTopics} = request.data as {
+  const { subjectAvg, totalLearners, completionRate, weakTopics } = request.data as {
     subjectAvg: Record<string, number>;
     totalLearners: number;
     completionRate: number;
@@ -13,7 +13,7 @@ export const getTeacherInsight = onCall(async (request) => {
   if (!apiKey) throw new HttpsError("internal", "Gemini API key not configured");
 
   const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({model: "gemini-1.5-flash"});
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   const avgStr = Object.entries(subjectAvg)
     .map(([s, v]) => `${s}: ${Number(v).toFixed(1)}%`)
@@ -30,7 +30,7 @@ Focus on the weakest areas. No bullet points, no lists — just 2 clear sentence
   try {
     const result = await model.generateContent(prompt);
     const text = result.response.text()?.trim();
-    return {text: text || "Focus on the identified weak subjects this week with targeted activities."};
+    return { text: text || "Focus on the identified weak subjects this week with targeted activities." };
   } catch {
     return {
       text: "Consider small group sessions for subjects below 60% " +

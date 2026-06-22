@@ -63,7 +63,7 @@ class _TugOfWarGameState extends State<TugOfWarGame>
   @override
   void handleBackspace() => _session.clearInput();
 
-  // ── QuestBot hint ──────────────────────────────────────────────────────────
+  // ── Questy hint ──────────────────────────────────────────────────────────
 
   Future<void> _fetchHint() async {
     final q = _session.currentQuestion;
@@ -256,7 +256,7 @@ class _TitleBar extends StatelessWidget {
                         color: Colors.white, strokeWidth: 2),
                   )
                 : const Text('💡', style: TextStyle(fontSize: 22)),
-            tooltip: 'QuestBot hint',
+            tooltip: 'Questy hint',
           ),
         ],
       ),

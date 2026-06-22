@@ -91,7 +91,7 @@ class GameTheme {
   }
 }
 
-/// A small QuestBot mascot bubble that cheers on success / encourages on a miss.
+/// A small Questy mascot bubble that cheers on success / encourages on a miss.
 /// Pure code-drawn (emoji + speech bubble) — no bundled assets.
 class MascotBubble extends StatelessWidget {
   final String message;

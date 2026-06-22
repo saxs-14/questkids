@@ -41,6 +41,7 @@ class StorageService {
   }
 
   /// Uploads compressed bytes (JPEG) — works on all platforms.
+  /// Deletes the previous avatar first, then uploads the new one.
   /// Returns the download URL, or null on failure.
   Future<String?> uploadAvatarBytes({
     required String uid,
@@ -48,6 +49,8 @@ class StorageService {
   }) async {
     try {
       final ref = _storage.ref().child('avatars/$uid/avatar.jpg');
+      // Delete old file first; ignore NotFound errors.
+      try { await ref.delete(); } catch (_) {}
       final task = ref.putData(
         bytes,
         SettableMetadata(contentType: 'image/jpeg'),

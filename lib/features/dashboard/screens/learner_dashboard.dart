@@ -94,7 +94,7 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
         ResponsiveDestination(
             icon: Icons.smart_toy_outlined,
             activeIcon: Icons.smart_toy,
-            label: 'QuestBot'),
+            label: 'Questy'),
         ResponsiveDestination(
             icon: Icons.person_outline,
             activeIcon: Icons.person,
@@ -249,7 +249,7 @@ class _LearnerHomeTab extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _ProgressSection(rewards: rewards),
+                _ProgressSection(rewards: rewards, gradeKey: gradeKey),
                 const SizedBox(height: 32),
               ],
             ),
@@ -712,21 +712,44 @@ class _CatalogGameCard extends StatelessWidget {
 // ---------------------------------------------------------------------------
 class _ProgressSection extends StatelessWidget {
   final RewardsProvider rewards;
-  const _ProgressSection({required this.rewards});
+  final String gradeKey;
+  const _ProgressSection({required this.rewards, required this.gradeKey});
 
-  static const _subjectConfig = [
-    {'key': 'Mathematics',      'label': 'Maths',    'emoji': '🔢', 'color': _DC.mathColor,    'max': 10},
-    {'key': 'Natural Sciences', 'label': 'Science',  'emoji': '🔬', 'color': _DC.scienceColor, 'max': 8},
-    {'key': 'English',          'label': 'English',  'emoji': '📖', 'color': _DC.englishColor, 'max': 8},
-    {'key': 'Social Sciences',  'label': 'Social',   'emoji': '🌍', 'color': Color(0xFF43A047), 'max': 6},
+  static const _foundation = [
+    {'key': 'Mathematics', 'label': 'Maths',       'emoji': '🔢', 'color': _DC.mathColor,    'max': 5},
+    {'key': 'English',     'label': 'English',     'emoji': '📖', 'color': _DC.englishColor, 'max': 5},
+    {'key': 'Life Skills', 'label': 'Life Skills', 'emoji': '🌟', 'color': Color(0xFFFF9800), 'max': 5},
   ];
+  static const _intermediate = [
+    {'key': 'Mathematics',      'label': 'Maths',    'emoji': '🔢', 'color': _DC.mathColor,    'max': 10},
+    {'key': 'English',          'label': 'English',  'emoji': '📖', 'color': _DC.englishColor, 'max': 10},
+    {'key': 'Natural Sciences', 'label': 'Science',  'emoji': '🔬', 'color': _DC.scienceColor, 'max': 10},
+    {'key': 'Social Sciences',  'label': 'Social',   'emoji': '🌍', 'color': Color(0xFF43A047), 'max': 10},
+    {'key': 'Life Skills',      'label': 'Life Skills', 'emoji': '🌈', 'color': Color(0xFFFF9800), 'max': 5},
+  ];
+  static const _senior = [
+    {'key': 'Mathematics',      'label': 'Maths',    'emoji': '🔢', 'color': _DC.mathColor,    'max': 10},
+    {'key': 'English',          'label': 'English',  'emoji': '📖', 'color': _DC.englishColor, 'max': 10},
+    {'key': 'Natural Sciences', 'label': 'Science',  'emoji': '🔬', 'color': _DC.scienceColor, 'max': 10},
+    {'key': 'Social Sciences',  'label': 'Social',   'emoji': '🌍', 'color': Color(0xFF43A047), 'max': 10},
+    {'key': 'Technology',       'label': 'Technology', 'emoji': '💡', 'color': Color(0xFF7C4DFF), 'max': 10},
+    {'key': 'EMS',              'label': 'EMS',      'emoji': '💰', 'color': Color(0xFF009688), 'max': 10},
+    {'key': 'Life Skills',      'label': 'Life Skills', 'emoji': '🌈', 'color': Color(0xFFFF9800), 'max': 5},
+  ];
+
+  List<Map<String, Object>> get _config {
+    final n = int.tryParse(gradeKey.replaceAll(RegExp(r'[^0-9]'), '')) ?? 4;
+    if (n <= 3) return _foundation;
+    if (n <= 6) return _intermediate;
+    return _senior;
+  }
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final counts = rewards.subjectCounts;
 
-    final bars = _subjectConfig.map((s) {
+    final bars = _config.map((s) {
       final count = counts[s['key'] as String] ?? 0;
       final max   = s['max'] as int;
       final value = max > 0 ? (count / max).clamp(0.0, 1.0) : 0.0;

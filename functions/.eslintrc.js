@@ -18,16 +18,21 @@ module.exports = {
     sourceType: "module",
   },
   ignorePatterns: [
-    "/lib/**/*", // Ignore built files.
-    "/generated/**/*", // Ignore generated files.
+    "/lib/**/*",
+    "/generated/**/*",
   ],
   plugins: [
     "@typescript-eslint",
     "import",
   ],
   rules: {
+    "linebreak-style": ["error", "unix"],
     "quotes": ["error", "double"],
     "import/no-unresolved": 0,
     "indent": ["error", 2],
+    "object-curly-spacing": ["error", "always"],
+    "max-len": ["error", { "code": 120 }],
+    "require-jsdoc": "off",
+    "valid-jsdoc": "off",
   },
 };

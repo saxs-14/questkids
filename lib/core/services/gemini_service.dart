@@ -17,7 +17,7 @@ class GeminiService {
     List<Map<String, String>> history = const [],
   }) async {
     try {
-      final result = await _functions.httpsCallable('questbotChat').call({
+      final result = await _functions.httpsCallable('questyChat').call({
         'message': message,
         'history': history,
       });

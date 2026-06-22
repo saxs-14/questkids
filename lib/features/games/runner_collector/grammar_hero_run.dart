@@ -16,7 +16,7 @@ import 'runner_collector_session.dart';
 /// buttons and the arrow keys are accessibility fallbacks. The hero faces the
 /// incoming words. A spawn manager (in the session) guarantees one spaced word
 /// per lane, so words never overlap. Collect the round's target part of speech;
-/// QuestBot cheers correct grabs and gently encourages misses.
+/// Questy cheers correct grabs and gently encourages misses.
 class GrammarHeroRun extends StatefulWidget {
   final GameConfig config;
   final dynamic user;
@@ -156,7 +156,7 @@ class _GrammarHeroRunState extends State<GrammarHeroRun>
                       ],
                     ),
 
-                    // QuestBot feedback bubble (cheer / encourage)
+                    // Questy feedback bubble (cheer / encourage)
                     if (session.lastCollectionCorrect != null)
                       Positioned(
                         top: 64,
