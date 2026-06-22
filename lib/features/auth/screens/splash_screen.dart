@@ -79,21 +79,27 @@ class _SplashScreenState extends State<SplashScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 120,
-                  height: 120,
+                  width: 140,
+                  height: 140,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(32),
+                    borderRadius: BorderRadius.circular(36),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.2),
-                        blurRadius: 30,
-                        offset: const Offset(0, 10),
+                        color: Colors.black.withValues(alpha: 0.25),
+                        blurRadius: 36,
+                        offset: const Offset(0, 12),
                       ),
                     ],
                   ),
-                  child: const Center(
-                    child: Text('🎮', style: TextStyle(fontSize: 60)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(36),
+                    child: Image.asset(
+                      'assets/icon/questkids_logo.png',
+                      fit: BoxFit.contain,
+                      errorBuilder: (_, __, ___) =>
+                          const Center(child: Text('🎮', style: TextStyle(fontSize: 60))),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 28),

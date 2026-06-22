@@ -10,7 +10,8 @@ class AppConstants {
 
   // Subjects
   static const List<String> subjects = [
-    'Math', 'Science', 'English', 'Social Sciences',
+    'Mathematics', 'Natural Sciences', 'English', 'Social Sciences',
+    'Technology', 'Life Skills', 'EMS',
   ];
 
   // Game types (legacy list)
@@ -23,6 +24,8 @@ class AppConstants {
   static const String engineAdventureJourney = 'adventureJourney';
   static const String engineRunnerCollector  = 'runnerCollector';
   static const String engineExplorerMap      = 'explorerMap';
+  static const String engineMultiplesMerge   = 'multiplesMerge';
+  static const String engineSequenceBuilder  = 'sequenceBuilder';
 
   // Gamification
   static const int pointsPerQuiz       = 10;

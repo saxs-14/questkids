@@ -1,19 +1,22 @@
-import 'dart:math' as math;
-
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../core/game_config.dart';
+import '../core/game_theme.dart';
 import '../tug_of_war/widgets/game_result_overlay.dart';
 import 'runner_collector_session.dart';
 
 /// Grammar Hero Run — endless runner word-collection game.
 ///
-/// Touch: tap a lane to move into it.
-/// Keyboard: left/right arrow keys.
-/// Words scroll from right to left; collect matching part-of-speech words.
+/// Movement: **swipe up / down** to change lanes (primary). On-screen Up/Down
+/// buttons and the arrow keys are accessibility fallbacks. The hero faces the
+/// incoming words. A spawn manager (in the session) guarantees one spaced word
+/// per lane, so words never overlap. Collect the round's target part of speech;
+/// QuestBot cheers correct grabs and gently encourages misses.
 class GrammarHeroRun extends StatefulWidget {
   final GameConfig config;
   final dynamic user;
@@ -28,31 +31,41 @@ class _GrammarHeroRunState extends State<GrammarHeroRun>
     with SingleTickerProviderStateMixin {
   late RunnerCollectorSession _session;
   late AnimationController _scrollCtrl;
+  late ConfettiController _confetti;
+  final FocusNode _focusNode = FocusNode();
   double _lastTick = 0;
+  int _lastLevel = 0;
 
   @override
   void initState() {
     super.initState();
-    final uid = (widget.user?.uid as String?) ?? '';
-    _session = RunnerCollectorSession(widget.config, uid);
+    _session = RunnerCollectorSession(widget.config, _uid);
 
     _scrollCtrl = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
     )..repeat();
+    _confetti = ConfettiController(duration: const Duration(milliseconds: 900));
 
     _scrollCtrl.addListener(_onTick);
+    _session.addListener(_onSessionChange);
     _session.startSession();
   }
+
+  String get _uid => (widget.user?.uid as String?) ?? '';
 
   void _onTick() {
     final now = _scrollCtrl.value;
     final delta = now - _lastTick;
-    // Handle wrap-around
     final adjustedDelta = delta < 0 ? (1.0 + delta) : delta;
     _lastTick = now;
-    if (!_session.isFinished) {
-      _session.tickWords(adjustedDelta);
+    if (!_session.isFinished) _session.tickWords(adjustedDelta);
+  }
+
+  void _onSessionChange() {
+    if (_session.levelIndex != _lastLevel) {
+      _lastLevel = _session.levelIndex;
+      _confetti.play();
     }
   }
 
@@ -60,28 +73,42 @@ class _GrammarHeroRunState extends State<GrammarHeroRun>
   void dispose() {
     _scrollCtrl.removeListener(_onTick);
     _scrollCtrl.dispose();
+    _confetti.dispose();
+    _focusNode.dispose();
+    _session.removeListener(_onSessionChange);
     _session.dispose();
     super.dispose();
   }
 
   void _restart() {
     _scrollCtrl.removeListener(_onTick);
+    _session.removeListener(_onSessionChange);
     _session.dispose();
-    final uid = (widget.user?.uid as String?) ?? '';
     setState(() {
-      _session = RunnerCollectorSession(widget.config, uid);
+      _session = RunnerCollectorSession(widget.config, _uid);
+      _lastLevel = 0;
+      _lastTick = 0;
     });
     _scrollCtrl.addListener(_onTick);
-    _lastTick = 0;
+    _session.addListener(_onSessionChange);
     _session.startSession();
   }
 
   void _handleKey(KeyEvent event) {
     if (event is! KeyDownEvent) return;
-    if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
-      _session.moveLeft();
-    } else if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
-      _session.moveRight();
+    if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+      _session.moveLeft(); // lane up
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+      _session.moveRight(); // lane down
+    }
+  }
+
+  void _onVerticalSwipe(DragEndDetails d) {
+    final v = d.primaryVelocity ?? 0;
+    if (v < -50) {
+      _session.moveLeft(); // swipe up → move to upper lane
+    } else if (v > 50) {
+      _session.moveRight(); // swipe down → move to lower lane
     }
   }
 
@@ -90,7 +117,7 @@ class _GrammarHeroRunState extends State<GrammarHeroRun>
     return ChangeNotifierProvider.value(
       value: _session,
       child: KeyboardListener(
-        focusNode: FocusNode()..requestFocus(),
+        focusNode: _focusNode..requestFocus(),
         onKeyEvent: _handleKey,
         child: Consumer<RunnerCollectorSession>(
           builder: (ctx, session, _) {
@@ -108,16 +135,69 @@ class _GrammarHeroRunState extends State<GrammarHeroRun>
             return Scaffold(
               backgroundColor: const Color(0xFF1A1A2E),
               body: SafeArea(
-                child: Column(
+                child: Stack(
                   children: [
-                    _HUD(session: session),
-                    Expanded(
-                      child: _RunnerCanvas(
-                        session: session,
-                        onTapLane: session.tapLane,
+                    Column(
+                      children: [
+                        _HUD(session: session),
+                        Expanded(
+                          child: GestureDetector(
+                            onVerticalDragEnd: _onVerticalSwipe,
+                            child: _RunnerCanvas(
+                              session: session,
+                              onTapLane: session.tapLane,
+                            ),
+                          ),
+                        ),
+                        _LaneButtons(
+                          onUp: session.moveLeft,
+                          onDown: session.moveRight,
+                        ),
+                      ],
+                    ),
+
+                    // QuestBot feedback bubble (cheer / encourage)
+                    if (session.lastCollectionCorrect != null)
+                      Positioned(
+                        top: 64,
+                        left: 0,
+                        right: 0,
+                        child: Center(
+                          child: MascotBubble(
+                            positive: session.lastCollectionCorrect == true,
+                            message: session.lastCollectionCorrect == true
+                                ? 'Nice catch! ✨'
+                                : 'Oops — keep looking!',
+                          )
+                              .animate()
+                              .scale(
+                                duration: 220.ms,
+                                curve: Curves.elasticOut,
+                                begin: const Offset(0.6, 0.6),
+                                end: const Offset(1, 1),
+                              )
+                              .fadeIn(duration: 150.ms),
+                        ),
+                      ),
+
+                    // Level-up confetti
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: ConfettiWidget(
+                        confettiController: _confetti,
+                        blastDirectionality: BlastDirectionality.explosive,
+                        numberOfParticles: 18,
+                        maxBlastForce: 18,
+                        minBlastForce: 6,
+                        gravity: 0.25,
+                        colors: const [
+                          AppColors.english,
+                          AppColors.gold,
+                          Colors.white,
+                          AppColors.xpBlue,
+                        ],
                       ),
                     ),
-                    _LaneButtons(onLeft: session.moveLeft, onRight: session.moveRight),
                   ],
                 ),
               ),
@@ -138,32 +218,38 @@ class _HUD extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.black45,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      color: Colors.black.withValues(alpha: 0.30),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Row(
         children: [
           IconButton(
             onPressed: () => Navigator.of(context).pop(),
             icon: const Icon(Icons.close, color: Colors.white),
-            padding: EdgeInsets.zero,
+            tooltip: 'Quit',
           ),
           Expanded(
-            child: Text(
-              session.missionLabel,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 13,
-              ),
+            child: Column(
+              children: [
+                Text(
+                  session.missionLabel,
+                  textAlign: TextAlign.center,
+                  style: GameTheme.display(16, color: Colors.white),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  'Collected: ${session.wordsCollected}',
+                  style: GameTheme.body(12, color: Colors.white70),
+                ),
+              ],
             ),
           ),
-          // Hearts
           Row(
             children: List.generate(3, (i) {
-              return Text(
-                i < session.hearts ? '❤️' : '🖤',
-                style: const TextStyle(fontSize: 18),
+              final alive = i < session.hearts;
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 1),
+                child: Text(alive ? '❤️' : '🖤',
+                    style: const TextStyle(fontSize: 18)),
               );
             }),
           ),
@@ -188,13 +274,10 @@ class _RunnerCanvas extends StatelessWidget {
       final h = constraints.maxHeight;
       final laneH = h / 3;
       final flash = session.lastCollectionCorrect;
-      // Continuous scroll phase for the parallax track (time-based, smooth).
-      final phase =
-          (DateTime.now().millisecondsSinceEpoch % 2000) / 2000.0;
+      final phase = (DateTime.now().millisecondsSinceEpoch % 2000) / 2000.0;
 
       return Stack(
         children: [
-          // Painted scrolling track (sky, road, speed dashes, lane glow).
           Positioned.fill(
             child: CustomPaint(
               painter: _TrackPainter(
@@ -205,7 +288,7 @@ class _RunnerCanvas extends StatelessWidget {
             ),
           ),
 
-          // Tap targets per lane
+          // Per-lane tap targets (accessibility fallback for swipe)
           for (int i = 0; i < 3; i++)
             Positioned(
               top: i * laneH,
@@ -218,28 +301,24 @@ class _RunnerCanvas extends StatelessWidget {
               ),
             ),
 
-          // Player character with motion trail + glow
+          // Hero — faces the incoming words (to the right)
           Positioned(
-            left: 24,
+            left: 20,
             top: session.playerLane * laneH + (laneH / 2) - 26,
             child: AnimatedContainer(
-              duration: const Duration(milliseconds: 120),
+              duration: const Duration(milliseconds: 130),
               curve: Curves.easeOut,
               child: const _RunnerHero(),
             ),
           ),
 
-          // Scrolling words
+          // Scrolling words on legible neutral pills (colour never reveals POS)
           for (final word in session.activeWords)
             if (!word.collected)
               Positioned(
                 left: w - (word.xPosition * w) - 80,
-                top: word.lane * laneH + (laneH / 2) - 18,
-                child: _WordChip(
-                  word: word.word,
-                  partOfSpeech: word.partOfSpeech,
-                  targetPOS: session.currentLevel.targetPOS,
-                ),
+                top: word.lane * laneH + (laneH / 2) - 20,
+                child: _WordPill(word: word.word),
               ),
         ],
       );
@@ -247,12 +326,12 @@ class _RunnerCanvas extends StatelessWidget {
   }
 }
 
-/// Paints the endless-runner track: gradient sky, scrolling road with
-/// dashed speed lines, and a soft glow on the player's active lane.
+/// Track backdrop: gradient sky, scrolling road with speed dashes, skyline,
+/// and a soft glow on the player's active lane.
 class _TrackPainter extends CustomPainter {
-  final double phase; // 0..1 scroll loop
+  final double phase;
   final int activeLane;
-  final bool? flash; // true=correct, false=wrong, null=neutral
+  final bool? flash;
 
   _TrackPainter({required this.phase, required this.activeLane, this.flash});
 
@@ -262,7 +341,6 @@ class _TrackPainter extends CustomPainter {
     final h = size.height;
     final laneH = h / 3;
 
-    // Sky-to-track vertical gradient
     final bg = Rect.fromLTWH(0, 0, w, h);
     canvas.drawRect(
       bg,
@@ -274,7 +352,6 @@ class _TrackPainter extends CustomPainter {
         ).createShader(bg),
     );
 
-    // Distant city skyline silhouette near the horizon
     final skyline = Paint()..color = Colors.black.withValues(alpha: 0.25);
     for (int i = 0; i < 10; i++) {
       final bx = (i * w / 9) - (phase * w / 9);
@@ -282,19 +359,16 @@ class _TrackPainter extends CustomPainter {
       canvas.drawRect(Rect.fromLTWH(bx, h * 0.18 - bh, w / 14, bh), skyline);
     }
 
-    // Lane glow on the active lane
     final glowColor = flash == true
-        ? AppColors.success
+        ? GameTheme.positive
         : flash == false
-            ? AppColors.error
+            ? GameTheme.gentleMiss
             : AppColors.english;
-    final glowRect = Rect.fromLTWH(0, activeLane * laneH, w, laneH);
     canvas.drawRect(
-      glowRect,
+      Rect.fromLTWH(0, activeLane * laneH, w, laneH),
       Paint()..color = glowColor.withValues(alpha: 0.16),
     );
 
-    // Lane separators
     final sep = Paint()
       ..color = Colors.white.withValues(alpha: 0.12)
       ..strokeWidth = 2;
@@ -302,7 +376,6 @@ class _TrackPainter extends CustomPainter {
       canvas.drawLine(Offset(0, i * laneH), Offset(w, i * laneH), sep);
     }
 
-    // Scrolling dashed centre lines per lane (sense of speed)
     final dash = Paint()
       ..color = Colors.white.withValues(alpha: 0.35)
       ..strokeWidth = 4
@@ -324,19 +397,18 @@ class _TrackPainter extends CustomPainter {
       old.phase != phase || old.activeLane != activeLane || old.flash != flash;
 }
 
-/// Player avatar with a glow halo and a small speed trail.
+/// Player avatar with a glow halo and speed trail, flipped to face the words.
 class _RunnerHero extends StatelessWidget {
   const _RunnerHero();
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 64,
+      width: 66,
       height: 52,
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // speed trail
           Positioned(
             left: 0,
             child: Row(
@@ -353,7 +425,6 @@ class _RunnerHero extends StatelessWidget {
               }),
             ),
           ),
-          // glow halo
           Container(
             width: 48,
             height: 48,
@@ -365,8 +436,10 @@ class _RunnerHero extends StatelessWidget {
               ]),
             ),
           ),
-          Transform.translate(
-            offset: Offset(0, math.sin(DateTime.now().millisecondsSinceEpoch / 120) * 2),
+          // Flip horizontally so the runner faces the incoming words (right).
+          Transform(
+            alignment: Alignment.center,
+            transform: Matrix4.diagonal3Values(-1, 1, 1),
             child: const Text('🏃', style: TextStyle(fontSize: 38)),
           ),
         ],
@@ -375,88 +448,91 @@ class _RunnerHero extends StatelessWidget {
   }
 }
 
-class _WordChip extends StatelessWidget {
+/// Neutral word card — bright, legible, high-contrast. Deliberately does NOT
+/// encode the part of speech in its colour, so the learner must read & decide.
+class _WordPill extends StatelessWidget {
   final String word;
-  final String partOfSpeech;
-  final String targetPOS;
-
-  const _WordChip({
-    required this.word,
-    required this.partOfSpeech,
-    required this.targetPOS,
-  });
+  const _WordPill({required this.word});
 
   @override
   Widget build(BuildContext context) {
-    final isTarget = targetPOS == 'mixed'
-        ? partOfSpeech == 'noun' || partOfSpeech == 'verb'
-        : partOfSpeech == targetPOS;
-
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+      constraints: const BoxConstraints(minHeight: GameTheme.minTapTarget),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+      alignment: Alignment.center,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: isTarget
-              ? [AppColors.english, const Color(0xFFFF4081)]
-              : [Colors.blueGrey.shade600, Colors.blueGrey.shade800],
-        ),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.5), width: 1.5),
-        boxShadow: [
-          BoxShadow(
-            color: (isTarget ? AppColors.english : Colors.black)
-                .withValues(alpha: 0.4),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: const Color(0xFFE0E0F0), width: 2),
+        boxShadow: const [
+          BoxShadow(color: Colors.black38, blurRadius: 8, offset: Offset(0, 4)),
         ],
       ),
       child: Text(
         word,
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w800,
-          fontSize: 15,
-        ),
+        style: GameTheme.display(18, color: AppColors.textPrimary),
       ),
     );
   }
 }
 
-// ── Lane buttons (mobile helpers) ─────────────────────────────────────────────
+// ── Lane buttons (accessibility fallback) ─────────────────────────────────────
 
 class _LaneButtons extends StatelessWidget {
-  final VoidCallback onLeft;
-  final VoidCallback onRight;
+  final VoidCallback onUp;
+  final VoidCallback onDown;
 
-  const _LaneButtons({required this.onLeft, required this.onRight});
+  const _LaneButtons({required this.onUp, required this.onDown});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.black45,
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+      color: Colors.black.withValues(alpha: 0.30),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 24),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ElevatedButton.icon(
-            onPressed: onLeft,
-            icon: const Icon(Icons.arrow_upward),
-            label: const Text('Up'),
-            style: ElevatedButton.styleFrom(backgroundColor: AppColors.blue),
+          _RoundBtn(icon: Icons.keyboard_arrow_up, label: 'Up', onTap: onUp),
+          Flexible(
+            child: Text(
+              'Swipe up / down to move\n(or use these buttons)',
+              textAlign: TextAlign.center,
+              style: GameTheme.body(12, color: Colors.white60),
+            ),
           ),
-          const Text(
-            'Move up/down\n← → keys on desktop',
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white54, fontSize: 11),
-          ),
-          ElevatedButton.icon(
-            onPressed: onRight,
-            icon: const Icon(Icons.arrow_downward),
-            label: const Text('Down'),
-            style: ElevatedButton.styleFrom(backgroundColor: AppColors.blue),
-          ),
+          _RoundBtn(
+              icon: Icons.keyboard_arrow_down, label: 'Down', onTap: onDown),
         ],
+      ),
+    );
+  }
+}
+
+class _RoundBtn extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+  const _RoundBtn(
+      {required this.icon, required this.label, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      label: 'Move $label',
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(30),
+        child: Container(
+          width: GameTheme.minTapTarget + 8,
+          height: GameTheme.minTapTarget + 8,
+          decoration: BoxDecoration(
+            color: AppColors.english,
+            shape: BoxShape.circle,
+            boxShadow: GameTheme.softShadow(AppColors.english),
+          ),
+          child: Icon(icon, color: Colors.white, size: 34),
+        ),
       ),
     );
   }

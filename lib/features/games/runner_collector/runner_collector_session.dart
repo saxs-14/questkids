@@ -38,6 +38,12 @@ class RunnerCollectorSession extends GameSessionState {
   final List<LaneWord> _activeWords = [];
   Timer? _spawnTimer;
 
+  /// Minimum horizontal gap (in xPosition fraction) between two words in the
+  /// same lane. A new word only spawns into a lane once the previous one has
+  /// travelled at least this far — guarantees words never stack or overlap.
+  static const double _laneGap = 0.34;
+  static const int _laneCount = 3;
+
   int get hearts => _hearts;
   int get levelIndex => _levelIndex;
   int get playerLane => _playerLane;
@@ -55,8 +61,12 @@ class RunnerCollectorSession extends GameSessionState {
   @override
   void startSession() {
     super.startSession();
-    _spawnBatch();
-    _startSpawnTimer();
+    _spawnOne();
+    // Steady cadence; each call only fills a lane that has room, so spacing is
+    // always preserved regardless of how fast the timer fires.
+    _spawnTimer = Timer.periodic(const Duration(milliseconds: 850), (_) {
+      if (!isFinished) _spawnOne();
+    });
   }
 
   @override
@@ -190,15 +200,38 @@ class RunnerCollectorSession extends GameSessionState {
     notifyListeners();
   }
 
-  void _spawnBatch() {
-    final newWords = _engine.spawnWords(currentLevel, count: 4);
-    _activeWords.addAll(newWords);
-    notifyListeners();
-  }
+  /// Spawn exactly one word into a lane that currently has room near the right
+  /// edge. If every lane is still occupied close to the spawn point, nothing
+  /// spawns this cycle — preventing overlapping/stacked words.
+  void _spawnOne() {
+    if (isFinished) return;
 
-  void _startSpawnTimer() {
-    _spawnTimer = Timer.periodic(const Duration(seconds: 3), (_) {
-      if (!isFinished) _spawnBatch();
-    });
+    // Eligible = lane whose nearest (smallest xPosition) live word has already
+    // travelled past _laneGap, or which is empty.
+    final eligible = <int>[];
+    for (int lane = 0; lane < _laneCount; lane++) {
+      final laneWords =
+          _activeWords.where((w) => w.lane == lane && !w.collected);
+      if (laneWords.isEmpty) {
+        eligible.add(lane);
+      } else {
+        final nearest =
+            laneWords.map((w) => w.xPosition).reduce((a, b) => a < b ? a : b);
+        if (nearest >= _laneGap) eligible.add(lane);
+      }
+    }
+    if (eligible.isEmpty) return;
+
+    eligible.shuffle();
+    final lane = eligible.first;
+    final picked = _engine.randomWord(currentLevel, targetBias: 0.5);
+
+    _activeWords.add(LaneWord(
+      word: picked['word'] as String,
+      partOfSpeech: picked['pos'] as String,
+      lane: lane,
+      xPosition: 0.0,
+    ));
+    notifyListeners();
   }
 }

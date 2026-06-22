@@ -1,8 +1,12 @@
-import 'dart:io';
+import 'dart:async' show StreamSubscription;
+import 'dart:convert' show utf8;
+import 'dart:io' show File;
+import 'dart:typed_data' show Uint8List;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csv/csv.dart';
 import 'package:file_selector/file_selector.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -34,16 +38,19 @@ class _ParentDashboardState extends State<ParentDashboard> {
   final UserRepository _userRepo = UserRepository();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final user = context.read<AuthProvider>().user;
+      if (user != null) context.read<ParentProvider>().loadParentData(user.uid);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
-    final parentProv = context.watch<ParentProvider>();
     final theme = context.watch<ThemeProvider>();
     final user = auth.user;
-
-    // ensure parent provider is listening
-    if (user != null && parentProv.linkedChildren.isEmpty && !parentProv.isLoading) {
-      parentProv.loadParentData(user.uid);
-    }
 
     return ResponsiveScaffold(
       selectedIndex: _selectedIndex,
@@ -99,7 +106,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: GestureDetector(
-              onTap: () => setState(() => _selectedIndex = 3),
+              onTap: () => setState(() => _selectedIndex = 4),
               child: CircleAvatar(
                 backgroundColor: Colors.white24,
                 backgroundImage: user?.avatarUrl != null
@@ -144,9 +151,24 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
   DateTime? _selected;
   Map<DateTime, List<Map<String, dynamic>>> _events = {};
   List<Map<String, dynamic>> _reminders = [];
+  StreamSubscription? _eventsSub;
+  StreamSubscription? _remindersSub;
+  String? _loadedChildUid;
+
+  @override
+  void dispose() {
+    _eventsSub?.cancel();
+    _remindersSub?.cancel();
+    super.dispose();
+  }
 
   void _loadEvents(String childUid) {
-    ParentRepository().watchCalendarEvents(childUid).listen((list) {
+    if (_loadedChildUid == childUid) return;
+    _loadedChildUid = childUid;
+    _eventsSub?.cancel();
+    _remindersSub?.cancel();
+
+    _eventsSub = ParentRepository().watchCalendarEvents(childUid).listen((list) {
       final map = <DateTime, List<Map<String, dynamic>>>{};
       for (final e in list) {
         final ts = e['date'];
@@ -161,11 +183,10 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
         final key = DateTime(date.year, date.month, date.day);
         map.putIfAbsent(key, () => []).add(e);
       }
-      setState(() => _events = map);
+      if (mounted) setState(() => _events = map);
     });
-    // reminders
-    ParentRepository().watchReminders(childUid).listen((list) {
-      setState(() => _reminders = list);
+    _remindersSub = ParentRepository().watchReminders(childUid).listen((list) {
+      if (mounted) setState(() => _reminders = list);
     });
   }
 
@@ -177,39 +198,41 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
         : DateTime.now();
 
     await showDialog<void>(context: context, builder: (ctx) {
-      return AlertDialog(
-        title: Text(event == null ? 'Add Event' : 'Edit Event'),
-        content: Column(mainAxisSize: MainAxisSize.min, children: [
-          TextField(controller: titleCtrl, decoration: const InputDecoration(labelText: 'Title')),
-          TextField(controller: descCtrl, decoration: const InputDecoration(labelText: 'Description')),
-          const SizedBox(height: 8),
-          Row(children: [
-            Text('${selectedDate.toLocal()}'.split(' ')[0]),
-            const SizedBox(width: 8),
-            TextButton(onPressed: () async {
-              final picked = await showDatePicker(context: context, initialDate: selectedDate, firstDate: DateTime.now().subtract(const Duration(days: 365)), lastDate: DateTime.now().add(const Duration(days: 365)));
-              if (picked != null) setState(() => selectedDate = DateTime(picked.year, picked.month, picked.day, selectedDate.hour, selectedDate.minute));
-            }, child: const Text('Change')),
-          ])
-        ]),
-        actions: [
-          TextButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('Cancel')),
-          ElevatedButton(onPressed: () async {
-            final payload = {
-              'childUid': childUid,
-              'title': titleCtrl.text,
-              'description': descCtrl.text,
-              'date': Timestamp.fromDate(selectedDate),
-            };
-            if (event == null) {
-              await ParentRepository().addCalendarEvent(payload);
-            } else {
-              await ParentRepository().updateCalendarEvent(event['id'], payload);
-            }
-            if (ctx.mounted) Navigator.of(ctx).pop();
-          }, child: const Text('Save'))
-        ],
-      );
+      return StatefulBuilder(builder: (ctx, setDialogState) {
+        return AlertDialog(
+          title: Text(event == null ? 'Add Event' : 'Edit Event'),
+          content: Column(mainAxisSize: MainAxisSize.min, children: [
+            TextField(controller: titleCtrl, decoration: const InputDecoration(labelText: 'Title')),
+            TextField(controller: descCtrl, decoration: const InputDecoration(labelText: 'Description')),
+            const SizedBox(height: 8),
+            Row(children: [
+              Text('${selectedDate.toLocal()}'.split(' ')[0]),
+              const SizedBox(width: 8),
+              TextButton(onPressed: () async {
+                final picked = await showDatePicker(context: ctx, initialDate: selectedDate, firstDate: DateTime.now().subtract(const Duration(days: 365)), lastDate: DateTime.now().add(const Duration(days: 365)));
+                if (picked != null) setDialogState(() => selectedDate = DateTime(picked.year, picked.month, picked.day, selectedDate.hour, selectedDate.minute));
+              }, child: const Text('Change')),
+            ])
+          ]),
+          actions: [
+            TextButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('Cancel')),
+            ElevatedButton(onPressed: () async {
+              final payload = {
+                'childUid': childUid,
+                'title': titleCtrl.text,
+                'description': descCtrl.text,
+                'date': Timestamp.fromDate(selectedDate),
+              };
+              if (event == null) {
+                await ParentRepository().addCalendarEvent(payload);
+              } else {
+                await ParentRepository().updateCalendarEvent(event['id'], payload);
+              }
+              if (ctx.mounted) Navigator.of(ctx).pop();
+            }, child: const Text('Save'))
+          ],
+        );
+      });
     });
   }
 
@@ -221,56 +244,51 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
         : DateTime.now().add(const Duration(hours: 1));
 
     await showDialog<void>(context: context, builder: (ctx) {
-      return AlertDialog(
-        title: Text(reminder == null ? 'Add Reminder' : 'Edit Reminder'),
-        content: Column(mainAxisSize: MainAxisSize.min, children: [
-          TextField(controller: titleCtrl, decoration: const InputDecoration(labelText: 'Title')),
-          TextField(controller: descCtrl, decoration: const InputDecoration(labelText: 'Note')),
-          const SizedBox(height: 8),
-          Row(children: [
-            Text('${selectedDate.toLocal()}'.split(' ')[0]),
-            const SizedBox(width: 8),
-            TextButton(onPressed: () async {
-              final picked = await showDatePicker(context: context, initialDate: selectedDate, firstDate: DateTime.now().subtract(const Duration(days: 365)), lastDate: DateTime.now().add(const Duration(days: 365)));
-              if (picked != null) setState(() => selectedDate = DateTime(picked.year, picked.month, picked.day, selectedDate.hour, selectedDate.minute));
-            }, child: const Text('Change')),
-          ])
-        ]),
-        actions: [
-          TextButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('Cancel')),
-          ElevatedButton(onPressed: () async {
-            final payload = {
-              'childUid': childUid,
-              'title': titleCtrl.text,
-              'note': descCtrl.text,
-              'remindAt': Timestamp.fromDate(selectedDate),
-            };
-            if (reminder == null) {
-              await ParentRepository().addReminder(payload);
-            } else {
-              await ParentRepository().updateCalendarEvent(reminder['id'], payload);
-            }
-            if (ctx.mounted) Navigator.of(ctx).pop();
-          }, child: const Text('Save'))
-        ],
-      );
+      return StatefulBuilder(builder: (ctx, setDialogState) {
+        return AlertDialog(
+          title: Text(reminder == null ? 'Add Reminder' : 'Edit Reminder'),
+          content: Column(mainAxisSize: MainAxisSize.min, children: [
+            TextField(controller: titleCtrl, decoration: const InputDecoration(labelText: 'Title')),
+            TextField(controller: descCtrl, decoration: const InputDecoration(labelText: 'Note')),
+            const SizedBox(height: 8),
+            Row(children: [
+              Text('${selectedDate.toLocal()}'.split(' ')[0]),
+              const SizedBox(width: 8),
+              TextButton(onPressed: () async {
+                final picked = await showDatePicker(context: ctx, initialDate: selectedDate, firstDate: DateTime.now().subtract(const Duration(days: 365)), lastDate: DateTime.now().add(const Duration(days: 365)));
+                if (picked != null) setDialogState(() => selectedDate = DateTime(picked.year, picked.month, picked.day, selectedDate.hour, selectedDate.minute));
+              }, child: const Text('Change')),
+            ])
+          ]),
+          actions: [
+            TextButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('Cancel')),
+            ElevatedButton(onPressed: () async {
+              final payload = {
+                'childUid': childUid,
+                'title': titleCtrl.text,
+                'note': descCtrl.text,
+                'remindAt': Timestamp.fromDate(selectedDate),
+              };
+              if (reminder == null) {
+                await ParentRepository().addReminder(payload);
+              } else {
+                await ParentRepository().updateCalendarEvent(reminder['id'], payload);
+              }
+              if (ctx.mounted) Navigator.of(ctx).pop();
+            }, child: const Text('Save'))
+          ],
+        );
+      });
     });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final parentProv = context.read<ParentProvider>();
-    final child = parentProv.selectedChild;
-    if (child != null) {
-      _loadEvents(child.uid);
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     final parentProv = context.watch<ParentProvider>();
     final child = parentProv.selectedChild;
+    if (child != null && child.uid != _loadedChildUid) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _loadEvents(child.uid));
+    }
     if (child == null) return Center(child: Text('Select a child to view calendar', style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary)));
 
     List<Map<String, dynamic>> eventsForDay(DateTime day) => _events[DateTime(day.year, day.month, day.day)] ?? [];
@@ -479,21 +497,26 @@ class _ParentHomeTabState extends State<_ParentHomeTab> {
   }
 
   Widget _buildQuickStats(bool isMobile) {
+    final parentProv = context.watch<ParentProvider>();
+    final child = parentProv.selectedChild ?? (parentProv.linkedChildren.isNotEmpty ? parentProv.linkedChildren.first : null);
+    final points = child?.totalPoints ?? 0;
+    final streak = child?.streakDays ?? 0;
+    final level  = points > 0 ? (points ~/ 100) + 1 : 1;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: AppColors.primary.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-            color: AppColors.primary.withValues(alpha: 0.1)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.1)),
       ),
-      child: const Column(
+      child: Column(
         children: [
-          _StatRow(label: 'Total Learning Time', value: '0h 0m', icon: Icons.timer),
-          SizedBox(height: 12),
-          _StatRow(label: 'Tasks Completed', value: '0', icon: Icons.check_circle),
-          SizedBox(height: 12),
-          _StatRow(label: 'Points Earned', value: '0', icon: Icons.star),
+          _StatRow(label: 'Current Level', value: 'Level $level', icon: Icons.military_tech),
+          const SizedBox(height: 12),
+          _StatRow(label: 'Points Earned', value: '$points XP', icon: Icons.star),
+          const SizedBox(height: 12),
+          _StatRow(label: 'Day Streak', value: '$streak days 🔥', icon: Icons.local_fire_department),
         ],
       ),
     );
@@ -664,10 +687,19 @@ class _ParentReportsTabState extends State<_ParentReportsTab> {
         rows.add([p.completedAt.toIso8601String(), p.activityTitle, p.score, p.pointsEarned]);
       }
       final csv = const ListToCsvConverter().convert(rows);
-      final dir = await getTemporaryDirectory();
-      final file = File('${dir.path}/${selected.uid}_report.csv');
-      await file.writeAsString(csv);
-      await Share.shareXFiles([XFile(file.path)], text: 'Child report CSV');
+      if (kIsWeb) {
+        // Web: share from bytes — no dart:io File access available
+        final bytes = Uint8List.fromList(utf8.encode(csv));
+        await Share.shareXFiles(
+          [XFile.fromData(bytes, name: '${selected.uid}_report.csv', mimeType: 'text/csv')],
+          text: 'Child report CSV',
+        );
+      } else {
+        final dir = await getTemporaryDirectory();
+        final file = File('${dir.path}/${selected.uid}_report.csv');
+        await file.writeAsString(csv);
+        await Share.shareXFiles([XFile(file.path)], text: 'Child report CSV');
+      }
     } catch (e) {
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Export failed: $e')));
     }

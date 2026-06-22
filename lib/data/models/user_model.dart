@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserModel {
   final String uid;
   final String name;
@@ -77,6 +79,13 @@ class UserModel {
     this.fcmToken,
   });
 
+  static DateTime? _tsToDate(dynamic v) {
+    if (v == null) return null;
+    if (v is Timestamp) return v.toDate();
+    if (v is int) return DateTime.fromMillisecondsSinceEpoch(v);
+    return null;
+  }
+
   factory UserModel.fromMap(Map<String, dynamic> map, String uid) {
     return UserModel(
       uid: uid,
@@ -86,9 +95,7 @@ class UserModel {
       role: map['role'] ?? 'learner',
       gender: map['gender'],
       title: map['title'],
-      birthDate: map['birthDate'] != null 
-          ? DateTime.fromMillisecondsSinceEpoch(map['birthDate']) 
-          : null,
+      birthDate: _tsToDate(map['birthDate']),
       relationToChild: map['relationToChild'],
       grade: map['grade'] ?? 'Grade 1',
       parentUid: map['parentUid'],
@@ -98,14 +105,10 @@ class UserModel {
       emailVerified: map['emailVerified'] ?? false,
       twoFactorEnabled: map['twoFactorEnabled'] ?? false,
       profileImageBase64: map['profileImageBase64'],
-      lastActiveDate: map['lastActiveDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['lastActiveDate'])
-          : null,
+      lastActiveDate: _tsToDate(map['lastActiveDate']),
       totalPoints: map['totalPoints'] ?? 0,
       streakDays: map['streakDays'] ?? 0,
-      createdAt: map['createdAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'])
-          : DateTime.now(),
+      createdAt: _tsToDate(map['createdAt']) ?? DateTime.now(),
       linkedChildrenUids: List<String>.from(map['linkedChildrenUids'] ?? []),
       preferredLanguage: map['preferredLanguage'] ?? 'English',
       fcmToken: map['fcmToken'],

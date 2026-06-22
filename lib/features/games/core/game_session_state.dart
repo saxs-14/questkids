@@ -129,8 +129,21 @@ abstract class GameSessionState extends ChangeNotifier {
     }
   }
 
+  bool _disposed = false;
+
+  /// Guards against the many `Future.delayed` callbacks in concrete sessions
+  /// (flash clears, round transitions, end-of-game) firing after the player has
+  /// quit and the session was disposed — which would otherwise throw
+  /// "A ChangeNotifier was used after being disposed".
+  @override
+  void notifyListeners() {
+    if (_disposed) return;
+    super.notifyListeners();
+  }
+
   @override
   void dispose() {
+    _disposed = true;
     _ticker?.cancel();
     super.dispose();
   }

@@ -188,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 90,
                         height: 90,
                         decoration: BoxDecoration(
-                          color: AppColors.primary,
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(24),
                           boxShadow: [
                             BoxShadow(
@@ -198,8 +198,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ],
                         ),
-                        child: const Center(
-                          child: Text('🎮', style: TextStyle(fontSize: 44)),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(24),
+                          child: Image.asset(
+                            'assets/icon/questkids_logo.png',
+                            fit: BoxFit.contain,
+                            errorBuilder: (_, __, ___) => const Center(
+                              child: Text('🎮', style: TextStyle(fontSize: 44)),
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 20),

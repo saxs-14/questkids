@@ -1,18 +1,19 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../core/game_config.dart';
+import '../core/game_theme.dart';
 import '../tug_of_war/widgets/game_result_overlay.dart';
 import 'explorer_map_config.dart';
 import 'explorer_map_session.dart';
 
-/// SA Provinces Explorer — tap the correct province from a multiple-choice list.
-///
-/// The map pins give spatial context; the answer buttons are accessible chips
-/// so the game works on small screens without requiring precise map taps.
+/// SA Provinces Explorer — scaffolded Learn → Easy → Hard progression on a
+/// code-drawn (no copyrighted assets) map of South Africa.
 class ProvinceExplorer extends StatefulWidget {
   final GameConfig config;
   final dynamic user;
@@ -23,147 +24,468 @@ class ProvinceExplorer extends StatefulWidget {
   State<ProvinceExplorer> createState() => _ProvinceExplorerState();
 }
 
-class _ProvinceExplorerState extends State<ProvinceExplorer>
-    with SingleTickerProviderStateMixin {
-  late ExplorerMapSession _session;
-  late AnimationController _pinCtrl;
+class _ProvinceExplorerState extends State<ProvinceExplorer> {
+  ExplorerMapSession? _session;
+  ExplorerMode? _mode;
+
+  bool _easyUnlocked = false;
+  bool _hardUnlocked = false;
+
+  static const _kEasy = 'explorer_easy_unlocked';
+  static const _kHard = 'explorer_hard_unlocked';
+
+  String get _uid => (widget.user?.uid as String?) ?? '';
 
   @override
   void initState() {
     super.initState();
-    final uid = (widget.user?.uid as String?) ?? '';
-    _session = ExplorerMapSession(widget.config, uid);
-    _pinCtrl = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 400),
+    _loadUnlocks();
+  }
+
+  Future<void> _loadUnlocks() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      if (!mounted) return;
+      setState(() {
+        _easyUnlocked = prefs.getBool(_kEasy) ?? false;
+        _hardUnlocked = prefs.getBool(_kHard) ?? false;
+      });
+    } catch (_) {/* offline default: locked */}
+  }
+
+  Future<void> _unlock(String key) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool(key, true);
+    } catch (_) {/* best effort */}
+  }
+
+  void _start(ExplorerMode mode) {
+    final modeStr = mode.name;
+    final cfg = widget.config.copyWith(
+      extras: {...widget.config.extras, 'mode': modeStr},
     );
-    _session.startSession();
+    setState(() {
+      _mode = mode;
+      _session = ExplorerMapSession(cfg, _uid)..startSession();
+    });
+  }
+
+  void _exitToHub({bool completed = false}) {
+    final finishedMode = _mode;
+    _session?.dispose();
+    setState(() {
+      _session = null;
+      _mode = null;
+    });
+    if (completed && finishedMode == ExplorerMode.learn && !_easyUnlocked) {
+      setState(() => _easyUnlocked = true);
+      _unlock(_kEasy);
+    } else if (completed && finishedMode == ExplorerMode.easy && !_hardUnlocked) {
+      setState(() => _hardUnlocked = true);
+      _unlock(_kHard);
+    }
   }
 
   @override
   void dispose() {
-    _pinCtrl.dispose();
-    _session.dispose();
+    _session?.dispose();
     super.dispose();
-  }
-
-  void _restart() {
-    _session.dispose();
-    final uid = (widget.user?.uid as String?) ?? '';
-    setState(() {
-      _session = ExplorerMapSession(widget.config, uid);
-    });
-    _pinCtrl.reset();
-    _session.startSession();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_session == null || _mode == null) {
+      return _ModeHub(
+        easyUnlocked: _easyUnlocked,
+        hardUnlocked: _hardUnlocked,
+        onPick: _start,
+        onClose: () => Navigator.of(context).pop(),
+      );
+    }
+
     return ChangeNotifierProvider.value(
-      value: _session,
+      value: _session!,
       child: Consumer<ExplorerMapSession>(
         builder: (ctx, session, _) {
           if (session.isFinished && session.result != null) {
             return GameResultOverlay(
               result: session.result!,
               playerScore: session.correctCount,
-              opponentScore: 0,
+              opponentScore: session.totalQuestions,
               opponentName: '',
-              onPlayAgain: _restart,
-              onContinue: () => Navigator.of(ctx).pop(),
+              onPlayAgain: () => _start(_mode!),
+              onContinue: () => _exitToHub(completed: true),
             );
           }
-
-          final q = session.currentQuestion;
-          if (q == null) return const SizedBox.shrink();
-
-          return Scaffold(
-            backgroundColor: const Color(0xFF0D47A1),
-            body: SafeArea(
-              child: Column(
-                children: [
-                  _TopBar(
-                    questionIndex: session.questionIndex,
-                    total: session.totalQuestions,
-                    elapsed: session.elapsedSeconds,
-                    onBack: () => Navigator.of(ctx).pop(),
-                  ),
-                  Expanded(
-                    flex: 5,
-                    child: _MapView(
-                      provinces: session.mapConfig.provinces,
-                      correctId: q['correctId'] as String,
-                      selectedId: session.selectedId,
-                      lastCorrect: session.lastAnswerCorrect,
-                    ),
-                  ),
-                  if (session.feedbackFact != null)
-                    _FeedbackBanner(
-                      fact: session.feedbackFact!,
-                      correct: session.lastAnswerCorrect ?? false,
-                    ),
-                  Expanded(
-                    flex: 3,
-                    child: _AnswerPanel(
-                      question: q['question'] as String,
-                      options: session.currentOptions,
-                      selectedId: session.selectedId,
-                      lastCorrect: session.lastAnswerCorrect,
-                      enabled: !session.awaitingNext,
-                      onTap: session.submitAnswer,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
+          switch (session.mode) {
+            case ExplorerMode.learn:
+              return _LearnView(session: session, onBack: _exitToHub);
+            case ExplorerMode.easy:
+              return _EasyView(session: session, onBack: _exitToHub);
+            case ExplorerMode.hard:
+              return _HardView(session: session, onBack: _exitToHub);
+          }
         },
       ),
     );
   }
 }
 
-// ── Top bar ───────────────────────────────────────────────────────────────────
+// ── Mode hub ─────────────────────────────────────────────────────────────────
+class _ModeHub extends StatelessWidget {
+  final bool easyUnlocked;
+  final bool hardUnlocked;
+  final void Function(ExplorerMode) onPick;
+  final VoidCallback onClose;
 
-class _TopBar extends StatelessWidget {
-  final int questionIndex;
-  final int total;
-  final int elapsed;
-  final VoidCallback onBack;
-
-  const _TopBar({
-    required this.questionIndex,
-    required this.total,
-    required this.elapsed,
-    required this.onBack,
+  const _ModeHub({
+    required this.easyUnlocked,
+    required this.hardUnlocked,
+    required this.onPick,
+    required this.onClose,
   });
 
   @override
   Widget build(BuildContext context) {
-    final min = (elapsed ~/ 60).toString().padLeft(2, '0');
-    final sec = (elapsed % 60).toString().padLeft(2, '0');
-    return Container(
-      color: Colors.black26,
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: onBack,
-            icon: const Icon(Icons.close, color: Colors.white),
-            padding: EdgeInsets.zero,
-          ),
-          Expanded(
-            child: LinearProgressIndicator(
-              value: total > 0 ? questionIndex / total : 0,
-              backgroundColor: Colors.white24,
-              color: AppColors.green,
-              minHeight: 6,
+    return Scaffold(
+      backgroundColor: const Color(0xFF0D47A1),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: IconButton(
+                onPressed: onClose,
+                icon: const Icon(Icons.close, color: Colors.white),
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text('🗺️', style: TextStyle(fontSize: 56)),
+            Text('SA Provinces Explorer',
+                style: GameTheme.display(24, color: Colors.white)),
+            Text('Learn the map, then test yourself!',
+                style: GameTheme.body(14, color: Colors.white70)),
+            const SizedBox(height: 24),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.all(20),
+                children: [
+                  _ModeCard(
+                    emoji: '🧭',
+                    title: 'Learn',
+                    subtitle: 'Explore freely — tap each province to discover it',
+                    locked: false,
+                    onTap: () => onPick(ExplorerMode.learn),
+                  ),
+                  const SizedBox(height: 14),
+                  _ModeCard(
+                    emoji: '⭐',
+                    title: 'Easy Quiz',
+                    subtitle: 'A province lights up — pick its name',
+                    locked: !easyUnlocked,
+                    lockedHint: 'Finish Learn to unlock',
+                    onTap: () => onPick(ExplorerMode.easy),
+                  ),
+                  const SizedBox(height: 14),
+                  _ModeCard(
+                    emoji: '🔥',
+                    title: 'Hard Quiz',
+                    subtitle: 'Read the clue — tap the right province on the map',
+                    locked: !hardUnlocked,
+                    lockedHint: 'Finish the Easy Quiz to unlock',
+                    onTap: () => onPick(ExplorerMode.hard),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ModeCard extends StatelessWidget {
+  final String emoji;
+  final String title;
+  final String subtitle;
+  final bool locked;
+  final String? lockedHint;
+  final VoidCallback onTap;
+
+  const _ModeCard({
+    required this.emoji,
+    required this.title,
+    required this.subtitle,
+    required this.locked,
+    required this.onTap,
+    this.lockedHint,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Opacity(
+      opacity: locked ? 0.55 : 1,
+      child: Material(
+        color: Colors.white,
+        borderRadius: GameTheme.rounded,
+        child: InkWell(
+          borderRadius: GameTheme.rounded,
+          onTap: locked ? null : onTap,
+          child: Container(
+            constraints: const BoxConstraints(minHeight: 78),
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Text(emoji, style: const TextStyle(fontSize: 38)),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title,
+                          style: GameTheme.display(18,
+                              color: AppColors.socialSciences)),
+                      Text(
+                        locked ? (lockedHint ?? 'Locked') : subtitle,
+                        style: GameTheme.body(13, color: AppColors.textSecondary),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(locked ? Icons.lock : Icons.chevron_right,
+                    color: AppColors.socialSciences),
+              ],
             ),
           ),
-          const SizedBox(width: 8),
-          Text(
-            '$min:$sec',
-            style: const TextStyle(color: Colors.white70, fontSize: 12),
+        ),
+      ),
+    );
+  }
+}
+
+// ── Shared scaffold for the three mode views ──────────────────────────────────
+class _ModeScaffold extends StatelessWidget {
+  final String title;
+  final VoidCallback onBack;
+  final Widget child;
+  final double progress;
+
+  const _ModeScaffold({
+    required this.title,
+    required this.onBack,
+    required this.child,
+    required this.progress,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF0D47A1),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                IconButton(
+                  onPressed: onBack,
+                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                ),
+                Expanded(
+                  child: Text(title,
+                      textAlign: TextAlign.center,
+                      style: GameTheme.display(17, color: Colors.white)),
+                ),
+                const SizedBox(width: 48),
+              ],
+            ),
+            LinearProgressIndicator(
+              value: progress,
+              backgroundColor: Colors.white24,
+              color: AppColors.socialSciences,
+              minHeight: 6,
+            ),
+            Expanded(child: child),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ── Learn view ────────────────────────────────────────────────────────────────
+class _LearnView extends StatelessWidget {
+  final ExplorerMapSession session;
+  final void Function({bool completed}) onBack;
+  const _LearnView({required this.session, required this.onBack});
+
+  @override
+  Widget build(BuildContext context) {
+    final total = session.mapConfig.provinces.length;
+    final info = session.infoProvince;
+    return _ModeScaffold(
+      title: 'Learn  •  ${session.discovered.length}/$total discovered',
+      onBack: () => onBack(),
+      progress: total == 0 ? 0 : session.discovered.length / total,
+      child: Stack(
+        children: [
+          _MapStage(
+            provinces: session.mapConfig.provinces,
+            styleFor: (p) {
+              final found = session.discovered.contains(p.id);
+              return _PinStyle(
+                color: found ? p.color : Colors.white24,
+                label: found ? p.emoji : '?',
+                opacity: found ? 1 : 0.85,
+              );
+            },
+            onTap: (p) => session.discover(p.id),
+          ),
+          if (info != null)
+            Positioned(
+              left: 12,
+              right: 12,
+              bottom: 12,
+              child: _InfoCard(province: info)
+                  .animate()
+                  .fadeIn(duration: 200.ms)
+                  .slideY(begin: 0.3, end: 0),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _InfoCard extends StatelessWidget {
+  final ProvincePin province;
+  const _InfoCard({required this.province});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: GameTheme.rounded,
+        boxShadow: GameTheme.cardShadow,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(province.emoji, style: const TextStyle(fontSize: 30)),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(province.name,
+                        style: GameTheme.display(20, color: province.color)),
+                    Text('Capital: ${province.capital}',
+                        style: GameTheme.body(13,
+                            color: AppColors.textSecondary)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          if (province.facts.isNotEmpty)
+            Text('💡 ${province.facts.first}',
+                style: GameTheme.body(14, color: AppColors.textPrimary)),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Easy view (recognition) ────────────────────────────────────────────────────
+class _EasyView extends StatelessWidget {
+  final ExplorerMapSession session;
+  final void Function({bool completed}) onBack;
+  const _EasyView({required this.session, required this.onBack});
+
+  @override
+  Widget build(BuildContext context) {
+    final correct = session.currentCorrectProvince;
+    return _ModeScaffold(
+      title: 'Easy  •  ${session.questionIndex + 1}/${session.totalQuestions}',
+      onBack: () => onBack(),
+      progress: session.progressFraction,
+      child: Column(
+        children: [
+          Expanded(
+            flex: 5,
+            child: _MapStage(
+              provinces: session.mapConfig.provinces,
+              styleFor: (p) {
+                final isTarget = p.id == correct?.id;
+                return _PinStyle(
+                  color: isTarget ? AppColors.gold : p.color.withValues(alpha: 0.35),
+                  label: p.emoji,
+                  pulse: isTarget,
+                  ring: isTarget ? AppColors.gold : null,
+                );
+              },
+            ),
+          ),
+          if (session.feedbackFact != null)
+            _FeedbackBanner(
+              fact: session.feedbackFact!,
+              correct: session.lastAnswerCorrect ?? false,
+            ),
+          Expanded(
+            flex: 3,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                children: [
+                  Text('Which province is highlighted?',
+                      style: GameTheme.display(16, color: Colors.white)),
+                  const SizedBox(height: 10),
+                  Expanded(
+                    child: Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      alignment: WrapAlignment.center,
+                      children: session.currentOptions.map((p) {
+                        final selected = session.selectedId == p.id;
+                        Color bg = p.color;
+                        if (selected) {
+                          bg = (session.lastAnswerCorrect == true)
+                              ? GameTheme.positive
+                              : GameTheme.gentleMiss;
+                        }
+                        return GestureDetector(
+                          onTap: session.awaitingNext
+                              ? null
+                              : () => session.submitAnswer(p.id),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 180),
+                            constraints: const BoxConstraints(
+                                minHeight: GameTheme.minTapTarget),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 18, vertical: 12),
+                            decoration: BoxDecoration(
+                              color: bg,
+                              borderRadius: BorderRadius.circular(26),
+                              border: Border.all(
+                                  color: selected ? Colors.white : Colors.white30,
+                                  width: selected ? 2.5 : 1),
+                            ),
+                            child: Text(p.name,
+                                style: GameTheme.display(15, color: Colors.white)),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -171,50 +493,136 @@ class _TopBar extends StatelessWidget {
   }
 }
 
-// ── Map view with province pins ───────────────────────────────────────────────
+// ── Hard view (recall — tap on map) ─────────────────────────────────────────────
+class _HardView extends StatelessWidget {
+  final ExplorerMapSession session;
+  final void Function({bool completed}) onBack;
+  const _HardView({required this.session, required this.onBack});
 
-class _MapView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final lit = session.litProvinceIds;
+    final correctId = session.currentCorrectProvince?.id;
+    return _ModeScaffold(
+      title: 'Hard  •  ${session.questionIndex + 1}/${session.totalQuestions}',
+      onBack: () => onBack(),
+      progress: session.progressFraction,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: GameTheme.rounded,
+              ),
+              child: Text(session.prompt,
+                  textAlign: TextAlign.center,
+                  style: GameTheme.display(16, color: AppColors.socialSciences)),
+            ),
+          ),
+          Expanded(
+            child: _MapStage(
+              provinces: session.mapConfig.provinces,
+              styleFor: (p) {
+                final isLit = lit.contains(p.id);
+                final selected = session.selectedId == p.id;
+                Color color = isLit ? p.color : p.color.withValues(alpha: 0.18);
+                Color? ring;
+                if (session.awaitingNext) {
+                  if (p.id == correctId) {
+                    color = GameTheme.positive;
+                    ring = Colors.white;
+                  } else if (selected) {
+                    color = GameTheme.gentleMiss;
+                  }
+                }
+                return _PinStyle(
+                  color: color,
+                  label: p.emoji,
+                  opacity: isLit ? 1 : 0.6,
+                  ring: ring,
+                );
+              },
+              onTap: session.awaitingNext ? null : (p) => session.submitAnswer(p.id),
+            ),
+          ),
+          if (session.feedbackFact != null)
+            _FeedbackBanner(
+              fact: session.feedbackFact!,
+              correct: session.lastAnswerCorrect ?? false,
+            ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: OutlinedButton.icon(
+              onPressed: session.hintActive || session.awaitingNext
+                  ? null
+                  : session.useHint,
+              icon: const Icon(Icons.lightbulb_outline, color: Colors.white),
+              label: Text(session.hintActive ? 'Hint used' : 'Use a hint',
+                  style: GameTheme.body(14, color: Colors.white)),
+              style: OutlinedButton.styleFrom(
+                side: const BorderSide(color: Colors.white54),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Shared map stage ────────────────────────────────────────────────────────────
+class _PinStyle {
+  final Color color;
+  final String label;
+  final bool pulse;
+  final double opacity;
+  final Color? ring;
+  const _PinStyle({
+    required this.color,
+    required this.label,
+    this.pulse = false,
+    this.opacity = 1,
+    this.ring,
+  });
+}
+
+class _MapStage extends StatelessWidget {
   final List<ProvincePin> provinces;
-  final String correctId;
-  final String? selectedId;
-  final bool? lastCorrect;
+  final _PinStyle Function(ProvincePin) styleFor;
+  final void Function(ProvincePin)? onTap;
 
-  const _MapView({
+  const _MapStage({
     required this.provinces,
-    required this.correctId,
-    required this.selectedId,
-    required this.lastCorrect,
+    required this.styleFor,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      final w = constraints.maxWidth;
-      final h = constraints.maxHeight;
-
+    return LayoutBuilder(builder: (context, c) {
+      final w = c.maxWidth;
+      final h = c.maxHeight;
       return Stack(
         children: [
-          // Painted explorer-map backdrop: ocean, landmass, graticule, compass.
           Padding(
             padding: const EdgeInsets.all(12),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: CustomPaint(
-                size: Size(w, h),
-                painter: _MapBackdropPainter(),
-              ),
+              child: CustomPaint(size: Size(w, h), painter: _MapBackdropPainter()),
             ),
           ),
-          // Province pins
-          for (final pin in provinces)
+          for (final p in provinces)
             Positioned(
-              left: pin.position.dx * (w - 48) + 12,
-              top: pin.position.dy * (h - 48) + 12,
-              child: _ProvincePin(
-                pin: pin,
-                isCorrect: pin.id == correctId,
-                isSelected: pin.id == selectedId,
-                lastCorrect: lastCorrect,
+              left: p.position.dx * (w - 56) + 16,
+              top: p.position.dy * (h - 56) + 12,
+              child: _Marker(
+                pin: p,
+                style: styleFor(p),
+                onTap: onTap == null ? null : () => onTap!(p),
               ),
             ),
         ],
@@ -223,7 +631,72 @@ class _MapView extends StatelessWidget {
   }
 }
 
-/// Paints a stylised explorer map: ocean gradient, a soft landmass, a
+class _Marker extends StatelessWidget {
+  final ProvincePin pin;
+  final _PinStyle style;
+  final VoidCallback? onTap;
+
+  const _Marker({required this.pin, required this.style, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    Widget dot = AnimatedContainer(
+      duration: const Duration(milliseconds: 250),
+      width: GameTheme.minTapTarget,
+      height: GameTheme.minTapTarget,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: style.color.withValues(alpha: style.opacity),
+        shape: BoxShape.circle,
+        border: Border.all(color: style.ring ?? Colors.white, width: style.ring != null ? 3 : 2),
+        boxShadow: const [BoxShadow(color: Colors.black38, blurRadius: 5)],
+      ),
+      child: Text(style.label, style: const TextStyle(fontSize: 18)),
+    );
+
+    if (style.pulse) {
+      dot = dot
+          .animate(onPlay: (c) => c.repeat(reverse: true))
+          .scaleXY(begin: 1, end: 1.18, duration: 700.ms, curve: Curves.easeInOut);
+    }
+
+    return Semantics(
+      label: pin.name,
+      button: onTap != null,
+      child: GestureDetector(onTap: onTap, child: dot),
+    );
+  }
+}
+
+class _FeedbackBanner extends StatelessWidget {
+  final String fact;
+  final bool correct;
+  const _FeedbackBanner({required this.fact, required this.correct});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        color: (correct ? GameTheme.positive : GameTheme.gentleMiss)
+            .withValues(alpha: 0.95),
+        borderRadius: GameTheme.rounded,
+      ),
+      child: Row(
+        children: [
+          Text(correct ? '✅' : '💡', style: const TextStyle(fontSize: 18)),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(fact, style: GameTheme.body(13, color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Stylised explorer-map backdrop: ocean gradient, a soft landmass, a
 /// latitude/longitude graticule, and a compass rose in the corner.
 class _MapBackdropPainter extends CustomPainter {
   @override
@@ -231,7 +704,6 @@ class _MapBackdropPainter extends CustomPainter {
     final w = size.width;
     final h = size.height;
 
-    // Ocean gradient
     final ocean = Rect.fromLTWH(0, 0, w, h);
     canvas.drawRect(
       ocean,
@@ -243,7 +715,6 @@ class _MapBackdropPainter extends CustomPainter {
         ).createShader(ocean),
     );
 
-    // Graticule (lat/long grid)
     final grid = Paint()
       ..color = Colors.white.withValues(alpha: 0.10)
       ..strokeWidth = 1;
@@ -254,7 +725,6 @@ class _MapBackdropPainter extends CustomPainter {
       canvas.drawLine(Offset(0, y), Offset(w, y), grid);
     }
 
-    // Stylised landmass blob (centre)
     final land = Path();
     land.moveTo(w * 0.30, h * 0.20);
     land.cubicTo(w * 0.55, h * 0.10, w * 0.80, h * 0.22, w * 0.78, h * 0.45);
@@ -263,9 +733,7 @@ class _MapBackdropPainter extends CustomPainter {
     land.cubicTo(w * 0.24, h * 0.26, w * 0.26, h * 0.22, w * 0.30, h * 0.20);
     land.close();
     canvas.drawPath(
-      land,
-      Paint()..color = const Color(0xFF66BB6A).withValues(alpha: 0.55),
-    );
+        land, Paint()..color = const Color(0xFF66BB6A).withValues(alpha: 0.55));
     canvas.drawPath(
       land,
       Paint()
@@ -274,7 +742,6 @@ class _MapBackdropPainter extends CustomPainter {
         ..strokeWidth = 2,
     );
 
-    // Compass rose (top-left)
     final cc = Offset(w * 0.12, h * 0.14);
     const r = 16.0;
     final rosePaint = Paint()
@@ -284,11 +751,9 @@ class _MapBackdropPainter extends CustomPainter {
     canvas.drawCircle(cc, r, rosePaint);
     for (int i = 0; i < 4; i++) {
       final a = i * math.pi / 2;
-      final p1 = cc + Offset(math.cos(a), math.sin(a)) * r;
-      final p2 = cc - Offset(math.cos(a), math.sin(a)) * r;
-      canvas.drawLine(p1, p2, rosePaint);
+      canvas.drawLine(cc + Offset(math.cos(a), math.sin(a)) * r,
+          cc - Offset(math.cos(a), math.sin(a)) * r, rosePaint);
     }
-    // North needle
     final needle = Path()
       ..moveTo(cc.dx, cc.dy - r - 4)
       ..lineTo(cc.dx - 4, cc.dy)
@@ -299,170 +764,4 @@ class _MapBackdropPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_MapBackdropPainter old) => false;
-}
-
-class _ProvincePin extends StatelessWidget {
-  final ProvincePin pin;
-  final bool isCorrect;
-  final bool isSelected;
-  final bool? lastCorrect;
-
-  const _ProvincePin({
-    required this.pin,
-    required this.isCorrect,
-    required this.isSelected,
-    required this.lastCorrect,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    Color bg = pin.color.withAlpha(180);
-    if (isSelected) {
-      bg = (lastCorrect == true) ? AppColors.green : AppColors.error;
-    } else if (lastCorrect != null && isCorrect) {
-      bg = AppColors.green;
-    }
-
-    return Tooltip(
-      message: '${pin.name}\n${pin.capital}',
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        width: 28,
-        height: 28,
-        decoration: BoxDecoration(
-          color: bg,
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white, width: 1.5),
-          boxShadow: const [BoxShadow(color: Colors.black38, blurRadius: 4)],
-        ),
-        child: Center(
-          child: Text(
-            pin.id.length <= 2 ? pin.id : pin.id.substring(0, 2),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 7,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ── Feedback banner ───────────────────────────────────────────────────────────
-
-class _FeedbackBanner extends StatelessWidget {
-  final String fact;
-  final bool correct;
-
-  const _FeedbackBanner({required this.fact, required this.correct});
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-      decoration: BoxDecoration(
-        color: correct ? AppColors.green.withAlpha(230) : AppColors.error.withAlpha(230),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          Text(correct ? '✅' : '❌', style: const TextStyle(fontSize: 18)),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              fact,
-              style: const TextStyle(color: Colors.white, fontSize: 12),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ── Answer panel ──────────────────────────────────────────────────────────────
-
-class _AnswerPanel extends StatelessWidget {
-  final String question;
-  final List<ProvincePin> options;
-  final String? selectedId;
-  final bool? lastCorrect;
-  final bool enabled;
-  final ValueChanged<String> onTap;
-
-  const _AnswerPanel({
-    required this.question,
-    required this.options,
-    required this.selectedId,
-    required this.lastCorrect,
-    required this.enabled,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: Column(
-        children: [
-          Text(
-            question,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            alignment: WrapAlignment.center,
-            children: options.map((pin) {
-              final isSelected = pin.id == selectedId;
-              Color chipColor = pin.color;
-              if (isSelected) {
-                chipColor = (lastCorrect == true) ? AppColors.green : AppColors.error;
-              }
-              return GestureDetector(
-                onTap: enabled ? () => onTap(pin.id) : null,
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                  decoration: BoxDecoration(
-                    color: chipColor,
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(
-                      color: isSelected ? Colors.white : Colors.white30,
-                      width: isSelected ? 2.5 : 1,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(pin.emoji, style: const TextStyle(fontSize: 18)),
-                      const SizedBox(width: 6),
-                      Text(
-                        pin.name,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-        ],
-      ),
-    );
-  }
 }

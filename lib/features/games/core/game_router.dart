@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../core/constants/app_constants.dart';
 import '../adventure_journey/adventure_journey_game.dart';
 import '../explorer_map/province_explorer.dart';
+import '../multiples_merge/multiples_merge_game.dart';
 import '../runner_collector/grammar_hero_run.dart';
+import '../sequence_builder/sequence_builder_game.dart';
 import '../tug_of_war/tug_of_war_game.dart';
 import 'game_config.dart';
 
@@ -29,6 +31,8 @@ class GameRouter extends StatelessWidget {
       AppConstants.engineAdventureJourney => AdventureJourneyGame(config: config, user: user),
       AppConstants.engineRunnerCollector => GrammarHeroRun(config: config, user: user),
       AppConstants.engineExplorerMap => ProvinceExplorer(config: config, user: user),
+      AppConstants.engineMultiplesMerge => MultiplesMergeGame(config: config, user: user),
+      AppConstants.engineSequenceBuilder => SequenceBuilderGame(config: config, user: user),
       _ => _UnknownEngine(config: config),
     };
   }

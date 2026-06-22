@@ -174,3 +174,23 @@ app.*.symbols
 .agents/rules/personal-*
 .agents/skills/personal-*
 /.agent-shell/
+
+# Environment / secrets — never commit
+.env
+.env.local
+.env.production
+functions/.env
+functions/.secret.local
+
+# Node / Firebase Functions
+node_modules/
+functions/node_modules/
+functions/lib/
+
+# Build output logs
+build_debug.txt
+build_out.txt
+build_output.txt
+
+# Claude internal
+.claude/launch.json

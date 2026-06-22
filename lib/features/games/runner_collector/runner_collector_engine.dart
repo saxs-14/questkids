@@ -57,6 +57,20 @@ class RunnerCollectorEngine extends GameEngine {
     return words;
   }
 
+  /// A single random {word, pos} for [level]. With probability [targetBias]
+  /// the word is guaranteed to match the level's target part of speech, so a
+  /// learner can always find collectables and make progress.
+  Map<String, String> randomWord(GrammarLevel level, {double targetBias = 0.5}) {
+    final all = _shuffleWords(level);
+    if (_rng.nextDouble() < targetBias) {
+      final matches = all
+          .where((w) => isCorrectCollection(w['pos'] as String, level.targetPOS))
+          .toList();
+      if (matches.isNotEmpty) return matches[_rng.nextInt(matches.length)];
+    }
+    return all[_rng.nextInt(all.length)];
+  }
+
   List<Map<String, String>> _shuffleWords(GrammarLevel level) {
     final all = [
       ...level.nouns.map((w) => {'word': w, 'pos': 'noun'}),

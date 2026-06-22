@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../core/constants/game_catalog.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/theme_provider.dart';
 import '../../../providers/auth_provider.dart';
+import '../../../providers/rewards_provider.dart';
 import '../../../core/services/storage_service.dart';
 import '../../../core/widgets/responsive_scaffold.dart';
-import '../../grade4/grade4_hub.dart';
 import '../../../data/repositories/user_repository.dart';
 import '../../notifications/screens/notifications_screen.dart';
 import '../../offline/widgets/offline_banner.dart';
@@ -16,6 +17,8 @@ import '../../offline/screens/offline_screen.dart';
 import '../../quests/screens/quests_screen.dart';
 import '../../rewards/screens/rewards_screen.dart';
 import '../../ai_tutor/screens/ai_tutor_screen.dart';
+import '../../games/core/game_config.dart';
+import '../../games/core/game_router.dart';
 
 // ---------------------------------------------------------------------------
 // Inline color constants (brand palette for the gaming dashboard)
@@ -49,6 +52,19 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
 
   final StorageService _storage  = StorageService();
   final UserRepository _userRepo = UserRepository();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final uid = context.read<AuthProvider>().user?.uid;
+      if (uid != null) {
+        context.read<RewardsProvider>()
+          ..loadRewards(uid)
+          ..watchRewards(uid);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,9 +160,7 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
             child: IndexedStack(
               index: _selectedIndex,
               children: [
-                user?.grade == 'Grade 4'
-                    ? Grade4Hub(user: user)
-                    : _LearnerHomeTab(user: user),
+                _LearnerHomeTab(user: user),
                 const _QuestsTab(),
                 const _RewardsTab(),
                 const _AiTutorTab(),
@@ -192,6 +206,10 @@ class _LearnerHomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final rewards = context.watch<RewardsProvider>();
+    final badgeCount = rewards.badges.length;
+    final gradeKey = _grade.toLowerCase().replaceAll(' ', '');
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,24 +228,24 @@ class _LearnerHomeTab extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
-                _StatsRow(coins: _coins, streakDays: _streakDays),
+                _StatsRow(coins: _coins, streakDays: _streakDays, badgeCount: badgeCount),
                 const SizedBox(height: 24),
-                const _DailyChallengeCard(),
+                _DailyChallengeCard(user: user),
                 const SizedBox(height: 24),
               ],
             ),
           ),
 
-          const _FeaturedGamesSection(),
+          _FeaturedGamesSection(gradeKey: gradeKey),
           const SizedBox(height: 24),
 
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _ProgressSection(),
-                SizedBox(height: 32),
+                _ProgressSection(rewards: rewards),
+                const SizedBox(height: 32),
               ],
             ),
           ),
@@ -371,8 +389,9 @@ class _HeroSection extends StatelessWidget {
 class _StatsRow extends StatelessWidget {
   final int coins;
   final int streakDays;
+  final int badgeCount;
 
-  const _StatsRow({required this.coins, required this.streakDays});
+  const _StatsRow({required this.coins, required this.streakDays, required this.badgeCount});
 
   @override
   Widget build(BuildContext context) {
@@ -428,7 +447,7 @@ class _StatsRow extends StatelessWidget {
         const SizedBox(width: 10),
         card(emoji: '🔥', label: 'Streak', value: '${streakDays}d', accentColor: _DC.streakColor),
         const SizedBox(width: 10),
-        card(emoji: '🏅', label: 'Badges', value: '0', accentColor: _DC.badgeColor),
+        card(emoji: '🏅', label: 'Badges', value: '$badgeCount', accentColor: _DC.badgeColor),
       ],
     );
   }
@@ -438,10 +457,16 @@ class _StatsRow extends StatelessWidget {
 // Daily Challenge Card
 // ---------------------------------------------------------------------------
 class _DailyChallengeCard extends StatelessWidget {
-  const _DailyChallengeCard();
+  final dynamic user;
+  const _DailyChallengeCard({required this.user});
 
   @override
   Widget build(BuildContext context) {
+    final rewards = context.watch<RewardsProvider>();
+    final completed = rewards.questsCompleted % 3;
+    const target = 3;
+    final progress = completed / target;
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -478,14 +503,14 @@ class _DailyChallengeCard extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            'Complete 3 games today',
+            'Complete $target games today',
             style: AppTextStyles.h4.copyWith(color: Colors.white),
           ),
           const SizedBox(height: 14),
           ClipRRect(
             borderRadius: BorderRadius.circular(6),
             child: LinearProgressIndicator(
-              value: 0,
+              value: progress.clamp(0.0, 1.0),
               minHeight: 8,
               backgroundColor: Colors.white.withValues(alpha: 0.30),
               valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
@@ -493,7 +518,7 @@ class _DailyChallengeCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            '0 / 3 completed',
+            '$completed / $target completed',
             style: AppTextStyles.bodySmall.copyWith(
                 color: Colors.white.withValues(alpha: 0.85),
                 fontSize: 12),
@@ -502,7 +527,10 @@ class _DailyChallengeCard extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const QuestsScreen()),
+              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: _DC.challengeStart,
@@ -512,7 +540,7 @@ class _DailyChallengeCard extends StatelessWidget {
                 elevation: 0,
               ),
               child: Text(
-                'Start',
+                completed >= target ? '✅ Done!' : 'Start',
                 style: AppTextStyles.button.copyWith(
                     color: _DC.challengeStart, fontSize: 14),
               ),
@@ -525,24 +553,31 @@ class _DailyChallengeCard extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Featured Games — full-bleed horizontal scroll, fixed 160px item width
+// Featured Games — reads from GameCatalog for the learner's grade
 // ---------------------------------------------------------------------------
 class _FeaturedGamesSection extends StatelessWidget {
-  const _FeaturedGamesSection();
+  final String gradeKey;
+  const _FeaturedGamesSection({required this.gradeKey});
 
-  static const _games = [
-    _GameData(title: 'Multiplication Master', emoji: '🔢',
-        gradient: [Color(0xFFFF6B35), Color(0xFFFF8C66)]),
-    _GameData(title: 'Water Cycle Adventure', emoji: '💧',
-        gradient: [Color(0xFF00BFA5), Color(0xFF00E5CC)]),
-    _GameData(title: 'Grammar Hero Run', emoji: '🏃',
-        gradient: [Color(0xFFE91E63), Color(0xFFFF4081)]),
-    _GameData(title: 'SA Provinces Explorer', emoji: '🗺️',
-        gradient: [Color(0xFF43A047), Color(0xFF66BB6A)]),
-  ];
+  List<Color> _gradientForSubject(String subject) {
+    return switch (subject) {
+      'Mathematics'     => const [Color(0xFFFF6B35), Color(0xFFFF8C66)],
+      'Natural Sciences'=> const [Color(0xFF00BFA5), Color(0xFF00E5CC)],
+      'English'         => const [Color(0xFFE91E63), Color(0xFFFF4081)],
+      'Social Sciences' => const [Color(0xFF43A047), Color(0xFF66BB6A)],
+      'Technology'      => const [Color(0xFF7C4DFF), Color(0xFF9C6FFF)],
+      'EMS'             => const [Color(0xFF009688), Color(0xFF26A69A)],
+      'Life Skills'     => const [Color(0xFFFF9800), Color(0xFFFFB74D)],
+      _                 => const [Color(0xFF5C35F5), Color(0xFF9C27B0)],
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<AuthProvider>().user;
+    var featured = GameCatalog.featured(gradeKey);
+    if (featured.isEmpty) featured = GameCatalog.forGrade(gradeKey).take(4).toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -556,11 +591,18 @@ class _FeaturedGamesSection extends StatelessWidget {
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: _games.length,
+            itemCount: featured.length,
             itemBuilder: (context, index) {
+              final entry = featured[index];
+              final gradient = _gradientForSubject(entry.subject);
               return Padding(
                 padding: const EdgeInsets.only(right: 14),
-                child: _GameCardWidget(data: _games[index]),
+                child: _CatalogGameCard(
+                  entry: entry,
+                  gradient: gradient,
+                  user: user,
+                  gradeKey: gradeKey,
+                ),
               );
             },
           ),
@@ -570,43 +612,54 @@ class _FeaturedGamesSection extends StatelessWidget {
   }
 }
 
-class _GameData {
-  final String title;
-  final String emoji;
+class _CatalogGameCard extends StatelessWidget {
+  final GameCatalogEntry entry;
   final List<Color> gradient;
+  final dynamic user;
+  final String gradeKey;
 
-  const _GameData({
-    required this.title,
-    required this.emoji,
+  const _CatalogGameCard({
+    required this.entry,
     required this.gradient,
+    required this.user,
+    required this.gradeKey,
   });
-}
 
-class _GameCardWidget extends StatelessWidget {
-  final _GameData data;
-
-  const _GameCardWidget({required this.data});
+  void _launch(BuildContext context) {
+    final config = GameConfig(
+      engineType: entry.engineType,
+      subject: entry.subject,
+      grade: gradeKey,
+      topicId: entry.topicId,
+      subtopicId: entry.subtopicId,
+      difficulty: entry.difficulty,
+      extras: entry.extras,
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => GameRouter(config: config, user: user),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => const QuestsScreen()),
-      ),
+      onTap: () => _launch(context),
       child: Container(
         width: 160,
         height: 180,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: data.gradient,
+            colors: gradient,
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: data.gradient.first.withValues(alpha: 0.40),
+              color: gradient.first.withValues(alpha: 0.40),
               blurRadius: 12,
               offset: const Offset(0, 5),
             ),
@@ -618,12 +671,12 @@ class _GameCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(data.emoji, style: const TextStyle(fontSize: 48)),
+              Text(entry.emoji, style: const TextStyle(fontSize: 48)),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    data.title,
+                    entry.title,
                     style: AppTextStyles.bodyMedium.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
@@ -650,28 +703,46 @@ class _GameCardWidget extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Progress Section
+// Progress Section — reads from RewardsProvider.subjectCounts
 // ---------------------------------------------------------------------------
 class _ProgressSection extends StatelessWidget {
-  const _ProgressSection();
+  final RewardsProvider rewards;
+  const _ProgressSection({required this.rewards});
+
+  static const _subjectConfig = [
+    {'key': 'Mathematics',      'label': 'Maths',    'emoji': '🔢', 'color': _DC.mathColor,    'max': 10},
+    {'key': 'Natural Sciences', 'label': 'Science',  'emoji': '🔬', 'color': _DC.scienceColor, 'max': 8},
+    {'key': 'English',          'label': 'English',  'emoji': '📖', 'color': _DC.englishColor, 'max': 8},
+    {'key': 'Social Sciences',  'label': 'Social',   'emoji': '🌍', 'color': Color(0xFF43A047), 'max': 6},
+  ];
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final counts = rewards.subjectCounts;
+
+    final bars = _subjectConfig.map((s) {
+      final count = counts[s['key'] as String] ?? 0;
+      final max   = s['max'] as int;
+      final value = max > 0 ? (count / max).clamp(0.0, 1.0) : 0.0;
+      return _SubjectProgressBar(
+        label:  s['label'] as String,
+        emoji:  s['emoji'] as String,
+        value:  value,
+        color:  s['color'] as Color,
+        isDark: isDark,
+      );
+    }).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('📊 Your Progress', style: AppTextStyles.h3),
         const SizedBox(height: 16),
-        _SubjectProgressBar(label: 'Maths', emoji: '🔢', value: 0.65,
-            color: _DC.mathColor, isDark: isDark),
-        const SizedBox(height: 14),
-        _SubjectProgressBar(label: 'Science', emoji: '🔬', value: 0.45,
-            color: _DC.scienceColor, isDark: isDark),
-        const SizedBox(height: 14),
-        _SubjectProgressBar(label: 'English', emoji: '📖', value: 0.80,
-            color: _DC.englishColor, isDark: isDark),
+        ...bars.map((b) => Padding(
+          padding: const EdgeInsets.only(bottom: 14),
+          child: b,
+        )),
       ],
     );
   }

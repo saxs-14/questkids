@@ -24,11 +24,14 @@ class _QuestsScreenState extends State<QuestsScreen> {
   String _selectedDifficulty = 'All';
 
   static const _subjectFilters = [
-    {'label': 'All', 'emoji': '📚', 'color': AppColors.primary},
-    {'label': 'Mathematics', 'emoji': '🔢', 'color': AppColors.math},
-    {'label': 'Natural Sciences', 'emoji': '🔬', 'color': AppColors.science},
-    {'label': 'English', 'emoji': '📖', 'color': AppColors.english},
+    {'label': 'All',             'emoji': '📚', 'color': AppColors.primary},
+    {'label': 'Mathematics',     'emoji': '🔢', 'color': AppColors.math},
+    {'label': 'Natural Sciences','emoji': '🔬', 'color': AppColors.science},
+    {'label': 'English',         'emoji': '📖', 'color': AppColors.english},
     {'label': 'Social Sciences', 'emoji': '🌍', 'color': AppColors.socialSciences},
+    {'label': 'Technology',      'emoji': '⚙️', 'color': AppColors.technology},
+    {'label': 'Life Skills',     'emoji': '🌟', 'color': AppColors.lifeSkills},
+    {'label': 'EMS',             'emoji': '💰', 'color': Color(0xFF009688)},
   ];
 
   static const _difficultyFilters = ['All', 'Easy', 'Medium', 'Hard'];
@@ -236,9 +239,9 @@ class _QuestsScreenState extends State<QuestsScreen> {
               else
                 SliverPadding(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                  sliver: LayoutBuilder(
+                  sliver: SliverLayoutBuilder(
                     builder: (context, constraints) {
-                      final crossAxisCount = constraints.maxWidth > 600 ? 3 : 2;
+                      final crossAxisCount = constraints.crossAxisExtent > 600 ? 3 : 2;
                       return SliverGrid(
                         delegate: SliverChildBuilderDelegate(
                           (context, index) => _GameCard(
