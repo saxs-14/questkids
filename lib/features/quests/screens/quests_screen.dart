@@ -8,6 +8,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../games/core/game_router.dart';
 import '../../../providers/auth_provider.dart';
+import '../../dashboard/screens/grade1_world_map.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -98,6 +99,11 @@ class _QuestsScreenState extends State<QuestsScreen> {
     final user = context.watch<AuthProvider>().user;
     final grade = user?.grade ?? 'grade4';
     final gradeKey = grade.toLowerCase().replaceAll(' ', '');
+
+    // Grade 1 gets the immersive world map instead of subject tabs
+    if (gradeKey == 'grade1') {
+      return const Grade1WorldMap();
+    }
 
     final subjects = _subjectsFor(gradeKey);
     final activeSubject = _selectedSubject ?? _defaultSubject(gradeKey);
