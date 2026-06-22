@@ -26,7 +26,6 @@ module.exports = {
     "import",
   ],
   rules: {
-    "linebreak-style": ["error", "unix"],
     "quotes": ["error", "double"],
     "import/no-unresolved": 0,
     "indent": ["error", 2],
