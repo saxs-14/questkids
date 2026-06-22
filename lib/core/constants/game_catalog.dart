@@ -55,7 +55,7 @@ class GameCatalog {
       description: 'Count and compare numbers 1–100 in a battle of counting!',
       grade: 'grade1', grades: ['grade1', 'grade2', 'grade3'],
       subject: 'Mathematics', topicId: 'numbers', subtopicId: 'counting',
-      engineType: 'tugOfWar', emoji: '🔢', color: AppColors.math,
+      engineType: 'numberCountingDuel', emoji: '🔢', color: AppColors.math,
       difficulty: 'easy', xpReward: 50, coinsReward: 10, isFeatured: true,
     ),
     GameCatalogEntry(

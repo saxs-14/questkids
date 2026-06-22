@@ -6,6 +6,7 @@ import '../budget_builder/budget_builder_game.dart';
 import '../circuit_builder/circuit_builder_game.dart';
 import '../explorer_map/province_explorer.dart';
 import '../multiples_merge/multiples_merge_game.dart';
+import '../number_counting_duel/number_counting_duel_game.dart';
 import '../runner_collector/grammar_hero_run.dart';
 import '../sequence_builder/sequence_builder_game.dart';
 import '../tug_of_war/tug_of_war_game.dart';
@@ -36,7 +37,8 @@ class GameRouter extends StatelessWidget {
       AppConstants.engineMultiplesMerge => MultiplesMergeGame(config: config, user: user),
       AppConstants.engineSequenceBuilder => SequenceBuilderGame(config: config, user: user),
       AppConstants.engineCircuitBuilder  => CircuitBuilderGame(config: config, user: user),
-      AppConstants.engineBudgetBuilder   => BudgetBuilderGame(config: config, user: user),
+      AppConstants.engineBudgetBuilder       => BudgetBuilderGame(config: config, user: user),
+      AppConstants.engineNumberCountingDuel  => NumberCountingDuelGame(user: user),
       _ => _UnknownEngine(config: config),
     };
   }

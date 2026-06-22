@@ -27,7 +27,8 @@ class AppConstants {
   static const String engineMultiplesMerge   = 'multiplesMerge';
   static const String engineSequenceBuilder  = 'sequenceBuilder';
   static const String engineCircuitBuilder   = 'circuitBuilder';
-  static const String engineBudgetBuilder    = 'budgetBuilder';
+  static const String engineBudgetBuilder       = 'budgetBuilder';
+  static const String engineNumberCountingDuel  = 'numberCountingDuel';
 
   // Gamification
   static const int pointsPerQuiz       = 10;
