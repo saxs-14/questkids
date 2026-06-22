@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../data/models/chat_message_model.dart';
+import 'questy_avatar.dart';
 
 class ChatBubble extends StatelessWidget {
   final ChatMessageModel message;
@@ -22,7 +23,7 @@ class ChatBubble extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (!message.isUser) ...[
-            _BotAvatar(),
+            const QuestyAvatar(size: 36),
             const SizedBox(width: 8),
           ],
           Flexible(
@@ -54,9 +55,7 @@ class ChatBubble extends StatelessWidget {
               child: Text(
                 message.text,
                 style: AppTextStyles.bodyMedium.copyWith(
-                  color: message.isUser
-                      ? Colors.white
-                      : null,
+                  color: message.isUser ? Colors.white : null,
                   height: 1.5,
                 ),
               ),
@@ -72,7 +71,7 @@ class ChatBubble extends StatelessWidget {
   }
 }
 
-class _BotAvatar extends StatelessWidget {
+class _UserAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -80,38 +79,21 @@ class _BotAvatar extends StatelessWidget {
       height: 36,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [AppColors.primary, AppColors.primaryDark],
+          colors: [Color(0xFF7C4DFF), Color(0xFF5C35F5)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.3),
+            color: AppColors.primary.withValues(alpha: 0.30),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
         ],
       ),
       child: const Center(
-        child: Text('🤖', style: TextStyle(fontSize: 18)),
-      ),
-    );
-  }
-}
-
-class _UserAvatar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 36,
-      height: 36,
-      decoration: const BoxDecoration(
-        color: AppColors.accent,
-        shape: BoxShape.circle,
-      ),
-      child: const Center(
-        child: Text('👤', style: TextStyle(fontSize: 18)),
+        child: Text('👧', style: TextStyle(fontSize: 19)),
       ),
     );
   }
@@ -119,8 +101,7 @@ class _UserAvatar extends StatelessWidget {
 
 class _TypingIndicator extends StatefulWidget {
   @override
-  State<_TypingIndicator> createState() =>
-      _TypingIndicatorState();
+  State<_TypingIndicator> createState() => _TypingIndicatorState();
 }
 
 class _TypingIndicatorState extends State<_TypingIndicator>
@@ -139,8 +120,7 @@ class _TypingIndicatorState extends State<_TypingIndicator>
       )..repeat(reverse: true),
     );
     _anims = _controllers
-        .map((c) =>
-            Tween<double>(begin: 0, end: 1).animate(c))
+        .map((c) => Tween<double>(begin: 0, end: 1).animate(c))
         .toList();
     for (int i = 0; i < 3; i++) {
       Future.delayed(Duration(milliseconds: i * 150), () {
@@ -151,9 +131,7 @@ class _TypingIndicatorState extends State<_TypingIndicator>
 
   @override
   void dispose() {
-    for (final c in _controllers) {
-      c.dispose();
-    }
+    for (final c in _controllers) c.dispose();
     super.dispose();
   }
 
@@ -163,7 +141,7 @@ class _TypingIndicatorState extends State<_TypingIndicator>
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          _BotAvatar(),
+          const QuestyAvatar(size: 36),
           const SizedBox(width: 8),
           Container(
             padding: const EdgeInsets.symmetric(
@@ -190,14 +168,12 @@ class _TypingIndicatorState extends State<_TypingIndicator>
                 return AnimatedBuilder(
                   animation: _anims[i],
                   builder: (_, __) => Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 3),
+                    margin: const EdgeInsets.symmetric(horizontal: 3),
                     width: 8,
                     height: 8 + (_anims[i].value * 6),
                     decoration: BoxDecoration(
-                      color: AppColors.primary
-                          .withValues(alpha: 0.3 +
-                              _anims[i].value * 0.7),
+                      color: const Color(0xFFFFB800)
+                          .withValues(alpha: 0.4 + _anims[i].value * 0.6),
                       shape: BoxShape.circle,
                     ),
                   ),
