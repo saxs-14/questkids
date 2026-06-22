@@ -33,7 +33,8 @@ Focus on the weakest areas. No bullet points, no lists — just 2 clear sentence
     return {text: text || "Focus on the identified weak subjects this week with targeted activities."};
   } catch {
     return {
-      text: "Consider scheduling small group sessions for subjects below 60%, and celebrate the strong performers to keep motivation high.",
+      text: "Consider small group sessions for subjects below 60% " +
+        "and celebrate strong performers to maintain motivation.",
     };
   }
 });

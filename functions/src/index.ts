@@ -43,7 +43,7 @@ const transporter = nodemailer.createTransport({
 export const sendEmail = onDocumentCreated(
   {
     document: "emails/{emailId}",
-    database: "default",
+    database: "(default)",
   },
   async (event) => {
     const emailData = event.data?.data();
