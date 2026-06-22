@@ -1,18 +1,10 @@
 import 'dart:async' show StreamSubscription;
-import 'dart:convert' show utf8;
-import 'dart:io' show File;
-import 'dart:typed_data' show Uint8List;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csv/csv.dart';
 import 'package:file_selector/file_selector.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../core/theme/app_colors.dart';
@@ -25,6 +17,7 @@ import '../../../data/repositories/user_repository.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/parent_provider.dart';
 import '../../notifications/screens/notifications_screen.dart';
+import '../../parent/screens/child_analytics_screen.dart';
 
 class ParentDashboard extends StatefulWidget {
   const ParentDashboard({super.key});
@@ -622,156 +615,17 @@ class _ParentReportsTabState extends State<_ParentReportsTab> {
     if (selected == null) {
       return Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          const Icon(Icons.group, size: 64, color: AppColors.textSecondary),
+          const Icon(Icons.bar_chart, size: 64, color: AppColors.textSecondary),
           const SizedBox(height: 12),
           Text('No child selected', style: AppTextStyles.h3),
           const SizedBox(height: 8),
-          Text('Select a child to view reports', style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary)),
+          Text('Select a child to view analytics',
+              style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary)),
         ]),
       );
     }
 
-    final now = DateTime.now();
-    final from = now.subtract(const Duration(days: 7));
-
-    return FutureBuilder<Map<String, dynamic>>(
-      future: ParentRepository().getChildAnalytics(selected.uid, from, now),
-      builder: (context, snap) {
-        if (snap.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (snap.hasError) {
-          return Center(child: Text('Error: ${snap.error}'));
-        }
-
-        final data = snap.data ?? {};
-
-        return SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('Last 7 days', style: AppTextStyles.h3),
-            const SizedBox(height: 12),
-            Row(children: [
-              ElevatedButton.icon(onPressed: () => _exportCsv(selected), icon: const Icon(Icons.file_present), label: const Text('Export CSV')),
-              const SizedBox(width: 8),
-              OutlinedButton.icon(onPressed: () => _exportPdf(selected), icon: const Icon(Icons.picture_as_pdf), label: const Text('Export PDF')),
-            ]),
-            const SizedBox(height: 12),
-            Row(children: [
-              Expanded(child: _ReportCard(label: 'Games', value: (data['totalGames'] ?? 0).toString(), icon: Icons.videogame_asset)),
-              const SizedBox(width: 12),
-              Expanded(child: _ReportCard(label: 'Avg Score', value: '${(data['avgScore'] ?? 0).toStringAsFixed(1)}%', icon: Icons.show_chart)),
-            ]),
-            const SizedBox(height: 12),
-            Row(children: [
-              Expanded(child: _ReportCard(label: 'Points', value: (data['pointsEarned'] ?? 0).toString(), icon: Icons.star)),
-              const SizedBox(width: 12),
-              Expanded(child: _ReportCard(label: 'Best Subject', value: (data['bestSubject'] ?? 'N/A').toString(), icon: Icons.book)),
-            ]),
-            const SizedBox(height: 20),
-            Text('Subject Breakdown', style: AppTextStyles.h4),
-            const SizedBox(height: 8),
-            _SubjectBreakdown(breakdown: Map<String, List>.from(data['subjectBreakdown'] ?? {})),
-          ]),
-        );
-      },
-    );
-  }
-
-  Future<void> _exportCsv(dynamic selected) async {
-    try {
-      final rows = <List<dynamic>>[];
-      rows.add(['Date', 'Activity', 'Score', 'Points']);
-      final progresses = await ParentRepository().getChildProgress(selected.uid, limit: 1000);
-      for (final p in progresses) {
-        rows.add([p.completedAt.toIso8601String(), p.activityTitle, p.score, p.pointsEarned]);
-      }
-      final csv = const ListToCsvConverter().convert(rows);
-      if (kIsWeb) {
-        // Web: share from bytes — no dart:io File access available
-        final bytes = Uint8List.fromList(utf8.encode(csv));
-        await Share.shareXFiles(
-          [XFile.fromData(bytes, name: '${selected.uid}_report.csv', mimeType: 'text/csv')],
-          text: 'Child report CSV',
-        );
-      } else {
-        final dir = await getTemporaryDirectory();
-        final file = File('${dir.path}/${selected.uid}_report.csv');
-        await file.writeAsString(csv);
-        await Share.shareXFiles([XFile(file.path)], text: 'Child report CSV');
-      }
-    } catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Export failed: $e')));
-    }
-  }
-
-  Future<void> _exportPdf(dynamic selected) async {
-    try {
-      final pdf = pw.Document();
-      final progresses = await ParentRepository().getChildProgress(selected.uid, limit: 1000);
-      pdf.addPage(pw.MultiPage(build: (ctx) {
-        return [
-          pw.Header(level: 0, child: pw.Text('Child Report')),
-          pw.Paragraph(text: 'Generated on ${DateTime.now().toLocal()}'),
-          pw.TableHelper.fromTextArray(context: ctx, data: <List<String>>[
-            ['Date', 'Activity', 'Score', 'Points'],
-            ...progresses.map((p) => [p.completedAt.toIso8601String(), p.activityTitle, p.score.toString(), p.pointsEarned.toString()])
-          ])
-        ];
-      }));
-
-      final bytes = await pdf.save();
-      await Printing.sharePdf(bytes: bytes, filename: '${selected.uid}_report.pdf');
-    } catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('PDF export failed: $e')));
-    }
-  }
-}
-
-class _ReportCard extends StatelessWidget {
-  final String label;
-  final String value;
-  final IconData icon;
-
-  const _ReportCard({required this.label, required this.value, required this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.primary.withValues(alpha: 0.06)),
-      ),
-      child: Row(children: [
-        CircleAvatar(backgroundColor: AppColors.primary.withValues(alpha: 0.12), child: Icon(icon, color: AppColors.primary)),
-        const SizedBox(width: 12),
-        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(label, style: AppTextStyles.bodySmall.copyWith(color: AppColors.textSecondary)),
-          const SizedBox(height: 4),
-          Text(value, style: AppTextStyles.h4),
-        ])
-      ]),
-    );
-  }
-}
-
-class _SubjectBreakdown extends StatelessWidget {
-  final Map<String, List> breakdown;
-
-  const _SubjectBreakdown({required this.breakdown});
-
-  @override
-  Widget build(BuildContext context) {
-    if (breakdown.isEmpty) return Text('No subject data', style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary));
-    return Column(children: breakdown.entries.map((e) {
-      final avg = (e.value).isNotEmpty ? ((e.value).reduce((a, b) => a + b) / (e.value).length) : 0;
-      return ListTile(
-        title: Text(e.key),
-        trailing: Text('${avg.toStringAsFixed(1)}%'),
-      );
-    }).toList());
+    return ChildAnalyticsScreen(child: selected);
   }
 }
 

@@ -337,4 +337,44 @@ class ParentRepository {
   Future<void> declineProgress(String progressId) async {
     await _db.collection('progress').doc(progressId).update({'verified': false});
   }
+
+  Future<Map<String, double>> getWeeklyScoreTrend(String childUid) async {
+    final Map<String, double> result = {};
+    for (int i = 7; i >= 0; i--) {
+      final weekStart = DateTime.now().subtract(Duration(days: i * 7));
+      final weekEnd = weekStart.add(const Duration(days: 7));
+      final snap = await _db
+          .collection('game_sessions')
+          .where('uid', isEqualTo: childUid)
+          .where('completedAt', isGreaterThanOrEqualTo: Timestamp.fromDate(weekStart))
+          .where('completedAt', isLessThan: Timestamp.fromDate(weekEnd))
+          .get();
+      final key = 'W${8 - i}';
+      if (snap.docs.isEmpty) {
+        result[key] = 0;
+      } else {
+        final avg = snap.docs
+            .map((d) => (d.data()['score'] as num?)?.toDouble() ?? 0)
+            .reduce((a, b) => a + b) / snap.docs.length;
+        result[key] = avg;
+      }
+    }
+    return result;
+  }
+
+  Future<Map<String, int>> getTimeSpentBySubject(String childUid) async {
+    final snap = await _db
+        .collection('game_sessions')
+        .where('uid', isEqualTo: childUid)
+        .where('completedAt', isGreaterThanOrEqualTo: Timestamp.fromDate(
+            DateTime.now().subtract(const Duration(days: 30))))
+        .get();
+    final Map<String, int> totals = {};
+    for (final doc in snap.docs) {
+      final subj = doc.data()['subject'] as String? ?? 'Other';
+      final secs = (doc.data()['timeTakenSeconds'] as num?)?.toInt() ?? 0;
+      totals[subj] = (totals[subj] ?? 0) + secs;
+    }
+    return totals;
+  }
 }

@@ -8,6 +8,7 @@ import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/theme_provider.dart';
 import '../../../core/widgets/profile_avatar_picker.dart';
 import '../../../core/widgets/responsive_scaffold.dart';
+import '../../teacher/screens/class_analytics_screen.dart';
 import '../../../data/models/user_model.dart';
 import '../../../data/repositories/user_repository.dart';
 import '../../../providers/auth_provider.dart';
@@ -56,6 +57,10 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
             activeIcon: Icons.assignment,
             label: 'Activities'),
         ResponsiveDestination(
+            icon: Icons.analytics_outlined,
+            activeIcon: Icons.analytics,
+            label: 'Analytics'),
+        ResponsiveDestination(
             icon: Icons.person_outline, activeIcon: Icons.person, label: 'Profile'),
       ],
       appBar: AppBar(
@@ -87,7 +92,7 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: GestureDetector(
-              onTap: () => setState(() => _selectedIndex = 3),
+              onTap: () => setState(() => _selectedIndex = 4),
               child: CircleAvatar(
                 backgroundColor: Colors.white24,
                 backgroundImage: user?.avatarUrl != null
@@ -132,6 +137,7 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
           _HomeTab(teacherUid: uid),
           _ClassTab(teacherUid: uid),
           _ActivitiesTab(teacherUid: uid),
+          ClassAnalyticsScreen(teacherUid: uid),
           const _ProfileTab(),
         ],
       ),

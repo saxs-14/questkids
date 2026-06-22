@@ -16,6 +16,7 @@ import * as nodemailer from "nodemailer";
 export {questbotChat, analyzeImage, getRecommendation, explainAnswer, generateHint} from "./gemini/proxy";
 export {refreshLeaderboards} from "./leaderboard/refresh";
 export {generateDailyMissions} from "./missions/generate";
+export {getTeacherInsight} from "./teacher/insights";
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();
