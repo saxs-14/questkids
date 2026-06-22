@@ -1,6 +1,6 @@
-# QuestKids 2.0 - Gamified EdTech Learning Platform
+# QuestKids - Gamified EdTech Learning Platform
 
-QuestKids 2.0 is a **Flutter-based gamified learning platform** built for South African learners in Grades 1–7. It features an animated learner adventure, AI-powered tutoring via Gemini, and comprehensive dashboards for teachers and parents.
+QuestKids is a **Flutter-based gamified learning platform** built for South African learners in Grades 1–7. It features an animated learner adventure, AI-powered tutoring via Gemini, and comprehensive dashboards for teachers and parents.
 
 **Repository:** [saxs-14/questkids](https://github.com/saxs-14/questkids.git)
 
