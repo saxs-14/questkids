@@ -5,8 +5,83 @@
   "subject": "English",
   "title": "Punctuation Police",
   "tagline": "Catch missing punctuation and fix sentences correctly!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#E91E63",
   "emoji": "❗",
-  "_scaffold": true,
-  "levels": []
+  "levels": [
+    {
+      "targetClass": "full stop",
+      "missionLabel": "Collect statements! 🔵",
+      "scrollSpeed": 0.09,
+      "buckets": {
+        "full stop": [
+          "I like dogs.",
+          "She went home.",
+          "It is raining.",
+          "We play soccer."
+        ],
+        "question mark": [
+          "Are you okay?",
+          "What is your name?",
+          "Where do you live?",
+          "Can you help me?"
+        ],
+        "exclamation mark": [
+          "Watch out!",
+          "That is amazing!",
+          "Let's go!",
+          "Wow, well done!"
+        ]
+      }
+    },
+    {
+      "targetClass": "question mark",
+      "missionLabel": "Collect questions! ❓",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "full stop": [
+          "I like dogs.",
+          "She went home.",
+          "It is raining.",
+          "We play soccer."
+        ],
+        "question mark": [
+          "Are you okay?",
+          "What is your name?",
+          "Where do you live?",
+          "Can you help me?"
+        ],
+        "exclamation mark": [
+          "Watch out!",
+          "That is amazing!",
+          "Let's go!",
+          "Wow, well done!"
+        ]
+      }
+    },
+    {
+      "targetClass": "exclamation mark",
+      "missionLabel": "Collect exclamations! ❗",
+      "scrollSpeed": 0.12,
+      "buckets": {
+        "full stop": [
+          "I like dogs.",
+          "She went home.",
+          "It is raining.",
+          "We play soccer."
+        ],
+        "question mark": [
+          "Are you okay?",
+          "What is your name?",
+          "Where do you live?",
+          "Can you help me?"
+        ],
+        "exclamation mark": [
+          "Watch out!",
+          "That is amazing!",
+          "Let's go!",
+          "Wow, well done!"
+        ]
+      }
+    }
+  ]
 }

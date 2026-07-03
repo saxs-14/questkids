@@ -5,11 +5,20 @@
   "subject": "Mathematics",
   "title": "Fraction Forest",
   "tagline": "Navigate the fraction forest — compare, simplify and add fractions!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF6B35",
   "emoji": "🌲",
-  "_scaffold": true,
   "mode": "numeric",
-  "gridSize": 4,
-  "chainLength": 4,
-  "tables": []
+  "gridSize": 5,
+  "chainLength": 5,
+  "tables": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    9,
+    10,
+    12
+  ]
 }

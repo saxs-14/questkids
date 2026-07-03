@@ -5,9 +5,169 @@
   "subject": "EMS",
   "title": "Entrepreneurship",
   "tagline": "Start your business — identify opportunities, plan and pitch your idea!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#009688",
   "emoji": "🚀",
-  "_scaffold": true,
   "characterEmoji": "🚀",
-  "stages": []
+  "stages": [
+    {
+      "id": "ems_g7_entrepreneur_0",
+      "name": "Stage 1",
+      "emoji": "🚀",
+      "themeColorHex": "#009688",
+      "question": "What is an entrepreneur?",
+      "options": [
+        "The specific group of customers a business aims to reach",
+        "Someone who starts and runs their own business",
+        "The chance of losing money or failing",
+        "A document outlining how a business will operate and grow"
+      ],
+      "correctOption": "Someone who starts and runs their own business",
+      "correctFeedback": "Yes! Someone who starts and runs their own business is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Someone who starts and runs their own business."
+    },
+    {
+      "id": "ems_g7_entrepreneur_1",
+      "name": "Stage 2",
+      "emoji": "🚀",
+      "themeColorHex": "#009688",
+      "question": "What is a business plan?",
+      "options": [
+        "A unique selling point that makes a business stand out",
+        "A document outlining how a business will operate and grow",
+        "It helps you understand what customers want",
+        "The money needed to start a business"
+      ],
+      "correctOption": "A document outlining how a business will operate and grow",
+      "correctFeedback": "Yes! A document outlining how a business will operate and grow is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A document outlining how a business will operate and grow."
+    },
+    {
+      "id": "ems_g7_entrepreneur_2",
+      "name": "Stage 3",
+      "emoji": "🚀",
+      "themeColorHex": "#009688",
+      "question": "What is 'startup capital'?",
+      "options": [
+        "Someone who starts and runs their own business",
+        "The specific group of customers a business aims to reach",
+        "The money needed to start a business",
+        "It helps customers remember and trust the brand"
+      ],
+      "correctOption": "The money needed to start a business",
+      "correctFeedback": "Yes! The money needed to start a business is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The money needed to start a business."
+    },
+    {
+      "id": "ems_g7_entrepreneur_3",
+      "name": "Stage 4",
+      "emoji": "🚀",
+      "themeColorHex": "#009688",
+      "question": "Why is market research important?",
+      "options": [
+        "It helps customers remember and trust the brand",
+        "The chance of losing money or failing",
+        "It helps you understand what customers want",
+        "The money left after subtracting costs from income"
+      ],
+      "correctOption": "It helps you understand what customers want",
+      "correctFeedback": "Yes! It helps you understand what customers want is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It helps you understand what customers want."
+    },
+    {
+      "id": "ems_g7_entrepreneur_4",
+      "name": "Stage 5",
+      "emoji": "🚀",
+      "themeColorHex": "#009688",
+      "question": "What is a 'target market'?",
+      "options": [
+        "It helps you understand what customers want",
+        "The money left after subtracting costs from income",
+        "Because they will face setbacks and must keep going",
+        "The specific group of customers a business aims to reach"
+      ],
+      "correctOption": "The specific group of customers a business aims to reach",
+      "correctFeedback": "Yes! The specific group of customers a business aims to reach is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The specific group of customers a business aims to reach."
+    },
+    {
+      "id": "ems_g7_entrepreneur_5",
+      "name": "Stage 6",
+      "emoji": "🚀",
+      "themeColorHex": "#009688",
+      "question": "What does 'profit' mean?",
+      "options": [
+        "It helps you understand what customers want",
+        "The chance of losing money or failing",
+        "The money left after subtracting costs from income",
+        "The money needed to start a business"
+      ],
+      "correctOption": "The money left after subtracting costs from income",
+      "correctFeedback": "Yes! The money left after subtracting costs from income is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The money left after subtracting costs from income."
+    },
+    {
+      "id": "ems_g7_entrepreneur_6",
+      "name": "Stage 7",
+      "emoji": "🚀",
+      "themeColorHex": "#009688",
+      "question": "What is a USP?",
+      "options": [
+        "A unique selling point that makes a business stand out",
+        "A document outlining how a business will operate and grow",
+        "The specific group of customers a business aims to reach",
+        "The money needed to start a business"
+      ],
+      "correctOption": "A unique selling point that makes a business stand out",
+      "correctFeedback": "Yes! A unique selling point that makes a business stand out is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A unique selling point that makes a business stand out."
+    },
+    {
+      "id": "ems_g7_entrepreneur_7",
+      "name": "Stage 8",
+      "emoji": "🚀",
+      "themeColorHex": "#009688",
+      "question": "Why is a good product name important?",
+      "options": [
+        "The specific group of customers a business aims to reach",
+        "It helps customers remember and trust the brand",
+        "A unique selling point that makes a business stand out",
+        "The money left after subtracting costs from income"
+      ],
+      "correctOption": "It helps customers remember and trust the brand",
+      "correctFeedback": "Yes! It helps customers remember and trust the brand is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It helps customers remember and trust the brand."
+    },
+    {
+      "id": "ems_g7_entrepreneur_8",
+      "name": "Stage 9",
+      "emoji": "🚀",
+      "themeColorHex": "#009688",
+      "question": "What is 'risk' in business?",
+      "options": [
+        "The chance of losing money or failing",
+        "The specific group of customers a business aims to reach",
+        "It helps customers remember and trust the brand",
+        "It helps you understand what customers want"
+      ],
+      "correctOption": "The chance of losing money or failing",
+      "correctFeedback": "Yes! The chance of losing money or failing is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The chance of losing money or failing."
+    },
+    {
+      "id": "ems_g7_entrepreneur_9",
+      "name": "Stage 10",
+      "emoji": "🚀",
+      "themeColorHex": "#009688",
+      "question": "Why do entrepreneurs need to be resilient?",
+      "options": [
+        "Because they will face setbacks and must keep going",
+        "Someone who starts and runs their own business",
+        "A document outlining how a business will operate and grow",
+        "It helps you understand what customers want"
+      ],
+      "correctOption": "Because they will face setbacks and must keep going",
+      "correctFeedback": "Yes! Because they will face setbacks and must keep going is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Because they will face setbacks and must keep going."
+    }
+  ]
 }

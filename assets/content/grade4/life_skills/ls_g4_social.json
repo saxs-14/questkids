@@ -5,9 +5,169 @@
   "subject": "Life Skills",
   "title": "Social Skills",
   "tagline": "Build teamwork, communication and conflict resolution skills!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF9800",
   "emoji": "🤝",
-  "_scaffold": true,
   "characterEmoji": "🤝",
-  "stages": []
+  "stages": [
+    {
+      "id": "ls_g4_social_0",
+      "name": "Stage 1",
+      "emoji": "🤝",
+      "themeColorHex": "#FF9800",
+      "question": "What is 'teamwork'?",
+      "options": [
+        "Someone who listens and supports the team",
+        "Listen without interrupting",
+        "Own up and help fix it",
+        "Working together towards a shared goal"
+      ],
+      "correctOption": "Working together towards a shared goal",
+      "correctFeedback": "Yes! Working together towards a shared goal is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Working together towards a shared goal."
+    },
+    {
+      "id": "ls_g4_social_1",
+      "name": "Stage 2",
+      "emoji": "🤝",
+      "themeColorHex": "#FF9800",
+      "question": "Why is listening important in a team?",
+      "options": [
+        "Own up and help fix it",
+        "It helps you understand others' ideas",
+        "So everyone contributes and no one is overloaded",
+        "It helps members rely on each other"
+      ],
+      "correctOption": "It helps you understand others' ideas",
+      "correctFeedback": "Yes! It helps you understand others' ideas is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It helps you understand others' ideas."
+    },
+    {
+      "id": "ls_g4_social_2",
+      "name": "Stage 3",
+      "emoji": "🤝",
+      "themeColorHex": "#FF9800",
+      "question": "What should you do if a teammate disagrees with you?",
+      "options": [
+        "An agreement where each side gives a little",
+        "Someone who listens and supports the team",
+        "So everyone contributes and no one is overloaded",
+        "Listen and find a compromise"
+      ],
+      "correctOption": "Listen and find a compromise",
+      "correctFeedback": "Yes! Listen and find a compromise is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Listen and find a compromise."
+    },
+    {
+      "id": "ls_g4_social_3",
+      "name": "Stage 4",
+      "emoji": "🤝",
+      "themeColorHex": "#FF9800",
+      "question": "What is a 'compromise'?",
+      "options": [
+        "An agreement where each side gives a little",
+        "It helps you understand others' ideas",
+        "So everyone contributes and no one is overloaded",
+        "Working together towards a shared goal"
+      ],
+      "correctOption": "An agreement where each side gives a little",
+      "correctFeedback": "Yes! An agreement where each side gives a little is right — onward!",
+      "wrongFeedback": "Not quite — the answer is An agreement where each side gives a little."
+    },
+    {
+      "id": "ls_g4_social_4",
+      "name": "Stage 5",
+      "emoji": "🤝",
+      "themeColorHex": "#FF9800",
+      "question": "Why is it important to share tasks fairly?",
+      "options": [
+        "Working together towards a shared goal",
+        "So everyone contributes and no one is overloaded",
+        "Someone who listens and supports the team",
+        "Understanding how someone else feels"
+      ],
+      "correctOption": "So everyone contributes and no one is overloaded",
+      "correctFeedback": "Yes! So everyone contributes and no one is overloaded is right — onward!",
+      "wrongFeedback": "Not quite — the answer is So everyone contributes and no one is overloaded."
+    },
+    {
+      "id": "ls_g4_social_5",
+      "name": "Stage 6",
+      "emoji": "🤝",
+      "themeColorHex": "#FF9800",
+      "question": "What makes a good team leader?",
+      "options": [
+        "Someone who listens and supports the team",
+        "Listen without interrupting",
+        "It helps you understand others' ideas",
+        "An agreement where each side gives a little"
+      ],
+      "correctOption": "Someone who listens and supports the team",
+      "correctFeedback": "Yes! Someone who listens and supports the team is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Someone who listens and supports the team."
+    },
+    {
+      "id": "ls_g4_social_6",
+      "name": "Stage 7",
+      "emoji": "🤝",
+      "themeColorHex": "#FF9800",
+      "question": "What should you do if you make a mistake in a team project?",
+      "options": [
+        "Own up and help fix it",
+        "Working together towards a shared goal",
+        "Someone who listens and supports the team",
+        "Listen and find a compromise"
+      ],
+      "correctOption": "Own up and help fix it",
+      "correctFeedback": "Yes! Own up and help fix it is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Own up and help fix it."
+    },
+    {
+      "id": "ls_g4_social_7",
+      "name": "Stage 8",
+      "emoji": "🤝",
+      "themeColorHex": "#FF9800",
+      "question": "Why is trust important in a team?",
+      "options": [
+        "It helps members rely on each other",
+        "Own up and help fix it",
+        "Listen without interrupting",
+        "Working together towards a shared goal"
+      ],
+      "correctOption": "It helps members rely on each other",
+      "correctFeedback": "Yes! It helps members rely on each other is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It helps members rely on each other."
+    },
+    {
+      "id": "ls_g4_social_8",
+      "name": "Stage 9",
+      "emoji": "🤝",
+      "themeColorHex": "#FF9800",
+      "question": "What is 'empathy'?",
+      "options": [
+        "Listen and find a compromise",
+        "Listen without interrupting",
+        "Someone who listens and supports the team",
+        "Understanding how someone else feels"
+      ],
+      "correctOption": "Understanding how someone else feels",
+      "correctFeedback": "Yes! Understanding how someone else feels is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Understanding how someone else feels."
+    },
+    {
+      "id": "ls_g4_social_9",
+      "name": "Stage 10",
+      "emoji": "🤝",
+      "themeColorHex": "#FF9800",
+      "question": "How can you show respect for a teammate's ideas?",
+      "options": [
+        "Listen without interrupting",
+        "So everyone contributes and no one is overloaded",
+        "Listen and find a compromise",
+        "Working together towards a shared goal"
+      ],
+      "correctOption": "Listen without interrupting",
+      "correctFeedback": "Yes! Listen without interrupting is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Listen without interrupting."
+    }
+  ]
 }

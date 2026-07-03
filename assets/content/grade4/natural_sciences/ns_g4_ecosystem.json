@@ -5,8 +5,383 @@
   "subject": "Natural Sciences",
   "title": "Ecosystem Explorer",
   "tagline": "Explore food chains, habitats and ecosystems across South Africa!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#00BFA5",
   "emoji": "🌿",
-  "_scaffold": true,
-  "circuits": []
+  "circuits": [
+    {
+      "id": "sun_producer",
+      "description": "Complete the energy flow: the sun powers this first link.",
+      "layout": "☀️ —?— 🐇",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "grass",
+          "emoji": "🌱",
+          "hint": "Plants capture the sun’s energy"
+        }
+      ],
+      "bank": [
+        "grass",
+        "fox",
+        "hawk",
+        "water"
+      ],
+      "labels": {
+        "grass": "🌱 Grass (producer)",
+        "fox": "🦊 Fox",
+        "hawk": "🦅 Hawk",
+        "water": "💧 Water"
+      }
+    },
+    {
+      "id": "herbivore_link",
+      "description": "Which animal eats the grass?",
+      "layout": "🌱 —?— 🦊",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "rabbit",
+          "emoji": "🐇",
+          "hint": "A herbivore eats plants directly"
+        }
+      ],
+      "bank": [
+        "rabbit",
+        "hawk",
+        "grass",
+        "sun"
+      ],
+      "labels": {
+        "rabbit": "🐇 Rabbit (herbivore)",
+        "hawk": "🦅 Hawk",
+        "grass": "🌱 Grass",
+        "sun": "☀️ Sun"
+      }
+    },
+    {
+      "id": "predator_link",
+      "description": "A fox eats the rabbit. What do we call the fox in this chain?",
+      "layout": "🐇 —?— 🦅",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "fox",
+          "emoji": "🦊",
+          "hint": "A predator that eats herbivores"
+        }
+      ],
+      "bank": [
+        "fox",
+        "grass",
+        "sun",
+        "water"
+      ],
+      "labels": {
+        "fox": "🦊 Fox (predator)",
+        "grass": "🌱 Grass",
+        "sun": "☀️ Sun",
+        "water": "💧 Water"
+      }
+    },
+    {
+      "id": "decomposer_link",
+      "description": "What breaks down the dead fox and returns nutrients to the soil?",
+      "layout": "🦊(dead) —?— 🌱",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "fungi",
+          "emoji": "🍄",
+          "hint": "Decomposers recycle nutrients"
+        }
+      ],
+      "bank": [
+        "fungi",
+        "hawk",
+        "rabbit",
+        "sun"
+      ],
+      "labels": {
+        "fungi": "🍄 Fungi (decomposer)",
+        "hawk": "🦅 Hawk",
+        "rabbit": "🐇 Rabbit",
+        "sun": "☀️ Sun"
+      }
+    },
+    {
+      "id": "apex_predator",
+      "description": "What sits at the top of this food chain, with no natural predators here?",
+      "layout": "🦊 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "hawk",
+          "emoji": "🦅",
+          "hint": "An apex predator"
+        }
+      ],
+      "bank": [
+        "hawk",
+        "grass",
+        "fungi",
+        "sun"
+      ],
+      "labels": {
+        "hawk": "🦅 Hawk (apex predator)",
+        "grass": "🌱 Grass",
+        "fungi": "🍄 Fungi",
+        "sun": "☀️ Sun"
+      }
+    },
+    {
+      "id": "habitat_water",
+      "description": "Every ecosystem link also needs this abiotic resource.",
+      "layout": "🌱 ← ?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "water",
+          "emoji": "💧",
+          "hint": "A non-living but essential resource"
+        }
+      ],
+      "bank": [
+        "water",
+        "fox",
+        "hawk",
+        "fungi"
+      ],
+      "labels": {
+        "water": "💧 Water",
+        "fox": "🦊 Fox",
+        "hawk": "🦅 Hawk",
+        "fungi": "🍄 Fungi"
+      }
+    },
+    {
+      "id": "energy_source",
+      "description": "What is the ultimate energy source for almost every ecosystem?",
+      "layout": "?— 🌱",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "sun",
+          "emoji": "☀️",
+          "hint": "Nearly all energy chains start here"
+        }
+      ],
+      "bank": [
+        "sun",
+        "water",
+        "soil",
+        "fungi"
+      ],
+      "labels": {
+        "sun": "☀️ Sun",
+        "water": "💧 Water",
+        "soil": "🟤 Soil",
+        "fungi": "🍄 Fungi"
+      }
+    },
+    {
+      "id": "soil_nutrients",
+      "description": "Decomposed matter enriches this before plants can use it again.",
+      "layout": "🍄 —?— 🌱",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "soil",
+          "emoji": "🟤",
+          "hint": "Nutrients return to the soil"
+        }
+      ],
+      "bank": [
+        "soil",
+        "hawk",
+        "fox",
+        "sun"
+      ],
+      "labels": {
+        "soil": "🟤 Soil",
+        "hawk": "🦅 Hawk",
+        "fox": "🦊 Fox",
+        "sun": "☀️ Sun"
+      }
+    },
+    {
+      "id": "scavenger_link",
+      "description": "A vulture that eats the dead hawk is called a...?",
+      "layout": "🦅(dead) —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "scavenger",
+          "emoji": "🦴",
+          "hint": "Eats animals it did not kill"
+        }
+      ],
+      "bank": [
+        "scavenger",
+        "producer",
+        "herbivore",
+        "sun"
+      ],
+      "labels": {
+        "scavenger": "🦴 Scavenger (vulture)",
+        "producer": "🌱 Producer",
+        "herbivore": "🐇 Herbivore",
+        "sun": "☀️ Sun"
+      }
+    },
+    {
+      "id": "balance_link",
+      "description": "If foxes disappeared, what would likely increase first?",
+      "layout": "🦊(gone) —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "rabbits",
+          "emoji": "🐇",
+          "hint": "Fewer predators means more prey survive"
+        }
+      ],
+      "bank": [
+        "rabbits",
+        "grass",
+        "sun",
+        "fungi"
+      ],
+      "labels": {
+        "rabbits": "🐇 Rabbits",
+        "grass": "🌱 Grass",
+        "sun": "☀️ Sun",
+        "fungi": "🍄 Fungi"
+      }
+    },
+    {
+      "id": "overgrazing_link",
+      "description": "Too many rabbits and not enough foxes can lead to overgrazed...?",
+      "layout": "🐇🐇🐇 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "grass",
+          "emoji": "🌱",
+          "hint": "The producer level gets depleted"
+        }
+      ],
+      "bank": [
+        "grass",
+        "water",
+        "soil",
+        "sun"
+      ],
+      "labels": {
+        "grass": "🌱 Grass",
+        "water": "💧 Water",
+        "soil": "🟤 Soil",
+        "sun": "☀️ Sun"
+      }
+    },
+    {
+      "id": "interdependence_link",
+      "description": "This word describes how every part of the ecosystem relies on the others.",
+      "layout": "🌱🐇🦊🦅 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "interdependence",
+          "emoji": "🔗",
+          "hint": "Nothing survives completely on its own"
+        }
+      ],
+      "bank": [
+        "interdependence",
+        "isolation",
+        "competition",
+        "migration"
+      ],
+      "labels": {
+        "interdependence": "🔗 Interdependence",
+        "isolation": "🚧 Isolation",
+        "competition": "⚔️ Competition",
+        "migration": "🕊️ Migration"
+      }
+    },
+    {
+      "id": "sa_example_kruger",
+      "description": "In the Kruger National Park, this big cat is a top predator.",
+      "layout": "🦌 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "lion",
+          "emoji": "🦁",
+          "hint": "An apex predator of the savanna"
+        }
+      ],
+      "bank": [
+        "lion",
+        "impala",
+        "grass",
+        "termite"
+      ],
+      "labels": {
+        "lion": "🦁 Lion",
+        "impala": "🦌 Impala",
+        "grass": "🌱 Grass",
+        "termite": "🐜 Termite"
+      }
+    },
+    {
+      "id": "sa_example_impala",
+      "description": "This herbivore grazes on savanna grass in South Africa.",
+      "layout": "🌱 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "impala",
+          "emoji": "🦌",
+          "hint": "A common antelope herbivore"
+        }
+      ],
+      "bank": [
+        "impala",
+        "lion",
+        "termite",
+        "vulture"
+      ],
+      "labels": {
+        "impala": "🦌 Impala",
+        "lion": "🦁 Lion",
+        "termite": "🐜 Termite",
+        "vulture": "🦅 Vulture"
+      }
+    },
+    {
+      "id": "sa_example_termite",
+      "description": "This insect decomposes plant matter and aerates the soil.",
+      "layout": "🌱(dead) —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "termite",
+          "emoji": "🐜",
+          "hint": "A decomposer and soil engineer"
+        }
+      ],
+      "bank": [
+        "termite",
+        "lion",
+        "impala",
+        "sun"
+      ],
+      "labels": {
+        "termite": "🐜 Termite",
+        "lion": "🦁 Lion",
+        "impala": "🦌 Impala",
+        "sun": "☀️ Sun"
+      }
+    }
+  ]
 }

@@ -5,8 +5,89 @@
   "subject": "English",
   "title": "Poetry Explorer",
   "tagline": "Identify rhyme, rhythm and poetic devices in fun poems!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#E91E63",
   "emoji": "🎭",
-  "_scaffold": true,
-  "levels": []
+  "levels": [
+    {
+      "targetClass": "simile",
+      "missionLabel": "Collect similes! 🦁",
+      "scrollSpeed": 0.09,
+      "buckets": {
+        "simile": [
+          "as brave as a lion",
+          "like a shining star",
+          "as quiet as a mouse",
+          "like a rolling wave"
+        ],
+        "metaphor": [
+          "the classroom is a zoo",
+          "time is money",
+          "her voice is music",
+          "the world is a stage"
+        ],
+        "onomatopoeia": [
+          "buzz",
+          "crash",
+          "sizzle",
+          "splash",
+          "boom",
+          "whisper"
+        ]
+      }
+    },
+    {
+      "targetClass": "metaphor",
+      "missionLabel": "Collect metaphors! 🎭",
+      "scrollSpeed": 0.11,
+      "buckets": {
+        "simile": [
+          "as brave as a lion",
+          "like a shining star",
+          "as quiet as a mouse",
+          "like a rolling wave"
+        ],
+        "metaphor": [
+          "the classroom is a zoo",
+          "time is money",
+          "her voice is music",
+          "the world is a stage"
+        ],
+        "onomatopoeia": [
+          "buzz",
+          "crash",
+          "sizzle",
+          "splash",
+          "boom",
+          "whisper"
+        ]
+      }
+    },
+    {
+      "targetClass": "onomatopoeia",
+      "missionLabel": "Collect onomatopoeia! 💥",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "simile": [
+          "as brave as a lion",
+          "like a shining star",
+          "as quiet as a mouse",
+          "like a rolling wave"
+        ],
+        "metaphor": [
+          "the classroom is a zoo",
+          "time is money",
+          "her voice is music",
+          "the world is a stage"
+        ],
+        "onomatopoeia": [
+          "buzz",
+          "crash",
+          "sizzle",
+          "splash",
+          "boom",
+          "whisper"
+        ]
+      }
+    }
+  ]
 }

@@ -5,9 +5,169 @@
   "subject": "Mathematics",
   "title": "Probability Play",
   "tagline": "Calculate simple probability and understand events and outcomes!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF6B35",
   "emoji": "🎲",
-  "_scaffold": true,
   "characterEmoji": "🎲",
-  "stages": []
+  "stages": [
+    {
+      "id": "math_g7_probability_0",
+      "name": "Stage 1",
+      "emoji": "🎲",
+      "themeColorHex": "#FF6B35",
+      "question": "A bag has 12 marbles, and 10 of them are red. What is the probability of picking a red marble?",
+      "options": [
+        "1/12",
+        "6/12",
+        "7/12",
+        "10/12"
+      ],
+      "correctOption": "10/12",
+      "correctFeedback": "Yes! 10/12 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 10/12."
+    },
+    {
+      "id": "math_g7_probability_1",
+      "name": "Stage 2",
+      "emoji": "🎲",
+      "themeColorHex": "#FF6B35",
+      "question": "A bag has 7 marbles, and 3 of them are yellow. What is the probability of picking a yellow marble?",
+      "options": [
+        "3/7",
+        "1/7",
+        "4/7",
+        "6/7"
+      ],
+      "correctOption": "3/7",
+      "correctFeedback": "Yes! 3/7 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 3/7."
+    },
+    {
+      "id": "math_g7_probability_2",
+      "name": "Stage 3",
+      "emoji": "🎲",
+      "themeColorHex": "#FF6B35",
+      "question": "A bag has 12 marbles, and 7 of them are yellow. What is the probability of picking a yellow marble?",
+      "options": [
+        "1/12",
+        "9/12",
+        "7/12",
+        "4/12"
+      ],
+      "correctOption": "7/12",
+      "correctFeedback": "Yes! 7/12 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 7/12."
+    },
+    {
+      "id": "math_g7_probability_3",
+      "name": "Stage 4",
+      "emoji": "🎲",
+      "themeColorHex": "#FF6B35",
+      "question": "A bag has 6 marbles, and 3 of them are green. What is the probability of picking a green marble?",
+      "options": [
+        "2/6",
+        "4/6",
+        "3/6",
+        "1/6"
+      ],
+      "correctOption": "3/6",
+      "correctFeedback": "Yes! 3/6 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 3/6."
+    },
+    {
+      "id": "math_g7_probability_4",
+      "name": "Stage 5",
+      "emoji": "🎲",
+      "themeColorHex": "#FF6B35",
+      "question": "A bag has 8 marbles, and 6 of them are blue. What is the probability of picking a blue marble?",
+      "options": [
+        "7/8",
+        "5/8",
+        "4/8",
+        "6/8"
+      ],
+      "correctOption": "6/8",
+      "correctFeedback": "Yes! 6/8 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 6/8."
+    },
+    {
+      "id": "math_g7_probability_5",
+      "name": "Stage 6",
+      "emoji": "🎲",
+      "themeColorHex": "#FF6B35",
+      "question": "A bag has 11 marbles, and 4 of them are blue. What is the probability of picking a blue marble?",
+      "options": [
+        "4/11",
+        "2/11",
+        "6/11",
+        "3/11"
+      ],
+      "correctOption": "4/11",
+      "correctFeedback": "Yes! 4/11 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 4/11."
+    },
+    {
+      "id": "math_g7_probability_6",
+      "name": "Stage 7",
+      "emoji": "🎲",
+      "themeColorHex": "#FF6B35",
+      "question": "A bag has 7 marbles, and 1 of them are blue. What is the probability of picking a blue marble?",
+      "options": [
+        "4/7",
+        "3/7",
+        "2/7",
+        "1/7"
+      ],
+      "correctOption": "1/7",
+      "correctFeedback": "Yes! 1/7 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 1/7."
+    },
+    {
+      "id": "math_g7_probability_7",
+      "name": "Stage 8",
+      "emoji": "🎲",
+      "themeColorHex": "#FF6B35",
+      "question": "A bag has 11 marbles, and 4 of them are green. What is the probability of picking a green marble?",
+      "options": [
+        "1/11",
+        "2/11",
+        "7/11",
+        "4/11"
+      ],
+      "correctOption": "4/11",
+      "correctFeedback": "Yes! 4/11 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 4/11."
+    },
+    {
+      "id": "math_g7_probability_8",
+      "name": "Stage 9",
+      "emoji": "🎲",
+      "themeColorHex": "#FF6B35",
+      "question": "A bag has 8 marbles, and 7 of them are red. What is the probability of picking a red marble?",
+      "options": [
+        "3/8",
+        "4/8",
+        "7/8",
+        "2/8"
+      ],
+      "correctOption": "7/8",
+      "correctFeedback": "Yes! 7/8 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 7/8."
+    },
+    {
+      "id": "math_g7_probability_9",
+      "name": "Stage 10",
+      "emoji": "🎲",
+      "themeColorHex": "#FF6B35",
+      "question": "A bag has 8 marbles, and 3 of them are red. What is the probability of picking a red marble?",
+      "options": [
+        "2/8",
+        "7/8",
+        "1/8",
+        "3/8"
+      ],
+      "correctOption": "3/8",
+      "correctFeedback": "Yes! 3/8 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 3/8."
+    }
+  ]
 }

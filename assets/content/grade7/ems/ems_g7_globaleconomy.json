@@ -5,9 +5,169 @@
   "subject": "EMS",
   "title": "Global Economy",
   "tagline": "Explore trade, exchange rates, imports and exports!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#009688",
   "emoji": "🌐",
-  "_scaffold": true,
   "characterEmoji": "🌐",
-  "stages": []
+  "stages": [
+    {
+      "id": "ems_g7_globaleconomy_0",
+      "name": "Stage 1",
+      "emoji": "🌐",
+      "themeColorHex": "#009688",
+      "question": "What is an 'exchange rate'?",
+      "options": [
+        "World Trade Organisation",
+        "Rand",
+        "The value of one currency compared to another",
+        "Countries becoming more connected through trade and technology"
+      ],
+      "correctOption": "The value of one currency compared to another",
+      "correctFeedback": "Yes! The value of one currency compared to another is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The value of one currency compared to another."
+    },
+    {
+      "id": "ems_g7_globaleconomy_1",
+      "name": "Stage 2",
+      "emoji": "🌐",
+      "themeColorHex": "#009688",
+      "question": "What does 'import' mean?",
+      "options": [
+        "Countries becoming more connected through trade and technology",
+        "Rand",
+        "Bringing goods into a country from abroad",
+        "Sending goods to another country to sell"
+      ],
+      "correctOption": "Bringing goods into a country from abroad",
+      "correctFeedback": "Yes! Bringing goods into a country from abroad is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Bringing goods into a country from abroad."
+    },
+    {
+      "id": "ems_g7_globaleconomy_2",
+      "name": "Stage 3",
+      "emoji": "🌐",
+      "themeColorHex": "#009688",
+      "question": "What does 'export' mean?",
+      "options": [
+        "Sending goods to another country to sell",
+        "When a country imports more than it exports",
+        "To access goods and resources they don't produce",
+        "Bringing goods into a country from abroad"
+      ],
+      "correctOption": "Sending goods to another country to sell",
+      "correctFeedback": "Yes! Sending goods to another country to sell is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Sending goods to another country to sell."
+    },
+    {
+      "id": "ems_g7_globaleconomy_3",
+      "name": "Stage 4",
+      "emoji": "🌐",
+      "themeColorHex": "#009688",
+      "question": "What is globalisation?",
+      "options": [
+        "Sending goods to another country to sell",
+        "World Trade Organisation",
+        "A tax on imported goods",
+        "Countries becoming more connected through trade and technology"
+      ],
+      "correctOption": "Countries becoming more connected through trade and technology",
+      "correctFeedback": "Yes! Countries becoming more connected through trade and technology is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Countries becoming more connected through trade and technology."
+    },
+    {
+      "id": "ems_g7_globaleconomy_4",
+      "name": "Stage 5",
+      "emoji": "🌐",
+      "themeColorHex": "#009688",
+      "question": "What is a 'trade deficit'?",
+      "options": [
+        "The value of one currency compared to another",
+        "Rand",
+        "When a country imports more than it exports",
+        "A company that operates in many countries"
+      ],
+      "correctOption": "When a country imports more than it exports",
+      "correctFeedback": "Yes! When a country imports more than it exports is right — onward!",
+      "wrongFeedback": "Not quite — the answer is When a country imports more than it exports."
+    },
+    {
+      "id": "ems_g7_globaleconomy_5",
+      "name": "Stage 6",
+      "emoji": "🌐",
+      "themeColorHex": "#009688",
+      "question": "Name South Africa's currency.",
+      "options": [
+        "When a country imports more than it exports",
+        "Rand",
+        "Sending goods to another country to sell",
+        "World Trade Organisation"
+      ],
+      "correctOption": "Rand",
+      "correctFeedback": "Yes! Rand is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Rand."
+    },
+    {
+      "id": "ems_g7_globaleconomy_6",
+      "name": "Stage 7",
+      "emoji": "🌐",
+      "themeColorHex": "#009688",
+      "question": "What is a multinational company?",
+      "options": [
+        "Countries becoming more connected through trade and technology",
+        "A company that operates in many countries",
+        "Sending goods to another country to sell",
+        "Bringing goods into a country from abroad"
+      ],
+      "correctOption": "A company that operates in many countries",
+      "correctFeedback": "Yes! A company that operates in many countries is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A company that operates in many countries."
+    },
+    {
+      "id": "ems_g7_globaleconomy_7",
+      "name": "Stage 8",
+      "emoji": "🌐",
+      "themeColorHex": "#009688",
+      "question": "Why do countries trade with each other?",
+      "options": [
+        "Bringing goods into a country from abroad",
+        "To access goods and resources they don't produce",
+        "Countries becoming more connected through trade and technology",
+        "The value of one currency compared to another"
+      ],
+      "correctOption": "To access goods and resources they don't produce",
+      "correctFeedback": "Yes! To access goods and resources they don't produce is right — onward!",
+      "wrongFeedback": "Not quite — the answer is To access goods and resources they don't produce."
+    },
+    {
+      "id": "ems_g7_globaleconomy_8",
+      "name": "Stage 9",
+      "emoji": "🌐",
+      "themeColorHex": "#009688",
+      "question": "What is a tariff?",
+      "options": [
+        "World Trade Organisation",
+        "When a country imports more than it exports",
+        "A tax on imported goods",
+        "A company that operates in many countries"
+      ],
+      "correctOption": "A tax on imported goods",
+      "correctFeedback": "Yes! A tax on imported goods is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A tax on imported goods."
+    },
+    {
+      "id": "ems_g7_globaleconomy_9",
+      "name": "Stage 10",
+      "emoji": "🌐",
+      "themeColorHex": "#009688",
+      "question": "What organisation promotes free trade between countries?",
+      "options": [
+        "When a country imports more than it exports",
+        "To access goods and resources they don't produce",
+        "World Trade Organisation",
+        "A company that operates in many countries"
+      ],
+      "correctOption": "World Trade Organisation",
+      "correctFeedback": "Yes! World Trade Organisation is right — onward!",
+      "wrongFeedback": "Not quite — the answer is World Trade Organisation."
+    }
+  ]
 }

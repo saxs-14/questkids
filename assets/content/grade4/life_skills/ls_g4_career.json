@@ -5,9 +5,249 @@
   "subject": "Life Skills",
   "title": "Career Explorer",
   "tagline": "Discover different careers and the skills they require!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF9800",
   "emoji": "💼",
-  "_scaffold": true,
   "characterEmoji": "💼",
-  "stages": []
+  "stages": [
+    {
+      "id": "ls_g4_career_0",
+      "name": "Stage 1",
+      "emoji": "💼",
+      "themeColorHex": "#FF9800",
+      "question": "What does a doctor do?",
+      "options": [
+        "Helps students learn new skills and knowledge",
+        "Treats sick people and helps them get better",
+        "Researches and reports the news",
+        "Studies and investigates how the world works"
+      ],
+      "correctOption": "Treats sick people and helps them get better",
+      "correctFeedback": "Yes! Treats sick people and helps them get better is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Treats sick people and helps them get better."
+    },
+    {
+      "id": "ls_g4_career_1",
+      "name": "Stage 2",
+      "emoji": "💼",
+      "themeColorHex": "#FF9800",
+      "question": "What does an engineer do?",
+      "options": [
+        "Designs buildings and spaces",
+        "To show your skills and experience to employers",
+        "Designs and builds structures or systems",
+        "Learning what a job is really like"
+      ],
+      "correctOption": "Designs and builds structures or systems",
+      "correctFeedback": "Yes! Designs and builds structures or systems is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Designs and builds structures or systems."
+    },
+    {
+      "id": "ls_g4_career_2",
+      "name": "Stage 3",
+      "emoji": "💼",
+      "themeColorHex": "#FF9800",
+      "question": "What does a teacher do?",
+      "options": [
+        "Communication and cooperation",
+        "Helps students learn new skills and knowledge",
+        "Prepares and cooks food",
+        "Learning what a job is really like"
+      ],
+      "correctOption": "Helps students learn new skills and knowledge",
+      "correctFeedback": "Yes! Helps students learn new skills and knowledge is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Helps students learn new skills and knowledge."
+    },
+    {
+      "id": "ls_g4_career_3",
+      "name": "Stage 4",
+      "emoji": "💼",
+      "themeColorHex": "#FF9800",
+      "question": "What does a farmer do?",
+      "options": [
+        "Designs and builds structures or systems",
+        "Keeps communities safe and enforces the law",
+        "To show your skills and experience to employers",
+        "Grows crops and raises animals for food"
+      ],
+      "correctOption": "Grows crops and raises animals for food",
+      "correctFeedback": "Yes! Grows crops and raises animals for food is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Grows crops and raises animals for food."
+    },
+    {
+      "id": "ls_g4_career_4",
+      "name": "Stage 5",
+      "emoji": "💼",
+      "themeColorHex": "#FF9800",
+      "question": "What does an accountant do?",
+      "options": [
+        "Designs and builds structures or systems",
+        "Manages and tracks money for people or businesses",
+        "To show your skills and experience to employers",
+        "Learning what a job is really like"
+      ],
+      "correctOption": "Manages and tracks money for people or businesses",
+      "correctFeedback": "Yes! Manages and tracks money for people or businesses is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Manages and tracks money for people or businesses."
+    },
+    {
+      "id": "ls_g4_career_5",
+      "name": "Stage 6",
+      "emoji": "💼",
+      "themeColorHex": "#FF9800",
+      "question": "What does a police officer do?",
+      "options": [
+        "Designs and builds structures or systems",
+        "Learning what a job is really like",
+        "Keeps communities safe and enforces the law",
+        "Designs buildings and spaces"
+      ],
+      "correctOption": "Keeps communities safe and enforces the law",
+      "correctFeedback": "Yes! Keeps communities safe and enforces the law is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Keeps communities safe and enforces the law."
+    },
+    {
+      "id": "ls_g4_career_6",
+      "name": "Stage 7",
+      "emoji": "💼",
+      "themeColorHex": "#FF9800",
+      "question": "What does a scientist do?",
+      "options": [
+        "Manages and tracks money for people or businesses",
+        "Helps students learn new skills and knowledge",
+        "Studies and investigates how the world works",
+        "Prepares and cooks food"
+      ],
+      "correctOption": "Studies and investigates how the world works",
+      "correctFeedback": "Yes! Studies and investigates how the world works is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Studies and investigates how the world works."
+    },
+    {
+      "id": "ls_g4_career_7",
+      "name": "Stage 8",
+      "emoji": "💼",
+      "themeColorHex": "#FF9800",
+      "question": "What skills does a good teamworker need?",
+      "options": [
+        "Studies and investigates how the world works",
+        "Researches and reports the news",
+        "To show your skills and experience to employers",
+        "Communication and cooperation"
+      ],
+      "correctOption": "Communication and cooperation",
+      "correctFeedback": "Yes! Communication and cooperation is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Communication and cooperation."
+    },
+    {
+      "id": "ls_g4_career_8",
+      "name": "Stage 9",
+      "emoji": "💼",
+      "themeColorHex": "#FF9800",
+      "question": "What is a 'CV' used for?",
+      "options": [
+        "Researches and reports the news",
+        "Learning what a job is really like",
+        "To show your skills and experience to employers",
+        "Designs and builds structures or systems"
+      ],
+      "correctOption": "To show your skills and experience to employers",
+      "correctFeedback": "Yes! To show your skills and experience to employers is right — onward!",
+      "wrongFeedback": "Not quite — the answer is To show your skills and experience to employers."
+    },
+    {
+      "id": "ls_g4_career_9",
+      "name": "Stage 10",
+      "emoji": "💼",
+      "themeColorHex": "#FF9800",
+      "question": "Why is further education important for many careers?",
+      "options": [
+        "To show your skills and experience to employers",
+        "Prepares and cooks food",
+        "Cares for sick or injured people",
+        "It builds the skills needed for the job"
+      ],
+      "correctOption": "It builds the skills needed for the job",
+      "correctFeedback": "Yes! It builds the skills needed for the job is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It builds the skills needed for the job."
+    },
+    {
+      "id": "ls_g4_career_10",
+      "name": "Stage 11",
+      "emoji": "💼",
+      "themeColorHex": "#FF9800",
+      "question": "What does an architect do?",
+      "options": [
+        "Designs buildings and spaces",
+        "Researches and reports the news",
+        "Prepares and cooks food",
+        "Helps students learn new skills and knowledge"
+      ],
+      "correctOption": "Designs buildings and spaces",
+      "correctFeedback": "Yes! Designs buildings and spaces is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Designs buildings and spaces."
+    },
+    {
+      "id": "ls_g4_career_11",
+      "name": "Stage 12",
+      "emoji": "💼",
+      "themeColorHex": "#FF9800",
+      "question": "What does a nurse do?",
+      "options": [
+        "Studies and investigates how the world works",
+        "Designs and builds structures or systems",
+        "Cares for sick or injured people",
+        "Treats sick people and helps them get better"
+      ],
+      "correctOption": "Cares for sick or injured people",
+      "correctFeedback": "Yes! Cares for sick or injured people is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Cares for sick or injured people."
+    },
+    {
+      "id": "ls_g4_career_12",
+      "name": "Stage 13",
+      "emoji": "💼",
+      "themeColorHex": "#FF9800",
+      "question": "What does a chef do?",
+      "options": [
+        "Prepares and cooks food",
+        "Manages and tracks money for people or businesses",
+        "Studies and investigates how the world works",
+        "Designs buildings and spaces"
+      ],
+      "correctOption": "Prepares and cooks food",
+      "correctFeedback": "Yes! Prepares and cooks food is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Prepares and cooks food."
+    },
+    {
+      "id": "ls_g4_career_13",
+      "name": "Stage 14",
+      "emoji": "💼",
+      "themeColorHex": "#FF9800",
+      "question": "What does a journalist do?",
+      "options": [
+        "Keeps communities safe and enforces the law",
+        "Researches and reports the news",
+        "Prepares and cooks food",
+        "It builds the skills needed for the job"
+      ],
+      "correctOption": "Researches and reports the news",
+      "correctFeedback": "Yes! Researches and reports the news is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Researches and reports the news."
+    },
+    {
+      "id": "ls_g4_career_14",
+      "name": "Stage 15",
+      "emoji": "💼",
+      "themeColorHex": "#FF9800",
+      "question": "What is 'work experience' useful for?",
+      "options": [
+        "It builds the skills needed for the job",
+        "Learning what a job is really like",
+        "Studies and investigates how the world works",
+        "Keeps communities safe and enforces the law"
+      ],
+      "correctOption": "Learning what a job is really like",
+      "correctFeedback": "Yes! Learning what a job is really like is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Learning what a job is really like."
+    }
+  ]
 }

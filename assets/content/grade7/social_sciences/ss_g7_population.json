@@ -5,11 +5,51 @@
   "subject": "Social Sciences",
   "title": "Population Dynamics",
   "tagline": "Interpret population data — growth, density and migration patterns!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#43A047",
   "emoji": "👥",
-  "_scaffold": true,
-  "mode": "numeric",
+  "mode": "pairs",
   "gridSize": 4,
-  "chainLength": 4,
-  "tables": []
+  "chainLength": 2,
+  "tokenGroups": [
+    [
+      "birth rate",
+      "number of births per 1000 people per year"
+    ],
+    [
+      "death rate",
+      "number of deaths per 1000 people per year"
+    ],
+    [
+      "population density",
+      "number of people per square kilometre"
+    ],
+    [
+      "urbanisation",
+      "growth of the population living in cities"
+    ],
+    [
+      "migration",
+      "movement of people from one place to another"
+    ],
+    [
+      "life expectancy",
+      "average number of years a person is expected to live"
+    ],
+    [
+      "census",
+      "official count of a country’s population"
+    ],
+    [
+      "population pyramid",
+      "graph showing age and gender structure"
+    ],
+    [
+      "emigration",
+      "people leaving a country to live elsewhere"
+    ],
+    [
+      "immigration",
+      "people arriving to live in a new country"
+    ]
+  ]
 }

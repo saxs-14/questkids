@@ -5,8 +5,389 @@
   "subject": "Technology",
   "title": "Series Circuit Quest",
   "tagline": "Complete a series circuit by placing all components correctly!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#7C4DFF",
   "emoji": "🔋",
-  "_scaffold": true,
-  "circuits": []
+  "circuits": [
+    {
+      "id": "g7_series_one_bulb",
+      "description": "Complete the series circuit: drag the missing component to the gap.",
+      "layout": "🔋 —?— 💡",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "wire",
+          "emoji": "〰️",
+          "hint": "Connects components"
+        }
+      ],
+      "bank": [
+        "wire",
+        "bulb",
+        "switch",
+        "resistor"
+      ],
+      "labels": {
+        "wire": "〰️ Wire",
+        "bulb": "💡 Bulb",
+        "switch": "🔘 Switch",
+        "resistor": "⬛ Resistor"
+      }
+    },
+    {
+      "id": "g7_series_switch",
+      "description": "Add a switch to control this circuit.",
+      "layout": "🔋 — 💡 —?— 💡",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "switch",
+          "emoji": "🔘",
+          "hint": "Opens and closes the circuit"
+        }
+      ],
+      "bank": [
+        "wire",
+        "bulb",
+        "switch",
+        "resistor"
+      ],
+      "labels": {
+        "wire": "〰️ Wire",
+        "bulb": "💡 Bulb",
+        "switch": "🔘 Switch",
+        "resistor": "⬛ Resistor"
+      }
+    },
+    {
+      "id": "g7_series_battery",
+      "description": "This circuit needs a power source!",
+      "layout": "?— 🔘 — 💡",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "battery",
+          "emoji": "🔋",
+          "hint": "Provides electrical energy"
+        }
+      ],
+      "bank": [
+        "battery",
+        "bulb",
+        "switch",
+        "resistor"
+      ],
+      "labels": {
+        "battery": "🔋 Battery",
+        "bulb": "💡 Bulb",
+        "switch": "🔘 Switch",
+        "resistor": "⬛ Resistor"
+      }
+    },
+    {
+      "id": "g7_series_two_gaps",
+      "description": "Fill in BOTH missing components.",
+      "layout": "🔋 —?— 💡 —?— 💡",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "switch",
+          "emoji": "🔘",
+          "hint": "Controls the flow"
+        },
+        {
+          "position": 1,
+          "correctComponent": "wire",
+          "emoji": "〰️",
+          "hint": "Connects the last bulb"
+        }
+      ],
+      "bank": [
+        "wire",
+        "bulb",
+        "switch",
+        "resistor"
+      ],
+      "labels": {
+        "wire": "〰️ Wire",
+        "bulb": "💡 Bulb",
+        "switch": "🔘 Switch",
+        "resistor": "⬛ Resistor"
+      }
+    },
+    {
+      "id": "g7_resistor_protection",
+      "description": "Protect the bulb by adding a resistor.",
+      "layout": "🔋 — 💡 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "resistor",
+          "emoji": "⬛",
+          "hint": "Limits current flow"
+        }
+      ],
+      "bank": [
+        "wire",
+        "bulb",
+        "switch",
+        "resistor"
+      ],
+      "labels": {
+        "wire": "〰️ Wire",
+        "bulb": "💡 Bulb",
+        "switch": "🔘 Switch",
+        "resistor": "⬛ Resistor"
+      }
+    },
+    {
+      "id": "g7_open_circuit",
+      "description": "The bulb is off. What closes the circuit?",
+      "layout": "🔋 — 💡 — ? — 🔋",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "switch",
+          "emoji": "🔘",
+          "hint": "Must be closed for current to flow"
+        }
+      ],
+      "bank": [
+        "wire",
+        "bulb",
+        "switch",
+        "battery"
+      ],
+      "labels": {
+        "wire": "〰️ Wire",
+        "bulb": "💡 Bulb",
+        "switch": "🔘 Switch",
+        "battery": "🔋 Battery"
+      }
+    },
+    {
+      "id": "g7_two_batteries",
+      "description": "Add a second battery to increase the brightness.",
+      "layout": "🔋 — ? — 💡 — 🔘",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "battery",
+          "emoji": "🔋",
+          "hint": "More power = brighter bulb"
+        }
+      ],
+      "bank": [
+        "battery",
+        "bulb",
+        "switch",
+        "wire"
+      ],
+      "labels": {
+        "battery": "🔋 Battery",
+        "bulb": "💡 Bulb",
+        "switch": "🔘 Switch",
+        "wire": "〰️ Wire"
+      }
+    },
+    {
+      "id": "g7_buzzer_circuit",
+      "description": "Replace the bulb with a sound maker.",
+      "layout": "🔋 — 🔘 — ?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "buzzer",
+          "emoji": "🔔",
+          "hint": "Makes a sound when current flows"
+        }
+      ],
+      "bank": [
+        "buzzer",
+        "bulb",
+        "switch",
+        "wire"
+      ],
+      "labels": {
+        "buzzer": "🔔 Buzzer",
+        "bulb": "💡 Bulb",
+        "switch": "🔘 Switch",
+        "wire": "〰️ Wire"
+      }
+    },
+    {
+      "id": "g7_motor_circuit",
+      "description": "Add a motor to make something spin.",
+      "layout": "🔋 — 🔘 — ?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "motor",
+          "emoji": "🌀",
+          "hint": "Turns electrical energy into movement"
+        }
+      ],
+      "bank": [
+        "motor",
+        "bulb",
+        "switch",
+        "wire"
+      ],
+      "labels": {
+        "motor": "🌀 Motor",
+        "bulb": "💡 Bulb",
+        "switch": "🔘 Switch",
+        "wire": "〰️ Wire"
+      }
+    },
+    {
+      "id": "g7_led_circuit",
+      "description": "Replace the bulb with an energy-saving light.",
+      "layout": "🔋 —?— 💡",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "LED",
+          "emoji": "🔆",
+          "hint": "Uses much less energy than a bulb"
+        }
+      ],
+      "bank": [
+        "LED",
+        "bulb",
+        "switch",
+        "wire"
+      ],
+      "labels": {
+        "LED": "🔆 LED",
+        "bulb": "💡 Bulb",
+        "switch": "🔘 Switch",
+        "wire": "〰️ Wire"
+      }
+    },
+    {
+      "id": "series_ammeter",
+      "description": "An ammeter measures current and must be connected in series. What symbol represents it?",
+      "layout": "🔋 —?— 💡",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "ammeter",
+          "emoji": "🅰️",
+          "hint": "Measures current flowing through the circuit"
+        }
+      ],
+      "bank": [
+        "ammeter",
+        "voltmeter",
+        "switch",
+        "resistor"
+      ],
+      "labels": {
+        "ammeter": "🅰️ Ammeter",
+        "voltmeter": "🅥 Voltmeter",
+        "switch": "🔘 Switch",
+        "resistor": "⬛ Resistor"
+      }
+    },
+    {
+      "id": "series_variable_resistor",
+      "description": "This component lets you change the resistance to dim a bulb.",
+      "layout": "🔋 —?— 💡",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "rheostat",
+          "emoji": "🎚️",
+          "hint": "A variable resistor"
+        }
+      ],
+      "bank": [
+        "rheostat",
+        "resistor",
+        "switch",
+        "wire"
+      ],
+      "labels": {
+        "rheostat": "🎚️ Rheostat",
+        "resistor": "⬛ Resistor",
+        "switch": "🔘 Switch",
+        "wire": "〰️ Wire"
+      }
+    },
+    {
+      "id": "series_total_resistance",
+      "description": "In a series circuit, adding a second resistor makes the total resistance...?",
+      "layout": "⬛ —?— ⬛",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "increase",
+          "emoji": "⬆️",
+          "hint": "Resistances in series add together"
+        }
+      ],
+      "bank": [
+        "increase",
+        "decrease",
+        "stay the same",
+        "become zero"
+      ],
+      "labels": {
+        "increase": "⬆️ Increase",
+        "decrease": "⬇️ Decrease",
+        "stay the same": "➡️ Stay the same",
+        "become zero": "0️⃣ Become zero"
+      }
+    },
+    {
+      "id": "series_one_break",
+      "description": "If one bulb burns out in a series circuit, what happens to the rest?",
+      "layout": "💡(out) — 💡 — 💡 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "they all go off",
+          "emoji": "🌑",
+          "hint": "A series circuit has only one path for current"
+        }
+      ],
+      "bank": [
+        "they all go off",
+        "they stay on",
+        "they get brighter",
+        "nothing changes"
+      ],
+      "labels": {
+        "they all go off": "🌑 They all go off",
+        "they stay on": "💡 They stay on",
+        "they get brighter": "✨ They get brighter",
+        "nothing changes": "➡️ Nothing changes"
+      }
+    },
+    {
+      "id": "series_current_same",
+      "description": "In a series circuit, the current at every point is...?",
+      "layout": "⚡ —?— ⚡",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "the same",
+          "emoji": "🟰",
+          "hint": "Only one path means current cannot change along it"
+        }
+      ],
+      "bank": [
+        "the same",
+        "different",
+        "zero",
+        "random"
+      ],
+      "labels": {
+        "the same": "🟰 The same",
+        "different": "↕️ Different",
+        "zero": "0️⃣ Zero",
+        "random": "❓ Random"
+      }
+    }
+  ]
 }

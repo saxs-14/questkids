@@ -5,9 +5,129 @@
   "subject": "Mathematics",
   "title": "Times Table Tower",
   "tagline": "Master your times tables from 1×1 all the way to 12×12!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF6B35",
   "emoji": "🏗️",
-  "_scaffold": true,
-  "questionType": "addition",
-  "sampleItems": []
+  "questionType": "multiplication",
+  "sampleItems": [
+    {
+      "question": "5 × 8 = ?",
+      "options": [
+        "42",
+        "33",
+        "38",
+        "40"
+      ],
+      "answerIndex": 3,
+      "hint": "Think of 5 groups of 8.",
+      "explanation": "5 × 8 = 40."
+    },
+    {
+      "question": "6 × 11 = ?",
+      "options": [
+        "56",
+        "57",
+        "66",
+        "63"
+      ],
+      "answerIndex": 2,
+      "hint": "Think of 6 groups of 11.",
+      "explanation": "6 × 11 = 66."
+    },
+    {
+      "question": "4 × 3 = ?",
+      "options": [
+        "13",
+        "12",
+        "4",
+        "15"
+      ],
+      "answerIndex": 1,
+      "hint": "Think of 4 groups of 3.",
+      "explanation": "4 × 3 = 12."
+    },
+    {
+      "question": "3 × 11 = ?",
+      "options": [
+        "33",
+        "31",
+        "37",
+        "38"
+      ],
+      "answerIndex": 0,
+      "hint": "Think of 3 groups of 11.",
+      "explanation": "3 × 11 = 33."
+    },
+    {
+      "question": "7 × 11 = ?",
+      "options": [
+        "65",
+        "69",
+        "77",
+        "89"
+      ],
+      "answerIndex": 2,
+      "hint": "Think of 7 groups of 11.",
+      "explanation": "7 × 11 = 77."
+    },
+    {
+      "question": "8 × 4 = ?",
+      "options": [
+        "32",
+        "42",
+        "35",
+        "26"
+      ],
+      "answerIndex": 0,
+      "hint": "Think of 8 groups of 4.",
+      "explanation": "8 × 4 = 32."
+    },
+    {
+      "question": "7 × 5 = ?",
+      "options": [
+        "33",
+        "31",
+        "29",
+        "35"
+      ],
+      "answerIndex": 3,
+      "hint": "Think of 7 groups of 5.",
+      "explanation": "7 × 5 = 35."
+    },
+    {
+      "question": "8 × 6 = ?",
+      "options": [
+        "48",
+        "37",
+        "59",
+        "56"
+      ],
+      "answerIndex": 0,
+      "hint": "Think of 8 groups of 6.",
+      "explanation": "8 × 6 = 48."
+    },
+    {
+      "question": "3 × 8 = ?",
+      "options": [
+        "16",
+        "18",
+        "24",
+        "36"
+      ],
+      "answerIndex": 2,
+      "hint": "Think of 3 groups of 8.",
+      "explanation": "3 × 8 = 24."
+    },
+    {
+      "question": "12 × 6 = ?",
+      "options": [
+        "80",
+        "72",
+        "78",
+        "63"
+      ],
+      "answerIndex": 1,
+      "hint": "Think of 12 groups of 6.",
+      "explanation": "12 × 6 = 72."
+    }
+  ]
 }

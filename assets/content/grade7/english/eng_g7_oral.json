@@ -5,10 +5,106 @@
   "subject": "English",
   "title": "Oral Presentation Prep",
   "tagline": "Structure and deliver a confident oral presentation!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#E91E63",
   "emoji": "🗣️",
-  "_scaffold": true,
-  "sceneType": "speaking",
-  "steps": [],
-  "roundVariants": []
+  "sceneType": "oralPresentation",
+  "steps": [
+    {
+      "id": "greeting",
+      "label": "Greeting",
+      "emoji": "👋",
+      "description": "Greet your audience and introduce your topic."
+    },
+    {
+      "id": "hook",
+      "label": "Hook",
+      "emoji": "❓",
+      "description": "Capture attention with an interesting fact or question."
+    },
+    {
+      "id": "main_points",
+      "label": "Main Points",
+      "emoji": "📝",
+      "description": "Present your main points clearly."
+    },
+    {
+      "id": "evidence",
+      "label": "Evidence",
+      "emoji": "📊",
+      "description": "Support your points with examples or evidence."
+    },
+    {
+      "id": "summary",
+      "label": "Summary",
+      "emoji": "🔁",
+      "description": "Summarise your key points."
+    },
+    {
+      "id": "thanks",
+      "label": "Thanks",
+      "emoji": "🙏",
+      "description": "Thank your audience and invite questions."
+    }
+  ],
+  "roundVariants": [
+    [
+      "main_points",
+      "evidence",
+      "summary",
+      "thanks"
+    ],
+    [
+      "greeting",
+      "main_points",
+      "thanks"
+    ],
+    [
+      "evidence",
+      "summary",
+      "thanks"
+    ],
+    [
+      "greeting",
+      "main_points",
+      "evidence",
+      "thanks"
+    ],
+    [
+      "greeting",
+      "hook",
+      "evidence",
+      "summary",
+      "thanks"
+    ],
+    [
+      "hook",
+      "main_points",
+      "evidence",
+      "summary"
+    ],
+    [
+      "hook",
+      "main_points",
+      "summary"
+    ],
+    [
+      "hook",
+      "evidence",
+      "summary",
+      "thanks"
+    ],
+    [
+      "greeting",
+      "hook",
+      "main_points",
+      "evidence",
+      "thanks"
+    ],
+    [
+      "greeting",
+      "evidence",
+      "summary",
+      "thanks"
+    ]
+  ]
 }

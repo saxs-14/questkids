@@ -5,8 +5,50 @@
   "subject": "EMS",
   "title": "Consumer Rights",
   "tagline": "Know your rights as a consumer — CPA, warranties and returns!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#009688",
   "emoji": "🛒",
-  "_scaffold": true,
-  "levels": []
+  "levels": [
+    {
+      "targetClass": "right",
+      "missionLabel": "Collect consumer rights! ⚖️",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "right": [
+          "the right to safety",
+          "the right to information",
+          "the right to choose",
+          "the right to redress",
+          "the right to fair value"
+        ],
+        "responsibility": [
+          "read the label",
+          "keep your receipt",
+          "use products safely",
+          "report faulty goods",
+          "check the expiry date"
+        ]
+      }
+    },
+    {
+      "targetClass": "responsibility",
+      "missionLabel": "Collect consumer responsibilities! 📋",
+      "scrollSpeed": 0.11,
+      "buckets": {
+        "right": [
+          "the right to safety",
+          "the right to information",
+          "the right to choose",
+          "the right to redress",
+          "the right to fair value"
+        ],
+        "responsibility": [
+          "read the label",
+          "keep your receipt",
+          "use products safely",
+          "report faulty goods",
+          "check the expiry date"
+        ]
+      }
+    }
+  ]
 }

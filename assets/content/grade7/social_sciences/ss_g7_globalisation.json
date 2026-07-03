@@ -5,9 +5,169 @@
   "subject": "Social Sciences",
   "title": "Globalisation Game",
   "tagline": "Understand trade, global connections and their local effects!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#43A047",
   "emoji": "🌐",
-  "_scaffold": true,
   "characterEmoji": "🌐",
-  "stages": []
+  "stages": [
+    {
+      "id": "ss_g7_globalisation_0",
+      "name": "Stage 1",
+      "emoji": "🌐",
+      "themeColorHex": "#43A047",
+      "question": "What is globalisation?",
+      "options": [
+        "Hiring workers in another country to do the work",
+        "A company operating in many countries",
+        "Growing interconnection between countries and economies",
+        "Local businesses can struggle to compete"
+      ],
+      "correctOption": "Growing interconnection between countries and economies",
+      "correctFeedback": "Yes! Growing interconnection between countries and economies is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Growing interconnection between countries and economies."
+    },
+    {
+      "id": "ss_g7_globalisation_1",
+      "name": "Stage 2",
+      "emoji": "🌐",
+      "themeColorHex": "#43A047",
+      "question": "What technology sped up globalisation?",
+      "options": [
+        "The World Trade Organisation",
+        "Growing interconnection between countries and economies",
+        "Local businesses can struggle to compete",
+        "The internet"
+      ],
+      "correctOption": "The internet",
+      "correctFeedback": "Yes! The internet is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The internet."
+    },
+    {
+      "id": "ss_g7_globalisation_2",
+      "name": "Stage 3",
+      "emoji": "🌐",
+      "themeColorHex": "#43A047",
+      "question": "What is a benefit of globalisation?",
+      "options": [
+        "Local businesses can struggle to compete",
+        "They transport goods around the world",
+        "Access to a wider variety of goods and ideas",
+        "A company operating in many countries"
+      ],
+      "correctOption": "Access to a wider variety of goods and ideas",
+      "correctFeedback": "Yes! Access to a wider variety of goods and ideas is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Access to a wider variety of goods and ideas."
+    },
+    {
+      "id": "ss_g7_globalisation_3",
+      "name": "Stage 4",
+      "emoji": "🌐",
+      "themeColorHex": "#43A047",
+      "question": "What is a downside of globalisation?",
+      "options": [
+        "It has shifted many jobs to other countries",
+        "Local businesses can struggle to compete",
+        "They transport goods around the world",
+        "The World Trade Organisation"
+      ],
+      "correctOption": "Local businesses can struggle to compete",
+      "correctFeedback": "Yes! Local businesses can struggle to compete is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Local businesses can struggle to compete."
+    },
+    {
+      "id": "ss_g7_globalisation_4",
+      "name": "Stage 5",
+      "emoji": "🌐",
+      "themeColorHex": "#43A047",
+      "question": "What is 'cultural globalisation'?",
+      "options": [
+        "The internet",
+        "The World Trade Organisation",
+        "Local businesses can struggle to compete",
+        "The spread of ideas and culture across the world"
+      ],
+      "correctOption": "The spread of ideas and culture across the world",
+      "correctFeedback": "Yes! The spread of ideas and culture across the world is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The spread of ideas and culture across the world."
+    },
+    {
+      "id": "ss_g7_globalisation_5",
+      "name": "Stage 6",
+      "emoji": "🌐",
+      "themeColorHex": "#43A047",
+      "question": "What organisation regulates international trade?",
+      "options": [
+        "The World Trade Organisation",
+        "They transport goods around the world",
+        "The spread of ideas and culture across the world",
+        "Local businesses can struggle to compete"
+      ],
+      "correctOption": "The World Trade Organisation",
+      "correctFeedback": "Yes! The World Trade Organisation is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The World Trade Organisation."
+    },
+    {
+      "id": "ss_g7_globalisation_6",
+      "name": "Stage 7",
+      "emoji": "🌐",
+      "themeColorHex": "#43A047",
+      "question": "What is a multinational corporation?",
+      "options": [
+        "A company operating in many countries",
+        "Growing interconnection between countries and economies",
+        "The World Trade Organisation",
+        "Local businesses can struggle to compete"
+      ],
+      "correctOption": "A company operating in many countries",
+      "correctFeedback": "Yes! A company operating in many countries is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A company operating in many countries."
+    },
+    {
+      "id": "ss_g7_globalisation_7",
+      "name": "Stage 8",
+      "emoji": "🌐",
+      "themeColorHex": "#43A047",
+      "question": "How has globalisation affected jobs?",
+      "options": [
+        "The internet",
+        "A company operating in many countries",
+        "It has shifted many jobs to other countries",
+        "The spread of ideas and culture across the world"
+      ],
+      "correctOption": "It has shifted many jobs to other countries",
+      "correctFeedback": "Yes! It has shifted many jobs to other countries is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It has shifted many jobs to other countries."
+    },
+    {
+      "id": "ss_g7_globalisation_8",
+      "name": "Stage 9",
+      "emoji": "🌐",
+      "themeColorHex": "#43A047",
+      "question": "What is 'outsourcing'?",
+      "options": [
+        "The World Trade Organisation",
+        "Access to a wider variety of goods and ideas",
+        "The spread of ideas and culture across the world",
+        "Hiring workers in another country to do the work"
+      ],
+      "correctOption": "Hiring workers in another country to do the work",
+      "correctFeedback": "Yes! Hiring workers in another country to do the work is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Hiring workers in another country to do the work."
+    },
+    {
+      "id": "ss_g7_globalisation_9",
+      "name": "Stage 10",
+      "emoji": "🌐",
+      "themeColorHex": "#43A047",
+      "question": "What role do container ships play in globalisation?",
+      "options": [
+        "It has shifted many jobs to other countries",
+        "They transport goods around the world",
+        "Local businesses can struggle to compete",
+        "The internet"
+      ],
+      "correctOption": "They transport goods around the world",
+      "correctFeedback": "Yes! They transport goods around the world is right — onward!",
+      "wrongFeedback": "Not quite — the answer is They transport goods around the world."
+    }
+  ]
 }

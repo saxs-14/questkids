@@ -5,8 +5,119 @@
   "subject": "English",
   "title": "Noun Navigator",
   "tagline": "Identify common, proper, collective and abstract nouns!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#E91E63",
   "emoji": "🏷️",
-  "_scaffold": true,
-  "levels": []
+  "levels": [
+    {
+      "targetClass": "common noun",
+      "missionLabel": "Collect common nouns! 🏙️",
+      "scrollSpeed": 0.09,
+      "buckets": {
+        "common noun": [
+          "dog",
+          "city",
+          "teacher",
+          "river",
+          "shop",
+          "phone",
+          "chair",
+          "garden"
+        ],
+        "proper noun": [
+          "Cape Town",
+          "Mandela",
+          "Gauteng",
+          "Limpopo",
+          "Zulu",
+          "Durban",
+          "Africa",
+          "Monday"
+        ],
+        "collective noun": [
+          "herd",
+          "flock",
+          "team",
+          "family",
+          "class",
+          "swarm",
+          "pack",
+          "crowd"
+        ]
+      }
+    },
+    {
+      "targetClass": "proper noun",
+      "missionLabel": "Collect proper nouns! 🌍",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "common noun": [
+          "dog",
+          "city",
+          "teacher",
+          "river",
+          "shop",
+          "phone",
+          "chair",
+          "garden"
+        ],
+        "proper noun": [
+          "Cape Town",
+          "Mandela",
+          "Gauteng",
+          "Limpopo",
+          "Zulu",
+          "Durban",
+          "Africa",
+          "Monday"
+        ],
+        "collective noun": [
+          "herd",
+          "flock",
+          "team",
+          "family",
+          "class",
+          "swarm",
+          "pack",
+          "crowd"
+        ]
+      }
+    },
+    {
+      "targetClass": "collective noun",
+      "missionLabel": "Collect collective nouns! 👥",
+      "scrollSpeed": 0.12,
+      "buckets": {
+        "common noun": [
+          "dog",
+          "city",
+          "teacher",
+          "river",
+          "shop",
+          "phone",
+          "chair",
+          "garden"
+        ],
+        "proper noun": [
+          "Cape Town",
+          "Mandela",
+          "Gauteng",
+          "Limpopo",
+          "Zulu",
+          "Durban",
+          "Africa",
+          "Monday"
+        ],
+        "collective noun": [
+          "herd",
+          "flock",
+          "team",
+          "family",
+          "class",
+          "swarm",
+          "pack",
+          "crowd"
+        ]
+      }
+    }
+  ]
 }

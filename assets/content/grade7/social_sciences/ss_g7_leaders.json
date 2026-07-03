@@ -5,11 +5,51 @@
   "subject": "Social Sciences",
   "title": "Leaders of Change",
   "tagline": "Match liberation leaders to their contributions and quotes!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#43A047",
   "emoji": "✊",
-  "_scaffold": true,
-  "mode": "numeric",
+  "mode": "pairs",
   "gridSize": 4,
-  "chainLength": 4,
-  "tables": []
+  "chainLength": 2,
+  "tokenGroups": [
+    [
+      "Nelson Mandela",
+      "South Africa's first democratic president"
+    ],
+    [
+      "Oliver Tambo",
+      "Led the ANC in exile for decades"
+    ],
+    [
+      "Albertina Sisulu",
+      "Anti-apartheid activist and community leader"
+    ],
+    [
+      "Steve Biko",
+      "Founded the Black Consciousness Movement"
+    ],
+    [
+      "Lilian Ngoyi",
+      "Led the 1956 anti-pass march"
+    ],
+    [
+      "Desmond Tutu",
+      "Chaired the Truth and Reconciliation Commission"
+    ],
+    [
+      "Walter Sisulu",
+      "Key ANC leader and Rivonia trialist"
+    ],
+    [
+      "Helen Joseph",
+      "Anti-apartheid activist and organiser"
+    ],
+    [
+      "Chris Hani",
+      "Leader of the SACP and MK"
+    ],
+    [
+      "F.W. de Klerk",
+      "Ended apartheid and released Mandela"
+    ]
+  ]
 }

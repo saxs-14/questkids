@@ -5,8 +5,50 @@
   "subject": "Life Skills",
   "title": "Digital Safety",
   "tagline": "Stay safe online — privacy, cyberbullying and digital footprint!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF9800",
   "emoji": "🔒",
-  "_scaffold": true,
-  "levels": []
+  "levels": [
+    {
+      "targetClass": "safe",
+      "missionLabel": "Collect safe online habits! 🛡️",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "safe": [
+          "using a strong password",
+          "asking a parent before sharing photos",
+          "reporting a bully online",
+          "checking privacy settings",
+          "logging out of shared devices"
+        ],
+        "unsafe": [
+          "sharing your address online",
+          "meeting an online stranger alone",
+          "sharing your password",
+          "clicking unknown links",
+          "posting your location publicly"
+        ]
+      }
+    },
+    {
+      "targetClass": "unsafe",
+      "missionLabel": "Spot unsafe online habits! ⚠️",
+      "scrollSpeed": 0.11,
+      "buckets": {
+        "safe": [
+          "using a strong password",
+          "asking a parent before sharing photos",
+          "reporting a bully online",
+          "checking privacy settings",
+          "logging out of shared devices"
+        ],
+        "unsafe": [
+          "sharing your address online",
+          "meeting an online stranger alone",
+          "sharing your password",
+          "clicking unknown links",
+          "posting your location publicly"
+        ]
+      }
+    }
+  ]
 }

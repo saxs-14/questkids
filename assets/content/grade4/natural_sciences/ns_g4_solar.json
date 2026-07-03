@@ -5,9 +5,216 @@
   "subject": "Natural Sciences",
   "title": "Solar System",
   "tagline": "Explore the planets, moons and stars of our solar system!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#00BFA5",
   "emoji": "🪐",
-  "_scaffold": true,
-  "pins": [],
-  "questions": []
+  "pins": [
+    {
+      "id": "mercury",
+      "name": "Mercury",
+      "emoji": "☄️",
+      "x": 0.1,
+      "y": 0.5,
+      "facts": [
+        "Mercury is the closest planet to the Sun.",
+        "Mercury is the smallest planet in the solar system."
+      ],
+      "color": "#E53935"
+    },
+    {
+      "id": "venus",
+      "name": "Venus",
+      "emoji": "🌕",
+      "x": 0.2,
+      "y": 0.5,
+      "facts": [
+        "Venus is the hottest planet in the solar system.",
+        "Venus is often called Earth’s twin because of its similar size."
+      ],
+      "color": "#1E88E5"
+    },
+    {
+      "id": "earth",
+      "name": "Earth",
+      "emoji": "🌍",
+      "x": 0.32,
+      "y": 0.5,
+      "facts": [
+        "Earth is the only known planet with life.",
+        "Earth takes 365 days to orbit the Sun."
+      ],
+      "color": "#43A047"
+    },
+    {
+      "id": "mars",
+      "name": "Mars",
+      "emoji": "🔴",
+      "x": 0.44,
+      "y": 0.5,
+      "facts": [
+        "Mars is known as the Red Planet.",
+        "Mars has the largest volcano in the solar system, Olympus Mons."
+      ],
+      "color": "#FB8C00"
+    },
+    {
+      "id": "jupiter",
+      "name": "Jupiter",
+      "emoji": "🟠",
+      "x": 0.58,
+      "y": 0.5,
+      "facts": [
+        "Jupiter is the largest planet in the solar system.",
+        "Jupiter has a giant storm called the Great Red Spot."
+      ],
+      "color": "#8E24AA"
+    },
+    {
+      "id": "saturn",
+      "name": "Saturn",
+      "emoji": "🪐",
+      "x": 0.7,
+      "y": 0.5,
+      "facts": [
+        "Saturn is famous for its bright rings.",
+        "Saturn's rings are made mostly of ice and rock."
+      ],
+      "color": "#00897B"
+    },
+    {
+      "id": "uranus",
+      "name": "Uranus",
+      "emoji": "🔵",
+      "x": 0.82,
+      "y": 0.5,
+      "facts": [
+        "Uranus spins on its side compared to other planets.",
+        "Uranus appears blue-green due to methane gas."
+      ],
+      "color": "#F4511E"
+    },
+    {
+      "id": "neptune",
+      "name": "Neptune",
+      "emoji": "🔷",
+      "x": 0.92,
+      "y": 0.5,
+      "facts": [
+        "Neptune is the farthest planet from the Sun.",
+        "Neptune has the strongest winds in the solar system."
+      ],
+      "color": "#3949AB"
+    }
+  ],
+  "questions": [
+    {
+      "question": "Which one is true: \"Mercury is the closest planet to the Sun.\"?",
+      "correctId": "mercury",
+      "optionIds": [
+        "uranus",
+        "mercury",
+        "saturn",
+        "mars"
+      ],
+      "feedbackFact": "Mercury is the closest planet to the Sun."
+    },
+    {
+      "question": "Which one is true: \"Venus is the hottest planet in the solar system.\"?",
+      "correctId": "venus",
+      "optionIds": [
+        "mercury",
+        "jupiter",
+        "neptune",
+        "venus"
+      ],
+      "feedbackFact": "Venus is the hottest planet in the solar system."
+    },
+    {
+      "question": "Which one is true: \"Earth is the only known planet with life.\"?",
+      "correctId": "earth",
+      "optionIds": [
+        "neptune",
+        "earth",
+        "mercury",
+        "saturn"
+      ],
+      "feedbackFact": "Earth is the only known planet with life."
+    },
+    {
+      "question": "Which one is true: \"Mars is known as the Red Planet.\"?",
+      "correctId": "mars",
+      "optionIds": [
+        "mars",
+        "saturn",
+        "earth",
+        "uranus"
+      ],
+      "feedbackFact": "Mars is known as the Red Planet."
+    },
+    {
+      "question": "Which one is true: \"Jupiter is the largest planet in the solar system.\"?",
+      "correctId": "jupiter",
+      "optionIds": [
+        "neptune",
+        "mars",
+        "earth",
+        "jupiter"
+      ],
+      "feedbackFact": "Jupiter is the largest planet in the solar system."
+    },
+    {
+      "question": "Which one is true: \"Saturn is famous for its bright rings.\"?",
+      "correctId": "saturn",
+      "optionIds": [
+        "neptune",
+        "saturn",
+        "uranus",
+        "earth"
+      ],
+      "feedbackFact": "Saturn is famous for its bright rings."
+    },
+    {
+      "question": "Which one is true: \"Uranus spins on its side compared to other planets.\"?",
+      "correctId": "uranus",
+      "optionIds": [
+        "neptune",
+        "uranus",
+        "mercury",
+        "mars"
+      ],
+      "feedbackFact": "Uranus spins on its side compared to other planets."
+    },
+    {
+      "question": "Which one is true: \"Neptune is the farthest planet from the Sun.\"?",
+      "correctId": "neptune",
+      "optionIds": [
+        "mars",
+        "neptune",
+        "jupiter",
+        "mercury"
+      ],
+      "feedbackFact": "Neptune is the farthest planet from the Sun."
+    },
+    {
+      "question": "Which one is true: \"Mercury is the smallest planet in the solar system.\"?",
+      "correctId": "mercury",
+      "optionIds": [
+        "mercury",
+        "earth",
+        "jupiter",
+        "neptune"
+      ],
+      "feedbackFact": "Mercury is the smallest planet in the solar system."
+    },
+    {
+      "question": "Which one is true: \"Venus is often called Earth’s twin because of its similar size.\"?",
+      "correctId": "venus",
+      "optionIds": [
+        "uranus",
+        "venus",
+        "saturn",
+        "jupiter"
+      ],
+      "feedbackFact": "Venus is often called Earth’s twin because of its similar size."
+    }
+  ]
 }

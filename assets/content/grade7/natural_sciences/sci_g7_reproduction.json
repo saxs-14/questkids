@@ -5,8 +5,50 @@
   "subject": "Natural Sciences",
   "title": "Reproduction Revealed",
   "tagline": "Compare sexual and asexual reproduction in plants and animals!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#00BFA5",
   "emoji": "🌱",
-  "_scaffold": true,
-  "levels": []
+  "levels": [
+    {
+      "targetClass": "sexual",
+      "missionLabel": "Collect sexual reproduction facts! 🌸",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "sexual": [
+          "requires two parents",
+          "produces genetic variation",
+          "seen in mammals",
+          "seen in flowering plants",
+          "seen in birds"
+        ],
+        "asexual": [
+          "requires one parent",
+          "produces identical offspring",
+          "seen in bacteria",
+          "seen in some plants (runners)",
+          "budding in yeast"
+        ]
+      }
+    },
+    {
+      "targetClass": "asexual",
+      "missionLabel": "Collect asexual reproduction facts! 🦠",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "sexual": [
+          "requires two parents",
+          "produces genetic variation",
+          "seen in mammals",
+          "seen in flowering plants",
+          "seen in birds"
+        ],
+        "asexual": [
+          "requires one parent",
+          "produces identical offspring",
+          "seen in bacteria",
+          "seen in some plants (runners)",
+          "budding in yeast"
+        ]
+      }
+    }
+  ]
 }

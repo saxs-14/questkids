@@ -5,10 +5,122 @@
   "subject": "Natural Sciences",
   "title": "Mixture Mission",
   "tagline": "Separate mixtures using filtering, evaporation, sieving and more!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#00BFA5",
   "emoji": "🧫",
-  "_scaffold": true,
-  "sceneType": "matter",
-  "steps": [],
-  "roundVariants": []
+  "sceneType": "separatingMixtures",
+  "steps": [
+    {
+      "id": "identify",
+      "label": "Identify",
+      "emoji": "🔍",
+      "description": "Identify the substances in the mixture."
+    },
+    {
+      "id": "method",
+      "label": "Choose Method",
+      "emoji": "🧰",
+      "description": "Choose a separation method (filtration, evaporation, etc)."
+    },
+    {
+      "id": "filter",
+      "label": "Filter",
+      "emoji": "🧻",
+      "description": "Filter out any solid particles from the liquid."
+    },
+    {
+      "id": "evaporate",
+      "label": "Evaporate",
+      "emoji": "♨️",
+      "description": "Evaporate the liquid to leave the dissolved solid behind."
+    },
+    {
+      "id": "condense",
+      "label": "Condense",
+      "emoji": "💧",
+      "description": "Condense any vapour back into a pure liquid."
+    },
+    {
+      "id": "collect",
+      "label": "Collect",
+      "emoji": "🧪",
+      "description": "Collect each separated substance."
+    },
+    {
+      "id": "dry",
+      "label": "Dry",
+      "emoji": "☀️",
+      "description": "Dry the separated solid completely."
+    },
+    {
+      "id": "check",
+      "label": "Check Purity",
+      "emoji": "✅",
+      "description": "Check the purity of each separated substance."
+    }
+  ],
+  "roundVariants": [
+    [
+      "identify",
+      "method",
+      "filter",
+      "collect"
+    ],
+    [
+      "filter",
+      "evaporate",
+      "condense",
+      "collect",
+      "dry",
+      "check"
+    ],
+    [
+      "filter",
+      "collect",
+      "dry"
+    ],
+    [
+      "identify",
+      "evaporate",
+      "condense",
+      "collect",
+      "dry",
+      "check"
+    ],
+    [
+      "identify",
+      "method",
+      "filter",
+      "collect",
+      "dry"
+    ],
+    [
+      "condense",
+      "collect",
+      "dry"
+    ],
+    [
+      "filter",
+      "dry",
+      "check"
+    ],
+    [
+      "method",
+      "condense",
+      "collect",
+      "dry",
+      "check"
+    ],
+    [
+      "filter",
+      "evaporate",
+      "dry",
+      "check"
+    ],
+    [
+      "identify",
+      "method",
+      "evaporate",
+      "check"
+    ]
+  ]
 }

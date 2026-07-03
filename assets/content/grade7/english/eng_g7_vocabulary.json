@@ -5,11 +5,55 @@
   "subject": "English",
   "title": "Word Power Challenge",
   "tagline": "Build your Grade 7 vocabulary — synonyms, antonyms and context clues!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#E91E63",
   "emoji": "💬",
-  "_scaffold": true,
-  "mode": "numeric",
-  "gridSize": 4,
-  "chainLength": 4,
-  "tables": []
+  "mode": "pairs",
+  "gridSize": 5,
+  "chainLength": 2,
+  "tokenGroups": [
+    [
+      "benevolent",
+      "kind"
+    ],
+    [
+      "malicious",
+      "spiteful"
+    ],
+    [
+      "abundant",
+      "plentiful"
+    ],
+    [
+      "scarce",
+      "insufficient"
+    ],
+    [
+      "candid",
+      "honest"
+    ],
+    [
+      "ambiguous",
+      "unclear"
+    ],
+    [
+      "resilient",
+      "tough"
+    ],
+    [
+      "fragile",
+      "delicate"
+    ],
+    [
+      "diligent",
+      "hardworking"
+    ],
+    [
+      "reluctant",
+      "unwilling"
+    ],
+    [
+      "eloquent",
+      "articulate"
+    ]
+  ]
 }

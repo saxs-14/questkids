@@ -5,8 +5,52 @@
   "subject": "Life Skills",
   "title": "Healthy Living",
   "tagline": "Explore physical and mental health — exercise, nutrition and mindfulness!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF9800",
   "emoji": "🏃",
-  "_scaffold": true,
-  "levels": []
+  "levels": [
+    {
+      "targetClass": "healthy",
+      "missionLabel": "Collect healthy habits! 🥗",
+      "scrollSpeed": 0.09,
+      "buckets": {
+        "healthy": [
+          "fruit",
+          "vegetables",
+          "water",
+          "exercise",
+          "sleep",
+          "whole grains"
+        ],
+        "unhealthy": [
+          "too much sugar",
+          "skipping meals",
+          "no exercise",
+          "too little sleep",
+          "too much screen time"
+        ]
+      }
+    },
+    {
+      "targetClass": "unhealthy",
+      "missionLabel": "Spot unhealthy habits! 🚫",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "healthy": [
+          "fruit",
+          "vegetables",
+          "water",
+          "exercise",
+          "sleep",
+          "whole grains"
+        ],
+        "unhealthy": [
+          "too much sugar",
+          "skipping meals",
+          "no exercise",
+          "too little sleep",
+          "too much screen time"
+        ]
+      }
+    }
+  ]
 }

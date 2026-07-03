@@ -5,8 +5,258 @@
   "subject": "Natural Sciences",
   "title": "Food Chain Fighter",
   "tagline": "Build and analyse food chains and food webs!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#00BFA5",
   "emoji": "🦁",
-  "_scaffold": true,
-  "circuits": []
+  "circuits": [
+    {
+      "id": "chain_1",
+      "description": "Grassland food chain: what comes after the producer?",
+      "layout": "🌱 —?— 🐇",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "primary consumer",
+          "emoji": "🐇",
+          "hint": "Eats the producer directly"
+        }
+      ],
+      "bank": [
+        "primary consumer",
+        "secondary consumer",
+        "decomposer",
+        "producer"
+      ],
+      "labels": {
+        "primary consumer": "🐇 Primary consumer",
+        "secondary consumer": "🦊 Secondary consumer",
+        "decomposer": "🍄 Decomposer",
+        "producer": "🌱 Producer"
+      }
+    },
+    {
+      "id": "chain_2",
+      "description": "What eats the primary consumer?",
+      "layout": "🐇 —?— 🦅",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "secondary consumer",
+          "emoji": "🦊",
+          "hint": "A predator of herbivores"
+        }
+      ],
+      "bank": [
+        "secondary consumer",
+        "producer",
+        "decomposer",
+        "primary consumer"
+      ],
+      "labels": {
+        "secondary consumer": "🦊 Secondary consumer",
+        "producer": "🌱 Producer",
+        "decomposer": "🍄 Decomposer",
+        "primary consumer": "🐇 Primary consumer"
+      }
+    },
+    {
+      "id": "chain_3",
+      "description": "Which level starts almost every food chain?",
+      "layout": "?— 🐇",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "producer",
+          "emoji": "🌱",
+          "hint": "Makes its own food using sunlight"
+        }
+      ],
+      "bank": [
+        "producer",
+        "decomposer",
+        "secondary consumer",
+        "tertiary consumer"
+      ],
+      "labels": {
+        "producer": "🌱 Producer",
+        "decomposer": "🍄 Decomposer",
+        "secondary consumer": "🦊 Secondary consumer",
+        "tertiary consumer": "🦅 Tertiary consumer"
+      }
+    },
+    {
+      "id": "chain_4",
+      "description": "The top predator with no natural enemies is the...?",
+      "layout": "🦊 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "tertiary consumer",
+          "emoji": "🦅",
+          "hint": "Sits at the top of the chain"
+        }
+      ],
+      "bank": [
+        "tertiary consumer",
+        "producer",
+        "primary consumer",
+        "decomposer"
+      ],
+      "labels": {
+        "tertiary consumer": "🦅 Tertiary consumer",
+        "producer": "🌱 Producer",
+        "primary consumer": "🐇 Primary consumer",
+        "decomposer": "🍄 Decomposer"
+      }
+    },
+    {
+      "id": "chain_5",
+      "description": "What recycles nutrients back to the producers?",
+      "layout": "🦅(dead) —?— 🌱",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "decomposer",
+          "emoji": "🍄",
+          "hint": "Breaks down dead organisms"
+        }
+      ],
+      "bank": [
+        "decomposer",
+        "producer",
+        "primary consumer",
+        "secondary consumer"
+      ],
+      "labels": {
+        "decomposer": "🍄 Decomposer",
+        "producer": "🌱 Producer",
+        "primary consumer": "🐇 Primary consumer",
+        "secondary consumer": "🦊 Secondary consumer"
+      }
+    },
+    {
+      "id": "chain_6",
+      "description": "In the ocean, what is the producer usually called?",
+      "layout": "?— 🐟",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "phytoplankton",
+          "emoji": "🦠",
+          "hint": "Tiny plant-like organisms that photosynthesise"
+        }
+      ],
+      "bank": [
+        "phytoplankton",
+        "zooplankton",
+        "shark",
+        "coral"
+      ],
+      "labels": {
+        "phytoplankton": "🦠 Phytoplankton",
+        "zooplankton": "🦐 Zooplankton",
+        "shark": "🦈 Shark",
+        "coral": "🪸 Coral"
+      }
+    },
+    {
+      "id": "chain_7",
+      "description": "What eats phytoplankton in the ocean food chain?",
+      "layout": "🦠 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "zooplankton",
+          "emoji": "🦐",
+          "hint": "Tiny animals that graze on phytoplankton"
+        }
+      ],
+      "bank": [
+        "zooplankton",
+        "shark",
+        "coral",
+        "phytoplankton"
+      ],
+      "labels": {
+        "zooplankton": "🦐 Zooplankton",
+        "shark": "🦈 Shark",
+        "coral": "🪸 Coral",
+        "phytoplankton": "🦠 Phytoplankton"
+      }
+    },
+    {
+      "id": "chain_8",
+      "description": "The apex predator of many ocean food chains is the...?",
+      "layout": "🐟🐟 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "shark",
+          "emoji": "🦈",
+          "hint": "A top ocean predator"
+        }
+      ],
+      "bank": [
+        "shark",
+        "coral",
+        "phytoplankton",
+        "zooplankton"
+      ],
+      "labels": {
+        "shark": "🦈 Shark",
+        "coral": "🪸 Coral",
+        "phytoplankton": "🦠 Phytoplankton",
+        "zooplankton": "🦐 Zooplankton"
+      }
+    },
+    {
+      "id": "chain_9",
+      "description": "Removing a middle link breaks the whole...?",
+      "layout": "🌱-🐇-🦊-🦅 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "food chain",
+          "emoji": "🔗",
+          "hint": "Each link depends on the one before it"
+        }
+      ],
+      "bank": [
+        "food chain",
+        "ecosystem service",
+        "habitat",
+        "biome"
+      ],
+      "labels": {
+        "food chain": "🔗 Food chain",
+        "ecosystem service": "🛠️ Ecosystem service",
+        "habitat": "🏠 Habitat",
+        "biome": "🌍 Biome"
+      }
+    },
+    {
+      "id": "chain_10",
+      "description": "Many food chains linked together form a...?",
+      "layout": "🔗🔗🔗 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "food web",
+          "emoji": "🕸️",
+          "hint": "A network of interconnected food chains"
+        }
+      ],
+      "bank": [
+        "food web",
+        "food chain",
+        "habitat",
+        "population"
+      ],
+      "labels": {
+        "food web": "🕸️ Food web",
+        "food chain": "🔗 Food chain",
+        "habitat": "🏠 Habitat",
+        "population": "👥 Population"
+      }
+    }
+  ]
 }

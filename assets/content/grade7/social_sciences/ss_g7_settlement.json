@@ -5,8 +5,50 @@
   "subject": "Social Sciences",
   "title": "Settlement Patterns",
   "tagline": "Analyse why people settle where they do — push and pull factors!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#43A047",
   "emoji": "🏙️",
-  "_scaffold": true,
-  "levels": []
+  "levels": [
+    {
+      "targetClass": "urban",
+      "missionLabel": "Collect urban settlement facts! 🏙️",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "urban": [
+          "high population density",
+          "many tall buildings",
+          "formal employment",
+          "good service delivery",
+          "heavy traffic"
+        ],
+        "rural": [
+          "low population density",
+          "farming activities",
+          "informal employment",
+          "fewer services",
+          "wide open land"
+        ]
+      }
+    },
+    {
+      "targetClass": "rural",
+      "missionLabel": "Collect rural settlement facts! 🌾",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "urban": [
+          "high population density",
+          "many tall buildings",
+          "formal employment",
+          "good service delivery",
+          "heavy traffic"
+        ],
+        "rural": [
+          "low population density",
+          "farming activities",
+          "informal employment",
+          "fewer services",
+          "wide open land"
+        ]
+      }
+    }
+  ]
 }

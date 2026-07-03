@@ -5,8 +5,50 @@
   "subject": "Natural Sciences",
   "title": "Energy Quest",
   "tagline": "Discover types of energy — heat, light, sound, kinetic and potential!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#00BFA5",
   "emoji": "⚡",
-  "_scaffold": true,
-  "levels": []
+  "levels": [
+    {
+      "targetClass": "renewable",
+      "missionLabel": "Collect renewable energy! ☀️",
+      "scrollSpeed": 0.09,
+      "buckets": {
+        "renewable": [
+          "solar energy",
+          "wind energy",
+          "hydro energy",
+          "geothermal energy",
+          "biomass energy"
+        ],
+        "non-renewable": [
+          "coal",
+          "oil",
+          "natural gas",
+          "nuclear fuel",
+          "petrol"
+        ]
+      }
+    },
+    {
+      "targetClass": "non-renewable",
+      "missionLabel": "Collect non-renewable energy! ⛽",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "renewable": [
+          "solar energy",
+          "wind energy",
+          "hydro energy",
+          "geothermal energy",
+          "biomass energy"
+        ],
+        "non-renewable": [
+          "coal",
+          "oil",
+          "natural gas",
+          "nuclear fuel",
+          "petrol"
+        ]
+      }
+    }
+  ]
 }

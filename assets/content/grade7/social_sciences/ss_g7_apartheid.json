@@ -5,9 +5,249 @@
   "subject": "Social Sciences",
   "title": "Apartheid Era",
   "tagline": "Understand the apartheid system and its impact on South Africans!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#43A047",
   "emoji": "📜",
-  "_scaffold": true,
   "characterEmoji": "📜",
-  "stages": []
+  "stages": [
+    {
+      "id": "ss_g7_apartheid_0",
+      "name": "Stage 1",
+      "emoji": "📜",
+      "themeColorHex": "#43A047",
+      "question": "What year did apartheid officially begin?",
+      "options": [
+        "1951",
+        "1948",
+        "1950",
+        "1947"
+      ],
+      "correctOption": "1948",
+      "correctFeedback": "Yes! 1948 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 1948."
+    },
+    {
+      "id": "ss_g7_apartheid_1",
+      "name": "Stage 2",
+      "emoji": "📜",
+      "themeColorHex": "#43A047",
+      "question": "What law forced people to live in separate areas by race?",
+      "options": [
+        "The Population Registration Act",
+        "The Soweto Uprising",
+        "The Group Areas Act",
+        "The first democratic election for all races"
+      ],
+      "correctOption": "The Group Areas Act",
+      "correctFeedback": "Yes! The Group Areas Act is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The Group Areas Act."
+    },
+    {
+      "id": "ss_g7_apartheid_2",
+      "name": "Stage 3",
+      "emoji": "📜",
+      "themeColorHex": "#43A047",
+      "question": "What document did people have to carry under apartheid?",
+      "options": [
+        "The Soweto Uprising",
+        "The first democratic election for all races",
+        "A pass (passbook)",
+        "Archbishop Desmond Tutu"
+      ],
+      "correctOption": "A pass (passbook)",
+      "correctFeedback": "Yes! A pass (passbook) is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A pass (passbook)."
+    },
+    {
+      "id": "ss_g7_apartheid_3",
+      "name": "Stage 4",
+      "emoji": "📜",
+      "themeColorHex": "#43A047",
+      "question": "What was the 1976 student uprising called?",
+      "options": [
+        "Economic sanctions",
+        "The Soweto Uprising",
+        "Oliver Tambo, then Nelson Mandela",
+        "A pass (passbook)"
+      ],
+      "correctOption": "The Soweto Uprising",
+      "correctFeedback": "Yes! The Soweto Uprising is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The Soweto Uprising."
+    },
+    {
+      "id": "ss_g7_apartheid_4",
+      "name": "Stage 5",
+      "emoji": "📜",
+      "themeColorHex": "#43A047",
+      "question": "Who led the ANC during much of the anti-apartheid struggle?",
+      "options": [
+        "The Truth and Reconciliation Commission",
+        "Oliver Tambo, then Nelson Mandela",
+        "A designated area for Black South Africans",
+        "The Bantu Education Act"
+      ],
+      "correctOption": "Oliver Tambo, then Nelson Mandela",
+      "correctFeedback": "Yes! Oliver Tambo, then Nelson Mandela is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Oliver Tambo, then Nelson Mandela."
+    },
+    {
+      "id": "ss_g7_apartheid_5",
+      "name": "Stage 6",
+      "emoji": "📜",
+      "themeColorHex": "#43A047",
+      "question": "What year did apartheid officially end?",
+      "options": [
+        "1994",
+        "2004",
+        "1999",
+        "1997"
+      ],
+      "correctOption": "1994",
+      "correctFeedback": "Yes! 1994 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 1994."
+    },
+    {
+      "id": "ss_g7_apartheid_6",
+      "name": "Stage 7",
+      "emoji": "📜",
+      "themeColorHex": "#43A047",
+      "question": "What was the armed wing of the ANC called?",
+      "options": [
+        "The Group Areas Act",
+        "The Truth and Reconciliation Commission",
+        "Umkhonto we Sizwe",
+        "The Population Registration Act"
+      ],
+      "correctOption": "Umkhonto we Sizwe",
+      "correctFeedback": "Yes! Umkhonto we Sizwe is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Umkhonto we Sizwe."
+    },
+    {
+      "id": "ss_g7_apartheid_7",
+      "name": "Stage 8",
+      "emoji": "📜",
+      "themeColorHex": "#43A047",
+      "question": "What international action did many countries take against apartheid?",
+      "options": [
+        "Economic sanctions",
+        "The Bantu Education Act",
+        "A pass (passbook)",
+        "Human Rights Day, 21 March"
+      ],
+      "correctOption": "Economic sanctions",
+      "correctFeedback": "Yes! Economic sanctions is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Economic sanctions."
+    },
+    {
+      "id": "ss_g7_apartheid_8",
+      "name": "Stage 9",
+      "emoji": "📜",
+      "themeColorHex": "#43A047",
+      "question": "What commission investigated apartheid-era crimes after 1994?",
+      "options": [
+        "The Truth and Reconciliation Commission",
+        "The Bantu Education Act",
+        "Human Rights Day, 21 March",
+        "Oliver Tambo, then Nelson Mandela"
+      ],
+      "correctOption": "The Truth and Reconciliation Commission",
+      "correctFeedback": "Yes! The Truth and Reconciliation Commission is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The Truth and Reconciliation Commission."
+    },
+    {
+      "id": "ss_g7_apartheid_9",
+      "name": "Stage 10",
+      "emoji": "📜",
+      "themeColorHex": "#43A047",
+      "question": "Who chaired the Truth and Reconciliation Commission?",
+      "options": [
+        "Umkhonto we Sizwe",
+        "The Soweto Uprising",
+        "Archbishop Desmond Tutu",
+        "The Truth and Reconciliation Commission"
+      ],
+      "correctOption": "Archbishop Desmond Tutu",
+      "correctFeedback": "Yes! Archbishop Desmond Tutu is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Archbishop Desmond Tutu."
+    },
+    {
+      "id": "ss_g7_apartheid_10",
+      "name": "Stage 11",
+      "emoji": "📜",
+      "themeColorHex": "#43A047",
+      "question": "What day commemorates the Sharpeville Massacre?",
+      "options": [
+        "The Group Areas Act",
+        "The Population Registration Act",
+        "Archbishop Desmond Tutu",
+        "Human Rights Day, 21 March"
+      ],
+      "correctOption": "Human Rights Day, 21 March",
+      "correctFeedback": "Yes! Human Rights Day, 21 March is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Human Rights Day, 21 March."
+    },
+    {
+      "id": "ss_g7_apartheid_11",
+      "name": "Stage 12",
+      "emoji": "📜",
+      "themeColorHex": "#43A047",
+      "question": "What law classified South Africans by race?",
+      "options": [
+        "The Population Registration Act",
+        "The Group Areas Act",
+        "A designated area for Black South Africans",
+        "Economic sanctions"
+      ],
+      "correctOption": "The Population Registration Act",
+      "correctFeedback": "Yes! The Population Registration Act is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The Population Registration Act."
+    },
+    {
+      "id": "ss_g7_apartheid_12",
+      "name": "Stage 13",
+      "emoji": "📜",
+      "themeColorHex": "#43A047",
+      "question": "What education law limited Black South Africans' schooling?",
+      "options": [
+        "The Bantu Education Act",
+        "Oliver Tambo, then Nelson Mandela",
+        "Human Rights Day, 21 March",
+        "The Population Registration Act"
+      ],
+      "correctOption": "The Bantu Education Act",
+      "correctFeedback": "Yes! The Bantu Education Act is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The Bantu Education Act."
+    },
+    {
+      "id": "ss_g7_apartheid_13",
+      "name": "Stage 14",
+      "emoji": "📜",
+      "themeColorHex": "#43A047",
+      "question": "What was a 'homeland' under apartheid?",
+      "options": [
+        "A designated area for Black South Africans",
+        "The Population Registration Act",
+        "Oliver Tambo, then Nelson Mandela",
+        "Human Rights Day, 21 March"
+      ],
+      "correctOption": "A designated area for Black South Africans",
+      "correctFeedback": "Yes! A designated area for Black South Africans is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A designated area for Black South Africans."
+    },
+    {
+      "id": "ss_g7_apartheid_14",
+      "name": "Stage 15",
+      "emoji": "📜",
+      "themeColorHex": "#43A047",
+      "question": "What did the 1994 election mark for South Africa?",
+      "options": [
+        "The Group Areas Act",
+        "The Bantu Education Act",
+        "The first democratic election for all races",
+        "A pass (passbook)"
+      ],
+      "correctOption": "The first democratic election for all races",
+      "correctFeedback": "Yes! The first democratic election for all races is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The first democratic election for all races."
+    }
+  ]
 }

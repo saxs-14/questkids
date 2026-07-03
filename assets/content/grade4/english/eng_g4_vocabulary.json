@@ -5,11 +5,51 @@
   "subject": "English",
   "title": "Word Power",
   "tagline": "Build your vocabulary with synonyms, antonyms and context clues!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#E91E63",
   "emoji": "💬",
-  "_scaffold": true,
-  "mode": "numeric",
+  "mode": "pairs",
   "gridSize": 4,
-  "chainLength": 4,
-  "tables": []
+  "chainLength": 2,
+  "tokenGroups": [
+    [
+      "happy",
+      "joyful"
+    ],
+    [
+      "sad",
+      "unhappy"
+    ],
+    [
+      "big",
+      "huge"
+    ],
+    [
+      "small",
+      "tiny"
+    ],
+    [
+      "fast",
+      "quick"
+    ],
+    [
+      "hot",
+      "cold"
+    ],
+    [
+      "light",
+      "dark"
+    ],
+    [
+      "begin",
+      "start"
+    ],
+    [
+      "end",
+      "finish"
+    ],
+    [
+      "brave",
+      "courageous"
+    ]
+  ]
 }

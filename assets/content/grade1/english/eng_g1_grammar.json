@@ -5,8 +5,104 @@
   "subject": "English",
   "title": "Grammar Garden",
   "tagline": "Plant the right nouns, verbs and adjectives in the sentence!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#E91E63",
   "emoji": "🌻",
-  "_scaffold": true,
-  "levels": []
+  "levels": [
+    {
+      "targetClass": "noun",
+      "missionLabel": "Collect only Nouns! 📦",
+      "scrollSpeed": 0.08,
+      "buckets": {
+        "noun": [
+          "dog",
+          "house",
+          "school",
+          "river",
+          "table",
+          "book",
+          "city",
+          "teacher"
+        ],
+        "verb": [
+          "run",
+          "eat",
+          "jump",
+          "sleep",
+          "play",
+          "swim"
+        ],
+        "adjective": [
+          "happy",
+          "big",
+          "cold",
+          "fast",
+          "small"
+        ]
+      }
+    },
+    {
+      "targetClass": "verb",
+      "missionLabel": "Collect only Verbs! 🏃",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "noun": [
+          "dog",
+          "house",
+          "school",
+          "river",
+          "table",
+          "book",
+          "city",
+          "teacher"
+        ],
+        "verb": [
+          "run",
+          "eat",
+          "jump",
+          "sleep",
+          "play",
+          "swim"
+        ],
+        "adjective": [
+          "happy",
+          "big",
+          "cold",
+          "fast",
+          "small"
+        ]
+      }
+    },
+    {
+      "targetClass": "adjective",
+      "missionLabel": "Collect only Adjectives! ✨",
+      "scrollSpeed": 0.12,
+      "buckets": {
+        "noun": [
+          "dog",
+          "house",
+          "school",
+          "river",
+          "table",
+          "book",
+          "city",
+          "teacher"
+        ],
+        "verb": [
+          "run",
+          "eat",
+          "jump",
+          "sleep",
+          "play",
+          "swim"
+        ],
+        "adjective": [
+          "happy",
+          "big",
+          "cold",
+          "fast",
+          "small"
+        ]
+      }
+    }
+  ]
 }

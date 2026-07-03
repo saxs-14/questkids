@@ -5,9 +5,129 @@
   "subject": "Mathematics",
   "title": "Measurement Valley",
   "tagline": "Measure length, mass, capacity and time — get the conversions right!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF6B35",
   "emoji": "📏",
-  "_scaffold": true,
-  "questionType": "addition",
-  "sampleItems": []
+  "questionType": "conversion",
+  "sampleItems": [
+    {
+      "question": "2 L = ? mL",
+      "options": [
+        "1000 mL",
+        "3000 mL",
+        "2000 mL",
+        "4000 mL"
+      ],
+      "answerIndex": 2,
+      "hint": "1 L = 1000 mL.",
+      "explanation": "2 L × 1000 = 2000 mL."
+    },
+    {
+      "question": "19 min = ? s",
+      "options": [
+        "1200 s",
+        "1080 s",
+        "1260 s",
+        "1140 s"
+      ],
+      "answerIndex": 3,
+      "hint": "1 min = 60 s.",
+      "explanation": "19 min × 60 = 1140 s."
+    },
+    {
+      "question": "12 km = ? m",
+      "options": [
+        "10000 m",
+        "11000 m",
+        "13000 m",
+        "12000 m"
+      ],
+      "answerIndex": 3,
+      "hint": "1 km = 1000 m.",
+      "explanation": "12 km × 1000 = 12000 m."
+    },
+    {
+      "question": "17 kg = ? g",
+      "options": [
+        "17000 g",
+        "18000 g",
+        "16000 g",
+        "19000 g"
+      ],
+      "answerIndex": 0,
+      "hint": "1 kg = 1000 g.",
+      "explanation": "17 kg × 1000 = 17000 g."
+    },
+    {
+      "question": "20 h = ? min",
+      "options": [
+        "1320 min",
+        "1080 min",
+        "1140 min",
+        "1200 min"
+      ],
+      "answerIndex": 3,
+      "hint": "1 h = 60 min.",
+      "explanation": "20 h × 60 = 1200 min."
+    },
+    {
+      "question": "8 km = ? m",
+      "options": [
+        "7000 m",
+        "8000 m",
+        "6000 m",
+        "10000 m"
+      ],
+      "answerIndex": 1,
+      "hint": "1 km = 1000 m.",
+      "explanation": "8 km × 1000 = 8000 m."
+    },
+    {
+      "question": "7 h = ? min",
+      "options": [
+        "360 min",
+        "300 min",
+        "420 min",
+        "480 min"
+      ],
+      "answerIndex": 2,
+      "hint": "1 h = 60 min.",
+      "explanation": "7 h × 60 = 420 min."
+    },
+    {
+      "question": "18 kg = ? g",
+      "options": [
+        "16000 g",
+        "19000 g",
+        "17000 g",
+        "18000 g"
+      ],
+      "answerIndex": 3,
+      "hint": "1 kg = 1000 g.",
+      "explanation": "18 kg × 1000 = 18000 g."
+    },
+    {
+      "question": "11 h = ? min",
+      "options": [
+        "600 min",
+        "660 min",
+        "780 min",
+        "720 min"
+      ],
+      "answerIndex": 1,
+      "hint": "1 h = 60 min.",
+      "explanation": "11 h × 60 = 660 min."
+    },
+    {
+      "question": "6 L = ? mL",
+      "options": [
+        "4000 mL",
+        "5000 mL",
+        "8000 mL",
+        "6000 mL"
+      ],
+      "answerIndex": 3,
+      "hint": "1 L = 1000 mL.",
+      "explanation": "6 L × 1000 = 6000 mL."
+    }
+  ]
 }

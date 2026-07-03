@@ -5,10 +5,61 @@
   "subject": "English",
   "title": "Word Builder",
   "tagline": "Spell simple CVC words by choosing the right letters!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#E91E63",
   "emoji": "📝",
-  "_scaffold": true,
-  "sceneType": "spelling",
-  "steps": [],
-  "roundVariants": []
+  "sceneType": "cvcWords",
+  "steps": [
+    {
+      "id": "first_sound",
+      "label": "First sound",
+      "emoji": "🔤",
+      "description": "Pick the sound you hear first, like c in cat."
+    },
+    {
+      "id": "middle_sound",
+      "label": "Middle sound",
+      "emoji": "🔡",
+      "description": "Pick the vowel sound in the middle, like a in cat."
+    },
+    {
+      "id": "last_sound",
+      "label": "Last sound",
+      "emoji": "🔠",
+      "description": "Pick the sound you hear last, like t in cat."
+    },
+    {
+      "id": "blend",
+      "label": "Blend it together",
+      "emoji": "🗣️",
+      "description": "Say all three sounds together to read the word."
+    }
+  ],
+  "roundVariants": [
+    [
+      "middle_sound",
+      "last_sound",
+      "blend"
+    ],
+    [
+      "first_sound",
+      "middle_sound",
+      "last_sound"
+    ],
+    [
+      "first_sound",
+      "middle_sound",
+      "last_sound",
+      "blend"
+    ],
+    [
+      "first_sound",
+      "last_sound",
+      "blend"
+    ],
+    [
+      "first_sound",
+      "middle_sound",
+      "blend"
+    ]
+  ]
 }

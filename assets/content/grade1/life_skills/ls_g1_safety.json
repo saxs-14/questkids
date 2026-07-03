@@ -5,9 +5,169 @@
   "subject": "Life Skills",
   "title": "Safety Squad",
   "tagline": "Learn the rules of personal safety at home, school and in public!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF9800",
   "emoji": "🛡️",
-  "_scaffold": true,
   "characterEmoji": "🛡️",
-  "stages": []
+  "stages": [
+    {
+      "id": "ls_g1_safety_0",
+      "name": "Stage 1",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What number do you call in an emergency in South Africa?",
+      "options": [
+        "10112",
+        "10101",
+        "10110",
+        "10111"
+      ],
+      "correctOption": "10111",
+      "correctFeedback": "Yes! 10111 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 10111."
+    },
+    {
+      "id": "ls_g1_safety_1",
+      "name": "Stage 2",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What should you do before crossing the road?",
+      "options": [
+        "A parent's phone number",
+        "Stop, drop and roll, then get outside",
+        "A trusted adult",
+        "Look both ways"
+      ],
+      "correctOption": "Look both ways",
+      "correctFeedback": "Yes! Look both ways is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Look both ways."
+    },
+    {
+      "id": "ls_g1_safety_2",
+      "name": "Stage 3",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What should you never do with strangers?",
+      "options": [
+        "Get in a car with them",
+        "Find a shop worker or security guard",
+        "Look both ways",
+        "A helmet"
+      ],
+      "correctOption": "Get in a car with them",
+      "correctFeedback": "Yes! Get in a car with them is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Get in a car with them."
+    },
+    {
+      "id": "ls_g1_safety_3",
+      "name": "Stage 4",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What should you do if you get lost in a shop?",
+      "options": [
+        "Get in a car with them",
+        "Find a shop worker or security guard",
+        "A helmet",
+        "Stop, drop and roll, then get outside"
+      ],
+      "correctOption": "Find a shop worker or security guard",
+      "correctFeedback": "Yes! Find a shop worker or security guard is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Find a shop worker or security guard."
+    },
+    {
+      "id": "ls_g1_safety_4",
+      "name": "Stage 5",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What should you wear when riding a bicycle?",
+      "options": [
+        "Never swim alone",
+        "Look both ways",
+        "Stop, drop and roll, then get outside",
+        "A helmet"
+      ],
+      "correctOption": "A helmet",
+      "correctFeedback": "Yes! A helmet is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A helmet."
+    },
+    {
+      "id": "ls_g1_safety_5",
+      "name": "Stage 6",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What should you do if there is a fire?",
+      "options": [
+        "A helmet",
+        "Get in a car with them",
+        "A parent's phone number",
+        "Stop, drop and roll, then get outside"
+      ],
+      "correctOption": "Stop, drop and roll, then get outside",
+      "correctFeedback": "Yes! Stop, drop and roll, then get outside is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Stop, drop and roll, then get outside."
+    },
+    {
+      "id": "ls_g1_safety_6",
+      "name": "Stage 7",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "Who can you talk to if someone makes you feel unsafe?",
+      "options": [
+        "A trusted adult",
+        "A helmet",
+        "Stop, drop and roll, then get outside",
+        "Find a shop worker or security guard"
+      ],
+      "correctOption": "A trusted adult",
+      "correctFeedback": "Yes! A trusted adult is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A trusted adult."
+    },
+    {
+      "id": "ls_g1_safety_7",
+      "name": "Stage 8",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What should you do before eating food from someone you don't know?",
+      "options": [
+        "Find a shop worker or security guard",
+        "A helmet",
+        "Look both ways",
+        "Ask a parent first"
+      ],
+      "correctOption": "Ask a parent first",
+      "correctFeedback": "Yes! Ask a parent first is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Ask a parent first."
+    },
+    {
+      "id": "ls_g1_safety_8",
+      "name": "Stage 9",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What should you never do at a swimming pool without an adult?",
+      "options": [
+        "A parent's phone number",
+        "Never swim alone",
+        "Get in a car with them",
+        "A trusted adult"
+      ],
+      "correctOption": "Never swim alone",
+      "correctFeedback": "Yes! Never swim alone is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Never swim alone."
+    },
+    {
+      "id": "ls_g1_safety_9",
+      "name": "Stage 10",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What should you remember to carry in case of emergency?",
+      "options": [
+        "A parent's phone number",
+        "Look both ways",
+        "Never swim alone",
+        "A trusted adult"
+      ],
+      "correctOption": "A parent's phone number",
+      "correctFeedback": "Yes! A parent's phone number is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A parent's phone number."
+    }
+  ]
 }

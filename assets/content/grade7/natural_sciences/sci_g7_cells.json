@@ -5,8 +5,80 @@
   "subject": "Natural Sciences",
   "title": "Cell Explorers",
   "tagline": "Compare plant and animal cells and their organelles!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#00BFA5",
   "emoji": "🔬",
-  "_scaffold": true,
-  "levels": []
+  "levels": [
+    {
+      "targetClass": "plant cell part",
+      "missionLabel": "Collect plant cell parts! 🌱",
+      "scrollSpeed": 0.11,
+      "buckets": {
+        "plant cell part": [
+          "cell wall",
+          "chloroplast",
+          "large vacuole",
+          "plastid"
+        ],
+        "animal cell part": [
+          "centriole",
+          "small vacuole",
+          "lysosome"
+        ],
+        "both cell types": [
+          "nucleus",
+          "cell membrane",
+          "cytoplasm",
+          "mitochondria"
+        ]
+      }
+    },
+    {
+      "targetClass": "animal cell part",
+      "missionLabel": "Collect animal cell parts! 🐾",
+      "scrollSpeed": 0.11,
+      "buckets": {
+        "plant cell part": [
+          "cell wall",
+          "chloroplast",
+          "large vacuole",
+          "plastid"
+        ],
+        "animal cell part": [
+          "centriole",
+          "small vacuole",
+          "lysosome"
+        ],
+        "both cell types": [
+          "nucleus",
+          "cell membrane",
+          "cytoplasm",
+          "mitochondria"
+        ]
+      }
+    },
+    {
+      "targetClass": "both cell types",
+      "missionLabel": "Collect parts in both cells! 🔬",
+      "scrollSpeed": 0.11,
+      "buckets": {
+        "plant cell part": [
+          "cell wall",
+          "chloroplast",
+          "large vacuole",
+          "plastid"
+        ],
+        "animal cell part": [
+          "centriole",
+          "small vacuole",
+          "lysosome"
+        ],
+        "both cell types": [
+          "nucleus",
+          "cell membrane",
+          "cytoplasm",
+          "mitochondria"
+        ]
+      }
+    }
+  ]
 }

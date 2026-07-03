@@ -5,11 +5,16 @@
   "subject": "Mathematics",
   "title": "Data City",
   "tagline": "Read bar graphs, pictographs and tables to answer data questions!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF6B35",
   "emoji": "📊",
-  "_scaffold": true,
   "mode": "numeric",
   "gridSize": 4,
   "chainLength": 4,
-  "tables": []
+  "tables": [
+    5,
+    10,
+    15,
+    20,
+    25
+  ]
 }

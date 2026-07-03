@@ -5,10 +5,106 @@
   "subject": "Social Sciences",
   "title": "Colonial Era",
   "tagline": "Understand the impact of colonization on Southern Africa!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#43A047",
   "emoji": "⛵",
-  "_scaffold": true,
-  "sceneType": "history",
-  "steps": [],
-  "roundVariants": []
+  "sceneType": "colonialEra",
+  "steps": [
+    {
+      "id": "arrival",
+      "label": "Arrival",
+      "emoji": "⛵",
+      "description": "European settlers arrive at the Cape in 1652."
+    },
+    {
+      "id": "expansion",
+      "label": "Expansion",
+      "emoji": "🗺️",
+      "description": "Settlers expand inland, taking more land."
+    },
+    {
+      "id": "conflict",
+      "label": "Conflict",
+      "emoji": "⚔️",
+      "description": "Conflict grows between settlers and indigenous groups."
+    },
+    {
+      "id": "british",
+      "label": "British Rule",
+      "emoji": "🇬🇧",
+      "description": "British rule replaces Dutch rule at the Cape."
+    },
+    {
+      "id": "trekboers",
+      "label": "Trekboers",
+      "emoji": "🐂",
+      "description": "Trekboers and Voortrekkers move further inland."
+    },
+    {
+      "id": "colonies",
+      "label": "Colonies Form",
+      "emoji": "🏛️",
+      "description": "Separate colonies form across southern Africa."
+    }
+  ],
+  "roundVariants": [
+    [
+      "expansion",
+      "british",
+      "trekboers",
+      "colonies"
+    ],
+    [
+      "expansion",
+      "conflict",
+      "trekboers"
+    ],
+    [
+      "arrival",
+      "conflict",
+      "british"
+    ],
+    [
+      "arrival",
+      "british",
+      "trekboers",
+      "colonies"
+    ],
+    [
+      "arrival",
+      "expansion",
+      "conflict",
+      "british",
+      "trekboers",
+      "colonies"
+    ],
+    [
+      "conflict",
+      "british",
+      "colonies"
+    ],
+    [
+      "arrival",
+      "conflict",
+      "british",
+      "trekboers"
+    ],
+    [
+      "conflict",
+      "british",
+      "trekboers",
+      "colonies"
+    ],
+    [
+      "expansion",
+      "british",
+      "colonies"
+    ],
+    [
+      "arrival",
+      "conflict",
+      "british",
+      "trekboers",
+      "colonies"
+    ]
+  ]
 }

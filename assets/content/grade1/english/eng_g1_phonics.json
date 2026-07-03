@@ -5,9 +5,153 @@
   "subject": "English",
   "title": "Phonics Fun",
   "tagline": "Blend sounds together to decode and read words!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#E91E63",
   "emoji": "🎵",
-  "_scaffold": true,
-  "questionType": "addition",
-  "sampleItems": []
+  "questionType": "general-knowledge",
+  "sampleItems": [
+    {
+      "question": "What sound do you hear first in 'cat'?",
+      "options": [
+        "map",
+        "sun",
+        "pig",
+        "/c/"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "/c/ — that's correct!"
+    },
+    {
+      "question": "Blend c-a-t together. What word do you get?",
+      "options": [
+        "cat",
+        "/b/",
+        "pig",
+        "dog"
+      ],
+      "answerIndex": 0,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "cat — that's correct!"
+    },
+    {
+      "question": "What sound do you hear first in 'sun'?",
+      "options": [
+        "/b/",
+        "cat",
+        "/s/",
+        "bed"
+      ],
+      "answerIndex": 2,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "/s/ — that's correct!"
+    },
+    {
+      "question": "Blend s-u-n together. What word do you get?",
+      "options": [
+        "/m/",
+        "sun",
+        "dog",
+        "/g/"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "sun — that's correct!"
+    },
+    {
+      "question": "What sound do you hear last in 'dog'?",
+      "options": [
+        "/m/",
+        "/b/",
+        "/p/",
+        "/g/"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "/g/ — that's correct!"
+    },
+    {
+      "question": "Blend d-o-g together. What word do you get?",
+      "options": [
+        "/p/",
+        "/m/",
+        "dog",
+        "cat"
+      ],
+      "answerIndex": 2,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "dog — that's correct!"
+    },
+    {
+      "question": "What sound do you hear first in 'map'?",
+      "options": [
+        "sun",
+        "/m/",
+        "/c/",
+        "/p/"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "/m/ — that's correct!"
+    },
+    {
+      "question": "Blend m-a-p together. What word do you get?",
+      "options": [
+        "map",
+        "cat",
+        "bed",
+        "/g/"
+      ],
+      "answerIndex": 0,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "map — that's correct!"
+    },
+    {
+      "question": "What sound do you hear first in 'pig'?",
+      "options": [
+        "/p/",
+        "bed",
+        "/s/",
+        "/b/"
+      ],
+      "answerIndex": 0,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "/p/ — that's correct!"
+    },
+    {
+      "question": "Blend p-i-g together. What word do you get?",
+      "options": [
+        "cat",
+        "/g/",
+        "/b/",
+        "pig"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "pig — that's correct!"
+    },
+    {
+      "question": "What sound do you hear first in 'bed'?",
+      "options": [
+        "/b/",
+        "dog",
+        "/s/",
+        "pig"
+      ],
+      "answerIndex": 0,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "/b/ — that's correct!"
+    },
+    {
+      "question": "Blend b-e-d together. What word do you get?",
+      "options": [
+        "bed",
+        "cat",
+        "/m/",
+        "pig"
+      ],
+      "answerIndex": 0,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "bed — that's correct!"
+    }
+  ]
 }

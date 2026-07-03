@@ -5,9 +5,169 @@
   "subject": "Mathematics",
   "title": "Word Problem Warrior",
   "tagline": "Translate real-world problems into equations and solve them!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF6B35",
   "emoji": "🧠",
-  "_scaffold": true,
   "characterEmoji": "🧠",
-  "stages": []
+  "stages": [
+    {
+      "id": "math_g7_wordproblems_0",
+      "name": "Stage 1",
+      "emoji": "🧠",
+      "themeColorHex": "#FF6B35",
+      "question": "Naledi has R20 and spends R7 at the grocery store. How much money is left?",
+      "options": [
+        "R13",
+        "R9",
+        "R11",
+        "R16"
+      ],
+      "correctOption": "R13",
+      "correctFeedback": "Yes! R13 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R13."
+    },
+    {
+      "id": "math_g7_wordproblems_1",
+      "name": "Stage 2",
+      "emoji": "🧠",
+      "themeColorHex": "#FF6B35",
+      "question": "Aisha has R329 and spends R111 at the spaza shop. How much money is left?",
+      "options": [
+        "R210",
+        "R214",
+        "R218",
+        "R216"
+      ],
+      "correctOption": "R218",
+      "correctFeedback": "Yes! R218 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R218."
+    },
+    {
+      "id": "math_g7_wordproblems_2",
+      "name": "Stage 3",
+      "emoji": "🧠",
+      "themeColorHex": "#FF6B35",
+      "question": "Kagiso buys 3 pencils at the market stall, each costing R3. How much does Kagiso spend in total?",
+      "options": [
+        "R9",
+        "R15",
+        "R3",
+        "R17"
+      ],
+      "correctOption": "R9",
+      "correctFeedback": "Yes! R9 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R9."
+    },
+    {
+      "id": "math_g7_wordproblems_3",
+      "name": "Stage 4",
+      "emoji": "🧠",
+      "themeColorHex": "#FF6B35",
+      "question": "Nomvula shares 10 notebooks equally into 2 bags. How many notebooks go in each bag?",
+      "options": [
+        "7",
+        "6",
+        "5",
+        "2"
+      ],
+      "correctOption": "5",
+      "correctFeedback": "Yes! 5 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 5."
+    },
+    {
+      "id": "math_g7_wordproblems_4",
+      "name": "Stage 5",
+      "emoji": "🧠",
+      "themeColorHex": "#FF6B35",
+      "question": "Lerato buys 2 pencils at the market stall, each costing R3. How much does Lerato spend in total?",
+      "options": [
+        "R6",
+        "R5",
+        "R15",
+        "R1"
+      ],
+      "correctOption": "R6",
+      "correctFeedback": "Yes! R6 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R6."
+    },
+    {
+      "id": "math_g7_wordproblems_5",
+      "name": "Stage 6",
+      "emoji": "🧠",
+      "themeColorHex": "#FF6B35",
+      "question": "Zanele shares 16 notebooks equally into 8 bags. How many notebooks go in each bag?",
+      "options": [
+        "2",
+        "3",
+        "5",
+        "1"
+      ],
+      "correctOption": "2",
+      "correctFeedback": "Yes! 2 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 2."
+    },
+    {
+      "id": "math_g7_wordproblems_6",
+      "name": "Stage 7",
+      "emoji": "🧠",
+      "themeColorHex": "#FF6B35",
+      "question": "Thabo buys 12 oranges at the grocery store, each costing R3. How much does Thabo spend in total?",
+      "options": [
+        "R40",
+        "R41",
+        "R29",
+        "R36"
+      ],
+      "correctOption": "R36",
+      "correctFeedback": "Yes! R36 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R36."
+    },
+    {
+      "id": "math_g7_wordproblems_7",
+      "name": "Stage 8",
+      "emoji": "🧠",
+      "themeColorHex": "#FF6B35",
+      "question": "Bongani buys 12 notebooks at the market stall, each costing R7. How much does Bongani spend in total?",
+      "options": [
+        "R80",
+        "R84",
+        "R81",
+        "R79"
+      ],
+      "correctOption": "R84",
+      "correctFeedback": "Yes! R84 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R84."
+    },
+    {
+      "id": "math_g7_wordproblems_8",
+      "name": "Stage 9",
+      "emoji": "🧠",
+      "themeColorHex": "#FF6B35",
+      "question": "Amahle shares 24 notebooks equally into 8 bags. How many notebooks go in each bag?",
+      "options": [
+        "1",
+        "3",
+        "5",
+        "2"
+      ],
+      "correctOption": "3",
+      "correctFeedback": "Yes! 3 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 3."
+    },
+    {
+      "id": "math_g7_wordproblems_9",
+      "name": "Stage 10",
+      "emoji": "🧠",
+      "themeColorHex": "#FF6B35",
+      "question": "Nomvula buys 9 sweets at the school tuck shop, each costing R3. How much does Nomvula spend in total?",
+      "options": [
+        "R36",
+        "R27",
+        "R32",
+        "R35"
+      ],
+      "correctOption": "R27",
+      "correctFeedback": "Yes! R27 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R27."
+    }
+  ]
 }

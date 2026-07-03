@@ -5,9 +5,169 @@
   "subject": "English",
   "title": "Reading Rainbow",
   "tagline": "Read simple sentences and answer comprehension questions!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#E91E63",
   "emoji": "🌈",
-  "_scaffold": true,
   "characterEmoji": "🌈",
-  "stages": []
+  "stages": [
+    {
+      "id": "eng_g1_reading_0",
+      "name": "Stage 1",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "What do we call the people in a story?",
+      "options": [
+        "Ending",
+        "Characters",
+        "Non-fiction",
+        "Beginning"
+      ],
+      "correctOption": "Characters",
+      "correctFeedback": "Yes! Characters is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Characters."
+    },
+    {
+      "id": "eng_g1_reading_1",
+      "name": "Stage 2",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "What do we call where and when a story happens?",
+      "options": [
+        "Resolution",
+        "Narrator",
+        "Conflict",
+        "Setting"
+      ],
+      "correctOption": "Setting",
+      "correctFeedback": "Yes! Setting is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Setting."
+    },
+    {
+      "id": "eng_g1_reading_2",
+      "name": "Stage 3",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "What is the problem in a story called?",
+      "options": [
+        "Setting",
+        "Non-fiction",
+        "Theme",
+        "Conflict"
+      ],
+      "correctOption": "Conflict",
+      "correctFeedback": "Yes! Conflict is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Conflict."
+    },
+    {
+      "id": "eng_g1_reading_3",
+      "name": "Stage 4",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "What is the part where the story is solved called?",
+      "options": [
+        "Resolution",
+        "Ending",
+        "Theme",
+        "Conflict"
+      ],
+      "correctOption": "Resolution",
+      "correctFeedback": "Yes! Resolution is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Resolution."
+    },
+    {
+      "id": "eng_g1_reading_4",
+      "name": "Stage 5",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "What do we call the person telling the story?",
+      "options": [
+        "Beginning",
+        "Conflict",
+        "Fiction",
+        "Narrator"
+      ],
+      "correctOption": "Narrator",
+      "correctFeedback": "Yes! Narrator is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Narrator."
+    },
+    {
+      "id": "eng_g1_reading_5",
+      "name": "Stage 6",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "What is the main message of a story called?",
+      "options": [
+        "Resolution",
+        "Characters",
+        "Theme",
+        "Conflict"
+      ],
+      "correctOption": "Theme",
+      "correctFeedback": "Yes! Theme is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Theme."
+    },
+    {
+      "id": "eng_g1_reading_6",
+      "name": "Stage 7",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "What comes first in a story?",
+      "options": [
+        "Beginning",
+        "Resolution",
+        "Fiction",
+        "Characters"
+      ],
+      "correctOption": "Beginning",
+      "correctFeedback": "Yes! Beginning is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Beginning."
+    },
+    {
+      "id": "eng_g1_reading_7",
+      "name": "Stage 8",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "What comes last in a story?",
+      "options": [
+        "Ending",
+        "Theme",
+        "Characters",
+        "Resolution"
+      ],
+      "correctOption": "Ending",
+      "correctFeedback": "Yes! Ending is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Ending."
+    },
+    {
+      "id": "eng_g1_reading_8",
+      "name": "Stage 9",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "What do we call a made-up story?",
+      "options": [
+        "Theme",
+        "Fiction",
+        "Non-fiction",
+        "Resolution"
+      ],
+      "correctOption": "Fiction",
+      "correctFeedback": "Yes! Fiction is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Fiction."
+    },
+    {
+      "id": "eng_g1_reading_9",
+      "name": "Stage 10",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "What do we call a true story?",
+      "options": [
+        "Resolution",
+        "Theme",
+        "Non-fiction",
+        "Narrator"
+      ],
+      "correctOption": "Non-fiction",
+      "correctFeedback": "Yes! Non-fiction is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Non-fiction."
+    }
+  ]
 }

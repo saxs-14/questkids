@@ -5,9 +5,189 @@
   "subject": "Mathematics",
   "title": "Algebra Arena",
   "tagline": "Solve for x — simplify expressions and solve linear equations!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF6B35",
   "emoji": "🔡",
-  "_scaffold": true,
-  "questionType": "addition",
-  "sampleItems": []
+  "questionType": "algebra",
+  "sampleItems": [
+    {
+      "question": "Solve for x: 2x + 9 = 1713",
+      "options": [
+        "848",
+        "853",
+        "852",
+        "856"
+      ],
+      "answerIndex": 2,
+      "hint": "Subtract 9 from both sides, then divide by 2.",
+      "explanation": "2x = 1704, so x = 852."
+    },
+    {
+      "question": "Solve for x: 7x + 20 = 1819",
+      "options": [
+        "256",
+        "253",
+        "257",
+        "260"
+      ],
+      "answerIndex": 2,
+      "hint": "Subtract 20 from both sides, then divide by 7.",
+      "explanation": "7x = 1799, so x = 257."
+    },
+    {
+      "question": "Solve for x: 6x + 6 = 5424",
+      "options": [
+        "903",
+        "904",
+        "900",
+        "899"
+      ],
+      "answerIndex": 0,
+      "hint": "Subtract 6 from both sides, then divide by 6.",
+      "explanation": "6x = 5418, so x = 903."
+    },
+    {
+      "question": "Solve for x: 7x + 6 = 1217",
+      "options": [
+        "174",
+        "173",
+        "175",
+        "177"
+      ],
+      "answerIndex": 1,
+      "hint": "Subtract 6 from both sides, then divide by 7.",
+      "explanation": "7x = 1211, so x = 173."
+    },
+    {
+      "question": "Solve for x: 2x + 19 = 1505",
+      "options": [
+        "741",
+        "744",
+        "743",
+        "740"
+      ],
+      "answerIndex": 2,
+      "hint": "Subtract 19 from both sides, then divide by 2.",
+      "explanation": "2x = 1486, so x = 743."
+    },
+    {
+      "question": "Solve for x: 5x + 15 = 1970",
+      "options": [
+        "393",
+        "392",
+        "391",
+        "390"
+      ],
+      "answerIndex": 2,
+      "hint": "Subtract 15 from both sides, then divide by 5.",
+      "explanation": "5x = 1955, so x = 391."
+    },
+    {
+      "question": "Solve for x: 6x + 13 = 211",
+      "options": [
+        "33",
+        "31",
+        "37",
+        "30"
+      ],
+      "answerIndex": 0,
+      "hint": "Subtract 13 from both sides, then divide by 6.",
+      "explanation": "6x = 198, so x = 33."
+    },
+    {
+      "question": "Solve for x: 6x + 15 = 1695",
+      "options": [
+        "277",
+        "283",
+        "280",
+        "282"
+      ],
+      "answerIndex": 2,
+      "hint": "Subtract 15 from both sides, then divide by 6.",
+      "explanation": "6x = 1680, so x = 280."
+    },
+    {
+      "question": "Solve for x: 7x + 8 = 4467",
+      "options": [
+        "637",
+        "638",
+        "640",
+        "634"
+      ],
+      "answerIndex": 0,
+      "hint": "Subtract 8 from both sides, then divide by 7.",
+      "explanation": "7x = 4459, so x = 637."
+    },
+    {
+      "question": "Solve for x: 9x + 9 = 7155",
+      "options": [
+        "797",
+        "793",
+        "795",
+        "794"
+      ],
+      "answerIndex": 3,
+      "hint": "Subtract 9 from both sides, then divide by 9.",
+      "explanation": "9x = 7146, so x = 794."
+    },
+    {
+      "question": "Solve for x: 4x + 12 = 3312",
+      "options": [
+        "826",
+        "825",
+        "827",
+        "822"
+      ],
+      "answerIndex": 1,
+      "hint": "Subtract 12 from both sides, then divide by 4.",
+      "explanation": "4x = 3300, so x = 825."
+    },
+    {
+      "question": "Solve for x: 7x + 15 = 5594",
+      "options": [
+        "798",
+        "801",
+        "795",
+        "797"
+      ],
+      "answerIndex": 3,
+      "hint": "Subtract 15 from both sides, then divide by 7.",
+      "explanation": "7x = 5579, so x = 797."
+    },
+    {
+      "question": "Solve for x: 9x + 3 = 4575",
+      "options": [
+        "504",
+        "508",
+        "506",
+        "511"
+      ],
+      "answerIndex": 1,
+      "hint": "Subtract 3 from both sides, then divide by 9.",
+      "explanation": "9x = 4572, so x = 508."
+    },
+    {
+      "question": "Solve for x: 2x + 7 = 589",
+      "options": [
+        "293",
+        "291",
+        "289",
+        "294"
+      ],
+      "answerIndex": 1,
+      "hint": "Subtract 7 from both sides, then divide by 2.",
+      "explanation": "2x = 582, so x = 291."
+    },
+    {
+      "question": "Solve for x: 5x + 17 = 2937",
+      "options": [
+        "587",
+        "586",
+        "584",
+        "588"
+      ],
+      "answerIndex": 2,
+      "hint": "Subtract 17 from both sides, then divide by 5.",
+      "explanation": "5x = 2920, so x = 584."
+    }
+  ]
 }

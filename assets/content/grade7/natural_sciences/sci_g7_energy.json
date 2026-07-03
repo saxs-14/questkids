@@ -5,10 +5,156 @@
   "subject": "Natural Sciences",
   "title": "Energy Transformations",
   "tagline": "Track how energy changes form — electrical, heat, light and sound!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#00BFA5",
   "emoji": "⚡",
-  "_scaffold": true,
-  "sceneType": "energy",
-  "steps": [],
-  "roundVariants": []
+  "sceneType": "energyTransformations",
+  "steps": [
+    {
+      "id": "chemical",
+      "label": "Chemical",
+      "emoji": "🧪",
+      "description": "Chemical energy is stored in food or fuel."
+    },
+    {
+      "id": "release",
+      "label": "Release",
+      "emoji": "💥",
+      "description": "The chemical energy is released through a reaction."
+    },
+    {
+      "id": "heat",
+      "label": "Heat",
+      "emoji": "🔥",
+      "description": "Some energy transforms into heat energy."
+    },
+    {
+      "id": "kinetic",
+      "label": "Kinetic",
+      "emoji": "🏃",
+      "description": "Some energy transforms into kinetic (movement) energy."
+    },
+    {
+      "id": "sound",
+      "label": "Sound",
+      "emoji": "🔊",
+      "description": "Some energy is lost as sound energy."
+    },
+    {
+      "id": "electrical",
+      "label": "Electrical",
+      "emoji": "⚡",
+      "description": "In a generator, kinetic energy transforms into electrical energy."
+    },
+    {
+      "id": "light",
+      "label": "Light",
+      "emoji": "💡",
+      "description": "Electrical energy can transform into light energy."
+    },
+    {
+      "id": "loss",
+      "label": "Loss",
+      "emoji": "🌫️",
+      "description": "Some energy is always lost to the surroundings as heat."
+    }
+  ],
+  "roundVariants": [
+    [
+      "release",
+      "sound",
+      "electrical",
+      "loss"
+    ],
+    [
+      "chemical",
+      "sound",
+      "loss"
+    ],
+    [
+      "chemical",
+      "release",
+      "kinetic",
+      "sound",
+      "electrical",
+      "light"
+    ],
+    [
+      "chemical",
+      "release",
+      "heat",
+      "kinetic",
+      "sound",
+      "light",
+      "loss"
+    ],
+    [
+      "chemical",
+      "heat",
+      "loss"
+    ],
+    [
+      "chemical",
+      "release",
+      "heat",
+      "electrical",
+      "loss"
+    ],
+    [
+      "chemical",
+      "release",
+      "sound"
+    ],
+    [
+      "chemical",
+      "release",
+      "heat",
+      "loss"
+    ],
+    [
+      "chemical",
+      "heat",
+      "kinetic",
+      "sound",
+      "electrical"
+    ],
+    [
+      "chemical",
+      "release",
+      "heat",
+      "kinetic",
+      "electrical",
+      "loss"
+    ],
+    [
+      "chemical",
+      "heat",
+      "sound",
+      "light",
+      "loss"
+    ],
+    [
+      "chemical",
+      "release",
+      "electrical",
+      "light",
+      "loss"
+    ],
+    [
+      "release",
+      "heat",
+      "kinetic",
+      "loss"
+    ],
+    [
+      "chemical",
+      "release",
+      "heat",
+      "electrical"
+    ],
+    [
+      "kinetic",
+      "sound",
+      "loss"
+    ]
+  ]
 }

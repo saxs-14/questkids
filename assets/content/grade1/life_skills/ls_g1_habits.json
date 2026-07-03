@@ -5,9 +5,129 @@
   "subject": "Life Skills",
   "title": "Healthy Habits",
   "tagline": "Build good habits around hygiene, nutrition and exercise!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF9800",
   "emoji": "🥗",
-  "_scaffold": true,
-  "questionType": "addition",
-  "sampleItems": []
+  "questionType": "general-knowledge",
+  "sampleItems": [
+    {
+      "question": "How many times a day should you brush your teeth?",
+      "options": [
+        "About 10 hours",
+        "Water",
+        "Wash your hands",
+        "Twice"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Twice — that's correct!"
+    },
+    {
+      "question": "What should you do before eating?",
+      "options": [
+        "About 10 hours",
+        "Wash your hands and face",
+        "Twice",
+        "Wash your hands"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Wash your hands — that's correct!"
+    },
+    {
+      "question": "What should your body get plenty of every day?",
+      "options": [
+        "Wash your hands",
+        "About 10 hours",
+        "A hat and sunscreen",
+        "Water"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Water — that's correct!"
+    },
+    {
+      "question": "What helps your body grow strong?",
+      "options": [
+        "Healthy food and exercise",
+        "Wash your hands",
+        "Wash your hands and face",
+        "It keeps your body strong and healthy"
+      ],
+      "answerIndex": 0,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Healthy food and exercise — that's correct!"
+    },
+    {
+      "question": "About how many hours of sleep does a young child need?",
+      "options": [
+        "About 10 hours",
+        "Carbohydrates like bread and rice",
+        "Twice",
+        "Water"
+      ],
+      "answerIndex": 0,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "About 10 hours — that's correct!"
+    },
+    {
+      "question": "Why do we cover our mouth when we cough?",
+      "options": [
+        "A hat and sunscreen",
+        "Carbohydrates like bread and rice",
+        "Healthy food and exercise",
+        "To stop germs from spreading"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "To stop germs from spreading — that's correct!"
+    },
+    {
+      "question": "What should you do after playing outside?",
+      "options": [
+        "It keeps your body strong and healthy",
+        "Wash your hands and face",
+        "Twice",
+        "About 10 hours"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Wash your hands and face — that's correct!"
+    },
+    {
+      "question": "Which food group gives you energy to play?",
+      "options": [
+        "Wash your hands and face",
+        "Carbohydrates like bread and rice",
+        "Twice",
+        "Water"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Carbohydrates like bread and rice — that's correct!"
+    },
+    {
+      "question": "Why is exercise good for you?",
+      "options": [
+        "A hat and sunscreen",
+        "To stop germs from spreading",
+        "Healthy food and exercise",
+        "It keeps your body strong and healthy"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "It keeps your body strong and healthy — that's correct!"
+    },
+    {
+      "question": "What should you wear on a sunny day to stay safe?",
+      "options": [
+        "Water",
+        "Carbohydrates like bread and rice",
+        "A hat and sunscreen",
+        "Healthy food and exercise"
+      ],
+      "answerIndex": 2,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "A hat and sunscreen — that's correct!"
+    }
+  ]
 }

@@ -5,8 +5,116 @@
   "subject": "English",
   "title": "Verb Volcano",
   "tagline": "Conquer tense and verb forms — present, past and future!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#E91E63",
   "emoji": "🌋",
-  "_scaffold": true,
-  "levels": []
+  "levels": [
+    {
+      "targetClass": "present",
+      "missionLabel": "Collect present tense! ⏱️",
+      "scrollSpeed": 0.09,
+      "buckets": {
+        "present": [
+          "walk",
+          "eat",
+          "play",
+          "sing",
+          "run",
+          "read",
+          "write",
+          "jump"
+        ],
+        "past": [
+          "walked",
+          "ate",
+          "played",
+          "sang",
+          "ran",
+          "read",
+          "wrote",
+          "jumped"
+        ],
+        "future": [
+          "will walk",
+          "will eat",
+          "will play",
+          "will sing",
+          "will run",
+          "will read",
+          "will write"
+        ]
+      }
+    },
+    {
+      "targetClass": "past",
+      "missionLabel": "Collect past tense! ⏪",
+      "scrollSpeed": 0.11,
+      "buckets": {
+        "present": [
+          "walk",
+          "eat",
+          "play",
+          "sing",
+          "run",
+          "read",
+          "write",
+          "jump"
+        ],
+        "past": [
+          "walked",
+          "ate",
+          "played",
+          "sang",
+          "ran",
+          "read",
+          "wrote",
+          "jumped"
+        ],
+        "future": [
+          "will walk",
+          "will eat",
+          "will play",
+          "will sing",
+          "will run",
+          "will read",
+          "will write"
+        ]
+      }
+    },
+    {
+      "targetClass": "future",
+      "missionLabel": "Collect future tense! ⏩",
+      "scrollSpeed": 0.13,
+      "buckets": {
+        "present": [
+          "walk",
+          "eat",
+          "play",
+          "sing",
+          "run",
+          "read",
+          "write",
+          "jump"
+        ],
+        "past": [
+          "walked",
+          "ate",
+          "played",
+          "sang",
+          "ran",
+          "read",
+          "wrote",
+          "jumped"
+        ],
+        "future": [
+          "will walk",
+          "will eat",
+          "will play",
+          "will sing",
+          "will run",
+          "will read",
+          "will write"
+        ]
+      }
+    }
+  ]
 }

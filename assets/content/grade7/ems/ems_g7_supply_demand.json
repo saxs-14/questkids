@@ -5,9 +5,249 @@
   "subject": "EMS",
   "title": "Supply & Demand",
   "tagline": "Watch prices change as supply and demand shift in the market!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#009688",
   "emoji": "📈",
-  "_scaffold": true,
   "characterEmoji": "📈",
-  "stages": []
+  "stages": [
+    {
+      "id": "ems_g7_supply_demand_0",
+      "name": "Stage 1",
+      "emoji": "📈",
+      "themeColorHex": "#009688",
+      "question": "What happens to price when demand increases but supply stays the same?",
+      "options": [
+        "It increases",
+        "A product that can replace another, like tea for coffee",
+        "It tends to be high due to low supply",
+        "Price rises"
+      ],
+      "correctOption": "Price rises",
+      "correctFeedback": "Yes! Price rises is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Price rises."
+    },
+    {
+      "id": "ems_g7_supply_demand_1",
+      "name": "Stage 2",
+      "emoji": "📈",
+      "themeColorHex": "#009688",
+      "question": "What happens to price when supply increases but demand stays the same?",
+      "options": [
+        "The price where supply equals demand",
+        "How much of a product is available to sell",
+        "Price falls",
+        "When demand is greater than supply"
+      ],
+      "correctOption": "Price falls",
+      "correctFeedback": "Yes! Price falls is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Price falls."
+    },
+    {
+      "id": "ems_g7_supply_demand_2",
+      "name": "Stage 3",
+      "emoji": "📈",
+      "themeColorHex": "#009688",
+      "question": "What is 'demand'?",
+      "options": [
+        "How much of a product is available to sell",
+        "A product that can replace another, like tea for coffee",
+        "How much of a product people want to buy",
+        "It increases"
+      ],
+      "correctOption": "How much of a product people want to buy",
+      "correctFeedback": "Yes! How much of a product people want to buy is right — onward!",
+      "wrongFeedback": "Not quite — the answer is How much of a product people want to buy."
+    },
+    {
+      "id": "ems_g7_supply_demand_3",
+      "name": "Stage 4",
+      "emoji": "📈",
+      "themeColorHex": "#009688",
+      "question": "What is 'supply'?",
+      "options": [
+        "When there isn't enough of something to meet demand",
+        "How much of a product is available to sell",
+        "It tends to be high due to low supply",
+        "The value of the next best option given up"
+      ],
+      "correctOption": "How much of a product is available to sell",
+      "correctFeedback": "Yes! How much of a product is available to sell is right — onward!",
+      "wrongFeedback": "Not quite — the answer is How much of a product is available to sell."
+    },
+    {
+      "id": "ems_g7_supply_demand_4",
+      "name": "Stage 5",
+      "emoji": "📈",
+      "themeColorHex": "#009688",
+      "question": "What is 'scarcity'?",
+      "options": [
+        "How much of a product people want to buy",
+        "It increases",
+        "It reduces supply, so prices rise",
+        "When there isn't enough of something to meet demand"
+      ],
+      "correctOption": "When there isn't enough of something to meet demand",
+      "correctFeedback": "Yes! When there isn't enough of something to meet demand is right — onward!",
+      "wrongFeedback": "Not quite — the answer is When there isn't enough of something to meet demand."
+    },
+    {
+      "id": "ems_g7_supply_demand_5",
+      "name": "Stage 6",
+      "emoji": "📈",
+      "themeColorHex": "#009688",
+      "question": "What is 'equilibrium price'?",
+      "options": [
+        "Price falls",
+        "The price where supply equals demand",
+        "It reduces supply, so prices rise",
+        "A product that can replace another, like tea for coffee"
+      ],
+      "correctOption": "The price where supply equals demand",
+      "correctFeedback": "Yes! The price where supply equals demand is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The price where supply equals demand."
+    },
+    {
+      "id": "ems_g7_supply_demand_6",
+      "name": "Stage 7",
+      "emoji": "📈",
+      "themeColorHex": "#009688",
+      "question": "What happens to demand for umbrellas on a rainy day?",
+      "options": [
+        "How much of a product is available to sell",
+        "It increases",
+        "It tends to keep prices lower",
+        "The price where supply equals demand"
+      ],
+      "correctOption": "It increases",
+      "correctFeedback": "Yes! It increases is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It increases."
+    },
+    {
+      "id": "ems_g7_supply_demand_7",
+      "name": "Stage 8",
+      "emoji": "📈",
+      "themeColorHex": "#009688",
+      "question": "What is a 'surplus'?",
+      "options": [
+        "When supply is greater than demand",
+        "It reduces supply, so prices rise",
+        "Price rises",
+        "Price falls"
+      ],
+      "correctOption": "When supply is greater than demand",
+      "correctFeedback": "Yes! When supply is greater than demand is right — onward!",
+      "wrongFeedback": "Not quite — the answer is When supply is greater than demand."
+    },
+    {
+      "id": "ems_g7_supply_demand_8",
+      "name": "Stage 9",
+      "emoji": "📈",
+      "themeColorHex": "#009688",
+      "question": "What is a 'shortage'?",
+      "options": [
+        "It reduces supply, so prices rise",
+        "The price where supply equals demand",
+        "When supply is greater than demand",
+        "When demand is greater than supply"
+      ],
+      "correctOption": "When demand is greater than supply",
+      "correctFeedback": "Yes! When demand is greater than supply is right — onward!",
+      "wrongFeedback": "Not quite — the answer is When demand is greater than supply."
+    },
+    {
+      "id": "ems_g7_supply_demand_9",
+      "name": "Stage 10",
+      "emoji": "📈",
+      "themeColorHex": "#009688",
+      "question": "Why do prices of school uniforms rise in January?",
+      "options": [
+        "When supply is greater than demand",
+        "When there isn't enough of something to meet demand",
+        "The price where supply equals demand",
+        "High demand as schools reopen"
+      ],
+      "correctOption": "High demand as schools reopen",
+      "correctFeedback": "Yes! High demand as schools reopen is right — onward!",
+      "wrongFeedback": "Not quite — the answer is High demand as schools reopen."
+    },
+    {
+      "id": "ems_g7_supply_demand_10",
+      "name": "Stage 11",
+      "emoji": "📈",
+      "themeColorHex": "#009688",
+      "question": "What is 'opportunity cost'?",
+      "options": [
+        "The value of the next best option given up",
+        "It reduces supply, so prices rise",
+        "Price rises",
+        "Price falls"
+      ],
+      "correctOption": "The value of the next best option given up",
+      "correctFeedback": "Yes! The value of the next best option given up is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The value of the next best option given up."
+    },
+    {
+      "id": "ems_g7_supply_demand_11",
+      "name": "Stage 12",
+      "emoji": "📈",
+      "themeColorHex": "#009688",
+      "question": "How does competition affect prices?",
+      "options": [
+        "Price falls",
+        "It tends to keep prices lower",
+        "It tends to be high due to low supply",
+        "It increases"
+      ],
+      "correctOption": "It tends to keep prices lower",
+      "correctFeedback": "Yes! It tends to keep prices lower is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It tends to keep prices lower."
+    },
+    {
+      "id": "ems_g7_supply_demand_12",
+      "name": "Stage 13",
+      "emoji": "📈",
+      "themeColorHex": "#009688",
+      "question": "What happens to the price of a rare collectible item?",
+      "options": [
+        "A product that can replace another, like tea for coffee",
+        "When demand is greater than supply",
+        "It reduces supply, so prices rise",
+        "It tends to be high due to low supply"
+      ],
+      "correctOption": "It tends to be high due to low supply",
+      "correctFeedback": "Yes! It tends to be high due to low supply is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It tends to be high due to low supply."
+    },
+    {
+      "id": "ems_g7_supply_demand_13",
+      "name": "Stage 14",
+      "emoji": "📈",
+      "themeColorHex": "#009688",
+      "question": "What is a 'substitute good'?",
+      "options": [
+        "When demand is greater than supply",
+        "A product that can replace another, like tea for coffee",
+        "Price falls",
+        "It tends to be high due to low supply"
+      ],
+      "correctOption": "A product that can replace another, like tea for coffee",
+      "correctFeedback": "Yes! A product that can replace another, like tea for coffee is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A product that can replace another, like tea for coffee."
+    },
+    {
+      "id": "ems_g7_supply_demand_14",
+      "name": "Stage 15",
+      "emoji": "📈",
+      "themeColorHex": "#009688",
+      "question": "How can a drought affect the price of maize?",
+      "options": [
+        "It reduces supply, so prices rise",
+        "The value of the next best option given up",
+        "A product that can replace another, like tea for coffee",
+        "When demand is greater than supply"
+      ],
+      "correctOption": "It reduces supply, so prices rise",
+      "correctFeedback": "Yes! It reduces supply, so prices rise is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It reduces supply, so prices rise."
+    }
+  ]
 }

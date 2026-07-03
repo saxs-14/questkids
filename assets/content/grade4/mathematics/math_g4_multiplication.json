@@ -5,10 +5,107 @@
   "subject": "Mathematics",
   "title": "Multiplication Mountains",
   "tagline": "Climb higher by solving multi-digit multiplication problems!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF6B35",
   "emoji": "✖️",
-  "_scaffold": true,
-  "sceneType": "multiplication",
-  "steps": [],
-  "roundVariants": []
+  "sceneType": "multiDigitMultiplication",
+  "steps": [
+    {
+      "id": "setup",
+      "label": "Set Up",
+      "emoji": "📐",
+      "description": "Write the numbers lined up by place value."
+    },
+    {
+      "id": "ones",
+      "label": "Ones",
+      "emoji": "1️⃣",
+      "description": "Multiply the ones digit first."
+    },
+    {
+      "id": "tens",
+      "label": "Tens",
+      "emoji": "🔟",
+      "description": "Multiply the tens digit next."
+    },
+    {
+      "id": "carry",
+      "label": "Carry",
+      "emoji": "➕",
+      "description": "Carry over any extra tens."
+    },
+    {
+      "id": "add",
+      "label": "Add",
+      "emoji": "🧮",
+      "description": "Add the partial products together."
+    },
+    {
+      "id": "check",
+      "label": "Check",
+      "emoji": "✅",
+      "description": "Check your answer with estimation."
+    }
+  ],
+  "roundVariants": [
+    [
+      "setup",
+      "tens",
+      "carry",
+      "add"
+    ],
+    [
+      "setup",
+      "tens",
+      "carry"
+    ],
+    [
+      "setup",
+      "tens",
+      "add"
+    ],
+    [
+      "setup",
+      "add",
+      "check"
+    ],
+    [
+      "ones",
+      "tens",
+      "carry",
+      "add"
+    ],
+    [
+      "setup",
+      "ones",
+      "tens",
+      "carry",
+      "add",
+      "check"
+    ],
+    [
+      "setup",
+      "ones",
+      "carry",
+      "add",
+      "check"
+    ],
+    [
+      "ones",
+      "tens",
+      "add"
+    ],
+    [
+      "setup",
+      "ones",
+      "tens",
+      "carry"
+    ],
+    [
+      "ones",
+      "tens",
+      "carry",
+      "add",
+      "check"
+    ]
+  ]
 }

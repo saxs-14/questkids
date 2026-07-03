@@ -5,9 +5,249 @@
   "subject": "Life Skills",
   "title": "My Body",
   "tagline": "Learn your body parts and how they help you every day!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF9800",
   "emoji": "🧍",
-  "_scaffold": true,
   "characterEmoji": "🧍",
-  "stages": []
+  "stages": [
+    {
+      "id": "ls_g1_body_0",
+      "name": "Stage 1",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What part of your body do you see with?",
+      "options": [
+        "Eyes",
+        "Heart",
+        "Ears",
+        "Elbow"
+      ],
+      "correctOption": "Eyes",
+      "correctFeedback": "Yes! Eyes is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Eyes."
+    },
+    {
+      "id": "ls_g1_body_1",
+      "name": "Stage 2",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What part of your body do you hear with?",
+      "options": [
+        "Skin",
+        "Nose",
+        "Ears",
+        "Eyes"
+      ],
+      "correctOption": "Ears",
+      "correctFeedback": "Yes! Ears is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Ears."
+    },
+    {
+      "id": "ls_g1_body_2",
+      "name": "Stage 3",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What part of your body do you smell with?",
+      "options": [
+        "Eyes",
+        "Legs",
+        "Skin",
+        "Nose"
+      ],
+      "correctOption": "Nose",
+      "correctFeedback": "Yes! Nose is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Nose."
+    },
+    {
+      "id": "ls_g1_body_3",
+      "name": "Stage 4",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What part of your body do you taste with?",
+      "options": [
+        "Lungs",
+        "Brain",
+        "Teeth",
+        "Tongue"
+      ],
+      "correctOption": "Tongue",
+      "correctFeedback": "Yes! Tongue is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Tongue."
+    },
+    {
+      "id": "ls_g1_body_4",
+      "name": "Stage 5",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What part of your body pumps blood?",
+      "options": [
+        "Heart",
+        "Teeth",
+        "Ears",
+        "Brain"
+      ],
+      "correctOption": "Heart",
+      "correctFeedback": "Yes! Heart is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Heart."
+    },
+    {
+      "id": "ls_g1_body_5",
+      "name": "Stage 6",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What part of your body helps you breathe?",
+      "options": [
+        "Legs",
+        "Tongue",
+        "Lungs",
+        "Stomach"
+      ],
+      "correctOption": "Lungs",
+      "correctFeedback": "Yes! Lungs is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Lungs."
+    },
+    {
+      "id": "ls_g1_body_6",
+      "name": "Stage 7",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What part of your body helps you think?",
+      "options": [
+        "Brain",
+        "Legs",
+        "Skin",
+        "Heart"
+      ],
+      "correctOption": "Brain",
+      "correctFeedback": "Yes! Brain is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Brain."
+    },
+    {
+      "id": "ls_g1_body_7",
+      "name": "Stage 8",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What part of your body do you chew with?",
+      "options": [
+        "Lungs",
+        "Skin",
+        "Teeth",
+        "Ears"
+      ],
+      "correctOption": "Teeth",
+      "correctFeedback": "Yes! Teeth is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Teeth."
+    },
+    {
+      "id": "ls_g1_body_8",
+      "name": "Stage 9",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What part of your body do you walk with?",
+      "options": [
+        "Legs",
+        "Skin",
+        "Stomach",
+        "Teeth"
+      ],
+      "correctOption": "Legs",
+      "correctFeedback": "Yes! Legs is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Legs."
+    },
+    {
+      "id": "ls_g1_body_9",
+      "name": "Stage 10",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What part of your body do you hold things with?",
+      "options": [
+        "Hands",
+        "Ears",
+        "Brain",
+        "Legs"
+      ],
+      "correctOption": "Hands",
+      "correctFeedback": "Yes! Hands is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Hands."
+    },
+    {
+      "id": "ls_g1_body_10",
+      "name": "Stage 11",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What covers and protects your body?",
+      "options": [
+        "Skin",
+        "Brain",
+        "Heart",
+        "Hands"
+      ],
+      "correctOption": "Skin",
+      "correctFeedback": "Yes! Skin is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Skin."
+    },
+    {
+      "id": "ls_g1_body_11",
+      "name": "Stage 12",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What joint helps your arm bend?",
+      "options": [
+        "Heart",
+        "Skin",
+        "Elbow",
+        "Lungs"
+      ],
+      "correctOption": "Elbow",
+      "correctFeedback": "Yes! Elbow is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Elbow."
+    },
+    {
+      "id": "ls_g1_body_12",
+      "name": "Stage 13",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What part of your body pushes air in and out?",
+      "options": [
+        "Teeth",
+        "Ears",
+        "Lungs",
+        "Stomach"
+      ],
+      "correctOption": "Lungs",
+      "correctFeedback": "Yes! Lungs is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Lungs."
+    },
+    {
+      "id": "ls_g1_body_13",
+      "name": "Stage 14",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What organ helps digest your food?",
+      "options": [
+        "Hands",
+        "Stomach",
+        "Legs",
+        "Nose"
+      ],
+      "correctOption": "Stomach",
+      "correctFeedback": "Yes! Stomach is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Stomach."
+    },
+    {
+      "id": "ls_g1_body_14",
+      "name": "Stage 15",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What part of your body has fingers?",
+      "options": [
+        "Hands",
+        "Elbow",
+        "Teeth",
+        "Lungs"
+      ],
+      "correctOption": "Hands",
+      "correctFeedback": "Yes! Hands is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Hands."
+    }
+  ]
 }

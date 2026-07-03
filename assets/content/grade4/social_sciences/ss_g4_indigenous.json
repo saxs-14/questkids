@@ -5,9 +5,169 @@
   "subject": "Social Sciences",
   "title": "South African History",
   "tagline": "Explore the stories of indigenous peoples — San, Khoikhoi and Nguni!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#43A047",
   "emoji": "🌿",
-  "_scaffold": true,
   "characterEmoji": "🌿",
-  "stages": []
+  "stages": [
+    {
+      "id": "ss_g4_indigenous_0",
+      "name": "Stage 1",
+      "emoji": "🌿",
+      "themeColorHex": "#43A047",
+      "question": "Who are considered South Africa's earliest inhabitants?",
+      "options": [
+        "The San people",
+        "The Khoikhoi",
+        "Herding livestock",
+        "A philosophy of humanity and community"
+      ],
+      "correctOption": "The San people",
+      "correctFeedback": "Yes! The San people is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The San people."
+    },
+    {
+      "id": "ss_g4_indigenous_1",
+      "name": "Stage 2",
+      "emoji": "🌿",
+      "themeColorHex": "#43A047",
+      "question": "What were the San people known for?",
+      "options": [
+        "Oral tradition and storytelling",
+        "Hunting, gathering and rock art",
+        "Herding livestock",
+        "The Drakensberg mountains"
+      ],
+      "correctOption": "Hunting, gathering and rock art",
+      "correctFeedback": "Yes! Hunting, gathering and rock art is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Hunting, gathering and rock art."
+    },
+    {
+      "id": "ss_g4_indigenous_2",
+      "name": "Stage 3",
+      "emoji": "🌿",
+      "themeColorHex": "#43A047",
+      "question": "What were the Khoikhoi known for?",
+      "options": [
+        "Herding livestock",
+        "A philosophy of humanity and community",
+        "Stories, beliefs and daily life",
+        "The San people"
+      ],
+      "correctOption": "Herding livestock",
+      "correctFeedback": "Yes! Herding livestock is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Herding livestock."
+    },
+    {
+      "id": "ss_g4_indigenous_3",
+      "name": "Stage 4",
+      "emoji": "🌿",
+      "themeColorHex": "#43A047",
+      "question": "What language family do many indigenous SA languages belong to?",
+      "options": [
+        "Herding livestock",
+        "Oral tradition and storytelling",
+        "The Drakensberg mountains",
+        "Bantu languages"
+      ],
+      "correctOption": "Bantu languages",
+      "correctFeedback": "Yes! Bantu languages is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Bantu languages."
+    },
+    {
+      "id": "ss_g4_indigenous_4",
+      "name": "Stage 5",
+      "emoji": "🌿",
+      "themeColorHex": "#43A047",
+      "question": "What is 'ubuntu'?",
+      "options": [
+        "Bantu languages",
+        "The Drakensberg mountains",
+        "The San people",
+        "A philosophy of humanity and community"
+      ],
+      "correctOption": "A philosophy of humanity and community",
+      "correctFeedback": "Yes! A philosophy of humanity and community is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A philosophy of humanity and community."
+    },
+    {
+      "id": "ss_g4_indigenous_5",
+      "name": "Stage 6",
+      "emoji": "🌿",
+      "themeColorHex": "#43A047",
+      "question": "What did indigenous South Africans use rock art to record?",
+      "options": [
+        "Stories, beliefs and daily life",
+        "Bantu languages",
+        "The Khoikhoi",
+        "Herding livestock"
+      ],
+      "correctOption": "Stories, beliefs and daily life",
+      "correctFeedback": "Yes! Stories, beliefs and daily life is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Stories, beliefs and daily life."
+    },
+    {
+      "id": "ss_g4_indigenous_6",
+      "name": "Stage 7",
+      "emoji": "🌿",
+      "themeColorHex": "#43A047",
+      "question": "Which indigenous group herded cattle in the Cape before colonisation?",
+      "options": [
+        "Oral tradition and storytelling",
+        "Bantu languages",
+        "The Khoikhoi",
+        "The San people"
+      ],
+      "correctOption": "The Khoikhoi",
+      "correctFeedback": "Yes! The Khoikhoi is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The Khoikhoi."
+    },
+    {
+      "id": "ss_g4_indigenous_7",
+      "name": "Stage 8",
+      "emoji": "🌿",
+      "themeColorHex": "#43A047",
+      "question": "What tool did San hunters use?",
+      "options": [
+        "The Khoikhoi",
+        "Bow and arrow",
+        "A philosophy of humanity and community",
+        "Stories, beliefs and daily life"
+      ],
+      "correctOption": "Bow and arrow",
+      "correctFeedback": "Yes! Bow and arrow is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Bow and arrow."
+    },
+    {
+      "id": "ss_g4_indigenous_8",
+      "name": "Stage 9",
+      "emoji": "🌿",
+      "themeColorHex": "#43A047",
+      "question": "Where can famous San rock art be found?",
+      "options": [
+        "The San people",
+        "Bantu languages",
+        "The Khoikhoi",
+        "The Drakensberg mountains"
+      ],
+      "correctOption": "The Drakensberg mountains",
+      "correctFeedback": "Yes! The Drakensberg mountains is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The Drakensberg mountains."
+    },
+    {
+      "id": "ss_g4_indigenous_9",
+      "name": "Stage 10",
+      "emoji": "🌿",
+      "themeColorHex": "#43A047",
+      "question": "What did indigenous communities often use to pass down history?",
+      "options": [
+        "The Drakensberg mountains",
+        "Oral tradition and storytelling",
+        "Hunting, gathering and rock art",
+        "The San people"
+      ],
+      "correctOption": "Oral tradition and storytelling",
+      "correctFeedback": "Yes! Oral tradition and storytelling is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Oral tradition and storytelling."
+    }
+  ]
 }

@@ -5,10 +5,127 @@
   "subject": "Mathematics",
   "title": "Geometry Galaxy",
   "tagline": "Explore angles, triangles, circles and geometric constructions!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF6B35",
   "emoji": "🌌",
-  "_scaffold": true,
-  "sceneType": "geometry",
-  "steps": [],
-  "roundVariants": []
+  "sceneType": "geometricConstructions",
+  "steps": [
+    {
+      "id": "tools",
+      "label": "Tools",
+      "emoji": "🧰",
+      "description": "Gather your ruler, compass and protractor."
+    },
+    {
+      "id": "baseline",
+      "label": "Baseline",
+      "emoji": "📏",
+      "description": "Draw a straight baseline of the given length."
+    },
+    {
+      "id": "arcs",
+      "label": "Arcs",
+      "emoji": "⌒",
+      "description": "Use the compass to draw arcs from each endpoint."
+    },
+    {
+      "id": "intersect",
+      "label": "Intersect",
+      "emoji": "✖️",
+      "description": "Mark where the arcs intersect."
+    },
+    {
+      "id": "connect",
+      "label": "Connect",
+      "emoji": "📐",
+      "description": "Connect the intersection point to complete the shape."
+    },
+    {
+      "id": "angles",
+      "label": "Angles",
+      "emoji": "📐",
+      "description": "Measure the angles with a protractor."
+    },
+    {
+      "id": "label",
+      "label": "Label",
+      "emoji": "🏷️",
+      "description": "Label all sides and angles."
+    },
+    {
+      "id": "check",
+      "label": "Check",
+      "emoji": "✅",
+      "description": "Check the construction matches the instructions."
+    }
+  ],
+  "roundVariants": [
+    [
+      "tools",
+      "arcs",
+      "intersect",
+      "angles",
+      "label",
+      "check"
+    ],
+    [
+      "baseline",
+      "arcs",
+      "connect"
+    ],
+    [
+      "tools",
+      "angles",
+      "label"
+    ],
+    [
+      "arcs",
+      "intersect",
+      "connect",
+      "label"
+    ],
+    [
+      "baseline",
+      "arcs",
+      "intersect",
+      "connect",
+      "angles",
+      "label"
+    ],
+    [
+      "baseline",
+      "arcs",
+      "intersect",
+      "connect",
+      "check"
+    ],
+    [
+      "tools",
+      "baseline",
+      "intersect",
+      "connect",
+      "angles",
+      "check"
+    ],
+    [
+      "baseline",
+      "arcs",
+      "label",
+      "check"
+    ],
+    [
+      "tools",
+      "arcs",
+      "angles",
+      "check"
+    ],
+    [
+      "tools",
+      "baseline",
+      "intersect",
+      "connect",
+      "angles",
+      "label",
+      "check"
+    ]
+  ]
 }

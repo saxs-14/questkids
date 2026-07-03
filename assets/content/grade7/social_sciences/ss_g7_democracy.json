@@ -5,9 +5,169 @@
   "subject": "Social Sciences",
   "title": "Birth of Democracy",
   "tagline": "Relive 1994 — understand the negotiated settlement and first elections!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#43A047",
   "emoji": "🗳️",
-  "_scaffold": true,
   "characterEmoji": "🗳️",
-  "stages": []
+  "stages": [
+    {
+      "id": "ss_g7_democracy_0",
+      "name": "Stage 1",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "What year was South Africa's first democratic election?",
+      "options": [
+        "1997",
+        "1994",
+        "1999",
+        "2004"
+      ],
+      "correctOption": "1994",
+      "correctFeedback": "Yes! 1994 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 1994."
+    },
+    {
+      "id": "ss_g7_democracy_1",
+      "name": "Stage 2",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "What document is the supreme law of South Africa?",
+      "options": [
+        "The Constitution",
+        "Three (executive, legislative, judicial)",
+        "Citizens' fundamental rights and freedoms",
+        "Dividing government into independent branches"
+      ],
+      "correctOption": "The Constitution",
+      "correctFeedback": "Yes! The Constitution is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The Constitution."
+    },
+    {
+      "id": "ss_g7_democracy_2",
+      "name": "Stage 3",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "What body drafted South Africa's Constitution?",
+      "options": [
+        "Nelson Mandela",
+        "All adult citizens have the right to vote",
+        "A constitutional democracy",
+        "The Constitutional Assembly"
+      ],
+      "correctOption": "The Constitutional Assembly",
+      "correctFeedback": "Yes! The Constitutional Assembly is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The Constitutional Assembly."
+    },
+    {
+      "id": "ss_g7_democracy_3",
+      "name": "Stage 4",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "What does the Bill of Rights protect?",
+      "options": [
+        "Dividing government into independent branches",
+        "A constitutional democracy",
+        "The Constitutional Assembly",
+        "Citizens' fundamental rights and freedoms"
+      ],
+      "correctOption": "Citizens' fundamental rights and freedoms",
+      "correctFeedback": "Yes! Citizens' fundamental rights and freedoms is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Citizens' fundamental rights and freedoms."
+    },
+    {
+      "id": "ss_g7_democracy_4",
+      "name": "Stage 5",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "What is South Africa's system of government?",
+      "options": [
+        "Nelson Mandela",
+        "To ensure laws align with the Constitution",
+        "A constitutional democracy",
+        "The Constitution"
+      ],
+      "correctOption": "A constitutional democracy",
+      "correctFeedback": "Yes! A constitutional democracy is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A constitutional democracy."
+    },
+    {
+      "id": "ss_g7_democracy_5",
+      "name": "Stage 6",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "How many branches does South Africa's government have?",
+      "options": [
+        "Three (executive, legislative, judicial)",
+        "Nelson Mandela",
+        "To ensure laws align with the Constitution",
+        "A constitutional democracy"
+      ],
+      "correctOption": "Three (executive, legislative, judicial)",
+      "correctFeedback": "Yes! Three (executive, legislative, judicial) is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Three (executive, legislative, judicial)."
+    },
+    {
+      "id": "ss_g7_democracy_6",
+      "name": "Stage 7",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "What is the role of the Constitutional Court?",
+      "options": [
+        "A constitutional democracy",
+        "Citizens' fundamental rights and freedoms",
+        "To ensure laws align with the Constitution",
+        "Three (executive, legislative, judicial)"
+      ],
+      "correctOption": "To ensure laws align with the Constitution",
+      "correctFeedback": "Yes! To ensure laws align with the Constitution is right — onward!",
+      "wrongFeedback": "Not quite — the answer is To ensure laws align with the Constitution."
+    },
+    {
+      "id": "ss_g7_democracy_7",
+      "name": "Stage 8",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "What is 'separation of powers'?",
+      "options": [
+        "Dividing government into independent branches",
+        "Three (executive, legislative, judicial)",
+        "Nelson Mandela",
+        "Citizens' fundamental rights and freedoms"
+      ],
+      "correctOption": "Dividing government into independent branches",
+      "correctFeedback": "Yes! Dividing government into independent branches is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Dividing government into independent branches."
+    },
+    {
+      "id": "ss_g7_democracy_8",
+      "name": "Stage 9",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "What does universal suffrage mean?",
+      "options": [
+        "A constitutional democracy",
+        "Nelson Mandela",
+        "Dividing government into independent branches",
+        "All adult citizens have the right to vote"
+      ],
+      "correctOption": "All adult citizens have the right to vote",
+      "correctFeedback": "Yes! All adult citizens have the right to vote is right — onward!",
+      "wrongFeedback": "Not quite — the answer is All adult citizens have the right to vote."
+    },
+    {
+      "id": "ss_g7_democracy_9",
+      "name": "Stage 10",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "Who was South Africa's first democratically elected president?",
+      "options": [
+        "Three (executive, legislative, judicial)",
+        "All adult citizens have the right to vote",
+        "Nelson Mandela",
+        "To ensure laws align with the Constitution"
+      ],
+      "correctOption": "Nelson Mandela",
+      "correctFeedback": "Yes! Nelson Mandela is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Nelson Mandela."
+    }
+  ]
 }

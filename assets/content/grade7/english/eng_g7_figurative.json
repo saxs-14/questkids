@@ -5,8 +5,128 @@
   "subject": "English",
   "title": "Figurative Language Fighter",
   "tagline": "Identify similes, metaphors, personification and hyperbole!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#E91E63",
   "emoji": "🎭",
-  "_scaffold": true,
-  "levels": []
+  "levels": [
+    {
+      "targetClass": "simile",
+      "missionLabel": "Collect similes! ⚡",
+      "scrollSpeed": 0.11,
+      "buckets": {
+        "simile": [
+          "as fast as lightning",
+          "like a hawk circling",
+          "as cold as ice",
+          "like a lion roaring"
+        ],
+        "metaphor": [
+          "the news was a bombshell",
+          "her heart is stone",
+          "the city never sleeps",
+          "life is a journey"
+        ],
+        "personification": [
+          "the wind whispered",
+          "the sun smiled down",
+          "the trees danced",
+          "the shadows crept in"
+        ],
+        "hyperbole": [
+          "I've told you a million times",
+          "I'm so hungry I could eat a horse",
+          "it weighs a ton"
+        ]
+      }
+    },
+    {
+      "targetClass": "metaphor",
+      "missionLabel": "Collect metaphors! 🗿",
+      "scrollSpeed": 0.12,
+      "buckets": {
+        "simile": [
+          "as fast as lightning",
+          "like a hawk circling",
+          "as cold as ice",
+          "like a lion roaring"
+        ],
+        "metaphor": [
+          "the news was a bombshell",
+          "her heart is stone",
+          "the city never sleeps",
+          "life is a journey"
+        ],
+        "personification": [
+          "the wind whispered",
+          "the sun smiled down",
+          "the trees danced",
+          "the shadows crept in"
+        ],
+        "hyperbole": [
+          "I've told you a million times",
+          "I'm so hungry I could eat a horse",
+          "it weighs a ton"
+        ]
+      }
+    },
+    {
+      "targetClass": "personification",
+      "missionLabel": "Collect personification! 🌳",
+      "scrollSpeed": 0.13,
+      "buckets": {
+        "simile": [
+          "as fast as lightning",
+          "like a hawk circling",
+          "as cold as ice",
+          "like a lion roaring"
+        ],
+        "metaphor": [
+          "the news was a bombshell",
+          "her heart is stone",
+          "the city never sleeps",
+          "life is a journey"
+        ],
+        "personification": [
+          "the wind whispered",
+          "the sun smiled down",
+          "the trees danced",
+          "the shadows crept in"
+        ],
+        "hyperbole": [
+          "I've told you a million times",
+          "I'm so hungry I could eat a horse",
+          "it weighs a ton"
+        ]
+      }
+    },
+    {
+      "targetClass": "hyperbole",
+      "missionLabel": "Collect hyperbole! 🏔️",
+      "scrollSpeed": 0.13,
+      "buckets": {
+        "simile": [
+          "as fast as lightning",
+          "like a hawk circling",
+          "as cold as ice",
+          "like a lion roaring"
+        ],
+        "metaphor": [
+          "the news was a bombshell",
+          "her heart is stone",
+          "the city never sleeps",
+          "life is a journey"
+        ],
+        "personification": [
+          "the wind whispered",
+          "the sun smiled down",
+          "the trees danced",
+          "the shadows crept in"
+        ],
+        "hyperbole": [
+          "I've told you a million times",
+          "I'm so hungry I could eat a horse",
+          "it weighs a ton"
+        ]
+      }
+    }
+  ]
 }

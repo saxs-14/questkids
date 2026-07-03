@@ -5,11 +5,15 @@
   "subject": "Mathematics",
   "title": "Multiple Chain",
   "tagline": "Link the multiples of a number to make a chain — break it and try again!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF6B35",
   "emoji": "🔗",
-  "_scaffold": true,
   "mode": "numeric",
   "gridSize": 4,
   "chainLength": 4,
-  "tables": []
+  "tables": [
+    2,
+    3,
+    4,
+    5
+  ]
 }

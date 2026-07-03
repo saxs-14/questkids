@@ -5,9 +5,249 @@
   "subject": "English",
   "title": "Comprehension Champion",
   "tagline": "Read complex texts and answer inference and literal questions!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#E91E63",
   "emoji": "📖",
-  "_scaffold": true,
   "characterEmoji": "📖",
-  "stages": []
+  "stages": [
+    {
+      "id": "eng_g7_comprehension_0",
+      "name": "Stage 1",
+      "emoji": "📖",
+      "themeColorHex": "#E91E63",
+      "question": "What is 'tone' in a passage?",
+      "options": [
+        "To introduce the main idea of a paragraph",
+        "A first-hand account or original document",
+        "The author's attitude towards the subject",
+        "To create vivid or imaginative meaning"
+      ],
+      "correctOption": "The author's attitude towards the subject",
+      "correctFeedback": "Yes! The author's attitude towards the subject is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The author's attitude towards the subject."
+    },
+    {
+      "id": "eng_g7_comprehension_1",
+      "name": "Stage 2",
+      "emoji": "📖",
+      "themeColorHex": "#E91E63",
+      "question": "What is 'bias' in a text?",
+      "options": [
+        "A one-sided or unfair view",
+        "To introduce the main idea of a paragraph",
+        "An opposing point the author responds to",
+        "The literal dictionary meaning of a word"
+      ],
+      "correctOption": "A one-sided or unfair view",
+      "correctFeedback": "Yes! A one-sided or unfair view is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A one-sided or unfair view."
+    },
+    {
+      "id": "eng_g7_comprehension_2",
+      "name": "Stage 3",
+      "emoji": "📖",
+      "themeColorHex": "#E91E63",
+      "question": "What is a rhetorical question?",
+      "options": [
+        "Minor details and examples",
+        "A one-sided or unfair view",
+        "A question asked for effect, not needing an answer",
+        "To create vivid or imaginative meaning"
+      ],
+      "correctOption": "A question asked for effect, not needing an answer",
+      "correctFeedback": "Yes! A question asked for effect, not needing an answer is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A question asked for effect, not needing an answer."
+    },
+    {
+      "id": "eng_g7_comprehension_3",
+      "name": "Stage 4",
+      "emoji": "📖",
+      "themeColorHex": "#E91E63",
+      "question": "What does 'skim reading' help you find?",
+      "options": [
+        "The general idea of a text quickly",
+        "An opposing point the author responds to",
+        "The feeling or idea a word suggests beyond its meaning",
+        "To introduce the main idea of a paragraph"
+      ],
+      "correctOption": "The general idea of a text quickly",
+      "correctFeedback": "Yes! The general idea of a text quickly is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The general idea of a text quickly."
+    },
+    {
+      "id": "eng_g7_comprehension_4",
+      "name": "Stage 5",
+      "emoji": "📖",
+      "themeColorHex": "#E91E63",
+      "question": "What is a 'counter-argument' in a persuasive text?",
+      "options": [
+        "A one-sided or unfair view",
+        "An opposing point the author responds to",
+        "A source that interprets or analyses primary sources",
+        "To create vivid or imaginative meaning"
+      ],
+      "correctOption": "An opposing point the author responds to",
+      "correctFeedback": "Yes! An opposing point the author responds to is right — onward!",
+      "wrongFeedback": "Not quite — the answer is An opposing point the author responds to."
+    },
+    {
+      "id": "eng_g7_comprehension_5",
+      "name": "Stage 6",
+      "emoji": "📖",
+      "themeColorHex": "#E91E63",
+      "question": "What is 'connotation'?",
+      "options": [
+        "To create vivid or imaginative meaning",
+        "The feeling or idea a word suggests beyond its meaning",
+        "A source that interprets or analyses primary sources",
+        "To introduce the main idea of a paragraph"
+      ],
+      "correctOption": "The feeling or idea a word suggests beyond its meaning",
+      "correctFeedback": "Yes! The feeling or idea a word suggests beyond its meaning is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The feeling or idea a word suggests beyond its meaning."
+    },
+    {
+      "id": "eng_g7_comprehension_6",
+      "name": "Stage 7",
+      "emoji": "📖",
+      "themeColorHex": "#E91E63",
+      "question": "What is 'denotation'?",
+      "options": [
+        "The author's attitude towards the subject",
+        "The literal dictionary meaning of a word",
+        "A comparison between two different things",
+        "Reading that questions and evaluates the text"
+      ],
+      "correctOption": "The literal dictionary meaning of a word",
+      "correctFeedback": "Yes! The literal dictionary meaning of a word is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The literal dictionary meaning of a word."
+    },
+    {
+      "id": "eng_g7_comprehension_7",
+      "name": "Stage 8",
+      "emoji": "📖",
+      "themeColorHex": "#E91E63",
+      "question": "What is an 'analogy'?",
+      "options": [
+        "A one-sided or unfair view",
+        "The literal dictionary meaning of a word",
+        "A comparison between two different things",
+        "The author's attitude towards the subject"
+      ],
+      "correctOption": "A comparison between two different things",
+      "correctFeedback": "Yes! A comparison between two different things is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A comparison between two different things."
+    },
+    {
+      "id": "eng_g7_comprehension_8",
+      "name": "Stage 9",
+      "emoji": "📖",
+      "themeColorHex": "#E91E63",
+      "question": "What is a 'text feature'?",
+      "options": [
+        "Minor details and examples",
+        "The feeling or idea a word suggests beyond its meaning",
+        "An opposing point the author responds to",
+        "Elements like headings and captions that support the text"
+      ],
+      "correctOption": "Elements like headings and captions that support the text",
+      "correctFeedback": "Yes! Elements like headings and captions that support the text is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Elements like headings and captions that support the text."
+    },
+    {
+      "id": "eng_g7_comprehension_9",
+      "name": "Stage 10",
+      "emoji": "📖",
+      "themeColorHex": "#E91E63",
+      "question": "What is 'critical reading'?",
+      "options": [
+        "A question asked for effect, not needing an answer",
+        "Elements like headings and captions that support the text",
+        "To create vivid or imaginative meaning",
+        "Reading that questions and evaluates the text"
+      ],
+      "correctOption": "Reading that questions and evaluates the text",
+      "correctFeedback": "Yes! Reading that questions and evaluates the text is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Reading that questions and evaluates the text."
+    },
+    {
+      "id": "eng_g7_comprehension_10",
+      "name": "Stage 11",
+      "emoji": "📖",
+      "themeColorHex": "#E91E63",
+      "question": "What is a 'primary source'?",
+      "options": [
+        "Reading that questions and evaluates the text",
+        "To create vivid or imaginative meaning",
+        "A first-hand account or original document",
+        "To introduce the main idea of a paragraph"
+      ],
+      "correctOption": "A first-hand account or original document",
+      "correctFeedback": "Yes! A first-hand account or original document is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A first-hand account or original document."
+    },
+    {
+      "id": "eng_g7_comprehension_11",
+      "name": "Stage 12",
+      "emoji": "📖",
+      "themeColorHex": "#E91E63",
+      "question": "What is a 'secondary source'?",
+      "options": [
+        "Elements like headings and captions that support the text",
+        "The literal dictionary meaning of a word",
+        "A source that interprets or analyses primary sources",
+        "A one-sided or unfair view"
+      ],
+      "correctOption": "A source that interprets or analyses primary sources",
+      "correctFeedback": "Yes! A source that interprets or analyses primary sources is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A source that interprets or analyses primary sources."
+    },
+    {
+      "id": "eng_g7_comprehension_12",
+      "name": "Stage 13",
+      "emoji": "📖",
+      "themeColorHex": "#E91E63",
+      "question": "What is the purpose of a topic sentence?",
+      "options": [
+        "The feeling or idea a word suggests beyond its meaning",
+        "The general idea of a text quickly",
+        "To introduce the main idea of a paragraph",
+        "A source that interprets or analyses primary sources"
+      ],
+      "correctOption": "To introduce the main idea of a paragraph",
+      "correctFeedback": "Yes! To introduce the main idea of a paragraph is right — onward!",
+      "wrongFeedback": "Not quite — the answer is To introduce the main idea of a paragraph."
+    },
+    {
+      "id": "eng_g7_comprehension_13",
+      "name": "Stage 14",
+      "emoji": "📖",
+      "themeColorHex": "#E91E63",
+      "question": "What is 'figurative language' used for?",
+      "options": [
+        "The author's attitude towards the subject",
+        "Minor details and examples",
+        "To create vivid or imaginative meaning",
+        "An opposing point the author responds to"
+      ],
+      "correctOption": "To create vivid or imaginative meaning",
+      "correctFeedback": "Yes! To create vivid or imaginative meaning is right — onward!",
+      "wrongFeedback": "Not quite — the answer is To create vivid or imaginative meaning."
+    },
+    {
+      "id": "eng_g7_comprehension_14",
+      "name": "Stage 15",
+      "emoji": "📖",
+      "themeColorHex": "#E91E63",
+      "question": "What is a 'summary' expected to leave out?",
+      "options": [
+        "Minor details and examples",
+        "The general idea of a text quickly",
+        "A first-hand account or original document",
+        "The author's attitude towards the subject"
+      ],
+      "correctOption": "Minor details and examples",
+      "correctFeedback": "Yes! Minor details and examples is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Minor details and examples."
+    }
+  ]
 }

@@ -5,9 +5,169 @@
   "subject": "Social Sciences",
   "title": "Democracy Game",
   "tagline": "Relive the 1994 elections and the birth of South African democracy!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#43A047",
   "emoji": "🗳️",
-  "_scaffold": true,
   "characterEmoji": "🗳️",
-  "stages": []
+  "stages": [
+    {
+      "id": "ss_g4_democracy_0",
+      "name": "Stage 1",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "What does 'democracy' mean?",
+      "options": [
+        "Freedom of speech",
+        "A public vote on a specific issue",
+        "Government by the people",
+        "By voting in elections"
+      ],
+      "correctOption": "Government by the people",
+      "correctFeedback": "Yes! Government by the people is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Government by the people."
+    },
+    {
+      "id": "ss_g4_democracy_1",
+      "name": "Stage 2",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "How do citizens choose their leaders in a democracy?",
+      "options": [
+        "By voting in elections",
+        "Citizens 18 and older",
+        "A public vote on a specific issue",
+        "The supreme law of a country"
+      ],
+      "correctOption": "By voting in elections",
+      "correctFeedback": "Yes! By voting in elections is right — onward!",
+      "wrongFeedback": "Not quite — the answer is By voting in elections."
+    },
+    {
+      "id": "ss_g4_democracy_2",
+      "name": "Stage 3",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "What is a 'constitution'?",
+      "options": [
+        "The option with the most votes wins",
+        "They let citizens choose leaders fairly",
+        "The supreme law of a country",
+        "A public vote on a specific issue"
+      ],
+      "correctOption": "The supreme law of a country",
+      "correctFeedback": "Yes! The supreme law of a country is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The supreme law of a country."
+    },
+    {
+      "id": "ss_g4_democracy_3",
+      "name": "Stage 4",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "Why is it important to have more than one political party?",
+      "options": [
+        "The supreme law of a country",
+        "It gives citizens real choices",
+        "Citizens 18 and older",
+        "A public vote on a specific issue"
+      ],
+      "correctOption": "It gives citizens real choices",
+      "correctFeedback": "Yes! It gives citizens real choices is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It gives citizens real choices."
+    },
+    {
+      "id": "ss_g4_democracy_4",
+      "name": "Stage 5",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "What is a 'referendum'?",
+      "options": [
+        "By voting in elections",
+        "The supreme law of a country",
+        "Freedom of speech",
+        "A public vote on a specific issue"
+      ],
+      "correctOption": "A public vote on a specific issue",
+      "correctFeedback": "Yes! A public vote on a specific issue is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A public vote on a specific issue."
+    },
+    {
+      "id": "ss_g4_democracy_5",
+      "name": "Stage 6",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "What does 'majority rule' mean?",
+      "options": [
+        "By voting in elections",
+        "Government by the people",
+        "They let citizens choose leaders fairly",
+        "The option with the most votes wins"
+      ],
+      "correctOption": "The option with the most votes wins",
+      "correctFeedback": "Yes! The option with the most votes wins is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The option with the most votes wins."
+    },
+    {
+      "id": "ss_g4_democracy_6",
+      "name": "Stage 7",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "Why are free elections important?",
+      "options": [
+        "Government by the people",
+        "They let citizens choose leaders fairly",
+        "It gives citizens real choices",
+        "Citizens 18 and older"
+      ],
+      "correctOption": "They let citizens choose leaders fairly",
+      "correctFeedback": "Yes! They let citizens choose leaders fairly is right — onward!",
+      "wrongFeedback": "Not quite — the answer is They let citizens choose leaders fairly."
+    },
+    {
+      "id": "ss_g4_democracy_7",
+      "name": "Stage 8",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "What is a 'political party'?",
+      "options": [
+        "A group with shared political goals",
+        "Citizens 18 and older",
+        "Freedom of speech",
+        "The supreme law of a country"
+      ],
+      "correctOption": "A group with shared political goals",
+      "correctFeedback": "Yes! A group with shared political goals is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A group with shared political goals."
+    },
+    {
+      "id": "ss_g4_democracy_8",
+      "name": "Stage 9",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "What right allows citizens to share their opinions publicly?",
+      "options": [
+        "Freedom of speech",
+        "It gives citizens real choices",
+        "Government by the people",
+        "A group with shared political goals"
+      ],
+      "correctOption": "Freedom of speech",
+      "correctFeedback": "Yes! Freedom of speech is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Freedom of speech."
+    },
+    {
+      "id": "ss_g4_democracy_9",
+      "name": "Stage 10",
+      "emoji": "🗳️",
+      "themeColorHex": "#43A047",
+      "question": "Who can vote in a South African national election?",
+      "options": [
+        "The supreme law of a country",
+        "A group with shared political goals",
+        "The option with the most votes wins",
+        "Citizens 18 and older"
+      ],
+      "correctOption": "Citizens 18 and older",
+      "correctFeedback": "Yes! Citizens 18 and older is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Citizens 18 and older."
+    }
+  ]
 }

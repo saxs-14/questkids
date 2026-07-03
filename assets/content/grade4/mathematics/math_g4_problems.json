@@ -5,9 +5,169 @@
   "subject": "Mathematics",
   "title": "Problem Solver",
   "tagline": "Solve real-life word problems using all four operations!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF6B35",
   "emoji": "🧩",
-  "_scaffold": true,
   "characterEmoji": "🧩",
-  "stages": []
+  "stages": [
+    {
+      "id": "math_g4_problems_0",
+      "name": "Stage 1",
+      "emoji": "🧩",
+      "themeColorHex": "#FF6B35",
+      "question": "Zanele has R714 and spends R28 at the school tuck shop. How much money is left?",
+      "options": [
+        "R688",
+        "R686",
+        "R692",
+        "R694"
+      ],
+      "correctOption": "R686",
+      "correctFeedback": "Yes! R686 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R686."
+    },
+    {
+      "id": "math_g4_problems_1",
+      "name": "Stage 2",
+      "emoji": "🧩",
+      "themeColorHex": "#FF6B35",
+      "question": "Aisha has R756 and spends R344 at the grocery store. How much money is left?",
+      "options": [
+        "R408",
+        "R412",
+        "R419",
+        "R420"
+      ],
+      "correctOption": "R412",
+      "correctFeedback": "Yes! R412 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R412."
+    },
+    {
+      "id": "math_g4_problems_2",
+      "name": "Stage 3",
+      "emoji": "🧩",
+      "themeColorHex": "#FF6B35",
+      "question": "Naledi shares 30 sweets equally into 6 bags. How many sweets go in each bag?",
+      "options": [
+        "2",
+        "6",
+        "7",
+        "5"
+      ],
+      "correctOption": "5",
+      "correctFeedback": "Yes! 5 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 5."
+    },
+    {
+      "id": "math_g4_problems_3",
+      "name": "Stage 4",
+      "emoji": "🧩",
+      "themeColorHex": "#FF6B35",
+      "question": "Amahle shares 20 apples equally into 5 bags. How many apples go in each bag?",
+      "options": [
+        "7",
+        "1",
+        "5",
+        "4"
+      ],
+      "correctOption": "4",
+      "correctFeedback": "Yes! 4 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 4."
+    },
+    {
+      "id": "math_g4_problems_4",
+      "name": "Stage 5",
+      "emoji": "🧩",
+      "themeColorHex": "#FF6B35",
+      "question": "Thabo buys 3 sweets at the market stall, each costing R7. How much does Thabo spend in total?",
+      "options": [
+        "R20",
+        "R18",
+        "R15",
+        "R21"
+      ],
+      "correctOption": "R21",
+      "correctFeedback": "Yes! R21 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R21."
+    },
+    {
+      "id": "math_g4_problems_5",
+      "name": "Stage 6",
+      "emoji": "🧩",
+      "themeColorHex": "#FF6B35",
+      "question": "Aisha buys 3 oranges at the school tuck shop, each costing R8. How much does Aisha spend in total?",
+      "options": [
+        "R32",
+        "R24",
+        "R31",
+        "R29"
+      ],
+      "correctOption": "R24",
+      "correctFeedback": "Yes! R24 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R24."
+    },
+    {
+      "id": "math_g4_problems_6",
+      "name": "Stage 7",
+      "emoji": "🧩",
+      "themeColorHex": "#FF6B35",
+      "question": "Kagiso has R860 and spends R158 at the grocery store. How much money is left?",
+      "options": [
+        "R707",
+        "R702",
+        "R709",
+        "R703"
+      ],
+      "correctOption": "R702",
+      "correctFeedback": "Yes! R702 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R702."
+    },
+    {
+      "id": "math_g4_problems_7",
+      "name": "Stage 8",
+      "emoji": "🧩",
+      "themeColorHex": "#FF6B35",
+      "question": "Bongani shares 9 apples equally into 3 bags. How many apples go in each bag?",
+      "options": [
+        "3",
+        "2",
+        "4",
+        "1"
+      ],
+      "correctOption": "3",
+      "correctFeedback": "Yes! 3 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 3."
+    },
+    {
+      "id": "math_g4_problems_8",
+      "name": "Stage 9",
+      "emoji": "🧩",
+      "themeColorHex": "#FF6B35",
+      "question": "Naledi buys 4 apples at the spaza shop, each costing R5. How much does Naledi spend in total?",
+      "options": [
+        "R13",
+        "R26",
+        "R25",
+        "R20"
+      ],
+      "correctOption": "R20",
+      "correctFeedback": "Yes! R20 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R20."
+    },
+    {
+      "id": "math_g4_problems_9",
+      "name": "Stage 10",
+      "emoji": "🧩",
+      "themeColorHex": "#FF6B35",
+      "question": "Amahle shares 12 notebooks equally into 3 bags. How many notebooks go in each bag?",
+      "options": [
+        "5",
+        "6",
+        "4",
+        "1"
+      ],
+      "correctOption": "4",
+      "correctFeedback": "Yes! 4 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 4."
+    }
+  ]
 }

@@ -5,9 +5,169 @@
   "subject": "Natural Sciences",
   "title": "Forces in Action",
   "tagline": "Explore gravity, friction, magnetism and balanced/unbalanced forces!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#00BFA5",
   "emoji": "🎯",
-  "_scaffold": true,
   "characterEmoji": "🎯",
-  "stages": []
+  "stages": [
+    {
+      "id": "sci_g7_forces_0",
+      "name": "Stage 1",
+      "emoji": "🎯",
+      "themeColorHex": "#00BFA5",
+      "question": "What is a force?",
+      "options": [
+        "It stays still or moves at constant speed",
+        "Gravity",
+        "Newtons",
+        "A push or pull on an object"
+      ],
+      "correctOption": "A push or pull on an object",
+      "correctFeedback": "Yes! A push or pull on an object is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A push or pull on an object."
+    },
+    {
+      "id": "sci_g7_forces_1",
+      "name": "Stage 2",
+      "emoji": "🎯",
+      "themeColorHex": "#00BFA5",
+      "question": "What force pulls objects towards the Earth?",
+      "options": [
+        "Thrust",
+        "Gravity",
+        "It stays still or moves at constant speed",
+        "The force of gravity acting on an object's mass"
+      ],
+      "correctOption": "Gravity",
+      "correctFeedback": "Yes! Gravity is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Gravity."
+    },
+    {
+      "id": "sci_g7_forces_2",
+      "name": "Stage 3",
+      "emoji": "🎯",
+      "themeColorHex": "#00BFA5",
+      "question": "What is friction?",
+      "options": [
+        "Thrust",
+        "The force of gravity acting on an object's mass",
+        "A push or pull on an object",
+        "A force that resists motion between surfaces"
+      ],
+      "correctOption": "A force that resists motion between surfaces",
+      "correctFeedback": "Yes! A force that resists motion between surfaces is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A force that resists motion between surfaces."
+    },
+    {
+      "id": "sci_g7_forces_3",
+      "name": "Stage 4",
+      "emoji": "🎯",
+      "themeColorHex": "#00BFA5",
+      "question": "What unit is force measured in?",
+      "options": [
+        "Gravity",
+        "It stays still or moves at constant speed",
+        "Newtons",
+        "Isaac Newton"
+      ],
+      "correctOption": "Newtons",
+      "correctFeedback": "Yes! Newtons is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Newtons."
+    },
+    {
+      "id": "sci_g7_forces_4",
+      "name": "Stage 5",
+      "emoji": "🎯",
+      "themeColorHex": "#00BFA5",
+      "question": "What happens when balanced forces act on an object?",
+      "options": [
+        "A force that resists motion between surfaces",
+        "Gravity",
+        "It stays still or moves at constant speed",
+        "It accelerates or changes direction"
+      ],
+      "correctOption": "It stays still or moves at constant speed",
+      "correctFeedback": "Yes! It stays still or moves at constant speed is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It stays still or moves at constant speed."
+    },
+    {
+      "id": "sci_g7_forces_5",
+      "name": "Stage 6",
+      "emoji": "🎯",
+      "themeColorHex": "#00BFA5",
+      "question": "What happens when unbalanced forces act on an object?",
+      "options": [
+        "It accelerates or changes direction",
+        "It stays still or moves at constant speed",
+        "The force of gravity acting on an object's mass",
+        "Isaac Newton"
+      ],
+      "correctOption": "It accelerates or changes direction",
+      "correctFeedback": "Yes! It accelerates or changes direction is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It accelerates or changes direction."
+    },
+    {
+      "id": "sci_g7_forces_6",
+      "name": "Stage 7",
+      "emoji": "🎯",
+      "themeColorHex": "#00BFA5",
+      "question": "What is 'mass'?",
+      "options": [
+        "Gravity",
+        "A force that resists motion between surfaces",
+        "It accelerates or changes direction",
+        "The amount of matter in an object"
+      ],
+      "correctOption": "The amount of matter in an object",
+      "correctFeedback": "Yes! The amount of matter in an object is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The amount of matter in an object."
+    },
+    {
+      "id": "sci_g7_forces_7",
+      "name": "Stage 8",
+      "emoji": "🎯",
+      "themeColorHex": "#00BFA5",
+      "question": "What is 'weight'?",
+      "options": [
+        "It accelerates or changes direction",
+        "The force of gravity acting on an object's mass",
+        "Gravity",
+        "A force that resists motion between surfaces"
+      ],
+      "correctOption": "The force of gravity acting on an object's mass",
+      "correctFeedback": "Yes! The force of gravity acting on an object's mass is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The force of gravity acting on an object's mass."
+    },
+    {
+      "id": "sci_g7_forces_8",
+      "name": "Stage 9",
+      "emoji": "🎯",
+      "themeColorHex": "#00BFA5",
+      "question": "Who discovered the laws of motion?",
+      "options": [
+        "Isaac Newton",
+        "The amount of matter in an object",
+        "It accelerates or changes direction",
+        "Newtons"
+      ],
+      "correctOption": "Isaac Newton",
+      "correctFeedback": "Yes! Isaac Newton is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Isaac Newton."
+    },
+    {
+      "id": "sci_g7_forces_9",
+      "name": "Stage 10",
+      "emoji": "🎯",
+      "themeColorHex": "#00BFA5",
+      "question": "What force allows a rocket to lift off?",
+      "options": [
+        "Isaac Newton",
+        "Newtons",
+        "Gravity",
+        "Thrust"
+      ],
+      "correctOption": "Thrust",
+      "correctFeedback": "Yes! Thrust is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Thrust."
+    }
+  ]
 }

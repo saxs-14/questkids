@@ -5,8 +5,83 @@
   "subject": "Life Skills",
   "title": "Environmental Awareness",
   "tagline": "Become an eco-champion — learn about conservation and sustainability!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF9800",
   "emoji": "♻️",
-  "_scaffold": true,
-  "levels": []
+  "levels": [
+    {
+      "targetClass": "reduce",
+      "missionLabel": "Collect ways to Reduce! ♻️",
+      "scrollSpeed": 0.09,
+      "buckets": {
+        "reduce": [
+          "use a refillable water bottle",
+          "switch off lights",
+          "buy only what you need",
+          "walk instead of drive"
+        ],
+        "reuse": [
+          "reuse a glass jar",
+          "donate old clothes",
+          "repair broken toys",
+          "use both sides of paper"
+        ],
+        "recycle": [
+          "recycle plastic bottles",
+          "recycle paper",
+          "recycle cans",
+          "recycle glass"
+        ]
+      }
+    },
+    {
+      "targetClass": "reuse",
+      "missionLabel": "Collect ways to Reuse! 🔁",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "reduce": [
+          "use a refillable water bottle",
+          "switch off lights",
+          "buy only what you need",
+          "walk instead of drive"
+        ],
+        "reuse": [
+          "reuse a glass jar",
+          "donate old clothes",
+          "repair broken toys",
+          "use both sides of paper"
+        ],
+        "recycle": [
+          "recycle plastic bottles",
+          "recycle paper",
+          "recycle cans",
+          "recycle glass"
+        ]
+      }
+    },
+    {
+      "targetClass": "recycle",
+      "missionLabel": "Collect ways to Recycle! 🗑️",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "reduce": [
+          "use a refillable water bottle",
+          "switch off lights",
+          "buy only what you need",
+          "walk instead of drive"
+        ],
+        "reuse": [
+          "reuse a glass jar",
+          "donate old clothes",
+          "repair broken toys",
+          "use both sides of paper"
+        ],
+        "recycle": [
+          "recycle plastic bottles",
+          "recycle paper",
+          "recycle cans",
+          "recycle glass"
+        ]
+      }
+    }
+  ]
 }

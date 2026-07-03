@@ -5,10 +5,106 @@
   "subject": "Social Sciences",
   "title": "Water Cycle",
   "tagline": "Follow water through evaporation, condensation and precipitation!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#43A047",
   "emoji": "💧",
-  "_scaffold": true,
-  "sceneType": "geography",
-  "steps": [],
-  "roundVariants": []
+  "sceneType": "waterCycle",
+  "steps": [
+    {
+      "id": "evaporation",
+      "label": "Evaporation",
+      "emoji": "☀️",
+      "description": "The sun heats water and it evaporates into vapour."
+    },
+    {
+      "id": "condensation",
+      "label": "Condensation",
+      "emoji": "☁️",
+      "description": "Water vapour cools and condenses into clouds."
+    },
+    {
+      "id": "precipitation",
+      "label": "Precipitation",
+      "emoji": "🌧️",
+      "description": "Water falls back to Earth as rain, hail or snow."
+    },
+    {
+      "id": "collection",
+      "label": "Collection",
+      "emoji": "🌊",
+      "description": "Water collects in rivers, lakes and oceans."
+    },
+    {
+      "id": "infiltration",
+      "label": "Infiltration",
+      "emoji": "🕳️",
+      "description": "Some water soaks into the ground as groundwater."
+    },
+    {
+      "id": "runoff",
+      "label": "Runoff",
+      "emoji": "🏞️",
+      "description": "Water flows over land back to rivers and the sea."
+    }
+  ],
+  "roundVariants": [
+    [
+      "evaporation",
+      "collection",
+      "runoff"
+    ],
+    [
+      "evaporation",
+      "condensation",
+      "collection",
+      "infiltration",
+      "runoff"
+    ],
+    [
+      "evaporation",
+      "condensation",
+      "infiltration"
+    ],
+    [
+      "evaporation",
+      "condensation",
+      "precipitation",
+      "collection",
+      "infiltration"
+    ],
+    [
+      "evaporation",
+      "precipitation",
+      "collection",
+      "infiltration",
+      "runoff"
+    ],
+    [
+      "condensation",
+      "precipitation",
+      "infiltration",
+      "runoff"
+    ],
+    [
+      "evaporation",
+      "precipitation",
+      "collection",
+      "runoff"
+    ],
+    [
+      "precipitation",
+      "infiltration",
+      "runoff"
+    ],
+    [
+      "evaporation",
+      "precipitation",
+      "collection"
+    ],
+    [
+      "condensation",
+      "precipitation",
+      "collection",
+      "infiltration"
+    ]
+  ]
 }

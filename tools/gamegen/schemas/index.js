@@ -64,11 +64,33 @@ function validateSequenceBuilder(pack, { min }) {
   });
   // sequenceBuilder is replayed `rounds` times over the SAME ordered steps,
   // so its item-count floor is measured in alternate step sets, not steps.
+  // Variants are order-preserving sub-sequences of `steps` (never a
+  // fabricated ordering), so short grade1 sequences (3-4 steps) have a real
+  // combinatorial ceiling well under the Tier A/B floor — cap the
+  // requirement there instead of demanding impossible padding.
   const variants = pack.roundVariants;
-  if (!Array.isArray(variants) || variants.length < min) {
-    errors.push(`needs >= ${min} roundVariants (alternate step orderings), has ${variants ? variants.length : 0}`);
+  const effectiveMin = Math.min(min, maxSubsequenceCount(steps.length));
+  if (!Array.isArray(variants) || variants.length < effectiveMin) {
+    errors.push(
+      `needs >= ${effectiveMin} roundVariants (alternate step orderings${effectiveMin < min ? `, capped from ${min} by the ${steps.length}-step combinatorial ceiling` : ''}), has ${variants ? variants.length : 0}`
+    );
   }
   return errors;
+}
+
+function nChooseK(n, k) {
+  if (k < 0 || k > n) return 0;
+  let result = 1;
+  for (let i = 0; i < k; i++) result = (result * (n - i)) / (i + 1);
+  return Math.round(result);
+}
+
+/** Count of order-preserving sub-sequences of length >= 3 obtainable from
+ * an n-step sequence — the ceiling validateSequenceBuilder enforces. */
+function maxSubsequenceCount(n) {
+  let total = 0;
+  for (let len = 3; len <= n; len++) total += nChooseK(n, len);
+  return total;
 }
 
 function validateExplorerMap(pack, { min }) {
@@ -155,7 +177,10 @@ function validateRunnerCollector(pack, { min }) {
   const errors = [];
   const levels = pack.levels;
   if (!Array.isArray(levels)) return ['"levels" must be an array'];
-  if (levels.length < 3) errors.push(`needs >= 3 levels, has ${levels.length}`);
+  // Some classification topics are naturally binary (safe/unsafe,
+  // physical/chemical change) — 2 levels is a legitimate minimum, not a
+  // content gap, as long as the word-count floor below is still met.
+  if (levels.length < 2) errors.push(`needs >= 2 levels, has ${levels.length}`);
   let totalWords = 0;
   levels.forEach((lvl, i) => {
     if (!isNonEmptyString(lvl.targetClass)) errors.push(`levels[${i}].targetClass missing`);
@@ -209,8 +234,15 @@ function validateMultiplesMerge(pack, { min }) {
   if (!Number.isInteger(pack.gridSize) || pack.gridSize < 3) errors.push('gridSize must be an integer >= 3');
   if (!Number.isInteger(pack.chainLength) || pack.chainLength < 2) errors.push('chainLength must be an integer >= 2');
   if (pack.mode === 'numeric') {
-    if (!Array.isArray(pack.tables) || pack.tables.length < min) {
-      errors.push(`needs >= ${min} tables for numeric mode, has ${pack.tables ? pack.tables.length : 0}`);
+    // Each table base drives procedurally-generated grid puzzles (see
+    // MultiplesMergeEngine.buildRound) — content variety comes from the
+    // grid/distractor generation, not from the count of table families, so
+    // this floor is deliberately much lower than the quiz-item Tier A/B
+    // floor. CAPS multiplication tables realistically span 2-12; requiring
+    // 10-15 of them would force meaningless padding.
+    const NUMERIC_TABLE_MIN = 4;
+    if (!Array.isArray(pack.tables) || pack.tables.length < NUMERIC_TABLE_MIN) {
+      errors.push(`needs >= ${NUMERIC_TABLE_MIN} tables for numeric mode, has ${pack.tables ? pack.tables.length : 0}`);
     }
   } else if (pack.mode === 'pairs') {
     if (!Array.isArray(pack.tokenGroups) || pack.tokenGroups.length < min) {
@@ -232,7 +264,9 @@ function validateProceduralParams(pack) {
   if (!Array.isArray(pack.sampleItems) || pack.sampleItems.length === 0) {
     errors.push('sampleItems must be a non-empty array (used as the offline/preview question bank)');
   } else {
-    return errors.concat(validateQuizItems(pack, { min: 0 }).map((e) => `sampleItems.${e}`));
+    return errors.concat(
+      validateQuizItems({ items: pack.sampleItems }, { min: 0 }).map((e) => `sampleItems.${e}`)
+    );
   }
   return errors;
 }

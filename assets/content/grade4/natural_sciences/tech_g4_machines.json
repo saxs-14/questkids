@@ -5,8 +5,258 @@
   "subject": "Natural Sciences",
   "title": "Simple Machines",
   "tagline": "Use levers, pulleys and gears to solve engineering challenges!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#7C4DFF",
   "emoji": "⚙️",
-  "_scaffold": true,
-  "circuits": []
+  "circuits": [
+    {
+      "id": "lever_setup",
+      "description": "A lever needs a fixed point to pivot on. What is it called?",
+      "layout": "🪜 —?— ⚖️",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "fulcrum",
+          "emoji": "🔺",
+          "hint": "The lever pivots on this point"
+        }
+      ],
+      "bank": [
+        "fulcrum",
+        "pulley",
+        "wedge",
+        "wheel"
+      ],
+      "labels": {
+        "fulcrum": "🔺 Fulcrum",
+        "pulley": "🎡 Pulley",
+        "wedge": "🔻 Wedge",
+        "wheel": "⚙️ Wheel"
+      }
+    },
+    {
+      "id": "pulley_setup",
+      "description": "What simple machine uses a wheel and rope to lift a load?",
+      "layout": "🪢 —?— 📦",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "pulley",
+          "emoji": "🎡",
+          "hint": "Changes the direction of a pulling force"
+        }
+      ],
+      "bank": [
+        "pulley",
+        "lever",
+        "wedge",
+        "screw"
+      ],
+      "labels": {
+        "pulley": "🎡 Pulley",
+        "lever": "⚖️ Lever",
+        "wedge": "🔻 Wedge",
+        "screw": "🌀 Screw"
+      }
+    },
+    {
+      "id": "inclined_plane",
+      "description": "A ramp used to lift a load with less force is called a(n)...?",
+      "layout": "📦 —?— 🚚",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "inclined plane",
+          "emoji": "📐",
+          "hint": "A sloped surface, like a ramp"
+        }
+      ],
+      "bank": [
+        "inclined plane",
+        "wedge",
+        "wheel",
+        "lever"
+      ],
+      "labels": {
+        "inclined plane": "📐 Inclined plane",
+        "wedge": "🔻 Wedge",
+        "wheel": "⚙️ Wheel",
+        "lever": "⚖️ Lever"
+      }
+    },
+    {
+      "id": "wedge_tool",
+      "description": "An axe blade is an example of which simple machine?",
+      "layout": "🪓 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "wedge",
+          "emoji": "🔻",
+          "hint": "Splits or cuts things apart"
+        }
+      ],
+      "bank": [
+        "wedge",
+        "screw",
+        "pulley",
+        "lever"
+      ],
+      "labels": {
+        "wedge": "🔻 Wedge",
+        "screw": "🌀 Screw",
+        "pulley": "🎡 Pulley",
+        "lever": "⚖️ Lever"
+      }
+    },
+    {
+      "id": "screw_tool",
+      "description": "A spiral inclined plane wrapped around a cylinder is called a...?",
+      "layout": "🔩 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "screw",
+          "emoji": "🌀",
+          "hint": "Converts turning force into linear force"
+        }
+      ],
+      "bank": [
+        "screw",
+        "wedge",
+        "lever",
+        "wheel"
+      ],
+      "labels": {
+        "screw": "🌀 Screw",
+        "wedge": "🔻 Wedge",
+        "lever": "⚖️ Lever",
+        "wheel": "⚙️ Wheel"
+      }
+    },
+    {
+      "id": "wheel_axle",
+      "description": "A doorknob turning a rod is an example of a...?",
+      "layout": "🚪 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "wheel and axle",
+          "emoji": "⚙️",
+          "hint": "A wheel fixed to a rod that turns together"
+        }
+      ],
+      "bank": [
+        "wheel and axle",
+        "pulley",
+        "wedge",
+        "screw"
+      ],
+      "labels": {
+        "wheel and axle": "⚙️ Wheel and axle",
+        "pulley": "🎡 Pulley",
+        "wedge": "🔻 Wedge",
+        "screw": "🌀 Screw"
+      }
+    },
+    {
+      "id": "seesaw_lever",
+      "description": "A seesaw is a first-class example of a...?",
+      "layout": "🧒⚖️🧒 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "lever",
+          "emoji": "⚖️",
+          "hint": "The fulcrum is in the middle"
+        }
+      ],
+      "bank": [
+        "lever",
+        "pulley",
+        "screw",
+        "wedge"
+      ],
+      "labels": {
+        "lever": "⚖️ Lever",
+        "pulley": "🎡 Pulley",
+        "screw": "🌀 Screw",
+        "wedge": "🔻 Wedge"
+      }
+    },
+    {
+      "id": "wheelbarrow_lever",
+      "description": "A wheelbarrow is a second-class lever — where is the load?",
+      "layout": "🛒 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "between fulcrum and effort",
+          "emoji": "📦",
+          "hint": "The load sits between the wheel (fulcrum) and your hands (effort)"
+        }
+      ],
+      "bank": [
+        "between fulcrum and effort",
+        "at the fulcrum",
+        "past the effort",
+        "not on the lever"
+      ],
+      "labels": {
+        "between fulcrum and effort": "📦 Between fulcrum and effort",
+        "at the fulcrum": "🔺 At the fulcrum",
+        "past the effort": "➡️ Past the effort",
+        "not on the lever": "🚫 Not on the lever"
+      }
+    },
+    {
+      "id": "flagpole_pulley",
+      "description": "Raising a flag on a flagpole uses which simple machine?",
+      "layout": "🚩 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "pulley",
+          "emoji": "🎡",
+          "hint": "A rope runs over a wheel at the top"
+        }
+      ],
+      "bank": [
+        "pulley",
+        "lever",
+        "wedge",
+        "screw"
+      ],
+      "labels": {
+        "pulley": "🎡 Pulley",
+        "lever": "⚖️ Lever",
+        "wedge": "🔻 Wedge",
+        "screw": "🌀 Screw"
+      }
+    },
+    {
+      "id": "jar_lid_screw",
+      "description": "The threads on a jar lid are an example of a...?",
+      "layout": "🫙 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "screw",
+          "emoji": "🌀",
+          "hint": "A spiral thread that grips as it turns"
+        }
+      ],
+      "bank": [
+        "screw",
+        "wedge",
+        "lever",
+        "pulley"
+      ],
+      "labels": {
+        "screw": "🌀 Screw",
+        "wedge": "🔻 Wedge",
+        "lever": "⚖️ Lever",
+        "pulley": "🎡 Pulley"
+      }
+    }
+  ]
 }

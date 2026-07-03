@@ -5,9 +5,169 @@
   "subject": "Natural Sciences",
   "title": "Robot Maker",
   "tagline": "Design and build a robot — apply engineering design and problem-solving!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#7C4DFF",
   "emoji": "🤖",
-  "_scaffold": true,
   "characterEmoji": "🤖",
-  "stages": []
+  "stages": [
+    {
+      "id": "tech_g4_robot_0",
+      "name": "Stage 1",
+      "emoji": "🤖",
+      "themeColorHex": "#7C4DFF",
+      "question": "What is a robot?",
+      "options": [
+        "A part that creates movement",
+        "They can work without risking human safety",
+        "A machine that can be programmed to perform tasks",
+        "Assembly lines"
+      ],
+      "correctOption": "A machine that can be programmed to perform tasks",
+      "correctFeedback": "Yes! A machine that can be programmed to perform tasks is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A machine that can be programmed to perform tasks."
+    },
+    {
+      "id": "tech_g4_robot_1",
+      "name": "Stage 2",
+      "emoji": "🤖",
+      "themeColorHex": "#7C4DFF",
+      "question": "What do sensors help a robot do?",
+      "options": [
+        "Motors and wheels or legs",
+        "Detect and respond to its environment",
+        "A robot vacuum cleaner",
+        "Robotics"
+      ],
+      "correctOption": "Detect and respond to its environment",
+      "correctFeedback": "Yes! Detect and respond to its environment is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Detect and respond to its environment."
+    },
+    {
+      "id": "tech_g4_robot_2",
+      "name": "Stage 3",
+      "emoji": "🤖",
+      "themeColorHex": "#7C4DFF",
+      "question": "What powers most robots?",
+      "options": [
+        "A machine that can be programmed to perform tasks",
+        "Assembly lines",
+        "Detect and respond to its environment",
+        "Electricity and batteries"
+      ],
+      "correctOption": "Electricity and batteries",
+      "correctFeedback": "Yes! Electricity and batteries is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Electricity and batteries."
+    },
+    {
+      "id": "tech_g4_robot_3",
+      "name": "Stage 4",
+      "emoji": "🤖",
+      "themeColorHex": "#7C4DFF",
+      "question": "What is a robot 'actuator'?",
+      "options": [
+        "Detect and respond to its environment",
+        "Motors and wheels or legs",
+        "A program or code",
+        "A part that creates movement"
+      ],
+      "correctOption": "A part that creates movement",
+      "correctFeedback": "Yes! A part that creates movement is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A part that creates movement."
+    },
+    {
+      "id": "tech_g4_robot_4",
+      "name": "Stage 5",
+      "emoji": "🤖",
+      "themeColorHex": "#7C4DFF",
+      "question": "What field of study includes designing robots?",
+      "options": [
+        "They can work without risking human safety",
+        "A robot vacuum cleaner",
+        "Robotics",
+        "Motors and wheels or legs"
+      ],
+      "correctOption": "Robotics",
+      "correctFeedback": "Yes! Robotics is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Robotics."
+    },
+    {
+      "id": "tech_g4_robot_5",
+      "name": "Stage 6",
+      "emoji": "🤖",
+      "themeColorHex": "#7C4DFF",
+      "question": "What do we call the instructions that tell a robot what to do?",
+      "options": [
+        "They can work without risking human safety",
+        "Detect and respond to its environment",
+        "A program or code",
+        "Motors and wheels or legs"
+      ],
+      "correctOption": "A program or code",
+      "correctFeedback": "Yes! A program or code is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A program or code."
+    },
+    {
+      "id": "tech_g4_robot_6",
+      "name": "Stage 7",
+      "emoji": "🤖",
+      "themeColorHex": "#7C4DFF",
+      "question": "Where are robots commonly used in factories?",
+      "options": [
+        "Electricity and batteries",
+        "Assembly lines",
+        "A robot vacuum cleaner",
+        "Robotics"
+      ],
+      "correctOption": "Assembly lines",
+      "correctFeedback": "Yes! Assembly lines is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Assembly lines."
+    },
+    {
+      "id": "tech_g4_robot_7",
+      "name": "Stage 8",
+      "emoji": "🤖",
+      "themeColorHex": "#7C4DFF",
+      "question": "What is an example of a robot used at home?",
+      "options": [
+        "A robot vacuum cleaner",
+        "Robotics",
+        "Electricity and batteries",
+        "Assembly lines"
+      ],
+      "correctOption": "A robot vacuum cleaner",
+      "correctFeedback": "Yes! A robot vacuum cleaner is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A robot vacuum cleaner."
+    },
+    {
+      "id": "tech_g4_robot_8",
+      "name": "Stage 9",
+      "emoji": "🤖",
+      "themeColorHex": "#7C4DFF",
+      "question": "What must a robot have to move around?",
+      "options": [
+        "Motors and wheels or legs",
+        "Detect and respond to its environment",
+        "Assembly lines",
+        "A part that creates movement"
+      ],
+      "correctOption": "Motors and wheels or legs",
+      "correctFeedback": "Yes! Motors and wheels or legs is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Motors and wheels or legs."
+    },
+    {
+      "id": "tech_g4_robot_9",
+      "name": "Stage 10",
+      "emoji": "🤖",
+      "themeColorHex": "#7C4DFF",
+      "question": "Why are robots useful for dangerous jobs?",
+      "options": [
+        "They can work without risking human safety",
+        "Assembly lines",
+        "A part that creates movement",
+        "A program or code"
+      ],
+      "correctOption": "They can work without risking human safety",
+      "correctFeedback": "Yes! They can work without risking human safety is right — onward!",
+      "wrongFeedback": "Not quite — the answer is They can work without risking human safety."
+    }
+  ]
 }

@@ -5,9 +5,189 @@
   "subject": "Mathematics",
   "title": "Integer Invaders",
   "tagline": "Conquer negative numbers, absolute values and integer operations!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#FF6B35",
   "emoji": "➕",
-  "_scaffold": true,
-  "questionType": "addition",
-  "sampleItems": []
+  "questionType": "integer",
+  "sampleItems": [
+    {
+      "question": "-51752 - (-10401) = ?",
+      "options": [
+        "-41355",
+        "-41351",
+        "-41347",
+        "-41346"
+      ],
+      "answerIndex": 1,
+      "hint": "Watch the signs — two negatives make a positive when subtracting.",
+      "explanation": "-51752 - (-10401) = -41351."
+    },
+    {
+      "question": "60130 - (99869) = ?",
+      "options": [
+        "-39739",
+        "-39745",
+        "-39736",
+        "-39735"
+      ],
+      "answerIndex": 0,
+      "hint": "Watch the signs — two negatives make a positive when subtracting.",
+      "explanation": "60130 - (99869) = -39739."
+    },
+    {
+      "question": "1686 - (-34144) = ?",
+      "options": [
+        "35831",
+        "35834",
+        "35824",
+        "35830"
+      ],
+      "answerIndex": 3,
+      "hint": "Watch the signs — two negatives make a positive when subtracting.",
+      "explanation": "1686 - (-34144) = 35830."
+    },
+    {
+      "question": "-90367 - (44792) = ?",
+      "options": [
+        "-135164",
+        "-135153",
+        "-135157",
+        "-135159"
+      ],
+      "answerIndex": 3,
+      "hint": "Watch the signs — two negatives make a positive when subtracting.",
+      "explanation": "-90367 - (44792) = -135159."
+    },
+    {
+      "question": "-32705 - (-53709) = ?",
+      "options": [
+        "21000",
+        "20999",
+        "21004",
+        "21003"
+      ],
+      "answerIndex": 2,
+      "hint": "Watch the signs — two negatives make a positive when subtracting.",
+      "explanation": "-32705 - (-53709) = 21004."
+    },
+    {
+      "question": "32791 - (-9018) = ?",
+      "options": [
+        "41804",
+        "41809",
+        "41807",
+        "41805"
+      ],
+      "answerIndex": 1,
+      "hint": "Watch the signs — two negatives make a positive when subtracting.",
+      "explanation": "32791 - (-9018) = 41809."
+    },
+    {
+      "question": "-36775 + (21977) = ?",
+      "options": [
+        "-14798",
+        "-14794",
+        "-14796",
+        "-14801"
+      ],
+      "answerIndex": 0,
+      "hint": "Watch the signs — two negatives make a positive when subtracting.",
+      "explanation": "-36775 + (21977) = -14798."
+    },
+    {
+      "question": "78048 - (77046) = ?",
+      "options": [
+        "1002",
+        "1007",
+        "996",
+        "1008"
+      ],
+      "answerIndex": 0,
+      "hint": "Watch the signs — two negatives make a positive when subtracting.",
+      "explanation": "78048 - (77046) = 1002."
+    },
+    {
+      "question": "59023 - (-3493) = ?",
+      "options": [
+        "62510",
+        "62516",
+        "62522",
+        "62514"
+      ],
+      "answerIndex": 1,
+      "hint": "Watch the signs — two negatives make a positive when subtracting.",
+      "explanation": "59023 - (-3493) = 62516."
+    },
+    {
+      "question": "94475 - (-31652) = ?",
+      "options": [
+        "126128",
+        "126129",
+        "126121",
+        "126127"
+      ],
+      "answerIndex": 3,
+      "hint": "Watch the signs — two negatives make a positive when subtracting.",
+      "explanation": "94475 - (-31652) = 126127."
+    },
+    {
+      "question": "-57223 + (96007) = ?",
+      "options": [
+        "38788",
+        "38784",
+        "38782",
+        "38786"
+      ],
+      "answerIndex": 1,
+      "hint": "Watch the signs — two negatives make a positive when subtracting.",
+      "explanation": "-57223 + (96007) = 38784."
+    },
+    {
+      "question": "60613 + (21721) = ?",
+      "options": [
+        "82340",
+        "82339",
+        "82329",
+        "82334"
+      ],
+      "answerIndex": 3,
+      "hint": "Watch the signs — two negatives make a positive when subtracting.",
+      "explanation": "60613 + (21721) = 82334."
+    },
+    {
+      "question": "-59107 + (-4841) = ?",
+      "options": [
+        "-63946",
+        "-63948",
+        "-63942",
+        "-63943"
+      ],
+      "answerIndex": 1,
+      "hint": "Watch the signs — two negatives make a positive when subtracting.",
+      "explanation": "-59107 + (-4841) = -63948."
+    },
+    {
+      "question": "24422 - (73805) = ?",
+      "options": [
+        "-49377",
+        "-49384",
+        "-49383",
+        "-49380"
+      ],
+      "answerIndex": 2,
+      "hint": "Watch the signs — two negatives make a positive when subtracting.",
+      "explanation": "24422 - (73805) = -49383."
+    },
+    {
+      "question": "-16014 - (16241) = ?",
+      "options": [
+        "-32257",
+        "-32259",
+        "-32255",
+        "-32256"
+      ],
+      "answerIndex": 2,
+      "hint": "Watch the signs — two negatives make a positive when subtracting.",
+      "explanation": "-16014 - (16241) = -32255."
+    }
+  ]
 }

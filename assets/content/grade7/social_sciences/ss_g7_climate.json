@@ -5,9 +5,192 @@
   "subject": "Social Sciences",
   "title": "Climate Zones Challenge",
   "tagline": "Match climate zones, rainfall patterns and biomes of the world!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#43A047",
   "emoji": "🌍",
-  "_scaffold": true,
-  "pins": [],
-  "questions": []
+  "pins": [
+    {
+      "id": "highveld",
+      "name": "Highveld",
+      "emoji": "⛅",
+      "x": 0.55,
+      "y": 0.4,
+      "facts": [
+        "The Highveld has warm summers and cold, dry winters.",
+        "Johannesburg lies on the Highveld plateau."
+      ],
+      "color": "#E53935"
+    },
+    {
+      "id": "mediterranean",
+      "name": "Mediterranean (Cape)",
+      "emoji": "🍇",
+      "x": 0.25,
+      "y": 0.85,
+      "facts": [
+        "The Cape has a Mediterranean climate with winter rainfall.",
+        "Cape Town has hot, dry summers and mild, wet winters."
+      ],
+      "color": "#1E88E5"
+    },
+    {
+      "id": "subtropical",
+      "name": "Subtropical Coast",
+      "emoji": "🌴",
+      "x": 0.78,
+      "y": 0.62,
+      "facts": [
+        "The KZN coast is warm and humid with summer rainfall.",
+        "Durban has a subtropical climate most of the year."
+      ],
+      "color": "#43A047"
+    },
+    {
+      "id": "semi_desert",
+      "name": "Semi-Desert (Karoo)",
+      "emoji": "🌵",
+      "x": 0.4,
+      "y": 0.65,
+      "facts": [
+        "The Karoo is a semi-desert with very low rainfall.",
+        "The Karoo has huge temperature swings between day and night."
+      ],
+      "color": "#FB8C00"
+    },
+    {
+      "id": "desert_zone",
+      "name": "Desert (Kalahari)",
+      "emoji": "🏜️",
+      "x": 0.35,
+      "y": 0.15,
+      "facts": [
+        "The Kalahari is an arid desert region in the north.",
+        "The Kalahari receives less than 250mm of rain a year."
+      ],
+      "color": "#8E24AA"
+    },
+    {
+      "id": "escarpment",
+      "name": "Escarpment",
+      "emoji": "🏔️",
+      "x": 0.7,
+      "y": 0.3,
+      "facts": [
+        "The Drakensberg escarpment has the coldest temperatures in SA.",
+        "Snow can fall on the Drakensberg escarpment in winter."
+      ],
+      "color": "#00897B"
+    }
+  ],
+  "questions": [
+    {
+      "question": "Which one is true: \"The Highveld has warm summers and cold, dry winters.\"?",
+      "correctId": "highveld",
+      "optionIds": [
+        "mediterranean",
+        "desert_zone",
+        "highveld",
+        "semi_desert"
+      ],
+      "feedbackFact": "The Highveld has warm summers and cold, dry winters."
+    },
+    {
+      "question": "Which one is true: \"The Cape has a Mediterranean climate with winter rainfall.\"?",
+      "correctId": "mediterranean",
+      "optionIds": [
+        "mediterranean",
+        "desert_zone",
+        "highveld",
+        "subtropical"
+      ],
+      "feedbackFact": "The Cape has a Mediterranean climate with winter rainfall."
+    },
+    {
+      "question": "Which one is true: \"The KZN coast is warm and humid with summer rainfall.\"?",
+      "correctId": "subtropical",
+      "optionIds": [
+        "highveld",
+        "subtropical",
+        "desert_zone",
+        "mediterranean"
+      ],
+      "feedbackFact": "The KZN coast is warm and humid with summer rainfall."
+    },
+    {
+      "question": "Which one is true: \"The Karoo is a semi-desert with very low rainfall.\"?",
+      "correctId": "semi_desert",
+      "optionIds": [
+        "semi_desert",
+        "highveld",
+        "mediterranean",
+        "escarpment"
+      ],
+      "feedbackFact": "The Karoo is a semi-desert with very low rainfall."
+    },
+    {
+      "question": "Which one is true: \"The Kalahari is an arid desert region in the north.\"?",
+      "correctId": "desert_zone",
+      "optionIds": [
+        "semi_desert",
+        "highveld",
+        "subtropical",
+        "desert_zone"
+      ],
+      "feedbackFact": "The Kalahari is an arid desert region in the north."
+    },
+    {
+      "question": "Which one is true: \"The Drakensberg escarpment has the coldest temperatures in SA.\"?",
+      "correctId": "escarpment",
+      "optionIds": [
+        "semi_desert",
+        "subtropical",
+        "escarpment",
+        "mediterranean"
+      ],
+      "feedbackFact": "The Drakensberg escarpment has the coldest temperatures in SA."
+    },
+    {
+      "question": "Which one is true: \"Johannesburg lies on the Highveld plateau.\"?",
+      "correctId": "highveld",
+      "optionIds": [
+        "escarpment",
+        "highveld",
+        "semi_desert",
+        "desert_zone"
+      ],
+      "feedbackFact": "Johannesburg lies on the Highveld plateau."
+    },
+    {
+      "question": "Which one is true: \"Cape Town has hot, dry summers and mild, wet winters.\"?",
+      "correctId": "mediterranean",
+      "optionIds": [
+        "semi_desert",
+        "mediterranean",
+        "subtropical",
+        "desert_zone"
+      ],
+      "feedbackFact": "Cape Town has hot, dry summers and mild, wet winters."
+    },
+    {
+      "question": "Which one is true: \"Durban has a subtropical climate most of the year.\"?",
+      "correctId": "subtropical",
+      "optionIds": [
+        "semi_desert",
+        "subtropical",
+        "mediterranean",
+        "highveld"
+      ],
+      "feedbackFact": "Durban has a subtropical climate most of the year."
+    },
+    {
+      "question": "Which one is true: \"The Karoo has huge temperature swings between day and night.\"?",
+      "correctId": "semi_desert",
+      "optionIds": [
+        "highveld",
+        "desert_zone",
+        "semi_desert",
+        "subtropical"
+      ],
+      "feedbackFact": "The Karoo has huge temperature swings between day and night."
+    }
+  ]
 }

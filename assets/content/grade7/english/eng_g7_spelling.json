@@ -5,9 +5,129 @@
   "subject": "English",
   "title": "Advanced Spelling",
   "tagline": "Spell complex Grade 7 words — prefixes, suffixes and word origins!",
-  "accentColorHex": "#5C35F5",
+  "accentColorHex": "#E91E63",
   "emoji": "🔤",
-  "_scaffold": true,
-  "questionType": "addition",
-  "sampleItems": []
+  "questionType": "general-knowledge",
+  "sampleItems": [
+    {
+      "question": "Spell: needed; required.",
+      "options": [
+        "necessary",
+        "accommodate",
+        "rhythm",
+        "immediately"
+      ],
+      "answerIndex": 0,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "necessary — that's correct!"
+    },
+    {
+      "question": "Spell: without doubt.",
+      "options": [
+        "conscience",
+        "definitely",
+        "rhythm",
+        "immediately"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "definitely — that's correct!"
+    },
+    {
+      "question": "Spell: to make someone feel shy or ashamed.",
+      "options": [
+        "embarrass",
+        "immediately",
+        "necessary",
+        "privilege"
+      ],
+      "answerIndex": 0,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "embarrass — that's correct!"
+    },
+    {
+      "question": "Spell: a regular repeated pattern of sound.",
+      "options": [
+        "rhythm",
+        "immediately",
+        "accommodate",
+        "privilege"
+      ],
+      "answerIndex": 0,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "rhythm — that's correct!"
+    },
+    {
+      "question": "Spell: your inner sense of right and wrong.",
+      "options": [
+        "conscience",
+        "definitely",
+        "government",
+        "embarrass"
+      ],
+      "answerIndex": 0,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "conscience — that's correct!"
+    },
+    {
+      "question": "Spell: a special right or advantage.",
+      "options": [
+        "privilege",
+        "questionnaire",
+        "government",
+        "immediately"
+      ],
+      "answerIndex": 0,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "privilege — that's correct!"
+    },
+    {
+      "question": "Spell: the group that governs a country.",
+      "options": [
+        "necessary",
+        "rhythm",
+        "government",
+        "questionnaire"
+      ],
+      "answerIndex": 2,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "government — that's correct!"
+    },
+    {
+      "question": "Spell: right away, without delay.",
+      "options": [
+        "definitely",
+        "immediately",
+        "rhythm",
+        "embarrass"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "immediately — that's correct!"
+    },
+    {
+      "question": "Spell: a set of questions for a survey.",
+      "options": [
+        "accommodate",
+        "necessary",
+        "questionnaire",
+        "definitely"
+      ],
+      "answerIndex": 2,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "questionnaire — that's correct!"
+    },
+    {
+      "question": "Spell: to provide space or make room for.",
+      "options": [
+        "conscience",
+        "accommodate",
+        "immediately",
+        "necessary"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "accommodate — that's correct!"
+    }
+  ]
 }
