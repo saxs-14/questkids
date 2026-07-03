@@ -129,7 +129,8 @@ class FirebaseInitializer {
   }
 
   /// Create a reference to a Firestore collection
-  CollectionReference<Map<String, dynamic>> getCollection(String collectionPath) {
+  CollectionReference<Map<String, dynamic>> getCollection(
+      String collectionPath) {
     return _firestore.collection(collectionPath);
   }
 

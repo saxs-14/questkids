@@ -1,0 +1,107 @@
+{
+  "id": "eng_g4_writing",
+  "engine": "sequenceBuilder",
+  "grade": "grade4",
+  "subject": "English",
+  "title": "Story Builder",
+  "tagline": "Arrange sentences into a well-structured story with beginning, middle and end!",
+  "accentColorHex": "#E91E63",
+  "emoji": "✍️",
+  "sceneType": "storyStructure",
+  "steps": [
+    {
+      "id": "introduction",
+      "label": "Introduction",
+      "emoji": "📖",
+      "description": "Introduce the characters and setting."
+    },
+    {
+      "id": "complication",
+      "label": "Complication",
+      "emoji": "❗",
+      "description": "Introduce a problem the characters must solve."
+    },
+    {
+      "id": "rising_action",
+      "label": "Rising Action",
+      "emoji": "📈",
+      "description": "Build tension as characters try to solve the problem."
+    },
+    {
+      "id": "climax",
+      "label": "Climax",
+      "emoji": "🎬",
+      "description": "Reach the most exciting turning point of the story."
+    },
+    {
+      "id": "resolution",
+      "label": "Resolution",
+      "emoji": "🧩",
+      "description": "Show how the problem is solved."
+    },
+    {
+      "id": "conclusion",
+      "label": "Conclusion",
+      "emoji": "🏁",
+      "description": "Wrap up the story and its message."
+    }
+  ],
+  "roundVariants": [
+    [
+      "complication",
+      "resolution",
+      "conclusion"
+    ],
+    [
+      "introduction",
+      "resolution",
+      "conclusion"
+    ],
+    [
+      "climax",
+      "resolution",
+      "conclusion"
+    ],
+    [
+      "introduction",
+      "complication",
+      "climax",
+      "resolution"
+    ],
+    [
+      "complication",
+      "climax",
+      "resolution",
+      "conclusion"
+    ],
+    [
+      "introduction",
+      "rising_action",
+      "resolution",
+      "conclusion"
+    ],
+    [
+      "complication",
+      "climax",
+      "resolution"
+    ],
+    [
+      "complication",
+      "rising_action",
+      "climax",
+      "conclusion"
+    ],
+    [
+      "introduction",
+      "complication",
+      "resolution"
+    ],
+    [
+      "introduction",
+      "complication",
+      "climax",
+      "resolution",
+      "conclusion"
+    ]
+  ]
+}

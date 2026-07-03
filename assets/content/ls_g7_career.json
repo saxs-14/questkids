@@ -1,0 +1,275 @@
+{
+  "id": "ls_g7_career",
+  "engine": "explorerMap",
+  "grade": "grade7",
+  "subject": "Life Skills",
+  "title": "Career Pathways",
+  "tagline": "Explore career options and subjects needed to reach your goals!",
+  "accentColorHex": "#FF9800",
+  "emoji": "🎯",
+  "pins": [
+    {
+      "id": "health",
+      "name": "Hospital — Health Sciences",
+      "emoji": "🏥",
+      "x": 0.2,
+      "y": 0.3,
+      "facts": [
+        "Careers in health science include doctors, nurses and physiotherapists.",
+        "Health science careers usually need a university or college qualification."
+      ],
+      "color": "#E53935"
+    },
+    {
+      "id": "law",
+      "name": "Court — Law",
+      "emoji": "⚖️",
+      "x": 0.5,
+      "y": 0.2,
+      "facts": [
+        "Careers in law include lawyers, magistrates and paralegals.",
+        "Law careers require strong reading, writing and reasoning skills."
+      ],
+      "color": "#1E88E5"
+    },
+    {
+      "id": "education",
+      "name": "School — Education",
+      "emoji": "🏫",
+      "x": 0.8,
+      "y": 0.3,
+      "facts": [
+        "Careers in education include teachers, principals and curriculum advisors.",
+        "Education careers focus on helping others learn."
+      ],
+      "color": "#43A047"
+    },
+    {
+      "id": "finance",
+      "name": "Bank — Finance",
+      "emoji": "🏦",
+      "x": 0.2,
+      "y": 0.6,
+      "facts": [
+        "Careers in finance include accountants, bankers and financial advisors.",
+        "Finance careers involve managing and growing money."
+      ],
+      "color": "#FB8C00"
+    },
+    {
+      "id": "agriculture",
+      "name": "Farm — Agriculture",
+      "emoji": "🚜",
+      "x": 0.5,
+      "y": 0.75,
+      "facts": [
+        "Careers in agriculture include farmers and agricultural scientists.",
+        "Agriculture careers help produce South Africa’s food."
+      ],
+      "color": "#8E24AA"
+    },
+    {
+      "id": "media",
+      "name": "Studio — Media & Arts",
+      "emoji": "🎬",
+      "x": 0.8,
+      "y": 0.6,
+      "facts": [
+        "Careers in media include journalists, designers and filmmakers.",
+        "Media careers combine creativity with technology."
+      ],
+      "color": "#00897B"
+    },
+    {
+      "id": "science",
+      "name": "Lab — Science",
+      "emoji": "🔬",
+      "x": 0.35,
+      "y": 0.45,
+      "facts": [
+        "Careers in science include researchers and lab technicians.",
+        "Science careers investigate how the world works."
+      ],
+      "color": "#F4511E"
+    },
+    {
+      "id": "engineering",
+      "name": "Workshop — Engineering",
+      "emoji": "🛠️",
+      "x": 0.65,
+      "y": 0.45,
+      "facts": [
+        "Careers in engineering include civil, mechanical and electrical engineers.",
+        "Engineering careers design and build the things we use every day."
+      ],
+      "color": "#3949AB"
+    }
+  ],
+  "questions": [
+    {
+      "question": "Which one is true: \"Careers in health science include doctors, nurses and physiotherapists.\"?",
+      "correctId": "health",
+      "optionIds": [
+        "health",
+        "finance",
+        "media",
+        "engineering"
+      ],
+      "feedbackFact": "Careers in health science include doctors, nurses and physiotherapists."
+    },
+    {
+      "question": "Which one is true: \"Careers in law include lawyers, magistrates and paralegals.\"?",
+      "correctId": "law",
+      "optionIds": [
+        "health",
+        "law",
+        "finance",
+        "agriculture"
+      ],
+      "feedbackFact": "Careers in law include lawyers, magistrates and paralegals."
+    },
+    {
+      "question": "Which one is true: \"Careers in education include teachers, principals and curriculum advisors.\"?",
+      "correctId": "education",
+      "optionIds": [
+        "finance",
+        "science",
+        "law",
+        "education"
+      ],
+      "feedbackFact": "Careers in education include teachers, principals and curriculum advisors."
+    },
+    {
+      "question": "Which one is true: \"Careers in finance include accountants, bankers and financial advisors.\"?",
+      "correctId": "finance",
+      "optionIds": [
+        "science",
+        "law",
+        "agriculture",
+        "finance"
+      ],
+      "feedbackFact": "Careers in finance include accountants, bankers and financial advisors."
+    },
+    {
+      "question": "Which one is true: \"Careers in agriculture include farmers and agricultural scientists.\"?",
+      "correctId": "agriculture",
+      "optionIds": [
+        "education",
+        "agriculture",
+        "finance",
+        "science"
+      ],
+      "feedbackFact": "Careers in agriculture include farmers and agricultural scientists."
+    },
+    {
+      "question": "Which one is true: \"Careers in media include journalists, designers and filmmakers.\"?",
+      "correctId": "media",
+      "optionIds": [
+        "education",
+        "media",
+        "health",
+        "law"
+      ],
+      "feedbackFact": "Careers in media include journalists, designers and filmmakers."
+    },
+    {
+      "question": "Which one is true: \"Careers in science include researchers and lab technicians.\"?",
+      "correctId": "science",
+      "optionIds": [
+        "law",
+        "science",
+        "engineering",
+        "health"
+      ],
+      "feedbackFact": "Careers in science include researchers and lab technicians."
+    },
+    {
+      "question": "Which one is true: \"Careers in engineering include civil, mechanical and electrical engineers.\"?",
+      "correctId": "engineering",
+      "optionIds": [
+        "law",
+        "education",
+        "agriculture",
+        "engineering"
+      ],
+      "feedbackFact": "Careers in engineering include civil, mechanical and electrical engineers."
+    },
+    {
+      "question": "Which one is true: \"Health science careers usually need a university or college qualification.\"?",
+      "correctId": "health",
+      "optionIds": [
+        "engineering",
+        "health",
+        "finance",
+        "education"
+      ],
+      "feedbackFact": "Health science careers usually need a university or college qualification."
+    },
+    {
+      "question": "Which one is true: \"Law careers require strong reading, writing and reasoning skills.\"?",
+      "correctId": "law",
+      "optionIds": [
+        "health",
+        "agriculture",
+        "law",
+        "science"
+      ],
+      "feedbackFact": "Law careers require strong reading, writing and reasoning skills."
+    },
+    {
+      "question": "Which one is true: \"Education careers focus on helping others learn.\"?",
+      "correctId": "education",
+      "optionIds": [
+        "education",
+        "health",
+        "agriculture",
+        "law"
+      ],
+      "feedbackFact": "Education careers focus on helping others learn."
+    },
+    {
+      "question": "Which one is true: \"Finance careers involve managing and growing money.\"?",
+      "correctId": "finance",
+      "optionIds": [
+        "finance",
+        "law",
+        "health",
+        "agriculture"
+      ],
+      "feedbackFact": "Finance careers involve managing and growing money."
+    },
+    {
+      "question": "Which one is true: \"Agriculture careers help produce South Africa’s food.\"?",
+      "correctId": "agriculture",
+      "optionIds": [
+        "agriculture",
+        "education",
+        "media",
+        "finance"
+      ],
+      "feedbackFact": "Agriculture careers help produce South Africa’s food."
+    },
+    {
+      "question": "Which one is true: \"Media careers combine creativity with technology.\"?",
+      "correctId": "media",
+      "optionIds": [
+        "engineering",
+        "health",
+        "media",
+        "law"
+      ],
+      "feedbackFact": "Media careers combine creativity with technology."
+    },
+    {
+      "question": "Which one is true: \"Science careers investigate how the world works.\"?",
+      "correctId": "science",
+      "optionIds": [
+        "agriculture",
+        "engineering",
+        "science",
+        "media"
+      ],
+      "feedbackFact": "Science careers investigate how the world works."
+    }
+  ]
+}

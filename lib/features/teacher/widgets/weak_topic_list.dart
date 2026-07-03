@@ -39,10 +39,13 @@ class WeakTopicList extends StatelessWidget {
           child: Row(children: [
             Text(avg < 40 ? '🔴' : '🟡', style: const TextStyle(fontSize: 18)),
             const SizedBox(width: 10),
-            Expanded(child: Text(t['subject'] as String? ?? '',
-                style: AppTextStyles.bodyMedium.copyWith(fontWeight: FontWeight.w600))),
+            Expanded(
+                child: Text(t['subject'] as String? ?? '',
+                    style: AppTextStyles.bodyMedium
+                        .copyWith(fontWeight: FontWeight.w600))),
             Text('${avg.toStringAsFixed(1)}%',
-                style: AppTextStyles.bodyMedium.copyWith(color: color, fontWeight: FontWeight.w700)),
+                style: AppTextStyles.bodyMedium
+                    .copyWith(color: color, fontWeight: FontWeight.w700)),
           ]),
         );
       }).toList(),

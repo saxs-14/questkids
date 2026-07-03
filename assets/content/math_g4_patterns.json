@@ -1,0 +1,109 @@
+{
+  "id": "math_g4_patterns",
+  "engine": "sequenceBuilder",
+  "grade": "grade4",
+  "subject": "Mathematics",
+  "title": "Number Ninja",
+  "tagline": "Spot number patterns and sequences like a true maths ninja!",
+  "accentColorHex": "#FF6B35",
+  "emoji": "🥷",
+  "sceneType": "numberPatterns",
+  "steps": [
+    {
+      "id": "look",
+      "label": "Look",
+      "emoji": "👀",
+      "description": "Look at the numbers given in the pattern."
+    },
+    {
+      "id": "difference",
+      "label": "Difference",
+      "emoji": "➖",
+      "description": "Find the difference between each pair of numbers."
+    },
+    {
+      "id": "rule",
+      "label": "Rule",
+      "emoji": "📏",
+      "description": "Work out the pattern's rule."
+    },
+    {
+      "id": "apply",
+      "label": "Apply",
+      "emoji": "🔁",
+      "description": "Apply the rule to find the next number."
+    },
+    {
+      "id": "predict",
+      "label": "Predict",
+      "emoji": "🔮",
+      "description": "Predict several more numbers in the pattern."
+    },
+    {
+      "id": "check",
+      "label": "Check",
+      "emoji": "✅",
+      "description": "Check the rule works for the whole sequence."
+    }
+  ],
+  "roundVariants": [
+    [
+      "look",
+      "rule",
+      "predict"
+    ],
+    [
+      "look",
+      "difference",
+      "rule",
+      "apply",
+      "predict"
+    ],
+    [
+      "look",
+      "predict",
+      "check"
+    ],
+    [
+      "look",
+      "difference",
+      "rule",
+      "predict",
+      "check"
+    ],
+    [
+      "look",
+      "difference",
+      "apply"
+    ],
+    [
+      "look",
+      "difference",
+      "apply",
+      "check"
+    ],
+    [
+      "difference",
+      "rule",
+      "apply",
+      "check"
+    ],
+    [
+      "look",
+      "difference",
+      "rule",
+      "check"
+    ],
+    [
+      "look",
+      "difference",
+      "predict"
+    ],
+    [
+      "look",
+      "difference",
+      "rule",
+      "apply"
+    ]
+  ]
+}

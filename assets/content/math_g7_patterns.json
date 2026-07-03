@@ -1,0 +1,131 @@
+{
+  "id": "math_g7_patterns",
+  "engine": "sequenceBuilder",
+  "grade": "grade7",
+  "subject": "Mathematics",
+  "title": "Pattern Pathfinder",
+  "tagline": "Find the rule in number sequences and extend geometric patterns!",
+  "accentColorHex": "#FF6B35",
+  "emoji": "🔮",
+  "sceneType": "sequenceFormulas",
+  "steps": [
+    {
+      "id": "identify",
+      "label": "Identify",
+      "emoji": "🔍",
+      "description": "Identify the type of sequence (arithmetic or geometric)."
+    },
+    {
+      "id": "difference",
+      "label": "Difference/Ratio",
+      "emoji": "➗",
+      "description": "Calculate the common difference or ratio."
+    },
+    {
+      "id": "formula",
+      "label": "Formula",
+      "emoji": "🧮",
+      "description": "Write a general formula (nth term rule)."
+    },
+    {
+      "id": "test",
+      "label": "Test",
+      "emoji": "🧪",
+      "description": "Test the formula on known terms."
+    },
+    {
+      "id": "extend",
+      "label": "Extend",
+      "emoji": "🔁",
+      "description": "Extend the sequence using the formula."
+    },
+    {
+      "id": "verify",
+      "label": "Verify",
+      "emoji": "✅",
+      "description": "Verify your extended terms are correct."
+    },
+    {
+      "id": "graph",
+      "label": "Graph",
+      "emoji": "📈",
+      "description": "Represent the pattern on a number line or graph."
+    },
+    {
+      "id": "conclude",
+      "label": "Conclude",
+      "emoji": "🏁",
+      "description": "State the rule in words."
+    }
+  ],
+  "roundVariants": [
+    [
+      "difference",
+      "formula",
+      "extend",
+      "verify",
+      "graph",
+      "conclude"
+    ],
+    [
+      "difference",
+      "formula",
+      "verify",
+      "conclude"
+    ],
+    [
+      "identify",
+      "formula",
+      "test",
+      "verify",
+      "graph"
+    ],
+    [
+      "difference",
+      "formula",
+      "test",
+      "extend",
+      "graph",
+      "conclude"
+    ],
+    [
+      "identify",
+      "formula",
+      "test",
+      "extend",
+      "verify",
+      "conclude"
+    ],
+    [
+      "identify",
+      "difference",
+      "test",
+      "graph",
+      "conclude"
+    ],
+    [
+      "difference",
+      "verify",
+      "graph"
+    ],
+    [
+      "identify",
+      "difference",
+      "formula",
+      "extend"
+    ],
+    [
+      "difference",
+      "test",
+      "graph",
+      "conclude"
+    ],
+    [
+      "identify",
+      "difference",
+      "formula",
+      "verify",
+      "conclude"
+    ]
+  ]
+}

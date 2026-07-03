@@ -12,6 +12,8 @@ import { onDocumentCreated } from "firebase-functions/v2/firestore";
 import { onSchedule } from "firebase-functions/v2/scheduler";
 import * as admin from "firebase-admin";
 import * as nodemailer from "nodemailer";
+import { MAIL_PASSWORD } from "./secrets";
+import { MAIL_SENDER } from "./config";
 
 export { questyChat, analyzeImage, getRecommendation, explainAnswer, generateHint } from "./gemini/proxy";
 export { refreshLeaderboards } from "./leaderboard/refresh";
@@ -25,18 +27,18 @@ admin.initializeApp();
 // Set global options for cost control
 setGlobalOptions({ maxInstances: 10 });
 
-// Get email configuration from environment
-const mailSender = process.env.MAIL_SENDER || "questkids.dev@gmail.com";
-const mailPassword = process.env.MAIL_PASSWORD || "";
-
-// Create email transporter
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: mailSender,
-    pass: mailPassword,
-  },
-});
+// Built lazily (inside the function, not at module load) so it always
+// reads MAIL_PASSWORD.value() after Secret Manager has injected it — see
+// secrets.ts.
+function getTransporter() {
+  return nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: MAIL_SENDER,
+      pass: MAIL_PASSWORD.value(),
+    },
+  });
+}
 
 /**
  * Cloud Function: Send email when document is created in 'emails' collection
@@ -45,6 +47,7 @@ export const sendEmail = onDocumentCreated(
   {
     document: "emails/{emailId}",
     database: "(default)",
+    secrets: [MAIL_PASSWORD],
   },
   async (event) => {
     const emailData = event.data?.data();
@@ -61,8 +64,8 @@ export const sendEmail = onDocumentCreated(
       const htmlContent = getEmailTemplate(template, data);
 
       // Send email
-      await transporter.sendMail({
-        from: `QuestKids <${mailSender}>`,
+      await getTransporter().sendMail({
+        from: `QuestKids <${MAIL_SENDER}>`,
         to: to,
         subject: subject,
         html: htmlContent,

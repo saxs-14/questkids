@@ -5,8 +5,7 @@ import '../../core/constants/app_constants.dart';
 class UserRepository {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  CollectionReference get _users =>
-      _db.collection(AppConstants.colUsers);
+  CollectionReference get _users => _db.collection(AppConstants.colUsers);
 
   Future<void> createUser(UserModel user) async {
     await _users.doc(user.uid).set(user.toMap());

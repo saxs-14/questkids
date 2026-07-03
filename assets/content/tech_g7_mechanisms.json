@@ -1,0 +1,262 @@
+{
+  "id": "tech_g7_mechanisms",
+  "engine": "circuitBuilder",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Mechanisms Matter",
+  "tagline": "Use gears, levers, pulleys and cams to transmit force and motion!",
+  "accentColorHex": "#7C4DFF",
+  "emoji": "⚙️",
+  "circuits": [
+    {
+      "id": "tech_g7_mechanisms_0",
+      "description": "A gear with more teeth turning a gear with fewer teeth makes it spin...?",
+      "layout": "⚙️(big) —?— ⚙️(small)",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "faster",
+          "emoji": "⚡",
+          "hint": "Fewer teeth means faster rotation"
+        }
+      ],
+      "bank": [
+        "faster",
+        "slower",
+        "backward",
+        "not at all"
+      ],
+      "labels": {
+        "faster": "⚡ Faster",
+        "slower": "🐢 Slower",
+        "backward": "↩️ Backward",
+        "not at all": "🚫 Not at all"
+      }
+    },
+    {
+      "id": "tech_g7_mechanisms_1",
+      "description": "Two meshed gears always spin in...?",
+      "layout": "⚙️ —?— ⚙️",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "opposite directions",
+          "emoji": "↔️",
+          "hint": "One clockwise, one anticlockwise"
+        }
+      ],
+      "bank": [
+        "opposite directions",
+        "the same direction",
+        "random directions",
+        "they stop"
+      ],
+      "labels": {
+        "opposite directions": "↔️ Opposite directions",
+        "the same direction": "➡️ Same direction",
+        "random directions": "❓ Random",
+        "they stop": "🛑 They stop"
+      }
+    },
+    {
+      "id": "tech_g7_mechanisms_2",
+      "description": "What simple machine uses a fixed point to lift a heavy load with less effort?",
+      "layout": "⚖️ —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "lever",
+          "emoji": "⚖️",
+          "hint": "Pivots around a fulcrum"
+        }
+      ],
+      "bank": [
+        "lever",
+        "gear",
+        "pulley",
+        "cam"
+      ],
+      "labels": {
+        "lever": "⚖️ Lever",
+        "gear": "⚙️ Gear",
+        "pulley": "🎡 Pulley",
+        "cam": "🔄 Cam"
+      }
+    },
+    {
+      "id": "tech_g7_mechanisms_3",
+      "description": "A system of pulleys that reduces the force needed to lift a load is called a...?",
+      "layout": "🎡🎡 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "block and tackle",
+          "emoji": "🪢",
+          "hint": "Multiple pulleys working together"
+        }
+      ],
+      "bank": [
+        "block and tackle",
+        "single pulley",
+        "gear train",
+        "lever"
+      ],
+      "labels": {
+        "block and tackle": "🪢 Block and tackle",
+        "single pulley": "🎡 Single pulley",
+        "gear train": "⚙️ Gear train",
+        "lever": "⚖️ Lever"
+      }
+    },
+    {
+      "id": "tech_g7_mechanisms_4",
+      "description": "A chain of gears connected together is called a...?",
+      "layout": "⚙️⚙️⚙️ —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "gear train",
+          "emoji": "⚙️",
+          "hint": "Multiple gears meshed in sequence"
+        }
+      ],
+      "bank": [
+        "gear train",
+        "pulley system",
+        "lever arm",
+        "cam shaft"
+      ],
+      "labels": {
+        "gear train": "⚙️ Gear train",
+        "pulley system": "🎡 Pulley system",
+        "lever arm": "⚖️ Lever arm",
+        "cam shaft": "🔄 Cam shaft"
+      }
+    },
+    {
+      "id": "tech_g7_mechanisms_5",
+      "description": "A rotating oval-shaped part that converts rotary motion into up-down motion is a...?",
+      "layout": "🔄 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "cam",
+          "emoji": "🔄",
+          "hint": "Used in engines to open and close valves"
+        }
+      ],
+      "bank": [
+        "cam",
+        "gear",
+        "lever",
+        "pulley"
+      ],
+      "labels": {
+        "cam": "🔄 Cam",
+        "gear": "⚙️ Gear",
+        "lever": "⚖️ Lever",
+        "pulley": "🎡 Pulley"
+      }
+    },
+    {
+      "id": "tech_g7_mechanisms_6",
+      "description": "A bicycle uses this mechanism to transfer pedal power to the back wheel.",
+      "layout": "🚲 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "chain and gears",
+          "emoji": "⛓️",
+          "hint": "Connects the pedals to the wheel"
+        }
+      ],
+      "bank": [
+        "chain and gears",
+        "pulley",
+        "lever",
+        "cam"
+      ],
+      "labels": {
+        "chain and gears": "⛓️ Chain and gears",
+        "pulley": "🎡 Pulley",
+        "lever": "⚖️ Lever",
+        "cam": "🔄 Cam"
+      }
+    },
+    {
+      "id": "tech_g7_mechanisms_7",
+      "description": "A crane uses this mechanism to lift heavy loads high into the air.",
+      "layout": "🏗️ —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "pulley",
+          "emoji": "🎡",
+          "hint": "A rope and wheel system for lifting"
+        }
+      ],
+      "bank": [
+        "pulley",
+        "cam",
+        "gear",
+        "wedge"
+      ],
+      "labels": {
+        "pulley": "🎡 Pulley",
+        "cam": "🔄 Cam",
+        "gear": "⚙️ Gear",
+        "wedge": "🔻 Wedge"
+      }
+    },
+    {
+      "id": "tech_g7_mechanisms_8",
+      "description": "A small gear driving a large gear makes the large gear turn with more...?",
+      "layout": "⚙️(small) —?— ⚙️(big)",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "force (torque)",
+          "emoji": "💪",
+          "hint": "Speed is traded for turning force"
+        }
+      ],
+      "bank": [
+        "force (torque)",
+        "speed",
+        "noise",
+        "colour"
+      ],
+      "labels": {
+        "force (torque)": "💪 Force (torque)",
+        "speed": "⚡ Speed",
+        "noise": "🔊 Noise",
+        "colour": "🎨 Colour"
+      }
+    },
+    {
+      "id": "tech_g7_mechanisms_9",
+      "description": "What do we call machines that combine several simple machines together?",
+      "layout": "⚙️⚖️🎡 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "compound machine",
+          "emoji": "🛠️",
+          "hint": "Two or more simple machines working together"
+        }
+      ],
+      "bank": [
+        "compound machine",
+        "simple machine",
+        "engine only",
+        "lever only"
+      ],
+      "labels": {
+        "compound machine": "🛠️ Compound machine",
+        "simple machine": "⚙️ Simple machine",
+        "engine only": "🏎️ Engine only",
+        "lever only": "⚖️ Lever only"
+      }
+    }
+  ]
+}

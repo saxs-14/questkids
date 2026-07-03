@@ -15,11 +15,11 @@ class GameAnswerResult {
 
 /// Final result produced when a game session ends.
 class GameSessionResult {
-  final String result;    // 'win' | 'loss' | 'complete' | 'incomplete'
-  final int score;        // percentage 0–100
+  final String result; // 'win' | 'loss' | 'complete' | 'incomplete'
+  final int score; // percentage 0–100
   final int xpEarned;
   final int coinsEarned;
-  final double accuracy;  // 0.0–1.0
+  final double accuracy; // 0.0–1.0
 
   const GameSessionResult({
     required this.result,

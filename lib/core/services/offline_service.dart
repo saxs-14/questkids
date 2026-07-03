@@ -24,8 +24,8 @@ class OfflineService {
 
   Stream<bool> get connectivityStream =>
       Connectivity().onConnectivityChanged.map(
-        (results) => results.any((r) => r != ConnectivityResult.none),
-      );
+            (results) => results.any((r) => r != ConnectivityResult.none),
+          );
 
   // ── User caching ─────────────────────────────────────
 
@@ -68,8 +68,7 @@ class OfflineService {
 
   // ── Activity caching ─────────────────────────────────
 
-  Future<void> cacheActivities(
-      List<ActivityModel> activities) async {
+  Future<void> cacheActivities(List<ActivityModel> activities) async {
     for (final a in activities) {
       await _store.insert('activities', {
         'id': a.id,
@@ -80,16 +79,14 @@ class OfflineService {
         'difficulty': a.difficulty,
         'rewardPoints': a.rewardPoints,
         'grade': a.grade,
-        'questionsJson':
-            jsonEncode(a.questions.map((q) => q.toMap()).toList()),
+        'questionsJson': jsonEncode(a.questions.map((q) => q.toMap()).toList()),
         'requiresProof': a.requiresProof ? 1 : 0,
         'createdAt': a.createdAt.millisecondsSinceEpoch,
       });
     }
   }
 
-  Future<List<ActivityModel>> getCachedActivities(
-      String grade) async {
+  Future<List<ActivityModel>> getCachedActivities(String grade) async {
     final rows = await _store.query(
       'activities',
       where: 'grade = ?',
@@ -97,8 +94,7 @@ class OfflineService {
     );
     return rows.map((row) {
       final questionsJson =
-          jsonDecode(row['questionsJson'] as String)
-              as List<dynamic>;
+          jsonDecode(row['questionsJson'] as String) as List<dynamic>;
       return ActivityModel(
         id: row['id'] as String,
         title: row['title'] as String,
@@ -109,11 +105,9 @@ class OfflineService {
         rewardPoints: row['rewardPoints'] as int,
         grade: row['grade'] as String,
         requiresProof: (row['requiresProof'] as int) == 1,
-        createdAt: DateTime.fromMillisecondsSinceEpoch(
-            row['createdAt'] as int),
+        createdAt: DateTime.fromMillisecondsSinceEpoch(row['createdAt'] as int),
         questions: questionsJson
-            .map((q) =>
-                QuestionModel.fromMap(q as Map<String, dynamic>))
+            .map((q) => QuestionModel.fromMap(q as Map<String, dynamic>))
             .toList(),
       );
     }).toList();
@@ -121,8 +115,7 @@ class OfflineService {
 
   // ── Progress caching & sync ───────────────────────────
 
-  Future<void> saveProgressOffline(
-      ProgressModel progress) async {
+  Future<void> saveProgressOffline(ProgressModel progress) async {
     await _store.insert('progress', {
       'uid': progress.uid,
       'activityId': progress.activityId,
@@ -144,8 +137,7 @@ class OfflineService {
     );
   }
 
-  Future<List<ProgressModel>> getCachedProgress(
-      String uid) async {
+  Future<List<ProgressModel>> getCachedProgress(String uid) async {
     final rows = await _store.query(
       'progress',
       where: 'uid = ?',
@@ -178,12 +170,10 @@ class OfflineService {
       'totalPoints': rewards.totalPoints,
       'level': rewards.level,
       'streakDays': rewards.streakDays,
-      'badgesJson': jsonEncode(
-          rewards.badges.map((b) => b.toMap()).toList()),
-      'achievementsJson': jsonEncode(
-          rewards.achievements.map((a) => a.toMap()).toList()),
-      'lastActiveDate':
-          rewards.lastActiveDate.millisecondsSinceEpoch,
+      'badgesJson': jsonEncode(rewards.badges.map((b) => b.toMap()).toList()),
+      'achievementsJson':
+          jsonEncode(rewards.achievements.map((a) => a.toMap()).toList()),
+      'lastActiveDate': rewards.lastActiveDate.millisecondsSinceEpoch,
       'updatedAt': DateTime.now().millisecondsSinceEpoch,
     });
   }
@@ -196,26 +186,22 @@ class OfflineService {
     );
     if (rows.isEmpty) return null;
     final row = rows.first;
-    final badgesJson =
-        jsonDecode(row['badgesJson'] as String) as List<dynamic>;
+    final badgesJson = jsonDecode(row['badgesJson'] as String) as List<dynamic>;
     final achievementsJson =
-        jsonDecode(row['achievementsJson'] as String)
-            as List<dynamic>;
+        jsonDecode(row['achievementsJson'] as String) as List<dynamic>;
     return RewardModel(
       uid: row['uid'] as String,
       totalPoints: row['totalPoints'] as int,
       level: row['level'] as int,
       streakDays: row['streakDays'] as int,
       badges: badgesJson
-          .map((b) =>
-              BadgeModel.fromMap(b as Map<String, dynamic>))
+          .map((b) => BadgeModel.fromMap(b as Map<String, dynamic>))
           .toList(),
       achievements: achievementsJson
-          .map((a) =>
-              AchievementModel.fromMap(a as Map<String, dynamic>))
+          .map((a) => AchievementModel.fromMap(a as Map<String, dynamic>))
           .toList(),
-      lastActiveDate: DateTime.fromMillisecondsSinceEpoch(
-          row['lastActiveDate'] as int),
+      lastActiveDate:
+          DateTime.fromMillisecondsSinceEpoch(row['lastActiveDate'] as int),
     );
   }
 
@@ -241,8 +227,7 @@ class OfflineService {
   }
 
   Future<void> removePendingSync(int id) async {
-    await _store.delete(
-        'pending_sync', 'id = ?', [id]);
+    await _store.delete('pending_sync', 'id = ?', [id]);
   }
 
   Future<void> incrementRetryCount(int id) async {
@@ -266,17 +251,13 @@ class OfflineService {
   Future<SyncResult> syncToFirestore(String uid) async {
     if (!await isOnline()) {
       return SyncResult(
-          success: false,
-          message: 'No internet connection',
-          synced: 0);
+          success: false, message: 'No internet connection', synced: 0);
     }
 
     final pending = await getPendingSync();
     if (pending.isEmpty) {
       return SyncResult(
-          success: true,
-          message: 'Everything is up to date',
-          synced: 0);
+          success: true, message: 'Everything is up to date', synced: 0);
     }
 
     int syncedCount = 0;
@@ -286,8 +267,8 @@ class OfflineService {
       try {
         final id = item['id'] as int;
         final type = item['type'] as String;
-        final data = jsonDecode(item['dataJson'] as String)
-            as Map<String, dynamic>;
+        final data =
+            jsonDecode(item['dataJson'] as String) as Map<String, dynamic>;
 
         switch (type) {
           case 'progress':
@@ -346,8 +327,7 @@ class OfflineService {
   // ── App settings ──────────────────────────────────────
 
   Future<void> saveSetting(String key, String value) async {
-    await _store.insert(
-        'app_settings', {'key': key, 'value': value});
+    await _store.insert('app_settings', {'key': key, 'value': value});
   }
 
   Future<String?> getSetting(String key) async {

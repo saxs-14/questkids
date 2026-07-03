@@ -208,5 +208,13 @@ service cloud.firestore {
       allow read: if isUser(uid);
       allow write: if false;
     }
+
+    // Separate counter for getTeacherInsight so it never competes with a
+    // learner's Questy chat quota above — written transactionally by that
+    // Cloud Function only.
+    match /usage_ai_teacher/{uid} {
+      allow read: if isUser(uid);
+      allow write: if false;
+    }
   }
 }

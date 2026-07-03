@@ -1,0 +1,130 @@
+{
+  "id": "tech_g7_design",
+  "engine": "sequenceBuilder",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Design Process",
+  "tagline": "Follow the full technology design process from problem to solution!",
+  "accentColorHex": "#7C4DFF",
+  "emoji": "✏️",
+  "sceneType": "designProcess",
+  "steps": [
+    {
+      "id": "identify",
+      "label": "Identify",
+      "emoji": "❓",
+      "description": "Identify the problem that needs solving."
+    },
+    {
+      "id": "research",
+      "label": "Research",
+      "emoji": "🔍",
+      "description": "Research existing solutions and gather information."
+    },
+    {
+      "id": "brainstorm",
+      "label": "Brainstorm",
+      "emoji": "💡",
+      "description": "Brainstorm several possible ideas."
+    },
+    {
+      "id": "select",
+      "label": "Select",
+      "emoji": "🎯",
+      "description": "Select the best idea to develop."
+    },
+    {
+      "id": "prototype",
+      "label": "Prototype",
+      "emoji": "🛠️",
+      "description": "Build a prototype of the design."
+    },
+    {
+      "id": "test",
+      "label": "Test",
+      "emoji": "🧪",
+      "description": "Test the prototype and gather feedback."
+    },
+    {
+      "id": "improve",
+      "label": "Improve",
+      "emoji": "🔁",
+      "description": "Improve the design based on feedback."
+    },
+    {
+      "id": "finalise",
+      "label": "Finalise",
+      "emoji": "🏁",
+      "description": "Finalise and present the completed design."
+    }
+  ],
+  "roundVariants": [
+    [
+      "research",
+      "brainstorm",
+      "select",
+      "prototype",
+      "test",
+      "improve",
+      "finalise"
+    ],
+    [
+      "identify",
+      "research",
+      "brainstorm"
+    ],
+    [
+      "identify",
+      "research",
+      "select",
+      "improve",
+      "finalise"
+    ],
+    [
+      "identify",
+      "brainstorm",
+      "select",
+      "prototype",
+      "test",
+      "improve",
+      "finalise"
+    ],
+    [
+      "identify",
+      "research",
+      "brainstorm",
+      "select",
+      "test"
+    ],
+    [
+      "select",
+      "test",
+      "improve"
+    ],
+    [
+      "research",
+      "test",
+      "finalise"
+    ],
+    [
+      "research",
+      "brainstorm",
+      "select",
+      "prototype",
+      "test",
+      "improve"
+    ],
+    [
+      "research",
+      "brainstorm",
+      "prototype",
+      "improve"
+    ],
+    [
+      "research",
+      "prototype",
+      "test",
+      "improve"
+    ]
+  ]
+}

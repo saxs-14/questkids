@@ -35,9 +35,9 @@ class TugOfWarKeypad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final confirmColor = switch (lastAnswerCorrect) {
-      true  => AppColors.green,
+      true => AppColors.green,
       false => AppColors.error,
-      _     => AppColors.blue,
+      _ => AppColors.blue,
     };
 
     return Column(
@@ -51,9 +51,9 @@ class TugOfWarKeypad extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
               color: switch (lastAnswerCorrect) {
-                true  => AppColors.green,
+                true => AppColors.green,
                 false => AppColors.error,
-                _     => Colors.grey.shade300,
+                _ => Colors.grey.shade300,
               },
               width: 2,
             ),
@@ -87,7 +87,7 @@ class TugOfWarKeypad extends StatelessWidget {
                       color: switch (key) {
                         '❌' => AppColors.error,
                         '✅' => confirmColor,
-                        _   => AppColors.blue.withAlpha(220),
+                        _ => AppColors.blue.withAlpha(220),
                       },
                       onTap: () {
                         if (!enabled) return;

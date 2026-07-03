@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../core/content_pack_loader.dart';
+import '../core/content_pack_loading_view.dart';
 import '../core/game_config.dart';
 import '../tug_of_war/widgets/game_result_overlay.dart';
 import 'adventure_journey_session.dart';
@@ -29,7 +31,8 @@ class AdventureJourneyGame extends StatefulWidget {
 
 class _AdventureJourneyGameState extends State<AdventureJourneyGame>
     with TickerProviderStateMixin {
-  late AdventureJourneySession _session;
+  AdventureJourneySession? _session;
+  Map<String, dynamic>? _pack;
   late AnimationController _dropletCtrl;
   late AnimationController _ambientCtrl;
   late Animation<double> _dropletAnim;
@@ -37,8 +40,6 @@ class _AdventureJourneyGameState extends State<AdventureJourneyGame>
   @override
   void initState() {
     super.initState();
-    final uid = (widget.user?.uid as String?) ?? '';
-    _session = AdventureJourneySession(widget.config, uid);
     _ambientCtrl = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 8),
@@ -49,19 +50,29 @@ class _AdventureJourneyGameState extends State<AdventureJourneyGame>
     );
     _dropletAnim = Tween<double>(begin: 0, end: 0)
         .animate(CurvedAnimation(parent: _dropletCtrl, curve: Curves.easeOut));
-    _session.addListener(_onSessionChange);
-    _session.startSession();
+    _initSession();
+  }
+
+  Future<void> _initSession() async {
+    final pack = await loadContentPack(widget.config);
+    if (!mounted) return;
+    _pack = pack;
+    final uid = (widget.user?.uid as String?) ?? '';
+    final session = AdventureJourneySession(widget.config, uid, pack: pack);
+    session.addListener(_onSessionChange);
+    session.startSession();
+    setState(() => _session = session);
   }
 
   void _onSessionChange() {
-    switch (_session.dropletState) {
+    switch (_session!.dropletState) {
       case DropletState.advancing:
-        _dropletAnim = Tween<double>(begin: 0, end: 40)
-            .animate(CurvedAnimation(parent: _dropletCtrl, curve: Curves.easeOut));
+        _dropletAnim = Tween<double>(begin: 0, end: 40).animate(
+            CurvedAnimation(parent: _dropletCtrl, curve: Curves.easeOut));
         _dropletCtrl.forward(from: 0);
       case DropletState.bouncing:
-        _dropletAnim = Tween<double>(begin: -20, end: 0)
-            .animate(CurvedAnimation(parent: _dropletCtrl, curve: Curves.elasticOut));
+        _dropletAnim = Tween<double>(begin: -20, end: 0).animate(
+            CurvedAnimation(parent: _dropletCtrl, curve: Curves.elasticOut));
         _dropletCtrl.forward(from: 0);
       case DropletState.idle:
         break;
@@ -70,28 +81,33 @@ class _AdventureJourneyGameState extends State<AdventureJourneyGame>
 
   @override
   void dispose() {
-    _session.removeListener(_onSessionChange);
-    _session.dispose();
+    _session?.removeListener(_onSessionChange);
+    _session?.dispose();
     _dropletCtrl.dispose();
     _ambientCtrl.dispose();
     super.dispose();
   }
 
   void _restart() {
-    _session.removeListener(_onSessionChange);
-    _session.dispose();
+    _session?.removeListener(_onSessionChange);
+    _session?.dispose();
     final uid = (widget.user?.uid as String?) ?? '';
+    final session = AdventureJourneySession(widget.config, uid, pack: _pack);
     setState(() {
-      _session = AdventureJourneySession(widget.config, uid);
+      _session = session;
     });
-    _session.addListener(_onSessionChange);
-    _session.startSession();
+    session.addListener(_onSessionChange);
+    session.startSession();
   }
 
   @override
   Widget build(BuildContext context) {
+    final session = _session;
+    if (session == null) {
+      return const ContentPackLoadingView(color: AppColors.english);
+    }
     return ChangeNotifierProvider.value(
-      value: _session,
+      value: session,
       child: Consumer<AdventureJourneySession>(
         builder: (ctx, session, _) {
           if (session.isFinished && session.result != null) {
@@ -137,66 +153,65 @@ class _AdventureJourneyGameState extends State<AdventureJourneyGame>
                     ),
                   ),
                   SafeArea(
-                child: Column(
-                  children: [
-                    // Top bar
-                    _TopBar(
-                      stageName: stage.name,
-                      stageIndex: session.questionIndex,
-                      totalStages: session.totalQuestions,
-                      onBack: () => Navigator.of(ctx).pop(),
-                    ),
-
-                    // Stage progress dots
-                    _StageDots(
-                      total: session.totalQuestions,
-                      current: session.questionIndex,
-                    ),
-
-                    const SizedBox(height: 8),
-
-                    // Droplet character with animation
-                    AnimatedBuilder(
-                      animation: _dropletAnim,
-                      builder: (_, __) => Transform.translate(
-                        offset: Offset(0, -_dropletAnim.value),
-                        child: Text(
-                          session.journeyConfig.characterEmoji,
-                          style: const TextStyle(fontSize: 48),
+                    child: Column(
+                      children: [
+                        // Top bar
+                        _TopBar(
+                          stageName: stage.name,
+                          stageIndex: session.questionIndex,
+                          totalStages: session.totalQuestions,
+                          onBack: () => Navigator.of(ctx).pop(),
                         ),
-                      ),
+
+                        // Stage progress dots
+                        _StageDots(
+                          total: session.totalQuestions,
+                          current: session.questionIndex,
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        // Droplet character with animation
+                        AnimatedBuilder(
+                          animation: _dropletAnim,
+                          builder: (_, __) => Transform.translate(
+                            offset: Offset(0, -_dropletAnim.value),
+                            child: Text(
+                              session.journeyConfig.characterEmoji,
+                              style: const TextStyle(fontSize: 48),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 4),
+
+                        // Stage theme emoji
+                        Text(stage.emoji, style: const TextStyle(fontSize: 28)),
+
+                        const SizedBox(height: 6),
+
+                        // Feedback banner
+                        if (session.feedbackText != null)
+                          _FeedbackBanner(
+                            text: session.feedbackText!,
+                            isCorrect: session.feedbackIsCorrect,
+                          ),
+
+                        const Spacer(),
+
+                        // Question card + options
+                        if (q != null)
+                          _QuestionCard(
+                            question: q['question'] as String,
+                            options: List<String>.from(q['options'] as List),
+                            onAnswer: (opt) => session.submitAnswer(opt),
+                            enabled: session.dropletState == DropletState.idle,
+                          ),
+
+                        const SizedBox(height: 16),
+                      ],
                     ),
-
-                    const SizedBox(height: 4),
-
-                    // Stage theme emoji
-                    Text(stage.emoji, style: const TextStyle(fontSize: 28)),
-
-                    const SizedBox(height: 6),
-
-                    // Feedback banner
-                    if (session.feedbackText != null)
-                      _FeedbackBanner(
-                        text: session.feedbackText!,
-                        isCorrect: session.feedbackIsCorrect,
-                      ),
-
-                    const Spacer(),
-
-                    // Question card + options
-                    if (q != null)
-                      _QuestionCard(
-                        question: q['question'] as String,
-                        options:
-                            List<String>.from(q['options'] as List),
-                        onAnswer: (opt) => session.submitAnswer(opt),
-                        enabled: session.dropletState == DropletState.idle,
-                      ),
-
-                    const SizedBox(height: 16),
-                  ],
-                ),
-              ),
+                  ),
                 ],
               ),
             ),
@@ -322,8 +337,9 @@ class _FeedbackBanner extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        color:
-            isCorrect ? AppColors.green.withAlpha(220) : AppColors.error.withAlpha(220),
+        color: isCorrect
+            ? AppColors.green.withAlpha(220)
+            : AppColors.error.withAlpha(220),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Text(

@@ -1,0 +1,133 @@
+{
+  "id": "math_g7_percentage",
+  "engine": "tugOfWar",
+  "grade": "grade7",
+  "subject": "Mathematics",
+  "title": "Percentage Pursuit",
+  "tagline": "Calculate percentages, profit, loss, discount and VAT!",
+  "accentColorHex": "#FF6B35",
+  "emoji": "%",
+  "questionType": "percentage",
+  "sampleItems": [
+    {
+      "question": "What is 10% of R1560?",
+      "options": [
+        "R156",
+        "R144",
+        "R164",
+        "R162"
+      ],
+      "answerIndex": 0,
+      "hint": "10% means 10 out of every 100.",
+      "explanation": "10% of R1560 is R156."
+    },
+    {
+      "question": "What is 20% of R1780?",
+      "options": [
+        "R356",
+        "R364",
+        "R360",
+        "R366"
+      ],
+      "answerIndex": 0,
+      "hint": "20% means 20 out of every 100.",
+      "explanation": "20% of R1780 is R356."
+    },
+    {
+      "question": "What is 75% of R820?",
+      "options": [
+        "R615",
+        "R633",
+        "R595",
+        "R599"
+      ],
+      "answerIndex": 0,
+      "hint": "75% means 75 out of every 100.",
+      "explanation": "75% of R820 is R615."
+    },
+    {
+      "question": "What is 25% of R1960?",
+      "options": [
+        "R472",
+        "R500",
+        "R490",
+        "R496"
+      ],
+      "answerIndex": 2,
+      "hint": "25% means 25 out of every 100.",
+      "explanation": "25% of R1960 is R490."
+    },
+    {
+      "question": "What is 50% of R1100?",
+      "options": [
+        "R558",
+        "R550",
+        "R548",
+        "R542"
+      ],
+      "answerIndex": 1,
+      "hint": "50% means 50 out of every 100.",
+      "explanation": "50% of R1100 is R550."
+    },
+    {
+      "question": "What is 20% of R960?",
+      "options": [
+        "R212",
+        "R192",
+        "R206",
+        "R194"
+      ],
+      "answerIndex": 1,
+      "hint": "20% means 20 out of every 100.",
+      "explanation": "20% of R960 is R192."
+    },
+    {
+      "question": "What is 75% of R1820?",
+      "options": [
+        "R1347",
+        "R1367",
+        "R1359",
+        "R1365"
+      ],
+      "answerIndex": 3,
+      "hint": "75% means 75 out of every 100.",
+      "explanation": "75% of R1820 is R1365."
+    },
+    {
+      "question": "What is 50% of R200?",
+      "options": [
+        "R102",
+        "R80",
+        "R100",
+        "R86"
+      ],
+      "answerIndex": 2,
+      "hint": "50% means 50 out of every 100.",
+      "explanation": "50% of R200 is R100."
+    },
+    {
+      "question": "What is 75% of R1560?",
+      "options": [
+        "R1164",
+        "R1170",
+        "R1190",
+        "R1180"
+      ],
+      "answerIndex": 1,
+      "hint": "75% means 75 out of every 100.",
+      "explanation": "75% of R1560 is R1170."
+    },
+    {
+      "question": "What is 75% of R480?",
+      "options": [
+        "R354",
+        "R362",
+        "R360",
+        "R356"
+      ],
+      "answerIndex": 2,
+      "hint": "75% means 75 out of every 100.",
+      "explanation": "75% of R480 is R360."
+    }
+  ]
+}

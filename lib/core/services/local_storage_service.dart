@@ -111,9 +111,7 @@ class _WebLocalStorage extends LocalStorageService {
     final raw = prefs.getString('$_prefix$table');
     if (raw == null) return [];
     final decoded = jsonDecode(raw) as List<dynamic>;
-    return decoded
-        .map((row) => Map<String, dynamic>.from(row as Map))
-        .toList();
+    return decoded.map((row) => Map<String, dynamic>.from(row as Map)).toList();
   }
 
   Future<void> _writeTable(
@@ -183,8 +181,7 @@ class _WebLocalStorage extends LocalStorageService {
     if (orderBy != null) {
       final parts = orderBy.trim().split(RegExp(r'\s+'));
       final field = parts[0];
-      final descending = parts.length > 1 &&
-          parts[1].toUpperCase() == 'DESC';
+      final descending = parts.length > 1 && parts[1].toUpperCase() == 'DESC';
       rows.sort((a, b) {
         final av = a[field];
         final bv = b[field];

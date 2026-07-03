@@ -1,0 +1,96 @@
+{
+  "id": "ns_g4_matter",
+  "engine": "runnerCollector",
+  "grade": "grade4",
+  "subject": "Natural Sciences",
+  "title": "Matter Master",
+  "tagline": "Identify solids, liquids and gases and their properties!",
+  "accentColorHex": "#00BFA5",
+  "emoji": "⚗️",
+  "levels": [
+    {
+      "targetClass": "solid",
+      "missionLabel": "Collect solids! 🧊",
+      "scrollSpeed": 0.09,
+      "buckets": {
+        "solid": [
+          "ice",
+          "rock",
+          "wood",
+          "a book",
+          "a chair"
+        ],
+        "liquid": [
+          "water",
+          "juice",
+          "milk",
+          "oil",
+          "rain"
+        ],
+        "gas": [
+          "steam",
+          "oxygen",
+          "helium in a balloon",
+          "carbon dioxide",
+          "the air we breathe"
+        ]
+      }
+    },
+    {
+      "targetClass": "liquid",
+      "missionLabel": "Collect liquids! 💧",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "solid": [
+          "ice",
+          "rock",
+          "wood",
+          "a book",
+          "a chair"
+        ],
+        "liquid": [
+          "water",
+          "juice",
+          "milk",
+          "oil",
+          "rain"
+        ],
+        "gas": [
+          "steam",
+          "oxygen",
+          "helium in a balloon",
+          "carbon dioxide",
+          "the air we breathe"
+        ]
+      }
+    },
+    {
+      "targetClass": "gas",
+      "missionLabel": "Collect gases! 💨",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "solid": [
+          "ice",
+          "rock",
+          "wood",
+          "a book",
+          "a chair"
+        ],
+        "liquid": [
+          "water",
+          "juice",
+          "milk",
+          "oil",
+          "rain"
+        ],
+        "gas": [
+          "steam",
+          "oxygen",
+          "helium in a balloon",
+          "carbon dioxide",
+          "the air we breathe"
+        ]
+      }
+    }
+  ]
+}

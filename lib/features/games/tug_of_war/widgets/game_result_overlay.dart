@@ -39,112 +39,112 @@ class GameResultOverlay extends StatelessWidget {
         colors: backdropColors,
         child: SafeArea(
           child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Banner emoji + title
-                Text(
-                  isPerfect ? '🏆' : (isWin ? '🎉' : '😓'),
-                  style: const TextStyle(fontSize: 72),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  isPerfect
-                      ? 'PERFECT MATCH!'
-                      : (isWin ? 'YOU WON!' : 'BETTER LUCK NEXT TIME'),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.white,
-                    letterSpacing: 1.5,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Banner emoji + title
+                  Text(
+                    isPerfect ? '🏆' : (isWin ? '🎉' : '😓'),
+                    style: const TextStyle(fontSize: 72),
                   ),
-                ),
-
-                const SizedBox(height: 24),
-
-                // Score card
-                _ResultCard(children: [
-                  _ScoreLine(
-                    label: 'Score',
-                    value: '$playerScore – $opponentScore',
-                    valueStyle: const TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
+                  const SizedBox(height: 12),
+                  Text(
+                    isPerfect
+                        ? 'PERFECT MATCH!'
+                        : (isWin ? 'YOU WON!' : 'BETTER LUCK NEXT TIME'),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                      letterSpacing: 1.5,
                     ),
                   ),
-                  const Divider(height: 20),
-                  _ScoreLine(
-                    label: 'Accuracy',
-                    value: '${(result.accuracy * 100).round()}%',
-                  ),
-                  _ScoreLine(
-                    label: 'XP Earned',
-                    value: '+${result.xpEarned} XP',
-                    valueColor: AppColors.gold,
-                  ),
-                  _ScoreLine(
-                    label: 'Coins',
-                    value: '+${result.coinsEarned} 🪙',
-                    valueColor: AppColors.gold,
-                  ),
-                  if (isPerfect) ...[
+
+                  const SizedBox(height: 24),
+
+                  // Score card
+                  _ResultCard(children: [
+                    _ScoreLine(
+                      label: 'Score',
+                      value: '$playerScore – $opponentScore',
+                      valueStyle: const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const Divider(height: 20),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.military_tech, color: AppColors.gold),
-                        SizedBox(width: 6),
-                        Text(
-                          'Perfect Match Badge Unlocked!',
-                          style: TextStyle(
-                            color: AppColors.gold,
-                            fontWeight: FontWeight.bold,
+                    _ScoreLine(
+                      label: 'Accuracy',
+                      value: '${(result.accuracy * 100).round()}%',
+                    ),
+                    _ScoreLine(
+                      label: 'XP Earned',
+                      value: '+${result.xpEarned} XP',
+                      valueColor: AppColors.gold,
+                    ),
+                    _ScoreLine(
+                      label: 'Coins',
+                      value: '+${result.coinsEarned} 🪙',
+                      valueColor: AppColors.gold,
+                    ),
+                    if (isPerfect) ...[
+                      const Divider(height: 20),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.military_tech, color: AppColors.gold),
+                          SizedBox(width: 6),
+                          Text(
+                            'Perfect Match Badge Unlocked!',
+                            style: TextStyle(
+                              color: AppColors.gold,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ]),
+                        ],
+                      ),
+                    ],
+                  ]),
 
-                const SizedBox(height: 32),
+                  const SizedBox(height: 32),
 
-                // Buttons
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton.icon(
-                    onPressed: onPlayAgain,
-                    icon: const Icon(Icons.replay),
-                    label: const Text(
-                      'Play Again',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: AppColors.primary,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                  // Buttons
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: onPlayAgain,
+                      icon: const Icon(Icons.replay),
+                      label: const Text(
+                        'Play Again',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: AppColors.primary,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton.icon(
-                    onPressed: onContinue,
-                    icon: const Icon(Icons.arrow_forward),
-                    label: const Text(
-                      'Continue',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      side: const BorderSide(color: Colors.white, width: 2),
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: onContinue,
+                      icon: const Icon(Icons.arrow_forward),
+                      label: const Text(
+                        'Continue',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        side: const BorderSide(color: Colors.white, width: 2),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
                     ),
                   ),
-                ),
                 ],
               ),
             ),
@@ -168,7 +168,8 @@ class _ResultCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: const [
-          BoxShadow(color: Colors.black26, blurRadius: 12, offset: Offset(0, 4)),
+          BoxShadow(
+              color: Colors.black26, blurRadius: 12, offset: Offset(0, 4)),
         ],
       ),
       child: Column(

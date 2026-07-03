@@ -22,20 +22,17 @@ class OfflineBanner extends StatelessWidget {
       case ConnectionStatus.offline:
         bannerColor = AppColors.error;
         bannerIcon = Icons.wifi_off;
-        bannerText =
-            'You are offline. Progress saved locally.';
+        bannerText = 'You are offline. Progress saved locally.';
         break;
       case ConnectionStatus.syncing:
         bannerColor = AppColors.orange;
         bannerIcon = Icons.sync;
-        bannerText = conn.syncMessage ??
-            'Syncing your progress...';
+        bannerText = conn.syncMessage ?? 'Syncing your progress...';
         break;
       case ConnectionStatus.online:
         bannerColor = AppColors.green;
         bannerIcon = Icons.cloud_done;
-        bannerText =
-            conn.syncMessage ?? 'All synced! ✅';
+        bannerText = conn.syncMessage ?? 'All synced! ✅';
         break;
     }
 
@@ -43,8 +40,7 @@ class OfflineBanner extends StatelessWidget {
       duration: const Duration(milliseconds: 300),
       width: double.infinity,
       color: bannerColor,
-      padding: const EdgeInsets.symmetric(
-          horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         children: [
           conn.status == ConnectionStatus.syncing
@@ -56,8 +52,7 @@ class OfflineBanner extends StatelessWidget {
                     strokeWidth: 2,
                   ),
                 )
-              : Icon(bannerIcon,
-                  color: Colors.white, size: 16),
+              : Icon(bannerIcon, color: Colors.white, size: 16),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
@@ -71,8 +66,7 @@ class OfflineBanner extends StatelessWidget {
           ),
           if (conn.pendingSyncCount > 0)
             Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 8, vertical: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.25),
                 borderRadius: BorderRadius.circular(10),

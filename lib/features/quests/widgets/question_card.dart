@@ -36,8 +36,10 @@ class _QuestionCardState extends State<QuestionCard> {
   }
 
   Color _getOptionTextColor(int index) {
-    if (!widget.isRevealed && widget.selectedIndex == index) return Colors.white;
-    if (widget.isRevealed && index == widget.question.correctIndex) return Colors.white;
+    if (!widget.isRevealed && widget.selectedIndex == index)
+      return Colors.white;
+    if (widget.isRevealed && index == widget.question.correctIndex)
+      return Colors.white;
     if (widget.isRevealed &&
         index == widget.selectedIndex &&
         index != widget.question.correctIndex) {
@@ -114,8 +116,7 @@ class _QuestionCardState extends State<QuestionCard> {
           decoration: BoxDecoration(
             color: AppColors.primary.withValues(alpha: 0.08),
             borderRadius: BorderRadius.circular(20),
-            border:
-                Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+            border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
           ),
           child: Text(
             widget.question.question,
@@ -200,8 +201,7 @@ class _QuestionCardState extends State<QuestionCard> {
             decoration: BoxDecoration(
               color: AppColors.blue.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(16),
-              border:
-                  Border.all(color: AppColors.blue.withValues(alpha: 0.3)),
+              border: Border.all(color: AppColors.blue.withValues(alpha: 0.3)),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,

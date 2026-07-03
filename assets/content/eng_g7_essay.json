@@ -1,0 +1,105 @@
+{
+  "id": "eng_g7_essay",
+  "engine": "sequenceBuilder",
+  "grade": "grade7",
+  "subject": "English",
+  "title": "Essay Structure Builder",
+  "tagline": "Arrange introduction, body paragraphs and conclusion in the right order!",
+  "accentColorHex": "#E91E63",
+  "emoji": "✍️",
+  "sceneType": "essayStructure",
+  "steps": [
+    {
+      "id": "hook",
+      "label": "Hook",
+      "emoji": "🎣",
+      "description": "Open with an interesting hook to grab the reader."
+    },
+    {
+      "id": "thesis",
+      "label": "Thesis",
+      "emoji": "🎯",
+      "description": "State your main argument or thesis."
+    },
+    {
+      "id": "point1",
+      "label": "First Point",
+      "emoji": "1️⃣",
+      "description": "Present your first supporting point with evidence."
+    },
+    {
+      "id": "point2",
+      "label": "Second Point",
+      "emoji": "2️⃣",
+      "description": "Present your second supporting point with evidence."
+    },
+    {
+      "id": "counter",
+      "label": "Counter-Argument",
+      "emoji": "↩️",
+      "description": "Address a counter-argument."
+    },
+    {
+      "id": "conclusion",
+      "label": "Conclusion",
+      "emoji": "🏁",
+      "description": "Restate your thesis and conclude with impact."
+    }
+  ],
+  "roundVariants": [
+    [
+      "point2",
+      "counter",
+      "conclusion"
+    ],
+    [
+      "hook",
+      "point1",
+      "conclusion"
+    ],
+    [
+      "thesis",
+      "counter",
+      "conclusion"
+    ],
+    [
+      "point1",
+      "counter",
+      "conclusion"
+    ],
+    [
+      "thesis",
+      "point1",
+      "point2"
+    ],
+    [
+      "hook",
+      "thesis",
+      "counter"
+    ],
+    [
+      "thesis",
+      "point2",
+      "counter"
+    ],
+    [
+      "hook",
+      "point1",
+      "point2",
+      "counter",
+      "conclusion"
+    ],
+    [
+      "hook",
+      "thesis",
+      "point2"
+    ],
+    [
+      "hook",
+      "thesis",
+      "point1",
+      "counter",
+      "conclusion"
+    ]
+  ]
+}

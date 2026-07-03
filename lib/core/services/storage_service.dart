@@ -50,7 +50,9 @@ class StorageService {
     try {
       final ref = _storage.ref().child('avatars/$uid/avatar.jpg');
       // Delete old file first; ignore NotFound errors.
-      try { await ref.delete(); } catch (_) {}
+      try {
+        await ref.delete();
+      } catch (_) {}
       final task = ref.putData(
         bytes,
         SettableMetadata(contentType: 'image/jpeg'),

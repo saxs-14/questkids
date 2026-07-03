@@ -44,8 +44,7 @@ class _QuizResultScreenState extends State<QuizResultScreen>
     final finalScore = quiz.finalScore;
     final passed = finalScore >= 60;
 
-    _confettiCtrl =
-        ConfettiController(duration: const Duration(seconds: 3));
+    _confettiCtrl = ConfettiController(duration: const Duration(seconds: 3));
 
     _scoreCtrl = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 1200));
@@ -54,32 +53,29 @@ class _QuizResultScreenState extends State<QuizResultScreen>
 
     _emojiCtrl = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 700));
-    _emojiScale = Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(parent: _emojiCtrl, curve: Curves.elasticOut));
+    _emojiScale = Tween<double>(begin: 0.0, end: 1.0)
+        .animate(CurvedAnimation(parent: _emojiCtrl, curve: Curves.elasticOut));
 
     _statsCtrl = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 900));
-    _stat0Slide = Tween<Offset>(
-            begin: const Offset(0, 0.5), end: Offset.zero)
+    _stat0Slide = Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero)
         .animate(CurvedAnimation(
             parent: _statsCtrl,
             curve: const Interval(0.0, 0.6, curve: Curves.easeOut)));
-    _stat0Fade = CurvedAnimation(
-        parent: _statsCtrl, curve: const Interval(0.0, 0.4));
-    _stat1Slide = Tween<Offset>(
-            begin: const Offset(0, 0.5), end: Offset.zero)
+    _stat0Fade =
+        CurvedAnimation(parent: _statsCtrl, curve: const Interval(0.0, 0.4));
+    _stat1Slide = Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero)
         .animate(CurvedAnimation(
             parent: _statsCtrl,
             curve: const Interval(0.2, 0.8, curve: Curves.easeOut)));
-    _stat1Fade = CurvedAnimation(
-        parent: _statsCtrl, curve: const Interval(0.2, 0.6));
-    _stat2Slide = Tween<Offset>(
-            begin: const Offset(0, 0.5), end: Offset.zero)
+    _stat1Fade =
+        CurvedAnimation(parent: _statsCtrl, curve: const Interval(0.2, 0.6));
+    _stat2Slide = Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero)
         .animate(CurvedAnimation(
             parent: _statsCtrl,
             curve: const Interval(0.4, 1.0, curve: Curves.easeOut)));
-    _stat2Fade = CurvedAnimation(
-        parent: _statsCtrl, curve: const Interval(0.4, 0.8));
+    _stat2Fade =
+        CurvedAnimation(parent: _statsCtrl, curve: const Interval(0.4, 0.8));
 
     // Sequence: emoji → score → stats → confetti
     _emojiCtrl.forward().then((_) {
@@ -101,9 +97,9 @@ class _QuizResultScreenState extends State<QuizResultScreen>
 
   Color _scoreColor(int score) {
     if (score == 100) return AppColors.gold;
-    if (score >= 80)  return AppColors.green;
-    if (score >= 60)  return AppColors.primary;
-    if (score >= 40)  return AppColors.orange;
+    if (score >= 80) return AppColors.green;
+    if (score >= 60) return AppColors.primary;
+    if (score >= 40) return AppColors.orange;
     return AppColors.error;
   }
 
@@ -225,8 +221,7 @@ class _QuizResultScreenState extends State<QuizResultScreen>
                         slide: _stat0Slide,
                         fade: _stat0Fade,
                         label: 'Challenges Won',
-                        value:
-                            '${quiz.correctCount}/${quiz.totalQuestions}',
+                        value: '${quiz.correctCount}/${quiz.totalQuestions}',
                         emoji: '⚔️',
                         color: AppColors.green,
                       ),
@@ -259,8 +254,8 @@ class _QuizResultScreenState extends State<QuizResultScreen>
                   ),
                   const SizedBox(height: 12),
                   if (quiz.currentActivity != null)
-                    ...List.generate(
-                        quiz.currentActivity!.questions.length, (i) {
+                    ...List.generate(quiz.currentActivity!.questions.length,
+                        (i) {
                       final q = quiz.currentActivity!.questions[i];
                       final userAnswer = quiz.userAnswers.length > i
                           ? quiz.userAnswers[i]
@@ -287,14 +282,12 @@ class _QuizResultScreenState extends State<QuizResultScreen>
                             const SizedBox(width: 10),
                             Expanded(
                               child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     q.question,
                                     style: AppTextStyles.bodyMedium
-                                        .copyWith(
-                                            fontWeight: FontWeight.w600),
+                                        .copyWith(fontWeight: FontWeight.w600),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -302,8 +295,7 @@ class _QuizResultScreenState extends State<QuizResultScreen>
                                     const SizedBox(height: 4),
                                     Text(
                                       'Correct: ${q.options[q.correctIndex]}',
-                                      style: AppTextStyles.bodySmall
-                                          .copyWith(
+                                      style: AppTextStyles.bodySmall.copyWith(
                                         color: AppColors.green,
                                         fontWeight: FontWeight.w700,
                                       ),
@@ -321,10 +313,8 @@ class _QuizResultScreenState extends State<QuizResultScreen>
                   // Action buttons
                   ElevatedButton(
                     onPressed: () async {
-                      final uid =
-                          context.read<AuthProvider>().user?.uid ?? '';
-                      final rewardsProvider =
-                          context.read<RewardsProvider>();
+                      final uid = context.read<AuthProvider>().user?.uid ?? '';
+                      final rewardsProvider = context.read<RewardsProvider>();
                       final lastQuizTimeSeconds =
                           context.read<QuizProvider>().currentActivity != null
                               ? 60
@@ -337,8 +327,7 @@ class _QuizResultScreenState extends State<QuizResultScreen>
                       );
                       if (rewardsProvider.newlyEarnedBadges.isNotEmpty &&
                           context.mounted) {
-                        for (final badge
-                            in rewardsProvider.newlyEarnedBadges) {
+                        for (final badge in rewardsProvider.newlyEarnedBadges) {
                           await showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -419,8 +408,7 @@ class _AnimatedStat extends StatelessWidget {
               children: [
                 Text(emoji, style: const TextStyle(fontSize: 22)),
                 const SizedBox(height: 6),
-                Text(value,
-                    style: AppTextStyles.h4.copyWith(color: color)),
+                Text(value, style: AppTextStyles.h4.copyWith(color: color)),
                 Text(label,
                     style: AppTextStyles.bodySmall,
                     textAlign: TextAlign.center),

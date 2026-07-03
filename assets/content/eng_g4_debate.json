@@ -1,0 +1,133 @@
+{
+  "id": "eng_g4_debate",
+  "engine": "tugOfWar",
+  "grade": "grade4",
+  "subject": "English",
+  "title": "Debate Duel",
+  "tagline": "Choose your argument, support it with evidence and win the debate!",
+  "accentColorHex": "#E91E63",
+  "emoji": "🎤",
+  "questionType": "general-knowledge",
+  "sampleItems": [
+    {
+      "question": "What is the purpose of an opening statement in a debate?",
+      "options": [
+        "A response that argues against the other side's point",
+        "To introduce your team's position",
+        "Accurate and relevant to the point",
+        "The last speaker on each team"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "To introduce your team's position — that's correct!"
+    },
+    {
+      "question": "What should you do when the other team makes a point?",
+      "options": [
+        "Accurate and relevant to the point",
+        "Calm, clear and respectful",
+        "To introduce your team's position",
+        "Listen carefully and prepare a response"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Listen carefully and prepare a response — that's correct!"
+    },
+    {
+      "question": "What is a 'rebuttal'?",
+      "options": [
+        "A response that argues against the other side's point",
+        "Listen carefully and prepare a response",
+        "Accurate and relevant to the point",
+        "Calm, clear and respectful"
+      ],
+      "answerIndex": 0,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "A response that argues against the other side's point — that's correct!"
+    },
+    {
+      "question": "Why is eye contact important in a debate?",
+      "options": [
+        "Accurate and relevant to the point",
+        "It shows confidence and engages the audience",
+        "The statement being argued for or against",
+        "Listen carefully and prepare a response"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "It shows confidence and engages the audience — that's correct!"
+    },
+    {
+      "question": "What is the 'motion' in a debate?",
+      "options": [
+        "Substantiation",
+        "A response that argues against the other side's point",
+        "Accurate and relevant to the point",
+        "The statement being argued for or against"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "The statement being argued for or against — that's correct!"
+    },
+    {
+      "question": "Who usually gives the closing argument?",
+      "options": [
+        "The last speaker on each team",
+        "Listen carefully and prepare a response",
+        "Accurate and relevant to the point",
+        "Substantiation"
+      ],
+      "answerIndex": 0,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "The last speaker on each team — that's correct!"
+    },
+    {
+      "question": "What should evidence in a debate be?",
+      "options": [
+        "The last speaker on each team",
+        "Accurate and relevant to the point",
+        "Listen carefully and prepare a response",
+        "To introduce your team's position"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Accurate and relevant to the point — that's correct!"
+    },
+    {
+      "question": "What tone should a debater use?",
+      "options": [
+        "To introduce your team's position",
+        "A response that argues against the other side's point",
+        "The last speaker on each team",
+        "Calm, clear and respectful"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Calm, clear and respectful — that's correct!"
+    },
+    {
+      "question": "What is it called when you support your argument with facts?",
+      "options": [
+        "The last speaker on each team",
+        "Calm, clear and respectful",
+        "Substantiation",
+        "The statement being argued for or against"
+      ],
+      "answerIndex": 2,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Substantiation — that's correct!"
+    },
+    {
+      "question": "Why should you avoid interrupting?",
+      "options": [
+        "The statement being argued for or against",
+        "It shows confidence and engages the audience",
+        "It is disrespectful and breaks debate rules",
+        "Calm, clear and respectful"
+      ],
+      "answerIndex": 2,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "It is disrespectful and breaks debate rules — that's correct!"
+    }
+  ]
+}

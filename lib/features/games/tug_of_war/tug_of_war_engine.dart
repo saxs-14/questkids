@@ -70,6 +70,38 @@ class TugOfWarEngine extends GameEngine {
             'display': '$product ÷ $a = ?',
             'type': type,
           });
+        case 'percentage':
+          // Answers must stay non-negative integers — the keypad has no
+          // decimal point — so pick a percentage/base pair that divides
+          // evenly.
+          const pcts = [10, 20, 25, 50, 75];
+          final pct = pcts[a % pcts.length];
+          final base = (b + 1) * 20;
+          final answer = (pct * base) ~/ 100;
+          out.add({
+            'a': pct,
+            'b': base,
+            'answer': answer,
+            'display': 'What is $pct% of R$base?',
+            'type': type,
+          });
+        case 'conversion':
+          const factors = [100, 1000, 60];
+          const units = [
+            ['m', 'cm'],
+            ['km', 'm'],
+            ['h', 'min']
+          ];
+          final idx = a % factors.length;
+          final value = (b % 20) + 1;
+          final answer = value * factors[idx];
+          out.add({
+            'a': value,
+            'b': factors[idx],
+            'answer': answer,
+            'display': '$value ${units[idx][0]} = ? ${units[idx][1]}',
+            'type': type,
+          });
         default:
           out.add({
             'a': a,

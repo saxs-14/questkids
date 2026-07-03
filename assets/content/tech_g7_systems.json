@@ -1,0 +1,128 @@
+{
+  "id": "tech_g7_systems",
+  "engine": "sequenceBuilder",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Systems & Control",
+  "tagline": "Understand input, process and output in technological systems!",
+  "accentColorHex": "#7C4DFF",
+  "emoji": "🎛️",
+  "sceneType": "inputProcessOutput",
+  "steps": [
+    {
+      "id": "input",
+      "label": "Input",
+      "emoji": "⌨️",
+      "description": "Input: data or material enters the system."
+    },
+    {
+      "id": "sense",
+      "label": "Sense",
+      "emoji": "📡",
+      "description": "Sensors or controls detect the input."
+    },
+    {
+      "id": "process",
+      "label": "Process",
+      "emoji": "⚙️",
+      "description": "The system processes the input using set rules."
+    },
+    {
+      "id": "decide",
+      "label": "Decide",
+      "emoji": "🤔",
+      "description": "The system decides on the correct response."
+    },
+    {
+      "id": "actuate",
+      "label": "Actuate",
+      "emoji": "🦾",
+      "description": "Actuators or outputs are triggered."
+    },
+    {
+      "id": "output",
+      "label": "Output",
+      "emoji": "📤",
+      "description": "Output: the system produces a result."
+    },
+    {
+      "id": "feedback",
+      "label": "Feedback",
+      "emoji": "🔄",
+      "description": "Feedback is captured about the result."
+    },
+    {
+      "id": "adjust",
+      "label": "Adjust",
+      "emoji": "🎛️",
+      "description": "The system adjusts based on the feedback."
+    }
+  ],
+  "roundVariants": [
+    [
+      "input",
+      "sense",
+      "process",
+      "actuate",
+      "output",
+      "adjust"
+    ],
+    [
+      "input",
+      "process",
+      "decide",
+      "output"
+    ],
+    [
+      "input",
+      "sense",
+      "decide",
+      "actuate"
+    ],
+    [
+      "sense",
+      "decide",
+      "output"
+    ],
+    [
+      "process",
+      "decide",
+      "feedback",
+      "adjust"
+    ],
+    [
+      "input",
+      "actuate",
+      "feedback",
+      "adjust"
+    ],
+    [
+      "sense",
+      "decide",
+      "actuate",
+      "adjust"
+    ],
+    [
+      "sense",
+      "process",
+      "decide",
+      "actuate"
+    ],
+    [
+      "sense",
+      "decide",
+      "actuate",
+      "output",
+      "feedback",
+      "adjust"
+    ],
+    [
+      "input",
+      "decide",
+      "actuate",
+      "output",
+      "feedback",
+      "adjust"
+    ]
+  ]
+}

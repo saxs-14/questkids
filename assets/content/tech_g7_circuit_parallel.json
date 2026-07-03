@@ -1,0 +1,367 @@
+{
+  "id": "tech_g7_circuit_parallel",
+  "engine": "circuitBuilder",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Parallel Circuit Builder",
+  "tagline": "Wire a parallel circuit — understand current and voltage paths!",
+  "accentColorHex": "#7C4DFF",
+  "emoji": "⚡",
+  "circuits": [
+    {
+      "id": "parallel_two_bulbs",
+      "description": "In a parallel circuit each bulb has its own path. Complete it.",
+      "layout": "🔋 ═╦═ 💡\n    ╚═?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "bulb",
+          "emoji": "💡",
+          "hint": "Each branch needs its own bulb"
+        }
+      ],
+      "bank": [
+        "bulb",
+        "switch",
+        "wire",
+        "resistor"
+      ],
+      "labels": {
+        "bulb": "💡 Bulb",
+        "switch": "🔘 Switch",
+        "wire": "〰️ Wire",
+        "resistor": "⬛ Resistor"
+      }
+    },
+    {
+      "id": "parallel_branch_switch",
+      "description": "Add a switch that controls only ONE branch.",
+      "layout": "🔋 ═╦═ 💡\n    ╚═?═ 💡",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "switch",
+          "emoji": "🔘",
+          "hint": "Only affects its own branch"
+        }
+      ],
+      "bank": [
+        "switch",
+        "wire",
+        "bulb",
+        "resistor"
+      ],
+      "labels": {
+        "switch": "🔘 Switch",
+        "wire": "〰️ Wire",
+        "bulb": "💡 Bulb",
+        "resistor": "⬛ Resistor"
+      }
+    },
+    {
+      "id": "parallel_extra_branch",
+      "description": "Add a third branch to the parallel circuit.",
+      "layout": "🔋 ═╦═ 💡\n    ╠═ 💡\n    ╚═?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "bulb",
+          "emoji": "💡",
+          "hint": "Parallel branches can be added independently"
+        }
+      ],
+      "bank": [
+        "bulb",
+        "switch",
+        "wire"
+      ],
+      "labels": {
+        "bulb": "💡 Bulb",
+        "switch": "🔘 Switch",
+        "wire": "〰️ Wire"
+      }
+    },
+    {
+      "id": "parallel_junction",
+      "description": "What connects the branches together?",
+      "layout": "🔋 —?— ╦",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "wire",
+          "emoji": "〰️",
+          "hint": "Wires join the branches at a junction"
+        }
+      ],
+      "bank": [
+        "wire",
+        "bulb",
+        "switch"
+      ],
+      "labels": {
+        "wire": "〰️ Wire",
+        "bulb": "💡 Bulb",
+        "switch": "🔘 Switch"
+      }
+    },
+    {
+      "id": "parallel_main_switch",
+      "description": "Add a switch that turns OFF the whole circuit.",
+      "layout": "?— 🔋 ═╦═ 💡",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "switch",
+          "emoji": "🔘",
+          "hint": "Placed before the split, it controls everything"
+        }
+      ],
+      "bank": [
+        "switch",
+        "wire",
+        "bulb"
+      ],
+      "labels": {
+        "switch": "🔘 Switch",
+        "wire": "〰️ Wire",
+        "bulb": "💡 Bulb"
+      }
+    },
+    {
+      "id": "parallel_resistor_branch",
+      "description": "Protect one branch with a resistor.",
+      "layout": "🔋 ═╦═ 💡\n    ╚═?═ 💡",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "resistor",
+          "emoji": "⬛",
+          "hint": "Limits current in just that branch"
+        }
+      ],
+      "bank": [
+        "resistor",
+        "wire",
+        "bulb",
+        "switch"
+      ],
+      "labels": {
+        "resistor": "⬛ Resistor",
+        "wire": "〰️ Wire",
+        "bulb": "💡 Bulb",
+        "switch": "🔘 Switch"
+      }
+    },
+    {
+      "id": "parallel_battery_pair",
+      "description": "Which component supplies power to all branches?",
+      "layout": "?— ═╦═ 💡",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "battery",
+          "emoji": "🔋",
+          "hint": "The power source is shared by all branches"
+        }
+      ],
+      "bank": [
+        "battery",
+        "bulb",
+        "switch"
+      ],
+      "labels": {
+        "battery": "🔋 Battery",
+        "bulb": "💡 Bulb",
+        "switch": "🔘 Switch"
+      }
+    },
+    {
+      "id": "parallel_led_branch",
+      "description": "Add an LED to one branch to save energy.",
+      "layout": "🔋 ═╦═ 💡\n    ╚═?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "LED",
+          "emoji": "🔆",
+          "hint": "LEDs use less power than bulbs"
+        }
+      ],
+      "bank": [
+        "LED",
+        "bulb",
+        "switch",
+        "wire"
+      ],
+      "labels": {
+        "LED": "🔆 LED",
+        "bulb": "💡 Bulb",
+        "switch": "🔘 Switch",
+        "wire": "〰️ Wire"
+      }
+    },
+    {
+      "id": "parallel_motor_branch",
+      "description": "Add a motor branch to spin a fan.",
+      "layout": "🔋 ═╦═ 💡\n    ╚═?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "motor",
+          "emoji": "🌀",
+          "hint": "Motors can run in their own branch"
+        }
+      ],
+      "bank": [
+        "motor",
+        "bulb",
+        "switch",
+        "wire"
+      ],
+      "labels": {
+        "motor": "🌀 Motor",
+        "bulb": "💡 Bulb",
+        "switch": "🔘 Switch",
+        "wire": "〰️ Wire"
+      }
+    },
+    {
+      "id": "parallel_buzzer_branch",
+      "description": "Add a buzzer to a third branch.",
+      "layout": "🔋 ═╦═ 💡\n    ╠═ 💡\n    ╚═?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "buzzer",
+          "emoji": "🔔",
+          "hint": "A buzzer works fine on its own branch too"
+        }
+      ],
+      "bank": [
+        "buzzer",
+        "bulb",
+        "switch"
+      ],
+      "labels": {
+        "buzzer": "🔔 Buzzer",
+        "bulb": "💡 Bulb",
+        "switch": "🔘 Switch"
+      }
+    },
+    {
+      "id": "parallel_vs_series_gap",
+      "description": "Why doesn't one bulb going out affect the others in parallel?",
+      "layout": "🔋 ═╦═ 💡(out)\n    ╚═?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "bulb",
+          "emoji": "💡",
+          "hint": "Each branch is an independent path"
+        }
+      ],
+      "bank": [
+        "bulb",
+        "wire",
+        "switch"
+      ],
+      "labels": {
+        "bulb": "💡 Bulb (still on)",
+        "wire": "〰️ Wire",
+        "switch": "🔘 Switch"
+      }
+    },
+    {
+      "id": "parallel_brightness",
+      "description": "Add a bulb to a new branch without dimming the others.",
+      "layout": "🔋 ═╦═ 💡\n    ╚═?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "bulb",
+          "emoji": "💡",
+          "hint": "Parallel branches keep the same voltage"
+        }
+      ],
+      "bank": [
+        "bulb",
+        "resistor",
+        "switch"
+      ],
+      "labels": {
+        "bulb": "💡 Bulb (full brightness)",
+        "resistor": "⬛ Resistor",
+        "switch": "🔘 Switch"
+      }
+    },
+    {
+      "id": "parallel_short_fix",
+      "description": "A wire bridges two branches by mistake. What should replace it?",
+      "layout": "🔋 ═╦═ 💡\n    ╚═?═ 💡",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "switch",
+          "emoji": "🔘",
+          "hint": "A switch lets you control that branch safely"
+        }
+      ],
+      "bank": [
+        "switch",
+        "wire",
+        "bulb"
+      ],
+      "labels": {
+        "switch": "🔘 Switch",
+        "wire": "〰️ Wire",
+        "bulb": "💡 Bulb"
+      }
+    },
+    {
+      "id": "parallel_household",
+      "description": "Household wiring uses this circuit type so one appliance failing does not turn off the house. What connects each appliance?",
+      "layout": "🔋 ═╦═ 📺\n    ╚═?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "switch",
+          "emoji": "🔘",
+          "hint": "Each appliance has its own switch/branch"
+        }
+      ],
+      "bank": [
+        "switch",
+        "wire",
+        "bulb"
+      ],
+      "labels": {
+        "switch": "🔘 Switch",
+        "wire": "〰️ Wire",
+        "bulb": "💡 Bulb"
+      }
+    },
+    {
+      "id": "parallel_total_current",
+      "description": "What flows through the main wire before it splits into branches?",
+      "layout": "?— ═╦═ 💡",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "battery",
+          "emoji": "🔋",
+          "hint": "The battery supplies the total current for all branches"
+        }
+      ],
+      "bank": [
+        "battery",
+        "bulb",
+        "resistor"
+      ],
+      "labels": {
+        "battery": "🔋 Battery",
+        "bulb": "💡 Bulb",
+        "resistor": "⬛ Resistor"
+      }
+    }
+  ]
+}

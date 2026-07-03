@@ -150,7 +150,8 @@ class _WaterCyclePainter extends CustomPainter {
         ..lineTo(ahx - 10, ahy)
         ..lineTo(ahx, ahy + 8)
         ..close();
-      canvas.drawPath(head, Paint()..color = Colors.white.withValues(alpha: 0.6));
+      canvas.drawPath(
+          head, Paint()..color = Colors.white.withValues(alpha: 0.6));
     }
   }
 

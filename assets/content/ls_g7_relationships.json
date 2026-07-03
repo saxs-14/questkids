@@ -1,0 +1,253 @@
+{
+  "id": "ls_g7_relationships",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "Life Skills",
+  "title": "Healthy Relationships",
+  "tagline": "Build positive relationships and recognise peer pressure!",
+  "accentColorHex": "#FF9800",
+  "emoji": "❤️",
+  "characterEmoji": "❤️",
+  "stages": [
+    {
+      "id": "ls_g7_relationships_0",
+      "name": "Stage 1",
+      "emoji": "❤️",
+      "themeColorHex": "#FF9800",
+      "question": "What makes a relationship healthy?",
+      "options": [
+        "Being influenced by friends to do something",
+        "Repeated harmful behaviour towards someone",
+        "Mutual respect and trust",
+        "A trusted adult"
+      ],
+      "correctOption": "Mutual respect and trust",
+      "correctFeedback": "Yes! Mutual respect and trust is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Mutual respect and trust."
+    },
+    {
+      "id": "ls_g7_relationships_1",
+      "name": "Stage 2",
+      "emoji": "❤️",
+      "themeColorHex": "#FF9800",
+      "question": "What is 'consent'?",
+      "options": [
+        "Understanding and sharing another person's feelings",
+        "Repeated harmful behaviour towards someone",
+        "Controlling behaviour",
+        "Freely agreeing to something"
+      ],
+      "correctOption": "Freely agreeing to something",
+      "correctFeedback": "Yes! Freely agreeing to something is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Freely agreeing to something."
+    },
+    {
+      "id": "ls_g7_relationships_2",
+      "name": "Stage 3",
+      "emoji": "❤️",
+      "themeColorHex": "#FF9800",
+      "question": "Why is communication important in relationships?",
+      "options": [
+        "It helps people understand each other",
+        "They help protect your comfort and safety",
+        "Mutual respect and trust",
+        "Calmly explaining how you feel"
+      ],
+      "correctOption": "It helps people understand each other",
+      "correctFeedback": "Yes! It helps people understand each other is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It helps people understand each other."
+    },
+    {
+      "id": "ls_g7_relationships_3",
+      "name": "Stage 4",
+      "emoji": "❤️",
+      "themeColorHex": "#FF9800",
+      "question": "What is a sign of an unhealthy relationship?",
+      "options": [
+        "Repeated harmful behaviour towards someone",
+        "Freely agreeing to something",
+        "Calmly explaining how you feel",
+        "Controlling behaviour"
+      ],
+      "correctOption": "Controlling behaviour",
+      "correctFeedback": "Yes! Controlling behaviour is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Controlling behaviour."
+    },
+    {
+      "id": "ls_g7_relationships_4",
+      "name": "Stage 5",
+      "emoji": "❤️",
+      "themeColorHex": "#FF9800",
+      "question": "What is 'peer pressure'?",
+      "options": [
+        "It builds trust between people",
+        "Honesty, support and kindness",
+        "Being influenced by friends to do something",
+        "Controlling behaviour"
+      ],
+      "correctOption": "Being influenced by friends to do something",
+      "correctFeedback": "Yes! Being influenced by friends to do something is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Being influenced by friends to do something."
+    },
+    {
+      "id": "ls_g7_relationships_5",
+      "name": "Stage 6",
+      "emoji": "❤️",
+      "themeColorHex": "#FF9800",
+      "question": "How can you handle peer pressure?",
+      "options": [
+        "Understanding and sharing another person's feelings",
+        "Finding a fair way to solve a disagreement",
+        "They help protect your comfort and safety",
+        "Confidently say no and walk away"
+      ],
+      "correctOption": "Confidently say no and walk away",
+      "correctFeedback": "Yes! Confidently say no and walk away is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Confidently say no and walk away."
+    },
+    {
+      "id": "ls_g7_relationships_6",
+      "name": "Stage 7",
+      "emoji": "❤️",
+      "themeColorHex": "#FF9800",
+      "question": "What is empathy in a relationship?",
+      "options": [
+        "Being influenced by friends to do something",
+        "Finding a fair way to solve a disagreement",
+        "Understanding and sharing another person's feelings",
+        "It builds trust between people"
+      ],
+      "correctOption": "Understanding and sharing another person's feelings",
+      "correctFeedback": "Yes! Understanding and sharing another person's feelings is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Understanding and sharing another person's feelings."
+    },
+    {
+      "id": "ls_g7_relationships_7",
+      "name": "Stage 8",
+      "emoji": "❤️",
+      "themeColorHex": "#FF9800",
+      "question": "Why are boundaries important?",
+      "options": [
+        "They help protect your comfort and safety",
+        "It helps people understand each other",
+        "Calmly explaining how you feel",
+        "Finding a fair way to solve a disagreement"
+      ],
+      "correctOption": "They help protect your comfort and safety",
+      "correctFeedback": "Yes! They help protect your comfort and safety is right — onward!",
+      "wrongFeedback": "Not quite — the answer is They help protect your comfort and safety."
+    },
+    {
+      "id": "ls_g7_relationships_8",
+      "name": "Stage 9",
+      "emoji": "❤️",
+      "themeColorHex": "#FF9800",
+      "question": "What should you do if a friend betrays your trust?",
+      "options": [
+        "Confidently say no and walk away",
+        "It builds trust between people",
+        "Talk to them honestly about how you feel",
+        "Controlling behaviour"
+      ],
+      "correctOption": "Talk to them honestly about how you feel",
+      "correctFeedback": "Yes! Talk to them honestly about how you feel is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Talk to them honestly about how you feel."
+    },
+    {
+      "id": "ls_g7_relationships_9",
+      "name": "Stage 10",
+      "emoji": "❤️",
+      "themeColorHex": "#FF9800",
+      "question": "What is 'bullying'?",
+      "options": [
+        "It builds trust between people",
+        "Confidently say no and walk away",
+        "Repeated harmful behaviour towards someone",
+        "Being influenced by friends to do something"
+      ],
+      "correctOption": "Repeated harmful behaviour towards someone",
+      "correctFeedback": "Yes! Repeated harmful behaviour towards someone is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Repeated harmful behaviour towards someone."
+    },
+    {
+      "id": "ls_g7_relationships_10",
+      "name": "Stage 11",
+      "emoji": "❤️",
+      "themeColorHex": "#FF9800",
+      "question": "Who should you tell if you experience bullying?",
+      "options": [
+        "A trusted adult",
+        "Understanding and sharing another person's feelings",
+        "Confidently say no and walk away",
+        "It builds trust between people"
+      ],
+      "correctOption": "A trusted adult",
+      "correctFeedback": "Yes! A trusted adult is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A trusted adult."
+    },
+    {
+      "id": "ls_g7_relationships_11",
+      "name": "Stage 12",
+      "emoji": "❤️",
+      "themeColorHex": "#FF9800",
+      "question": "What makes a good friendship?",
+      "options": [
+        "Talk to them honestly about how you feel",
+        "Understanding and sharing another person's feelings",
+        "It helps people understand each other",
+        "Honesty, support and kindness"
+      ],
+      "correctOption": "Honesty, support and kindness",
+      "correctFeedback": "Yes! Honesty, support and kindness is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Honesty, support and kindness."
+    },
+    {
+      "id": "ls_g7_relationships_12",
+      "name": "Stage 13",
+      "emoji": "❤️",
+      "themeColorHex": "#FF9800",
+      "question": "What is 'conflict resolution'?",
+      "options": [
+        "Understanding and sharing another person's feelings",
+        "It builds trust between people",
+        "Finding a fair way to solve a disagreement",
+        "Mutual respect and trust"
+      ],
+      "correctOption": "Finding a fair way to solve a disagreement",
+      "correctFeedback": "Yes! Finding a fair way to solve a disagreement is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Finding a fair way to solve a disagreement."
+    },
+    {
+      "id": "ls_g7_relationships_13",
+      "name": "Stage 14",
+      "emoji": "❤️",
+      "themeColorHex": "#FF9800",
+      "question": "Why is honesty important in relationships?",
+      "options": [
+        "It builds trust between people",
+        "Finding a fair way to solve a disagreement",
+        "Freely agreeing to something",
+        "They help protect your comfort and safety"
+      ],
+      "correctOption": "It builds trust between people",
+      "correctFeedback": "Yes! It builds trust between people is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It builds trust between people."
+    },
+    {
+      "id": "ls_g7_relationships_14",
+      "name": "Stage 15",
+      "emoji": "❤️",
+      "themeColorHex": "#FF9800",
+      "question": "What is a healthy way to express anger?",
+      "options": [
+        "Being influenced by friends to do something",
+        "Confidently say no and walk away",
+        "Calmly explaining how you feel",
+        "Controlling behaviour"
+      ],
+      "correctOption": "Calmly explaining how you feel",
+      "correctFeedback": "Yes! Calmly explaining how you feel is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Calmly explaining how you feel."
+    }
+  ]
+}

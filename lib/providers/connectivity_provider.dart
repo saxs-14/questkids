@@ -26,22 +26,17 @@ class ConnectivityProvider extends ChangeNotifier {
 
   Future<void> _init() async {
     final isOnline = await _offlineService.isOnline();
-    _status = isOnline
-        ? ConnectionStatus.online
-        : ConnectionStatus.offline;
+    _status = isOnline ? ConnectionStatus.online : ConnectionStatus.offline;
     notifyListeners();
 
-    _subscription =
-        _offlineService.connectivityStream.listen((online) {
-      final newStatus = online
-          ? ConnectionStatus.online
-          : ConnectionStatus.offline;
+    _subscription = _offlineService.connectivityStream.listen((online) {
+      final newStatus =
+          online ? ConnectionStatus.online : ConnectionStatus.offline;
       if (newStatus != _status) {
         _status = newStatus;
         notifyListeners();
         if (online) {
-          _syncMessage =
-              'Back online! Syncing your progress...';
+          _syncMessage = 'Back online! Syncing your progress...';
           notifyListeners();
         }
       }
@@ -55,13 +50,11 @@ class ConnectivityProvider extends ChangeNotifier {
     _syncMessage = 'Syncing your progress...';
     notifyListeners();
 
-    final result =
-        await _offlineService.syncToFirestore(uid);
+    final result = await _offlineService.syncToFirestore(uid);
 
     _isSyncing = false;
-    _status = result.success
-        ? ConnectionStatus.online
-        : ConnectionStatus.offline;
+    _status =
+        result.success ? ConnectionStatus.online : ConnectionStatus.offline;
     _syncMessage = result.message;
     _pendingSyncCount = 0;
     notifyListeners();
@@ -72,8 +65,7 @@ class ConnectivityProvider extends ChangeNotifier {
   }
 
   Future<void> updatePendingCount() async {
-    final pending =
-        await _offlineService.getPendingSync();
+    final pending = await _offlineService.getPendingSync();
     _pendingSyncCount = pending.length;
     notifyListeners();
   }

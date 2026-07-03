@@ -1,0 +1,132 @@
+{
+  "id": "eng_g7_grammar",
+  "engine": "runnerCollector",
+  "grade": "grade7",
+  "subject": "English",
+  "title": "Grammar Gladiator",
+  "tagline": "Master clauses, phrases, active/passive voice and complex sentences!",
+  "accentColorHex": "#E91E63",
+  "emoji": "⚔️",
+  "levels": [
+    {
+      "targetClass": "active voice",
+      "missionLabel": "Collect active voice! 🏃",
+      "scrollSpeed": 0.11,
+      "buckets": {
+        "active voice": [
+          "The dog chased the cat.",
+          "Zanele wrote the letter.",
+          "The team won the match.",
+          "The chef cooked dinner."
+        ],
+        "passive voice": [
+          "The cat was chased by the dog.",
+          "The letter was written by Zanele.",
+          "The match was won by the team.",
+          "Dinner was cooked by the chef."
+        ],
+        "subordinate clause": [
+          "because it was raining",
+          "although she was tired",
+          "when the bell rings",
+          "if you study hard"
+        ],
+        "independent clause": [
+          "She stayed inside.",
+          "He finished his homework.",
+          "They arrived on time."
+        ]
+      }
+    },
+    {
+      "targetClass": "passive voice",
+      "missionLabel": "Collect passive voice! 🔄",
+      "scrollSpeed": 0.12,
+      "buckets": {
+        "active voice": [
+          "The dog chased the cat.",
+          "Zanele wrote the letter.",
+          "The team won the match.",
+          "The chef cooked dinner."
+        ],
+        "passive voice": [
+          "The cat was chased by the dog.",
+          "The letter was written by Zanele.",
+          "The match was won by the team.",
+          "Dinner was cooked by the chef."
+        ],
+        "subordinate clause": [
+          "because it was raining",
+          "although she was tired",
+          "when the bell rings",
+          "if you study hard"
+        ],
+        "independent clause": [
+          "She stayed inside.",
+          "He finished his homework.",
+          "They arrived on time."
+        ]
+      }
+    },
+    {
+      "targetClass": "subordinate clause",
+      "missionLabel": "Collect subordinate clauses! 🔗",
+      "scrollSpeed": 0.13,
+      "buckets": {
+        "active voice": [
+          "The dog chased the cat.",
+          "Zanele wrote the letter.",
+          "The team won the match.",
+          "The chef cooked dinner."
+        ],
+        "passive voice": [
+          "The cat was chased by the dog.",
+          "The letter was written by Zanele.",
+          "The match was won by the team.",
+          "Dinner was cooked by the chef."
+        ],
+        "subordinate clause": [
+          "because it was raining",
+          "although she was tired",
+          "when the bell rings",
+          "if you study hard"
+        ],
+        "independent clause": [
+          "She stayed inside.",
+          "He finished his homework.",
+          "They arrived on time."
+        ]
+      }
+    },
+    {
+      "targetClass": "independent clause",
+      "missionLabel": "Collect independent clauses! ✅",
+      "scrollSpeed": 0.13,
+      "buckets": {
+        "active voice": [
+          "The dog chased the cat.",
+          "Zanele wrote the letter.",
+          "The team won the match.",
+          "The chef cooked dinner."
+        ],
+        "passive voice": [
+          "The cat was chased by the dog.",
+          "The letter was written by Zanele.",
+          "The match was won by the team.",
+          "Dinner was cooked by the chef."
+        ],
+        "subordinate clause": [
+          "because it was raining",
+          "although she was tired",
+          "when the bell rings",
+          "if you study hard"
+        ],
+        "independent clause": [
+          "She stayed inside.",
+          "He finished his homework.",
+          "They arrived on time."
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,429 @@
+{
+  "id": "ems_g7_budget",
+  "engine": "budgetBuilder",
+  "grade": "grade7",
+  "subject": "EMS",
+  "title": "Budget Builder",
+  "tagline": "Allocate income wisely — distinguish needs vs wants and avoid debt!",
+  "accentColorHex": "#009688",
+  "emoji": "📋",
+  "scenarios": [
+    {
+      "budget": 800,
+      "scenario": "Your household budget for the month is R800.",
+      "items": [
+        {
+          "name": "Gift shop toy",
+          "cost": 120,
+          "category": "want",
+          "emoji": "🧸",
+          "reason": "Fun but not needed"
+        },
+        {
+          "name": "Sweets and chips",
+          "cost": 50,
+          "category": "want",
+          "emoji": "🍬",
+          "reason": "Nice to have, not necessary"
+        },
+        {
+          "name": "Bus fare for the week",
+          "cost": 80,
+          "category": "need",
+          "emoji": "🚌",
+          "reason": "Transport to school is essential"
+        },
+        {
+          "name": "Latest smartphone",
+          "cost": 9000,
+          "category": "skip",
+          "emoji": "📱",
+          "reason": "Far more than the whole budget"
+        },
+        {
+          "name": "Bread and milk",
+          "cost": 60,
+          "category": "need",
+          "emoji": "🍞",
+          "reason": "Food is essential for survival"
+        }
+      ]
+    },
+    {
+      "budget": 400,
+      "scenario": "You have R400 left after paying rent — budget the rest.",
+      "items": [
+        {
+          "name": "Overseas holiday deposit",
+          "cost": 5000,
+          "category": "skip",
+          "emoji": "✈️",
+          "reason": "Not possible on this budget"
+        },
+        {
+          "name": "Gift shop toy",
+          "cost": 120,
+          "category": "want",
+          "emoji": "🧸",
+          "reason": "Fun but not needed"
+        },
+        {
+          "name": "Fancy restaurant lunch",
+          "cost": 180,
+          "category": "want",
+          "emoji": "🍽️",
+          "reason": "Pack a lunch instead"
+        },
+        {
+          "name": "Medical prescription",
+          "cost": 90,
+          "category": "need",
+          "emoji": "💊",
+          "reason": "Health is a priority"
+        },
+        {
+          "name": "School shoes",
+          "cost": 180,
+          "category": "need",
+          "emoji": "👞",
+          "reason": "Needed for school every day"
+        },
+        {
+          "name": "Bus fare for the week",
+          "cost": 80,
+          "category": "need",
+          "emoji": "🚌",
+          "reason": "Transport to school is essential"
+        }
+      ]
+    },
+    {
+      "budget": 600,
+      "scenario": "Your household budget for the month is R600.",
+      "items": [
+        {
+          "name": "Designer jacket",
+          "cost": 1800,
+          "category": "skip",
+          "emoji": "🧥",
+          "reason": "Not affordable this month"
+        },
+        {
+          "name": "Pet grooming",
+          "cost": 200,
+          "category": "want",
+          "emoji": "🐕",
+          "reason": "Nice for pet, not critical this month"
+        },
+        {
+          "name": "Weekend concert tickets",
+          "cost": 350,
+          "category": "want",
+          "emoji": "🎵",
+          "reason": "Entertainment, not essential"
+        },
+        {
+          "name": "Electricity top-up",
+          "cost": 120,
+          "category": "need",
+          "emoji": "💡",
+          "reason": "Essential service — no lights without it"
+        },
+        {
+          "name": "Bread and milk",
+          "cost": 60,
+          "category": "need",
+          "emoji": "🍞",
+          "reason": "Food is essential for survival"
+        },
+        {
+          "name": "Water and rates bill",
+          "cost": 150,
+          "category": "need",
+          "emoji": "💧",
+          "reason": "Clean water is a basic need"
+        }
+      ]
+    },
+    {
+      "budget": 500,
+      "scenario": "You have R500 left after paying rent — budget the rest.",
+      "items": [
+        {
+          "name": "School uniform",
+          "cost": 150,
+          "category": "need",
+          "emoji": "👕",
+          "reason": "Required for school"
+        },
+        {
+          "name": "Stationery for school",
+          "cost": 60,
+          "category": "need",
+          "emoji": "✏️",
+          "reason": "Needed for learning"
+        },
+        {
+          "name": "Weekend concert tickets",
+          "cost": 350,
+          "category": "want",
+          "emoji": "🎵",
+          "reason": "Entertainment, not essential"
+        },
+        {
+          "name": "Limited edition sneakers",
+          "cost": 1200,
+          "category": "skip",
+          "emoji": "👟",
+          "reason": "Way over budget"
+        },
+        {
+          "name": "Rent contribution",
+          "cost": 400,
+          "category": "need",
+          "emoji": "🏠",
+          "reason": "Shelter is a basic need"
+        }
+      ]
+    },
+    {
+      "budget": 400,
+      "scenario": "Your household budget for the month is R400.",
+      "items": [
+        {
+          "name": "Movie ticket",
+          "cost": 80,
+          "category": "want",
+          "emoji": "🎬",
+          "reason": "Fun but not essential"
+        },
+        {
+          "name": "New TV",
+          "cost": 4500,
+          "category": "skip",
+          "emoji": "📺",
+          "reason": "Exceeds the budget by a lot"
+        },
+        {
+          "name": "Groceries",
+          "cost": 250,
+          "category": "need",
+          "emoji": "🛒",
+          "reason": "Food for the family is a need"
+        },
+        {
+          "name": "School uniform",
+          "cost": 150,
+          "category": "need",
+          "emoji": "👕",
+          "reason": "Required for school"
+        },
+        {
+          "name": "Comic book",
+          "cost": 40,
+          "category": "want",
+          "emoji": "📚",
+          "reason": "Fun reading, not essential"
+        }
+      ]
+    },
+    {
+      "budget": 300,
+      "scenario": "You have R300 left after paying rent — budget the rest.",
+      "items": [
+        {
+          "name": "Groceries",
+          "cost": 250,
+          "category": "need",
+          "emoji": "🛒",
+          "reason": "Food for the family is a need"
+        },
+        {
+          "name": "Fancy restaurant lunch",
+          "cost": 180,
+          "category": "want",
+          "emoji": "🍽️",
+          "reason": "Pack a lunch instead"
+        },
+        {
+          "name": "Gift shop toy",
+          "cost": 120,
+          "category": "want",
+          "emoji": "🧸",
+          "reason": "Fun but not needed"
+        },
+        {
+          "name": "Water and rates bill",
+          "cost": 150,
+          "category": "need",
+          "emoji": "💧",
+          "reason": "Clean water is a basic need"
+        },
+        {
+          "name": "New TV",
+          "cost": 4500,
+          "category": "skip",
+          "emoji": "📺",
+          "reason": "Exceeds the budget by a lot"
+        },
+        {
+          "name": "Bus fare for the week",
+          "cost": 80,
+          "category": "need",
+          "emoji": "🚌",
+          "reason": "Transport to school is essential"
+        }
+      ]
+    },
+    {
+      "budget": 700,
+      "scenario": "Your household budget for the month is R700.",
+      "items": [
+        {
+          "name": "Medical prescription",
+          "cost": 90,
+          "category": "need",
+          "emoji": "💊",
+          "reason": "Health is a priority"
+        },
+        {
+          "name": "Groceries",
+          "cost": 250,
+          "category": "need",
+          "emoji": "🛒",
+          "reason": "Food for the family is a need"
+        },
+        {
+          "name": "Latest smartphone",
+          "cost": 9000,
+          "category": "skip",
+          "emoji": "📱",
+          "reason": "Far more than the whole budget"
+        },
+        {
+          "name": "Fancy restaurant lunch",
+          "cost": 180,
+          "category": "want",
+          "emoji": "🍽️",
+          "reason": "Pack a lunch instead"
+        }
+      ]
+    },
+    {
+      "budget": 500,
+      "scenario": "You have R500 left after paying rent — budget the rest.",
+      "items": [
+        {
+          "name": "New phone case",
+          "cost": 90,
+          "category": "want",
+          "emoji": "📱",
+          "reason": "Current one still works"
+        },
+        {
+          "name": "Groceries",
+          "cost": 250,
+          "category": "need",
+          "emoji": "🛒",
+          "reason": "Food for the family is a need"
+        },
+        {
+          "name": "New TV",
+          "cost": 4500,
+          "category": "skip",
+          "emoji": "📺",
+          "reason": "Exceeds the budget by a lot"
+        },
+        {
+          "name": "Electricity top-up",
+          "cost": 120,
+          "category": "need",
+          "emoji": "💡",
+          "reason": "Essential service — no lights without it"
+        }
+      ]
+    },
+    {
+      "budget": 400,
+      "scenario": "Your household budget for the month is R400.",
+      "items": [
+        {
+          "name": "Groceries",
+          "cost": 250,
+          "category": "need",
+          "emoji": "🛒",
+          "reason": "Food for the family is a need"
+        },
+        {
+          "name": "Sweets and chips",
+          "cost": 50,
+          "category": "want",
+          "emoji": "🍬",
+          "reason": "Nice to have, not necessary"
+        },
+        {
+          "name": "School uniform",
+          "cost": 150,
+          "category": "need",
+          "emoji": "👕",
+          "reason": "Required for school"
+        },
+        {
+          "name": "Water and rates bill",
+          "cost": 150,
+          "category": "need",
+          "emoji": "💧",
+          "reason": "Clean water is a basic need"
+        },
+        {
+          "name": "Latest smartphone",
+          "cost": 9000,
+          "category": "skip",
+          "emoji": "📱",
+          "reason": "Far more than the whole budget"
+        },
+        {
+          "name": "Comic book",
+          "cost": 40,
+          "category": "want",
+          "emoji": "📚",
+          "reason": "Fun reading, not essential"
+        }
+      ]
+    },
+    {
+      "budget": 500,
+      "scenario": "You have R500 left after paying rent — budget the rest.",
+      "items": [
+        {
+          "name": "Designer jacket",
+          "cost": 1800,
+          "category": "skip",
+          "emoji": "🧥",
+          "reason": "Not affordable this month"
+        },
+        {
+          "name": "Water and rates bill",
+          "cost": 150,
+          "category": "need",
+          "emoji": "💧",
+          "reason": "Clean water is a basic need"
+        },
+        {
+          "name": "Bread and milk",
+          "cost": 60,
+          "category": "need",
+          "emoji": "🍞",
+          "reason": "Food is essential for survival"
+        },
+        {
+          "name": "New phone case",
+          "cost": 90,
+          "category": "want",
+          "emoji": "📱",
+          "reason": "Current one still works"
+        }
+      ]
+    }
+  ]
+}

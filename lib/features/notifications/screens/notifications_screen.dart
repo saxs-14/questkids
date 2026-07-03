@@ -59,7 +59,7 @@ class NotificationsScreen extends StatelessWidget {
               final notif = notifications[index];
               return ListTile(
                 leading: CircleAvatar(
-                  backgroundColor: notif.isRead 
+                  backgroundColor: notif.isRead
                       ? Colors.grey.withValues(alpha: 0.2)
                       : AppColors.primary.withValues(alpha: 0.2),
                   child: Icon(
@@ -70,7 +70,8 @@ class NotificationsScreen extends StatelessWidget {
                 title: Text(
                   notif.title,
                   style: TextStyle(
-                    fontWeight: notif.isRead ? FontWeight.normal : FontWeight.bold,
+                    fontWeight:
+                        notif.isRead ? FontWeight.normal : FontWeight.bold,
                   ),
                 ),
                 subtitle: Column(
@@ -80,7 +81,8 @@ class NotificationsScreen extends StatelessWidget {
                     Text(notif.body),
                     const SizedBox(height: 4),
                     Text(
-                      DateFormat('MMM d, yyyy - h:mm a').format(notif.createdAt),
+                      DateFormat('MMM d, yyyy - h:mm a')
+                          .format(notif.createdAt),
                       style: const TextStyle(fontSize: 10, color: Colors.grey),
                     ),
                   ],

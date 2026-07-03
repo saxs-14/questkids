@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../core/content_pack_loader.dart';
 import '../core/game_config.dart';
 import '../core/game_theme.dart';
 import '../tug_of_war/widgets/game_result_overlay.dart';
@@ -30,6 +31,7 @@ class _ProvinceExplorerState extends State<ProvinceExplorer> {
 
   bool _easyUnlocked = false;
   bool _hardUnlocked = false;
+  Map<String, dynamic>? _pack;
 
   static const _kEasy = 'explorer_easy_unlocked';
   static const _kHard = 'explorer_hard_unlocked';
@@ -40,6 +42,9 @@ class _ProvinceExplorerState extends State<ProvinceExplorer> {
   void initState() {
     super.initState();
     _loadUnlocks();
+    loadContentPack(widget.config).then((pack) {
+      if (mounted) _pack = pack;
+    });
   }
 
   Future<void> _loadUnlocks() async {
@@ -67,7 +72,7 @@ class _ProvinceExplorerState extends State<ProvinceExplorer> {
     );
     setState(() {
       _mode = mode;
-      _session = ExplorerMapSession(cfg, _uid)..startSession();
+      _session = ExplorerMapSession(cfg, _uid, pack: _pack)..startSession();
     });
   }
 
@@ -81,7 +86,9 @@ class _ProvinceExplorerState extends State<ProvinceExplorer> {
     if (completed && finishedMode == ExplorerMode.learn && !_easyUnlocked) {
       setState(() => _easyUnlocked = true);
       _unlock(_kEasy);
-    } else if (completed && finishedMode == ExplorerMode.easy && !_hardUnlocked) {
+    } else if (completed &&
+        finishedMode == ExplorerMode.easy &&
+        !_hardUnlocked) {
       setState(() => _hardUnlocked = true);
       _unlock(_kHard);
     }
@@ -174,7 +181,8 @@ class _ModeHub extends StatelessWidget {
                   _ModeCard(
                     emoji: '🧭',
                     title: 'Learn',
-                    subtitle: 'Explore freely — tap each province to discover it',
+                    subtitle:
+                        'Explore freely — tap each province to discover it',
                     locked: false,
                     onTap: () => onPick(ExplorerMode.learn),
                   ),
@@ -191,7 +199,8 @@ class _ModeHub extends StatelessWidget {
                   _ModeCard(
                     emoji: '🔥',
                     title: 'Hard Quiz',
-                    subtitle: 'Read the clue — tap the right province on the map',
+                    subtitle:
+                        'Read the clue — tap the right province on the map',
                     locked: !hardUnlocked,
                     lockedHint: 'Finish the Easy Quiz to unlock',
                     onTap: () => onPick(ExplorerMode.hard),
@@ -249,7 +258,8 @@ class _ModeCard extends StatelessWidget {
                               color: AppColors.socialSciences)),
                       Text(
                         locked ? (lockedHint ?? 'Locked') : subtitle,
-                        style: GameTheme.body(13, color: AppColors.textSecondary),
+                        style:
+                            GameTheme.body(13, color: AppColors.textSecondary),
                       ),
                     ],
                   ),
@@ -384,9 +394,10 @@ class _InfoCard extends StatelessWidget {
                   children: [
                     Text(province.name,
                         style: GameTheme.display(20, color: province.color)),
-                    Text('Capital: ${province.capital}',
-                        style: GameTheme.body(13,
-                            color: AppColors.textSecondary)),
+                    if (province.capital.isNotEmpty)
+                      Text('Capital: ${province.capital}',
+                          style: GameTheme.body(13,
+                              color: AppColors.textSecondary)),
                   ],
                 ),
               ),
@@ -424,7 +435,9 @@ class _EasyView extends StatelessWidget {
               styleFor: (p) {
                 final isTarget = p.id == correct?.id;
                 return _PinStyle(
-                  color: isTarget ? AppColors.gold : p.color.withValues(alpha: 0.35),
+                  color: isTarget
+                      ? AppColors.gold
+                      : p.color.withValues(alpha: 0.35),
                   label: p.emoji,
                   pulse: isTarget,
                   ring: isTarget ? AppColors.gold : null,
@@ -473,11 +486,13 @@ class _EasyView extends StatelessWidget {
                               color: bg,
                               borderRadius: BorderRadius.circular(26),
                               border: Border.all(
-                                  color: selected ? Colors.white : Colors.white30,
+                                  color:
+                                      selected ? Colors.white : Colors.white30,
                                   width: selected ? 2.5 : 1),
                             ),
                             child: Text(p.name,
-                                style: GameTheme.display(15, color: Colors.white)),
+                                style:
+                                    GameTheme.display(15, color: Colors.white)),
                           ),
                         );
                       }).toList(),
@@ -519,7 +534,8 @@ class _HardView extends StatelessWidget {
               ),
               child: Text(session.prompt,
                   textAlign: TextAlign.center,
-                  style: GameTheme.display(16, color: AppColors.socialSciences)),
+                  style:
+                      GameTheme.display(16, color: AppColors.socialSciences)),
             ),
           ),
           Expanded(
@@ -545,7 +561,9 @@ class _HardView extends StatelessWidget {
                   ring: ring,
                 );
               },
-              onTap: session.awaitingNext ? null : (p) => session.submitAnswer(p.id),
+              onTap: session.awaitingNext
+                  ? null
+                  : (p) => session.submitAnswer(p.id),
             ),
           ),
           if (session.feedbackFact != null)
@@ -564,7 +582,8 @@ class _HardView extends StatelessWidget {
                   style: GameTheme.body(14, color: Colors.white)),
               style: OutlinedButton.styleFrom(
                 side: const BorderSide(color: Colors.white54),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               ),
             ),
           ),
@@ -612,7 +631,8 @@ class _MapStage extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: CustomPaint(size: Size(w, h), painter: _MapBackdropPainter()),
+              child:
+                  CustomPaint(size: Size(w, h), painter: _MapBackdropPainter()),
             ),
           ),
           for (final p in provinces)
@@ -648,16 +668,17 @@ class _Marker extends StatelessWidget {
       decoration: BoxDecoration(
         color: style.color.withValues(alpha: style.opacity),
         shape: BoxShape.circle,
-        border: Border.all(color: style.ring ?? Colors.white, width: style.ring != null ? 3 : 2),
+        border: Border.all(
+            color: style.ring ?? Colors.white,
+            width: style.ring != null ? 3 : 2),
         boxShadow: const [BoxShadow(color: Colors.black38, blurRadius: 5)],
       ),
       child: Text(style.label, style: const TextStyle(fontSize: 18)),
     );
 
     if (style.pulse) {
-      dot = dot
-          .animate(onPlay: (c) => c.repeat(reverse: true))
-          .scaleXY(begin: 1, end: 1.18, duration: 700.ms, curve: Curves.easeInOut);
+      dot = dot.animate(onPlay: (c) => c.repeat(reverse: true)).scaleXY(
+          begin: 1, end: 1.18, duration: 700.ms, curve: Curves.easeInOut);
     }
 
     return Semantics(

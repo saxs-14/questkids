@@ -1,0 +1,65 @@
+{
+  "id": "math_g1_mountain",
+  "engine": "sequenceBuilder",
+  "grade": "grade1",
+  "subject": "Mathematics",
+  "title": "Maths Mountain",
+  "tagline": "Climb the mountain by solving addition, subtraction and multiplication basics!",
+  "accentColorHex": "#FF6B35",
+  "emoji": "⛰️",
+  "sceneType": "mathsMountain",
+  "steps": [
+    {
+      "id": "read",
+      "label": "Read",
+      "emoji": "👀",
+      "description": "Read the number sentence carefully."
+    },
+    {
+      "id": "choose",
+      "label": "Choose",
+      "emoji": "🤔",
+      "description": "Choose which operation to use: + or −."
+    },
+    {
+      "id": "solve",
+      "label": "Solve",
+      "emoji": "✏️",
+      "description": "Work out the answer step by step."
+    },
+    {
+      "id": "check",
+      "label": "Check",
+      "emoji": "✅",
+      "description": "Check your answer makes sense."
+    }
+  ],
+  "roundVariants": [
+    [
+      "read",
+      "solve",
+      "check"
+    ],
+    [
+      "read",
+      "choose",
+      "solve"
+    ],
+    [
+      "choose",
+      "solve",
+      "check"
+    ],
+    [
+      "read",
+      "choose",
+      "solve",
+      "check"
+    ],
+    [
+      "read",
+      "choose",
+      "check"
+    ]
+  ]
+}

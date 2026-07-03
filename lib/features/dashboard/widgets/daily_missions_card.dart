@@ -27,8 +27,7 @@ class DailyMissionsCard extends StatelessWidget {
           children: [
             Text('Daily Missions', style: AppTextStyles.h3),
             Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
                 color: AppColors.primary.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(12),
@@ -51,8 +50,7 @@ class DailyMissionsCard extends StatelessWidget {
                 ? provider.completedCount / provider.totalCount
                 : 0,
             backgroundColor: AppColors.primary.withValues(alpha: 0.12),
-            valueColor:
-                const AlwaysStoppedAnimation<Color>(AppColors.primary),
+            valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
             minHeight: 4,
           ),
         ),
@@ -213,8 +211,7 @@ class _EmptyMissions extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.primary.withValues(alpha: 0.06),
         borderRadius: BorderRadius.circular(16),
-        border:
-            Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
       ),
       child: Column(
         children: [

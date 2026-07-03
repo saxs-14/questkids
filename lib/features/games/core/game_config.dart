@@ -5,18 +5,18 @@ import '../../../core/constants/game_catalog.dart';
 /// Engines must NOT contain hardcoded question lists; all tunable
 /// parameters live here so a single engine class serves many curricula.
 class GameConfig {
-  final String engineType;       // AppConstants.engine*
-  final String subject;          // e.g. 'Mathematics'
-  final String grade;            // e.g. 'grade4'
-  final String topicId;          // caps_curriculum topic id
-  final String subtopicId;       // caps_curriculum subtopic id
-  final String difficulty;       // 'easy' | 'medium' | 'hard' | 'adaptive'
-  final int questionCount;       // total questions per session
-  final int timeLimitSeconds;    // 0 = no limit (timer still counts up)
-  final String opponentName;     // AI opponent display name
-  final String opponentEmoji;    // AI opponent emoji / avatar
+  final String engineType; // AppConstants.engine*
+  final String subject; // e.g. 'Mathematics'
+  final String grade; // e.g. 'grade4'
+  final String topicId; // caps_curriculum topic id
+  final String subtopicId; // caps_curriculum subtopic id
+  final String difficulty; // 'easy' | 'medium' | 'hard' | 'adaptive'
+  final int questionCount; // total questions per session
+  final int timeLimitSeconds; // 0 = no limit (timer still counts up)
+  final String opponentName; // AI opponent display name
+  final String opponentEmoji; // AI opponent emoji / avatar
   final Map<String, dynamic> extras; // engine-specific config (range, lanes, …)
-  final String? catalogId;       // GameCatalogEntry.id — used for mission completion
+  final String? catalogId; // GameCatalogEntry.id — used for mission completion
 
   const GameConfig({
     required this.engineType,
@@ -32,6 +32,21 @@ class GameConfig {
     this.extras = const {},
     this.catalogId,
   });
+
+  /// Path to this topic's generated content pack asset
+  /// (assets/content/{catalogId}.json), or null when this config wasn't
+  /// built from a catalog entry (e.g. an ad-hoc preset) — in that case the
+  /// engine should fall back to its built-in demo content.
+  ///
+  /// Flat by design (not assets/content/{grade}/{subject}/...): Flutter's
+  /// asset bundler doesn't recurse into subdirectories of a directory
+  /// registered in pubspec.yaml's `assets:` list when running
+  /// `flutter test` — see tools/gamegen/extract.js's contentPackPath.
+  String? get contentPackPath {
+    final id = catalogId;
+    if (id == null || id.isEmpty) return null;
+    return 'assets/content/$id.json';
+  }
 
   /// Build a GameConfig from a GameCatalogEntry.
   factory GameConfig.fromCatalogEntry(GameCatalogEntry entry) {
@@ -91,6 +106,7 @@ class GameConfig {
     String? opponentName,
     String? opponentEmoji,
     Map<String, dynamic>? extras,
+    String? catalogId,
   }) {
     return GameConfig(
       engineType: engineType ?? this.engineType,
@@ -104,6 +120,7 @@ class GameConfig {
       opponentName: opponentName ?? this.opponentName,
       opponentEmoji: opponentEmoji ?? this.opponentEmoji,
       extras: extras ?? this.extras,
+      catalogId: catalogId ?? this.catalogId,
     );
   }
 

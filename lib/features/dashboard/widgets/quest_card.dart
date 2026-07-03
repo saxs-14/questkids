@@ -52,8 +52,8 @@ class QuestCard extends StatelessWidget {
                 children: [
                   Text(emoji, style: const TextStyle(fontSize: 32)),
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.25),
                       borderRadius: BorderRadius.circular(20),
@@ -92,8 +92,7 @@ class QuestCard extends StatelessWidget {
               const Spacer(),
               Row(
                 children: [
-                  const Text('⭐',
-                      style: TextStyle(fontSize: 14)),
+                  const Text('⭐', style: TextStyle(fontSize: 14)),
                   const SizedBox(width: 4),
                   Text(
                     '$points pts',

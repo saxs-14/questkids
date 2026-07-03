@@ -58,12 +58,22 @@ class _ClassAnalyticsScreenState extends State<ClassAnalyticsScreen> {
       final rows = await _repo.exportClassProgress(widget.teacherUid);
       final csv = const ListToCsvConverter().convert([
         ['Name', 'Grade', 'Subject', 'Score', 'XP', 'Date', 'Time (s)'],
-        ...rows.map((r) => [r['name'], r['grade'], r['subject'], r['score'], r['xp'], r['date'], r['timeSecs']]),
+        ...rows.map((r) => [
+              r['name'],
+              r['grade'],
+              r['subject'],
+              r['score'],
+              r['xp'],
+              r['date'],
+              r['timeSecs']
+            ]),
       ]);
       if (kIsWeb) {
         final bytes = Uint8List.fromList(utf8.encode(csv));
-        await Share.shareXFiles(
-            [XFile.fromData(bytes, name: 'class_progress.csv', mimeType: 'text/csv')]);
+        await Share.shareXFiles([
+          XFile.fromData(bytes,
+              name: 'class_progress.csv', mimeType: 'text/csv')
+        ]);
       } else {
         final dir = await getTemporaryDirectory();
         final file = File('${dir.path}/class_progress.csv');
@@ -72,14 +82,18 @@ class _ClassAnalyticsScreenState extends State<ClassAnalyticsScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Export failed: $e')));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Export failed: $e')));
       }
     } finally {
       if (mounted) setState(() => _exporting = false);
     }
   }
 
-  Widget _card({required String title, required String subtitle, required Widget child}) {
+  Widget _card(
+      {required String title,
+      required String subtitle,
+      required Widget child}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
@@ -88,11 +102,18 @@ class _ClassAnalyticsScreenState extends State<ClassAnalyticsScreen> {
             ? const Color(0xFF1E1E2E)
             : Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 8, offset: const Offset(0, 2))],
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 8,
+              offset: const Offset(0, 2))
+        ],
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(title, style: AppTextStyles.h4),
-        Text(subtitle, style: AppTextStyles.bodySmall.copyWith(color: AppColors.textSecondary)),
+        Text(subtitle,
+            style: AppTextStyles.bodySmall
+                .copyWith(color: AppColors.textSecondary)),
         const SizedBox(height: 16),
         child,
       ]),
@@ -104,7 +125,8 @@ class _ClassAnalyticsScreenState extends State<ClassAnalyticsScreen> {
     if (_loading) return const Center(child: CircularProgressIndicator());
 
     final subjectAvg = Map<String, double>.from(_classData['subjectAvg'] ?? {});
-    final weakTopics = List<Map<String, dynamic>>.from(_classData['weakTopics'] ?? []);
+    final weakTopics =
+        List<Map<String, dynamic>>.from(_classData['weakTopics'] ?? []);
     final completed = (_classData['totalCompleted'] as int?) ?? 0;
     final attempted = (_classData['totalAttempted'] as int?) ?? 0;
 
@@ -115,12 +137,14 @@ class _ClassAnalyticsScreenState extends State<ClassAnalyticsScreen> {
         padding: const EdgeInsets.all(16),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
-            _StatChip(label: '${_classData['totalLearners'] ?? 0}', sub: 'Learners'),
+            _StatChip(
+                label: '${_classData['totalLearners'] ?? 0}', sub: 'Learners'),
             const SizedBox(width: 8),
             _StatChip(label: '$attempted', sub: 'Quests'),
             const SizedBox(width: 8),
             _StatChip(
-              label: '${((_classData['completionRate'] ?? 0.0) * 100).toStringAsFixed(0)}%',
+              label:
+                  '${((_classData['completionRate'] ?? 0.0) * 100).toStringAsFixed(0)}%',
               sub: 'Completion',
             ),
           ]),
@@ -129,7 +153,10 @@ class _ClassAnalyticsScreenState extends State<ClassAnalyticsScreen> {
             OutlinedButton.icon(
               onPressed: _exporting ? null : _exportCsv,
               icon: _exporting
-                  ? const SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2))
+                  ? const SizedBox(
+                      width: 14,
+                      height: 14,
+                      child: CircularProgressIndicator(strokeWidth: 2))
                   : const Icon(Icons.file_present, size: 18),
               label: const Text('Export CSV'),
             ),
@@ -145,7 +172,8 @@ class _ClassAnalyticsScreenState extends State<ClassAnalyticsScreen> {
           _card(
             title: 'Quest Completion Rate',
             subtitle: 'Last 30 days',
-            child: CompletionPieChart(completed: completed, attempted: attempted),
+            child:
+                CompletionPieChart(completed: completed, attempted: attempted),
           ),
           _card(
             title: 'Weak Topics',
@@ -178,8 +206,12 @@ class _StatChip extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(children: [
-          Text(label, style: AppTextStyles.h3.copyWith(color: AppColors.primary, fontSize: 18)),
-          Text(sub, style: AppTextStyles.bodySmall.copyWith(color: AppColors.textSecondary, fontSize: 11)),
+          Text(label,
+              style: AppTextStyles.h3
+                  .copyWith(color: AppColors.primary, fontSize: 18)),
+          Text(sub,
+              style: AppTextStyles.bodySmall
+                  .copyWith(color: AppColors.textSecondary, fontSize: 11)),
         ]),
       ),
     );

@@ -1,0 +1,23 @@
+{
+  "id": "math_g7_stats",
+  "engine": "multiplesMerge",
+  "grade": "grade7",
+  "subject": "Mathematics",
+  "title": "Stats Showdown",
+  "tagline": "Calculate mean, median, mode and interpret graphs!",
+  "accentColorHex": "#FF6B35",
+  "emoji": "📊",
+  "mode": "numeric",
+  "gridSize": 5,
+  "chainLength": 5,
+  "tables": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    11
+  ]
+}

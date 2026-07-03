@@ -1,0 +1,25 @@
+{
+  "id": "math_g7_fractions",
+  "engine": "multiplesMerge",
+  "grade": "grade7",
+  "subject": "Mathematics",
+  "title": "Fraction Fighter",
+  "tagline": "Add, subtract, multiply and divide fractions and mixed numbers!",
+  "accentColorHex": "#FF6B35",
+  "emoji": "🍕",
+  "mode": "numeric",
+  "gridSize": 5,
+  "chainLength": 6,
+  "tables": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    12
+  ]
+}

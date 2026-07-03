@@ -1,0 +1,81 @@
+{
+  "id": "eng_g7_media",
+  "engine": "runnerCollector",
+  "grade": "grade7",
+  "subject": "English",
+  "title": "Media Literacy",
+  "tagline": "Analyse advertisements, news articles and social media bias!",
+  "accentColorHex": "#E91E63",
+  "emoji": "📱",
+  "levels": [
+    {
+      "targetClass": "fact",
+      "missionLabel": "Collect facts! 📰",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "fact": [
+          "South Africa has 11 official languages.",
+          "The Vaal is a river.",
+          "Cape Town hosted the 2010 World Cup matches.",
+          "Table Mountain is in Cape Town."
+        ],
+        "opinion": [
+          "That was the best movie ever.",
+          "Soccer is more exciting than rugby.",
+          "This is the tastiest food in town."
+        ],
+        "bias": [
+          "Only our product actually works!",
+          "Everyone knows the other side is wrong.",
+          "Experts (unnamed) agree with us."
+        ]
+      }
+    },
+    {
+      "targetClass": "opinion",
+      "missionLabel": "Collect opinions! 💭",
+      "scrollSpeed": 0.11,
+      "buckets": {
+        "fact": [
+          "South Africa has 11 official languages.",
+          "The Vaal is a river.",
+          "Cape Town hosted the 2010 World Cup matches.",
+          "Table Mountain is in Cape Town."
+        ],
+        "opinion": [
+          "That was the best movie ever.",
+          "Soccer is more exciting than rugby.",
+          "This is the tastiest food in town."
+        ],
+        "bias": [
+          "Only our product actually works!",
+          "Everyone knows the other side is wrong.",
+          "Experts (unnamed) agree with us."
+        ]
+      }
+    },
+    {
+      "targetClass": "bias",
+      "missionLabel": "Collect biased statements! ⚠️",
+      "scrollSpeed": 0.12,
+      "buckets": {
+        "fact": [
+          "South Africa has 11 official languages.",
+          "The Vaal is a river.",
+          "Cape Town hosted the 2010 World Cup matches.",
+          "Table Mountain is in Cape Town."
+        ],
+        "opinion": [
+          "That was the best movie ever.",
+          "Soccer is more exciting than rugby.",
+          "This is the tastiest food in town."
+        ],
+        "bias": [
+          "Only our product actually works!",
+          "Everyone knows the other side is wrong.",
+          "Experts (unnamed) agree with us."
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,193 @@
+{
+  "id": "math_g1_counting",
+  "engine": "numberCountingDuel",
+  "grade": "grade1",
+  "subject": "Mathematics",
+  "title": "Number Counting Duel",
+  "tagline": "Count and compare numbers 1–100 in a battle of counting!",
+  "accentColorHex": "#FF6B35",
+  "emoji": "🔢",
+  "questionType": "counting",
+  "sampleItems": [
+    {
+      "question": "Which number is bigger: 14 or 7?",
+      "options": [
+        "14",
+        "11",
+        "18",
+        "13"
+      ],
+      "answerIndex": 0,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "14 is bigger than 7."
+    },
+    {
+      "question": "Which number is bigger: 3 or 17?",
+      "options": [
+        "15",
+        "17",
+        "16",
+        "21"
+      ],
+      "answerIndex": 1,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "17 is bigger than 3."
+    },
+    {
+      "question": "Which number is bigger: 20 or 19?",
+      "options": [
+        "20",
+        "17",
+        "18",
+        "23"
+      ],
+      "answerIndex": 0,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "20 is bigger than 19."
+    },
+    {
+      "question": "Which number is bigger: 11 or 6?",
+      "options": [
+        "14",
+        "11",
+        "15",
+        "10"
+      ],
+      "answerIndex": 1,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "11 is bigger than 6."
+    },
+    {
+      "question": "Which number is bigger: 12 or 17?",
+      "options": [
+        "20",
+        "14",
+        "17",
+        "16"
+      ],
+      "answerIndex": 2,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "17 is bigger than 12."
+    },
+    {
+      "question": "Which number is bigger: 2 or 8?",
+      "options": [
+        "4",
+        "9",
+        "10",
+        "8"
+      ],
+      "answerIndex": 3,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "8 is bigger than 2."
+    },
+    {
+      "question": "Which number is bigger: 20 or 7?",
+      "options": [
+        "20",
+        "21",
+        "22",
+        "23"
+      ],
+      "answerIndex": 0,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "20 is bigger than 7."
+    },
+    {
+      "question": "Which number is bigger: 4 or 13?",
+      "options": [
+        "9",
+        "17",
+        "13",
+        "10"
+      ],
+      "answerIndex": 2,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "13 is bigger than 4."
+    },
+    {
+      "question": "Which number is bigger: 13 or 1?",
+      "options": [
+        "13",
+        "10",
+        "16",
+        "9"
+      ],
+      "answerIndex": 0,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "13 is bigger than 1."
+    },
+    {
+      "question": "Which number is bigger: 18 or 3?",
+      "options": [
+        "21",
+        "18",
+        "15",
+        "20"
+      ],
+      "answerIndex": 1,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "18 is bigger than 3."
+    },
+    {
+      "question": "Which number is bigger: 13 or 2?",
+      "options": [
+        "16",
+        "12",
+        "15",
+        "13"
+      ],
+      "answerIndex": 3,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "13 is bigger than 2."
+    },
+    {
+      "question": "Which number is bigger: 18 or 20?",
+      "options": [
+        "17",
+        "23",
+        "20",
+        "24"
+      ],
+      "answerIndex": 2,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "20 is bigger than 18."
+    },
+    {
+      "question": "Which number is bigger: 16 or 11?",
+      "options": [
+        "18",
+        "16",
+        "12",
+        "19"
+      ],
+      "answerIndex": 1,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "16 is bigger than 11."
+    },
+    {
+      "question": "Which number is bigger: 11 or 4?",
+      "options": [
+        "12",
+        "8",
+        "11",
+        "9"
+      ],
+      "answerIndex": 2,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "11 is bigger than 4."
+    },
+    {
+      "question": "Which number is bigger: 3 or 16?",
+      "options": [
+        "18",
+        "16",
+        "15",
+        "12"
+      ],
+      "answerIndex": 1,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "16 is bigger than 3."
+    }
+  ]
+}

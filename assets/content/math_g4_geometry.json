@@ -1,0 +1,96 @@
+{
+  "id": "math_g4_geometry",
+  "engine": "runnerCollector",
+  "grade": "grade4",
+  "subject": "Mathematics",
+  "title": "Geometry Jungle",
+  "tagline": "Identify 2D and 3D shapes, angles and properties in the jungle!",
+  "accentColorHex": "#FF6B35",
+  "emoji": "📐",
+  "levels": [
+    {
+      "targetClass": "triangle",
+      "missionLabel": "Collect triangle facts! 🔺",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "triangle": [
+          "3 sides, 3 angles",
+          "equilateral triangle",
+          "isosceles triangle",
+          "right-angled triangle",
+          "scalene triangle"
+        ],
+        "quadrilateral": [
+          "4 sides, 4 angles",
+          "square",
+          "rectangle",
+          "parallelogram",
+          "trapezium"
+        ],
+        "circle": [
+          "no straight sides",
+          "has a radius",
+          "has a diameter",
+          "has a circumference",
+          "has 360 degrees around it"
+        ]
+      }
+    },
+    {
+      "targetClass": "quadrilateral",
+      "missionLabel": "Collect quadrilateral facts! 🟦",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "triangle": [
+          "3 sides, 3 angles",
+          "equilateral triangle",
+          "isosceles triangle",
+          "right-angled triangle",
+          "scalene triangle"
+        ],
+        "quadrilateral": [
+          "4 sides, 4 angles",
+          "square",
+          "rectangle",
+          "parallelogram",
+          "trapezium"
+        ],
+        "circle": [
+          "no straight sides",
+          "has a radius",
+          "has a diameter",
+          "has a circumference",
+          "has 360 degrees around it"
+        ]
+      }
+    },
+    {
+      "targetClass": "circle",
+      "missionLabel": "Collect circle facts! ⚪",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "triangle": [
+          "3 sides, 3 angles",
+          "equilateral triangle",
+          "isosceles triangle",
+          "right-angled triangle",
+          "scalene triangle"
+        ],
+        "quadrilateral": [
+          "4 sides, 4 angles",
+          "square",
+          "rectangle",
+          "parallelogram",
+          "trapezium"
+        ],
+        "circle": [
+          "no straight sides",
+          "has a radius",
+          "has a diameter",
+          "has a circumference",
+          "has 360 degrees around it"
+        ]
+      }
+    }
+  ]
+}

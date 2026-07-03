@@ -47,8 +47,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     const SizedBox(height: 12),
                     Text(
                       'Check your inbox for a password reset link.',
-                      style: AppTextStyles.bodyMedium.copyWith(
-                          color: AppColors.textSecondary),
+                      style: AppTextStyles.bodyMedium
+                          .copyWith(color: AppColors.textSecondary),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 32),
@@ -68,8 +68,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     const SizedBox(height: 8),
                     Text(
                       'Enter your email and we will send you a reset link.',
-                      style: AppTextStyles.bodyMedium.copyWith(
-                          color: AppColors.textSecondary),
+                      style: AppTextStyles.bodyMedium
+                          .copyWith(color: AppColors.textSecondary),
                     ),
                     const SizedBox(height: 32),
                     AuthTextField(

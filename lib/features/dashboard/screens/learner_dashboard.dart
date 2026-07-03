@@ -29,16 +29,16 @@ import '../../../providers/mission_provider.dart';
 // ---------------------------------------------------------------------------
 class _DC {
   static const Color heroGradientStart = Color(0xFF5C35F5);
-  static const Color heroGradientEnd   = Color(0xFF9C27B0);
-  static const Color mathColor         = Color(0xFFFF6B35);
-  static const Color scienceColor      = Color(0xFF00BFA5);
-  static const Color englishColor      = Color(0xFFE91E63);
-  static const Color gold              = Color(0xFFFFD700);
-  static const Color challengeStart    = Color(0xFFFF8C00);
-  static const Color challengeEnd      = Color(0xFFFFBF00);
-  static const Color coinColor         = Color(0xFFFFD700);
-  static const Color streakColor       = Color(0xFFFF6D00);
-  static const Color badgeColor        = Color(0xFF7C4DFF);
+  static const Color heroGradientEnd = Color(0xFF9C27B0);
+  static const Color mathColor = Color(0xFFFF6B35);
+  static const Color scienceColor = Color(0xFF00BFA5);
+  static const Color englishColor = Color(0xFFE91E63);
+  static const Color gold = Color(0xFFFFD700);
+  static const Color challengeStart = Color(0xFFFF8C00);
+  static const Color challengeEnd = Color(0xFFFFBF00);
+  static const Color coinColor = Color(0xFFFFD700);
+  static const Color streakColor = Color(0xFFFF6D00);
+  static const Color badgeColor = Color(0xFF7C4DFF);
 }
 
 // ---------------------------------------------------------------------------
@@ -54,7 +54,7 @@ class LearnerDashboard extends StatefulWidget {
 class _LearnerDashboardState extends State<LearnerDashboard> {
   int _selectedIndex = 0;
 
-  final StorageService _storage  = StorageService();
+  final StorageService _storage = StorageService();
   final UserRepository _userRepo = UserRepository();
 
   @override
@@ -73,18 +73,16 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    final auth  = context.watch<AuthProvider>();
+    final auth = context.watch<AuthProvider>();
     final theme = context.watch<ThemeProvider>();
-    final user  = auth.user;
+    final user = auth.user;
 
     return ResponsiveScaffold(
       selectedIndex: _selectedIndex,
       onDestinationSelected: (i) => setState(() => _selectedIndex = i),
       destinations: const [
         ResponsiveDestination(
-            icon: Icons.home_outlined,
-            activeIcon: Icons.home,
-            label: 'Home'),
+            icon: Icons.home_outlined, activeIcon: Icons.home, label: 'Home'),
         ResponsiveDestination(
             icon: Icons.explore_outlined,
             activeIcon: Icons.explore,
@@ -149,8 +147,7 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
                             ? user!.name[0].toUpperCase()
                             : '?',
                         style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700),
+                            color: Colors.white, fontWeight: FontWeight.w700),
                       )
                     : null,
               ),
@@ -169,10 +166,7 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
                 const _QuestsTab(),
                 const _RewardsTab(),
                 const _AiTutorTab(),
-                _ProfileTab(
-                    user: user,
-                    storage: _storage,
-                    userRepo: _userRepo),
+                _ProfileTab(user: user, storage: _storage, userRepo: _userRepo),
                 const _OfflineTab(),
               ],
             ),
@@ -196,10 +190,10 @@ class _LearnerHomeTab extends StatelessWidget {
     return (pts % 100) / 100.0;
   }
 
-  int get _level       => ((user?.totalPoints as int?) ?? 0) ~/ 100 + 1;
+  int get _level => ((user?.totalPoints as int?) ?? 0) ~/ 100 + 1;
   int get _totalPoints => (user?.totalPoints as int?) ?? 0;
-  int get _streakDays  => (user?.streakDays  as int?) ?? 0;
-  int get _coins       => (user?.totalPoints as int?) ?? 0;
+  int get _streakDays => (user?.streakDays as int?) ?? 0;
+  int get _coins => (user?.totalPoints as int?) ?? 0;
 
   String get _firstName {
     final name = user?.name as String?;
@@ -226,14 +220,16 @@ class _LearnerHomeTab extends StatelessWidget {
             totalPoints: _totalPoints,
             xpProgress: _xpProgress,
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
-                _StatsRow(coins: _coins, streakDays: _streakDays, badgeCount: badgeCount),
+                _StatsRow(
+                    coins: _coins,
+                    streakDays: _streakDays,
+                    badgeCount: badgeCount),
                 const SizedBox(height: 24),
                 const DailyMissionsCard(),
                 const SizedBox(height: 24),
@@ -242,10 +238,8 @@ class _LearnerHomeTab extends StatelessWidget {
               ],
             ),
           ),
-
           _FeaturedGamesSection(gradeKey: gradeKey),
           const SizedBox(height: 24),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
@@ -268,8 +262,8 @@ class _LearnerHomeTab extends StatelessWidget {
 class _HeroSection extends StatelessWidget {
   final String firstName;
   final String grade;
-  final int    level;
-  final int    totalPoints;
+  final int level;
+  final int totalPoints;
   final double xpProgress;
 
   const _HeroSection({
@@ -292,7 +286,7 @@ class _HeroSection extends StatelessWidget {
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.only(
-          bottomLeft:  Radius.circular(32),
+          bottomLeft: Radius.circular(32),
           bottomRight: Radius.circular(32),
         ),
       ),
@@ -310,12 +304,13 @@ class _HeroSection extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   'Ready to learn today?',
-                  style: AppTextStyles.bodyMedium.copyWith(
-                      color: Colors.white.withValues(alpha: 0.80)),
+                  style: AppTextStyles.bodyMedium
+                      .copyWith(color: Colors.white.withValues(alpha: 0.80)),
                 ),
                 const SizedBox(height: 12),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.20),
                     borderRadius: BorderRadius.circular(20),
@@ -323,14 +318,12 @@ class _HeroSection extends StatelessWidget {
                   child: Text(
                     grade,
                     style: AppTextStyles.bodySmall.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700),
+                        color: Colors.white, fontWeight: FontWeight.w700),
                   ),
                 ),
               ],
             ),
           ),
-
           Column(
             children: [
               SizedBox(
@@ -357,9 +350,7 @@ class _HeroSection extends StatelessWidget {
                         Text(
                           '$level',
                           style: AppTextStyles.h2.copyWith(
-                              color: Colors.white,
-                              fontSize: 28,
-                              height: 1.0),
+                              color: Colors.white, fontSize: 28, height: 1.0),
                         ),
                         Text(
                           'LVL',
@@ -378,9 +369,7 @@ class _HeroSection extends StatelessWidget {
               Text(
                 '⭐ $totalPoints XP',
                 style: AppTextStyles.bodySmall.copyWith(
-                    color: _DC.gold,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 13),
+                    color: _DC.gold, fontWeight: FontWeight.w700, fontSize: 13),
               ),
             ],
           ),
@@ -398,23 +387,23 @@ class _StatsRow extends StatelessWidget {
   final int streakDays;
   final int badgeCount;
 
-  const _StatsRow({required this.coins, required this.streakDays, required this.badgeCount});
+  const _StatsRow(
+      {required this.coins,
+      required this.streakDays,
+      required this.badgeCount});
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardBg = isDark
-        ? Colors.white.withValues(alpha: 0.07)
-        : Colors.white;
-    final shadow = isDark
-        ? Colors.transparent
-        : Colors.black.withValues(alpha: 0.06);
+    final cardBg = isDark ? Colors.white.withValues(alpha: 0.07) : Colors.white;
+    final shadow =
+        isDark ? Colors.transparent : Colors.black.withValues(alpha: 0.06);
 
     Widget card({
       required String emoji,
       required String label,
       required String value,
-      required Color  accentColor,
+      required Color accentColor,
     }) {
       return Expanded(
         child: Container(
@@ -425,7 +414,8 @@ class _StatsRow extends StatelessWidget {
             border: Border.all(
                 color: accentColor.withValues(alpha: 0.25), width: 1.5),
             boxShadow: [
-              BoxShadow(color: shadow, blurRadius: 8, offset: const Offset(0, 3)),
+              BoxShadow(
+                  color: shadow, blurRadius: 8, offset: const Offset(0, 3)),
             ],
           ),
           child: Column(
@@ -434,7 +424,8 @@ class _StatsRow extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 value,
-                style: AppTextStyles.h4.copyWith(color: accentColor, fontSize: 16),
+                style:
+                    AppTextStyles.h4.copyWith(color: accentColor, fontSize: 16),
               ),
               const SizedBox(height: 2),
               Text(
@@ -450,11 +441,23 @@ class _StatsRow extends StatelessWidget {
 
     return Row(
       children: [
-        card(emoji: '🪙', label: 'Coins', value: '$coins', accentColor: _DC.coinColor),
+        card(
+            emoji: '🪙',
+            label: 'Coins',
+            value: '$coins',
+            accentColor: _DC.coinColor),
         const SizedBox(width: 10),
-        card(emoji: '🔥', label: 'Streak', value: '${streakDays}d', accentColor: _DC.streakColor),
+        card(
+            emoji: '🔥',
+            label: 'Streak',
+            value: '${streakDays}d',
+            accentColor: _DC.streakColor),
         const SizedBox(width: 10),
-        card(emoji: '🏅', label: 'Badges', value: '$badgeCount', accentColor: _DC.badgeColor),
+        card(
+            emoji: '🏅',
+            label: 'Badges',
+            value: '$badgeCount',
+            accentColor: _DC.badgeColor),
       ],
     );
   }
@@ -527,8 +530,7 @@ class _DailyChallengeCard extends StatelessWidget {
           Text(
             '$completed / $target completed',
             style: AppTextStyles.bodySmall.copyWith(
-                color: Colors.white.withValues(alpha: 0.85),
-                fontSize: 12),
+                color: Colors.white.withValues(alpha: 0.85), fontSize: 12),
           ),
           const SizedBox(height: 16),
           Align(
@@ -541,15 +543,16 @@ class _DailyChallengeCard extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: _DC.challengeStart,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12)),
                 elevation: 0,
               ),
               child: Text(
                 completed >= target ? '✅ Done!' : 'Start',
-                style: AppTextStyles.button.copyWith(
-                    color: _DC.challengeStart, fontSize: 14),
+                style: AppTextStyles.button
+                    .copyWith(color: _DC.challengeStart, fontSize: 14),
               ),
             ),
           ),
@@ -568,14 +571,14 @@ class _FeaturedGamesSection extends StatelessWidget {
 
   List<Color> _gradientForSubject(String subject) {
     return switch (subject) {
-      'Mathematics'     => const [Color(0xFFFF6B35), Color(0xFFFF8C66)],
-      'Natural Sciences'=> const [Color(0xFF00BFA5), Color(0xFF00E5CC)],
-      'English'         => const [Color(0xFFE91E63), Color(0xFFFF4081)],
+      'Mathematics' => const [Color(0xFFFF6B35), Color(0xFFFF8C66)],
+      'Natural Sciences' => const [Color(0xFF00BFA5), Color(0xFF00E5CC)],
+      'English' => const [Color(0xFFE91E63), Color(0xFFFF4081)],
       'Social Sciences' => const [Color(0xFF43A047), Color(0xFF66BB6A)],
-      'Technology'      => const [Color(0xFF7C4DFF), Color(0xFF9C6FFF)],
-      'EMS'             => const [Color(0xFF009688), Color(0xFF26A69A)],
-      'Life Skills'     => const [Color(0xFFFF9800), Color(0xFFFFB74D)],
-      _                 => const [Color(0xFF5C35F5), Color(0xFF9C27B0)],
+      'Technology' => const [Color(0xFF7C4DFF), Color(0xFF9C6FFF)],
+      'EMS' => const [Color(0xFF009688), Color(0xFF26A69A)],
+      'Life Skills' => const [Color(0xFFFF9800), Color(0xFFFFB74D)],
+      _ => const [Color(0xFF5C35F5), Color(0xFF9C27B0)],
     };
   }
 
@@ -583,7 +586,8 @@ class _FeaturedGamesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.watch<AuthProvider>().user;
     var featured = GameCatalog.featured(gradeKey);
-    if (featured.isEmpty) featured = GameCatalog.forGrade(gradeKey).take(4).toList();
+    if (featured.isEmpty)
+      featured = GameCatalog.forGrade(gradeKey).take(4).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -739,25 +743,115 @@ class _ProgressSection extends StatelessWidget {
   const _ProgressSection({required this.rewards, required this.gradeKey});
 
   static const _foundation = [
-    {'key': 'Mathematics', 'label': 'Maths',       'emoji': '🔢', 'color': _DC.mathColor,    'max': 5},
-    {'key': 'English',     'label': 'English',     'emoji': '📖', 'color': _DC.englishColor, 'max': 5},
-    {'key': 'Life Skills', 'label': 'Life Skills', 'emoji': '🌟', 'color': Color(0xFFFF9800), 'max': 5},
+    {
+      'key': 'Mathematics',
+      'label': 'Maths',
+      'emoji': '🔢',
+      'color': _DC.mathColor,
+      'max': 5
+    },
+    {
+      'key': 'English',
+      'label': 'English',
+      'emoji': '📖',
+      'color': _DC.englishColor,
+      'max': 5
+    },
+    {
+      'key': 'Life Skills',
+      'label': 'Life Skills',
+      'emoji': '🌟',
+      'color': Color(0xFFFF9800),
+      'max': 5
+    },
   ];
   static const _intermediate = [
-    {'key': 'Mathematics',      'label': 'Maths',    'emoji': '🔢', 'color': _DC.mathColor,    'max': 10},
-    {'key': 'English',          'label': 'English',  'emoji': '📖', 'color': _DC.englishColor, 'max': 10},
-    {'key': 'Natural Sciences', 'label': 'Science',  'emoji': '🔬', 'color': _DC.scienceColor, 'max': 10},
-    {'key': 'Social Sciences',  'label': 'Social',   'emoji': '🌍', 'color': Color(0xFF43A047), 'max': 10},
-    {'key': 'Life Skills',      'label': 'Life Skills', 'emoji': '🌈', 'color': Color(0xFFFF9800), 'max': 5},
+    {
+      'key': 'Mathematics',
+      'label': 'Maths',
+      'emoji': '🔢',
+      'color': _DC.mathColor,
+      'max': 10
+    },
+    {
+      'key': 'English',
+      'label': 'English',
+      'emoji': '📖',
+      'color': _DC.englishColor,
+      'max': 10
+    },
+    {
+      'key': 'Natural Sciences',
+      'label': 'Science',
+      'emoji': '🔬',
+      'color': _DC.scienceColor,
+      'max': 10
+    },
+    {
+      'key': 'Social Sciences',
+      'label': 'Social',
+      'emoji': '🌍',
+      'color': Color(0xFF43A047),
+      'max': 10
+    },
+    {
+      'key': 'Life Skills',
+      'label': 'Life Skills',
+      'emoji': '🌈',
+      'color': Color(0xFFFF9800),
+      'max': 5
+    },
   ];
   static const _senior = [
-    {'key': 'Mathematics',      'label': 'Maths',    'emoji': '🔢', 'color': _DC.mathColor,    'max': 10},
-    {'key': 'English',          'label': 'English',  'emoji': '📖', 'color': _DC.englishColor, 'max': 10},
-    {'key': 'Natural Sciences', 'label': 'Science',  'emoji': '🔬', 'color': _DC.scienceColor, 'max': 10},
-    {'key': 'Social Sciences',  'label': 'Social',   'emoji': '🌍', 'color': Color(0xFF43A047), 'max': 10},
-    {'key': 'Technology',       'label': 'Technology', 'emoji': '💡', 'color': Color(0xFF7C4DFF), 'max': 10},
-    {'key': 'EMS',              'label': 'EMS',      'emoji': '💰', 'color': Color(0xFF009688), 'max': 10},
-    {'key': 'Life Skills',      'label': 'Life Skills', 'emoji': '🌈', 'color': Color(0xFFFF9800), 'max': 5},
+    {
+      'key': 'Mathematics',
+      'label': 'Maths',
+      'emoji': '🔢',
+      'color': _DC.mathColor,
+      'max': 10
+    },
+    {
+      'key': 'English',
+      'label': 'English',
+      'emoji': '📖',
+      'color': _DC.englishColor,
+      'max': 10
+    },
+    {
+      'key': 'Natural Sciences',
+      'label': 'Science',
+      'emoji': '🔬',
+      'color': _DC.scienceColor,
+      'max': 10
+    },
+    {
+      'key': 'Social Sciences',
+      'label': 'Social',
+      'emoji': '🌍',
+      'color': Color(0xFF43A047),
+      'max': 10
+    },
+    {
+      'key': 'Technology',
+      'label': 'Technology',
+      'emoji': '💡',
+      'color': Color(0xFF7C4DFF),
+      'max': 10
+    },
+    {
+      'key': 'EMS',
+      'label': 'EMS',
+      'emoji': '💰',
+      'color': Color(0xFF009688),
+      'max': 10
+    },
+    {
+      'key': 'Life Skills',
+      'label': 'Life Skills',
+      'emoji': '🌈',
+      'color': Color(0xFFFF9800),
+      'max': 5
+    },
   ];
 
   List<Map<String, Object>> get _config {
@@ -774,13 +868,13 @@ class _ProgressSection extends StatelessWidget {
 
     final bars = _config.map((s) {
       final count = counts[s['key'] as String] ?? 0;
-      final max   = s['max'] as int;
+      final max = s['max'] as int;
       final value = max > 0 ? (count / max).clamp(0.0, 1.0) : 0.0;
       return _SubjectProgressBar(
-        label:  s['label'] as String,
-        emoji:  s['emoji'] as String,
-        value:  value,
-        color:  s['color'] as Color,
+        label: s['label'] as String,
+        emoji: s['emoji'] as String,
+        value: value,
+        color: s['color'] as Color,
         isDark: isDark,
       );
     }).toList();
@@ -791,9 +885,9 @@ class _ProgressSection extends StatelessWidget {
         Text('📊 Your Progress', style: AppTextStyles.h3),
         const SizedBox(height: 16),
         ...bars.map((b) => Padding(
-          padding: const EdgeInsets.only(bottom: 14),
-          child: b,
-        )),
+              padding: const EdgeInsets.only(bottom: 14),
+              child: b,
+            )),
       ],
     );
   }
@@ -803,8 +897,8 @@ class _SubjectProgressBar extends StatelessWidget {
   final String label;
   final String emoji;
   final double value;
-  final Color  color;
-  final bool   isDark;
+  final Color color;
+  final bool isDark;
 
   const _SubjectProgressBar({
     required this.label,
@@ -892,7 +986,7 @@ class _AiTutorTab extends StatelessWidget {
 // Profile Tab — gradient header + stats card + sign-out
 // ---------------------------------------------------------------------------
 class _ProfileTab extends StatefulWidget {
-  final dynamic      user;
+  final dynamic user;
   final StorageService storage;
   final UserRepository userRepo;
 
@@ -912,16 +1006,16 @@ class _ProfileTabState extends State<_ProfileTab> {
   Future<void> _pickAndUploadImage() async {
     try {
       final picker = ImagePicker();
-      final image  = await picker.pickImage(source: ImageSource.gallery);
+      final image = await picker.pickImage(source: ImageSource.gallery);
       if (image == null) return;
 
       setState(() => _isUploading = true);
 
-      final bytes     = await image.readAsBytes();
+      final bytes = await image.readAsBytes();
       final extension = image.name.split('.').last;
 
       final url = await widget.storage.uploadAvatar(
-        uid:       widget.user.uid,
+        uid: widget.user.uid,
         imageFile: bytes,
         extension: extension,
       );
@@ -947,8 +1041,8 @@ class _ProfileTabState extends State<_ProfileTab> {
 
   @override
   Widget build(BuildContext context) {
-    final auth     = context.watch<AuthProvider>();
-    final isDark   = Theme.of(context).brightness == Brightness.dark;
+    final auth = context.watch<AuthProvider>();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final isMobile = MediaQuery.of(context).size.width < 600;
 
     return SingleChildScrollView(
@@ -964,7 +1058,7 @@ class _ProfileTabState extends State<_ProfileTab> {
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.only(
-                bottomLeft:  Radius.circular(36),
+                bottomLeft: Radius.circular(36),
                 bottomRight: Radius.circular(36),
               ),
             ),
@@ -984,7 +1078,8 @@ class _ProfileTabState extends State<_ProfileTab> {
                               widget.user?.name.isNotEmpty == true
                                   ? widget.user!.name[0].toUpperCase()
                                   : '?',
-                              style: AppTextStyles.score.copyWith(color: Colors.white),
+                              style: AppTextStyles.score
+                                  .copyWith(color: Colors.white),
                             )
                           : null,
                     ),
@@ -997,11 +1092,13 @@ class _ProfileTabState extends State<_ProfileTab> {
                               ? Colors.grey
                               : Colors.white.withValues(alpha: 0.90),
                           shape: BoxShape.circle,
-                          border: Border.all(color: _DC.heroGradientStart, width: 2),
+                          border: Border.all(
+                              color: _DC.heroGradientStart, width: 2),
                         ),
                         child: _isUploading
                             ? const SizedBox(
-                                width: 16, height: 16,
+                                width: 16,
+                                height: 16,
                                 child: CircularProgressIndicator(
                                   valueColor: AlwaysStoppedAnimation<Color>(
                                       _DC.heroGradientStart),
@@ -1022,12 +1119,13 @@ class _ProfileTabState extends State<_ProfileTab> {
                 const SizedBox(height: 4),
                 Text(
                   widget.user?.grade ?? 'Grade 1',
-                  style: AppTextStyles.bodyMedium.copyWith(
-                      color: Colors.white.withValues(alpha: 0.80)),
+                  style: AppTextStyles.bodyMedium
+                      .copyWith(color: Colors.white.withValues(alpha: 0.80)),
                 ),
                 const SizedBox(height: 16),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.20),
                     borderRadius: BorderRadius.circular(24),
@@ -1040,8 +1138,7 @@ class _ProfileTabState extends State<_ProfileTab> {
                       Text(
                         '${widget.user?.totalPoints ?? 0} XP',
                         style: AppTextStyles.bodyMedium.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700),
+                            color: Colors.white, fontWeight: FontWeight.w700),
                       ),
                     ],
                   ),
@@ -1049,7 +1146,6 @@ class _ProfileTabState extends State<_ProfileTab> {
               ],
             ),
           ),
-
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: isMobile ? 16 : 24, vertical: 24),
@@ -1074,7 +1170,8 @@ class _ProfileTabState extends State<_ProfileTab> {
               child: Column(
                 children: [
                   _ProfileStatRow(
-                    icon: Icons.star_rounded, iconColor: _DC.gold,
+                    icon: Icons.star_rounded,
+                    iconColor: _DC.gold,
                     label: 'Total Points',
                     value: '${widget.user?.totalPoints ?? 0}',
                   ),
@@ -1094,7 +1191,8 @@ class _ProfileTabState extends State<_ProfileTab> {
                   ),
                   const Divider(height: 1, indent: 56),
                   _ProfileStatRow(
-                    icon: Icons.cake_rounded, iconColor: _DC.englishColor,
+                    icon: Icons.cake_rounded,
+                    iconColor: _DC.englishColor,
                     label: 'Member Since',
                     value: _formatDate(widget.user?.createdAt),
                   ),
@@ -1102,7 +1200,6 @@ class _ProfileTabState extends State<_ProfileTab> {
               ),
             ),
           ),
-
           Padding(
             padding: EdgeInsets.only(
                 left: isMobile ? 16 : 24,
@@ -1138,9 +1235,9 @@ class _ProfileTabState extends State<_ProfileTab> {
 
 class _ProfileStatRow extends StatelessWidget {
   final IconData icon;
-  final Color    iconColor;
-  final String   label;
-  final String   value;
+  final Color iconColor;
+  final String label;
+  final String value;
 
   const _ProfileStatRow({
     required this.icon,
@@ -1156,7 +1253,8 @@ class _ProfileStatRow extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 36, height: 36,
+            width: 36,
+            height: 36,
             decoration: BoxDecoration(
               color: iconColor.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(10),
@@ -1168,11 +1266,15 @@ class _ProfileStatRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(label, style: AppTextStyles.bodySmall.copyWith(fontSize: 11),
-                    maxLines: 1, overflow: TextOverflow.ellipsis),
+                Text(label,
+                    style: AppTextStyles.bodySmall.copyWith(fontSize: 11),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis),
                 const SizedBox(height: 2),
-                Text(value, style: AppTextStyles.bodyMedium,
-                    maxLines: 1, overflow: TextOverflow.ellipsis),
+                Text(value,
+                    style: AppTextStyles.bodyMedium,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis),
               ],
             ),
           ),

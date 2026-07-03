@@ -19,8 +19,7 @@ class QuizScreen extends StatefulWidget {
   State<QuizScreen> createState() => _QuizScreenState();
 }
 
-class _QuizScreenState extends State<QuizScreen>
-    with TickerProviderStateMixin {
+class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
   // Question slide-in / fade
   late final AnimationController _transCtrl;
   late final Animation<double> _fadeAnim;
@@ -44,25 +43,21 @@ class _QuizScreenState extends State<QuizScreen>
 
     _transCtrl = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 400));
-    _fadeAnim  = CurvedAnimation(parent: _transCtrl, curve: Curves.easeIn);
-    _slideAnim = Tween<Offset>(
-            begin: const Offset(0.25, 0), end: Offset.zero)
+    _fadeAnim = CurvedAnimation(parent: _transCtrl, curve: Curves.easeIn);
+    _slideAnim = Tween<Offset>(begin: const Offset(0.25, 0), end: Offset.zero)
         .animate(
             CurvedAnimation(parent: _transCtrl, curve: Curves.easeOutCubic));
 
     _shakeCtrl = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 450));
-    _shakeAnim =
-        Tween<double>(begin: 0, end: 1).animate(_shakeCtrl);
+    _shakeAnim = Tween<double>(begin: 0, end: 1).animate(_shakeCtrl);
 
     _pointsCtrl = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 900));
-    _pointsFade = Tween<double>(begin: 1.0, end: 0.0).animate(
-        CurvedAnimation(
-            parent: _pointsCtrl,
-            curve: const Interval(0.45, 1.0, curve: Curves.easeIn)));
-    _pointsSlide = Tween<Offset>(
-            begin: Offset.zero, end: const Offset(0, -2.0))
+    _pointsFade = Tween<double>(begin: 1.0, end: 0.0).animate(CurvedAnimation(
+        parent: _pointsCtrl,
+        curve: const Interval(0.45, 1.0, curve: Curves.easeIn)));
+    _pointsSlide = Tween<Offset>(begin: Offset.zero, end: const Offset(0, -2.0))
         .animate(CurvedAnimation(parent: _pointsCtrl, curve: Curves.easeOut));
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -158,7 +153,8 @@ class _QuizScreenState extends State<QuizScreen>
               context: context,
               builder: (_) => AlertDialog(
                 title: const Text('Abandon Quest?'),
-                content: const Text('Your progress on this quest will be lost.'),
+                content:
+                    const Text('Your progress on this quest will be lost.'),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
@@ -269,10 +265,10 @@ class _QuizScreenState extends State<QuizScreen>
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                 child: ElevatedButton(
-                  onPressed: quiz.selectedAnswerIndex == null &&
-                          !quiz.isAnswerRevealed
-                      ? null
-                      : () => _onNext(quiz, uid),
+                  onPressed:
+                      quiz.selectedAnswerIndex == null && !quiz.isAnswerRevealed
+                          ? null
+                          : () => _onNext(quiz, uid),
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 54),
                     backgroundColor: quiz.isAnswerRevealed
@@ -313,8 +309,7 @@ class _QuizScreenState extends State<QuizScreen>
                         decoration: BoxDecoration(
                           color: AppColors.gold.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                              color: AppColors.gold, width: 1.5),
+                          border: Border.all(color: AppColors.gold, width: 1.5),
                         ),
                         child: Text(
                           '✨ +10 pts',
@@ -387,8 +382,7 @@ class _QuestProgressBar extends StatelessWidget {
                   Text(
                     '$correctCount conquered',
                     style: AppTextStyles.bodySmall.copyWith(
-                        color: AppColors.green,
-                        fontWeight: FontWeight.w700),
+                        color: AppColors.green, fontWeight: FontWeight.w700),
                   ),
                 ],
               ),
@@ -398,7 +392,7 @@ class _QuestProgressBar extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(total, (i) {
-              final isDone    = i < currentIndex;
+              final isDone = i < currentIndex;
               final isCurrent = i == currentIndex;
               return AnimatedContainer(
                 duration: const Duration(milliseconds: 350),

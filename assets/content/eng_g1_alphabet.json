@@ -1,0 +1,253 @@
+{
+  "id": "eng_g1_alphabet",
+  "engine": "adventureJourney",
+  "grade": "grade1",
+  "subject": "English",
+  "title": "Alphabet Explorer",
+  "tagline": "Explore the alphabet, learn letter names and their sounds!",
+  "accentColorHex": "#E91E63",
+  "emoji": "🔤",
+  "characterEmoji": "🔤",
+  "stages": [
+    {
+      "id": "eng_g1_alphabet_0",
+      "name": "Stage 1",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "How many letters are in the English alphabet?",
+      "options": [
+        "21",
+        "31",
+        "16",
+        "26"
+      ],
+      "correctOption": "26",
+      "correctFeedback": "Yes! 26 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 26."
+    },
+    {
+      "id": "eng_g1_alphabet_1",
+      "name": "Stage 2",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "What is the first letter of the alphabet?",
+      "options": [
+        "I",
+        "A",
+        "Y",
+        "G"
+      ],
+      "correctOption": "A",
+      "correctFeedback": "Yes! A is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A."
+    },
+    {
+      "id": "eng_g1_alphabet_2",
+      "name": "Stage 3",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "What is the last letter of the alphabet?",
+      "options": [
+        "Z",
+        "Q",
+        "H",
+        "K"
+      ],
+      "correctOption": "Z",
+      "correctFeedback": "Yes! Z is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Z."
+    },
+    {
+      "id": "eng_g1_alphabet_3",
+      "name": "Stage 4",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "Which letter comes after G?",
+      "options": [
+        "Q",
+        "N",
+        "L",
+        "H"
+      ],
+      "correctOption": "H",
+      "correctFeedback": "Yes! H is right — onward!",
+      "wrongFeedback": "Not quite — the answer is H."
+    },
+    {
+      "id": "eng_g1_alphabet_4",
+      "name": "Stage 5",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "Which letter comes before M?",
+      "options": [
+        "I",
+        "L",
+        "C",
+        "S"
+      ],
+      "correctOption": "L",
+      "correctFeedback": "Yes! L is right — onward!",
+      "wrongFeedback": "Not quite — the answer is L."
+    },
+    {
+      "id": "eng_g1_alphabet_5",
+      "name": "Stage 6",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "Is B a vowel or a consonant?",
+      "options": [
+        "Vowel",
+        "Consonant",
+        "Symbol",
+        "Number"
+      ],
+      "correctOption": "Consonant",
+      "correctFeedback": "Yes! Consonant is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Consonant."
+    },
+    {
+      "id": "eng_g1_alphabet_6",
+      "name": "Stage 7",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "Which letter is a vowel?",
+      "options": [
+        "M",
+        "E",
+        "W",
+        "D"
+      ],
+      "correctOption": "E",
+      "correctFeedback": "Yes! E is right — onward!",
+      "wrongFeedback": "Not quite — the answer is E."
+    },
+    {
+      "id": "eng_g1_alphabet_7",
+      "name": "Stage 8",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "What letter does 'Apple' start with?",
+      "options": [
+        "A",
+        "T",
+        "Y",
+        "E"
+      ],
+      "correctOption": "A",
+      "correctFeedback": "Yes! A is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A."
+    },
+    {
+      "id": "eng_g1_alphabet_8",
+      "name": "Stage 9",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "What letter does 'Ball' start with?",
+      "options": [
+        "X",
+        "U",
+        "W",
+        "B"
+      ],
+      "correctOption": "B",
+      "correctFeedback": "Yes! B is right — onward!",
+      "wrongFeedback": "Not quite — the answer is B."
+    },
+    {
+      "id": "eng_g1_alphabet_9",
+      "name": "Stage 10",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "What letter does 'Cat' start with?",
+      "options": [
+        "D",
+        "A",
+        "C",
+        "H"
+      ],
+      "correctOption": "C",
+      "correctFeedback": "Yes! C is right — onward!",
+      "wrongFeedback": "Not quite — the answer is C."
+    },
+    {
+      "id": "eng_g1_alphabet_10",
+      "name": "Stage 11",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "Which letter comes between D and F?",
+      "options": [
+        "E",
+        "T",
+        "P",
+        "L"
+      ],
+      "correctOption": "E",
+      "correctFeedback": "Yes! E is right — onward!",
+      "wrongFeedback": "Not quite — the answer is E."
+    },
+    {
+      "id": "eng_g1_alphabet_11",
+      "name": "Stage 12",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "Is O a vowel or a consonant?",
+      "options": [
+        "Consonant",
+        "Vowel",
+        "Symbol",
+        "Number"
+      ],
+      "correctOption": "Vowel",
+      "correctFeedback": "Yes! Vowel is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Vowel."
+    },
+    {
+      "id": "eng_g1_alphabet_12",
+      "name": "Stage 13",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "What letter does 'Sun' start with?",
+      "options": [
+        "S",
+        "G",
+        "O",
+        "P"
+      ],
+      "correctOption": "S",
+      "correctFeedback": "Yes! S is right — onward!",
+      "wrongFeedback": "Not quite — the answer is S."
+    },
+    {
+      "id": "eng_g1_alphabet_13",
+      "name": "Stage 14",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "Which letter comes right after Y?",
+      "options": [
+        "D",
+        "Z",
+        "K",
+        "E"
+      ],
+      "correctOption": "Z",
+      "correctFeedback": "Yes! Z is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Z."
+    },
+    {
+      "id": "eng_g1_alphabet_14",
+      "name": "Stage 15",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "What letter does 'Dog' start with?",
+      "options": [
+        "N",
+        "K",
+        "D",
+        "S"
+      ],
+      "correctOption": "D",
+      "correctFeedback": "Yes! D is right — onward!",
+      "wrongFeedback": "Not quite — the answer is D."
+    }
+  ]
+}

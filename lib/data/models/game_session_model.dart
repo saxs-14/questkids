@@ -6,13 +6,13 @@ class GameSessionModel {
   final String grade;
   final String subject;
   final String engineType;
-  final int score;            // percentage 0–100
+  final int score; // percentage 0–100
   final int xpEarned;
   final int coinsEarned;
-  final double accuracy;      // 0.0 to 1.0
+  final double accuracy; // 0.0 to 1.0
   final int timeTakenSeconds;
   final DateTime completedAt;
-  final String result;        // 'win' | 'loss' | 'complete' | 'incomplete'
+  final String result; // 'win' | 'loss' | 'complete' | 'incomplete'
   final Map<String, dynamic> metadata;
 
   const GameSessionModel({

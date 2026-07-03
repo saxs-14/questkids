@@ -83,9 +83,12 @@ class GameIntroSheet extends StatelessWidget {
               children: [
                 _StatPill(label: entry.difficulty, icon: Icons.speed),
                 const SizedBox(width: 10),
-                _StatPill(label: '+${entry.xpReward} XP', icon: Icons.star_rounded),
+                _StatPill(
+                    label: '+${entry.xpReward} XP', icon: Icons.star_rounded),
                 const SizedBox(width: 10),
-                _StatPill(label: '+${entry.coinsReward}', icon: Icons.monetization_on_outlined),
+                _StatPill(
+                    label: '+${entry.coinsReward}',
+                    icon: Icons.monetization_on_outlined),
               ],
             ),
             const SizedBox(height: 24),
@@ -96,13 +99,16 @@ class GameIntroSheet extends StatelessWidget {
                   backgroundColor: identity.accent,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(borderRadius: GameTheme.rounded),
+                  shape:
+                      RoundedRectangleBorder(borderRadius: GameTheme.rounded),
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
                   onStart();
                 },
-                child: const Text("Let's play!", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+                child: const Text("Let's play!",
+                    style:
+                        TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
               ),
             ),
           ],
@@ -131,7 +137,8 @@ class _EngineTaglineChip extends StatelessWidget {
           const SizedBox(width: 6),
           Text(
             identity.tagline,
-            style: GameTheme.body(13, color: identity.accent, weight: FontWeight.w700),
+            style: GameTheme.body(13,
+                color: identity.accent, weight: FontWeight.w700),
           ),
         ],
       ),
@@ -143,7 +150,8 @@ class _InfoRow extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
-  const _InfoRow({required this.icon, required this.label, required this.value});
+  const _InfoRow(
+      {required this.icon, required this.label, required this.value});
 
   @override
   Widget build(BuildContext context) {

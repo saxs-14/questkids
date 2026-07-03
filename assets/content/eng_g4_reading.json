@@ -1,0 +1,253 @@
+{
+  "id": "eng_g4_reading",
+  "engine": "adventureJourney",
+  "grade": "grade4",
+  "subject": "English",
+  "title": "Reading Quest",
+  "tagline": "Read passages and answer comprehension questions to level up!",
+  "accentColorHex": "#E91E63",
+  "emoji": "📚",
+  "characterEmoji": "📚",
+  "stages": [
+    {
+      "id": "eng_g4_reading_0",
+      "name": "Stage 1",
+      "emoji": "📚",
+      "themeColorHex": "#E91E63",
+      "question": "What is it called when you guess what happens next?",
+      "options": [
+        "Reading quickly for the general idea",
+        "Emotive language",
+        "Predicting",
+        "A statement that can be proven true"
+      ],
+      "correctOption": "Predicting",
+      "correctFeedback": "Yes! Predicting is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Predicting."
+    },
+    {
+      "id": "eng_g4_reading_1",
+      "name": "Stage 2",
+      "emoji": "📚",
+      "themeColorHex": "#E91E63",
+      "question": "What is the main idea of a passage called?",
+      "options": [
+        "To convince the reader of an opinion",
+        "The reason something happens",
+        "Theme",
+        "A personal belief or view"
+      ],
+      "correctOption": "Theme",
+      "correctFeedback": "Yes! Theme is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Theme."
+    },
+    {
+      "id": "eng_g4_reading_2",
+      "name": "Stage 3",
+      "emoji": "📚",
+      "themeColorHex": "#E91E63",
+      "question": "What do we call words that describe feelings in a text?",
+      "options": [
+        "Plot",
+        "Emotive language",
+        "To give facts and information",
+        "The result of what happens"
+      ],
+      "correctOption": "Emotive language",
+      "correctFeedback": "Yes! Emotive language is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Emotive language."
+    },
+    {
+      "id": "eng_g4_reading_3",
+      "name": "Stage 4",
+      "emoji": "📚",
+      "themeColorHex": "#E91E63",
+      "question": "What is 'skimming' a text?",
+      "options": [
+        "Reading quickly to find specific information",
+        "Reading quickly for the general idea",
+        "A conclusion drawn from clues in the text",
+        "To give facts and information"
+      ],
+      "correctOption": "Reading quickly for the general idea",
+      "correctFeedback": "Yes! Reading quickly for the general idea is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Reading quickly for the general idea."
+    },
+    {
+      "id": "eng_g4_reading_4",
+      "name": "Stage 5",
+      "emoji": "📚",
+      "themeColorHex": "#E91E63",
+      "question": "What is 'scanning' a text?",
+      "options": [
+        "Plot",
+        "Reading quickly to find specific information",
+        "A personal belief or view",
+        "Emotive language"
+      ],
+      "correctOption": "Reading quickly to find specific information",
+      "correctFeedback": "Yes! Reading quickly to find specific information is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Reading quickly to find specific information."
+    },
+    {
+      "id": "eng_g4_reading_5",
+      "name": "Stage 6",
+      "emoji": "📚",
+      "themeColorHex": "#E91E63",
+      "question": "What is a summary?",
+      "options": [
+        "Theme",
+        "The information around a word that helps explain its meaning",
+        "To give facts and information",
+        "A short retelling of the main points"
+      ],
+      "correctOption": "A short retelling of the main points",
+      "correctFeedback": "Yes! A short retelling of the main points is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A short retelling of the main points."
+    },
+    {
+      "id": "eng_g4_reading_6",
+      "name": "Stage 7",
+      "emoji": "📚",
+      "themeColorHex": "#E91E63",
+      "question": "What is an inference?",
+      "options": [
+        "A conclusion drawn from clues in the text",
+        "The result of what happens",
+        "The information around a word that helps explain its meaning",
+        "To give facts and information"
+      ],
+      "correctOption": "A conclusion drawn from clues in the text",
+      "correctFeedback": "Yes! A conclusion drawn from clues in the text is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A conclusion drawn from clues in the text."
+    },
+    {
+      "id": "eng_g4_reading_7",
+      "name": "Stage 8",
+      "emoji": "📚",
+      "themeColorHex": "#E91E63",
+      "question": "What is the author's purpose when they want to inform?",
+      "options": [
+        "Reading quickly for the general idea",
+        "The reason something happens",
+        "To give facts and information",
+        "To convince the reader of an opinion"
+      ],
+      "correctOption": "To give facts and information",
+      "correctFeedback": "Yes! To give facts and information is right — onward!",
+      "wrongFeedback": "Not quite — the answer is To give facts and information."
+    },
+    {
+      "id": "eng_g4_reading_8",
+      "name": "Stage 9",
+      "emoji": "📚",
+      "themeColorHex": "#E91E63",
+      "question": "What is the author's purpose when they want to persuade?",
+      "options": [
+        "The information around a word that helps explain its meaning",
+        "A conclusion drawn from clues in the text",
+        "The result of what happens",
+        "To convince the reader of an opinion"
+      ],
+      "correctOption": "To convince the reader of an opinion",
+      "correctFeedback": "Yes! To convince the reader of an opinion is right — onward!",
+      "wrongFeedback": "Not quite — the answer is To convince the reader of an opinion."
+    },
+    {
+      "id": "eng_g4_reading_9",
+      "name": "Stage 10",
+      "emoji": "📚",
+      "themeColorHex": "#E91E63",
+      "question": "What is a fact?",
+      "options": [
+        "A statement that can be proven true",
+        "The reason something happens",
+        "Theme",
+        "Predicting"
+      ],
+      "correctOption": "A statement that can be proven true",
+      "correctFeedback": "Yes! A statement that can be proven true is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A statement that can be proven true."
+    },
+    {
+      "id": "eng_g4_reading_10",
+      "name": "Stage 11",
+      "emoji": "📚",
+      "themeColorHex": "#E91E63",
+      "question": "What is an opinion?",
+      "options": [
+        "A personal belief or view",
+        "The information around a word that helps explain its meaning",
+        "To give facts and information",
+        "The reason something happens"
+      ],
+      "correctOption": "A personal belief or view",
+      "correctFeedback": "Yes! A personal belief or view is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A personal belief or view."
+    },
+    {
+      "id": "eng_g4_reading_11",
+      "name": "Stage 12",
+      "emoji": "📚",
+      "themeColorHex": "#E91E63",
+      "question": "What is context in reading?",
+      "options": [
+        "A personal belief or view",
+        "The result of what happens",
+        "The information around a word that helps explain its meaning",
+        "Theme"
+      ],
+      "correctOption": "The information around a word that helps explain its meaning",
+      "correctFeedback": "Yes! The information around a word that helps explain its meaning is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The information around a word that helps explain its meaning."
+    },
+    {
+      "id": "eng_g4_reading_12",
+      "name": "Stage 13",
+      "emoji": "📚",
+      "themeColorHex": "#E91E63",
+      "question": "What do we call the sequence of events in a story?",
+      "options": [
+        "The information around a word that helps explain its meaning",
+        "Plot",
+        "The reason something happens",
+        "Predicting"
+      ],
+      "correctOption": "Plot",
+      "correctFeedback": "Yes! Plot is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Plot."
+    },
+    {
+      "id": "eng_g4_reading_13",
+      "name": "Stage 14",
+      "emoji": "📚",
+      "themeColorHex": "#E91E63",
+      "question": "What is a 'cause' in a cause-and-effect passage?",
+      "options": [
+        "A statement that can be proven true",
+        "The reason something happens",
+        "Plot",
+        "Reading quickly for the general idea"
+      ],
+      "correctOption": "The reason something happens",
+      "correctFeedback": "Yes! The reason something happens is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The reason something happens."
+    },
+    {
+      "id": "eng_g4_reading_14",
+      "name": "Stage 15",
+      "emoji": "📚",
+      "themeColorHex": "#E91E63",
+      "question": "What is an 'effect' in a cause-and-effect passage?",
+      "options": [
+        "The reason something happens",
+        "Plot",
+        "The result of what happens",
+        "Emotive language"
+      ],
+      "correctOption": "The result of what happens",
+      "correctFeedback": "Yes! The result of what happens is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The result of what happens."
+    }
+  ]
+}

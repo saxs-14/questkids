@@ -20,7 +20,8 @@ class AuthService {
     // Initialize GoogleSignIn with clientId on web
     if (kIsWeb) {
       _googleSignIn = GoogleSignIn(
-        clientId: '882077922348-ohk1u6nqk3ujt5dn5k6ck4j4j4j4j4j4.apps.googleusercontent.com',
+        clientId:
+            '882077922348-ohk1u6nqk3ujt5dn5k6ck4j4j4j4j4j4.apps.googleusercontent.com',
       );
     } else {
       _googleSignIn = GoogleSignIn();
@@ -94,7 +95,8 @@ class AuthService {
     // If optional child data provided, create child account and link
     if (childName != null && childBirthDate != null) {
       if (!childConsentGiven) {
-        throw Exception('Parent/guardian consent is required to register a child.');
+        throw Exception(
+            'Parent/guardian consent is required to register a child.');
       }
       final parentUid = user.uid;
       final parentRepo = ParentRepository();
@@ -133,7 +135,10 @@ class AuthService {
         );
 
         final childFirestore = FirebaseFirestore.instanceFor(app: tempApp);
-        await childFirestore.collection('users').doc(childUid).set(childModel.toMap());
+        await childFirestore
+            .collection('users')
+            .doc(childUid)
+            .set(childModel.toMap());
         // generate link code and save
         final code = parentRepo.generateLinkCode();
         await childFirestore.collection('users').doc(childUid).update({
@@ -151,7 +156,8 @@ class AuthService {
         await notifRepo.createNotification({
           'recipientUid': parentUid,
           'title': 'Welcome to QuestKids',
-          'body': 'Your account and child account have been created successfully.',
+          'body':
+              'Your account and child account have been created successfully.',
           'type': 'welcome',
         });
       } finally {
@@ -217,9 +223,12 @@ class AuthService {
         parentUid: parentUser.uid,
         createdAt: DateTime.now(),
       );
-      
+
       final childFirestore = FirebaseFirestore.instanceFor(app: tempApp);
-      await childFirestore.collection('users').doc(childUid).set(childModel.toMap());
+      await childFirestore
+          .collection('users')
+          .doc(childUid)
+          .set(childModel.toMap());
       await childFirestore.collection('rewards').doc(childUid).set({
         'uid': childUid,
         'unlockedAvatars': [],
@@ -227,7 +236,6 @@ class AuthService {
         'totalStars': 0,
         'currentLevel': 1,
       });
-
     } finally {
       await tempApp.delete();
     }
@@ -332,7 +340,8 @@ class AuthService {
     String? parentSurname,
   }) async {
     if (!consentGiven) {
-      throw Exception('Parent/guardian consent is required to register a child.');
+      throw Exception(
+          'Parent/guardian consent is required to register a child.');
     }
     FirebaseApp tempApp = await Firebase.initializeApp(
       name: 'temp_create_child_$parentUid',
@@ -365,7 +374,10 @@ class AuthService {
       );
 
       final childFirestore = FirebaseFirestore.instanceFor(app: tempApp);
-      await childFirestore.collection('users').doc(childUid).set(childModel.toMap());
+      await childFirestore
+          .collection('users')
+          .doc(childUid)
+          .set(childModel.toMap());
       await childFirestore.collection('users').doc(childUid).update({
         'consentGivenBy': consentGivenBy,
         'consentEmail': consentEmail,

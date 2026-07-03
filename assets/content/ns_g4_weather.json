@@ -1,0 +1,133 @@
+{
+  "id": "ns_g4_weather",
+  "engine": "tugOfWar",
+  "grade": "grade4",
+  "subject": "Natural Sciences",
+  "title": "Weather Watcher",
+  "tagline": "Read weather maps, identify cloud types and predict SA weather!",
+  "accentColorHex": "#00BFA5",
+  "emoji": "🌤️",
+  "questionType": "general-knowledge",
+  "sampleItems": [
+    {
+      "question": "What instrument measures temperature?",
+      "options": [
+        "Anemometer",
+        "Winter",
+        "Thermometer",
+        "A boundary where cold air pushes out warm air"
+      ],
+      "answerIndex": 2,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Thermometer — that's correct!"
+    },
+    {
+      "question": "What instrument measures rainfall?",
+      "options": [
+        "Western Cape",
+        "The amount of water vapour in the air",
+        "Winter",
+        "Rain gauge"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Rain gauge — that's correct!"
+    },
+    {
+      "question": "What causes wind?",
+      "options": [
+        "Thermometer",
+        "Moving air caused by temperature differences",
+        "The amount of water vapour in the air",
+        "Winter"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Moving air caused by temperature differences — that's correct!"
+    },
+    {
+      "question": "What is humidity?",
+      "options": [
+        "The amount of water vapour in the air",
+        "Winter",
+        "Western Cape",
+        "Rain gauge"
+      ],
+      "answerIndex": 0,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "The amount of water vapour in the air — that's correct!"
+    },
+    {
+      "question": "What season is coldest in South Africa?",
+      "options": [
+        "Nimbus clouds",
+        "Anemometer",
+        "Winter",
+        "Rain gauge"
+      ],
+      "answerIndex": 2,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Winter — that's correct!"
+    },
+    {
+      "question": "What instrument measures wind speed?",
+      "options": [
+        "Winter",
+        "Anemometer",
+        "The amount of water vapour in the air",
+        "A boundary where cold air pushes out warm air"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Anemometer — that's correct!"
+    },
+    {
+      "question": "What is a cold front?",
+      "options": [
+        "The amount of water vapour in the air",
+        "Thermometer",
+        "Anemometer",
+        "A boundary where cold air pushes out warm air"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "A boundary where cold air pushes out warm air — that's correct!"
+    },
+    {
+      "question": "What type of clouds bring rain?",
+      "options": [
+        "The amount of water vapour in the air",
+        "Winter",
+        "Nimbus clouds",
+        "Western Cape"
+      ],
+      "answerIndex": 2,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Nimbus clouds — that's correct!"
+    },
+    {
+      "question": "What causes the seasons?",
+      "options": [
+        "Rain gauge",
+        "The amount of water vapour in the air",
+        "Western Cape",
+        "The tilt of the Earth as it orbits the sun"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "The tilt of the Earth as it orbits the sun — that's correct!"
+    },
+    {
+      "question": "Which SA province usually has winter rainfall?",
+      "options": [
+        "The amount of water vapour in the air",
+        "Western Cape",
+        "Nimbus clouds",
+        "Anemometer"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Western Cape — that's correct!"
+    }
+  ]
+}

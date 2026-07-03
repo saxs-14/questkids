@@ -1,0 +1,20 @@
+{
+  "id": "math_g4_data",
+  "engine": "multiplesMerge",
+  "grade": "grade4",
+  "subject": "Mathematics",
+  "title": "Data City",
+  "tagline": "Read bar graphs, pictographs and tables to answer data questions!",
+  "accentColorHex": "#FF6B35",
+  "emoji": "📊",
+  "mode": "numeric",
+  "gridSize": 4,
+  "chainLength": 4,
+  "tables": [
+    5,
+    10,
+    15,
+    20,
+    25
+  ]
+}

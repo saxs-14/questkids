@@ -31,14 +31,22 @@ class GameRouter extends StatelessWidget {
   Widget build(BuildContext context) {
     return switch (config.engineType) {
       AppConstants.engineTugOfWar => TugOfWarGame(config: config, user: user),
-      AppConstants.engineAdventureJourney => AdventureJourneyGame(config: config, user: user),
-      AppConstants.engineRunnerCollector => GrammarHeroRun(config: config, user: user),
-      AppConstants.engineExplorerMap => ProvinceExplorer(config: config, user: user),
-      AppConstants.engineMultiplesMerge => MultiplesMergeGame(config: config, user: user),
-      AppConstants.engineSequenceBuilder => SequenceBuilderGame(config: config, user: user),
-      AppConstants.engineCircuitBuilder  => CircuitBuilderGame(config: config, user: user),
-      AppConstants.engineBudgetBuilder       => BudgetBuilderGame(config: config, user: user),
-      AppConstants.engineNumberCountingDuel  => NumberCountingDuelGame(user: user),
+      AppConstants.engineAdventureJourney =>
+        AdventureJourneyGame(config: config, user: user),
+      AppConstants.engineRunnerCollector =>
+        GrammarHeroRun(config: config, user: user),
+      AppConstants.engineExplorerMap =>
+        ProvinceExplorer(config: config, user: user),
+      AppConstants.engineMultiplesMerge =>
+        MultiplesMergeGame(config: config, user: user),
+      AppConstants.engineSequenceBuilder =>
+        SequenceBuilderGame(config: config, user: user),
+      AppConstants.engineCircuitBuilder =>
+        CircuitBuilderGame(config: config, user: user),
+      AppConstants.engineBudgetBuilder =>
+        BudgetBuilderGame(config: config, user: user),
+      AppConstants.engineNumberCountingDuel =>
+        NumberCountingDuelGame(user: user),
       _ => _UnknownEngine(config: config),
     };
   }

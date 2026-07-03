@@ -10,7 +10,7 @@ class MergeRound {
   final int table;
   final int gridSize;
   final int chainLength;
-  final List<int> values;       // length gridSize²
+  final List<int> values; // length gridSize²
   final List<int> solutionPath; // cell indices, in correct order
 
   const MergeRound({

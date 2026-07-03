@@ -1,0 +1,173 @@
+{
+  "id": "ls_g7_citizenship",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "Life Skills",
+  "title": "Active Citizenship",
+  "tagline": "Your rights and responsibilities as a South African citizen!",
+  "accentColorHex": "#FF9800",
+  "emoji": "📜",
+  "characterEmoji": "📜",
+  "stages": [
+    {
+      "id": "ls_g7_citizenship_0",
+      "name": "Stage 1",
+      "emoji": "📜",
+      "themeColorHex": "#FF9800",
+      "question": "What is a 'right'?",
+      "options": [
+        "The Constitution",
+        "A responsibility citizens have to their community",
+        "Taking part in improving your community",
+        "Something everyone is entitled to"
+      ],
+      "correctOption": "Something everyone is entitled to",
+      "correctFeedback": "Yes! Something everyone is entitled to is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Something everyone is entitled to."
+    },
+    {
+      "id": "ls_g7_citizenship_1",
+      "name": "Stage 2",
+      "emoji": "📜",
+      "themeColorHex": "#FF9800",
+      "question": "What is a 'responsibility'?",
+      "options": [
+        "The Constitution",
+        "Obeying the law",
+        "A responsibility citizens have to their community",
+        "A duty you are expected to carry out"
+      ],
+      "correctOption": "A duty you are expected to carry out",
+      "correctFeedback": "Yes! A duty you are expected to carry out is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A duty you are expected to carry out."
+    },
+    {
+      "id": "ls_g7_citizenship_2",
+      "name": "Stage 3",
+      "emoji": "📜",
+      "themeColorHex": "#FF9800",
+      "question": "What is active citizenship?",
+      "options": [
+        "A responsibility citizens have to their community",
+        "A duty you are expected to carry out",
+        "Taking part in improving your community",
+        "Something everyone is entitled to"
+      ],
+      "correctOption": "Taking part in improving your community",
+      "correctFeedback": "Yes! Taking part in improving your community is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Taking part in improving your community."
+    },
+    {
+      "id": "ls_g7_citizenship_3",
+      "name": "Stage 4",
+      "emoji": "📜",
+      "themeColorHex": "#FF9800",
+      "question": "What document protects South Africans' rights?",
+      "options": [
+        "Taking part in improving your community",
+        "Giving your time to help others without pay",
+        "Obeying the law",
+        "The Constitution"
+      ],
+      "correctOption": "The Constitution",
+      "correctFeedback": "Yes! The Constitution is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The Constitution."
+    },
+    {
+      "id": "ls_g7_citizenship_4",
+      "name": "Stage 5",
+      "emoji": "📜",
+      "themeColorHex": "#FF9800",
+      "question": "What is one responsibility of a citizen?",
+      "options": [
+        "The South African Human Rights Commission",
+        "It lets citizens choose their leaders",
+        "Taking part in improving your community",
+        "Obeying the law"
+      ],
+      "correctOption": "Obeying the law",
+      "correctFeedback": "Yes! Obeying the law is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Obeying the law."
+    },
+    {
+      "id": "ls_g7_citizenship_5",
+      "name": "Stage 6",
+      "emoji": "📜",
+      "themeColorHex": "#FF9800",
+      "question": "Why is voting an important right?",
+      "options": [
+        "Taking part in improving your community",
+        "Something everyone is entitled to",
+        "It lets citizens choose their leaders",
+        "The South African Human Rights Commission"
+      ],
+      "correctOption": "It lets citizens choose their leaders",
+      "correctFeedback": "Yes! It lets citizens choose their leaders is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It lets citizens choose their leaders."
+    },
+    {
+      "id": "ls_g7_citizenship_6",
+      "name": "Stage 7",
+      "emoji": "📜",
+      "themeColorHex": "#FF9800",
+      "question": "What is 'civic duty'?",
+      "options": [
+        "Obeying the law",
+        "A responsibility citizens have to their community",
+        "Giving your time to help others without pay",
+        "The Constitution"
+      ],
+      "correctOption": "A responsibility citizens have to their community",
+      "correctFeedback": "Yes! A responsibility citizens have to their community is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A responsibility citizens have to their community."
+    },
+    {
+      "id": "ls_g7_citizenship_7",
+      "name": "Stage 8",
+      "emoji": "📜",
+      "themeColorHex": "#FF9800",
+      "question": "What body protects human rights in South Africa?",
+      "options": [
+        "The South African Human Rights Commission",
+        "Taking part in improving your community",
+        "Obeying the law",
+        "A responsibility citizens have to their community"
+      ],
+      "correctOption": "The South African Human Rights Commission",
+      "correctFeedback": "Yes! The South African Human Rights Commission is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The South African Human Rights Commission."
+    },
+    {
+      "id": "ls_g7_citizenship_8",
+      "name": "Stage 9",
+      "emoji": "📜",
+      "themeColorHex": "#FF9800",
+      "question": "Why is freedom of speech important?",
+      "options": [
+        "Obeying the law",
+        "It allows people to share their views safely",
+        "A responsibility citizens have to their community",
+        "Giving your time to help others without pay"
+      ],
+      "correctOption": "It allows people to share their views safely",
+      "correctFeedback": "Yes! It allows people to share their views safely is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It allows people to share their views safely."
+    },
+    {
+      "id": "ls_g7_citizenship_9",
+      "name": "Stage 10",
+      "emoji": "📜",
+      "themeColorHex": "#FF9800",
+      "question": "What is 'volunteering'?",
+      "options": [
+        "The Constitution",
+        "Giving your time to help others without pay",
+        "It allows people to share their views safely",
+        "Something everyone is entitled to"
+      ],
+      "correctOption": "Giving your time to help others without pay",
+      "correctFeedback": "Yes! Giving your time to help others without pay is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Giving your time to help others without pay."
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "id": "eng_g4_idioms",
+  "engine": "multiplesMerge",
+  "grade": "grade4",
+  "subject": "English",
+  "title": "Idiom Island",
+  "tagline": "Learn common English idioms and their meanings!",
+  "accentColorHex": "#E91E63",
+  "emoji": "🏝️",
+  "mode": "pairs",
+  "gridSize": 4,
+  "chainLength": 2,
+  "tokenGroups": [
+    [
+      "break the ice",
+      "do something to relax people"
+    ],
+    [
+      "piece of cake",
+      "something very easy"
+    ],
+    [
+      "hit the books",
+      "study hard"
+    ],
+    [
+      "under the weather",
+      "feeling unwell"
+    ],
+    [
+      "spill the beans",
+      "reveal a secret"
+    ],
+    [
+      "once in a blue moon",
+      "very rarely"
+    ],
+    [
+      "costs an arm and a leg",
+      "very expensive"
+    ],
+    [
+      "let the cat out of the bag",
+      "reveal a secret by accident"
+    ],
+    [
+      "on the ball",
+      "alert and doing a good job"
+    ],
+    [
+      "a blessing in disguise",
+      "something good that seemed bad at first"
+    ]
+  ]
+}

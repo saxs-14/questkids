@@ -5,6 +5,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../core/content_pack_loader.dart';
+import '../core/content_pack_loading_view.dart';
 import '../core/game_config.dart';
 import '../core/game_theme.dart';
 import '../tug_of_war/widgets/game_result_overlay.dart';
@@ -29,7 +31,8 @@ class GrammarHeroRun extends StatefulWidget {
 
 class _GrammarHeroRunState extends State<GrammarHeroRun>
     with SingleTickerProviderStateMixin {
-  late RunnerCollectorSession _session;
+  RunnerCollectorSession? _session;
+  Map<String, dynamic>? _pack;
   late AnimationController _scrollCtrl;
   late ConfettiController _confetti;
   final FocusNode _focusNode = FocusNode();
@@ -39,32 +42,43 @@ class _GrammarHeroRunState extends State<GrammarHeroRun>
   @override
   void initState() {
     super.initState();
-    _session = RunnerCollectorSession(widget.config, _uid);
-
     _scrollCtrl = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
     )..repeat();
     _confetti = ConfettiController(duration: const Duration(milliseconds: 900));
-
     _scrollCtrl.addListener(_onTick);
-    _session.addListener(_onSessionChange);
-    _session.startSession();
+    _initSession();
+  }
+
+  Future<void> _initSession() async {
+    final pack = await loadContentPack(widget.config);
+    if (!mounted) return;
+    _pack = pack;
+    final session = RunnerCollectorSession(widget.config, _uid, pack: pack);
+    // Assign before starting: startSession() spawns the first word and
+    // notifies listeners synchronously, and _onSessionChange reads
+    // _session — it must already be set by the time that fires.
+    setState(() => _session = session);
+    session.addListener(_onSessionChange);
+    session.startSession();
   }
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 
   void _onTick() {
+    final session = _session;
+    if (session == null) return;
     final now = _scrollCtrl.value;
     final delta = now - _lastTick;
     final adjustedDelta = delta < 0 ? (1.0 + delta) : delta;
     _lastTick = now;
-    if (!_session.isFinished) _session.tickWords(adjustedDelta);
+    if (!session.isFinished) session.tickWords(adjustedDelta);
   }
 
   void _onSessionChange() {
-    if (_session.levelIndex != _lastLevel) {
-      _lastLevel = _session.levelIndex;
+    if (_session!.levelIndex != _lastLevel) {
+      _lastLevel = _session!.levelIndex;
       _confetti.play();
     }
   }
@@ -75,47 +89,50 @@ class _GrammarHeroRunState extends State<GrammarHeroRun>
     _scrollCtrl.dispose();
     _confetti.dispose();
     _focusNode.dispose();
-    _session.removeListener(_onSessionChange);
-    _session.dispose();
+    _session?.removeListener(_onSessionChange);
+    _session?.dispose();
     super.dispose();
   }
 
   void _restart() {
-    _scrollCtrl.removeListener(_onTick);
-    _session.removeListener(_onSessionChange);
-    _session.dispose();
+    _session?.removeListener(_onSessionChange);
+    _session?.dispose();
+    final session = RunnerCollectorSession(widget.config, _uid, pack: _pack);
     setState(() {
-      _session = RunnerCollectorSession(widget.config, _uid);
+      _session = session;
       _lastLevel = 0;
       _lastTick = 0;
     });
-    _scrollCtrl.addListener(_onTick);
-    _session.addListener(_onSessionChange);
-    _session.startSession();
+    session.addListener(_onSessionChange);
+    session.startSession();
   }
 
   void _handleKey(KeyEvent event) {
     if (event is! KeyDownEvent) return;
     if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-      _session.moveLeft(); // lane up
+      _session?.moveLeft(); // lane up
     } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-      _session.moveRight(); // lane down
+      _session?.moveRight(); // lane down
     }
   }
 
   void _onVerticalSwipe(DragEndDetails d) {
     final v = d.primaryVelocity ?? 0;
     if (v < -50) {
-      _session.moveLeft(); // swipe up → move to upper lane
+      _session?.moveLeft(); // swipe up → move to upper lane
     } else if (v > 50) {
-      _session.moveRight(); // swipe down → move to lower lane
+      _session?.moveRight(); // swipe down → move to lower lane
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final session = _session;
+    if (session == null) {
+      return const ContentPackLoadingView(color: AppColors.english);
+    }
     return ChangeNotifierProvider.value(
-      value: _session,
+      value: session,
       child: KeyboardListener(
         focusNode: _focusNode..requestFocus(),
         onKeyEvent: _handleKey,

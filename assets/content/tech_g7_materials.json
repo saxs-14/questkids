@@ -1,0 +1,136 @@
+{
+  "id": "tech_g7_materials",
+  "engine": "runnerCollector",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Materials Lab",
+  "tagline": "Choose the right material for each engineering application!",
+  "accentColorHex": "#7C4DFF",
+  "emoji": "🔩",
+  "levels": [
+    {
+      "targetClass": "metal",
+      "missionLabel": "Collect metal properties! 🔩",
+      "scrollSpeed": 0.11,
+      "buckets": {
+        "metal": [
+          "strong and conducts electricity",
+          "steel",
+          "aluminium",
+          "copper wiring"
+        ],
+        "plastic": [
+          "lightweight and waterproof",
+          "PVC pipe",
+          "polyethylene bag",
+          "plastic bottle"
+        ],
+        "wood": [
+          "natural and renewable",
+          "pine plank",
+          "oak table",
+          "plywood sheet"
+        ],
+        "ceramic": [
+          "hard and heat-resistant",
+          "clay pot",
+          "porcelain plate",
+          "brick"
+        ]
+      }
+    },
+    {
+      "targetClass": "plastic",
+      "missionLabel": "Collect plastic properties! 🧴",
+      "scrollSpeed": 0.11,
+      "buckets": {
+        "metal": [
+          "strong and conducts electricity",
+          "steel",
+          "aluminium",
+          "copper wiring"
+        ],
+        "plastic": [
+          "lightweight and waterproof",
+          "PVC pipe",
+          "polyethylene bag",
+          "plastic bottle"
+        ],
+        "wood": [
+          "natural and renewable",
+          "pine plank",
+          "oak table",
+          "plywood sheet"
+        ],
+        "ceramic": [
+          "hard and heat-resistant",
+          "clay pot",
+          "porcelain plate",
+          "brick"
+        ]
+      }
+    },
+    {
+      "targetClass": "wood",
+      "missionLabel": "Collect wood properties! 🪵",
+      "scrollSpeed": 0.11,
+      "buckets": {
+        "metal": [
+          "strong and conducts electricity",
+          "steel",
+          "aluminium",
+          "copper wiring"
+        ],
+        "plastic": [
+          "lightweight and waterproof",
+          "PVC pipe",
+          "polyethylene bag",
+          "plastic bottle"
+        ],
+        "wood": [
+          "natural and renewable",
+          "pine plank",
+          "oak table",
+          "plywood sheet"
+        ],
+        "ceramic": [
+          "hard and heat-resistant",
+          "clay pot",
+          "porcelain plate",
+          "brick"
+        ]
+      }
+    },
+    {
+      "targetClass": "ceramic",
+      "missionLabel": "Collect ceramic properties! 🏺",
+      "scrollSpeed": 0.11,
+      "buckets": {
+        "metal": [
+          "strong and conducts electricity",
+          "steel",
+          "aluminium",
+          "copper wiring"
+        ],
+        "plastic": [
+          "lightweight and waterproof",
+          "PVC pipe",
+          "polyethylene bag",
+          "plastic bottle"
+        ],
+        "wood": [
+          "natural and renewable",
+          "pine plank",
+          "oak table",
+          "plywood sheet"
+        ],
+        "ceramic": [
+          "hard and heat-resistant",
+          "clay pot",
+          "porcelain plate",
+          "brick"
+        ]
+      }
+    }
+  ]
+}

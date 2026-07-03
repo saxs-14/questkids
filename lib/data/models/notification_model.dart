@@ -2,9 +2,10 @@ class NotificationModel {
   final String id;
   final String title;
   final String body;
-  final String type; // types: reminder, achievement, verification, parent_update,
-                     // link_request, link_approved, link_declined, milestone,
-                     // weekly_report, low_activity, verification
+  final String
+      type; // types: reminder, achievement, verification, parent_update,
+  // link_request, link_approved, link_declined, milestone,
+  // weekly_report, low_activity, verification
   final String targetUid; // legacy
   final String recipientUid; // new preferred key
   final bool isRead;

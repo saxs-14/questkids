@@ -1,0 +1,173 @@
+{
+  "id": "tech_g7_impact",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Technology Impact",
+  "tagline": "Evaluate the social and environmental impact of technologies!",
+  "accentColorHex": "#7C4DFF",
+  "emoji": "🌍",
+  "characterEmoji": "🌍",
+  "stages": [
+    {
+      "id": "tech_g7_impact_0",
+      "name": "Stage 1",
+      "emoji": "🌍",
+      "themeColorHex": "#7C4DFF",
+      "question": "What is a positive impact of technology on communication?",
+      "options": [
+        "Through online learning and digital resources",
+        "Through online shopping",
+        "Through renewable energy solutions",
+        "It connects people instantly across distances"
+      ],
+      "correctOption": "It connects people instantly across distances",
+      "correctFeedback": "Yes! It connects people instantly across distances is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It connects people instantly across distances."
+    },
+    {
+      "id": "tech_g7_impact_1",
+      "name": "Stage 2",
+      "emoji": "🌍",
+      "themeColorHex": "#7C4DFF",
+      "question": "What is a negative impact of too much screen time?",
+      "options": [
+        "Through online shopping",
+        "It can affect health and sleep",
+        "Identity theft or privacy loss",
+        "It connects people instantly across distances"
+      ],
+      "correctOption": "It can affect health and sleep",
+      "correctFeedback": "Yes! It can affect health and sleep is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It can affect health and sleep."
+    },
+    {
+      "id": "tech_g7_impact_2",
+      "name": "Stage 3",
+      "emoji": "🌍",
+      "themeColorHex": "#7C4DFF",
+      "question": "How has technology changed how we shop?",
+      "options": [
+        "It connects people instantly across distances",
+        "Through online shopping",
+        "Through renewable energy solutions",
+        "The gap between those with and without technology access"
+      ],
+      "correctOption": "Through online shopping",
+      "correctFeedback": "Yes! Through online shopping is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Through online shopping."
+    },
+    {
+      "id": "tech_g7_impact_3",
+      "name": "Stage 4",
+      "emoji": "🌍",
+      "themeColorHex": "#7C4DFF",
+      "question": "What is 'e-waste'?",
+      "options": [
+        "Discarded electronic devices",
+        "It can affect health and sleep",
+        "The gap between those with and without technology access",
+        "Through renewable energy solutions"
+      ],
+      "correctOption": "Discarded electronic devices",
+      "correctFeedback": "Yes! Discarded electronic devices is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Discarded electronic devices."
+    },
+    {
+      "id": "tech_g7_impact_4",
+      "name": "Stage 5",
+      "emoji": "🌍",
+      "themeColorHex": "#7C4DFF",
+      "question": "How can technology help the environment?",
+      "options": [
+        "The gap between those with and without technology access",
+        "Through online learning and digital resources",
+        "Through renewable energy solutions",
+        "Through online shopping"
+      ],
+      "correctOption": "Through renewable energy solutions",
+      "correctFeedback": "Yes! Through renewable energy solutions is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Through renewable energy solutions."
+    },
+    {
+      "id": "tech_g7_impact_5",
+      "name": "Stage 6",
+      "emoji": "🌍",
+      "themeColorHex": "#7C4DFF",
+      "question": "What is 'automation'?",
+      "options": [
+        "Using machines to do tasks once done by people",
+        "Discarded electronic devices",
+        "It connects people instantly across distances",
+        "Identity theft or privacy loss"
+      ],
+      "correctOption": "Using machines to do tasks once done by people",
+      "correctFeedback": "Yes! Using machines to do tasks once done by people is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Using machines to do tasks once done by people."
+    },
+    {
+      "id": "tech_g7_impact_6",
+      "name": "Stage 7",
+      "emoji": "🌍",
+      "themeColorHex": "#7C4DFF",
+      "question": "How has technology changed healthcare?",
+      "options": [
+        "It can affect health and sleep",
+        "Through online shopping",
+        "Through better diagnosis and treatment tools",
+        "The gap between those with and without technology access"
+      ],
+      "correctOption": "Through better diagnosis and treatment tools",
+      "correctFeedback": "Yes! Through better diagnosis and treatment tools is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Through better diagnosis and treatment tools."
+    },
+    {
+      "id": "tech_g7_impact_7",
+      "name": "Stage 8",
+      "emoji": "🌍",
+      "themeColorHex": "#7C4DFF",
+      "question": "What is a risk of sharing personal information online?",
+      "options": [
+        "Identity theft or privacy loss",
+        "Through renewable energy solutions",
+        "It connects people instantly across distances",
+        "Through online shopping"
+      ],
+      "correctOption": "Identity theft or privacy loss",
+      "correctFeedback": "Yes! Identity theft or privacy loss is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Identity theft or privacy loss."
+    },
+    {
+      "id": "tech_g7_impact_8",
+      "name": "Stage 9",
+      "emoji": "🌍",
+      "themeColorHex": "#7C4DFF",
+      "question": "How has technology changed education?",
+      "options": [
+        "Through online learning and digital resources",
+        "Identity theft or privacy loss",
+        "Through renewable energy solutions",
+        "It can affect health and sleep"
+      ],
+      "correctOption": "Through online learning and digital resources",
+      "correctFeedback": "Yes! Through online learning and digital resources is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Through online learning and digital resources."
+    },
+    {
+      "id": "tech_g7_impact_9",
+      "name": "Stage 10",
+      "emoji": "🌍",
+      "themeColorHex": "#7C4DFF",
+      "question": "What is the 'digital divide'?",
+      "options": [
+        "The gap between those with and without technology access",
+        "Through renewable energy solutions",
+        "Using machines to do tasks once done by people",
+        "Identity theft or privacy loss"
+      ],
+      "correctOption": "The gap between those with and without technology access",
+      "correctFeedback": "Yes! The gap between those with and without technology access is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The gap between those with and without technology access."
+    }
+  ]
+}

@@ -1,0 +1,262 @@
+{
+  "id": "tech_g7_electronics",
+  "engine": "circuitBuilder",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Electronics Explorer",
+  "tagline": "Identify electronic components and build simple switching circuits!",
+  "accentColorHex": "#7C4DFF",
+  "emoji": "🔌",
+  "circuits": [
+    {
+      "id": "tech_g7_electronics_0",
+      "description": "A switch that opens or closes ONE circuit path is called a...?",
+      "layout": "🔘 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "simple switch",
+          "emoji": "🔘",
+          "hint": "One path, on or off"
+        }
+      ],
+      "bank": [
+        "simple switch",
+        "two-way switch",
+        "sensor",
+        "diode"
+      ],
+      "labels": {
+        "simple switch": "🔘 Simple switch",
+        "two-way switch": "🔀 Two-way switch",
+        "sensor": "📡 Sensor",
+        "diode": "➡️ Diode"
+      }
+    },
+    {
+      "id": "tech_g7_electronics_1",
+      "description": "A switch that can control a light from TWO different locations is a...?",
+      "layout": "🔀 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "two-way switch",
+          "emoji": "🔀",
+          "hint": "Used at the top and bottom of a staircase"
+        }
+      ],
+      "bank": [
+        "two-way switch",
+        "simple switch",
+        "push button",
+        "relay"
+      ],
+      "labels": {
+        "two-way switch": "🔀 Two-way switch",
+        "simple switch": "🔘 Simple switch",
+        "push button": "🔲 Push button",
+        "relay": "🧲 Relay"
+      }
+    },
+    {
+      "id": "tech_g7_electronics_2",
+      "description": "A component that only lets current flow in one direction is a...?",
+      "layout": "➡️ —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "diode",
+          "emoji": "➡️",
+          "hint": "One-way valve for electricity"
+        }
+      ],
+      "bank": [
+        "diode",
+        "resistor",
+        "switch",
+        "capacitor"
+      ],
+      "labels": {
+        "diode": "➡️ Diode",
+        "resistor": "⬛ Resistor",
+        "switch": "🔘 Switch",
+        "capacitor": "🔋 Capacitor"
+      }
+    },
+    {
+      "id": "tech_g7_electronics_3",
+      "description": "A component that detects light, heat or movement to trigger a circuit is a...?",
+      "layout": "📡 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "sensor",
+          "emoji": "📡",
+          "hint": "Detects changes in the environment"
+        }
+      ],
+      "bank": [
+        "sensor",
+        "switch",
+        "resistor",
+        "battery"
+      ],
+      "labels": {
+        "sensor": "📡 Sensor",
+        "switch": "🔘 Switch",
+        "resistor": "⬛ Resistor",
+        "battery": "🔋 Battery"
+      }
+    },
+    {
+      "id": "tech_g7_electronics_4",
+      "description": "An electromagnetic switch controlled by another circuit is a...?",
+      "layout": "🧲 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "relay",
+          "emoji": "🧲",
+          "hint": "Uses an electromagnet to switch a circuit"
+        }
+      ],
+      "bank": [
+        "relay",
+        "diode",
+        "sensor",
+        "switch"
+      ],
+      "labels": {
+        "relay": "🧲 Relay",
+        "diode": "➡️ Diode",
+        "sensor": "📡 Sensor",
+        "switch": "🔘 Switch"
+      }
+    },
+    {
+      "id": "tech_g7_electronics_5",
+      "description": "A switch you press and release, used on a doorbell, is a...?",
+      "layout": "🔲 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "push button",
+          "emoji": "🔲",
+          "hint": "Momentary contact switch"
+        }
+      ],
+      "bank": [
+        "push button",
+        "two-way switch",
+        "relay",
+        "diode"
+      ],
+      "labels": {
+        "push button": "🔲 Push button",
+        "two-way switch": "🔀 Two-way switch",
+        "relay": "🧲 Relay",
+        "diode": "➡️ Diode"
+      }
+    },
+    {
+      "id": "tech_g7_electronics_6",
+      "description": "A component that stores a small electric charge temporarily is a...?",
+      "layout": "🔋 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "capacitor",
+          "emoji": "🔋",
+          "hint": "Stores charge, unlike a resistor"
+        }
+      ],
+      "bank": [
+        "capacitor",
+        "resistor",
+        "diode",
+        "switch"
+      ],
+      "labels": {
+        "capacitor": "🔋 Capacitor",
+        "resistor": "⬛ Resistor",
+        "diode": "➡️ Diode",
+        "switch": "🔘 Switch"
+      }
+    },
+    {
+      "id": "tech_g7_electronics_7",
+      "description": "A motion-activated security light uses which type of component to detect movement?",
+      "layout": "💡(motion) —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "sensor",
+          "emoji": "📡",
+          "hint": "Detects the motion to trigger the light"
+        }
+      ],
+      "bank": [
+        "sensor",
+        "diode",
+        "capacitor",
+        "relay"
+      ],
+      "labels": {
+        "sensor": "📡 Sensor",
+        "diode": "➡️ Diode",
+        "capacitor": "🔋 Capacitor",
+        "relay": "🧲 Relay"
+      }
+    },
+    {
+      "id": "tech_g7_electronics_8",
+      "description": "What switching component protects a circuit by automatically breaking it when current is too high?",
+      "layout": "⚡(overload) —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "circuit breaker",
+          "emoji": "🛑",
+          "hint": "Trips to stop dangerous overloads"
+        }
+      ],
+      "bank": [
+        "circuit breaker",
+        "diode",
+        "capacitor",
+        "push button"
+      ],
+      "labels": {
+        "circuit breaker": "🛑 Circuit breaker",
+        "diode": "➡️ Diode",
+        "capacitor": "🔋 Capacitor",
+        "push button": "🔲 Push button"
+      }
+    },
+    {
+      "id": "tech_g7_electronics_9",
+      "description": "A device that converts electrical signals into sound is a...?",
+      "layout": "⚡ —?— 🔊",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "buzzer",
+          "emoji": "🔔",
+          "hint": "Turns current into sound"
+        }
+      ],
+      "bank": [
+        "buzzer",
+        "sensor",
+        "diode",
+        "relay"
+      ],
+      "labels": {
+        "buzzer": "🔔 Buzzer",
+        "sensor": "📡 Sensor",
+        "diode": "➡️ Diode",
+        "relay": "🧲 Relay"
+      }
+    }
+  ]
+}

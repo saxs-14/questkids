@@ -1,0 +1,87 @@
+{
+  "id": "ss_g4_climate",
+  "engine": "runnerCollector",
+  "grade": "grade4",
+  "subject": "Social Sciences",
+  "title": "Climate Quest",
+  "tagline": "Identify South Africa's climatic zones and their characteristics!",
+  "accentColorHex": "#43A047",
+  "emoji": "🌡️",
+  "levels": [
+    {
+      "targetClass": "hot and dry",
+      "missionLabel": "Collect hot & dry climate facts! 🏜️",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "hot and dry": [
+          "Kalahari Desert",
+          "Karoo",
+          "low rainfall",
+          "sparse vegetation"
+        ],
+        "warm and wet": [
+          "Durban coast",
+          "subtropical",
+          "high humidity",
+          "summer rainfall"
+        ],
+        "mild and dry summer": [
+          "Cape Town",
+          "winter rainfall",
+          "Mediterranean climate",
+          "mild summers"
+        ]
+      }
+    },
+    {
+      "targetClass": "warm and wet",
+      "missionLabel": "Collect warm & wet climate facts! 🌴",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "hot and dry": [
+          "Kalahari Desert",
+          "Karoo",
+          "low rainfall",
+          "sparse vegetation"
+        ],
+        "warm and wet": [
+          "Durban coast",
+          "subtropical",
+          "high humidity",
+          "summer rainfall"
+        ],
+        "mild and dry summer": [
+          "Cape Town",
+          "winter rainfall",
+          "Mediterranean climate",
+          "mild summers"
+        ]
+      }
+    },
+    {
+      "targetClass": "mild and dry summer",
+      "missionLabel": "Collect Cape climate facts! 🍇",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "hot and dry": [
+          "Kalahari Desert",
+          "Karoo",
+          "low rainfall",
+          "sparse vegetation"
+        ],
+        "warm and wet": [
+          "Durban coast",
+          "subtropical",
+          "high humidity",
+          "summer rainfall"
+        ],
+        "mild and dry summer": [
+          "Cape Town",
+          "winter rainfall",
+          "Mediterranean climate",
+          "mild summers"
+        ]
+      }
+    }
+  ]
+}

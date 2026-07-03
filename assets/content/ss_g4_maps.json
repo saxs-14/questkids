@@ -1,0 +1,275 @@
+{
+  "id": "ss_g4_maps",
+  "engine": "explorerMap",
+  "grade": "grade4",
+  "subject": "Social Sciences",
+  "title": "Map Master",
+  "tagline": "Read maps, identify compass directions and map symbols!",
+  "accentColorHex": "#43A047",
+  "emoji": "🗺️",
+  "pins": [
+    {
+      "id": "north",
+      "name": "North",
+      "emoji": "⬆️",
+      "x": 0.5,
+      "y": 0.1,
+      "facts": [
+        "North is usually shown at the top of a map.",
+        "A compass needle points to magnetic North."
+      ],
+      "color": "#E53935"
+    },
+    {
+      "id": "south",
+      "name": "South",
+      "emoji": "⬇️",
+      "x": 0.5,
+      "y": 0.9,
+      "facts": [
+        "South is usually shown at the bottom of a map.",
+        "South is the opposite direction to North."
+      ],
+      "color": "#1E88E5"
+    },
+    {
+      "id": "east",
+      "name": "East",
+      "emoji": "➡️",
+      "x": 0.9,
+      "y": 0.5,
+      "facts": [
+        "East is the direction the sun rises from.",
+        "East is usually shown on the right of a map."
+      ],
+      "color": "#43A047"
+    },
+    {
+      "id": "west",
+      "name": "West",
+      "emoji": "⬅️",
+      "x": 0.1,
+      "y": 0.5,
+      "facts": [
+        "West is the direction the sun sets in.",
+        "West is usually shown on the left of a map."
+      ],
+      "color": "#FB8C00"
+    },
+    {
+      "id": "legend",
+      "name": "Map Legend",
+      "emoji": "🔑",
+      "x": 0.15,
+      "y": 0.15,
+      "facts": [
+        "A legend (key) explains what map symbols mean.",
+        "Without a legend, map symbols would be hard to understand."
+      ],
+      "color": "#8E24AA"
+    },
+    {
+      "id": "scale",
+      "name": "Map Scale",
+      "emoji": "📏",
+      "x": 0.85,
+      "y": 0.15,
+      "facts": [
+        "A scale shows how map distances relate to real distances.",
+        "A scale bar helps you measure real distance on a map."
+      ],
+      "color": "#00897B"
+    },
+    {
+      "id": "grid",
+      "name": "Grid Reference",
+      "emoji": "#️⃣",
+      "x": 0.15,
+      "y": 0.85,
+      "facts": [
+        "Grid references use letters and numbers to find a location.",
+        "Grid lines divide a map into squares for easy searching."
+      ],
+      "color": "#F4511E"
+    },
+    {
+      "id": "contour",
+      "name": "Contour Line",
+      "emoji": "⛰️",
+      "x": 0.85,
+      "y": 0.85,
+      "facts": [
+        "Contour lines join points of equal height on a map.",
+        "Contour lines close together show steep terrain."
+      ],
+      "color": "#3949AB"
+    }
+  ],
+  "questions": [
+    {
+      "question": "Which one is true: \"North is usually shown at the top of a map.\"?",
+      "correctId": "north",
+      "optionIds": [
+        "south",
+        "north",
+        "contour",
+        "west"
+      ],
+      "feedbackFact": "North is usually shown at the top of a map."
+    },
+    {
+      "question": "Which one is true: \"South is usually shown at the bottom of a map.\"?",
+      "correctId": "south",
+      "optionIds": [
+        "north",
+        "west",
+        "legend",
+        "south"
+      ],
+      "feedbackFact": "South is usually shown at the bottom of a map."
+    },
+    {
+      "question": "Which one is true: \"East is the direction the sun rises from.\"?",
+      "correctId": "east",
+      "optionIds": [
+        "east",
+        "grid",
+        "south",
+        "scale"
+      ],
+      "feedbackFact": "East is the direction the sun rises from."
+    },
+    {
+      "question": "Which one is true: \"West is the direction the sun sets in.\"?",
+      "correctId": "west",
+      "optionIds": [
+        "north",
+        "contour",
+        "grid",
+        "west"
+      ],
+      "feedbackFact": "West is the direction the sun sets in."
+    },
+    {
+      "question": "Which one is true: \"A legend (key) explains what map symbols mean.\"?",
+      "correctId": "legend",
+      "optionIds": [
+        "legend",
+        "west",
+        "north",
+        "grid"
+      ],
+      "feedbackFact": "A legend (key) explains what map symbols mean."
+    },
+    {
+      "question": "Which one is true: \"A scale shows how map distances relate to real distances.\"?",
+      "correctId": "scale",
+      "optionIds": [
+        "east",
+        "legend",
+        "contour",
+        "scale"
+      ],
+      "feedbackFact": "A scale shows how map distances relate to real distances."
+    },
+    {
+      "question": "Which one is true: \"Grid references use letters and numbers to find a location.\"?",
+      "correctId": "grid",
+      "optionIds": [
+        "grid",
+        "scale",
+        "legend",
+        "east"
+      ],
+      "feedbackFact": "Grid references use letters and numbers to find a location."
+    },
+    {
+      "question": "Which one is true: \"Contour lines join points of equal height on a map.\"?",
+      "correctId": "contour",
+      "optionIds": [
+        "contour",
+        "south",
+        "north",
+        "grid"
+      ],
+      "feedbackFact": "Contour lines join points of equal height on a map."
+    },
+    {
+      "question": "Which one is true: \"A compass needle points to magnetic North.\"?",
+      "correctId": "north",
+      "optionIds": [
+        "west",
+        "contour",
+        "north",
+        "scale"
+      ],
+      "feedbackFact": "A compass needle points to magnetic North."
+    },
+    {
+      "question": "Which one is true: \"South is the opposite direction to North.\"?",
+      "correctId": "south",
+      "optionIds": [
+        "east",
+        "north",
+        "south",
+        "contour"
+      ],
+      "feedbackFact": "South is the opposite direction to North."
+    },
+    {
+      "question": "Which one is true: \"East is usually shown on the right of a map.\"?",
+      "correctId": "east",
+      "optionIds": [
+        "south",
+        "legend",
+        "east",
+        "scale"
+      ],
+      "feedbackFact": "East is usually shown on the right of a map."
+    },
+    {
+      "question": "Which one is true: \"West is usually shown on the left of a map.\"?",
+      "correctId": "west",
+      "optionIds": [
+        "west",
+        "grid",
+        "legend",
+        "scale"
+      ],
+      "feedbackFact": "West is usually shown on the left of a map."
+    },
+    {
+      "question": "Which one is true: \"Without a legend, map symbols would be hard to understand.\"?",
+      "correctId": "legend",
+      "optionIds": [
+        "west",
+        "south",
+        "grid",
+        "legend"
+      ],
+      "feedbackFact": "Without a legend, map symbols would be hard to understand."
+    },
+    {
+      "question": "Which one is true: \"A scale bar helps you measure real distance on a map.\"?",
+      "correctId": "scale",
+      "optionIds": [
+        "west",
+        "scale",
+        "south",
+        "legend"
+      ],
+      "feedbackFact": "A scale bar helps you measure real distance on a map."
+    },
+    {
+      "question": "Which one is true: \"Grid lines divide a map into squares for easy searching.\"?",
+      "correctId": "grid",
+      "optionIds": [
+        "south",
+        "scale",
+        "legend",
+        "grid"
+      ],
+      "feedbackFact": "Grid lines divide a map into squares for easy searching."
+    }
+  ]
+}

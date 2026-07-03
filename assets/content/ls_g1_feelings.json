@@ -1,0 +1,152 @@
+{
+  "id": "ls_g1_feelings",
+  "engine": "runnerCollector",
+  "grade": "grade1",
+  "subject": "Life Skills",
+  "title": "Feelings Factory",
+  "tagline": "Identify emotions and learn healthy ways to express your feelings!",
+  "accentColorHex": "#FF9800",
+  "emoji": "😊",
+  "levels": [
+    {
+      "targetClass": "happy",
+      "missionLabel": "Collect happy feelings! 😄",
+      "scrollSpeed": 0.07,
+      "buckets": {
+        "happy": [
+          "smiling",
+          "laughing",
+          "excited",
+          "proud",
+          "cheerful"
+        ],
+        "sad": [
+          "crying",
+          "lonely",
+          "disappointed",
+          "gloomy",
+          "upset"
+        ],
+        "angry": [
+          "frustrated",
+          "furious",
+          "annoyed",
+          "cross",
+          "grumpy"
+        ],
+        "scared": [
+          "nervous",
+          "worried",
+          "frightened",
+          "anxious",
+          "shy"
+        ]
+      }
+    },
+    {
+      "targetClass": "sad",
+      "missionLabel": "Collect sad feelings! 😢",
+      "scrollSpeed": 0.07,
+      "buckets": {
+        "happy": [
+          "smiling",
+          "laughing",
+          "excited",
+          "proud",
+          "cheerful"
+        ],
+        "sad": [
+          "crying",
+          "lonely",
+          "disappointed",
+          "gloomy",
+          "upset"
+        ],
+        "angry": [
+          "frustrated",
+          "furious",
+          "annoyed",
+          "cross",
+          "grumpy"
+        ],
+        "scared": [
+          "nervous",
+          "worried",
+          "frightened",
+          "anxious",
+          "shy"
+        ]
+      }
+    },
+    {
+      "targetClass": "angry",
+      "missionLabel": "Collect angry feelings! 😠",
+      "scrollSpeed": 0.08,
+      "buckets": {
+        "happy": [
+          "smiling",
+          "laughing",
+          "excited",
+          "proud",
+          "cheerful"
+        ],
+        "sad": [
+          "crying",
+          "lonely",
+          "disappointed",
+          "gloomy",
+          "upset"
+        ],
+        "angry": [
+          "frustrated",
+          "furious",
+          "annoyed",
+          "cross",
+          "grumpy"
+        ],
+        "scared": [
+          "nervous",
+          "worried",
+          "frightened",
+          "anxious",
+          "shy"
+        ]
+      }
+    },
+    {
+      "targetClass": "scared",
+      "missionLabel": "Collect scared feelings! 😟",
+      "scrollSpeed": 0.08,
+      "buckets": {
+        "happy": [
+          "smiling",
+          "laughing",
+          "excited",
+          "proud",
+          "cheerful"
+        ],
+        "sad": [
+          "crying",
+          "lonely",
+          "disappointed",
+          "gloomy",
+          "upset"
+        ],
+        "angry": [
+          "frustrated",
+          "furious",
+          "annoyed",
+          "cross",
+          "grumpy"
+        ],
+        "scared": [
+          "nervous",
+          "worried",
+          "frightened",
+          "anxious",
+          "shy"
+        ]
+      }
+    }
+  ]
+}

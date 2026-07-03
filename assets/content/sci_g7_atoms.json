@@ -1,0 +1,387 @@
+{
+  "id": "sci_g7_atoms",
+  "engine": "circuitBuilder",
+  "grade": "grade7",
+  "subject": "Natural Sciences",
+  "title": "Atom Adventure",
+  "tagline": "Explore atoms, molecules and the building blocks of matter!",
+  "accentColorHex": "#00BFA5",
+  "emoji": "⚛️",
+  "circuits": [
+    {
+      "id": "atom_center",
+      "description": "What sits at the centre of an atom?",
+      "layout": "⚛️ —?— e⁻",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "nucleus",
+          "emoji": "🔴",
+          "hint": "Contains protons and neutrons"
+        }
+      ],
+      "bank": [
+        "nucleus",
+        "electron",
+        "molecule",
+        "ion"
+      ],
+      "labels": {
+        "nucleus": "🔴 Nucleus",
+        "electron": "⚡ Electron",
+        "molecule": "🔗 Molecule",
+        "ion": "➕ Ion"
+      }
+    },
+    {
+      "id": "positive_particle",
+      "description": "Which particle in the nucleus has a positive charge?",
+      "layout": "🔴 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "proton",
+          "emoji": "➕",
+          "hint": "Positively charged, found in the nucleus"
+        }
+      ],
+      "bank": [
+        "proton",
+        "neutron",
+        "electron",
+        "nucleus"
+      ],
+      "labels": {
+        "proton": "➕ Proton",
+        "neutron": "⚪ Neutron",
+        "electron": "⚡ Electron",
+        "nucleus": "🔴 Nucleus"
+      }
+    },
+    {
+      "id": "neutral_particle",
+      "description": "Which particle in the nucleus has no charge?",
+      "layout": "🔴 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "neutron",
+          "emoji": "⚪",
+          "hint": "Neutral charge, found in the nucleus"
+        }
+      ],
+      "bank": [
+        "neutron",
+        "proton",
+        "electron",
+        "ion"
+      ],
+      "labels": {
+        "neutron": "⚪ Neutron",
+        "proton": "➕ Proton",
+        "electron": "⚡ Electron",
+        "ion": "➕ Ion"
+      }
+    },
+    {
+      "id": "orbiting_particle",
+      "description": "What orbits the nucleus with a negative charge?",
+      "layout": "🔴 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "electron",
+          "emoji": "⚡",
+          "hint": "Negatively charged, moves around the nucleus"
+        }
+      ],
+      "bank": [
+        "electron",
+        "proton",
+        "neutron",
+        "molecule"
+      ],
+      "labels": {
+        "electron": "⚡ Electron",
+        "proton": "➕ Proton",
+        "neutron": "⚪ Neutron",
+        "molecule": "🔗 Molecule"
+      }
+    },
+    {
+      "id": "bonding_link",
+      "description": "Two hydrogen atoms and one oxygen atom bond to form...?",
+      "layout": "⚛️⚛️⚛️ —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "water molecule",
+          "emoji": "💧",
+          "hint": "H₂O — atoms bonded together"
+        }
+      ],
+      "bank": [
+        "water molecule",
+        "ion",
+        "nucleus",
+        "compound"
+      ],
+      "labels": {
+        "water molecule": "💧 Water molecule (H₂O)",
+        "ion": "➕ Ion",
+        "nucleus": "🔴 Nucleus",
+        "compound": "🧪 Compound"
+      }
+    },
+    {
+      "id": "molecule_def",
+      "description": "Two or more atoms bonded together form a...?",
+      "layout": "⚛️—⚛️ —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "molecule",
+          "emoji": "🔗",
+          "hint": "A group of bonded atoms"
+        }
+      ],
+      "bank": [
+        "molecule",
+        "nucleus",
+        "proton",
+        "ion"
+      ],
+      "labels": {
+        "molecule": "🔗 Molecule",
+        "nucleus": "🔴 Nucleus",
+        "proton": "➕ Proton",
+        "ion": "➕ Ion"
+      }
+    },
+    {
+      "id": "compound_def",
+      "description": "A molecule made of two or more DIFFERENT elements is a...?",
+      "layout": "H—H—O —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "compound",
+          "emoji": "🧪",
+          "hint": "Different elements chemically bonded"
+        }
+      ],
+      "bank": [
+        "compound",
+        "element",
+        "mixture",
+        "atom"
+      ],
+      "labels": {
+        "compound": "🧪 Compound",
+        "element": "🔵 Element",
+        "mixture": "🥣 Mixture",
+        "atom": "⚛️ Atom"
+      }
+    },
+    {
+      "id": "element_def",
+      "description": "A substance made of only ONE type of atom is called an...?",
+      "layout": "⚛️⚛️⚛️ —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "element",
+          "emoji": "🔵",
+          "hint": "The purest form of a substance"
+        }
+      ],
+      "bank": [
+        "element",
+        "compound",
+        "mixture",
+        "molecule"
+      ],
+      "labels": {
+        "element": "🔵 Element",
+        "compound": "🧪 Compound",
+        "mixture": "🥣 Mixture",
+        "molecule": "🔗 Molecule"
+      }
+    },
+    {
+      "id": "ion_def",
+      "description": "An atom that gains or loses an electron becomes a charged...?",
+      "layout": "⚛️(±) —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "ion",
+          "emoji": "➕",
+          "hint": "An atom with an electric charge"
+        }
+      ],
+      "bank": [
+        "ion",
+        "nucleus",
+        "compound",
+        "molecule"
+      ],
+      "labels": {
+        "ion": "➕ Ion",
+        "nucleus": "🔴 Nucleus",
+        "compound": "🧪 Compound",
+        "molecule": "🔗 Molecule"
+      }
+    },
+    {
+      "id": "periodic_table",
+      "description": "Elements are organised by atomic number in the...?",
+      "layout": "🔵🔵🔵 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "periodic table",
+          "emoji": "📊",
+          "hint": "A chart organising all known elements"
+        }
+      ],
+      "bank": [
+        "periodic table",
+        "molecule chart",
+        "ion list",
+        "atom map"
+      ],
+      "labels": {
+        "periodic table": "📊 Periodic table",
+        "molecule chart": "🔗 Molecule chart",
+        "ion list": "➕ Ion list",
+        "atom map": "⚛️ Atom map"
+      }
+    },
+    {
+      "id": "mixture_def",
+      "description": "Sand and water stirred together (not chemically bonded) form a...?",
+      "layout": "🏖️+💧 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "mixture",
+          "emoji": "🥣",
+          "hint": "Substances combined without a chemical bond"
+        }
+      ],
+      "bank": [
+        "mixture",
+        "compound",
+        "element",
+        "ion"
+      ],
+      "labels": {
+        "mixture": "🥣 Mixture",
+        "compound": "🧪 Compound",
+        "element": "🔵 Element",
+        "ion": "➕ Ion"
+      }
+    },
+    {
+      "id": "atomic_number",
+      "description": "The number of protons in an atom is its...?",
+      "layout": "➕➕➕ —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "atomic number",
+          "emoji": "🔢",
+          "hint": "Identifies which element an atom is"
+        }
+      ],
+      "bank": [
+        "atomic number",
+        "atomic mass",
+        "charge",
+        "valence"
+      ],
+      "labels": {
+        "atomic number": "🔢 Atomic number",
+        "atomic mass": "⚖️ Atomic mass",
+        "charge": "➕ Charge",
+        "valence": "🔗 Valence"
+      }
+    },
+    {
+      "id": "salt_bond",
+      "description": "Table salt (NaCl) is a compound formed by bonding sodium and...?",
+      "layout": "Na—? ",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "chlorine",
+          "emoji": "🧂",
+          "hint": "Sodium bonds with this element to form salt"
+        }
+      ],
+      "bank": [
+        "chlorine",
+        "oxygen",
+        "hydrogen",
+        "carbon"
+      ],
+      "labels": {
+        "chlorine": "🧂 Chlorine",
+        "oxygen": "💨 Oxygen",
+        "hydrogen": "💧 Hydrogen",
+        "carbon": "⚫ Carbon"
+      }
+    },
+    {
+      "id": "co2_bond",
+      "description": "Carbon bonded with two oxygen atoms forms...?",
+      "layout": "C—O—O —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "carbon dioxide",
+          "emoji": "💨",
+          "hint": "CO₂ — a gas we exhale"
+        }
+      ],
+      "bank": [
+        "carbon dioxide",
+        "water molecule",
+        "table salt",
+        "oxygen gas"
+      ],
+      "labels": {
+        "carbon dioxide": "💨 Carbon dioxide (CO₂)",
+        "water molecule": "💧 Water molecule",
+        "table salt": "🧂 Table salt",
+        "oxygen gas": "💨 Oxygen gas"
+      }
+    },
+    {
+      "id": "states_link",
+      "description": "Atoms in a solid are packed closely and vibrate in place, unlike in a...?",
+      "layout": "⚛️⚛️⚛️(tight) —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "gas",
+          "emoji": "💨",
+          "hint": "Atoms move freely and spread far apart"
+        }
+      ],
+      "bank": [
+        "gas",
+        "solid",
+        "crystal",
+        "nucleus"
+      ],
+      "labels": {
+        "gas": "💨 Gas",
+        "solid": "🧊 Solid",
+        "crystal": "💎 Crystal",
+        "nucleus": "🔴 Nucleus"
+      }
+    }
+  ]
+}

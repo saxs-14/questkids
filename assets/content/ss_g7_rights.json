@@ -1,0 +1,173 @@
+{
+  "id": "ss_g7_rights",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "Social Sciences",
+  "title": "Human Rights Quest",
+  "tagline": "Explore the SA Constitution and Bill of Rights in action!",
+  "accentColorHex": "#43A047",
+  "emoji": "⚖️",
+  "characterEmoji": "⚖️",
+  "stages": [
+    {
+      "id": "ss_g7_rights_0",
+      "name": "Stage 1",
+      "emoji": "⚖️",
+      "themeColorHex": "#43A047",
+      "question": "What document lists South Africans' basic rights?",
+      "options": [
+        "The South African Human Rights Commission",
+        "Freedom of religion",
+        "The Bill of Rights",
+        "Any South African citizen"
+      ],
+      "correctOption": "The Bill of Rights",
+      "correctFeedback": "Yes! The Bill of Rights is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The Bill of Rights."
+    },
+    {
+      "id": "ss_g7_rights_1",
+      "name": "Stage 2",
+      "emoji": "⚖️",
+      "themeColorHex": "#43A047",
+      "question": "What international document lists universal rights?",
+      "options": [
+        "21 March",
+        "The Universal Declaration of Human Rights",
+        "Children's rights in the Constitution",
+        "The Sharpeville Massacre"
+      ],
+      "correctOption": "The Universal Declaration of Human Rights",
+      "correctFeedback": "Yes! The Universal Declaration of Human Rights is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The Universal Declaration of Human Rights."
+    },
+    {
+      "id": "ss_g7_rights_2",
+      "name": "Stage 3",
+      "emoji": "⚖️",
+      "themeColorHex": "#43A047",
+      "question": "What is a human right?",
+      "options": [
+        "A basic freedom every person is entitled to",
+        "The Universal Declaration of Human Rights",
+        "Freedom of religion",
+        "21 March"
+      ],
+      "correctOption": "A basic freedom every person is entitled to",
+      "correctFeedback": "Yes! A basic freedom every person is entitled to is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A basic freedom every person is entitled to."
+    },
+    {
+      "id": "ss_g7_rights_3",
+      "name": "Stage 4",
+      "emoji": "⚖️",
+      "themeColorHex": "#43A047",
+      "question": "What right protects people from unfair discrimination?",
+      "options": [
+        "The Sharpeville Massacre",
+        "The South African Human Rights Commission",
+        "The Universal Declaration of Human Rights",
+        "The right to equality"
+      ],
+      "correctOption": "The right to equality",
+      "correctFeedback": "Yes! The right to equality is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The right to equality."
+    },
+    {
+      "id": "ss_g7_rights_4",
+      "name": "Stage 5",
+      "emoji": "⚖️",
+      "themeColorHex": "#43A047",
+      "question": "What right allows people to practise any religion?",
+      "options": [
+        "The South African Human Rights Commission",
+        "A basic freedom every person is entitled to",
+        "21 March",
+        "Freedom of religion"
+      ],
+      "correctOption": "Freedom of religion",
+      "correctFeedback": "Yes! Freedom of religion is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Freedom of religion."
+    },
+    {
+      "id": "ss_g7_rights_5",
+      "name": "Stage 6",
+      "emoji": "⚖️",
+      "themeColorHex": "#43A047",
+      "question": "What right protects children specifically in South Africa?",
+      "options": [
+        "A basic freedom every person is entitled to",
+        "Children's rights in the Constitution",
+        "Freedom of religion",
+        "21 March"
+      ],
+      "correctOption": "Children's rights in the Constitution",
+      "correctFeedback": "Yes! Children's rights in the Constitution is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Children's rights in the Constitution."
+    },
+    {
+      "id": "ss_g7_rights_6",
+      "name": "Stage 7",
+      "emoji": "⚖️",
+      "themeColorHex": "#43A047",
+      "question": "Who can approach the courts if their rights are violated?",
+      "options": [
+        "The Sharpeville Massacre",
+        "Any South African citizen",
+        "The Bill of Rights",
+        "The South African Human Rights Commission"
+      ],
+      "correctOption": "Any South African citizen",
+      "correctFeedback": "Yes! Any South African citizen is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Any South African citizen."
+    },
+    {
+      "id": "ss_g7_rights_7",
+      "name": "Stage 8",
+      "emoji": "⚖️",
+      "themeColorHex": "#43A047",
+      "question": "What body investigates human rights violations in SA?",
+      "options": [
+        "The South African Human Rights Commission",
+        "The right to equality",
+        "21 March",
+        "The Bill of Rights"
+      ],
+      "correctOption": "The South African Human Rights Commission",
+      "correctFeedback": "Yes! The South African Human Rights Commission is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The South African Human Rights Commission."
+    },
+    {
+      "id": "ss_g7_rights_8",
+      "name": "Stage 9",
+      "emoji": "⚖️",
+      "themeColorHex": "#43A047",
+      "question": "What day is celebrated as Human Rights Day?",
+      "options": [
+        "The South African Human Rights Commission",
+        "21 March",
+        "Freedom of religion",
+        "A basic freedom every person is entitled to"
+      ],
+      "correctOption": "21 March",
+      "correctFeedback": "Yes! 21 March is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 21 March."
+    },
+    {
+      "id": "ss_g7_rights_9",
+      "name": "Stage 10",
+      "emoji": "⚖️",
+      "themeColorHex": "#43A047",
+      "question": "What historic event does Human Rights Day commemorate?",
+      "options": [
+        "The Sharpeville Massacre",
+        "The South African Human Rights Commission",
+        "21 March",
+        "The right to equality"
+      ],
+      "correctOption": "The Sharpeville Massacre",
+      "correctFeedback": "Yes! The Sharpeville Massacre is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The Sharpeville Massacre."
+    }
+  ]
+}

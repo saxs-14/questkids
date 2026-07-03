@@ -1,0 +1,19 @@
+{
+  "id": "math_g1_multiples",
+  "engine": "multiplesMerge",
+  "grade": "grade1",
+  "subject": "Mathematics",
+  "title": "Multiple Chain",
+  "tagline": "Link the multiples of a number to make a chain — break it and try again!",
+  "accentColorHex": "#FF6B35",
+  "emoji": "🔗",
+  "mode": "numeric",
+  "gridSize": 4,
+  "chainLength": 4,
+  "tables": [
+    2,
+    3,
+    4,
+    5
+  ]
+}

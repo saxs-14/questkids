@@ -39,7 +39,8 @@ class _TugOfWarGameState extends State<TugOfWarGame>
   void initState() {
     super.initState();
     _session = TugOfWarSession(widget.config, _uid);
-    WidgetsBinding.instance.addPostFrameCallback((_) => _session.startSession());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _session.startSession());
   }
 
   @override
@@ -89,7 +90,8 @@ class _TugOfWarGameState extends State<TugOfWarGame>
       _session = TugOfWarSession(widget.config, _uid);
       _hintText = null;
     });
-    WidgetsBinding.instance.addPostFrameCallback((_) => _session.startSession());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _session.startSession());
   }
 
   // ── Build ──────────────────────────────────────────────────────────────────
@@ -294,7 +296,8 @@ class _HintBubble extends StatelessWidget {
           IconButton(
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
-            icon: const Icon(Icons.close, size: 18, color: AppColors.textSecondary),
+            icon: const Icon(Icons.close,
+                size: 18, color: AppColors.textSecondary),
             onPressed: onDismiss,
           ),
         ],
@@ -457,9 +460,7 @@ class _PlayerPanel extends StatelessWidget {
     final avatarName = (user?.name as String?)?.isNotEmpty == true
         ? (user!.name as String)
         : 'You';
-    final initial = avatarName.isNotEmpty
-        ? avatarName[0].toUpperCase()
-        : 'Y';
+    final initial = avatarName.isNotEmpty ? avatarName[0].toUpperCase() : 'Y';
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),

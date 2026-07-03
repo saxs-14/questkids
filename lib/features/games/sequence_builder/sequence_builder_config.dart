@@ -31,6 +31,28 @@ class SequenceBuilderConfig {
     this.rounds = 3,
   });
 
+  /// Builds config from a generated content pack (see
+  /// tools/gamegen/content/sequence_builder.js for the shape). The pack
+  /// also carries `roundVariants` (alternate-length sub-sequences) for a
+  /// future replay-variety enhancement — not yet consumed here, so every
+  /// round currently replays the same full, correctly-ordered `steps`.
+  factory SequenceBuilderConfig.fromPack(Map<String, dynamic> pack) {
+    final steps = (pack['steps'] as List)
+        .cast<Map<String, dynamic>>()
+        .map((s) => SequenceStage(
+              id: s['id'] as String,
+              label: s['label'] as String,
+              emoji: s['emoji'] as String,
+              description: s['description'] as String,
+            ))
+        .toList();
+    return SequenceBuilderConfig(
+      title: pack['title'] as String,
+      sceneType: pack['sceneType'] as String,
+      stages: steps,
+    );
+  }
+
   factory SequenceBuilderConfig.forGame(GameConfig config) {
     // Water Cycle — the only sequence content for now; add more by branching
     // on config.subtopicId / topicId.
@@ -43,13 +65,15 @@ class SequenceBuilderConfig {
           id: 'evaporation',
           label: 'Evaporation',
           emoji: '💨',
-          description: 'The sun heats the water and it rises as invisible vapour.',
+          description:
+              'The sun heats the water and it rises as invisible vapour.',
         ),
         SequenceStage(
           id: 'condensation',
           label: 'Condensation',
           emoji: '☁️',
-          description: 'High up it cools and gathers into tiny droplets — clouds!',
+          description:
+              'High up it cools and gathers into tiny droplets — clouds!',
         ),
         SequenceStage(
           id: 'precipitation',
@@ -61,7 +85,8 @@ class SequenceBuilderConfig {
           id: 'collection',
           label: 'Collection',
           emoji: '🌊',
-          description: 'Water flows into rivers, lakes and the sea — and it starts again!',
+          description:
+              'Water flows into rivers, lakes and the sea — and it starts again!',
         ),
       ],
     );

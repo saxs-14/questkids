@@ -4,6 +4,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../core/content_pack_loader.dart';
+import '../core/content_pack_loading_view.dart';
 import '../core/game_config.dart';
 import '../core/game_theme.dart';
 import '../tug_of_war/widgets/game_result_overlay.dart';
@@ -15,7 +17,8 @@ class SequenceBuilderGame extends StatefulWidget {
   final GameConfig config;
   final dynamic user;
 
-  const SequenceBuilderGame({super.key, required this.config, required this.user});
+  const SequenceBuilderGame(
+      {super.key, required this.config, required this.user});
 
   @override
   State<SequenceBuilderGame> createState() => _SequenceBuilderGameState();
@@ -23,7 +26,8 @@ class SequenceBuilderGame extends StatefulWidget {
 
 class _SequenceBuilderGameState extends State<SequenceBuilderGame>
     with TickerProviderStateMixin {
-  late SequenceBuilderSession _session;
+  SequenceBuilderSession? _session;
+  Map<String, dynamic>? _pack;
   late AnimationController _ambient;
   late ConfettiController _confetti;
   bool _wasComplete = false;
@@ -35,41 +39,58 @@ class _SequenceBuilderGameState extends State<SequenceBuilderGame>
   @override
   void initState() {
     super.initState();
-    _session = SequenceBuilderSession(widget.config, _uid)..startSession();
-    _ambient = AnimationController(vsync: this, duration: const Duration(seconds: 6))
-      ..repeat();
+    _ambient =
+        AnimationController(vsync: this, duration: const Duration(seconds: 6))
+          ..repeat();
     _confetti = ConfettiController(duration: const Duration(milliseconds: 800));
-    _session.addListener(_onChange);
+    _initSession();
+  }
+
+  Future<void> _initSession() async {
+    final pack = await loadContentPack(widget.config);
+    if (!mounted) return;
+    _pack = pack;
+    final session = SequenceBuilderSession(widget.config, _uid, pack: pack)
+      ..startSession();
+    session.addListener(_onChange);
+    setState(() => _session = session);
   }
 
   void _onChange() {
-    if (_session.roundComplete && !_wasComplete) _confetti.play();
-    _wasComplete = _session.roundComplete;
+    final session = _session!;
+    if (session.roundComplete && !_wasComplete) _confetti.play();
+    _wasComplete = session.roundComplete;
   }
 
   @override
   void dispose() {
-    _session.removeListener(_onChange);
-    _session.dispose();
+    _session?.removeListener(_onChange);
+    _session?.dispose();
     _ambient.dispose();
     _confetti.dispose();
     super.dispose();
   }
 
   void _restart() {
-    _session.removeListener(_onChange);
-    _session.dispose();
+    _session?.removeListener(_onChange);
+    _session?.dispose();
+    final session = SequenceBuilderSession(widget.config, _uid, pack: _pack)
+      ..startSession();
     setState(() {
-      _session = SequenceBuilderSession(widget.config, _uid)..startSession();
+      _session = session;
       _wasComplete = false;
     });
-    _session.addListener(_onChange);
+    session.addListener(_onChange);
   }
 
   @override
   Widget build(BuildContext context) {
+    final session = _session;
+    if (session == null) {
+      return const ContentPackLoadingView(color: _teal);
+    }
     return ChangeNotifierProvider.value(
-      value: _session,
+      value: session,
       child: Consumer<SequenceBuilderSession>(
         builder: (ctx, session, _) {
           if (session.isFinished && session.result != null) {
@@ -143,7 +164,12 @@ class _SequenceBuilderGameState extends State<SequenceBuilderGame>
                       blastDirectionality: BlastDirectionality.explosive,
                       numberOfParticles: 18,
                       gravity: 0.3,
-                      colors: const [_teal, AppColors.xpBlue, Colors.white, AppColors.gold],
+                      colors: const [
+                        _teal,
+                        AppColors.xpBlue,
+                        Colors.white,
+                        AppColors.gold
+                      ],
                     ),
                   ),
                 ],
@@ -195,9 +221,11 @@ class _LearnPanel extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(s.label,
-                          style: GameTheme.display(16, color: AppColors.textPrimary)),
+                          style: GameTheme.display(16,
+                              color: AppColors.textPrimary)),
                       Text(s.description,
-                          style: GameTheme.body(12, color: AppColors.textSecondary)),
+                          style: GameTheme.body(12,
+                              color: AppColors.textSecondary)),
                     ],
                   ),
                 ),
@@ -211,7 +239,8 @@ class _LearnPanel extends StatelessWidget {
           child: ElevatedButton.icon(
             onPressed: onStart,
             icon: const Icon(Icons.play_arrow_rounded),
-            label: Text('Start Challenge!', style: GameTheme.display(16, color: Colors.white)),
+            label: Text('Start Challenge!',
+                style: GameTheme.display(16, color: Colors.white)),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.science,
               foregroundColor: Colors.white,
@@ -275,9 +304,11 @@ class _OrderPanel extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text('${i + 1}',
-                      style: GameTheme.body(11, color: AppColors.textSecondary)),
+                      style:
+                          GameTheme.body(11, color: AppColors.textSecondary)),
                   if (filled) ...[
-                    Text(stages[placed[i]].emoji, style: const TextStyle(fontSize: 22)),
+                    Text(stages[placed[i]].emoji,
+                        style: const TextStyle(fontSize: 22)),
                     Text(stages[placed[i]].label,
                         textAlign: TextAlign.center,
                         style: GameTheme.body(9, color: AppColors.textPrimary)),
@@ -317,7 +348,8 @@ class _OrderPanel extends StatelessWidget {
               data: idx,
               feedback: Material(
                 color: Colors.transparent,
-                child: _TrayChip(emoji: s.emoji, label: s.label, dragging: true),
+                child:
+                    _TrayChip(emoji: s.emoji, label: s.label, dragging: true),
               ),
               childWhenDragging: Opacity(opacity: 0.3, child: chip),
               child: GestureDetector(
@@ -336,7 +368,8 @@ class _TrayChip extends StatelessWidget {
   final String emoji;
   final String label;
   final bool dragging;
-  const _TrayChip({required this.emoji, required this.label, this.dragging = false});
+  const _TrayChip(
+      {required this.emoji, required this.label, this.dragging = false});
 
   @override
   Widget build(BuildContext context) {
@@ -348,7 +381,8 @@ class _TrayChip extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: GameTheme.softShadow(AppColors.science),
         border: Border.all(
-            color: Colors.white.withValues(alpha: dragging ? 0.9 : 0.4), width: 2),
+            color: Colors.white.withValues(alpha: dragging ? 0.9 : 0.4),
+            width: 2),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

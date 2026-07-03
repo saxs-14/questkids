@@ -13,7 +13,8 @@ class MultiplesQuizScreen extends StatefulWidget {
   final GameConfig config;
   final dynamic user;
 
-  const MultiplesQuizScreen({super.key, required this.config, required this.user});
+  const MultiplesQuizScreen(
+      {super.key, required this.config, required this.user});
 
   @override
   State<MultiplesQuizScreen> createState() => _MultiplesQuizScreenState();
@@ -38,7 +39,8 @@ class _MultiplesQuizScreenState extends State<MultiplesQuizScreen> {
 
   void _restart() {
     _session.dispose();
-    setState(() => _session = MultiplesQuizSession(widget.config, _uid)..startSession());
+    setState(() =>
+        _session = MultiplesQuizSession(widget.config, _uid)..startSession());
   }
 
   @override
@@ -106,17 +108,20 @@ class _MultiplesQuizScreenState extends State<MultiplesQuizScreen> {
                   // Prompt
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 24),
-                    padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 32, horizontal: 24),
                     decoration: BoxDecoration(
-                      gradient: const LinearGradient(colors: AppColors.mathGradient),
-                      borderRadius: BorderRadius.circular(GameTheme.radiusLarge),
+                      gradient:
+                          const LinearGradient(colors: AppColors.mathGradient),
+                      borderRadius:
+                          BorderRadius.circular(GameTheme.radiusLarge),
                       boxShadow: GameTheme.softShadow(accent),
                     ),
                     child: Text(
                       q['prompt'] as String,
                       textAlign: TextAlign.center,
-                      style: GameTheme.display(40, color: Colors.white,
-                          weight: FontWeight.w700),
+                      style: GameTheme.display(40,
+                          color: Colors.white, weight: FontWeight.w700),
                     ),
                   ),
 
@@ -147,7 +152,9 @@ class _MultiplesQuizScreenState extends State<MultiplesQuizScreen> {
                           }
                         }
                         return GestureDetector(
-                          onTap: session.locked ? null : () => session.submitAnswer(opt),
+                          onTap: session.locked
+                              ? null
+                              : () => session.submitAnswer(opt),
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 180),
                             constraints: const BoxConstraints(
@@ -157,7 +164,8 @@ class _MultiplesQuizScreenState extends State<MultiplesQuizScreen> {
                               color: bg,
                               borderRadius: GameTheme.rounded,
                               border: Border.all(
-                                  color: accent.withValues(alpha: 0.35), width: 2),
+                                  color: accent.withValues(alpha: 0.35),
+                                  width: 2),
                               boxShadow: GameTheme.cardShadow,
                             ),
                             child: Text('$opt',
@@ -197,8 +205,8 @@ class _TimerChip extends StatelessWidget {
           const Icon(Icons.timer_outlined, size: 16, color: AppColors.math),
           const SizedBox(width: 4),
           Text('$m:$s',
-              style: GameTheme.body(13, color: AppColors.math,
-                  weight: FontWeight.w700)),
+              style: GameTheme.body(13,
+                  color: AppColors.math, weight: FontWeight.w700)),
         ],
       ),
     );

@@ -4,14 +4,14 @@ import 'package:questkids/features/games/core/game_config.dart';
 import 'package:questkids/core/constants/app_constants.dart';
 
 GameConfig _makeConfig({int questionCount = 4}) => GameConfig(
-  engineType: AppConstants.engineBudgetBuilder,
-  subject: 'EMS',
-  grade: 'grade7',
-  topicId: 'personal_finance',
-  subtopicId: 'needs_wants',
-  difficulty: 'easy',
-  extras: {'questionCount': questionCount},
-);
+      engineType: AppConstants.engineBudgetBuilder,
+      subject: 'EMS',
+      grade: 'grade7',
+      topicId: 'personal_finance',
+      subtopicId: 'needs_wants',
+      difficulty: 'easy',
+      questionCount: questionCount,
+    );
 
 void main() {
   group('BudgetBuilderEngine', () {
@@ -46,7 +46,10 @@ void main() {
       final engine = BudgetBuilderEngine(_makeConfig());
       final q = engine.generateQuestions().first;
       final items = (q['items'] as List).cast<Map<String, dynamic>>();
-      final answers = {for (final item in items) item['name'] as String: item['category'] as String};
+      final answers = {
+        for (final item in items)
+          item['name'] as String: item['category'] as String
+      };
       final result = engine.checkAnswer(q, answers);
       expect(result.correct, isTrue);
     });
@@ -64,7 +67,8 @@ void main() {
 
     test('buildResult loss when fewer than half correct', () {
       final engine = BudgetBuilderEngine(_makeConfig(questionCount: 6));
-      final result = engine.buildResult(correct: 2, total: 6, timeTakenSeconds: 90);
+      final result =
+          engine.buildResult(correct: 2, total: 6, timeTakenSeconds: 90);
       expect(result.result, equals('loss'));
       expect(result.score, equals(33));
     });

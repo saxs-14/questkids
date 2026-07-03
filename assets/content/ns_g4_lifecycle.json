@@ -1,0 +1,106 @@
+{
+  "id": "ns_g4_lifecycle",
+  "engine": "sequenceBuilder",
+  "grade": "grade4",
+  "subject": "Natural Sciences",
+  "title": "Life Cycles",
+  "tagline": "Trace the life cycles of frogs, butterflies, plants and humans!",
+  "accentColorHex": "#00BFA5",
+  "emoji": "🦋",
+  "sceneType": "lifeCycle",
+  "steps": [
+    {
+      "id": "egg",
+      "label": "Egg",
+      "emoji": "🥚",
+      "description": "The life cycle begins as an egg."
+    },
+    {
+      "id": "larva",
+      "label": "Larva",
+      "emoji": "🐛",
+      "description": "The egg hatches into a larva that eats and grows."
+    },
+    {
+      "id": "growth",
+      "label": "Growth",
+      "emoji": "📏",
+      "description": "The larva grows and moults its skin several times."
+    },
+    {
+      "id": "pupa",
+      "label": "Pupa",
+      "emoji": "🛡️",
+      "description": "The larva forms a pupa (chrysalis or cocoon)."
+    },
+    {
+      "id": "adult",
+      "label": "Adult",
+      "emoji": "🦋",
+      "description": "An adult emerges from the pupa, fully formed."
+    },
+    {
+      "id": "reproduce",
+      "label": "Reproduce",
+      "emoji": "🔁",
+      "description": "The adult reproduces, and the cycle begins again."
+    }
+  ],
+  "roundVariants": [
+    [
+      "larva",
+      "pupa",
+      "adult",
+      "reproduce"
+    ],
+    [
+      "egg",
+      "pupa",
+      "reproduce"
+    ],
+    [
+      "larva",
+      "growth",
+      "pupa",
+      "reproduce"
+    ],
+    [
+      "larva",
+      "growth",
+      "pupa",
+      "adult",
+      "reproduce"
+    ],
+    [
+      "larva",
+      "pupa",
+      "reproduce"
+    ],
+    [
+      "larva",
+      "adult",
+      "reproduce"
+    ],
+    [
+      "larva",
+      "growth",
+      "reproduce"
+    ],
+    [
+      "larva",
+      "growth",
+      "adult"
+    ],
+    [
+      "egg",
+      "larva",
+      "growth",
+      "adult"
+    ],
+    [
+      "egg",
+      "growth",
+      "reproduce"
+    ]
+  ]
+}

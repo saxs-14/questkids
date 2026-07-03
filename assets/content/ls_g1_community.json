@@ -1,0 +1,220 @@
+{
+  "id": "ls_g1_community",
+  "engine": "explorerMap",
+  "grade": "grade1",
+  "subject": "Life Skills",
+  "title": "My Community",
+  "tagline": "Meet community helpers and discover how they keep us safe and healthy!",
+  "accentColorHex": "#FF9800",
+  "emoji": "🏘️",
+  "pins": [
+    {
+      "id": "hospital",
+      "name": "Hospital",
+      "emoji": "🏥",
+      "x": 0.3,
+      "y": 0.3,
+      "facts": [
+        "Doctors and nurses at the hospital help sick and injured people.",
+        "A hospital has an emergency room for urgent care."
+      ],
+      "color": "#E53935"
+    },
+    {
+      "id": "police",
+      "name": "Police Station",
+      "emoji": "👮",
+      "x": 0.65,
+      "y": 0.25,
+      "facts": [
+        "Police officers keep the community safe.",
+        "You can call the police in an emergency."
+      ],
+      "color": "#1E88E5"
+    },
+    {
+      "id": "fire",
+      "name": "Fire Station",
+      "emoji": "🚒",
+      "x": 0.2,
+      "y": 0.65,
+      "facts": [
+        "Firefighters put out fires and rescue people.",
+        "Fire trucks carry water, hoses and ladders."
+      ],
+      "color": "#43A047"
+    },
+    {
+      "id": "school",
+      "name": "School",
+      "emoji": "🏫",
+      "x": 0.5,
+      "y": 0.5,
+      "facts": [
+        "Teachers at school help children learn.",
+        "Schools have classrooms, a library and a playground."
+      ],
+      "color": "#FB8C00"
+    },
+    {
+      "id": "clinic",
+      "name": "Clinic",
+      "emoji": "💉",
+      "x": 0.75,
+      "y": 0.55,
+      "facts": [
+        "A clinic gives check-ups and vaccinations.",
+        "Nurses at a clinic care for the community."
+      ],
+      "color": "#8E24AA"
+    },
+    {
+      "id": "post_office",
+      "name": "Post Office",
+      "emoji": "📮",
+      "x": 0.35,
+      "y": 0.75,
+      "facts": [
+        "The post office helps send and receive letters and parcels.",
+        "You can pay some bills at the post office."
+      ],
+      "color": "#00897B"
+    },
+    {
+      "id": "library",
+      "name": "Library",
+      "emoji": "📚",
+      "x": 0.6,
+      "y": 0.8,
+      "facts": [
+        "A librarian helps you find and borrow books.",
+        "Libraries are quiet places to read and study."
+      ],
+      "color": "#F4511E"
+    },
+    {
+      "id": "market",
+      "name": "Market",
+      "emoji": "🧺",
+      "x": 0.85,
+      "y": 0.35,
+      "facts": [
+        "Vendors at the market sell fresh fruit and vegetables.",
+        "Markets are a place where the community buys and sells."
+      ],
+      "color": "#3949AB"
+    }
+  ],
+  "questions": [
+    {
+      "question": "Which one is true: \"Doctors and nurses at the hospital help sick and injured people.\"?",
+      "correctId": "hospital",
+      "optionIds": [
+        "school",
+        "hospital",
+        "police",
+        "library"
+      ],
+      "feedbackFact": "Doctors and nurses at the hospital help sick and injured people."
+    },
+    {
+      "question": "Which one is true: \"Police officers keep the community safe.\"?",
+      "correctId": "police",
+      "optionIds": [
+        "post_office",
+        "hospital",
+        "clinic",
+        "police"
+      ],
+      "feedbackFact": "Police officers keep the community safe."
+    },
+    {
+      "question": "Which one is true: \"Firefighters put out fires and rescue people.\"?",
+      "correctId": "fire",
+      "optionIds": [
+        "fire",
+        "clinic",
+        "school",
+        "post_office"
+      ],
+      "feedbackFact": "Firefighters put out fires and rescue people."
+    },
+    {
+      "question": "Which one is true: \"Teachers at school help children learn.\"?",
+      "correctId": "school",
+      "optionIds": [
+        "school",
+        "police",
+        "library",
+        "post_office"
+      ],
+      "feedbackFact": "Teachers at school help children learn."
+    },
+    {
+      "question": "Which one is true: \"A clinic gives check-ups and vaccinations.\"?",
+      "correctId": "clinic",
+      "optionIds": [
+        "clinic",
+        "market",
+        "library",
+        "hospital"
+      ],
+      "feedbackFact": "A clinic gives check-ups and vaccinations."
+    },
+    {
+      "question": "Which one is true: \"The post office helps send and receive letters and parcels.\"?",
+      "correctId": "post_office",
+      "optionIds": [
+        "post_office",
+        "library",
+        "market",
+        "school"
+      ],
+      "feedbackFact": "The post office helps send and receive letters and parcels."
+    },
+    {
+      "question": "Which one is true: \"A librarian helps you find and borrow books.\"?",
+      "correctId": "library",
+      "optionIds": [
+        "library",
+        "hospital",
+        "police",
+        "clinic"
+      ],
+      "feedbackFact": "A librarian helps you find and borrow books."
+    },
+    {
+      "question": "Which one is true: \"Vendors at the market sell fresh fruit and vegetables.\"?",
+      "correctId": "market",
+      "optionIds": [
+        "library",
+        "school",
+        "clinic",
+        "market"
+      ],
+      "feedbackFact": "Vendors at the market sell fresh fruit and vegetables."
+    },
+    {
+      "question": "Which one is true: \"A hospital has an emergency room for urgent care.\"?",
+      "correctId": "hospital",
+      "optionIds": [
+        "market",
+        "library",
+        "police",
+        "hospital"
+      ],
+      "feedbackFact": "A hospital has an emergency room for urgent care."
+    },
+    {
+      "question": "Which one is true: \"You can call the police in an emergency.\"?",
+      "correctId": "police",
+      "optionIds": [
+        "school",
+        "library",
+        "hospital",
+        "police"
+      ],
+      "feedbackFact": "You can call the police in an emergency."
+    }
+  ]
+}

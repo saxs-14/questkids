@@ -1,0 +1,90 @@
+{
+  "id": "eng_g7_poetry",
+  "engine": "runnerCollector",
+  "grade": "grade7",
+  "subject": "English",
+  "title": "Poetry Pathfinder",
+  "tagline": "Explore rhyme schemes, rhythm and poetic devices in SA poetry!",
+  "accentColorHex": "#E91E63",
+  "emoji": "🌹",
+  "levels": [
+    {
+      "targetClass": "rhyme",
+      "missionLabel": "Collect rhyming pairs! 🎵",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "rhyme": [
+          "cat / hat",
+          "light / night",
+          "rain / pain",
+          "sky / fly"
+        ],
+        "alliteration": [
+          "the wild wind whistled",
+          "she sells seashells",
+          "busy bees buzzing",
+          "proud peacocks prancing"
+        ],
+        "onomatopoeia": [
+          "crackle",
+          "thud",
+          "hiss",
+          "clang",
+          "murmur"
+        ]
+      }
+    },
+    {
+      "targetClass": "alliteration",
+      "missionLabel": "Collect alliteration! 🔤",
+      "scrollSpeed": 0.11,
+      "buckets": {
+        "rhyme": [
+          "cat / hat",
+          "light / night",
+          "rain / pain",
+          "sky / fly"
+        ],
+        "alliteration": [
+          "the wild wind whistled",
+          "she sells seashells",
+          "busy bees buzzing",
+          "proud peacocks prancing"
+        ],
+        "onomatopoeia": [
+          "crackle",
+          "thud",
+          "hiss",
+          "clang",
+          "murmur"
+        ]
+      }
+    },
+    {
+      "targetClass": "onomatopoeia",
+      "missionLabel": "Collect onomatopoeia! 💥",
+      "scrollSpeed": 0.12,
+      "buckets": {
+        "rhyme": [
+          "cat / hat",
+          "light / night",
+          "rain / pain",
+          "sky / fly"
+        ],
+        "alliteration": [
+          "the wild wind whistled",
+          "she sells seashells",
+          "busy bees buzzing",
+          "proud peacocks prancing"
+        ],
+        "onomatopoeia": [
+          "crackle",
+          "thud",
+          "hiss",
+          "clang",
+          "murmur"
+        ]
+      }
+    }
+  ]
+}

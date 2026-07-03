@@ -17,7 +17,8 @@ class ChildQrCode extends StatelessWidget {
         size: size,
         gapless: false,
         eyeStyle: QrEyeStyle(eyeShape: QrEyeShape.square, color: color),
-        dataModuleStyle: QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: color),
+        dataModuleStyle: QrDataModuleStyle(
+            dataModuleShape: QrDataModuleShape.square, color: color),
       ),
       const SizedBox(height: 8),
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [

@@ -1,0 +1,157 @@
+{
+  "id": "ss_g7_timeline",
+  "engine": "sequenceBuilder",
+  "grade": "grade7",
+  "subject": "Social Sciences",
+  "title": "History Timeline",
+  "tagline": "Place key SA historical events in the correct chronological order!",
+  "accentColorHex": "#43A047",
+  "emoji": "⏳",
+  "sceneType": "saHistoryTimeline",
+  "steps": [
+    {
+      "id": "union",
+      "label": "1910",
+      "emoji": "🏛️",
+      "description": "1910: Union of South Africa is formed."
+    },
+    {
+      "id": "land_act",
+      "label": "1913",
+      "emoji": "📜",
+      "description": "1913: The Natives Land Act restricts land ownership."
+    },
+    {
+      "id": "apartheid",
+      "label": "1948",
+      "emoji": "⛔",
+      "description": "1948: The National Party introduces apartheid."
+    },
+    {
+      "id": "sharpeville",
+      "label": "1960",
+      "emoji": "✊",
+      "description": "1960: The Sharpeville Massacre shocks the world."
+    },
+    {
+      "id": "rivonia",
+      "label": "1964",
+      "emoji": "⚖️",
+      "description": "1964: Nelson Mandela is sentenced at the Rivonia Trial."
+    },
+    {
+      "id": "soweto",
+      "label": "1976",
+      "emoji": "📢",
+      "description": "1976: The Soweto Uprising sparks global protest."
+    },
+    {
+      "id": "release",
+      "label": "1990",
+      "emoji": "🔓",
+      "description": "1990: Nelson Mandela is released from prison."
+    },
+    {
+      "id": "democracy",
+      "label": "1994",
+      "emoji": "🗳️",
+      "description": "1994: South Africa holds its first democratic election."
+    }
+  ],
+  "roundVariants": [
+    [
+      "union",
+      "land_act",
+      "apartheid",
+      "sharpeville",
+      "soweto"
+    ],
+    [
+      "land_act",
+      "apartheid",
+      "rivonia",
+      "soweto",
+      "release"
+    ],
+    [
+      "union",
+      "sharpeville",
+      "rivonia",
+      "soweto",
+      "release"
+    ],
+    [
+      "apartheid",
+      "sharpeville",
+      "rivonia",
+      "soweto"
+    ],
+    [
+      "land_act",
+      "sharpeville",
+      "democracy"
+    ],
+    [
+      "sharpeville",
+      "rivonia",
+      "soweto",
+      "release",
+      "democracy"
+    ],
+    [
+      "union",
+      "apartheid",
+      "sharpeville",
+      "release"
+    ],
+    [
+      "union",
+      "sharpeville",
+      "rivonia",
+      "soweto"
+    ],
+    [
+      "union",
+      "sharpeville",
+      "release",
+      "democracy"
+    ],
+    [
+      "union",
+      "land_act",
+      "democracy"
+    ],
+    [
+      "union",
+      "apartheid",
+      "rivonia",
+      "democracy"
+    ],
+    [
+      "land_act",
+      "soweto",
+      "release",
+      "democracy"
+    ],
+    [
+      "sharpeville",
+      "soweto",
+      "democracy"
+    ],
+    [
+      "union",
+      "apartheid",
+      "sharpeville",
+      "soweto",
+      "democracy"
+    ],
+    [
+      "union",
+      "land_act",
+      "apartheid",
+      "sharpeville",
+      "soweto",
+      "democracy"
+    ]
+  ]
+}

@@ -53,8 +53,7 @@ class GeminiService {
     required int totalPoints,
   }) async {
     try {
-      final result =
-          await _functions.httpsCallable('getRecommendation').call({
+      final result = await _functions.httpsCallable('getRecommendation').call({
         'name': name,
         'grade': grade,
         'subjectScores': subjectScores,

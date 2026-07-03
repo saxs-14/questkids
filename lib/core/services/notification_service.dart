@@ -16,7 +16,7 @@ class NotificationService {
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       log('User granted permission');
-      
+
       // Get the token
       String? token = await _fcm.getToken();
       if (token != null) {
@@ -27,7 +27,7 @@ class NotificationService {
       _fcm.onTokenRefresh.listen((newToken) {
         _saveTokenToDatabase(userId, newToken);
       });
-      
+
       // Handle foreground messages
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         log('Got a message whilst in the foreground!');
@@ -35,7 +35,7 @@ class NotificationService {
 
         if (message.notification != null) {
           log('Message also contained a notification: ${message.notification}');
-          // Note: To show in-app popup for foreground messages, 
+          // Note: To show in-app popup for foreground messages,
           // we typically use flutter_local_notifications plugin.
         }
       });
@@ -45,10 +45,7 @@ class NotificationService {
   }
 
   Future<void> _saveTokenToDatabase(String userId, String token) async {
-    await _firestore
-        .collection('users')
-        .doc(userId)
-        .update({
+    await _firestore.collection('users').doc(userId).update({
       'fcmToken': token,
     });
   }

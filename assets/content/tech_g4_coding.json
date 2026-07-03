@@ -1,0 +1,107 @@
+{
+  "id": "tech_g4_coding",
+  "engine": "sequenceBuilder",
+  "grade": "grade4",
+  "subject": "Natural Sciences",
+  "title": "Coding Adventure",
+  "tagline": "Sequence instructions and debug code in this beginner coding quest!",
+  "accentColorHex": "#7C4DFF",
+  "emoji": "💻",
+  "sceneType": "codingBasics",
+  "steps": [
+    {
+      "id": "problem",
+      "label": "Problem",
+      "emoji": "❓",
+      "description": "Understand the problem you want to solve."
+    },
+    {
+      "id": "plan",
+      "label": "Plan",
+      "emoji": "🗺️",
+      "description": "Plan the steps needed to solve it (an algorithm)."
+    },
+    {
+      "id": "code",
+      "label": "Code",
+      "emoji": "💻",
+      "description": "Write the code using the planned steps."
+    },
+    {
+      "id": "run",
+      "label": "Run",
+      "emoji": "▶️",
+      "description": "Run the program to see what happens."
+    },
+    {
+      "id": "debug",
+      "label": "Debug",
+      "emoji": "🐛",
+      "description": "Find and fix any errors (bugs)."
+    },
+    {
+      "id": "test",
+      "label": "Test",
+      "emoji": "✅",
+      "description": "Test the program to make sure it works."
+    }
+  ],
+  "roundVariants": [
+    [
+      "problem",
+      "code",
+      "debug"
+    ],
+    [
+      "problem",
+      "run",
+      "test"
+    ],
+    [
+      "problem",
+      "plan",
+      "debug",
+      "test"
+    ],
+    [
+      "problem",
+      "plan",
+      "debug"
+    ],
+    [
+      "code",
+      "debug",
+      "test"
+    ],
+    [
+      "problem",
+      "plan",
+      "code",
+      "run",
+      "debug"
+    ],
+    [
+      "plan",
+      "code",
+      "test"
+    ],
+    [
+      "problem",
+      "code",
+      "run",
+      "debug"
+    ],
+    [
+      "problem",
+      "code",
+      "run",
+      "test"
+    ],
+    [
+      "plan",
+      "code",
+      "debug",
+      "test"
+    ]
+  ]
+}

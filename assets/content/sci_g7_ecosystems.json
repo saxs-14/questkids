@@ -1,0 +1,262 @@
+{
+  "id": "sci_g7_ecosystems",
+  "engine": "circuitBuilder",
+  "grade": "grade7",
+  "subject": "Natural Sciences",
+  "title": "Ecosystem Balance",
+  "tagline": "Maintain the balance in a food web — add or remove species and see what happens!",
+  "accentColorHex": "#00BFA5",
+  "emoji": "🌿",
+  "circuits": [
+    {
+      "id": "food_web_0",
+      "description": "Complete the energy flow: the sun powers this first link.",
+      "layout": "☀️ —?— 🐇",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "grass",
+          "emoji": "🌱",
+          "hint": "Plants capture the sun’s energy"
+        }
+      ],
+      "bank": [
+        "grass",
+        "fox",
+        "hawk",
+        "water"
+      ],
+      "labels": {
+        "grass": "🌱 Grass (producer)",
+        "fox": "🦊 Fox",
+        "hawk": "🦅 Hawk",
+        "water": "💧 Water"
+      }
+    },
+    {
+      "id": "food_web_1",
+      "description": "Which animal eats the grass?",
+      "layout": "🌱 —?— 🦊",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "rabbit",
+          "emoji": "🐇",
+          "hint": "A herbivore eats plants directly"
+        }
+      ],
+      "bank": [
+        "rabbit",
+        "hawk",
+        "grass",
+        "sun"
+      ],
+      "labels": {
+        "rabbit": "🐇 Rabbit (herbivore)",
+        "hawk": "🦅 Hawk",
+        "grass": "🌱 Grass",
+        "sun": "☀️ Sun"
+      }
+    },
+    {
+      "id": "food_web_2",
+      "description": "A fox eats the rabbit. What do we call the fox in this chain?",
+      "layout": "🐇 —?— 🦅",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "fox",
+          "emoji": "🦊",
+          "hint": "A predator that eats herbivores"
+        }
+      ],
+      "bank": [
+        "fox",
+        "grass",
+        "sun",
+        "water"
+      ],
+      "labels": {
+        "fox": "🦊 Fox (predator)",
+        "grass": "🌱 Grass",
+        "sun": "☀️ Sun",
+        "water": "💧 Water"
+      }
+    },
+    {
+      "id": "food_web_3",
+      "description": "What breaks down the dead fox and returns nutrients to the soil?",
+      "layout": "🦊(dead) —?— 🌱",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "fungi",
+          "emoji": "🍄",
+          "hint": "Decomposers recycle nutrients"
+        }
+      ],
+      "bank": [
+        "fungi",
+        "hawk",
+        "rabbit",
+        "sun"
+      ],
+      "labels": {
+        "fungi": "🍄 Fungi (decomposer)",
+        "hawk": "🦅 Hawk",
+        "rabbit": "🐇 Rabbit",
+        "sun": "☀️ Sun"
+      }
+    },
+    {
+      "id": "food_web_4",
+      "description": "What sits at the top of this food chain, with no natural predators here?",
+      "layout": "🦊 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "hawk",
+          "emoji": "🦅",
+          "hint": "An apex predator"
+        }
+      ],
+      "bank": [
+        "hawk",
+        "grass",
+        "fungi",
+        "sun"
+      ],
+      "labels": {
+        "hawk": "🦅 Hawk (apex predator)",
+        "grass": "🌱 Grass",
+        "fungi": "🍄 Fungi",
+        "sun": "☀️ Sun"
+      }
+    },
+    {
+      "id": "food_web_5",
+      "description": "Every food web link also needs this abiotic resource.",
+      "layout": "🌱 ← ?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "water",
+          "emoji": "💧",
+          "hint": "A non-living but essential resource"
+        }
+      ],
+      "bank": [
+        "water",
+        "fox",
+        "hawk",
+        "fungi"
+      ],
+      "labels": {
+        "water": "💧 Water",
+        "fox": "🦊 Fox",
+        "hawk": "🦅 Hawk",
+        "fungi": "🍄 Fungi"
+      }
+    },
+    {
+      "id": "food_web_6",
+      "description": "What is the ultimate energy source for almost every food web?",
+      "layout": "?— 🌱",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "sun",
+          "emoji": "☀️",
+          "hint": "Nearly all energy chains start here"
+        }
+      ],
+      "bank": [
+        "sun",
+        "water",
+        "soil",
+        "fungi"
+      ],
+      "labels": {
+        "sun": "☀️ Sun",
+        "water": "💧 Water",
+        "soil": "🟤 Soil",
+        "fungi": "🍄 Fungi"
+      }
+    },
+    {
+      "id": "food_web_7",
+      "description": "Decomposed matter enriches this before plants can use it again.",
+      "layout": "🍄 —?— 🌱",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "soil",
+          "emoji": "🟤",
+          "hint": "Nutrients return to the soil"
+        }
+      ],
+      "bank": [
+        "soil",
+        "hawk",
+        "fox",
+        "sun"
+      ],
+      "labels": {
+        "soil": "🟤 Soil",
+        "hawk": "🦅 Hawk",
+        "fox": "🦊 Fox",
+        "sun": "☀️ Sun"
+      }
+    },
+    {
+      "id": "food_web_8",
+      "description": "A vulture that eats the dead hawk is called a...?",
+      "layout": "🦅(dead) —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "scavenger",
+          "emoji": "🦴",
+          "hint": "Eats animals it did not kill"
+        }
+      ],
+      "bank": [
+        "scavenger",
+        "producer",
+        "herbivore",
+        "sun"
+      ],
+      "labels": {
+        "scavenger": "🦴 Scavenger (vulture)",
+        "producer": "🌱 Producer",
+        "herbivore": "🐇 Herbivore",
+        "sun": "☀️ Sun"
+      }
+    },
+    {
+      "id": "food_web_9",
+      "description": "If foxes disappeared, what would likely increase first?",
+      "layout": "🦊(gone) —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "rabbits",
+          "emoji": "🐇",
+          "hint": "Fewer predators means more prey survive"
+        }
+      ],
+      "bank": [
+        "rabbits",
+        "grass",
+        "sun",
+        "fungi"
+      ],
+      "labels": {
+        "rabbits": "🐇 Rabbits",
+        "grass": "🌱 Grass",
+        "sun": "☀️ Sun",
+        "fungi": "🍄 Fungi"
+      }
+    }
+  ]
+}

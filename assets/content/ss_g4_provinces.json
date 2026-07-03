@@ -1,0 +1,296 @@
+{
+  "id": "ss_g4_provinces",
+  "engine": "explorerMap",
+  "grade": "grade4",
+  "subject": "Social Sciences",
+  "title": "SA Provinces Explorer",
+  "tagline": "Explore all 9 provinces — capitals, facts and famous landmarks!",
+  "accentColorHex": "#43A047",
+  "emoji": "🇿🇦",
+  "pins": [
+    {
+      "id": "GP",
+      "name": "Gauteng",
+      "capital": "Johannesburg",
+      "emoji": "🏙️",
+      "x": 0.6,
+      "y": 0.45,
+      "facts": [
+        "Gauteng is the smallest province but the most populous.",
+        "Gauteng's name means 'place of gold' in Sotho."
+      ],
+      "color": "#E53935"
+    },
+    {
+      "id": "WC",
+      "name": "Western Cape",
+      "capital": "Cape Town",
+      "emoji": "🍷",
+      "x": 0.25,
+      "y": 0.85,
+      "facts": [
+        "Table Mountain is one of the New 7 Wonders of Nature.",
+        "The Cape Winelands are famous worldwide."
+      ],
+      "color": "#1E88E5"
+    },
+    {
+      "id": "KZN",
+      "name": "KwaZulu-Natal",
+      "capital": "Pietermaritzburg",
+      "emoji": "🌊",
+      "x": 0.78,
+      "y": 0.62,
+      "facts": [
+        "The Drakensberg mountains run through KwaZulu-Natal.",
+        "Durban is South Africa’s busiest port city."
+      ],
+      "color": "#43A047"
+    },
+    {
+      "id": "EC",
+      "name": "Eastern Cape",
+      "capital": "Bhisho",
+      "emoji": "🐘",
+      "x": 0.55,
+      "y": 0.85,
+      "facts": [
+        "Addo Elephant National Park is in the Eastern Cape.",
+        "Nelson Mandela was born in the Eastern Cape."
+      ],
+      "color": "#FB8C00"
+    },
+    {
+      "id": "LIM",
+      "name": "Limpopo",
+      "capital": "Polokwane",
+      "emoji": "🦁",
+      "x": 0.6,
+      "y": 0.12,
+      "facts": [
+        "Limpopo borders Zimbabwe, Botswana and Mozambique.",
+        "Part of the Kruger National Park lies in Limpopo."
+      ],
+      "color": "#8E24AA"
+    },
+    {
+      "id": "MP",
+      "name": "Mpumalanga",
+      "capital": "Mbombela",
+      "emoji": "🌅",
+      "x": 0.72,
+      "y": 0.32,
+      "facts": [
+        "Mpumalanga's name means 'place where the sun rises'.",
+        "The Blyde River Canyon is one of the largest canyons on Earth."
+      ],
+      "color": "#00897B"
+    },
+    {
+      "id": "NW",
+      "name": "North West",
+      "capital": "Mahikeng",
+      "emoji": "🌾",
+      "x": 0.45,
+      "y": 0.35,
+      "facts": [
+        "The Sun City resort is in North West province.",
+        "North West is known for its maize and platinum mining."
+      ],
+      "color": "#F4511E"
+    },
+    {
+      "id": "FS",
+      "name": "Free State",
+      "capital": "Bloemfontein",
+      "emoji": "🌻",
+      "x": 0.55,
+      "y": 0.6,
+      "facts": [
+        "Bloemfontein is known as the judicial capital of South Africa.",
+        "The Free State is known for its wide-open maize and sunflower fields."
+      ],
+      "color": "#3949AB"
+    },
+    {
+      "id": "NC",
+      "name": "Northern Cape",
+      "capital": "Kimberley",
+      "emoji": "💎",
+      "x": 0.3,
+      "y": 0.5,
+      "facts": [
+        "The Northern Cape is the largest but least populated province.",
+        "Kimberley is famous for its diamond mining history."
+      ],
+      "color": "#00ACC1"
+    }
+  ],
+  "questions": [
+    {
+      "question": "Which one is true: \"Gauteng is the smallest province but the most populous.\"?",
+      "correctId": "GP",
+      "optionIds": [
+        "KZN",
+        "GP",
+        "EC",
+        "NW"
+      ],
+      "feedbackFact": "Gauteng is the smallest province but the most populous."
+    },
+    {
+      "question": "Which one is true: \"Table Mountain is one of the New 7 Wonders of Nature.\"?",
+      "correctId": "WC",
+      "optionIds": [
+        "EC",
+        "WC",
+        "NW",
+        "LIM"
+      ],
+      "feedbackFact": "Table Mountain is one of the New 7 Wonders of Nature."
+    },
+    {
+      "question": "Which one is true: \"The Drakensberg mountains run through KwaZulu-Natal.\"?",
+      "correctId": "KZN",
+      "optionIds": [
+        "NC",
+        "WC",
+        "KZN",
+        "GP"
+      ],
+      "feedbackFact": "The Drakensberg mountains run through KwaZulu-Natal."
+    },
+    {
+      "question": "Which one is true: \"Addo Elephant National Park is in the Eastern Cape.\"?",
+      "correctId": "EC",
+      "optionIds": [
+        "GP",
+        "MP",
+        "KZN",
+        "EC"
+      ],
+      "feedbackFact": "Addo Elephant National Park is in the Eastern Cape."
+    },
+    {
+      "question": "Which one is true: \"Limpopo borders Zimbabwe, Botswana and Mozambique.\"?",
+      "correctId": "LIM",
+      "optionIds": [
+        "LIM",
+        "MP",
+        "KZN",
+        "FS"
+      ],
+      "feedbackFact": "Limpopo borders Zimbabwe, Botswana and Mozambique."
+    },
+    {
+      "question": "Which one is true: \"Mpumalanga's name means 'place where the sun rises'.\"?",
+      "correctId": "MP",
+      "optionIds": [
+        "MP",
+        "GP",
+        "LIM",
+        "NC"
+      ],
+      "feedbackFact": "Mpumalanga's name means 'place where the sun rises'."
+    },
+    {
+      "question": "Which one is true: \"The Sun City resort is in North West province.\"?",
+      "correctId": "NW",
+      "optionIds": [
+        "WC",
+        "MP",
+        "NW",
+        "EC"
+      ],
+      "feedbackFact": "The Sun City resort is in North West province."
+    },
+    {
+      "question": "Which one is true: \"Bloemfontein is known as the judicial capital of South Africa.\"?",
+      "correctId": "FS",
+      "optionIds": [
+        "MP",
+        "KZN",
+        "FS",
+        "EC"
+      ],
+      "feedbackFact": "Bloemfontein is known as the judicial capital of South Africa."
+    },
+    {
+      "question": "Which one is true: \"The Northern Cape is the largest but least populated province.\"?",
+      "correctId": "NC",
+      "optionIds": [
+        "KZN",
+        "LIM",
+        "WC",
+        "NC"
+      ],
+      "feedbackFact": "The Northern Cape is the largest but least populated province."
+    },
+    {
+      "question": "Which one is true: \"Gauteng's name means 'place of gold' in Sotho.\"?",
+      "correctId": "GP",
+      "optionIds": [
+        "NC",
+        "KZN",
+        "GP",
+        "MP"
+      ],
+      "feedbackFact": "Gauteng's name means 'place of gold' in Sotho."
+    },
+    {
+      "question": "Which one is true: \"The Cape Winelands are famous worldwide.\"?",
+      "correctId": "WC",
+      "optionIds": [
+        "MP",
+        "NC",
+        "WC",
+        "NW"
+      ],
+      "feedbackFact": "The Cape Winelands are famous worldwide."
+    },
+    {
+      "question": "Which one is true: \"Durban is South Africa’s busiest port city.\"?",
+      "correctId": "KZN",
+      "optionIds": [
+        "KZN",
+        "EC",
+        "GP",
+        "NC"
+      ],
+      "feedbackFact": "Durban is South Africa’s busiest port city."
+    },
+    {
+      "question": "Which one is true: \"Nelson Mandela was born in the Eastern Cape.\"?",
+      "correctId": "EC",
+      "optionIds": [
+        "EC",
+        "LIM",
+        "MP",
+        "WC"
+      ],
+      "feedbackFact": "Nelson Mandela was born in the Eastern Cape."
+    },
+    {
+      "question": "Which one is true: \"Part of the Kruger National Park lies in Limpopo.\"?",
+      "correctId": "LIM",
+      "optionIds": [
+        "LIM",
+        "NW",
+        "NC",
+        "KZN"
+      ],
+      "feedbackFact": "Part of the Kruger National Park lies in Limpopo."
+    },
+    {
+      "question": "Which one is true: \"The Blyde River Canyon is one of the largest canyons on Earth.\"?",
+      "correctId": "MP",
+      "optionIds": [
+        "MP",
+        "WC",
+        "EC",
+        "NC"
+      ],
+      "feedbackFact": "The Blyde River Canyon is one of the largest canyons on Earth."
+    }
+  ]
+}

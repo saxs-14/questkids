@@ -1,0 +1,173 @@
+{
+  "id": "ss_g4_heroes",
+  "engine": "adventureJourney",
+  "grade": "grade4",
+  "subject": "Social Sciences",
+  "title": "Liberation Heroes",
+  "tagline": "Meet the heroes who fought for freedom in South Africa!",
+  "accentColorHex": "#43A047",
+  "emoji": "✊",
+  "characterEmoji": "✊",
+  "stages": [
+    {
+      "id": "ss_g4_heroes_0",
+      "name": "Stage 1",
+      "emoji": "✊",
+      "themeColorHex": "#43A047",
+      "question": "Who was South Africa's first democratically elected president?",
+      "options": [
+        "Nelson Mandela",
+        "Youth Day, honouring the 1976 Soweto uprising",
+        "Anti-apartheid activism and leadership",
+        "Robben Island"
+      ],
+      "correctOption": "Nelson Mandela",
+      "correctFeedback": "Yes! Nelson Mandela is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Nelson Mandela."
+    },
+    {
+      "id": "ss_g4_heroes_1",
+      "name": "Stage 2",
+      "emoji": "✊",
+      "themeColorHex": "#43A047",
+      "question": "On which island was Nelson Mandela imprisoned?",
+      "options": [
+        "Anti-apartheid activism and leadership",
+        "Oliver Tambo",
+        "Robben Island",
+        "A Black Consciousness Movement leader"
+      ],
+      "correctOption": "Robben Island",
+      "correctFeedback": "Yes! Robben Island is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Robben Island."
+    },
+    {
+      "id": "ss_g4_heroes_2",
+      "name": "Stage 3",
+      "emoji": "✊",
+      "themeColorHex": "#43A047",
+      "question": "Who was a key anti-apartheid leader and Mandela's close ally?",
+      "options": [
+        "Robben Island",
+        "F.W. de Klerk",
+        "Lilian Ngoyi",
+        "Oliver Tambo"
+      ],
+      "correctOption": "Oliver Tambo",
+      "correctFeedback": "Yes! Oliver Tambo is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Oliver Tambo."
+    },
+    {
+      "id": "ss_g4_heroes_3",
+      "name": "Stage 4",
+      "emoji": "✊",
+      "themeColorHex": "#43A047",
+      "question": "Which women's leader organised the 1956 anti-pass march?",
+      "options": [
+        "A Black Consciousness Movement leader",
+        "Youth Day, honouring the 1976 Soweto uprising",
+        "F.W. de Klerk",
+        "Lilian Ngoyi"
+      ],
+      "correctOption": "Lilian Ngoyi",
+      "correctFeedback": "Yes! Lilian Ngoyi is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Lilian Ngoyi."
+    },
+    {
+      "id": "ss_g4_heroes_4",
+      "name": "Stage 5",
+      "emoji": "✊",
+      "themeColorHex": "#43A047",
+      "question": "What organisation did many liberation heroes belong to?",
+      "options": [
+        "The African National Congress",
+        "Anti-apartheid activism and leadership",
+        "Robben Island",
+        "A Black Consciousness Movement leader"
+      ],
+      "correctOption": "The African National Congress",
+      "correctFeedback": "Yes! The African National Congress is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The African National Congress."
+    },
+    {
+      "id": "ss_g4_heroes_5",
+      "name": "Stage 6",
+      "emoji": "✊",
+      "themeColorHex": "#43A047",
+      "question": "Who was Steve Biko?",
+      "options": [
+        "The African National Congress",
+        "A Black Consciousness Movement leader",
+        "Nelson Mandela",
+        "Robben Island"
+      ],
+      "correctOption": "A Black Consciousness Movement leader",
+      "correctFeedback": "Yes! A Black Consciousness Movement leader is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A Black Consciousness Movement leader."
+    },
+    {
+      "id": "ss_g4_heroes_6",
+      "name": "Stage 7",
+      "emoji": "✊",
+      "themeColorHex": "#43A047",
+      "question": "What year did Nelson Mandela become president?",
+      "options": [
+        "1996",
+        "1994",
+        "1989",
+        "1991"
+      ],
+      "correctOption": "1994",
+      "correctFeedback": "Yes! 1994 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 1994."
+    },
+    {
+      "id": "ss_g4_heroes_7",
+      "name": "Stage 8",
+      "emoji": "✊",
+      "themeColorHex": "#43A047",
+      "question": "What was Albertina Sisulu known for?",
+      "options": [
+        "A Black Consciousness Movement leader",
+        "F.W. de Klerk",
+        "Anti-apartheid activism and leadership",
+        "Robben Island"
+      ],
+      "correctOption": "Anti-apartheid activism and leadership",
+      "correctFeedback": "Yes! Anti-apartheid activism and leadership is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Anti-apartheid activism and leadership."
+    },
+    {
+      "id": "ss_g4_heroes_8",
+      "name": "Stage 9",
+      "emoji": "✊",
+      "themeColorHex": "#43A047",
+      "question": "What is 16 June known as in South Africa?",
+      "options": [
+        "Oliver Tambo",
+        "Anti-apartheid activism and leadership",
+        "Nelson Mandela",
+        "Youth Day, honouring the 1976 Soweto uprising"
+      ],
+      "correctOption": "Youth Day, honouring the 1976 Soweto uprising",
+      "correctFeedback": "Yes! Youth Day, honouring the 1976 Soweto uprising is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Youth Day, honouring the 1976 Soweto uprising."
+    },
+    {
+      "id": "ss_g4_heroes_9",
+      "name": "Stage 10",
+      "emoji": "✊",
+      "themeColorHex": "#43A047",
+      "question": "Who received the Nobel Peace Prize with Mandela in 1993?",
+      "options": [
+        "Oliver Tambo",
+        "The African National Congress",
+        "Nelson Mandela",
+        "F.W. de Klerk"
+      ],
+      "correctOption": "F.W. de Klerk",
+      "correctFeedback": "Yes! F.W. de Klerk is right — onward!",
+      "wrongFeedback": "Not quite — the answer is F.W. de Klerk."
+    }
+  ]
+}

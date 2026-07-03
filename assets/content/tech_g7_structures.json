@@ -1,0 +1,262 @@
+{
+  "id": "tech_g7_structures",
+  "engine": "circuitBuilder",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Structures & Forces",
+  "tagline": "Design structures that can withstand tension, compression and bending!",
+  "accentColorHex": "#7C4DFF",
+  "emoji": "🏗️",
+  "circuits": [
+    {
+      "id": "tech_g7_structures_0",
+      "description": "A triangle shape in a bridge truss resists deforming because it is naturally...?",
+      "layout": "🔺 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "rigid",
+          "emoji": "🔒",
+          "hint": "Triangles keep their shape under load"
+        }
+      ],
+      "bank": [
+        "rigid",
+        "flexible",
+        "weak",
+        "heavy"
+      ],
+      "labels": {
+        "rigid": "🔒 Rigid",
+        "flexible": "🤸 Flexible",
+        "weak": "🪶 Weak",
+        "heavy": "🏋️ Heavy"
+      }
+    },
+    {
+      "id": "tech_g7_structures_1",
+      "description": "A force that pushes or squeezes a structure is called...?",
+      "layout": "⬅️🏛️➡️ —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "compression",
+          "emoji": "🗜️",
+          "hint": "A squeezing force"
+        }
+      ],
+      "bank": [
+        "compression",
+        "tension",
+        "shear",
+        "torsion"
+      ],
+      "labels": {
+        "compression": "🗜️ Compression",
+        "tension": "↔️ Tension",
+        "shear": "✂️ Shear",
+        "torsion": "🌀 Torsion"
+      }
+    },
+    {
+      "id": "tech_g7_structures_2",
+      "description": "A force that stretches or pulls a structure apart is called...?",
+      "layout": "⬅️➡️🔗 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "tension",
+          "emoji": "↔️",
+          "hint": "A pulling/stretching force"
+        }
+      ],
+      "bank": [
+        "tension",
+        "compression",
+        "shear",
+        "torsion"
+      ],
+      "labels": {
+        "tension": "↔️ Tension",
+        "compression": "🗜️ Compression",
+        "shear": "✂️ Shear",
+        "torsion": "🌀 Torsion"
+      }
+    },
+    {
+      "id": "tech_g7_structures_3",
+      "description": "What structural part transfers a building’s weight down to the ground?",
+      "layout": "🏢 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "foundation",
+          "emoji": "🧱",
+          "hint": "The base a structure rests on"
+        }
+      ],
+      "bank": [
+        "foundation",
+        "roof",
+        "beam",
+        "column"
+      ],
+      "labels": {
+        "foundation": "🧱 Foundation",
+        "roof": "🏠 Roof",
+        "beam": "➖ Beam",
+        "column": "🏛️ Column"
+      }
+    },
+    {
+      "id": "tech_g7_structures_4",
+      "description": "A horizontal support that carries weight across a gap is called a...?",
+      "layout": "🏛️ —?— 🏛️",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "beam",
+          "emoji": "➖",
+          "hint": "Spans horizontally between supports"
+        }
+      ],
+      "bank": [
+        "beam",
+        "column",
+        "foundation",
+        "truss"
+      ],
+      "labels": {
+        "beam": "➖ Beam",
+        "column": "🏛️ Column",
+        "foundation": "🧱 Foundation",
+        "truss": "🔺 Truss"
+      }
+    },
+    {
+      "id": "tech_g7_structures_5",
+      "description": "A vertical support that carries load down to the foundation is a...?",
+      "layout": "🏠 —?— 🧱",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "column",
+          "emoji": "🏛️",
+          "hint": "Stands upright, carries vertical load"
+        }
+      ],
+      "bank": [
+        "column",
+        "beam",
+        "truss",
+        "arch"
+      ],
+      "labels": {
+        "column": "🏛️ Column",
+        "beam": "➖ Beam",
+        "truss": "🔺 Truss",
+        "arch": "🌉 Arch"
+      }
+    },
+    {
+      "id": "tech_g7_structures_6",
+      "description": "A curved structure that spreads load outward and down, used in bridges, is an...?",
+      "layout": "🌉 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "arch",
+          "emoji": "🌉",
+          "hint": "A curved load-bearing structure"
+        }
+      ],
+      "bank": [
+        "arch",
+        "beam",
+        "truss",
+        "column"
+      ],
+      "labels": {
+        "arch": "🌉 Arch",
+        "beam": "➖ Beam",
+        "truss": "🔺 Truss",
+        "column": "🏛️ Column"
+      }
+    },
+    {
+      "id": "tech_g7_structures_7",
+      "description": "A framework of triangles used to support a roof or bridge is a...?",
+      "layout": "🔺🔺🔺 —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "truss",
+          "emoji": "🔺",
+          "hint": "A rigid framework of triangles"
+        }
+      ],
+      "bank": [
+        "truss",
+        "beam",
+        "column",
+        "arch"
+      ],
+      "labels": {
+        "truss": "🔺 Truss",
+        "beam": "➖ Beam",
+        "column": "🏛️ Column",
+        "arch": "🌉 Arch"
+      }
+    },
+    {
+      "id": "tech_g7_structures_8",
+      "description": "A wide base helps a tall structure resist toppling by lowering its...?",
+      "layout": "🗼(wide base) —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "centre of gravity",
+          "emoji": "⚖️",
+          "hint": "The point where weight is balanced"
+        }
+      ],
+      "bank": [
+        "centre of gravity",
+        "height",
+        "colour",
+        "weight"
+      ],
+      "labels": {
+        "centre of gravity": "⚖️ Centre of gravity",
+        "height": "📏 Height",
+        "colour": "🎨 Colour",
+        "weight": "🏋️ Weight"
+      }
+    },
+    {
+      "id": "tech_g7_structures_9",
+      "description": "Cross-bracing (diagonal supports) mainly resists which force acting sideways on a structure?",
+      "layout": "🏗️(cross-braced) —?",
+      "blanks": [
+        {
+          "position": 0,
+          "correctComponent": "wind load",
+          "emoji": "💨",
+          "hint": "Sideways force from wind or earthquakes"
+        }
+      ],
+      "bank": [
+        "wind load",
+        "gravity only",
+        "sunlight",
+        "rain"
+      ],
+      "labels": {
+        "wind load": "💨 Wind load",
+        "gravity only": "⬇️ Gravity only",
+        "sunlight": "☀️ Sunlight",
+        "rain": "🌧️ Rain"
+      }
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "id": "ems_g7_tax",
+  "engine": "tugOfWar",
+  "grade": "grade7",
+  "subject": "EMS",
+  "title": "Tax Tracker",
+  "tagline": "Understand VAT, income tax and how government uses tax revenue!",
+  "accentColorHex": "#009688",
+  "emoji": "🧾",
+  "questionType": "vat",
+  "sampleItems": [
+    {
+      "question": "An item costs R400 before VAT. South Africa's VAT rate is 15%. What is the price including VAT?",
+      "options": [
+        "R474",
+        "R476",
+        "R444",
+        "R460"
+      ],
+      "answerIndex": 3,
+      "hint": "VAT-inclusive price = price × 1.15.",
+      "explanation": "R400 × 1.15 = R460."
+    },
+    {
+      "question": "An item costs R740 before VAT. South Africa's VAT rate is 15%. What is the price including VAT?",
+      "options": [
+        "R875",
+        "R845",
+        "R851",
+        "R835"
+      ],
+      "answerIndex": 2,
+      "hint": "VAT-inclusive price = price × 1.15.",
+      "explanation": "R740 × 1.15 = R851."
+    },
+    {
+      "question": "An item costs R320 before VAT. South Africa's VAT rate is 15%. What is the price including VAT?",
+      "options": [
+        "R368",
+        "R372",
+        "R386",
+        "R392"
+      ],
+      "answerIndex": 0,
+      "hint": "VAT-inclusive price = price × 1.15.",
+      "explanation": "R320 × 1.15 = R368."
+    },
+    {
+      "question": "An item costs R440 before VAT. South Africa's VAT rate is 15%. What is the price including VAT?",
+      "options": [
+        "R506",
+        "R496",
+        "R502",
+        "R508"
+      ],
+      "answerIndex": 0,
+      "hint": "VAT-inclusive price = price × 1.15.",
+      "explanation": "R440 × 1.15 = R506."
+    },
+    {
+      "question": "An item costs R580 before VAT. South Africa's VAT rate is 15%. What is the price including VAT?",
+      "options": [
+        "R671",
+        "R647",
+        "R667",
+        "R689"
+      ],
+      "answerIndex": 2,
+      "hint": "VAT-inclusive price = price × 1.15.",
+      "explanation": "R580 × 1.15 = R667."
+    },
+    {
+      "question": "An item costs R720 before VAT. South Africa's VAT rate is 15%. What is the price including VAT?",
+      "options": [
+        "R830",
+        "R810",
+        "R838",
+        "R828"
+      ],
+      "answerIndex": 3,
+      "hint": "VAT-inclusive price = price × 1.15.",
+      "explanation": "R720 × 1.15 = R828."
+    },
+    {
+      "question": "An item costs R140 before VAT. South Africa's VAT rate is 15%. What is the price including VAT?",
+      "options": [
+        "R165",
+        "R159",
+        "R161",
+        "R155"
+      ],
+      "answerIndex": 2,
+      "hint": "VAT-inclusive price = price × 1.15.",
+      "explanation": "R140 × 1.15 = R161."
+    },
+    {
+      "question": "An item costs R800 before VAT. South Africa's VAT rate is 15%. What is the price including VAT?",
+      "options": [
+        "R910",
+        "R902",
+        "R920",
+        "R950"
+      ],
+      "answerIndex": 2,
+      "hint": "VAT-inclusive price = price × 1.15.",
+      "explanation": "R800 × 1.15 = R920."
+    },
+    {
+      "question": "An item costs R120 before VAT. South Africa's VAT rate is 15%. What is the price including VAT?",
+      "options": [
+        "R126",
+        "R138",
+        "R166",
+        "R134"
+      ],
+      "answerIndex": 1,
+      "hint": "VAT-inclusive price = price × 1.15.",
+      "explanation": "R120 × 1.15 = R138."
+    },
+    {
+      "question": "An item costs R480 before VAT. South Africa's VAT rate is 15%. What is the price including VAT?",
+      "options": [
+        "R552",
+        "R534",
+        "R526",
+        "R538"
+      ],
+      "answerIndex": 0,
+      "hint": "VAT-inclusive price = price × 1.15.",
+      "explanation": "R480 × 1.15 = R552."
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "id": "eng_g4_vocabulary",
+  "engine": "multiplesMerge",
+  "grade": "grade4",
+  "subject": "English",
+  "title": "Word Power",
+  "tagline": "Build your vocabulary with synonyms, antonyms and context clues!",
+  "accentColorHex": "#E91E63",
+  "emoji": "💬",
+  "mode": "pairs",
+  "gridSize": 4,
+  "chainLength": 2,
+  "tokenGroups": [
+    [
+      "happy",
+      "joyful"
+    ],
+    [
+      "sad",
+      "unhappy"
+    ],
+    [
+      "big",
+      "huge"
+    ],
+    [
+      "small",
+      "tiny"
+    ],
+    [
+      "fast",
+      "quick"
+    ],
+    [
+      "hot",
+      "cold"
+    ],
+    [
+      "light",
+      "dark"
+    ],
+    [
+      "begin",
+      "start"
+    ],
+    [
+      "end",
+      "finish"
+    ],
+    [
+      "brave",
+      "courageous"
+    ]
+  ]
+}

@@ -13,10 +13,10 @@ class FirestoreService {
   }
 
   // Activities
-  Stream<QuerySnapshot> getActivities(String subject) =>
-      _db.collection('activities')
-          .where('subject', isEqualTo: subject)
-          .snapshots();
+  Stream<QuerySnapshot> getActivities(String subject) => _db
+      .collection('activities')
+      .where('subject', isEqualTo: subject)
+      .snapshots();
 
   // Progress
   Future<void> saveProgress(String uid, Map<String, dynamic> data) =>

@@ -1,0 +1,196 @@
+{
+  "id": "ss_g7_rivers",
+  "engine": "explorerMap",
+  "grade": "grade7",
+  "subject": "Social Sciences",
+  "title": "Rivers & Resources",
+  "tagline": "Trace SA rivers and understand their role in settlements!",
+  "accentColorHex": "#43A047",
+  "emoji": "🏞️",
+  "pins": [
+    {
+      "id": "orange",
+      "name": "Orange River",
+      "emoji": "🏞️",
+      "x": 0.3,
+      "y": 0.5,
+      "facts": [
+        "The Orange River is South Africa's longest river.",
+        "The Orange River forms part of the border with Namibia."
+      ],
+      "color": "#E53935"
+    },
+    {
+      "id": "vaal",
+      "name": "Vaal River",
+      "emoji": "🌊",
+      "x": 0.5,
+      "y": 0.45,
+      "facts": [
+        "The Vaal River is a major tributary of the Orange River.",
+        "The Vaal River supplies water to Gauteng industry and homes."
+      ],
+      "color": "#1E88E5"
+    },
+    {
+      "id": "limpopo",
+      "name": "Limpopo River",
+      "emoji": "🐊",
+      "x": 0.6,
+      "y": 0.12,
+      "facts": [
+        "The Limpopo River forms much of the border with Zimbabwe and Botswana.",
+        "The Limpopo River basin supports farming across several countries."
+      ],
+      "color": "#43A047"
+    },
+    {
+      "id": "tugela",
+      "name": "Tugela River",
+      "emoji": "💦",
+      "x": 0.75,
+      "y": 0.55,
+      "facts": [
+        "The Tugela River flows through KwaZulu-Natal.",
+        "The Tugela Falls is one of the tallest waterfalls in the world."
+      ],
+      "color": "#FB8C00"
+    },
+    {
+      "id": "breede",
+      "name": "Breede River",
+      "emoji": "🚣",
+      "x": 0.28,
+      "y": 0.8,
+      "facts": [
+        "The Breede River flows through the Western Cape winelands.",
+        "The Breede River is popular for canoeing."
+      ],
+      "color": "#8E24AA"
+    },
+    {
+      "id": "olifants",
+      "name": "Olifants River",
+      "emoji": "🐘",
+      "x": 0.65,
+      "y": 0.3,
+      "facts": [
+        "The Olifants River flows through the Kruger National Park.",
+        "The Olifants River is important for irrigation in Mpumalanga."
+      ],
+      "color": "#00897B"
+    }
+  ],
+  "questions": [
+    {
+      "question": "Which one is true: \"The Orange River is South Africa's longest river.\"?",
+      "correctId": "orange",
+      "optionIds": [
+        "orange",
+        "limpopo",
+        "tugela",
+        "olifants"
+      ],
+      "feedbackFact": "The Orange River is South Africa's longest river."
+    },
+    {
+      "question": "Which one is true: \"The Vaal River is a major tributary of the Orange River.\"?",
+      "correctId": "vaal",
+      "optionIds": [
+        "vaal",
+        "orange",
+        "breede",
+        "olifants"
+      ],
+      "feedbackFact": "The Vaal River is a major tributary of the Orange River."
+    },
+    {
+      "question": "Which one is true: \"The Limpopo River forms much of the border with Zimbabwe and Botswana.\"?",
+      "correctId": "limpopo",
+      "optionIds": [
+        "vaal",
+        "tugela",
+        "breede",
+        "limpopo"
+      ],
+      "feedbackFact": "The Limpopo River forms much of the border with Zimbabwe and Botswana."
+    },
+    {
+      "question": "Which one is true: \"The Tugela River flows through KwaZulu-Natal.\"?",
+      "correctId": "tugela",
+      "optionIds": [
+        "breede",
+        "vaal",
+        "orange",
+        "tugela"
+      ],
+      "feedbackFact": "The Tugela River flows through KwaZulu-Natal."
+    },
+    {
+      "question": "Which one is true: \"The Breede River flows through the Western Cape winelands.\"?",
+      "correctId": "breede",
+      "optionIds": [
+        "breede",
+        "limpopo",
+        "tugela",
+        "vaal"
+      ],
+      "feedbackFact": "The Breede River flows through the Western Cape winelands."
+    },
+    {
+      "question": "Which one is true: \"The Olifants River flows through the Kruger National Park.\"?",
+      "correctId": "olifants",
+      "optionIds": [
+        "breede",
+        "vaal",
+        "olifants",
+        "orange"
+      ],
+      "feedbackFact": "The Olifants River flows through the Kruger National Park."
+    },
+    {
+      "question": "Which one is true: \"The Orange River forms part of the border with Namibia.\"?",
+      "correctId": "orange",
+      "optionIds": [
+        "limpopo",
+        "olifants",
+        "orange",
+        "vaal"
+      ],
+      "feedbackFact": "The Orange River forms part of the border with Namibia."
+    },
+    {
+      "question": "Which one is true: \"The Vaal River supplies water to Gauteng industry and homes.\"?",
+      "correctId": "vaal",
+      "optionIds": [
+        "olifants",
+        "limpopo",
+        "vaal",
+        "tugela"
+      ],
+      "feedbackFact": "The Vaal River supplies water to Gauteng industry and homes."
+    },
+    {
+      "question": "Which one is true: \"The Limpopo River basin supports farming across several countries.\"?",
+      "correctId": "limpopo",
+      "optionIds": [
+        "vaal",
+        "limpopo",
+        "olifants",
+        "breede"
+      ],
+      "feedbackFact": "The Limpopo River basin supports farming across several countries."
+    },
+    {
+      "question": "Which one is true: \"The Tugela Falls is one of the tallest waterfalls in the world.\"?",
+      "correctId": "tugela",
+      "optionIds": [
+        "tugela",
+        "limpopo",
+        "vaal",
+        "orange"
+      ],
+      "feedbackFact": "The Tugela Falls is one of the tallest waterfalls in the world."
+    }
+  ]
+}

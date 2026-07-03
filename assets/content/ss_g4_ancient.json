@@ -1,0 +1,173 @@
+{
+  "id": "ss_g4_ancient",
+  "engine": "adventureJourney",
+  "grade": "grade4",
+  "subject": "Social Sciences",
+  "title": "Ancient Civilizations",
+  "tagline": "Journey to Egypt and Mesopotamia — discover the first great civilizations!",
+  "accentColorHex": "#43A047",
+  "emoji": "🏺",
+  "characterEmoji": "🏺",
+  "stages": [
+    {
+      "id": "ss_g4_ancient_0",
+      "name": "Stage 1",
+      "emoji": "🏺",
+      "themeColorHex": "#43A047",
+      "question": "Which river was central to Ancient Egyptian civilisation?",
+      "options": [
+        "Writing (cuneiform)",
+        "That the dead lived on in another world",
+        "The Nile",
+        "Mapungubwe"
+      ],
+      "correctOption": "The Nile",
+      "correctFeedback": "Yes! The Nile is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The Nile."
+    },
+    {
+      "id": "ss_g4_ancient_1",
+      "name": "Stage 2",
+      "emoji": "🏺",
+      "themeColorHex": "#43A047",
+      "question": "What structures did the Ancient Egyptians build as tombs?",
+      "options": [
+        "Pyramids",
+        "The Nile",
+        "That the dead lived on in another world",
+        "A republic"
+      ],
+      "correctOption": "Pyramids",
+      "correctFeedback": "Yes! Pyramids is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Pyramids."
+    },
+    {
+      "id": "ss_g4_ancient_2",
+      "name": "Stage 3",
+      "emoji": "🏺",
+      "themeColorHex": "#43A047",
+      "question": "What writing system did Ancient Egyptians use?",
+      "options": [
+        "Hieroglyphics",
+        "Ancient China",
+        "That the dead lived on in another world",
+        "Stone structures and walls"
+      ],
+      "correctOption": "Hieroglyphics",
+      "correctFeedback": "Yes! Hieroglyphics is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Hieroglyphics."
+    },
+    {
+      "id": "ss_g4_ancient_3",
+      "name": "Stage 4",
+      "emoji": "🏺",
+      "themeColorHex": "#43A047",
+      "question": "Which ancient civilisation built the Great Wall?",
+      "options": [
+        "Hieroglyphics",
+        "Ancient Greece",
+        "Stone structures and walls",
+        "Ancient China"
+      ],
+      "correctOption": "Ancient China",
+      "correctFeedback": "Yes! Ancient China is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Ancient China."
+    },
+    {
+      "id": "ss_g4_ancient_4",
+      "name": "Stage 5",
+      "emoji": "🏺",
+      "themeColorHex": "#43A047",
+      "question": "What was Ancient Rome's system of government called?",
+      "options": [
+        "Writing (cuneiform)",
+        "A republic",
+        "Ancient Greece",
+        "Pyramids"
+      ],
+      "correctOption": "A republic",
+      "correctFeedback": "Yes! A republic is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A republic."
+    },
+    {
+      "id": "ss_g4_ancient_5",
+      "name": "Stage 6",
+      "emoji": "🏺",
+      "themeColorHex": "#43A047",
+      "question": "Which ancient civilisation is known for the Parthenon?",
+      "options": [
+        "Ancient China",
+        "Hieroglyphics",
+        "Ancient Greece",
+        "That the dead lived on in another world"
+      ],
+      "correctOption": "Ancient Greece",
+      "correctFeedback": "Yes! Ancient Greece is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Ancient Greece."
+    },
+    {
+      "id": "ss_g4_ancient_6",
+      "name": "Stage 7",
+      "emoji": "🏺",
+      "themeColorHex": "#43A047",
+      "question": "What did Ancient Mesopotamia develop that helped record history?",
+      "options": [
+        "Writing (cuneiform)",
+        "A republic",
+        "Pyramids",
+        "Hieroglyphics"
+      ],
+      "correctOption": "Writing (cuneiform)",
+      "correctFeedback": "Yes! Writing (cuneiform) is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Writing (cuneiform)."
+    },
+    {
+      "id": "ss_g4_ancient_7",
+      "name": "Stage 8",
+      "emoji": "🏺",
+      "themeColorHex": "#43A047",
+      "question": "What was Great Zimbabwe known for building?",
+      "options": [
+        "Mapungubwe",
+        "Pyramids",
+        "Stone structures and walls",
+        "The Nile"
+      ],
+      "correctOption": "Stone structures and walls",
+      "correctFeedback": "Yes! Stone structures and walls is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Stone structures and walls."
+    },
+    {
+      "id": "ss_g4_ancient_8",
+      "name": "Stage 9",
+      "emoji": "🏺",
+      "themeColorHex": "#43A047",
+      "question": "What did Ancient Egyptians believe about the afterlife?",
+      "options": [
+        "That the dead lived on in another world",
+        "Ancient Greece",
+        "Pyramids",
+        "Hieroglyphics"
+      ],
+      "correctOption": "That the dead lived on in another world",
+      "correctFeedback": "Yes! That the dead lived on in another world is right — onward!",
+      "wrongFeedback": "Not quite — the answer is That the dead lived on in another world."
+    },
+    {
+      "id": "ss_g4_ancient_9",
+      "name": "Stage 10",
+      "emoji": "🏺",
+      "themeColorHex": "#43A047",
+      "question": "Which ancient African kingdom traded gold along the Indian Ocean?",
+      "options": [
+        "The Nile",
+        "Mapungubwe",
+        "A republic",
+        "Stone structures and walls"
+      ],
+      "correctOption": "Mapungubwe",
+      "correctFeedback": "Yes! Mapungubwe is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Mapungubwe."
+    }
+  ]
+}

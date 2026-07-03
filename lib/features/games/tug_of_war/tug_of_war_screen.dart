@@ -80,7 +80,9 @@ class _TugOfWarScreenState extends State<TugOfWarScreen> {
     setState(() => _finished = true);
     final xpEarned = (_correct * 10) + (_total == _correct ? 50 : 0);
     final coinsEarned = xpEarned ~/ 10;
-    final result = _correct == _total ? 'perfect' : (_correct >= (_total / 2) ? 'win' : 'lose');
+    final result = _correct == _total
+        ? 'perfect'
+        : (_correct >= (_total / 2) ? 'win' : 'lose');
 
     final battleData = {
       'uid': widget.user?.uid,
@@ -104,17 +106,29 @@ class _TugOfWarScreenState extends State<TugOfWarScreen> {
         showDialog(
           context: context,
           builder: (_) => AlertDialog(
-            title: Text(result == 'perfect' ? 'Perfect! 🎉' : result == 'win' ? 'You won! 🎉' : 'Try again'),
-            content: Text('Score: $_correct/$_total\nXP: $xpEarned\nCoins: $coinsEarned'),
+            title: Text(result == 'perfect'
+                ? 'Perfect! 🎉'
+                : result == 'win'
+                    ? 'You won! 🎉'
+                    : 'Try again'),
+            content: Text(
+                'Score: $_correct/$_total\nXP: $xpEarned\nCoins: $coinsEarned'),
             actions: [
-              TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('OK')),
-              TextButton(onPressed: () => Navigator.of(context).popUntil((r) => r.isFirst), child: const Text('Home')),
+              TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('OK')),
+              TextButton(
+                  onPressed: () =>
+                      Navigator.of(context).popUntil((r) => r.isFirst),
+                  child: const Text('Home')),
             ],
           ),
         );
       }
     } catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error saving result: $e')));
+      if (mounted)
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Error saving result: $e')));
     }
   }
 
@@ -127,7 +141,9 @@ class _TugOfWarScreenState extends State<TugOfWarScreen> {
   @override
   Widget build(BuildContext context) {
     if (_finished) {
-      return Scaffold(appBar: AppBar(title: const Text('Tug of War')), body: Center(child: Text('Finished: $_correct/$_total')));
+      return Scaffold(
+          appBar: AppBar(title: const Text('Tug of War')),
+          body: Center(child: Text('Finished: $_correct/$_total')));
     }
     final q = _questions[_index];
     return Scaffold(
@@ -135,11 +151,22 @@ class _TugOfWarScreenState extends State<TugOfWarScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          Text('Question ${_index + 1} / $_total', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+          Text('Question ${_index + 1} / $_total',
+              style:
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
           const SizedBox(height: 12),
-          Text('${q['a']} × ${q['b']} = ?', style: const TextStyle(fontSize: 32)),
+          Text('${q['a']} × ${q['b']} = ?',
+              style: const TextStyle(fontSize: 32)),
           const SizedBox(height: 24),
-          Wrap(spacing: 8, runSpacing: 8, alignment: WrapAlignment.center, children: _optionsForQuestion(q).map((option) => ElevatedButton(onPressed: () => _submitAnswer(option), child: Text('$option'))).toList()),
+          Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              alignment: WrapAlignment.center,
+              children: _optionsForQuestion(q)
+                  .map((option) => ElevatedButton(
+                      onPressed: () => _submitAnswer(option),
+                      child: Text('$option')))
+                  .toList()),
           const Spacer(),
           Text('Time: $_timeTaken s'),
           const SizedBox(height: 8),

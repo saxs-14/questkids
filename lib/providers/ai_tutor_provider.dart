@@ -33,7 +33,11 @@ class AiTutorProvider extends ChangeNotifier {
 
   Future<void> speak(String text) async {
     // Remove emojis for better TTS experience
-    final cleanText = text.replaceAll(RegExp(r'[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]', unicode: true), '');
+    final cleanText = text.replaceAll(
+        RegExp(
+            r'[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]',
+            unicode: true),
+        '');
     await _flutterTts.speak(cleanText);
   }
 
@@ -55,19 +59,19 @@ class AiTutorProvider extends ChangeNotifier {
   Future<void> initSession(UserModel user) async {
     _currentUser = user;
     _gemini = GeminiService(preferredLanguage: user.preferredLanguage);
-    
+
     // Fetch chat history
     _messages = await _chatRepo.fetchChatHistory(user.uid);
-    
+
     // Convert to Gemini Content for history
     final history = _messages.map((m) {
-      return m.isUser 
-          ? Content.text(m.text) 
+      return m.isUser
+          ? Content.text(m.text)
           : Content.model([TextPart(m.text)]);
     }).toList();
-    
+
     _gemini.startNewSession(history: history);
-    
+
     if (_messages.isEmpty) {
       final text = 'Hi ${user.name.split(' ').first}! 👋 I am Questy, '
           'your personal AI tutor! I am here to help you with '
@@ -86,11 +90,11 @@ class AiTutorProvider extends ChangeNotifier {
 
   Future<void> sendMessage(String text) async {
     if (text.trim().isEmpty || _currentUser == null) return;
-    
+
     final userMessage = ChatMessageModel.user(text);
     _messages.add(userMessage);
     _chatRepo.saveMessage(_currentUser!.uid, userMessage);
-    
+
     _messages.add(ChatMessageModel.loading());
     _isTyping = true;
     notifyListeners();
@@ -101,7 +105,7 @@ class AiTutorProvider extends ChangeNotifier {
     final botMessage = ChatMessageModel.bot(response);
     _messages.add(botMessage);
     _chatRepo.saveMessage(_currentUser!.uid, botMessage);
-    
+
     _isTyping = false;
     speak(response);
     notifyListeners();
@@ -116,7 +120,7 @@ class AiTutorProvider extends ChangeNotifier {
     final userMessage = ChatMessageModel.user('📸 $prompt');
     _messages.add(userMessage);
     _chatRepo.saveMessage(_currentUser!.uid, userMessage);
-    
+
     _messages.add(ChatMessageModel.loading());
     _isTyping = true;
     notifyListeners();
@@ -130,7 +134,7 @@ class AiTutorProvider extends ChangeNotifier {
     final botMessage = ChatMessageModel.bot(response);
     _messages.add(botMessage);
     _chatRepo.saveMessage(_currentUser!.uid, botMessage);
-    
+
     _isTyping = false;
     speak(response);
     notifyListeners();
@@ -145,8 +149,7 @@ class AiTutorProvider extends ChangeNotifier {
   }) async {
     _recommendationLoading = true;
     notifyListeners();
-    _recommendation =
-        await _gemini.getPersonalisedRecommendation(
+    _recommendation = await _gemini.getPersonalisedRecommendation(
       name: name,
       grade: grade,
       subjectScores: subjectScores,

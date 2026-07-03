@@ -11,9 +11,17 @@ class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   static const _saLanguages = [
-    'English', 'Afrikaans', 'isiZulu', 'isiXhosa',
-    'siSwati', 'isiNdebele', 'Sesotho', 'Northern Sotho',
-    'Setswana', 'Tshivenda', 'Xitsonga',
+    'English',
+    'Afrikaans',
+    'isiZulu',
+    'isiXhosa',
+    'siSwati',
+    'isiNdebele',
+    'Sesotho',
+    'Northern Sotho',
+    'Setswana',
+    'Tshivenda',
+    'Xitsonga',
   ];
 
   @override
@@ -66,8 +74,7 @@ class ProfileScreen extends StatelessWidget {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
-              prefixIcon:
-                  const Icon(Icons.language, color: AppColors.primary),
+              prefixIcon: const Icon(Icons.language, color: AppColors.primary),
             ),
             items: _saLanguages.map((lang) {
               return DropdownMenuItem<String>(

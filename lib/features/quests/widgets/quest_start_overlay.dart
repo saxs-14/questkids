@@ -39,11 +39,16 @@ class _QuestStartOverlayState extends State<QuestStartOverlay>
 
   String get _subjectEmoji {
     switch (widget.subject) {
-      case 'Math':            return '🔢';
-      case 'Science':         return '🔬';
-      case 'English':         return '📖';
-      case 'Social Sciences': return '🌍';
-      default:                return '⚔️';
+      case 'Math':
+        return '🔢';
+      case 'Science':
+        return '🔬';
+      case 'English':
+        return '📖';
+      case 'Social Sciences':
+        return '🌍';
+      default:
+        return '⚔️';
     }
   }
 
@@ -51,24 +56,31 @@ class _QuestStartOverlayState extends State<QuestStartOverlay>
   void initState() {
     super.initState();
 
-    _bgCtrl    = AnimationController(vsync: this, duration: const Duration(milliseconds: 350));
-    _logoCtrl  = AnimationController(vsync: this, duration: const Duration(milliseconds: 700));
-    _textCtrl  = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
-    _pulseCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 900))
+    _bgCtrl = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 350));
+    _logoCtrl = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 700));
+    _textCtrl = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
+    _pulseCtrl = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 900))
       ..repeat(reverse: true);
-    _exitCtrl  = AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
+    _exitCtrl = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 400));
 
-    _bgFade     = CurvedAnimation(parent: _bgCtrl,   curve: Curves.easeIn);
-    _logoScale  = Tween<double>(begin: 0.2, end: 1.0)
+    _bgFade = CurvedAnimation(parent: _bgCtrl, curve: Curves.easeIn);
+    _logoScale = Tween<double>(begin: 0.2, end: 1.0)
         .animate(CurvedAnimation(parent: _logoCtrl, curve: Curves.elasticOut));
-    _logoFade   = CurvedAnimation(parent: _logoCtrl,
+    _logoFade = CurvedAnimation(
+        parent: _logoCtrl,
         curve: const Interval(0.0, 0.25, curve: Curves.easeIn));
     _titleSlide = Tween<Offset>(begin: const Offset(0, 0.6), end: Offset.zero)
-        .animate(CurvedAnimation(parent: _textCtrl, curve: Curves.easeOutCubic));
-    _titleFade  = CurvedAnimation(parent: _textCtrl, curve: Curves.easeIn);
+        .animate(
+            CurvedAnimation(parent: _textCtrl, curve: Curves.easeOutCubic));
+    _titleFade = CurvedAnimation(parent: _textCtrl, curve: Curves.easeIn);
     _pulseScale = Tween<double>(begin: 0.97, end: 1.03)
         .animate(CurvedAnimation(parent: _pulseCtrl, curve: Curves.easeInOut));
-    _exitFade   = Tween<double>(begin: 1.0, end: 0.0)
+    _exitFade = Tween<double>(begin: 1.0, end: 0.0)
         .animate(CurvedAnimation(parent: _exitCtrl, curve: Curves.easeIn));
 
     // Choreograph the entrance sequence
@@ -99,10 +111,14 @@ class _QuestStartOverlayState extends State<QuestStartOverlay>
 
   Color get _difficultyColor {
     switch (widget.difficulty.toLowerCase()) {
-      case 'easy':   return AppColors.green;
-      case 'medium': return AppColors.orange;
-      case 'hard':   return AppColors.error;
-      default:       return AppColors.primary;
+      case 'easy':
+        return AppColors.green;
+      case 'medium':
+        return AppColors.orange;
+      case 'hard':
+        return AppColors.error;
+      default:
+        return AppColors.primary;
     }
   }
 
@@ -147,7 +163,8 @@ class _QuestStartOverlayState extends State<QuestStartOverlay>
                                 gradient: RadialGradient(
                                   colors: [
                                     AppColors.primary.withValues(alpha: 0.4),
-                                    AppColors.primaryDark.withValues(alpha: 0.1),
+                                    AppColors.primaryDark
+                                        .withValues(alpha: 0.1),
                                   ],
                                 ),
                                 border: Border.all(
@@ -156,7 +173,8 @@ class _QuestStartOverlayState extends State<QuestStartOverlay>
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: AppColors.gold.withValues(alpha: 0.3),
+                                    color:
+                                        AppColors.gold.withValues(alpha: 0.3),
                                     blurRadius: 30,
                                     spreadRadius: 5,
                                   ),
@@ -209,7 +227,8 @@ class _QuestStartOverlayState extends State<QuestStartOverlay>
                                   color: Colors.white,
                                   shadows: [
                                     Shadow(
-                                      color: AppColors.primary.withValues(alpha: 0.8),
+                                      color: AppColors.primary
+                                          .withValues(alpha: 0.8),
                                       blurRadius: 12,
                                     ),
                                   ],
@@ -295,9 +314,9 @@ class _StarParticlesState extends State<_StarParticles>
   @override
   void initState() {
     super.initState();
-    _ctrl = AnimationController(
-        vsync: this, duration: const Duration(seconds: 4))
-      ..repeat();
+    _ctrl =
+        AnimationController(vsync: this, duration: const Duration(seconds: 4))
+          ..repeat();
     _particles = List.generate(
       20,
       (i) => _Particle(
@@ -367,7 +386,8 @@ class _ParticlePainter extends CustomPainter {
 
       tp.text = TextSpan(
         text: p.emoji,
-        style: TextStyle(fontSize: p.size, color: Colors.white.withValues(alpha: opacity)),
+        style: TextStyle(
+            fontSize: p.size, color: Colors.white.withValues(alpha: opacity)),
       );
       tp.layout();
       tp.paint(canvas, Offset(p.x * size.width, y * size.height));

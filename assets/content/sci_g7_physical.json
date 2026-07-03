@@ -1,0 +1,54 @@
+{
+  "id": "sci_g7_physical",
+  "engine": "runnerCollector",
+  "grade": "grade7",
+  "subject": "Natural Sciences",
+  "title": "Physical vs Chemical",
+  "tagline": "Classify physical and chemical changes with examples!",
+  "accentColorHex": "#00BFA5",
+  "emoji": "🧪",
+  "levels": [
+    {
+      "targetClass": "physical",
+      "missionLabel": "Collect physical changes! 🧊",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "physical": [
+          "melting ice",
+          "tearing paper",
+          "dissolving sugar in water",
+          "boiling water",
+          "freezing juice"
+        ],
+        "chemical": [
+          "burning wood",
+          "rusting iron",
+          "baking a cake",
+          "food digesting",
+          "milk turning sour"
+        ]
+      }
+    },
+    {
+      "targetClass": "chemical",
+      "missionLabel": "Collect chemical changes! 🔥",
+      "scrollSpeed": 0.11,
+      "buckets": {
+        "physical": [
+          "melting ice",
+          "tearing paper",
+          "dissolving sugar in water",
+          "boiling water",
+          "freezing juice"
+        ],
+        "chemical": [
+          "burning wood",
+          "rusting iron",
+          "baking a cake",
+          "food digesting",
+          "milk turning sour"
+        ]
+      }
+    }
+  ]
+}

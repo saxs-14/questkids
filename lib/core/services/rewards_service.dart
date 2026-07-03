@@ -131,8 +131,7 @@ class RewardsService {
     final rewards = await _rewardRepo.getRewards(uid);
     if (rewards == null) return [];
 
-    final existingBadgeIds =
-        rewards.badges.map((b) => b.id).toSet();
+    final existingBadgeIds = rewards.badges.map((b) => b.id).toSet();
     final newBadges = <BadgeModel>[];
 
     for (final badge in allBadges) {
@@ -158,8 +157,8 @@ class RewardsService {
               (badge['requirement'] as int);
           break;
         case 'english_completed':
-          earned = (subjectCounts['English'] ?? 0) >=
-              (badge['requirement'] as int);
+          earned =
+              (subjectCounts['English'] ?? 0) >= (badge['requirement'] as int);
           break;
         case 'social_completed':
           earned = (subjectCounts['Social Sciences'] ?? 0) >=
@@ -221,8 +220,7 @@ class RewardsService {
     await _userRepo.updateUser(uid, {'streakDays': newStreak});
   }
 
-  static int getLevelFromPoints(int points) =>
-      (points ~/ 100) + 1;
+  static int getLevelFromPoints(int points) => (points ~/ 100) + 1;
 
   static double getLevelProgress(int points) {
     return (points % 100) / 100;

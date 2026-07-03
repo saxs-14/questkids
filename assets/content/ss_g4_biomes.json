@@ -1,0 +1,208 @@
+{
+  "id": "ss_g4_biomes",
+  "engine": "explorerMap",
+  "grade": "grade4",
+  "subject": "Social Sciences",
+  "title": "Ecosystems",
+  "tagline": "Discover South Africa's biomes — fynbos, savanna, grassland and more!",
+  "accentColorHex": "#43A047",
+  "emoji": "🌍",
+  "pins": [
+    {
+      "id": "fynbos",
+      "name": "Fynbos",
+      "emoji": "🌸",
+      "x": 0.25,
+      "y": 0.85,
+      "facts": [
+        "Fynbos is found mainly in the Western Cape.",
+        "Fynbos is one of the richest floral kingdoms on Earth."
+      ],
+      "color": "#E53935"
+    },
+    {
+      "id": "savanna",
+      "name": "Savanna",
+      "emoji": "🦒",
+      "x": 0.62,
+      "y": 0.25,
+      "facts": [
+        "Savanna covers the largest area of South Africa.",
+        "The Kruger National Park lies in the savanna biome."
+      ],
+      "color": "#1E88E5"
+    },
+    {
+      "id": "grassland",
+      "name": "Grassland",
+      "emoji": "🌾",
+      "x": 0.55,
+      "y": 0.55,
+      "facts": [
+        "Grassland covers much of the Free State and Highveld.",
+        "Grassland has few trees and is good for grazing animals."
+      ],
+      "color": "#43A047"
+    },
+    {
+      "id": "desert",
+      "name": "Desert",
+      "emoji": "🏜️",
+      "x": 0.25,
+      "y": 0.4,
+      "facts": [
+        "The Namaqualand desert bursts into flower after rain.",
+        "Deserts receive very little rainfall each year."
+      ],
+      "color": "#FB8C00"
+    },
+    {
+      "id": "forest",
+      "name": "Forest",
+      "emoji": "🌳",
+      "x": 0.72,
+      "y": 0.65,
+      "facts": [
+        "The Knysna forest is one of South Africa’s largest indigenous forests.",
+        "Forests have the highest rainfall of all SA biomes."
+      ],
+      "color": "#8E24AA"
+    },
+    {
+      "id": "thicket",
+      "name": "Thicket",
+      "emoji": "🌿",
+      "x": 0.55,
+      "y": 0.8,
+      "facts": [
+        "Thicket is dense, thorny vegetation found in the Eastern Cape.",
+        "Thicket provides food for elephants and other browsers."
+      ],
+      "color": "#00897B"
+    },
+    {
+      "id": "wetland",
+      "name": "Wetland",
+      "emoji": "💧",
+      "x": 0.8,
+      "y": 0.55,
+      "facts": [
+        "Wetlands like the iSimangaliso Wetland Park filter water naturally.",
+        "Wetlands are important breeding grounds for birds and fish."
+      ],
+      "color": "#F4511E"
+    }
+  ],
+  "questions": [
+    {
+      "question": "Which one is true: \"Fynbos is found mainly in the Western Cape.\"?",
+      "correctId": "fynbos",
+      "optionIds": [
+        "fynbos",
+        "thicket",
+        "forest",
+        "desert"
+      ],
+      "feedbackFact": "Fynbos is found mainly in the Western Cape."
+    },
+    {
+      "question": "Which one is true: \"Savanna covers the largest area of South Africa.\"?",
+      "correctId": "savanna",
+      "optionIds": [
+        "savanna",
+        "fynbos",
+        "wetland",
+        "thicket"
+      ],
+      "feedbackFact": "Savanna covers the largest area of South Africa."
+    },
+    {
+      "question": "Which one is true: \"Grassland covers much of the Free State and Highveld.\"?",
+      "correctId": "grassland",
+      "optionIds": [
+        "thicket",
+        "wetland",
+        "grassland",
+        "savanna"
+      ],
+      "feedbackFact": "Grassland covers much of the Free State and Highveld."
+    },
+    {
+      "question": "Which one is true: \"The Namaqualand desert bursts into flower after rain.\"?",
+      "correctId": "desert",
+      "optionIds": [
+        "desert",
+        "grassland",
+        "forest",
+        "savanna"
+      ],
+      "feedbackFact": "The Namaqualand desert bursts into flower after rain."
+    },
+    {
+      "question": "Which one is true: \"The Knysna forest is one of South Africa’s largest indigenous forests.\"?",
+      "correctId": "forest",
+      "optionIds": [
+        "fynbos",
+        "forest",
+        "desert",
+        "wetland"
+      ],
+      "feedbackFact": "The Knysna forest is one of South Africa’s largest indigenous forests."
+    },
+    {
+      "question": "Which one is true: \"Thicket is dense, thorny vegetation found in the Eastern Cape.\"?",
+      "correctId": "thicket",
+      "optionIds": [
+        "fynbos",
+        "thicket",
+        "grassland",
+        "forest"
+      ],
+      "feedbackFact": "Thicket is dense, thorny vegetation found in the Eastern Cape."
+    },
+    {
+      "question": "Which one is true: \"Wetlands like the iSimangaliso Wetland Park filter water naturally.\"?",
+      "correctId": "wetland",
+      "optionIds": [
+        "wetland",
+        "thicket",
+        "savanna",
+        "forest"
+      ],
+      "feedbackFact": "Wetlands like the iSimangaliso Wetland Park filter water naturally."
+    },
+    {
+      "question": "Which one is true: \"Fynbos is one of the richest floral kingdoms on Earth.\"?",
+      "correctId": "fynbos",
+      "optionIds": [
+        "thicket",
+        "wetland",
+        "fynbos",
+        "forest"
+      ],
+      "feedbackFact": "Fynbos is one of the richest floral kingdoms on Earth."
+    },
+    {
+      "question": "Which one is true: \"The Kruger National Park lies in the savanna biome.\"?",
+      "correctId": "savanna",
+      "optionIds": [
+        "forest",
+        "savanna",
+        "thicket",
+        "wetland"
+      ],
+      "feedbackFact": "The Kruger National Park lies in the savanna biome."
+    },
+    {
+      "question": "Which one is true: \"Grassland has few trees and is good for grazing animals.\"?",
+      "correctId": "grassland",
+      "optionIds": [
+        "forest",
+        "wetland",
+        "desert",
+        "grassland"
+      ],
+      "feedbackFact": "Grassland has few trees and is good for grazing animals."
+    }
+  ]
+}

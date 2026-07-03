@@ -1,0 +1,133 @@
+{
+  "id": "sci_g7_health",
+  "engine": "tugOfWar",
+  "grade": "grade7",
+  "subject": "Natural Sciences",
+  "title": "Human Health",
+  "tagline": "Understand diseases, the immune system and healthy lifestyle choices!",
+  "accentColorHex": "#00BFA5",
+  "emoji": "💉",
+  "questionType": "general-knowledge",
+  "sampleItems": [
+    {
+      "question": "What is the largest organ in the human body?",
+      "options": [
+        "Wash your hands and eat healthily",
+        "Heart",
+        "Skin",
+        "Circulatory system"
+      ],
+      "answerIndex": 2,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Skin — that's correct!"
+    },
+    {
+      "question": "Which system carries blood around your body?",
+      "options": [
+        "Kidneys",
+        "Heart",
+        "Germs",
+        "Circulatory system"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Circulatory system — that's correct!"
+    },
+    {
+      "question": "What vitamin does sunlight help your body make?",
+      "options": [
+        "Skin",
+        "Vitamin D",
+        "Eating the right amounts of different food groups",
+        "Circulatory system"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Vitamin D — that's correct!"
+    },
+    {
+      "question": "What is the main function of the lungs?",
+      "options": [
+        "Wash your hands and eat healthily",
+        "Kidneys",
+        "Circulatory system",
+        "To exchange oxygen and carbon dioxide"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "To exchange oxygen and carbon dioxide — that's correct!"
+    },
+    {
+      "question": "Which organ pumps blood around the body?",
+      "options": [
+        "It keeps the heart muscle strong",
+        "Heart",
+        "Vitamin D",
+        "Kidneys"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Heart — that's correct!"
+    },
+    {
+      "question": "What is a balanced diet?",
+      "options": [
+        "Vitamin D",
+        "Eating the right amounts of different food groups",
+        "Heart",
+        "To exchange oxygen and carbon dioxide"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Eating the right amounts of different food groups — that's correct!"
+    },
+    {
+      "question": "Why is exercise important for the heart?",
+      "options": [
+        "Germs",
+        "Skin",
+        "It keeps the heart muscle strong",
+        "Kidneys"
+      ],
+      "answerIndex": 2,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "It keeps the heart muscle strong — that's correct!"
+    },
+    {
+      "question": "What can spread disease if you don't wash your hands?",
+      "options": [
+        "To exchange oxygen and carbon dioxide",
+        "Germs",
+        "Eating the right amounts of different food groups",
+        "Wash your hands and eat healthily"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Germs — that's correct!"
+    },
+    {
+      "question": "What organ filters waste from your blood?",
+      "options": [
+        "Eating the right amounts of different food groups",
+        "Heart",
+        "Kidneys",
+        "Circulatory system"
+      ],
+      "answerIndex": 2,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Kidneys — that's correct!"
+    },
+    {
+      "question": "What should you do to protect your body from disease?",
+      "options": [
+        "Skin",
+        "Kidneys",
+        "It keeps the heart muscle strong",
+        "Wash your hands and eat healthily"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "Wash your hands and eat healthily — that's correct!"
+    }
+  ]
+}

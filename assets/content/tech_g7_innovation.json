@@ -1,0 +1,173 @@
+{
+  "id": "tech_g7_innovation",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Innovation Challenge",
+  "tagline": "Identify a problem, brainstorm solutions and present your innovation!",
+  "accentColorHex": "#7C4DFF",
+  "emoji": "💡",
+  "characterEmoji": "💡",
+  "stages": [
+    {
+      "id": "tech_g7_innovation_0",
+      "name": "Stage 1",
+      "emoji": "💡",
+      "themeColorHex": "#7C4DFF",
+      "question": "What is innovation?",
+      "options": [
+        "Creating new ideas or improving existing ones",
+        "Identifying the problem",
+        "Generating many possible ideas",
+        "It shows if a solution actually works"
+      ],
+      "correctOption": "Creating new ideas or improving existing ones",
+      "correctFeedback": "Yes! Creating new ideas or improving existing ones is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Creating new ideas or improving existing ones."
+    },
+    {
+      "id": "tech_g7_innovation_1",
+      "name": "Stage 2",
+      "emoji": "💡",
+      "themeColorHex": "#7C4DFF",
+      "question": "What is the first step in the design process?",
+      "options": [
+        "To repeat and refine a design",
+        "It shows if a solution actually works",
+        "It solves a real problem effectively",
+        "Identifying the problem"
+      ],
+      "correctOption": "Identifying the problem",
+      "correctFeedback": "Yes! Identifying the problem is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Identifying the problem."
+    },
+    {
+      "id": "tech_g7_innovation_2",
+      "name": "Stage 3",
+      "emoji": "💡",
+      "themeColorHex": "#7C4DFF",
+      "question": "Why is testing important in design?",
+      "options": [
+        "Generating many possible ideas",
+        "It shows if a solution actually works",
+        "To protect their invention from being copied",
+        "An early sample model of a design"
+      ],
+      "correctOption": "It shows if a solution actually works",
+      "correctFeedback": "Yes! It shows if a solution actually works is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It shows if a solution actually works."
+    },
+    {
+      "id": "tech_g7_innovation_3",
+      "name": "Stage 4",
+      "emoji": "💡",
+      "themeColorHex": "#7C4DFF",
+      "question": "What is a 'prototype'?",
+      "options": [
+        "An early sample model of a design",
+        "It helps improve the design to meet real needs",
+        "It shows if a solution actually works",
+        "To repeat and refine a design"
+      ],
+      "correctOption": "An early sample model of a design",
+      "correctFeedback": "Yes! An early sample model of a design is right — onward!",
+      "wrongFeedback": "Not quite — the answer is An early sample model of a design."
+    },
+    {
+      "id": "tech_g7_innovation_4",
+      "name": "Stage 5",
+      "emoji": "💡",
+      "themeColorHex": "#7C4DFF",
+      "question": "Why is user feedback important in innovation?",
+      "options": [
+        "Identifying the problem",
+        "To repeat and refine a design",
+        "Creating new ideas or improving existing ones",
+        "It helps improve the design to meet real needs"
+      ],
+      "correctOption": "It helps improve the design to meet real needs",
+      "correctFeedback": "Yes! It helps improve the design to meet real needs is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It helps improve the design to meet real needs."
+    },
+    {
+      "id": "tech_g7_innovation_5",
+      "name": "Stage 6",
+      "emoji": "💡",
+      "themeColorHex": "#7C4DFF",
+      "question": "What does 'iterate' mean in design?",
+      "options": [
+        "Identifying the problem",
+        "It solves a real problem effectively",
+        "Design that minimises harm to the environment",
+        "To repeat and refine a design"
+      ],
+      "correctOption": "To repeat and refine a design",
+      "correctFeedback": "Yes! To repeat and refine a design is right — onward!",
+      "wrongFeedback": "Not quite — the answer is To repeat and refine a design."
+    },
+    {
+      "id": "tech_g7_innovation_6",
+      "name": "Stage 7",
+      "emoji": "💡",
+      "themeColorHex": "#7C4DFF",
+      "question": "What is 'sustainable design'?",
+      "options": [
+        "It shows if a solution actually works",
+        "Creating new ideas or improving existing ones",
+        "Design that minimises harm to the environment",
+        "Identifying the problem"
+      ],
+      "correctOption": "Design that minimises harm to the environment",
+      "correctFeedback": "Yes! Design that minimises harm to the environment is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Design that minimises harm to the environment."
+    },
+    {
+      "id": "tech_g7_innovation_7",
+      "name": "Stage 8",
+      "emoji": "💡",
+      "themeColorHex": "#7C4DFF",
+      "question": "Why do inventors patent their ideas?",
+      "options": [
+        "It solves a real problem effectively",
+        "Generating many possible ideas",
+        "Creating new ideas or improving existing ones",
+        "To protect their invention from being copied"
+      ],
+      "correctOption": "To protect their invention from being copied",
+      "correctFeedback": "Yes! To protect their invention from being copied is right — onward!",
+      "wrongFeedback": "Not quite — the answer is To protect their invention from being copied."
+    },
+    {
+      "id": "tech_g7_innovation_8",
+      "name": "Stage 9",
+      "emoji": "💡",
+      "themeColorHex": "#7C4DFF",
+      "question": "What is 'brainstorming' used for?",
+      "options": [
+        "An early sample model of a design",
+        "Generating many possible ideas",
+        "It shows if a solution actually works",
+        "Identifying the problem"
+      ],
+      "correctOption": "Generating many possible ideas",
+      "correctFeedback": "Yes! Generating many possible ideas is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Generating many possible ideas."
+    },
+    {
+      "id": "tech_g7_innovation_9",
+      "name": "Stage 10",
+      "emoji": "💡",
+      "themeColorHex": "#7C4DFF",
+      "question": "What makes an innovation successful?",
+      "options": [
+        "It helps improve the design to meet real needs",
+        "Design that minimises harm to the environment",
+        "Creating new ideas or improving existing ones",
+        "It solves a real problem effectively"
+      ],
+      "correctOption": "It solves a real problem effectively",
+      "correctFeedback": "Yes! It solves a real problem effectively is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It solves a real problem effectively."
+    }
+  ]
+}

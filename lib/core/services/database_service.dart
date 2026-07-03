@@ -21,8 +21,7 @@ class DatabaseService {
     );
   }
 
-  static Future<void> _onCreate(
-      Database db, int version) async {
+  static Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE users (
         uid TEXT PRIMARY KEY,
@@ -112,8 +111,7 @@ class DatabaseService {
 
   // ── Generic helpers ──────────────────────────────────
 
-  static Future<int> insert(
-      String table, Map<String, dynamic> data) async {
+  static Future<int> insert(String table, Map<String, dynamic> data) async {
     final db = await database;
     return await db.insert(
       table,
@@ -129,8 +127,7 @@ class DatabaseService {
     List<dynamic> whereArgs,
   ) async {
     final db = await database;
-    return await db.update(table, data,
-        where: where, whereArgs: whereArgs);
+    return await db.update(table, data, where: where, whereArgs: whereArgs);
   }
 
   static Future<int> delete(
@@ -139,8 +136,7 @@ class DatabaseService {
     List<dynamic> whereArgs,
   ) async {
     final db = await database;
-    return await db.delete(table,
-        where: where, whereArgs: whereArgs);
+    return await db.delete(table, where: where, whereArgs: whereArgs);
   }
 
   static Future<List<Map<String, dynamic>>> query(

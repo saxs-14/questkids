@@ -19,26 +19,22 @@ class ActivityRepository {
         .where('grade', isEqualTo: grade)
         .get();
     return query.docs
-        .map((doc) => ActivityModel.fromMap(
-            doc.data() as Map<String, dynamic>, doc.id))
+        .map((doc) =>
+            ActivityModel.fromMap(doc.data() as Map<String, dynamic>, doc.id))
         .toList();
   }
 
   Future<List<ActivityModel>> getActivitiesByGrade(String grade) async {
-    final query = await _activities
-        .where('grade', isEqualTo: grade)
-        .get();
+    final query = await _activities.where('grade', isEqualTo: grade).get();
     return query.docs
-        .map((doc) => ActivityModel.fromMap(
-            doc.data() as Map<String, dynamic>, doc.id))
+        .map((doc) =>
+            ActivityModel.fromMap(doc.data() as Map<String, dynamic>, doc.id))
         .toList();
   }
 
   Stream<List<ActivityModel>> watchActivities(String grade) {
-    return _activities
-        .where('grade', isEqualTo: grade)
-        .snapshots()
-        .map((snap) => snap.docs
+    return _activities.where('grade', isEqualTo: grade).snapshots().map(
+        (snap) => snap.docs
             .map((doc) => ActivityModel.fromMap(
                 doc.data() as Map<String, dynamic>, doc.id))
             .toList());

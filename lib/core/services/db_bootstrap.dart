@@ -5,5 +5,4 @@
 /// it is a no-op because [LocalStorageService] uses shared_preferences.
 library;
 
-export 'db_bootstrap_stub.dart'
-    if (dart.library.io) 'db_bootstrap_io.dart';
+export 'db_bootstrap_stub.dart' if (dart.library.io) 'db_bootstrap_io.dart';

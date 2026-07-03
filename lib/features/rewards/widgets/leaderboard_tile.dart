@@ -41,9 +41,7 @@ class LeaderboardTile extends StatelessWidget {
             : Theme.of(context).cardTheme.color,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isCurrentUser
-              ? AppColors.primary
-              : Colors.transparent,
+          color: isCurrentUser ? AppColors.primary : Colors.transparent,
           width: 2,
         ),
         boxShadow: [
@@ -61,12 +59,10 @@ class LeaderboardTile extends StatelessWidget {
           SizedBox(
             width: 40,
             child: rank <= 3
-                ? Text(_rankEmoji,
-                    style: const TextStyle(fontSize: 24))
+                ? Text(_rankEmoji, style: const TextStyle(fontSize: 24))
                 : Text(
                     _rankEmoji,
-                    style: AppTextStyles.h4
-                        .copyWith(color: _rankColor),
+                    style: AppTextStyles.h4.copyWith(color: _rankColor),
                     textAlign: TextAlign.center,
                   ),
           ),
@@ -75,11 +71,8 @@ class LeaderboardTile extends StatelessWidget {
             radius: 24,
             backgroundColor: AppColors.primary.withValues(alpha: 0.15),
             child: Text(
-              user.name.isNotEmpty
-                  ? user.name[0].toUpperCase()
-                  : '?',
-              style: AppTextStyles.h4
-                  .copyWith(color: AppColors.primary),
+              user.name.isNotEmpty ? user.name[0].toUpperCase() : '?',
+              style: AppTextStyles.h4.copyWith(color: AppColors.primary),
             ),
           ),
           const SizedBox(width: 14),
@@ -93,9 +86,7 @@ class LeaderboardTile extends StatelessWidget {
                       user.name,
                       style: AppTextStyles.bodyLarge.copyWith(
                         fontWeight: FontWeight.w700,
-                        color: isCurrentUser
-                            ? AppColors.primary
-                            : null,
+                        color: isCurrentUser ? AppColors.primary : null,
                       ),
                     ),
                     if (isCurrentUser) ...[
@@ -116,8 +107,7 @@ class LeaderboardTile extends StatelessWidget {
                     ],
                   ],
                 ),
-                Text(user.grade,
-                    style: AppTextStyles.bodySmall),
+                Text(user.grade, style: AppTextStyles.bodySmall),
               ],
             ),
           ),
@@ -126,16 +116,14 @@ class LeaderboardTile extends StatelessWidget {
             children: [
               Text(
                 '${user.totalPoints}',
-                style: AppTextStyles.h4
-                    .copyWith(color: AppColors.gold),
+                style: AppTextStyles.h4.copyWith(color: AppColors.gold),
               ),
               Row(
                 children: [
-                  const Text('🔥',
-                      style: TextStyle(fontSize: 11)),
+                  const Text('🔥', style: TextStyle(fontSize: 11)),
                   Text(' ${user.streakDays}d',
-                      style: AppTextStyles.bodySmall.copyWith(
-                          color: AppColors.orange)),
+                      style: AppTextStyles.bodySmall
+                          .copyWith(color: AppColors.orange)),
                 ],
               ),
             ],

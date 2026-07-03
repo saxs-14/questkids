@@ -84,7 +84,13 @@ class ParentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> sendLinkRequest(String childUid, String linkMethod, String requestingParentUid, String requestingParentName, String requestingParentEmail, String requestingParentRole) async {
+  Future<void> sendLinkRequest(
+      String childUid,
+      String linkMethod,
+      String requestingParentUid,
+      String requestingParentName,
+      String requestingParentEmail,
+      String requestingParentRole) async {
     final child = await _parentRepo.findChildByCode(childUid);
     // childUid param here should be real child uid or code; caller should pass childUid
     final data = {
@@ -101,8 +107,10 @@ class ParentProvider extends ChangeNotifier {
     await _parentRepo.sendLinkRequest(data);
   }
 
-  Future<void> approveLinkRequest(String requestId, String childUid, String requestingParentUid) async {
-    await _parentRepo.approveLinkRequest(requestId, childUid, requestingParentUid);
+  Future<void> approveLinkRequest(
+      String requestId, String childUid, String requestingParentUid) async {
+    await _parentRepo.approveLinkRequest(
+        requestId, childUid, requestingParentUid);
     // create notification
     await _notifRepo.createNotification({
       'recipientUid': requestingParentUid,
@@ -132,7 +140,8 @@ class ParentProvider extends ChangeNotifier {
     await _parentRepo.uploadDocument(doc);
   }
 
-  Future<void> logMoodCheckin(String childUid, String mood, String emoji, String? note) async {
+  Future<void> logMoodCheckin(
+      String childUid, String mood, String emoji, String? note) async {
     await _parentRepo.logMood({
       'childUid': childUid,
       'loggedByUid': '',
@@ -142,7 +151,8 @@ class ParentProvider extends ChangeNotifier {
     });
   }
 
-  Future<Map<String, dynamic>> getAnalytics(String childUid, DateTime from, DateTime to) async {
+  Future<Map<String, dynamic>> getAnalytics(
+      String childUid, DateTime from, DateTime to) async {
     return await _parentRepo.getChildAnalytics(childUid, from, to);
   }
 
