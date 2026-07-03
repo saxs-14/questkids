@@ -15,6 +15,25 @@ what to do next.
   errors) and was used as the primary correctness gate instead. Re-run
   `flutter test` on a normal dev machine or CI runner before shipping.
 
+## Android release build (Phase 4)
+
+- **`flutter build appbundle --release` could not be run in this sandbox.**
+  No Android SDK is installed, and the egress policy blocks
+  `dl.google.com` (403), so `sdkmanager`/the SDK components can't be
+  fetched here either. `flutter build web --release` was used instead as
+  the strongest available compile smoke test (it compiles the full Dart
+  codebase, including everything touched in Phases 0–3) and came back
+  clean. **Before the demo, run on the actual dev machine:**
+  ```bash
+  flutter build appbundle --release
+  # if R8 OOMs on the 8GB machine, retry once:
+  flutter build appbundle --release --no-shrink
+  ```
+  `android/gradle.properties` still has `-Xmx3G -XX:MaxMetaspaceSize=512m`,
+  `org.gradle.daemon=false`, `org.gradle.workers.max=4` from before — untouched
+  by this pass except removing the machine-specific `org.gradle.java.home`
+  line (Phase 1).
+
 ## Data model (Phase 0, firestore.rules)
 
 - Teacher reads on `users/{uid}`, `game_sessions/{sessionId}`,
