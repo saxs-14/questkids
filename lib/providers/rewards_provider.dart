@@ -26,20 +26,14 @@ class RewardsProvider extends ChangeNotifier {
   int get level => _rewards?.level ?? 1;
   int get streakDays => _rewards?.streakDays ?? 0;
   List<BadgeModel> get badges => _rewards?.badges ?? [];
-  List<AchievementModel> get achievements =>
-      _rewards?.achievements ?? [];
+  List<AchievementModel> get achievements => _rewards?.achievements ?? [];
 
-  double get levelProgress =>
-      RewardsService.getLevelProgress(totalPoints);
-  String get levelTitle =>
-      RewardsService.getLevelTitle(level);
-  String get levelEmoji =>
-      RewardsService.getLevelEmoji(level);
+  double get levelProgress => RewardsService.getLevelProgress(totalPoints);
+  String get levelTitle => RewardsService.getLevelTitle(level);
+  String get levelEmoji => RewardsService.getLevelEmoji(level);
 
-  int get questsCompleted =>
-      _progressHistory.where((p) => p.completed).length;
-  int get perfectScores =>
-      _progressHistory.where((p) => p.score == 100).length;
+  int get questsCompleted => _progressHistory.where((p) => p.completed).length;
+  int get perfectScores => _progressHistory.where((p) => p.score == 100).length;
 
   Map<String, int> get subjectCounts {
     final counts = <String, int>{};

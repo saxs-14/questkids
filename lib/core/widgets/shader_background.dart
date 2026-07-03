@@ -56,7 +56,8 @@ class _ShaderBackgroundState extends State<ShaderBackground>
       setState(() => _shader = _program!.fragmentShader());
       _ticker = createTicker((elapsed) {
         _time.value = elapsed.inMicroseconds / 1e6;
-      })..start();
+      })
+        ..start();
     } catch (_) {
       _loadFailed = true; // never retry; gradient fallback is fine
       if (mounted) setState(() {});

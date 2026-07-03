@@ -12,7 +12,8 @@ class AdventureJourneySession extends GameSessionState {
   /// [pack] is the pre-loaded content pack JSON (see
   /// lib/features/games/core/content_pack_loader.dart), or null to fall
   /// back to the built-in demo content.
-  AdventureJourneySession(GameConfig config, this.uid, {Map<String, dynamic>? pack})
+  AdventureJourneySession(GameConfig config, this.uid,
+      {Map<String, dynamic>? pack})
       : super(config) {
     _journeyConfig = pack != null
         ? AdventureJourneyConfig.fromPack(pack)
@@ -46,8 +47,8 @@ class AdventureJourneySession extends GameSessionState {
 
   AdventureJourneyConfig get journeyConfig => _journeyConfig;
 
-  JourneyStage get currentStage =>
-      _journeyConfig.stages[questionIndex.clamp(0, _journeyConfig.stages.length - 1)];
+  JourneyStage get currentStage => _journeyConfig
+      .stages[questionIndex.clamp(0, _journeyConfig.stages.length - 1)];
 
   // ── Answer handling ────────────────────────────────────────────────────────
 
@@ -83,7 +84,8 @@ class AdventureJourneySession extends GameSessionState {
       Future.delayed(const Duration(milliseconds: 900), () {
         _dropletState = DropletState.idle;
         _feedbackText = null;
-        recordAnswer(false); // records the wrong attempt but does NOT advance stage
+        recordAnswer(
+            false); // records the wrong attempt but does NOT advance stage
         // Restore questionIndex so player retries same stage
         notifyListeners();
       });

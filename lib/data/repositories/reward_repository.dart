@@ -5,16 +5,15 @@ import '../../core/constants/app_constants.dart';
 class RewardRepository {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  CollectionReference get _rewards =>
-      _db.collection(AppConstants.colRewards);
+  CollectionReference get _rewards => _db.collection(AppConstants.colRewards);
 
   Future<void> initRewards(String uid) async {
     final existing = await _rewards.doc(uid).get();
     if (!existing.exists) {
       await _rewards.doc(uid).set(RewardModel(
-        uid: uid,
-        lastActiveDate: DateTime.now(),
-      ).toMap());
+            uid: uid,
+            lastActiveDate: DateTime.now(),
+          ).toMap());
     }
   }
 

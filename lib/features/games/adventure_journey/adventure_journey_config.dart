@@ -5,13 +5,13 @@ import '../core/game_config.dart';
 class JourneyStage {
   final String id;
   final String name;
-  final String emoji;           // background theme emoji
+  final String emoji; // background theme emoji
   final Color themeColor;
   final String question;
-  final List<String> options;   // exactly 4 options
+  final List<String> options; // exactly 4 options
   final String correctOption;
   final String correctFeedback; // shown on correct answer
-  final String wrongFeedback;   // shown on wrong answer
+  final String wrongFeedback; // shown on wrong answer
 
   const JourneyStage({
     required this.id,
@@ -90,8 +90,10 @@ class AdventureJourneyConfig {
           question: 'What process turns liquid water into water vapour?',
           options: ['Evaporation', 'Condensation', 'Precipitation', 'Runoff'],
           correctOption: 'Evaporation',
-          correctFeedback: 'Correct! The sun heats the water and it evaporates! ☀️',
-          wrongFeedback: 'Evaporation is when heat turns liquid water into vapour!',
+          correctFeedback:
+              'Correct! The sun heats the water and it evaporates! ☀️',
+          wrongFeedback:
+              'Evaporation is when heat turns liquid water into vapour!',
         ),
         JourneyStage(
           id: 'clouds',
@@ -107,7 +109,8 @@ class AdventureJourneyConfig {
           ],
           correctOption: 'Tiny water droplets',
           correctFeedback: 'Yes! Clouds are made of tiny water droplets! ⛅',
-          wrongFeedback: 'Clouds form when vapour cools into tiny water droplets!',
+          wrongFeedback:
+              'Clouds form when vapour cools into tiny water droplets!',
         ),
         JourneyStage(
           id: 'condensation',
@@ -116,10 +119,17 @@ class AdventureJourneyConfig {
           themeColor: Color(0xFF546E7A),
           question:
               'What is it called when water vapour cools and turns back to liquid?',
-          options: ['Condensation', 'Evaporation', 'Transpiration', 'Filtration'],
+          options: [
+            'Condensation',
+            'Evaporation',
+            'Transpiration',
+            'Filtration'
+          ],
           correctOption: 'Condensation',
-          correctFeedback: 'That\'s right! Condensation forms clouds and dew! 💧',
-          wrongFeedback: 'Condensation = vapour cooling back into liquid water!',
+          correctFeedback:
+              'That\'s right! Condensation forms clouds and dew! 💧',
+          wrongFeedback:
+              'Condensation = vapour cooling back into liquid water!',
         ),
         JourneyStage(
           id: 'rainfall',
@@ -129,8 +139,10 @@ class AdventureJourneyConfig {
           question: 'What is the term for water falling from clouds?',
           options: ['Precipitation', 'Evaporation', 'Condensation', 'Runoff'],
           correctOption: 'Precipitation',
-          correctFeedback: 'Brilliant! Rain, hail, and snow are all precipitation! 🌧️',
-          wrongFeedback: 'Precipitation includes any water that falls from clouds!',
+          correctFeedback:
+              'Brilliant! Rain, hail, and snow are all precipitation! 🌧️',
+          wrongFeedback:
+              'Precipitation includes any water that falls from clouds!',
         ),
         JourneyStage(
           id: 'collection',

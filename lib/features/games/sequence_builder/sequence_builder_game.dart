@@ -17,7 +17,8 @@ class SequenceBuilderGame extends StatefulWidget {
   final GameConfig config;
   final dynamic user;
 
-  const SequenceBuilderGame({super.key, required this.config, required this.user});
+  const SequenceBuilderGame(
+      {super.key, required this.config, required this.user});
 
   @override
   State<SequenceBuilderGame> createState() => _SequenceBuilderGameState();
@@ -38,8 +39,9 @@ class _SequenceBuilderGameState extends State<SequenceBuilderGame>
   @override
   void initState() {
     super.initState();
-    _ambient = AnimationController(vsync: this, duration: const Duration(seconds: 6))
-      ..repeat();
+    _ambient =
+        AnimationController(vsync: this, duration: const Duration(seconds: 6))
+          ..repeat();
     _confetti = ConfettiController(duration: const Duration(milliseconds: 800));
     _initSession();
   }
@@ -48,7 +50,8 @@ class _SequenceBuilderGameState extends State<SequenceBuilderGame>
     final pack = await loadContentPack(widget.config);
     if (!mounted) return;
     _pack = pack;
-    final session = SequenceBuilderSession(widget.config, _uid, pack: pack)..startSession();
+    final session = SequenceBuilderSession(widget.config, _uid, pack: pack)
+      ..startSession();
     session.addListener(_onChange);
     setState(() => _session = session);
   }
@@ -71,7 +74,8 @@ class _SequenceBuilderGameState extends State<SequenceBuilderGame>
   void _restart() {
     _session?.removeListener(_onChange);
     _session?.dispose();
-    final session = SequenceBuilderSession(widget.config, _uid, pack: _pack)..startSession();
+    final session = SequenceBuilderSession(widget.config, _uid, pack: _pack)
+      ..startSession();
     setState(() {
       _session = session;
       _wasComplete = false;
@@ -160,7 +164,12 @@ class _SequenceBuilderGameState extends State<SequenceBuilderGame>
                       blastDirectionality: BlastDirectionality.explosive,
                       numberOfParticles: 18,
                       gravity: 0.3,
-                      colors: const [_teal, AppColors.xpBlue, Colors.white, AppColors.gold],
+                      colors: const [
+                        _teal,
+                        AppColors.xpBlue,
+                        Colors.white,
+                        AppColors.gold
+                      ],
                     ),
                   ),
                 ],
@@ -212,9 +221,11 @@ class _LearnPanel extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(s.label,
-                          style: GameTheme.display(16, color: AppColors.textPrimary)),
+                          style: GameTheme.display(16,
+                              color: AppColors.textPrimary)),
                       Text(s.description,
-                          style: GameTheme.body(12, color: AppColors.textSecondary)),
+                          style: GameTheme.body(12,
+                              color: AppColors.textSecondary)),
                     ],
                   ),
                 ),
@@ -228,7 +239,8 @@ class _LearnPanel extends StatelessWidget {
           child: ElevatedButton.icon(
             onPressed: onStart,
             icon: const Icon(Icons.play_arrow_rounded),
-            label: Text('Start Challenge!', style: GameTheme.display(16, color: Colors.white)),
+            label: Text('Start Challenge!',
+                style: GameTheme.display(16, color: Colors.white)),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.science,
               foregroundColor: Colors.white,
@@ -292,9 +304,11 @@ class _OrderPanel extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text('${i + 1}',
-                      style: GameTheme.body(11, color: AppColors.textSecondary)),
+                      style:
+                          GameTheme.body(11, color: AppColors.textSecondary)),
                   if (filled) ...[
-                    Text(stages[placed[i]].emoji, style: const TextStyle(fontSize: 22)),
+                    Text(stages[placed[i]].emoji,
+                        style: const TextStyle(fontSize: 22)),
                     Text(stages[placed[i]].label,
                         textAlign: TextAlign.center,
                         style: GameTheme.body(9, color: AppColors.textPrimary)),
@@ -334,7 +348,8 @@ class _OrderPanel extends StatelessWidget {
               data: idx,
               feedback: Material(
                 color: Colors.transparent,
-                child: _TrayChip(emoji: s.emoji, label: s.label, dragging: true),
+                child:
+                    _TrayChip(emoji: s.emoji, label: s.label, dragging: true),
               ),
               childWhenDragging: Opacity(opacity: 0.3, child: chip),
               child: GestureDetector(
@@ -353,7 +368,8 @@ class _TrayChip extends StatelessWidget {
   final String emoji;
   final String label;
   final bool dragging;
-  const _TrayChip({required this.emoji, required this.label, this.dragging = false});
+  const _TrayChip(
+      {required this.emoji, required this.label, this.dragging = false});
 
   @override
   Widget build(BuildContext context) {
@@ -365,7 +381,8 @@ class _TrayChip extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: GameTheme.softShadow(AppColors.science),
         border: Border.all(
-            color: Colors.white.withValues(alpha: dragging ? 0.9 : 0.4), width: 2),
+            color: Colors.white.withValues(alpha: dragging ? 0.9 : 0.4),
+            width: 2),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

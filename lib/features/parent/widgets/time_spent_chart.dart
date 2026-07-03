@@ -10,20 +10,29 @@ class TimeSpentChart extends StatelessWidget {
 
   Color _color(String subject) {
     switch (subject) {
-      case 'Mathematics': return AppColors.math;
-      case 'Natural Sciences': return AppColors.science;
-      case 'English': return AppColors.english;
-      case 'Social Sciences': return AppColors.socialSciences;
-      case 'Technology': return AppColors.technology;
-      default: return AppColors.primary;
+      case 'Mathematics':
+        return AppColors.math;
+      case 'Natural Sciences':
+        return AppColors.science;
+      case 'English':
+        return AppColors.english;
+      case 'Social Sciences':
+        return AppColors.socialSciences;
+      case 'Technology':
+        return AppColors.technology;
+      default:
+        return AppColors.primary;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (timeData.isEmpty) return Center(child: Text('No data yet', style: AppTextStyles.bodySmall));
-    final sorted = timeData.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
-    final maxMins = (sorted.first.value / 60).ceilToDouble().clamp(1.0, double.infinity);
+    if (timeData.isEmpty)
+      return Center(child: Text('No data yet', style: AppTextStyles.bodySmall));
+    final sorted = timeData.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+    final maxMins =
+        (sorted.first.value / 60).ceilToDouble().clamp(1.0, double.infinity);
 
     return SizedBox(
       height: 160,
@@ -33,21 +42,28 @@ class TimeSpentChart extends StatelessWidget {
           final mins = e.value.value / 60;
           return BarChartGroupData(x: e.key, barRods: [
             BarChartRodData(
-                toY: mins, color: _color(e.value.key), width: 22,
+                toY: mins,
+                color: _color(e.value.key),
+                width: 22,
                 borderRadius: BorderRadius.circular(6)),
           ]);
         }).toList(),
         gridData: const FlGridData(show: false),
         borderData: FlBorderData(show: false),
         titlesData: FlTitlesData(
-          leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles: AxisTitles(sideTitles: SideTitles(
-            showTitles: true, reservedSize: 36,
-            getTitlesWidget: (v, _) =>
-                Text('${v.toInt()}m', style: AppTextStyles.bodySmall.copyWith(fontSize: 9)),
+          leftTitles:
+              const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          topTitles:
+              const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: AxisTitles(
+              sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 36,
+            getTitlesWidget: (v, _) => Text('${v.toInt()}m',
+                style: AppTextStyles.bodySmall.copyWith(fontSize: 9)),
           )),
-          bottomTitles: AxisTitles(sideTitles: SideTitles(
+          bottomTitles: AxisTitles(
+              sideTitles: SideTitles(
             showTitles: true,
             getTitlesWidget: (v, _) {
               final i = v.toInt();
@@ -60,10 +76,11 @@ class TimeSpentChart extends StatelessWidget {
             },
           )),
         ),
-        barTouchData: BarTouchData(touchTooltipData: BarTouchTooltipData(
+        barTouchData: BarTouchData(
+            touchTooltipData: BarTouchTooltipData(
           getTooltipItem: (group, _, rod, __) => BarTooltipItem(
-            '${sorted[group.x].key}\n${rod.toY.toInt()} min',
-            AppTextStyles.bodySmall.copyWith(color: Colors.white)),
+              '${sorted[group.x].key}\n${rod.toY.toInt()} min',
+              AppTextStyles.bodySmall.copyWith(color: Colors.white)),
         )),
       )),
     );

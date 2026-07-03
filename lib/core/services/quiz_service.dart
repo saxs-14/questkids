@@ -51,15 +51,12 @@ class QuizService {
     } else {
       await offlineService.saveProgressOffline(progress);
       // Update local rewards cache
-      final cachedRewards =
-          await offlineService.getCachedRewards(uid);
+      final cachedRewards = await offlineService.getCachedRewards(uid);
       if (cachedRewards != null) {
         final updated = RewardModel(
           uid: uid,
           totalPoints: cachedRewards.totalPoints + pointsEarned,
-          level: (cachedRewards.totalPoints + pointsEarned)
-                  ~/ 100 +
-              1,
+          level: (cachedRewards.totalPoints + pointsEarned) ~/ 100 + 1,
           streakDays: cachedRewards.streakDays,
           badges: cachedRewards.badges,
           achievements: cachedRewards.achievements,
@@ -158,34 +155,56 @@ class QuizService {
         createdAt: DateTime.now(),
         questions: [
           QuestionModel(
-            question: 'What is the process called when water turns into vapour?',
-            options: ['Condensation', 'Precipitation', 'Evaporation', 'Transpiration'],
+            question:
+                'What is the process called when water turns into vapour?',
+            options: [
+              'Condensation',
+              'Precipitation',
+              'Evaporation',
+              'Transpiration'
+            ],
             correctIndex: 2,
-            explanation: 'Evaporation happens when the sun heats water and turns it into water vapour.',
+            explanation:
+                'Evaporation happens when the sun heats water and turns it into water vapour.',
           ),
           QuestionModel(
-            question: 'What is it called when water vapour turns back into liquid?',
-            options: ['Evaporation', 'Condensation', 'Precipitation', 'Collection'],
+            question:
+                'What is it called when water vapour turns back into liquid?',
+            options: [
+              'Evaporation',
+              'Condensation',
+              'Precipitation',
+              'Collection'
+            ],
             correctIndex: 1,
-            explanation: 'Condensation happens when water vapour cools and forms clouds.',
+            explanation:
+                'Condensation happens when water vapour cools and forms clouds.',
           ),
           QuestionModel(
             question: 'What is precipitation?',
-            options: ['Water evaporating', 'Clouds forming', 'Rain or snow falling', 'Water flowing in rivers'],
+            options: [
+              'Water evaporating',
+              'Clouds forming',
+              'Rain or snow falling',
+              'Water flowing in rivers'
+            ],
             correctIndex: 2,
-            explanation: 'Precipitation is any form of water falling from clouds - rain, snow, hail!',
+            explanation:
+                'Precipitation is any form of water falling from clouds - rain, snow, hail!',
           ),
           QuestionModel(
             question: 'Where does most evaporation occur?',
             options: ['Rivers', 'Lakes', 'Oceans', 'Puddles'],
             correctIndex: 2,
-            explanation: 'Oceans cover 70% of Earth so most evaporation happens there.',
+            explanation:
+                'Oceans cover 70% of Earth so most evaporation happens there.',
           ),
           QuestionModel(
             question: 'What powers the water cycle?',
             options: ['Wind', 'The Moon', 'The Sun', 'Gravity'],
             correctIndex: 2,
-            explanation: 'The Sun provides the energy that drives the entire water cycle!',
+            explanation:
+                'The Sun provides the energy that drives the entire water cycle!',
           ),
         ],
       ),
@@ -204,16 +223,19 @@ class QuizService {
             question: 'Which word is a NOUN in: "The dog ran fast"?',
             options: ['The', 'dog', 'ran', 'fast'],
             correctIndex: 1,
-            explanation: 'A noun is a person, place or thing. "Dog" is a thing!',
+            explanation:
+                'A noun is a person, place or thing. "Dog" is a thing!',
           ),
           QuestionModel(
             question: 'Which word is a VERB in: "She quickly ate the apple"?',
             options: ['She', 'quickly', 'ate', 'apple'],
             correctIndex: 2,
-            explanation: 'A verb is an action word. "Ate" is the action happening!',
+            explanation:
+                'A verb is an action word. "Ate" is the action happening!',
           ),
           QuestionModel(
-            question: 'Which word is an ADJECTIVE in: "The big red ball bounced"?',
+            question:
+                'Which word is an ADJECTIVE in: "The big red ball bounced"?',
             options: ['The', 'big', 'bounced', 'ball'],
             correctIndex: 1,
             explanation: 'Adjectives describe nouns. "Big" describes the ball!',
@@ -222,13 +244,16 @@ class QuizService {
             question: 'Which word is an ADVERB in: "He ran quickly to school"?',
             options: ['He', 'ran', 'quickly', 'school'],
             correctIndex: 2,
-            explanation: 'Adverbs describe verbs. "Quickly" tells us HOW he ran!',
+            explanation:
+                'Adverbs describe verbs. "Quickly" tells us HOW he ran!',
           ),
           QuestionModel(
-            question: 'What part of speech is "beautiful" in: "She wore a beautiful dress"?',
+            question:
+                'What part of speech is "beautiful" in: "She wore a beautiful dress"?',
             options: ['Noun', 'Verb', 'Adverb', 'Adjective'],
             correctIndex: 3,
-            explanation: '"Beautiful" describes the dress, making it an adjective!',
+            explanation:
+                '"Beautiful" describes the dress, making it an adjective!',
           ),
         ],
       ),
@@ -247,19 +272,22 @@ class QuizService {
             question: 'How many provinces does South Africa have?',
             options: ['7', '8', '9', '10'],
             correctIndex: 2,
-            explanation: 'South Africa has 9 provinces since the 1994 elections!',
+            explanation:
+                'South Africa has 9 provinces since the 1994 elections!',
           ),
           QuestionModel(
             question: 'What is the capital city of Gauteng?',
             options: ['Johannesburg', 'Pretoria', 'Soweto', 'Sandton'],
             correctIndex: 1,
-            explanation: 'Pretoria (Tshwane) is the administrative capital of Gauteng!',
+            explanation:
+                'Pretoria (Tshwane) is the administrative capital of Gauteng!',
           ),
           QuestionModel(
             question: 'Which province is the largest by area?',
             options: ['Limpopo', 'Northern Cape', 'North West', 'Gauteng'],
             correctIndex: 1,
-            explanation: 'Northern Cape is the largest province covering about 30% of SA!',
+            explanation:
+                'Northern Cape is the largest province covering about 30% of SA!',
           ),
           QuestionModel(
             question: 'Which province is the smallest by area?',
@@ -269,9 +297,15 @@ class QuizService {
           ),
           QuestionModel(
             question: 'Cape Town is the capital of which province?',
-            options: ['Eastern Cape', 'Northern Cape', 'Western Cape', 'KwaZulu-Natal'],
+            options: [
+              'Eastern Cape',
+              'Northern Cape',
+              'Western Cape',
+              'KwaZulu-Natal'
+            ],
             correctIndex: 2,
-            explanation: 'Cape Town is the capital of the Western Cape province!',
+            explanation:
+                'Cape Town is the capital of the Western Cape province!',
           ),
         ],
       ),

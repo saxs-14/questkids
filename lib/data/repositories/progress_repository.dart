@@ -5,8 +5,7 @@ import '../../core/constants/app_constants.dart';
 class ProgressRepository {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  CollectionReference get _progress =>
-      _db.collection(AppConstants.colProgress);
+  CollectionReference get _progress => _db.collection(AppConstants.colProgress);
 
   Future<void> saveProgress(ProgressModel progress) async {
     await _progress.add(progress.toMap());
@@ -18,8 +17,7 @@ class ProgressRepository {
         .orderBy('completedAt', descending: true)
         .get();
     return query.docs
-        .map((doc) =>
-            ProgressModel.fromMap(doc.data() as Map<String, dynamic>))
+        .map((doc) => ProgressModel.fromMap(doc.data() as Map<String, dynamic>))
         .toList();
   }
 
@@ -43,8 +41,7 @@ class ProgressRepository {
         .where('completed', isEqualTo: true)
         .get();
     return query.docs
-        .map((doc) =>
-            ProgressModel.fromMap(doc.data() as Map<String, dynamic>))
+        .map((doc) => ProgressModel.fromMap(doc.data() as Map<String, dynamic>))
         .toList();
   }
 

@@ -111,9 +111,8 @@ class _ProfileAvatarPickerState extends State<ProfileAvatarPicker> {
   Widget build(BuildContext context) {
     final user = context.watch<AuthProvider>().user;
     final avatarUrl = user?.avatarUrl;
-    final displayInitial = (user?.name.isNotEmpty == true)
-        ? user!.name[0].toUpperCase()
-        : '?';
+    final displayInitial =
+        (user?.name.isNotEmpty == true) ? user!.name[0].toUpperCase() : '?';
     final accent = widget.accentColor ?? AppColors.primary;
     final r = widget.radius;
 

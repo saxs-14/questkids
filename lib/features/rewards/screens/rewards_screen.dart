@@ -136,20 +136,18 @@ class _OverviewTab extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.primary.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                  color: AppColors.primary.withValues(alpha: 0.2)),
+              border:
+                  Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(rewards.levelEmoji,
-                    style: const TextStyle(fontSize: 28)),
+                Text(rewards.levelEmoji, style: const TextStyle(fontSize: 28)),
                 const SizedBox(width: 10),
                 Flexible(
                   child: Text(
                     rewards.levelTitle,
-                    style: AppTextStyles.h3
-                        .copyWith(color: AppColors.primary),
+                    style: AppTextStyles.h3.copyWith(color: AppColors.primary),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -251,15 +249,13 @@ class _SubjectProgress extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(subject,
-                        style: AppTextStyles.bodyMedium.copyWith(
-                            fontWeight: FontWeight.w700)),
+                        style: AppTextStyles.bodyMedium
+                            .copyWith(fontWeight: FontWeight.w700)),
                     Text('$count quests',
-                        style: AppTextStyles.bodySmall
-                            .copyWith(color: color)),
+                        style: AppTextStyles.bodySmall.copyWith(color: color)),
                   ],
                 ),
                 const SizedBox(height: 6),
@@ -268,8 +264,7 @@ class _SubjectProgress extends StatelessWidget {
                   child: LinearProgressIndicator(
                     value: (count / 10).clamp(0.0, 1.0),
                     backgroundColor: color.withValues(alpha: 0.15),
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(color),
+                    valueColor: AlwaysStoppedAnimation<Color>(color),
                     minHeight: 6,
                   ),
                 ),
@@ -288,8 +283,7 @@ class _BadgesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final earnedIds =
-        rewards.badges.map((b) => b.id).toSet();
+    final earnedIds = rewards.badges.map((b) => b.id).toSet();
     final locked = RewardsService.allBadges
         .where((b) => !earnedIds.contains(b['id']))
         .toList();
@@ -304,8 +298,8 @@ class _BadgesTab extends StatelessWidget {
               Text('Earned', style: AppTextStyles.h3),
               const SizedBox(width: 8),
               Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 10, vertical: 4),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   color: AppColors.primary,
                   borderRadius: BorderRadius.circular(12),
@@ -329,20 +323,17 @@ class _BadgesTab extends StatelessWidget {
                     color: AppColors.primary.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                        color:
-                            AppColors.primary.withValues(alpha: 0.1)),
+                        color: AppColors.primary.withValues(alpha: 0.1)),
                   ),
                   child: Column(
                     children: [
-                      const Text('🏅',
-                          style: TextStyle(fontSize: 48)),
+                      const Text('🏅', style: TextStyle(fontSize: 48)),
                       const SizedBox(height: 12),
-                      Text('No badges yet',
-                          style: AppTextStyles.h4),
+                      Text('No badges yet', style: AppTextStyles.h4),
                       Text(
                         'Complete quests to earn badges!',
-                        style: AppTextStyles.bodyMedium.copyWith(
-                            color: AppColors.textSecondary),
+                        style: AppTextStyles.bodyMedium
+                            .copyWith(color: AppColors.textSecondary),
                       ),
                     ],
                   ),
@@ -350,8 +341,7 @@ class _BadgesTab extends StatelessWidget {
               : GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     crossAxisSpacing: 12,
                     mainAxisSpacing: 12,
@@ -370,16 +360,14 @@ class _BadgesTab extends StatelessWidget {
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate:
-                const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
               childAspectRatio: 0.85,
             ),
             itemCount: locked.length,
-            itemBuilder: (_, i) =>
-                LockedBadgeCard(badgeData: locked[i]),
+            itemBuilder: (_, i) => LockedBadgeCard(badgeData: locked[i]),
           ),
         ],
       ),
@@ -433,11 +421,16 @@ class _HistoryTile extends StatelessWidget {
 
   String get _subjectEmoji {
     switch (progress.subject) {
-      case 'Math': return '🔢';
-      case 'Science': return '🔬';
-      case 'English': return '📖';
-      case 'Social Sciences': return '🌍';
-      default: return '📚';
+      case 'Math':
+        return '🔢';
+      case 'Science':
+        return '🔬';
+      case 'English':
+        return '📖';
+      case 'Social Sciences':
+        return '🌍';
+      default:
+        return '📚';
     }
   }
 
@@ -459,8 +452,7 @@ class _HistoryTile extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Text(_subjectEmoji,
-              style: const TextStyle(fontSize: 28)),
+          Text(_subjectEmoji, style: const TextStyle(fontSize: 28)),
           const SizedBox(width: 14),
           Expanded(
             child: Column(
@@ -482,8 +474,8 @@ class _HistoryTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 10, vertical: 4),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   color: _scoreColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(10),

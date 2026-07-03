@@ -30,7 +30,8 @@ class ChatRepository {
     });
   }
 
-  Future<List<ChatMessageModel>> fetchChatHistory(String uid, {int limit = 50}) async {
+  Future<List<ChatMessageModel>> fetchChatHistory(String uid,
+      {int limit = 50}) async {
     final snapshot = await _firestore
         .collection('users')
         .doc(uid)
@@ -38,11 +39,11 @@ class ChatRepository {
         .orderBy('timestamp', descending: true)
         .limit(limit)
         .get();
-        
+
     final messages = snapshot.docs
         .map((doc) => ChatMessageModel.fromMap(doc.data(), doc.id))
         .toList();
-        
+
     return messages.reversed.toList();
   }
 }

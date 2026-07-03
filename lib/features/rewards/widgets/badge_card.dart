@@ -15,14 +15,22 @@ class BadgeCard extends StatelessWidget {
 
   Color get _categoryColor {
     switch (badge.category) {
-      case 'milestone': return AppColors.primary;
-      case 'achievement': return AppColors.gold;
-      case 'streak': return AppColors.orange;
-      case 'subject': return AppColors.science;
-      case 'points': return AppColors.green;
-      case 'level': return AppColors.blue;
-      case 'special': return AppColors.accent;
-      default: return AppColors.primary;
+      case 'milestone':
+        return AppColors.primary;
+      case 'achievement':
+        return AppColors.gold;
+      case 'streak':
+        return AppColors.orange;
+      case 'subject':
+        return AppColors.science;
+      case 'points':
+        return AppColors.green;
+      case 'level':
+        return AppColors.blue;
+      case 'special':
+        return AppColors.accent;
+      default:
+        return AppColors.primary;
     }
   }
 
@@ -45,8 +53,7 @@ class BadgeCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(badge.icon,
-                  style: const TextStyle(fontSize: 36)),
+              Text(badge.icon, style: const TextStyle(fontSize: 36)),
               const SizedBox(height: 8),
               Text(
                 badge.name,
@@ -74,8 +81,7 @@ class BadgeCard extends StatelessWidget {
             top: 8,
             right: 8,
             child: Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 6, vertical: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
                 color: _categoryColor,
                 borderRadius: BorderRadius.circular(10),

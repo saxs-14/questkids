@@ -41,7 +41,8 @@ class UserModel {
   String get avatarEmoji {
     // Prefer an explicit avatarUrl or profile image indication
     if (avatarUrl != null && avatarUrl!.isNotEmpty) return '🖼️';
-    if (profileImageBase64 != null && profileImageBase64!.isNotEmpty) return '🖼️';
+    if (profileImageBase64 != null && profileImageBase64!.isNotEmpty)
+      return '🖼️';
     // Use first character of name as a friendly fallback (or a default emoji)
     final trimmed = name.trim();
     if (trimmed.isNotEmpty) {

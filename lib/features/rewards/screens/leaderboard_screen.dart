@@ -126,8 +126,8 @@ class _GradeBoardState extends State<_GradeBoard> {
           ),
         ),
         FutureBuilder<int?>(
-          future: widget.repo.getOwnRank(widget.uid, widget.grade,
-              period: _period),
+          future:
+              widget.repo.getOwnRank(widget.uid, widget.grade, period: _period),
           builder: (_, snap) => OwnRankBanner(
             rank: snap.data,
             xp: 0,
@@ -136,8 +136,8 @@ class _GradeBoardState extends State<_GradeBoard> {
         ),
         Expanded(
           child: StreamBuilder<List<LeaderboardEntry>>(
-            stream: widget.repo.watchGradeLeaderboard(widget.grade,
-                period: _period),
+            stream: widget.repo
+                .watchGradeLeaderboard(widget.grade, period: _period),
             builder: (_, snap) {
               if (snap.hasError) {
                 return Center(

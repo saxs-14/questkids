@@ -8,7 +8,8 @@ import 'runner_collector_engine.dart';
 class RunnerCollectorSession extends GameSessionState {
   final String uid;
 
-  RunnerCollectorSession(GameConfig config, this.uid, {Map<String, dynamic>? pack})
+  RunnerCollectorSession(GameConfig config, this.uid,
+      {Map<String, dynamic>? pack})
       : super(config) {
     _runnerConfig = pack != null
         ? RunnerCollectorConfig.fromPack(pack)
@@ -36,7 +37,7 @@ class RunnerCollectorSession extends GameSessionState {
   int _hearts = 3;
   int _levelIndex = 0;
   int _wordsCollected = 0;
-  int _playerLane = 1;          // 0=left, 1=center, 2=right
+  int _playerLane = 1; // 0=left, 1=center, 2=right
   bool? _lastCollectionCorrect;
   final List<LaneWord> _activeWords = [];
   Timer? _spawnTimer;
@@ -54,8 +55,8 @@ class RunnerCollectorSession extends GameSessionState {
   bool? get lastCollectionCorrect => _lastCollectionCorrect;
   List<LaneWord> get activeWords => List.unmodifiable(_activeWords);
 
-  GrammarLevel get currentLevel =>
-      _runnerConfig.levels[_levelIndex.clamp(0, _runnerConfig.levels.length - 1)];
+  GrammarLevel get currentLevel => _runnerConfig
+      .levels[_levelIndex.clamp(0, _runnerConfig.levels.length - 1)];
 
   String get missionLabel => currentLevel.missionLabel;
 

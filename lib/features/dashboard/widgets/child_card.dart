@@ -37,11 +37,8 @@ class ChildCard extends StatelessWidget {
               radius: 28,
               backgroundColor: AppColors.primary.withValues(alpha: 0.15),
               child: Text(
-                child.name.isNotEmpty
-                    ? child.name[0].toUpperCase()
-                    : '?',
-                style: AppTextStyles.h3
-                    .copyWith(color: AppColors.primary),
+                child.name.isNotEmpty ? child.name[0].toUpperCase() : '?',
+                style: AppTextStyles.h3.copyWith(color: AppColors.primary),
               ),
             ),
             const SizedBox(width: 16),
@@ -76,14 +73,12 @@ class ChildCard extends StatelessWidget {
                 Text(
                   '${child.streakDays}d',
                   style: AppTextStyles.bodySmall.copyWith(
-                      color: AppColors.orange,
-                      fontWeight: FontWeight.w700),
+                      color: AppColors.orange, fontWeight: FontWeight.w700),
                 ),
               ],
             ),
             const SizedBox(width: 8),
-            const Icon(Icons.chevron_right,
-                color: AppColors.textSecondary),
+            const Icon(Icons.chevron_right, color: AppColors.textSecondary),
           ],
         ),
       ),

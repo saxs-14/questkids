@@ -3,11 +3,11 @@ class ProgressModel {
   final String activityId;
   final String activityTitle;
   final String subject;
-  final int score;           // percentage 0-100
+  final int score; // percentage 0-100
   final int pointsEarned;
   final bool completed;
-  final bool verified;       // parent/teacher verified
-  final String? proofUrl;    // uploaded image
+  final bool verified; // parent/teacher verified
+  final String? proofUrl; // uploaded image
   final DateTime completedAt;
   final int timeTakenSeconds;
 

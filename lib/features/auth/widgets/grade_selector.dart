@@ -13,8 +13,13 @@ class GradeSelector extends StatelessWidget {
   });
 
   static const grades = [
-    'Grade 1', 'Grade 2', 'Grade 3',
-    'Grade 4', 'Grade 5', 'Grade 6', 'Grade 7',
+    'Grade 1',
+    'Grade 2',
+    'Grade 3',
+    'Grade 4',
+    'Grade 5',
+    'Grade 6',
+    'Grade 7',
   ];
 
   @override
@@ -33,8 +38,8 @@ class GradeSelector extends StatelessWidget {
               onTap: () => onGradeChanged(grade),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 decoration: BoxDecoration(
                   color: isSelected
                       ? AppColors.primary

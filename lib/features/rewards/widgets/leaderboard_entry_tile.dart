@@ -78,8 +78,8 @@ class LeaderboardEntryTile extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: Center(
-              child: Text(entry.avatarEmoji,
-                  style: const TextStyle(fontSize: 22)),
+              child:
+                  Text(entry.avatarEmoji, style: const TextStyle(fontSize: 22)),
             ),
           ),
           const SizedBox(width: 12),

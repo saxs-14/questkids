@@ -35,7 +35,7 @@ class RopeScene extends StatefulWidget {
 }
 
 class _RopeSceneState extends State<RopeScene> with TickerProviderStateMixin {
-  late final AnimationController _moveCtrl;   // eases flag between positions
+  late final AnimationController _moveCtrl; // eases flag between positions
   late final AnimationController _ambientCtrl; // never-ending background motion
   late Animation<double> _flagAnim;
   double _prevFlag = 0.0;
@@ -158,7 +158,7 @@ class _RopeSceneState extends State<RopeScene> with TickerProviderStateMixin {
 /// Paints the full arena backdrop plus the rope and centre flag.
 class _ArenaPainter extends CustomPainter {
   final double pos; // -1..1 flag position
-  final double t;   // 0..1 ambient loop
+  final double t; // 0..1 ambient loop
 
   _ArenaPainter({required this.pos, required this.t});
 
@@ -191,7 +191,8 @@ class _ArenaPainter extends CustomPainter {
     for (int i = 0; i < 12; i++) {
       final a = (i / 12) * 2 * math.pi + t * 0.6;
       final inner = sunCenter + Offset(math.cos(a), math.sin(a)) * 22;
-      final outer = sunCenter + Offset(math.cos(a), math.sin(a)) * (22 + rayLen);
+      final outer =
+          sunCenter + Offset(math.cos(a), math.sin(a)) * (22 + rayLen);
       canvas.drawLine(inner, outer, raysPaint);
     }
     canvas.drawCircle(sunCenter, 18, Paint()..color = const Color(0xFFFFD54F));
@@ -206,16 +207,24 @@ class _ArenaPainter extends CustomPainter {
 
     // ── Drifting clouds ───────────────────────────────────────────────────
     final cloudPaint = Paint()..color = Colors.white.withValues(alpha: 0.85);
-    _drawCloud(canvas, Offset((w * (0.15 + t)) % (w + 80) - 40, h * 0.18), 1.0, cloudPaint);
-    _drawCloud(canvas, Offset((w * (0.55 + t * 0.6)) % (w + 100) - 50, h * 0.30), 0.7, cloudPaint);
+    _drawCloud(canvas, Offset((w * (0.15 + t)) % (w + 80) - 40, h * 0.18), 1.0,
+        cloudPaint);
+    _drawCloud(
+        canvas,
+        Offset((w * (0.55 + t * 0.6)) % (w + 100) - 50, h * 0.30),
+        0.7,
+        cloudPaint);
 
     // ── Rolling hills ─────────────────────────────────────────────────────
     final hill1 = Path()..moveTo(0, groundY);
-    hill1.quadraticBezierTo(w * 0.25, groundY - h * 0.18, w * 0.5, groundY - h * 0.04);
-    hill1.quadraticBezierTo(w * 0.78, groundY + h * 0.10, w, groundY - h * 0.10);
+    hill1.quadraticBezierTo(
+        w * 0.25, groundY - h * 0.18, w * 0.5, groundY - h * 0.04);
+    hill1.quadraticBezierTo(
+        w * 0.78, groundY + h * 0.10, w, groundY - h * 0.10);
     hill1.lineTo(w, groundY);
     hill1.close();
-    canvas.drawPath(hill1, Paint()..color = const Color(0xFF81C784).withValues(alpha: 0.7));
+    canvas.drawPath(
+        hill1, Paint()..color = const Color(0xFF81C784).withValues(alpha: 0.7));
 
     // ── Grassy pitch ──────────────────────────────────────────────────────
     final groundRect = Rect.fromLTWH(0, groundY, w, h - groundY);
@@ -230,7 +239,8 @@ class _ArenaPainter extends CustomPainter {
     );
     // Mud pit beneath the rope centre
     canvas.drawOval(
-      Rect.fromCenter(center: Offset(w / 2, groundY + 6), width: w * 0.3, height: 18),
+      Rect.fromCenter(
+          center: Offset(w / 2, groundY + 6), width: w * 0.3, height: 18),
       Paint()..color = const Color(0xFF5D4037).withValues(alpha: 0.55),
     );
 
@@ -254,13 +264,14 @@ class _ArenaPainter extends CustomPainter {
 
     final leftAnchor = Offset(w * 0.12, ropeY);
     final rightAnchor = Offset(w * 0.88, ropeY);
-    final knot = Offset(flagX, ropeY + 14 + 6 * math.sin(t * 2 * math.pi)); // sag + jitter
+    final knot = Offset(
+        flagX, ropeY + 14 + 6 * math.sin(t * 2 * math.pi)); // sag + jitter
 
     final ropePath = Path()..moveTo(leftAnchor.dx, leftAnchor.dy);
     ropePath.quadraticBezierTo(
-      (leftAnchor.dx + knot.dx) / 2, knot.dy + 8, knot.dx, knot.dy);
-    ropePath.quadraticBezierTo(
-      (rightAnchor.dx + knot.dx) / 2, knot.dy + 8, rightAnchor.dx, rightAnchor.dy);
+        (leftAnchor.dx + knot.dx) / 2, knot.dy + 8, knot.dx, knot.dy);
+    ropePath.quadraticBezierTo((rightAnchor.dx + knot.dx) / 2, knot.dy + 8,
+        rightAnchor.dx, rightAnchor.dy);
 
     // rope shadow
     canvas.drawPath(
@@ -301,13 +312,19 @@ class _ArenaPainter extends CustomPainter {
 
     // ── The knot + waving flag ────────────────────────────────────────────
     canvas.drawCircle(knot, 9, Paint()..color = const Color(0xFF5D4037));
-    canvas.drawCircle(knot, 9,
-        Paint()..color = const Color(0xFFD7B49E)..style = PaintingStyle.stroke..strokeWidth = 2);
+    canvas.drawCircle(
+        knot,
+        9,
+        Paint()
+          ..color = const Color(0xFFD7B49E)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2);
 
     // pole
     final poleTop = Offset(knot.dx, knot.dy - 46);
     canvas.drawLine(
-      knot, poleTop,
+      knot,
+      poleTop,
       Paint()
         ..color = const Color(0xFF455A64)
         ..strokeWidth = 3
@@ -322,8 +339,8 @@ class _ArenaPainter extends CustomPainter {
             : AppColors.gold;
     final flag = Path()
       ..moveTo(poleTop.dx, poleTop.dy)
-      ..quadraticBezierTo(
-          poleTop.dx + 16, poleTop.dy + 6 + wave, poleTop.dx + 30, poleTop.dy + 2)
+      ..quadraticBezierTo(poleTop.dx + 16, poleTop.dy + 6 + wave,
+          poleTop.dx + 30, poleTop.dy + 2)
       ..lineTo(poleTop.dx, poleTop.dy + 16)
       ..close();
     canvas.drawPath(flag, Paint()..color = flagColor);
@@ -341,7 +358,8 @@ class _ArenaPainter extends CustomPainter {
       for (int i = 0; i < 4; i++) {
         final a = (i / 4) * 2 * math.pi + t * 4 * math.pi;
         final r = 12 + 4 * math.sin(t * 6 * math.pi + i);
-        canvas.drawCircle(knot + Offset(math.cos(a), math.sin(a)) * r, 1.8, sparkPaint);
+        canvas.drawCircle(
+            knot + Offset(math.cos(a), math.sin(a)) * r, 1.8, sparkPaint);
       }
     }
   }
@@ -352,7 +370,9 @@ class _ArenaPainter extends CustomPainter {
     canvas.drawCircle(c + Offset(-16 * scale, 5 * scale), 12 * scale, paint);
     canvas.drawOval(
       Rect.fromCenter(
-          center: c + Offset(0, 10 * scale), width: 56 * scale, height: 18 * scale),
+          center: c + Offset(0, 10 * scale),
+          width: 56 * scale,
+          height: 18 * scale),
       paint,
     );
   }

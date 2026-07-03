@@ -76,9 +76,8 @@ class ChatBubble extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
-        mainAxisAlignment: message.isUser
-            ? MainAxisAlignment.end
-            : MainAxisAlignment.start,
+        mainAxisAlignment:
+            message.isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (!message.isUser) ...[
@@ -105,9 +104,8 @@ class ChatBubble extends StatelessWidget {
                   ),
                 ],
                 GestureDetector(
-                  onLongPress: message.isUser
-                      ? null
-                      : () => _showReportSheet(context),
+                  onLongPress:
+                      message.isUser ? null : () => _showReportSheet(context),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 12),
@@ -118,10 +116,8 @@ class ChatBubble extends StatelessWidget {
                       borderRadius: BorderRadius.only(
                         topLeft: const Radius.circular(20),
                         topRight: const Radius.circular(20),
-                        bottomLeft: Radius.circular(
-                            message.isUser ? 20 : 4),
-                        bottomRight: Radius.circular(
-                            message.isUser ? 4 : 20),
+                        bottomLeft: Radius.circular(message.isUser ? 20 : 4),
+                        bottomRight: Radius.circular(message.isUser ? 4 : 20),
                       ),
                       boxShadow: [
                         BoxShadow(
@@ -228,8 +224,7 @@ class _TypingIndicatorState extends State<_TypingIndicator>
           const QuestyAvatar(size: 36),
           const SizedBox(width: 8),
           Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 16, vertical: 14),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
               color: Theme.of(context).cardTheme.color,
               borderRadius: const BorderRadius.only(

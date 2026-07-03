@@ -13,8 +13,18 @@ class RoleSelector extends StatelessWidget {
   });
 
   static const roles = [
-    {'value': 'parent',   'label': 'Parent',   'icon': '👨‍👩‍👧', 'desc': 'I monitor my child'},
-    {'value': 'teacher',  'label': 'Teacher',  'icon': '🧑‍🏫', 'desc': 'I manage a class'},
+    {
+      'value': 'parent',
+      'label': 'Parent',
+      'icon': '👨‍👩‍👧',
+      'desc': 'I monitor my child'
+    },
+    {
+      'value': 'teacher',
+      'label': 'Teacher',
+      'icon': '🧑‍🏫',
+      'desc': 'I manage a class'
+    },
   ];
 
   @override
@@ -53,9 +63,8 @@ class RoleSelector extends StatelessWidget {
                       Text(
                         role['label']!,
                         style: AppTextStyles.bodyMedium.copyWith(
-                          color: isSelected
-                              ? Colors.white
-                              : AppColors.textPrimary,
+                          color:
+                              isSelected ? Colors.white : AppColors.textPrimary,
                           fontWeight: FontWeight.w700,
                         ),
                       ),

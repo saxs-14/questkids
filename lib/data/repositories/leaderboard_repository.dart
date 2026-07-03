@@ -28,8 +28,7 @@ class LeaderboardRepository {
         final data = doc.data();
         return LeaderboardEntry(
           uid: doc.id,
-          displayName:
-              '${data['name'] ?? ''} ${data['surname'] ?? ''}'.trim(),
+          displayName: '${data['name'] ?? ''} ${data['surname'] ?? ''}'.trim(),
           avatarEmoji: data['avatarEmoji'] as String? ?? '🦁',
           grade: data['grade'] as String? ?? 'Grade 1',
           xp: (data['totalPoints'] as num?)?.toInt() ?? 0,

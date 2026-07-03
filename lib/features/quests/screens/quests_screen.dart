@@ -27,26 +27,37 @@ class _QuestsScreenState extends State<QuestsScreen> {
 
   // Grade-specific subject lists per CAPS curriculum
   static const _gradeSubjects = {
-    'foundation': [   // Grade 1-3
-      {'label': 'Mathematics',   'emoji': '🔢', 'color': AppColors.math},
-      {'label': 'English',       'emoji': '📖', 'color': AppColors.english},
-      {'label': 'Life Skills',   'emoji': '🌟', 'color': AppColors.lifeSkills},
+    'foundation': [
+      // Grade 1-3
+      {'label': 'Mathematics', 'emoji': '🔢', 'color': AppColors.math},
+      {'label': 'English', 'emoji': '📖', 'color': AppColors.english},
+      {'label': 'Life Skills', 'emoji': '🌟', 'color': AppColors.lifeSkills},
     ],
-    'intermediate': [ // Grade 4-6
-      {'label': 'Mathematics',             'emoji': '🔢', 'color': AppColors.math},
-      {'label': 'English',                 'emoji': '📖', 'color': AppColors.english},
-      {'label': 'Life Skills',             'emoji': '🌟', 'color': AppColors.lifeSkills},
-      {'label': 'Social Sciences',         'emoji': '🌍', 'color': AppColors.socialSciences},
-      {'label': 'Natural Sciences',        'emoji': '🔬', 'color': AppColors.science},
-    ],
-    'senior': [       // Grade 7
-      {'label': 'Mathematics',      'emoji': '🔢', 'color': AppColors.math},
-      {'label': 'English',          'emoji': '📖', 'color': AppColors.english},
-      {'label': 'Life Skills',      'emoji': '🌟', 'color': AppColors.lifeSkills},
-      {'label': 'Social Sciences',  'emoji': '🌍', 'color': AppColors.socialSciences},
+    'intermediate': [
+      // Grade 4-6
+      {'label': 'Mathematics', 'emoji': '🔢', 'color': AppColors.math},
+      {'label': 'English', 'emoji': '📖', 'color': AppColors.english},
+      {'label': 'Life Skills', 'emoji': '🌟', 'color': AppColors.lifeSkills},
+      {
+        'label': 'Social Sciences',
+        'emoji': '🌍',
+        'color': AppColors.socialSciences
+      },
       {'label': 'Natural Sciences', 'emoji': '🔬', 'color': AppColors.science},
-      {'label': 'Technology',       'emoji': '⚙️', 'color': AppColors.technology},
-      {'label': 'EMS',              'emoji': '💰', 'color': Color(0xFF009688)},
+    ],
+    'senior': [
+      // Grade 7
+      {'label': 'Mathematics', 'emoji': '🔢', 'color': AppColors.math},
+      {'label': 'English', 'emoji': '📖', 'color': AppColors.english},
+      {'label': 'Life Skills', 'emoji': '🌟', 'color': AppColors.lifeSkills},
+      {
+        'label': 'Social Sciences',
+        'emoji': '🌍',
+        'color': AppColors.socialSciences
+      },
+      {'label': 'Natural Sciences', 'emoji': '🔬', 'color': AppColors.science},
+      {'label': 'Technology', 'emoji': '⚙️', 'color': AppColors.technology},
+      {'label': 'EMS', 'emoji': '💰', 'color': Color(0xFF009688)},
     ],
   };
 
@@ -58,8 +69,8 @@ class _QuestsScreenState extends State<QuestsScreen> {
   }
 
   List<Map<String, Object>> _subjectsFor(String gradeKey) =>
-      List<Map<String, Object>>.from(
-          _gradeSubjects[_phaseFor(gradeKey)] ?? _gradeSubjects['intermediate']!);
+      List<Map<String, Object>>.from(_gradeSubjects[_phaseFor(gradeKey)] ??
+          _gradeSubjects['intermediate']!);
 
   String _defaultSubject(String gradeKey) =>
       (_subjectsFor(gradeKey).first['label'] as String);
@@ -141,7 +152,8 @@ class _QuestsScreenState extends State<QuestsScreen> {
                   onTap: () => setState(() => _selectedSubject = label),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 180),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
                       color: selected ? color : color.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(22),
@@ -150,7 +162,12 @@ class _QuestsScreenState extends State<QuestsScreen> {
                         width: 1.5,
                       ),
                       boxShadow: selected
-                          ? [BoxShadow(color: color.withValues(alpha: 0.35), blurRadius: 8, offset: const Offset(0, 3))]
+                          ? [
+                              BoxShadow(
+                                  color: color.withValues(alpha: 0.35),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 3))
+                            ]
                           : [],
                     ),
                     child: Row(
@@ -186,13 +203,14 @@ class _QuestsScreenState extends State<QuestsScreen> {
                     onPlay: (e) => _launchGame(e, gradeKey),
                   ),
                 ),
-
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
                   child: Row(
                     children: [
-                      Text(subjects.firstWhere((s) => s['label'] == activeSubject,
+                      Text(
+                          subjects.firstWhere(
+                              (s) => s['label'] == activeSubject,
                               orElse: () => subjects.first)['emoji'] as String,
                           style: const TextStyle(fontSize: 22)),
                       const SizedBox(width: 8),
@@ -206,7 +224,8 @@ class _QuestsScreenState extends State<QuestsScreen> {
                       ),
                       const SizedBox(width: 8),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
                           color: AppColors.primary.withValues(alpha: 0.10),
                           borderRadius: BorderRadius.circular(12),
@@ -214,7 +233,8 @@ class _QuestsScreenState extends State<QuestsScreen> {
                         child: Text(
                           '${games.length} games',
                           style: AppTextStyles.bodySmall.copyWith(
-                              color: AppColors.primary, fontWeight: FontWeight.w700),
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w700),
                         ),
                       ),
                     ],
@@ -222,7 +242,6 @@ class _QuestsScreenState extends State<QuestsScreen> {
                 ),
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 16)),
-
               if (games.isEmpty)
                 SliverToBoxAdapter(
                   child: Padding(
@@ -247,10 +266,12 @@ class _QuestsScreenState extends State<QuestsScreen> {
                 )
               else
                 SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   sliver: SliverLayoutBuilder(
                     builder: (context, constraints) {
-                      final crossAxisCount = constraints.crossAxisExtent > 600 ? 3 : 2;
+                      final crossAxisCount =
+                          constraints.crossAxisExtent > 600 ? 3 : 2;
                       return SliverGrid(
                         delegate: SliverChildBuilderDelegate(
                           (context, index) => _GameCard(
@@ -269,7 +290,6 @@ class _QuestsScreenState extends State<QuestsScreen> {
                     },
                   ),
                 ),
-
               const SliverToBoxAdapter(child: SizedBox(height: 32)),
             ],
           ),
@@ -421,7 +441,6 @@ class _FeaturedBannerState extends State<_FeaturedBanner> {
                             ),
                           ),
                         ),
-
                         Padding(
                           padding: const EdgeInsets.all(20),
                           child: Row(
@@ -435,13 +454,15 @@ class _FeaturedBannerState extends State<_FeaturedBanner> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 10, vertical: 4),
                                       decoration: BoxDecoration(
-                                        color: Colors.white.withValues(alpha: 0.20),
+                                        color: Colors.white
+                                            .withValues(alpha: 0.20),
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                       child: Text(
                                         entry.grades.length > 1
                                             ? 'All Grades'
-                                            : entry.grade.replaceAll('grade', 'Grade '),
+                                            : entry.grade
+                                                .replaceAll('grade', 'Grade '),
                                         style: GoogleFonts.nunito(
                                           fontSize: 11,
                                           fontWeight: FontWeight.w700,
@@ -481,7 +502,8 @@ class _FeaturedBannerState extends State<_FeaturedBanner> {
                                                 horizontal: 16, vertical: 8),
                                             decoration: BoxDecoration(
                                               color: Colors.white,
-                                              borderRadius: BorderRadius.circular(12),
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
                                             ),
                                             child: Text(
                                               'PLAY NOW',
@@ -498,8 +520,10 @@ class _FeaturedBannerState extends State<_FeaturedBanner> {
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 10, vertical: 8),
                                           decoration: BoxDecoration(
-                                            color: Colors.white.withValues(alpha: 0.20),
-                                            borderRadius: BorderRadius.circular(12),
+                                            color: Colors.white
+                                                .withValues(alpha: 0.20),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
                                           ),
                                           child: Text(
                                             '⭐ ${entry.xpReward} XP',
@@ -515,7 +539,6 @@ class _FeaturedBannerState extends State<_FeaturedBanner> {
                                   ],
                                 ),
                               ),
-
                               const SizedBox(width: 12),
                               Text(
                                 entry.emoji,
@@ -524,7 +547,6 @@ class _FeaturedBannerState extends State<_FeaturedBanner> {
                             ],
                           ),
                         ),
-
                         if (entry.isNew)
                           Positioned(
                             top: 12,
@@ -554,7 +576,6 @@ class _FeaturedBannerState extends State<_FeaturedBanner> {
             },
           ),
         ),
-
         if (widget.entries.length > 1)
           Padding(
             padding: const EdgeInsets.only(top: 12),
@@ -631,7 +652,11 @@ class _GameCard extends StatelessWidget {
   }
 
   Widget _difficultyStars(String difficulty) {
-    final count = difficulty == 'easy' ? 1 : difficulty == 'medium' ? 2 : 3;
+    final count = difficulty == 'easy'
+        ? 1
+        : difficulty == 'medium'
+            ? 2
+            : 3;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: List.generate(3, (i) {

@@ -37,8 +37,8 @@ class OwnRankBanner extends StatelessWidget {
               children: [
                 Text(
                   'Your Rank',
-                  style: AppTextStyles.bodySmall
-                      .copyWith(color: Colors.white70),
+                  style:
+                      AppTextStyles.bodySmall.copyWith(color: Colors.white70),
                 ),
                 Text(
                   rank != null ? '#$rank' : 'Not ranked yet',
@@ -59,8 +59,7 @@ class OwnRankBanner extends StatelessWidget {
               ),
               Text(
                 'this week',
-                style:
-                    AppTextStyles.bodySmall.copyWith(color: Colors.white70),
+                style: AppTextStyles.bodySmall.copyWith(color: Colors.white70),
               ),
             ],
           ),

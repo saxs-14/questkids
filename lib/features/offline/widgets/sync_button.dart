@@ -10,8 +10,7 @@ class SyncButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final conn = context.watch<ConnectivityProvider>();
-    final uid =
-        context.read<AuthProvider>().user?.uid ?? '';
+    final uid = context.read<AuthProvider>().user?.uid ?? '';
 
     return IconButton(
       tooltip: conn.pendingSyncCount > 0
@@ -24,12 +23,8 @@ class SyncButton extends StatelessWidget {
             turns: conn.isSyncing ? 1 : 0,
             duration: const Duration(seconds: 1),
             child: Icon(
-              conn.isOffline
-                  ? Icons.cloud_off
-                  : Icons.cloud_sync,
-              color: conn.isOffline
-                  ? AppColors.error
-                  : Colors.white,
+              conn.isOffline ? Icons.cloud_off : Icons.cloud_sync,
+              color: conn.isOffline ? AppColors.error : Colors.white,
             ),
           ),
           if (conn.pendingSyncCount > 0)
@@ -57,9 +52,8 @@ class SyncButton extends StatelessWidget {
             ),
         ],
       ),
-      onPressed: conn.isSyncing || conn.isOffline
-          ? null
-          : () => conn.syncNow(uid),
+      onPressed:
+          conn.isSyncing || conn.isOffline ? null : () => conn.syncNow(uid),
     );
   }
 }

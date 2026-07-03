@@ -72,8 +72,8 @@ class ChatMessageModel {
       id: id,
       text: map['text'] ?? '',
       isUser: map['isUser'] ?? true,
-      timestamp: map['timestamp'] != null 
-          ? DateTime.fromMillisecondsSinceEpoch(map['timestamp']) 
+      timestamp: map['timestamp'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(map['timestamp'])
           : DateTime.now(),
       imageUrl: map['imageUrl'],
     );

@@ -50,9 +50,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
       onDestinationSelected: (i) => setState(() => _selectedIndex = i),
       destinations: const [
         ResponsiveDestination(
-            icon: Icons.home_outlined,
-            activeIcon: Icons.home,
-            label: 'Home'),
+            icon: Icons.home_outlined, activeIcon: Icons.home, label: 'Home'),
         ResponsiveDestination(
             icon: Icons.verified_outlined,
             activeIcon: Icons.verified,
@@ -62,9 +60,9 @@ class _ParentDashboardState extends State<ParentDashboard> {
             activeIcon: Icons.bar_chart,
             label: 'Reports'),
         ResponsiveDestination(
-          icon: Icons.calendar_today_outlined,
-          activeIcon: Icons.calendar_today,
-          label: 'Calendar'),
+            icon: Icons.calendar_today_outlined,
+            activeIcon: Icons.calendar_today,
+            label: 'Calendar'),
         ResponsiveDestination(
             icon: Icons.person_outline,
             activeIcon: Icons.person,
@@ -76,8 +74,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
           children: [
             Text(
               'Hi, ${user?.name.split(' ').first ?? 'Parent'} 👋',
-              style: const TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.w700),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
             ),
             const Text('Parent Dashboard',
                 style: TextStyle(fontSize: 12, color: Colors.white70)),
@@ -86,16 +83,16 @@ class _ParentDashboardState extends State<ParentDashboard> {
         elevation: 2,
         actions: [
           IconButton(
-            icon: Icon(
-                theme.isDark ? Icons.wb_sunny : Icons.nightlight_round),
+            icon: Icon(theme.isDark ? Icons.wb_sunny : Icons.nightlight_round),
             onPressed: theme.toggleTheme,
           ),
           IconButton(
               icon: const Icon(Icons.notifications_outlined),
               onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const NotificationsScreen()),
-              )),
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const NotificationsScreen()),
+                  )),
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: GestureDetector(
@@ -111,8 +108,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
                             ? user!.name[0].toUpperCase()
                             : '?',
                         style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700),
+                            color: Colors.white, fontWeight: FontWeight.w700),
                       )
                     : null,
               ),
@@ -161,7 +157,8 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
     _eventsSub?.cancel();
     _remindersSub?.cancel();
 
-    _eventsSub = ParentRepository().watchCalendarEvents(childUid).listen((list) {
+    _eventsSub =
+        ParentRepository().watchCalendarEvents(childUid).listen((list) {
       final map = <DateTime, List<Map<String, dynamic>>>{};
       for (final e in list) {
         final ts = e['date'];
@@ -183,96 +180,153 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
     });
   }
 
-  Future<void> _showEventDialog({Map<String, dynamic>? event, required String childUid}) async {
+  Future<void> _showEventDialog(
+      {Map<String, dynamic>? event, required String childUid}) async {
     final titleCtrl = TextEditingController(text: event?['title'] ?? '');
     final descCtrl = TextEditingController(text: event?['description'] ?? '');
     DateTime selectedDate = event != null && event['date'] != null
-        ? (event['date'] is Timestamp ? (event['date'] as Timestamp).toDate() : event['date'])
+        ? (event['date'] is Timestamp
+            ? (event['date'] as Timestamp).toDate()
+            : event['date'])
         : DateTime.now();
 
-    await showDialog<void>(context: context, builder: (ctx) {
-      return StatefulBuilder(builder: (ctx, setDialogState) {
-        return AlertDialog(
-          title: Text(event == null ? 'Add Event' : 'Edit Event'),
-          content: Column(mainAxisSize: MainAxisSize.min, children: [
-            TextField(controller: titleCtrl, decoration: const InputDecoration(labelText: 'Title')),
-            TextField(controller: descCtrl, decoration: const InputDecoration(labelText: 'Description')),
-            const SizedBox(height: 8),
-            Row(children: [
-              Text('${selectedDate.toLocal()}'.split(' ')[0]),
-              const SizedBox(width: 8),
-              TextButton(onPressed: () async {
-                final picked = await showDatePicker(context: ctx, initialDate: selectedDate, firstDate: DateTime.now().subtract(const Duration(days: 365)), lastDate: DateTime.now().add(const Duration(days: 365)));
-                if (picked != null) setDialogState(() => selectedDate = DateTime(picked.year, picked.month, picked.day, selectedDate.hour, selectedDate.minute));
-              }, child: const Text('Change')),
-            ])
-          ]),
-          actions: [
-            TextButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('Cancel')),
-            ElevatedButton(onPressed: () async {
-              final payload = {
-                'childUid': childUid,
-                'title': titleCtrl.text,
-                'description': descCtrl.text,
-                'date': Timestamp.fromDate(selectedDate),
-              };
-              if (event == null) {
-                await ParentRepository().addCalendarEvent(payload);
-              } else {
-                await ParentRepository().updateCalendarEvent(event['id'], payload);
-              }
-              if (ctx.mounted) Navigator.of(ctx).pop();
-            }, child: const Text('Save'))
-          ],
-        );
-      });
-    });
+    await showDialog<void>(
+        context: context,
+        builder: (ctx) {
+          return StatefulBuilder(builder: (ctx, setDialogState) {
+            return AlertDialog(
+              title: Text(event == null ? 'Add Event' : 'Edit Event'),
+              content: Column(mainAxisSize: MainAxisSize.min, children: [
+                TextField(
+                    controller: titleCtrl,
+                    decoration: const InputDecoration(labelText: 'Title')),
+                TextField(
+                    controller: descCtrl,
+                    decoration:
+                        const InputDecoration(labelText: 'Description')),
+                const SizedBox(height: 8),
+                Row(children: [
+                  Text('${selectedDate.toLocal()}'.split(' ')[0]),
+                  const SizedBox(width: 8),
+                  TextButton(
+                      onPressed: () async {
+                        final picked = await showDatePicker(
+                            context: ctx,
+                            initialDate: selectedDate,
+                            firstDate: DateTime.now()
+                                .subtract(const Duration(days: 365)),
+                            lastDate:
+                                DateTime.now().add(const Duration(days: 365)));
+                        if (picked != null)
+                          setDialogState(() => selectedDate = DateTime(
+                              picked.year,
+                              picked.month,
+                              picked.day,
+                              selectedDate.hour,
+                              selectedDate.minute));
+                      },
+                      child: const Text('Change')),
+                ])
+              ]),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.of(ctx).pop(),
+                    child: const Text('Cancel')),
+                ElevatedButton(
+                    onPressed: () async {
+                      final payload = {
+                        'childUid': childUid,
+                        'title': titleCtrl.text,
+                        'description': descCtrl.text,
+                        'date': Timestamp.fromDate(selectedDate),
+                      };
+                      if (event == null) {
+                        await ParentRepository().addCalendarEvent(payload);
+                      } else {
+                        await ParentRepository()
+                            .updateCalendarEvent(event['id'], payload);
+                      }
+                      if (ctx.mounted) Navigator.of(ctx).pop();
+                    },
+                    child: const Text('Save'))
+              ],
+            );
+          });
+        });
   }
 
-  Future<void> _showReminderDialog({Map<String, dynamic>? reminder, required String childUid}) async {
+  Future<void> _showReminderDialog(
+      {Map<String, dynamic>? reminder, required String childUid}) async {
     final titleCtrl = TextEditingController(text: reminder?['title'] ?? '');
     final descCtrl = TextEditingController(text: reminder?['note'] ?? '');
     DateTime selectedDate = reminder != null && reminder['remindAt'] != null
-        ? (reminder['remindAt'] is Timestamp ? (reminder['remindAt'] as Timestamp).toDate() : reminder['remindAt'])
+        ? (reminder['remindAt'] is Timestamp
+            ? (reminder['remindAt'] as Timestamp).toDate()
+            : reminder['remindAt'])
         : DateTime.now().add(const Duration(hours: 1));
 
-    await showDialog<void>(context: context, builder: (ctx) {
-      return StatefulBuilder(builder: (ctx, setDialogState) {
-        return AlertDialog(
-          title: Text(reminder == null ? 'Add Reminder' : 'Edit Reminder'),
-          content: Column(mainAxisSize: MainAxisSize.min, children: [
-            TextField(controller: titleCtrl, decoration: const InputDecoration(labelText: 'Title')),
-            TextField(controller: descCtrl, decoration: const InputDecoration(labelText: 'Note')),
-            const SizedBox(height: 8),
-            Row(children: [
-              Text('${selectedDate.toLocal()}'.split(' ')[0]),
-              const SizedBox(width: 8),
-              TextButton(onPressed: () async {
-                final picked = await showDatePicker(context: ctx, initialDate: selectedDate, firstDate: DateTime.now().subtract(const Duration(days: 365)), lastDate: DateTime.now().add(const Duration(days: 365)));
-                if (picked != null) setDialogState(() => selectedDate = DateTime(picked.year, picked.month, picked.day, selectedDate.hour, selectedDate.minute));
-              }, child: const Text('Change')),
-            ])
-          ]),
-          actions: [
-            TextButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('Cancel')),
-            ElevatedButton(onPressed: () async {
-              final payload = {
-                'childUid': childUid,
-                'title': titleCtrl.text,
-                'note': descCtrl.text,
-                'remindAt': Timestamp.fromDate(selectedDate),
-              };
-              if (reminder == null) {
-                await ParentRepository().addReminder(payload);
-              } else {
-                await ParentRepository().updateCalendarEvent(reminder['id'], payload);
-              }
-              if (ctx.mounted) Navigator.of(ctx).pop();
-            }, child: const Text('Save'))
-          ],
-        );
-      });
-    });
+    await showDialog<void>(
+        context: context,
+        builder: (ctx) {
+          return StatefulBuilder(builder: (ctx, setDialogState) {
+            return AlertDialog(
+              title: Text(reminder == null ? 'Add Reminder' : 'Edit Reminder'),
+              content: Column(mainAxisSize: MainAxisSize.min, children: [
+                TextField(
+                    controller: titleCtrl,
+                    decoration: const InputDecoration(labelText: 'Title')),
+                TextField(
+                    controller: descCtrl,
+                    decoration: const InputDecoration(labelText: 'Note')),
+                const SizedBox(height: 8),
+                Row(children: [
+                  Text('${selectedDate.toLocal()}'.split(' ')[0]),
+                  const SizedBox(width: 8),
+                  TextButton(
+                      onPressed: () async {
+                        final picked = await showDatePicker(
+                            context: ctx,
+                            initialDate: selectedDate,
+                            firstDate: DateTime.now()
+                                .subtract(const Duration(days: 365)),
+                            lastDate:
+                                DateTime.now().add(const Duration(days: 365)));
+                        if (picked != null)
+                          setDialogState(() => selectedDate = DateTime(
+                              picked.year,
+                              picked.month,
+                              picked.day,
+                              selectedDate.hour,
+                              selectedDate.minute));
+                      },
+                      child: const Text('Change')),
+                ])
+              ]),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.of(ctx).pop(),
+                    child: const Text('Cancel')),
+                ElevatedButton(
+                    onPressed: () async {
+                      final payload = {
+                        'childUid': childUid,
+                        'title': titleCtrl.text,
+                        'note': descCtrl.text,
+                        'remindAt': Timestamp.fromDate(selectedDate),
+                      };
+                      if (reminder == null) {
+                        await ParentRepository().addReminder(payload);
+                      } else {
+                        await ParentRepository()
+                            .updateCalendarEvent(reminder['id'], payload);
+                      }
+                      if (ctx.mounted) Navigator.of(ctx).pop();
+                    },
+                    child: const Text('Save'))
+              ],
+            );
+          });
+        });
   }
 
   @override
@@ -280,11 +334,17 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
     final parentProv = context.watch<ParentProvider>();
     final child = parentProv.selectedChild;
     if (child != null && child.uid != _loadedChildUid) {
-      WidgetsBinding.instance.addPostFrameCallback((_) => _loadEvents(child.uid));
+      WidgetsBinding.instance
+          .addPostFrameCallback((_) => _loadEvents(child.uid));
     }
-    if (child == null) return Center(child: Text('Select a child to view calendar', style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary)));
+    if (child == null)
+      return Center(
+          child: Text('Select a child to view calendar',
+              style: AppTextStyles.bodyMedium
+                  .copyWith(color: AppColors.textSecondary)));
 
-    List<Map<String, dynamic>> eventsForDay(DateTime day) => _events[DateTime(day.year, day.month, day.day)] ?? [];
+    List<Map<String, dynamic>> eventsForDay(DateTime day) =>
+        _events[DateTime(day.year, day.month, day.day)] ?? [];
 
     return Column(children: [
       TableCalendar(
@@ -309,37 +369,59 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
             if (_reminders.isNotEmpty) ...[
               Text('Reminders', style: AppTextStyles.h4),
               const SizedBox(height: 8),
-              ..._reminders.map((r) => Card(child: ListTile(
-                title: Text(r['title'] ?? 'Reminder'),
-                subtitle: Text(r['note'] ?? ''),
-                trailing: IconButton(icon: const Icon(Icons.delete), onPressed: () async { await ParentRepository().deleteReminder(r['id']); }),
-              ))),
+              ..._reminders.map((r) => Card(
+                      child: ListTile(
+                    title: Text(r['title'] ?? 'Reminder'),
+                    subtitle: Text(r['note'] ?? ''),
+                    trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () async {
+                          await ParentRepository().deleteReminder(r['id']);
+                        }),
+                  ))),
               const SizedBox(height: 12),
             ],
 
             // events
-            ...eventsForDay(_selected ?? _focused).map((e) => Card(child: ListTile(
-              title: Text(e['title'] ?? 'Event'),
-              subtitle: Text(e['description'] ?? ''),
-              trailing: PopupMenuButton<String>(onSelected: (v) async {
-                if (v == 'edit') {
-                  await _showEventDialog(event: e, childUid: child.uid);
-                } else if (v == 'delete') {
-                  await ParentRepository().deleteCalendarEvent(e['id']);
-                }
-              }, itemBuilder: (_) => [const PopupMenuItem(value: 'edit', child: Text('Edit')), const PopupMenuItem(value: 'delete', child: Text('Delete'))]),
-            ))),
+            ...eventsForDay(_selected ?? _focused).map((e) => Card(
+                    child: ListTile(
+                  title: Text(e['title'] ?? 'Event'),
+                  subtitle: Text(e['description'] ?? ''),
+                  trailing: PopupMenuButton<String>(
+                      onSelected: (v) async {
+                        if (v == 'edit') {
+                          await _showEventDialog(event: e, childUid: child.uid);
+                        } else if (v == 'delete') {
+                          await ParentRepository().deleteCalendarEvent(e['id']);
+                        }
+                      },
+                      itemBuilder: (_) => [
+                            const PopupMenuItem(
+                                value: 'edit', child: Text('Edit')),
+                            const PopupMenuItem(
+                                value: 'delete', child: Text('Delete'))
+                          ]),
+                ))),
           ],
         ),
       ),
       Padding(
         padding: const EdgeInsets.all(12),
         child: Row(children: [
-          ElevatedButton.icon(onPressed: () => _showEventDialog(childUid: child.uid), icon: const Icon(Icons.add), label: const Text('Add Event')),
+          ElevatedButton.icon(
+              onPressed: () => _showEventDialog(childUid: child.uid),
+              icon: const Icon(Icons.add),
+              label: const Text('Add Event')),
           const SizedBox(width: 12),
-          OutlinedButton.icon(onPressed: () => _showReminderDialog(childUid: child.uid), icon: const Icon(Icons.alarm), label: const Text('Add Reminder')),
+          OutlinedButton.icon(
+              onPressed: () => _showReminderDialog(childUid: child.uid),
+              icon: const Icon(Icons.alarm),
+              label: const Text('Add Reminder')),
           const SizedBox(width: 12),
-          OutlinedButton.icon(onPressed: () => _importCsv(child.uid), icon: const Icon(Icons.upload_file), label: const Text('Import CSV')),
+          OutlinedButton.icon(
+              onPressed: () => _importCsv(child.uid),
+              icon: const Icon(Icons.upload_file),
+              label: const Text('Import CSV')),
         ]),
       )
     ]);
@@ -347,7 +429,8 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
 
   Future<void> _importCsv(String childUid) async {
     try {
-      const XTypeGroup typeGroup = XTypeGroup(label: 'csv', extensions: ['csv']);
+      const XTypeGroup typeGroup =
+          XTypeGroup(label: 'csv', extensions: ['csv']);
       final file = await openFile(acceptedTypeGroups: [typeGroup]);
       if (file == null) return;
       final content = await file.readAsString();
@@ -367,11 +450,20 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
         if (date == null) continue;
         final title = row.length > 1 ? row[1].toString() : 'Imported Event';
         final desc = row.length > 2 ? row[2].toString() : '';
-        await ParentRepository().addCalendarEvent({'childUid': childUid, 'title': title, 'description': desc, 'date': Timestamp.fromDate(date)});
+        await ParentRepository().addCalendarEvent({
+          'childUid': childUid,
+          'title': title,
+          'description': desc,
+          'date': Timestamp.fromDate(date)
+        });
       }
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('CSV imported')));
+      if (mounted)
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('CSV imported')));
     } catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Import failed: $e')));
+      if (mounted)
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Import failed: $e')));
     }
   }
 }
@@ -392,7 +484,8 @@ class _ParentHomeTabState extends State<_ParentHomeTab> {
     final parentProv = context.watch<ParentProvider>();
 
     final children = parentProv.linkedChildren;
-    final selected = parentProv.selectedChild ?? (children.isNotEmpty ? children.first : null);
+    final selected = parentProv.selectedChild ??
+        (children.isNotEmpty ? children.first : null);
 
     return SingleChildScrollView(
       padding: EdgeInsets.all(isMobile ? 16 : 24),
@@ -414,31 +507,49 @@ class _ParentHomeTabState extends State<_ParentHomeTab> {
                       width: 120,
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: isSelected ? AppColors.primary.withValues(alpha: 0.12) : AppColors.surface,
+                        color: isSelected
+                            ? AppColors.primary.withValues(alpha: 0.12)
+                            : AppColors.surface,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.primary.withValues(alpha: 0.08)),
+                        border: Border.all(
+                            color: AppColors.primary.withValues(alpha: 0.08)),
                       ),
                       child: Column(children: [
-                        CircleAvatar(radius: 24, backgroundColor: AppColors.primary, child: Text(c.name.isNotEmpty ? c.name[0] : '?')),
+                        CircleAvatar(
+                            radius: 24,
+                            backgroundColor: AppColors.primary,
+                            child: Text(c.name.isNotEmpty ? c.name[0] : '?')),
                         const SizedBox(height: 8),
-                        Text(c.name, style: AppTextStyles.bodySmall, overflow: TextOverflow.ellipsis),
-                        Text(c.grade, style: AppTextStyles.bodySmall.copyWith(fontSize: 11)),
+                        Text(c.name,
+                            style: AppTextStyles.bodySmall,
+                            overflow: TextOverflow.ellipsis),
+                        Text(c.grade,
+                            style:
+                                AppTextStyles.bodySmall.copyWith(fontSize: 11)),
                       ]),
                     ),
                   );
                 }
                 // Add child card
                 return GestureDetector(
-                  onTap: () => Navigator.pushNamed(context, '/parent_child_setup'),
+                  onTap: () =>
+                      Navigator.pushNamed(context, '/parent_child_setup'),
                   child: Container(
                     width: 120,
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: AppColors.surface,
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppColors.primary.withValues(alpha: 0.08)),
+                      border: Border.all(
+                          color: AppColors.primary.withValues(alpha: 0.08)),
                     ),
-                    child: const Column(mainAxisAlignment: MainAxisAlignment.center, children: [Icon(Icons.add), SizedBox(height: 8), Text('Add Child')]),
+                    child: const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.add),
+                          SizedBox(height: 8),
+                          Text('Add Child')
+                        ]),
                   ),
                 );
               },
@@ -454,28 +565,50 @@ class _ParentHomeTabState extends State<_ParentHomeTab> {
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.8)]),
+                gradient: LinearGradient(colors: [
+                  AppColors.primary,
+                  AppColors.primary.withValues(alpha: 0.8)
+                ]),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(selected.name, style: AppTextStyles.h2.copyWith(color: Colors.white)),
-                const SizedBox(height: 8),
-                Text('${selected.grade} • Level ${selected.totalPoints > 0 ? (selected.totalPoints ~/ 100) : 1}', style: AppTextStyles.bodyMedium.copyWith(color: Colors.white70)),
-                const SizedBox(height: 12),
-                Row(children: [
-                  Text('🔥 Streak: ${selected.streakDays}', style: AppTextStyles.bodyMedium.copyWith(color: Colors.white)),
-                  const SizedBox(width: 16),
-                  Text('Last played: ${selected.lastActiveDate != null ? '${DateTime.now().difference(selected.lastActiveDate!).inHours}h ago' : 'Never'}', style: AppTextStyles.bodySmall.copyWith(color: Colors.white70)),
-                ])
-              ]),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(selected.name,
+                        style: AppTextStyles.h2.copyWith(color: Colors.white)),
+                    const SizedBox(height: 8),
+                    Text(
+                        '${selected.grade} • Level ${selected.totalPoints > 0 ? (selected.totalPoints ~/ 100) : 1}',
+                        style: AppTextStyles.bodyMedium
+                            .copyWith(color: Colors.white70)),
+                    const SizedBox(height: 12),
+                    Row(children: [
+                      Text('🔥 Streak: ${selected.streakDays}',
+                          style: AppTextStyles.bodyMedium
+                              .copyWith(color: Colors.white)),
+                      const SizedBox(width: 16),
+                      Text(
+                          'Last played: ${selected.lastActiveDate != null ? '${DateTime.now().difference(selected.lastActiveDate!).inHours}h ago' : 'Never'}',
+                          style: AppTextStyles.bodySmall
+                              .copyWith(color: Colors.white70)),
+                    ])
+                  ]),
             ),
             const SizedBox(height: 16),
           ] else ...[
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(12)),
-              child: Column(children: [Text('No child selected', style: AppTextStyles.h4), const SizedBox(height: 8), Text('Select a child or add a new one.', style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary))]),
+              decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(12)),
+              child: Column(children: [
+                Text('No child selected', style: AppTextStyles.h4),
+                const SizedBox(height: 8),
+                Text('Select a child or add a new one.',
+                    style: AppTextStyles.bodyMedium
+                        .copyWith(color: AppColors.textSecondary))
+              ]),
             ),
             const SizedBox(height: 16),
           ],
@@ -491,10 +624,13 @@ class _ParentHomeTabState extends State<_ParentHomeTab> {
 
   Widget _buildQuickStats(bool isMobile) {
     final parentProv = context.watch<ParentProvider>();
-    final child = parentProv.selectedChild ?? (parentProv.linkedChildren.isNotEmpty ? parentProv.linkedChildren.first : null);
+    final child = parentProv.selectedChild ??
+        (parentProv.linkedChildren.isNotEmpty
+            ? parentProv.linkedChildren.first
+            : null);
     final points = child?.totalPoints ?? 0;
     final streak = child?.streakDays ?? 0;
-    final level  = points > 0 ? (points ~/ 100) + 1 : 1;
+    final level = points > 0 ? (points ~/ 100) + 1 : 1;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -505,11 +641,18 @@ class _ParentHomeTabState extends State<_ParentHomeTab> {
       ),
       child: Column(
         children: [
-          _StatRow(label: 'Current Level', value: 'Level $level', icon: Icons.military_tech),
+          _StatRow(
+              label: 'Current Level',
+              value: 'Level $level',
+              icon: Icons.military_tech),
           const SizedBox(height: 12),
-          _StatRow(label: 'Points Earned', value: '$points XP', icon: Icons.star),
+          _StatRow(
+              label: 'Points Earned', value: '$points XP', icon: Icons.star),
           const SizedBox(height: 12),
-          _StatRow(label: 'Day Streak', value: '$streak days 🔥', icon: Icons.local_fire_department),
+          _StatRow(
+              label: 'Day Streak',
+              value: '$streak days 🔥',
+              icon: Icons.local_fire_department),
         ],
       ),
     );
@@ -566,7 +709,9 @@ class _VerificationTab extends StatelessWidget {
           const SizedBox(height: 12),
           Text('No pending verifications', style: AppTextStyles.h3),
           const SizedBox(height: 8),
-          Text('All recent activities have been verified', style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary)),
+          Text('All recent activities have been verified',
+              style: AppTextStyles.bodyMedium
+                  .copyWith(color: AppColors.textSecondary)),
         ]),
       );
     }
@@ -577,18 +722,29 @@ class _VerificationTab extends StatelessWidget {
         final item = pending[i];
         return Card(
           child: ListTile(
-            leading: CircleAvatar(child: Text(item['activityTitle'] != null && item['activityTitle'].isNotEmpty ? item['activityTitle'][0] : 'A')),
+            leading: CircleAvatar(
+                child: Text(item['activityTitle'] != null &&
+                        item['activityTitle'].isNotEmpty
+                    ? item['activityTitle'][0]
+                    : 'A')),
             title: Text(item['activityTitle'] ?? 'Activity'),
-            subtitle: Text('${item['childName'] ?? ''} • Score: ${item['score'] ?? 0}%'),
+            subtitle: Text(
+                '${item['childName'] ?? ''} • Score: ${item['score'] ?? 0}%'),
             trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-              ElevatedButton(onPressed: () async {
-                // approve: set verified = true and award points
-                await ParentRepository().approveProgress(item['id'], points: item['pointsEarned'] ?? 0, childUid: item['childUid']);
-              }, child: const Text('Approve')),
+              ElevatedButton(
+                  onPressed: () async {
+                    // approve: set verified = true and award points
+                    await ParentRepository().approveProgress(item['id'],
+                        points: item['pointsEarned'] ?? 0,
+                        childUid: item['childUid']);
+                  },
+                  child: const Text('Approve')),
               const SizedBox(width: 8),
-              OutlinedButton(onPressed: () async {
-                await ParentRepository().declineProgress(item['id']);
-              }, child: const Text('Decline')),
+              OutlinedButton(
+                  onPressed: () async {
+                    await ParentRepository().declineProgress(item['id']);
+                  },
+                  child: const Text('Decline')),
             ]),
           ),
         );
@@ -620,7 +776,8 @@ class _ParentReportsTabState extends State<_ParentReportsTab> {
           Text('No child selected', style: AppTextStyles.h3),
           const SizedBox(height: 8),
           Text('Select a child to view analytics',
-              style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary)),
+              style: AppTextStyles.bodyMedium
+                  .copyWith(color: AppColors.textSecondary)),
         ]),
       );
     }
@@ -654,8 +811,8 @@ class _ParentProfileTab extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.primary.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                  color: AppColors.primary.withValues(alpha: 0.1)),
+              border:
+                  Border.all(color: AppColors.primary.withValues(alpha: 0.1)),
             ),
             child: Column(
               children: [
@@ -731,7 +888,8 @@ class _ProfileInfoRow extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: AppTextStyles.bodySmall.copyWith(fontSize: 11)),
+              Text(label,
+                  style: AppTextStyles.bodySmall.copyWith(fontSize: 11)),
               const SizedBox(height: 4),
               Text(value, style: AppTextStyles.bodyMedium),
             ],

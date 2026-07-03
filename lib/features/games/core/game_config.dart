@@ -5,18 +5,18 @@ import '../../../core/constants/game_catalog.dart';
 /// Engines must NOT contain hardcoded question lists; all tunable
 /// parameters live here so a single engine class serves many curricula.
 class GameConfig {
-  final String engineType;       // AppConstants.engine*
-  final String subject;          // e.g. 'Mathematics'
-  final String grade;            // e.g. 'grade4'
-  final String topicId;          // caps_curriculum topic id
-  final String subtopicId;       // caps_curriculum subtopic id
-  final String difficulty;       // 'easy' | 'medium' | 'hard' | 'adaptive'
-  final int questionCount;       // total questions per session
-  final int timeLimitSeconds;    // 0 = no limit (timer still counts up)
-  final String opponentName;     // AI opponent display name
-  final String opponentEmoji;    // AI opponent emoji / avatar
+  final String engineType; // AppConstants.engine*
+  final String subject; // e.g. 'Mathematics'
+  final String grade; // e.g. 'grade4'
+  final String topicId; // caps_curriculum topic id
+  final String subtopicId; // caps_curriculum subtopic id
+  final String difficulty; // 'easy' | 'medium' | 'hard' | 'adaptive'
+  final int questionCount; // total questions per session
+  final int timeLimitSeconds; // 0 = no limit (timer still counts up)
+  final String opponentName; // AI opponent display name
+  final String opponentEmoji; // AI opponent emoji / avatar
   final Map<String, dynamic> extras; // engine-specific config (range, lanes, …)
-  final String? catalogId;       // GameCatalogEntry.id — used for mission completion
+  final String? catalogId; // GameCatalogEntry.id — used for mission completion
 
   const GameConfig({
     required this.engineType,

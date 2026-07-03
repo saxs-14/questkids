@@ -24,10 +24,10 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     _ctrl = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 1200));
-    _fadeAnim = Tween<double>(begin: 0, end: 1).animate(
-        CurvedAnimation(parent: _ctrl, curve: Curves.easeIn));
-    _scaleAnim = Tween<double>(begin: 0.7, end: 1).animate(
-        CurvedAnimation(parent: _ctrl, curve: Curves.elasticOut));
+    _fadeAnim = Tween<double>(begin: 0, end: 1)
+        .animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeIn));
+    _scaleAnim = Tween<double>(begin: 0.7, end: 1)
+        .animate(CurvedAnimation(parent: _ctrl, curve: Curves.elasticOut));
     _ctrl.forward();
     _navigate();
   }
@@ -97,8 +97,8 @@ class _SplashScreenState extends State<SplashScreen>
                     child: Image.asset(
                       'assets/icon/questkids_logo.png',
                       fit: BoxFit.contain,
-                      errorBuilder: (_, __, ___) =>
-                          const Center(child: Text('🎮', style: TextStyle(fontSize: 60))),
+                      errorBuilder: (_, __, ___) => const Center(
+                          child: Text('🎮', style: TextStyle(fontSize: 60))),
                     ),
                   ),
                 ),
@@ -107,8 +107,8 @@ class _SplashScreenState extends State<SplashScreen>
                     style: AppTextStyles.h1.copyWith(color: Colors.white)),
                 const SizedBox(height: 8),
                 Text('Learn. Play. Grow.',
-                    style: AppTextStyles.bodyLarge.copyWith(
-                        color: Colors.white70)),
+                    style: AppTextStyles.bodyLarge
+                        .copyWith(color: Colors.white70)),
                 const SizedBox(height: 60),
                 const CircularProgressIndicator(
                     color: Colors.white, strokeWidth: 2),

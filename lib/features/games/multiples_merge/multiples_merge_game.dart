@@ -21,7 +21,8 @@ class MultiplesMergeGame extends StatefulWidget {
   final GameConfig config;
   final dynamic user;
 
-  const MultiplesMergeGame({super.key, required this.config, required this.user});
+  const MultiplesMergeGame(
+      {super.key, required this.config, required this.user});
 
   @override
   State<MultiplesMergeGame> createState() => _MultiplesMergeGameState();
@@ -52,7 +53,8 @@ class _MultiplesMergeGameState extends State<MultiplesMergeGame>
     final pack = await loadContentPack(widget.config);
     if (!mounted) return;
     _pack = pack;
-    final session = MultiplesMergeSession(widget.config, _uid, pack: pack)..startSession();
+    final session = MultiplesMergeSession(widget.config, _uid, pack: pack)
+      ..startSession();
     session.addListener(_onChange);
     setState(() => _session = session);
   }
@@ -77,7 +79,8 @@ class _MultiplesMergeGameState extends State<MultiplesMergeGame>
   void _restart() {
     _session?.removeListener(_onChange);
     _session?.dispose();
-    final session = MultiplesMergeSession(widget.config, _uid, pack: _pack)..startSession();
+    final session = MultiplesMergeSession(widget.config, _uid, pack: _pack)
+      ..startSession();
     setState(() {
       _session = session;
       _lastQ = 0;
@@ -87,7 +90,8 @@ class _MultiplesMergeGameState extends State<MultiplesMergeGame>
 
   void _openWeeklyQuiz() {
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (_) => MultiplesQuizScreen(config: widget.config, user: widget.user),
+      builder: (_) =>
+          MultiplesQuizScreen(config: widget.config, user: widget.user),
     ));
   }
 
@@ -133,7 +137,8 @@ class _MultiplesMergeGameState extends State<MultiplesMergeGame>
                         onClose: () => Navigator.of(ctx).pop(),
                         onQuiz: _openWeeklyQuiz,
                       ),
-                      _InstructionStrip(table: session.table, length: session.chainLength),
+                      _InstructionStrip(
+                          table: session.table, length: session.chainLength),
                       Expanded(
                         child: Center(
                           child: Padding(
@@ -160,7 +165,12 @@ class _MultiplesMergeGameState extends State<MultiplesMergeGame>
                       maxBlastForce: 20,
                       minBlastForce: 8,
                       gravity: 0.3,
-                      colors: const [accent, AppColors.gold, AppColors.orange, Colors.white],
+                      colors: const [
+                        accent,
+                        AppColors.gold,
+                        AppColors.orange,
+                        Colors.white
+                      ],
                     ),
                   ),
                 ],
@@ -205,7 +215,8 @@ class _Hud extends StatelessWidget {
               children: [
                 Text('Multiples of $table',
                     style: GameTheme.display(20, color: AppColors.math)),
-                Text('Chain $chainLen / $target   •   Round $round/$totalRounds',
+                Text(
+                    'Chain $chainLen / $target   •   Round $round/$totalRounds',
                     style: GameTheme.body(12, color: AppColors.textSecondary)),
               ],
             ),
@@ -241,7 +252,8 @@ class _InstructionStrip extends StatelessWidget {
       child: Text(
         'Connect the multiples in order:  $preview …',
         textAlign: TextAlign.center,
-        style: GameTheme.body(13, color: AppColors.math, weight: FontWeight.w700),
+        style:
+            GameTheme.body(13, color: AppColors.math, weight: FontWeight.w700),
       ),
     );
   }
@@ -253,7 +265,8 @@ class _MergeGrid extends StatelessWidget {
   final double pulse;
   final Color accent;
 
-  const _MergeGrid({required this.session, required this.pulse, required this.accent});
+  const _MergeGrid(
+      {required this.session, required this.pulse, required this.accent});
 
   void _touch(Offset p, double side, int n) {
     if (p.dx < 0 || p.dy < 0 || p.dx > side || p.dy > side) return;
@@ -304,7 +317,8 @@ class _MergeGrid extends StatelessWidget {
                       value: round.values[i],
                       selected: session.chain.contains(i),
                       glow: session.shouldGlow(i),
-                      merged: session.isMerging && session.mergedCells.contains(i),
+                      merged:
+                          session.isMerging && session.mergedCells.contains(i),
                       pulse: pulse,
                     ),
                   ),
@@ -385,8 +399,8 @@ class _Tile extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(6),
           child: Text('$value',
-              style: GameTheme.display(26, color: Colors.white,
-                  weight: FontWeight.w700)),
+              style: GameTheme.display(26,
+                  color: Colors.white, weight: FontWeight.w700)),
         ),
       ),
     );
@@ -412,7 +426,11 @@ class _PathPainter extends CustomPainter {
   final double tile;
   final Color color;
 
-  _PathPainter({required this.chain, required this.n, required this.tile, required this.color});
+  _PathPainter(
+      {required this.chain,
+      required this.n,
+      required this.tile,
+      required this.color});
 
   Offset _center(int idx) =>
       Offset((idx % n) * tile + tile / 2, (idx ~/ n) * tile + tile / 2);
@@ -420,7 +438,8 @@ class _PathPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (chain.length < 2) return;
-    final path = Path()..moveTo(_center(chain.first).dx, _center(chain.first).dy);
+    final path = Path()
+      ..moveTo(_center(chain.first).dx, _center(chain.first).dy);
     for (int i = 1; i < chain.length; i++) {
       final c = _center(chain[i]);
       path.lineTo(c.dx, c.dy);

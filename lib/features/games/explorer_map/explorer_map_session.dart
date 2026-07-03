@@ -114,7 +114,8 @@ class ExplorerMapSession extends GameSessionState {
 
   // ── Question generation per mode ─────────────────────────────────────────
   List<Map<String, dynamic>> _buildQuestions() {
-    final provinces = List<ProvincePin>.from(_mapConfig.provinces)..shuffle(_rng);
+    final provinces = List<ProvincePin>.from(_mapConfig.provinces)
+      ..shuffle(_rng);
 
     switch (mode) {
       case ExplorerMode.learn:
@@ -145,9 +146,12 @@ class ExplorerMapSession extends GameSessionState {
   }
 
   List<String> _nameOptions(ProvincePin correct) {
-    final others = _mapConfig.provinces.where((p) => p.id != correct.id).toList()
+    final others = _mapConfig.provinces
+        .where((p) => p.id != correct.id)
+        .toList()
       ..shuffle(_rng);
-    final opts = [correct.id, ...others.take(3).map((p) => p.id)]..shuffle(_rng);
+    final opts = [correct.id, ...others.take(3).map((p) => p.id)]
+      ..shuffle(_rng);
     return opts;
   }
 

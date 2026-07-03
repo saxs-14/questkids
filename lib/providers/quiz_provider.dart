@@ -33,15 +33,13 @@ class QuizProvider extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
   String get selectedSubject => _selectedSubject;
 
-  QuestionModel? get currentQuestion =>
-      _currentActivity != null &&
-              _currentQuestionIndex < _currentActivity!.questions.length
-          ? _currentActivity!.questions[_currentQuestionIndex]
-          : null;
+  QuestionModel? get currentQuestion => _currentActivity != null &&
+          _currentQuestionIndex < _currentActivity!.questions.length
+      ? _currentActivity!.questions[_currentQuestionIndex]
+      : null;
 
   int get totalQuestions => _currentActivity?.questions.length ?? 0;
-  bool get isLastQuestion =>
-      _currentQuestionIndex == totalQuestions - 1;
+  bool get isLastQuestion => _currentQuestionIndex == totalQuestions - 1;
   double get progress =>
       totalQuestions > 0 ? (_currentQuestionIndex + 1) / totalQuestions : 0;
 
@@ -54,16 +52,13 @@ class QuizProvider extends ChangeNotifier {
       final isOnline = await offlineService.isOnline();
       if (isOnline) {
         await _quizService.seedDemoActivities(grade);
-        _activities =
-            await _activityRepo.getActivitiesByGrade(grade);
+        _activities = await _activityRepo.getActivitiesByGrade(grade);
         await offlineService.cacheActivities(_activities);
       } else {
-        _activities =
-            await offlineService.getCachedActivities(grade);
+        _activities = await offlineService.getCachedActivities(grade);
         if (_activities.isEmpty) {
           _state = QuizState.error;
-          _errorMessage =
-              'No cached quests available offline. '
+          _errorMessage = 'No cached quests available offline. '
               'Please connect to the internet first.';
           notifyListeners();
           return;
@@ -71,14 +66,12 @@ class QuizProvider extends ChangeNotifier {
       }
       _state = QuizState.idle;
     } catch (e) {
-      _activities =
-          await offlineService.getCachedActivities(grade);
+      _activities = await offlineService.getCachedActivities(grade);
       if (_activities.isNotEmpty) {
         _state = QuizState.idle;
       } else {
         _state = QuizState.error;
-        _errorMessage =
-            'Failed to load quests. Check your connection.';
+        _errorMessage = 'Failed to load quests. Check your connection.';
       }
     }
     notifyListeners();
@@ -86,9 +79,7 @@ class QuizProvider extends ChangeNotifier {
 
   List<ActivityModel> get filteredActivities {
     if (_selectedSubject == 'All') return _activities;
-    return _activities
-        .where((a) => a.subject == _selectedSubject)
-        .toList();
+    return _activities.where((a) => a.subject == _selectedSubject).toList();
   }
 
   void setSubjectFilter(String subject) {
@@ -169,9 +160,8 @@ class QuizProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  int get finalScore => totalQuestions > 0
-      ? ((_correctCount / totalQuestions) * 100).round()
-      : 0;
+  int get finalScore =>
+      totalQuestions > 0 ? ((_correctCount / totalQuestions) * 100).round() : 0;
 
   int get pointsEarned {
     if (_currentActivity == null) return 0;
@@ -183,8 +173,7 @@ class QuizProvider extends ChangeNotifier {
     } else if (finalScore >= 60) {
       multiplier = 1.2;
     }
-    return (_currentActivity!.rewardPoints * multiplier *
-            (finalScore / 100))
+    return (_currentActivity!.rewardPoints * multiplier * (finalScore / 100))
         .round();
   }
 

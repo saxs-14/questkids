@@ -24,25 +24,27 @@ class _Grade1WorldMapState extends State<Grade1WorldMap>
   late AnimationController _cloudCtrl;
   late AnimationController _pulseCtrl;
 
-  static const _mathColor    = Color(0xFFFF8C00);
+  static const _mathColor = Color(0xFFFF8C00);
   static const _englishColor = Color(0xFF5C35F5);
-  static const _lsColor      = Color(0xFF2E7D32);
+  static const _lsColor = Color(0xFF2E7D32);
 
   // 13 world-map locations in display order (snake path)
   static const _locations = [
-    _Loc('math_g1_counting',  '🏟️', 'The Arena',       _mathColor,    'Mathematics'),
-    _Loc('math_g1_addition',  '🏝️', 'Treasure Island', _mathColor,    'Mathematics'),
-    _Loc('math_g1_subtraction','🦁', 'Safari Park',     _mathColor,    'Mathematics'),
-    _Loc('math_g1_mountain',  '⛰️', 'Mountain Peak',   _mathColor,    'Mathematics'),
-    _Loc('math_g1_multiples', '⚙️', 'Magic Workshop',  _mathColor,    'Mathematics'),
-    _Loc('eng_g1_phonics',    '🔤', 'Alphabet Castle', _englishColor, 'English'),
-    _Loc('eng_g1_reading',    '🌈', 'Rainbow Kingdom', _englishColor, 'English'),
-    _Loc('eng_g1_grammar',    '🌻', 'Magic Garden',    _englishColor, 'English'),
-    _Loc('ls_g1_body',        '🧍', 'Health Lab',      _lsColor,      'Life Skills'),
-    _Loc('ls_g1_feelings',    '😊', 'Emotion Factory', _lsColor,      'Life Skills'),
-    _Loc('ls_g1_safety',      '🦸', 'Hero HQ',         _lsColor,      'Life Skills'),
-    _Loc('ls_g1_community',   '🏘️', 'Community Town',  _lsColor,      'Life Skills'),
-    _Loc('ls_g1_habits',      '🍎', 'Healthy City',    _lsColor,      'Life Skills'),
+    _Loc('math_g1_counting', '🏟️', 'The Arena', _mathColor, 'Mathematics'),
+    _Loc('math_g1_addition', '🏝️', 'Treasure Island', _mathColor,
+        'Mathematics'),
+    _Loc('math_g1_subtraction', '🦁', 'Safari Park', _mathColor, 'Mathematics'),
+    _Loc('math_g1_mountain', '⛰️', 'Mountain Peak', _mathColor, 'Mathematics'),
+    _Loc(
+        'math_g1_multiples', '⚙️', 'Magic Workshop', _mathColor, 'Mathematics'),
+    _Loc('eng_g1_phonics', '🔤', 'Alphabet Castle', _englishColor, 'English'),
+    _Loc('eng_g1_reading', '🌈', 'Rainbow Kingdom', _englishColor, 'English'),
+    _Loc('eng_g1_grammar', '🌻', 'Magic Garden', _englishColor, 'English'),
+    _Loc('ls_g1_body', '🧍', 'Health Lab', _lsColor, 'Life Skills'),
+    _Loc('ls_g1_feelings', '😊', 'Emotion Factory', _lsColor, 'Life Skills'),
+    _Loc('ls_g1_safety', '🦸', 'Hero HQ', _lsColor, 'Life Skills'),
+    _Loc('ls_g1_community', '🏘️', 'Community Town', _lsColor, 'Life Skills'),
+    _Loc('ls_g1_habits', '🍎', 'Healthy City', _lsColor, 'Life Skills'),
   ];
 
   // Winding path positions: 0=left  1=center  2=right
@@ -79,17 +81,18 @@ class _Grade1WorldMapState extends State<Grade1WorldMap>
       onStart: () {
         final config = GameConfig(
           engineType: entry.engineType,
-          subject:    entry.subject,
-          grade:      user?.grade ?? 'grade1',
-          topicId:    entry.topicId,
+          subject: entry.subject,
+          grade: user?.grade ?? 'grade1',
+          topicId: entry.topicId,
           subtopicId: entry.subtopicId,
           difficulty: entry.difficulty,
-          extras:     entry.extras,
-          catalogId:  entry.id,
+          extras: entry.extras,
+          catalogId: entry.id,
         );
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => GameRouter(config: config, user: user)),
+          MaterialPageRoute(
+              builder: (_) => GameRouter(config: config, user: user)),
         );
       },
     );
@@ -109,7 +112,12 @@ class _Grade1WorldMapState extends State<Grade1WorldMap>
           child: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF1565C0), Color(0xFF42A5F5), Color(0xFF80CBC4), Color(0xFFA5D6A7)],
+                colors: [
+                  Color(0xFF1565C0),
+                  Color(0xFF42A5F5),
+                  Color(0xFF80CBC4),
+                  Color(0xFFA5D6A7)
+                ],
                 stops: [0.0, 0.35, 0.70, 1.0],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -125,10 +133,22 @@ class _Grade1WorldMapState extends State<Grade1WorldMap>
             final dx = _cloudCtrl.value * w * 1.5;
             return Stack(
               children: [
-                Positioned(top: 30,  left: dx - w * 0.1,  child: _Cloud(size: 80,  opacity: 0.45)),
-                Positioned(top: 60,  left: dx - w * 0.55, child: _Cloud(size: 110, opacity: 0.35)),
-                Positioned(top: 18,  left: dx + w * 0.40, child: _Cloud(size: 65,  opacity: 0.40)),
-                Positioned(top: 90,  left: dx - w * 0.80, child: _Cloud(size: 95,  opacity: 0.30)),
+                Positioned(
+                    top: 30,
+                    left: dx - w * 0.1,
+                    child: _Cloud(size: 80, opacity: 0.45)),
+                Positioned(
+                    top: 60,
+                    left: dx - w * 0.55,
+                    child: _Cloud(size: 110, opacity: 0.35)),
+                Positioned(
+                    top: 18,
+                    left: dx + w * 0.40,
+                    child: _Cloud(size: 65, opacity: 0.40)),
+                Positioned(
+                    top: 90,
+                    left: dx - w * 0.80,
+                    child: _Cloud(size: 95, opacity: 0.30)),
               ],
             );
           },
@@ -149,15 +169,20 @@ class _Grade1WorldMapState extends State<Grade1WorldMap>
                     if (i >= _locations.length) return null;
 
                     // Subject section divider before first game of each group
-                    final isFirst = i == 0 || _subjectAt(i) != _subjectAt(i - 1);
-                    final loc  = _locations[i];
-                    final pos  = _positions[i];
-                    final entry = GameCatalog.all.where((e) => e.id == loc.id).firstOrNull;
+                    final isFirst =
+                        i == 0 || _subjectAt(i) != _subjectAt(i - 1);
+                    final loc = _locations[i];
+                    final pos = _positions[i];
+                    final entry = GameCatalog.all
+                        .where((e) => e.id == loc.id)
+                        .firstOrNull;
 
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        if (isFirst) _SubjectBanner(subject: loc.subject, color: loc.color),
+                        if (isFirst)
+                          _SubjectBanner(
+                              subject: loc.subject, color: loc.color),
 
                         // Game node + connector arrow below (except last)
                         _GameNode(
@@ -221,7 +246,12 @@ class _MapHeader extends StatelessWidget {
                   fontWeight: FontWeight.w900,
                   color: Colors.white,
                   letterSpacing: 0.5,
-                  shadows: [Shadow(color: Color(0x880D47A1), blurRadius: 12, offset: Offset(0, 3))])),
+                  shadows: [
+                    Shadow(
+                        color: Color(0x880D47A1),
+                        blurRadius: 12,
+                        offset: Offset(0, 3))
+                  ])),
           const SizedBox(height: 6),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
@@ -230,7 +260,10 @@ class _MapHeader extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: const Text('Grade 1 — 13 Adventures await!',
-                style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600)),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600)),
           ),
         ],
       ),
@@ -250,7 +283,7 @@ class _SubjectBanner extends StatelessWidget {
 
   static const _icons = {
     'Mathematics': '🔢',
-    'English':     '📖',
+    'English': '📖',
     'Life Skills': '🌟',
   };
 
@@ -260,26 +293,42 @@ class _SubjectBanner extends StatelessWidget {
       padding: const EdgeInsets.only(top: 8, bottom: 12),
       child: Row(
         children: [
-          Expanded(child: Container(height: 2, decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [color.withValues(alpha: 0), color]),
-          ))),
+          Expanded(
+              child: Container(
+                  height: 2,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: [color.withValues(alpha: 0), color]),
+                  ))),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 10),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
             decoration: BoxDecoration(
               color: color,
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [BoxShadow(color: color.withValues(alpha: 0.40), blurRadius: 12, offset: const Offset(0, 3))],
+              boxShadow: [
+                BoxShadow(
+                    color: color.withValues(alpha: 0.40),
+                    blurRadius: 12,
+                    offset: const Offset(0, 3))
+              ],
             ),
             child: Text(
               '${_icons[subject] ?? '📚'} $subject',
               style: const TextStyle(
-                color: Colors.white, fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 0.5),
+                  color: Colors.white,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 0.5),
             ),
           ),
-          Expanded(child: Container(height: 2, decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [color, color.withValues(alpha: 0)]),
-          ))),
+          Expanded(
+              child: Container(
+                  height: 2,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: [color, color.withValues(alpha: 0)]),
+                  ))),
         ],
       ),
     );
@@ -294,7 +343,7 @@ class _SubjectBanner extends StatelessWidget {
 class _GameNode extends StatelessWidget {
   final _Loc loc;
   final GameCatalogEntry? entry;
-  final int position;      // 0/1/2
+  final int position; // 0/1/2
   final AnimationController pulseCtrl;
   final VoidCallback onTap;
 
@@ -359,10 +408,13 @@ class _GameNode extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.22),
                         shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white.withValues(alpha: 0.40), width: 2),
+                        border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.40),
+                            width: 2),
                       ),
                       child: Center(
-                        child: Text(loc.emoji, style: const TextStyle(fontSize: 28)),
+                        child: Text(loc.emoji,
+                            style: const TextStyle(fontSize: 28)),
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -399,7 +451,8 @@ class _GameNode extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 3),
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.20),
                             borderRadius: BorderRadius.circular(10),
@@ -407,11 +460,14 @@ class _GameNode extends StatelessWidget {
                           child: Text(
                             '⭐ $xp XP',
                             style: const TextStyle(
-                              color: Colors.white, fontSize: 10, fontWeight: FontWeight.w700),
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w700),
                           ),
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 4),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(12),
@@ -440,7 +496,9 @@ class _GameNode extends StatelessWidget {
 
   Color _darken(Color c, double amount) {
     final hsl = HSLColor.fromColor(c);
-    return hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0)).toColor();
+    return hsl
+        .withLightness((hsl.lightness - amount).clamp(0.0, 1.0))
+        .toColor();
   }
 }
 
@@ -464,7 +522,11 @@ class _PathArrow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Arrow direction text based on position movement
-    final icon = (toPos > fromPos) ? '↘' : (toPos < fromPos) ? '↙' : '↓';
+    final icon = (toPos > fromPos)
+        ? '↘'
+        : (toPos < fromPos)
+            ? '↙'
+            : '↓';
     final align = switch (fromPos) {
       0 => Alignment.centerLeft,
       2 => Alignment.centerRight,
@@ -482,7 +544,10 @@ class _PathArrow extends StatelessWidget {
             style: TextStyle(
               fontSize: 24,
               color: fromColor.withValues(alpha: 0.70),
-              shadows: [Shadow(color: Colors.black.withValues(alpha: 0.20), blurRadius: 4)],
+              shadows: [
+                Shadow(
+                    color: Colors.black.withValues(alpha: 0.20), blurRadius: 4)
+              ],
             ),
           ),
         ),
@@ -520,7 +585,7 @@ class _CloudPainter extends CustomPainter {
     final p = Paint()..color = Colors.white;
     final cx = size.width / 2;
     final cy = size.height * 0.6;
-    final r  = size.height * 0.5;
+    final r = size.height * 0.5;
     canvas.drawCircle(Offset(cx, cy), r, p);
     canvas.drawCircle(Offset(cx - r * 0.8, cy + r * 0.1), r * 0.75, p);
     canvas.drawCircle(Offset(cx + r * 0.8, cy + r * 0.1), r * 0.75, p);

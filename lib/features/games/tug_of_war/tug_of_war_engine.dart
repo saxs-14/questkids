@@ -87,7 +87,11 @@ class TugOfWarEngine extends GameEngine {
           });
         case 'conversion':
           const factors = [100, 1000, 60];
-          const units = [['m', 'cm'], ['km', 'm'], ['h', 'min']];
+          const units = [
+            ['m', 'cm'],
+            ['km', 'm'],
+            ['h', 'min']
+          ];
           final idx = a % factors.length;
           final value = (b % 20) + 1;
           final answer = value * factors[idx];

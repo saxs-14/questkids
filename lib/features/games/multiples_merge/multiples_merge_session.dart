@@ -13,7 +13,8 @@ class MultiplesMergeSession extends GameSessionState {
   /// [pack] is the pre-loaded content pack JSON (see
   /// lib/features/games/core/content_pack_loader.dart), or null to fall
   /// back to the built-in grade-tuned demo content.
-  MultiplesMergeSession(GameConfig config, this.uid, {Map<String, dynamic>? pack})
+  MultiplesMergeSession(GameConfig config, this.uid,
+      {Map<String, dynamic>? pack})
       : super(config) {
     _mergeConfig = pack != null
         ? MultiplesMergeConfig.fromPack(pack, config)

@@ -14,8 +14,7 @@ class BadgeEarnedDialog extends StatefulWidget {
   });
 
   @override
-  State<BadgeEarnedDialog> createState() =>
-      _BadgeEarnedDialogState();
+  State<BadgeEarnedDialog> createState() => _BadgeEarnedDialogState();
 }
 
 class _BadgeEarnedDialogState extends State<BadgeEarnedDialog>
@@ -28,12 +27,11 @@ class _BadgeEarnedDialogState extends State<BadgeEarnedDialog>
   void initState() {
     super.initState();
     _ctrl = AnimationController(
-        vsync: this,
-        duration: const Duration(milliseconds: 600));
-    _scaleAnim = Tween<double>(begin: 0.3, end: 1.0).animate(
-        CurvedAnimation(parent: _ctrl, curve: Curves.elasticOut));
-    _fadeAnim = Tween<double>(begin: 0, end: 1).animate(
-        CurvedAnimation(parent: _ctrl, curve: Curves.easeIn));
+        vsync: this, duration: const Duration(milliseconds: 600));
+    _scaleAnim = Tween<double>(begin: 0.3, end: 1.0)
+        .animate(CurvedAnimation(parent: _ctrl, curve: Curves.elasticOut));
+    _fadeAnim = Tween<double>(begin: 0, end: 1)
+        .animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeIn));
     _ctrl.forward();
   }
 
@@ -71,13 +69,11 @@ class _BadgeEarnedDialogState extends State<BadgeEarnedDialog>
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('🎉',
-                    style: TextStyle(fontSize: 48)),
+                const Text('🎉', style: TextStyle(fontSize: 48)),
                 const SizedBox(height: 8),
                 Text(
                   'Badge Earned!',
-                  style: AppTextStyles.h2
-                      .copyWith(color: Colors.white),
+                  style: AppTextStyles.h2.copyWith(color: Colors.white),
                 ),
                 const SizedBox(height: 24),
                 Container(
@@ -95,15 +91,14 @@ class _BadgeEarnedDialogState extends State<BadgeEarnedDialog>
                 const SizedBox(height: 16),
                 Text(
                   widget.badge.name,
-                  style: AppTextStyles.h3
-                      .copyWith(color: Colors.white),
+                  style: AppTextStyles.h3.copyWith(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   widget.badge.description,
-                  style: AppTextStyles.bodyMedium
-                      .copyWith(color: Colors.white70),
+                  style:
+                      AppTextStyles.bodyMedium.copyWith(color: Colors.white70),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 28),
@@ -118,8 +113,8 @@ class _BadgeEarnedDialogState extends State<BadgeEarnedDialog>
                   ),
                   child: Text(
                     'Awesome! 🚀',
-                    style: AppTextStyles.button
-                        .copyWith(color: AppColors.primary),
+                    style:
+                        AppTextStyles.button.copyWith(color: AppColors.primary),
                   ),
                 ),
               ],

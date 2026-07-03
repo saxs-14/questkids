@@ -37,7 +37,7 @@ class TugOfWarSession extends GameSessionState {
   String _currentInput = '';
   int _questionStartSec = 0;
   int _playerStreak = 0;
-  bool? _lastAnswerCorrect;  // null = no flash
+  bool? _lastAnswerCorrect; // null = no flash
 
   // Adaptive difficulty
   int _currentOpponentIntervalMs = 4000;
@@ -153,8 +153,7 @@ class TugOfWarSession extends GameSessionState {
       return;
     }
 
-    final correct =
-        Random().nextDouble() < _tugConfig.opponentAccuracy;
+    final correct = Random().nextDouble() < _tugConfig.opponentAccuracy;
     if (correct) _opponentScore++;
 
     _opponentQIndex++;

@@ -85,12 +85,12 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
     }
 
     await context.read<AiTutorProvider>().loadRecommendation(
-      name: user.name.split(' ').first,
-      grade: user.grade,
-      subjectScores: subjectScores,
-      streakDays: rewards.streakDays,
-      totalPoints: rewards.totalPoints,
-    );
+          name: user.name.split(' ').first,
+          grade: user.grade,
+          subjectScores: subjectScores,
+          streakDays: rewards.streakDays,
+          totalPoints: rewards.totalPoints,
+        );
   }
 
   Future<void> _sendMessage(String text) async {
@@ -112,9 +112,9 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
     setState(() => _showQuickPrompts = false);
     if (mounted) {
       await context.read<AiTutorProvider>().sendImageMessage(
-        imageBytes: bytes,
-        prompt: 'Please help me with this homework question 📸',
-      );
+            imageBytes: bytes,
+            prompt: 'Please help me with this homework question 📸',
+          );
       _scrollToBottom();
     }
   }
@@ -141,7 +141,8 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
   @override
   Widget build(BuildContext context) {
     final tutor = context.watch<AiTutorProvider>();
-    final firstName = context.read<AuthProvider>().user?.name.split(' ').first ?? 'there';
+    final firstName =
+        context.read<AuthProvider>().user?.name.split(' ').first ?? 'there';
 
     final body = Column(
       children: [
@@ -168,7 +169,9 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
         ),
 
         // Quick prompts (shown below messages when chat is new)
-        if (_showQuickPrompts && tutor.messages.length <= 1 && tutor.messages.isNotEmpty)
+        if (_showQuickPrompts &&
+            tutor.messages.length <= 1 &&
+            tutor.messages.isNotEmpty)
           Container(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
             child: Column(
@@ -178,7 +181,8 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
                 const SizedBox(height: 8),
                 Wrap(
                   children: AiTutorProvider.quickPrompts
-                      .map((p) => QuickPromptChip(label: p, onTap: () => _sendMessage(p)))
+                      .map((p) => QuickPromptChip(
+                          label: p, onTap: () => _sendMessage(p)))
                       .toList(),
                 ),
               ],
@@ -201,7 +205,8 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
           child: Row(
             children: [
               IconButton(
-                icon: const Icon(Icons.image_outlined, color: AppColors.primary),
+                icon:
+                    const Icon(Icons.image_outlined, color: AppColors.primary),
                 onPressed: _pickImage,
                 tooltip: 'Upload homework photo',
               ),
@@ -216,7 +221,8 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
                     ),
                     filled: true,
                     fillColor: AppColors.primary.withValues(alpha: 0.07),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
                   ),
                   textInputAction: TextInputAction.send,
                   onSubmitted: _sendMessage,
@@ -236,7 +242,8 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
                   child: tutor.isTyping
                       ? const Padding(
                           padding: EdgeInsets.all(12),
-                          child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                          child: CircularProgressIndicator(
+                              color: Colors.white, strokeWidth: 2),
                         )
                       : const Icon(Icons.send, color: Colors.white, size: 20),
                 ),
@@ -259,7 +266,8 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('Questy',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 Row(
                   children: [
                     Container(
@@ -328,10 +336,13 @@ class _WelcomeBanner extends StatelessWidget {
                       color: const Color(0xFF7C4DFF).withValues(alpha: 0.12),
                       shape: BoxShape.circle,
                     ),
-                    child: const Center(child: Text('👦', style: TextStyle(fontSize: 28))),
+                    child: const Center(
+                        child: Text('👦', style: TextStyle(fontSize: 28))),
                   ),
                   const SizedBox(height: 4),
-                  Text('Ask', style: AppTextStyles.bodySmall.copyWith(color: AppColors.textSecondary)),
+                  Text('Ask',
+                      style: AppTextStyles.bodySmall
+                          .copyWith(color: AppColors.textSecondary)),
                 ],
               ),
 
@@ -340,9 +351,13 @@ class _WelcomeBanner extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
                   children: [
-                    const Text('→', style: TextStyle(fontSize: 22, color: Color(0xFFFFB800))),
+                    const Text('→',
+                        style:
+                            TextStyle(fontSize: 22, color: Color(0xFFFFB800))),
                     const SizedBox(height: 4),
-                    const Text('←', style: TextStyle(fontSize: 22, color: Color(0xFF5C35F5))),
+                    const Text('←',
+                        style:
+                            TextStyle(fontSize: 22, color: Color(0xFF5C35F5))),
                   ],
                 ),
               ),
@@ -353,11 +368,14 @@ class _WelcomeBanner extends StatelessWidget {
                   const QuestyAvatar(size: 72),
                   const SizedBox(height: 6),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                     decoration: BoxDecoration(
                       color: const Color(0xFFFFB800).withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: const Color(0xFFFFB800).withValues(alpha: 0.40)),
+                      border: Border.all(
+                          color:
+                              const Color(0xFFFFB800).withValues(alpha: 0.40)),
                     ),
                     child: const Text('Questy',
                         style: TextStyle(
@@ -373,9 +391,13 @@ class _WelcomeBanner extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
                   children: [
-                    const Text('←', style: TextStyle(fontSize: 22, color: Color(0xFFFFB800))),
+                    const Text('←',
+                        style:
+                            TextStyle(fontSize: 22, color: Color(0xFFFFB800))),
                     const SizedBox(height: 4),
-                    const Text('→', style: TextStyle(fontSize: 22, color: Color(0xFF5C35F5))),
+                    const Text('→',
+                        style:
+                            TextStyle(fontSize: 22, color: Color(0xFF5C35F5))),
                   ],
                 ),
               ),
@@ -390,10 +412,13 @@ class _WelcomeBanner extends StatelessWidget {
                       color: const Color(0xFFE91E63).withValues(alpha: 0.12),
                       shape: BoxShape.circle,
                     ),
-                    child: const Center(child: Text('👧', style: TextStyle(fontSize: 28))),
+                    child: const Center(
+                        child: Text('👧', style: TextStyle(fontSize: 28))),
                   ),
                   const SizedBox(height: 4),
-                  Text('Learn', style: AppTextStyles.bodySmall.copyWith(color: AppColors.textSecondary)),
+                  Text('Learn',
+                      style: AppTextStyles.bodySmall
+                          .copyWith(color: AppColors.textSecondary)),
                 ],
               ),
             ],

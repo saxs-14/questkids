@@ -65,13 +65,15 @@ class SequenceBuilderConfig {
           id: 'evaporation',
           label: 'Evaporation',
           emoji: '💨',
-          description: 'The sun heats the water and it rises as invisible vapour.',
+          description:
+              'The sun heats the water and it rises as invisible vapour.',
         ),
         SequenceStage(
           id: 'condensation',
           label: 'Condensation',
           emoji: '☁️',
-          description: 'High up it cools and gathers into tiny droplets — clouds!',
+          description:
+              'High up it cools and gathers into tiny droplets — clouds!',
         ),
         SequenceStage(
           id: 'precipitation',
@@ -83,7 +85,8 @@ class SequenceBuilderConfig {
           id: 'collection',
           label: 'Collection',
           emoji: '🌊',
-          description: 'Water flows into rivers, lakes and the sea — and it starts again!',
+          description:
+              'Water flows into rivers, lakes and the sea — and it starts again!',
         ),
       ],
     );

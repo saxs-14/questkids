@@ -9,7 +9,14 @@ class TeacherRepository {
         .where('linkedTeacherUid', isEqualTo: teacherUid)
         .get();
     if (learnersSnap.docs.isEmpty) {
-      return {'totalLearners': 0, 'subjectAvg': <String, double>{}, 'completionRate': 0.0, 'weakTopics': [], 'totalAttempted': 0, 'totalCompleted': 0};
+      return {
+        'totalLearners': 0,
+        'subjectAvg': <String, double>{},
+        'completionRate': 0.0,
+        'weakTopics': [],
+        'totalAttempted': 0,
+        'totalCompleted': 0
+      };
     }
     final learnerUids = learnersSnap.docs.map((d) => d.id).toList();
     final thirtyDaysAgo = DateTime.now().subtract(const Duration(days: 30));
@@ -22,7 +29,8 @@ class TeacherRepository {
       final sessSnap = await _db
           .collection('game_sessions')
           .where('uid', isEqualTo: uid)
-          .where('completedAt', isGreaterThanOrEqualTo: Timestamp.fromDate(thirtyDaysAgo))
+          .where('completedAt',
+              isGreaterThanOrEqualTo: Timestamp.fromDate(thirtyDaysAgo))
           .get();
       totalAttempted += sessSnap.docs.length;
       for (final doc in sessSnap.docs) {
@@ -49,14 +57,16 @@ class TeacherRepository {
     return {
       'totalLearners': learnerUids.length,
       'subjectAvg': subjectAvg,
-      'completionRate': totalAttempted == 0 ? 0.0 : totalCompleted / totalAttempted,
+      'completionRate':
+          totalAttempted == 0 ? 0.0 : totalCompleted / totalAttempted,
       'totalAttempted': totalAttempted,
       'totalCompleted': totalCompleted,
       'weakTopics': weakTopics,
     };
   }
 
-  Future<List<Map<String, int>>> getDailyActiveLearners(String teacherUid) async {
+  Future<List<Map<String, int>>> getDailyActiveLearners(
+      String teacherUid) async {
     final learnersSnap = await _db
         .collection('users')
         .where('linkedTeacherUid', isEqualTo: teacherUid)
@@ -71,11 +81,14 @@ class TeacherRepository {
       final dayEnd = dayKey.add(const Duration(days: 1));
       final Set<String> active = {};
       for (final uid in learnerUids.take(20)) {
-        final snap = await _db.collection('game_sessions')
+        final snap = await _db
+            .collection('game_sessions')
             .where('uid', isEqualTo: uid)
-            .where('completedAt', isGreaterThanOrEqualTo: Timestamp.fromDate(dayKey))
+            .where('completedAt',
+                isGreaterThanOrEqualTo: Timestamp.fromDate(dayKey))
             .where('completedAt', isLessThan: Timestamp.fromDate(dayEnd))
-            .limit(1).get();
+            .limit(1)
+            .get();
         if (snap.docs.isNotEmpty) active.add(uid);
       }
       result.add({'day': 14 - i, 'count': active.length});
@@ -83,7 +96,8 @@ class TeacherRepository {
     return result;
   }
 
-  Future<List<Map<String, dynamic>>> exportClassProgress(String teacherUid) async {
+  Future<List<Map<String, dynamic>>> exportClassProgress(
+      String teacherUid) async {
     final learnersSnap = await _db
         .collection('users')
         .where('linkedTeacherUid', isEqualTo: teacherUid)
@@ -105,7 +119,9 @@ class TeacherRepository {
           'subject': d['subject'] ?? '',
           'score': d['score'] ?? 0,
           'xp': d['xpEarned'] ?? 0,
-          'date': (d['completedAt'] as Timestamp?)?.toDate().toIso8601String() ?? '',
+          'date':
+              (d['completedAt'] as Timestamp?)?.toDate().toIso8601String() ??
+                  '',
           'timeSecs': d['timeTakenSeconds'] ?? 0,
         });
       }

@@ -15,7 +15,8 @@ class Grade4Repository {
   CollectionReference get _battles => _db.collection('math_battles');
   CollectionReference get _dailyMissions => _db.collection('daily_missions');
   CollectionReference get _achievements => _db.collection('achievements');
-  CollectionReference grade4Games(String worldId) => _db.collection('grade4_games');
+  CollectionReference grade4Games(String worldId) =>
+      _db.collection('grade4_games');
 
   Future<Map<String, dynamic>?> getPlayerStats(String uid) async {
     final doc = await _playerStats.doc(uid).get();
@@ -50,7 +51,12 @@ class Grade4Repository {
       final newXp = curXp + xp;
       final newCoins = curCoins + coins;
       final newLevel = (newXp ~/ 100) + 1;
-      tx.update(ref, {'xp': newXp, 'coins': newCoins, 'level': newLevel, 'updatedAt': FieldValue.serverTimestamp()});
+      tx.update(ref, {
+        'xp': newXp,
+        'coins': newCoins,
+        'level': newLevel,
+        'updatedAt': FieldValue.serverTimestamp()
+      });
       // mirror to rewards collection
       await _rewardRepo.addPoints(uid, xp);
     });
@@ -70,13 +76,15 @@ class Grade4Repository {
     final uid = battleData['uid'] as String;
     final questionsTotal = battleData['questionsTotal'] as int? ?? 0;
     final correct = battleData['correctAnswers'] as int? ?? 0;
-    final score = questionsTotal > 0 ? ((correct / questionsTotal) * 100).round() : 0;
+    final score =
+        questionsTotal > 0 ? ((correct / questionsTotal) * 100).round() : 0;
     final xp = battleData['xpEarned'] as int? ?? 0;
 
     final progress = ProgressModel(
       uid: uid,
       activityId: 'tugofwar_${ref.id}',
-      activityTitle: 'Tug of War vs ${battleData['opponentName'] ?? 'Opponent'}',
+      activityTitle:
+          'Tug of War vs ${battleData['opponentName'] ?? 'Opponent'}',
       subject: 'Math',
       score: score,
       pointsEarned: xp,
@@ -95,9 +103,15 @@ class Grade4Repository {
     final playerStats = await getPlayerStats(uid);
     final name = playerStats?['name'] ?? battleData['playerName'] ?? 'Player';
     final avatar = playerStats?['avatarEmoji'] ?? '🙂';
-    final level = playerStats?['level'] ?? ((playerStats?['xp'] ?? 0) ~/ 100) + 1;
+    final level =
+        playerStats?['level'] ?? ((playerStats?['xp'] ?? 0) ~/ 100) + 1;
     final xpTotal = (playerStats?['xp'] ?? 0) as int;
-    await _db.collection('leaderboards').doc('grade4').collection('entries').doc(uid).set({
+    await _db
+        .collection('leaderboards')
+        .doc('grade4')
+        .collection('entries')
+        .doc(uid)
+        .set({
       'uid': uid,
       'name': name,
       'avatarEmoji': avatar,
@@ -112,13 +126,16 @@ class Grade4Repository {
       final notif = {
         'recipientUid': null, // handled per-parent below
         'type': 'grade4_battle',
-        'title': '$name ${result == 'perfect' ? 'had a perfect win' : 'won a Tug of War battle'}!',
-        'body': '$name ${result == 'perfect' ? 'scored a perfect 10/10' : 'won against ${battleData['opponentName'] ?? 'an opponent'}'} +$xp XP',
+        'title':
+            '$name ${result == 'perfect' ? 'had a perfect win' : 'won a Tug of War battle'}!',
+        'body':
+            '$name ${result == 'perfect' ? 'scored a perfect 10/10' : 'won against ${battleData['opponentName'] ?? 'an opponent'}'} +$xp XP',
         'data': {'battleId': ref.id, 'uid': uid},
       };
       // fetch linked parents from user doc and send individually
       final userDoc = await _db.collection('users').doc(uid).get();
-      final linkedParents = List<String>.from(userDoc.data()?['linkedParentUids'] ?? []);
+      final linkedParents =
+          List<String>.from(userDoc.data()?['linkedParentUids'] ?? []);
       for (final p in linkedParents) {
         final copy = Map<String, dynamic>.from(notif);
         copy['recipientUid'] = p;
@@ -138,25 +155,64 @@ class Grade4Repository {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getBattleHistory(String uid, {int limit = 20}) async {
-    final snaps = await _battles.where('uid', isEqualTo: uid).orderBy('completedAt', descending: true).limit(limit).get();
-    return snaps.docs.map((d) => {...d.data() as Map<String, dynamic>, 'id': d.id}).toList();
+  Future<List<Map<String, dynamic>>> getBattleHistory(String uid,
+      {int limit = 20}) async {
+    final snaps = await _battles
+        .where('uid', isEqualTo: uid)
+        .orderBy('completedAt', descending: true)
+        .limit(limit)
+        .get();
+    return snaps.docs
+        .map((d) => {...d.data() as Map<String, dynamic>, 'id': d.id})
+        .toList();
   }
 
-  Future<Map<String, dynamic>> getOrCreateDailyMissions(String uid, String grade) async {
+  Future<Map<String, dynamic>> getOrCreateDailyMissions(
+      String uid, String grade) async {
     final today = DateTime.now();
-    final dateStr = '${today.year.toString().padLeft(4, '0')}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}';
+    final dateStr =
+        '${today.year.toString().padLeft(4, '0')}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}';
     final docId = '${uid}_$dateStr';
     final ref = _dailyMissions.doc(docId);
     final snap = await ref.get();
     if (snap.exists) return {...snap.data() as Map<String, dynamic>};
 
     final missions = [
-      {'id': 'm1', 'title': 'Complete 1 Math Battle', 'target': 1, 'progress': 0, 'completed': false, 'rewardXp': 50, 'rewardCoins': 5},
-      {'id': 'm2', 'title': 'Earn 50 XP', 'target': 50, 'progress': 0, 'completed': false, 'rewardXp': 30, 'rewardCoins': 3},
-      {'id': 'm3', 'title': 'Maintain streak', 'target': 1, 'progress': 0, 'completed': false, 'rewardXp': 20, 'rewardCoins': 2},
+      {
+        'id': 'm1',
+        'title': 'Complete 1 Math Battle',
+        'target': 1,
+        'progress': 0,
+        'completed': false,
+        'rewardXp': 50,
+        'rewardCoins': 5
+      },
+      {
+        'id': 'm2',
+        'title': 'Earn 50 XP',
+        'target': 50,
+        'progress': 0,
+        'completed': false,
+        'rewardXp': 30,
+        'rewardCoins': 3
+      },
+      {
+        'id': 'm3',
+        'title': 'Maintain streak',
+        'target': 1,
+        'progress': 0,
+        'completed': false,
+        'rewardXp': 20,
+        'rewardCoins': 2
+      },
     ];
-    final obj = {'id': docId, 'uid': uid, 'date': dateStr, 'missions': missions, 'allCompleted': false};
+    final obj = {
+      'id': docId,
+      'uid': uid,
+      'date': dateStr,
+      'missions': missions,
+      'allCompleted': false
+    };
     await ref.set({
       ...obj,
       'createdAt': FieldValue.serverTimestamp(),
@@ -164,9 +220,11 @@ class Grade4Repository {
     return obj;
   }
 
-  Future<void> updateMissionProgress(String uid, String missionId, int progressIncrement) async {
+  Future<void> updateMissionProgress(
+      String uid, String missionId, int progressIncrement) async {
     final today = DateTime.now();
-    final dateStr = '${today.year.toString().padLeft(4, '0')}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}';
+    final dateStr =
+        '${today.year.toString().padLeft(4, '0')}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}';
     final docId = '${uid}_$dateStr';
     final ref = _dailyMissions.doc(docId);
     await _db.runTransaction((tx) async {
@@ -210,7 +268,9 @@ class Grade4Repository {
 
   Future<List<Map<String, dynamic>>> getAchievements() async {
     final snaps = await _achievements.get();
-    return snaps.docs.map((d) => {...d.data() as Map<String, dynamic>, 'id': d.id}).toList();
+    return snaps.docs
+        .map((d) => {...d.data() as Map<String, dynamic>, 'id': d.id})
+        .toList();
   }
 
   Future<void> unlockAchievement(String uid, String achievementId) async {
@@ -238,12 +298,14 @@ class Grade4Repository {
         await _rewardRepo.awardBadge(uid, badge);
         // notify parents
         final userDoc = await _db.collection('users').doc(uid).get();
-        final linkedParents = List<String>.from(userDoc.data()?['linkedParentUids'] ?? []);
+        final linkedParents =
+            List<String>.from(userDoc.data()?['linkedParentUids'] ?? []);
         for (final p in linkedParents) {
           await _notificationRepo.createNotification({
             'recipientUid': p,
             'type': 'achievement_unlocked',
-            'title': '${userDoc.data()?['name'] ?? 'Your child'} unlocked ${badge.name}',
+            'title':
+                '${userDoc.data()?['name'] ?? 'Your child'} unlocked ${badge.name}',
             'body': badge.description,
             'data': {'achievementId': achievementId, 'uid': uid},
           });
@@ -252,23 +314,44 @@ class Grade4Repository {
     });
   }
 
-  Stream<List<Map<String, dynamic>>> watchLeaderboard(String grade, {int limit = 10}) {
-    return _db.collection('leaderboards').doc(grade).collection('entries').orderBy('xp', descending: true).limit(limit).snapshots().map((s) => s.docs.map((d) => {...d.data(), 'id': d.id}).toList());
+  Stream<List<Map<String, dynamic>>> watchLeaderboard(String grade,
+      {int limit = 10}) {
+    return _db
+        .collection('leaderboards')
+        .doc(grade)
+        .collection('entries')
+        .orderBy('xp', descending: true)
+        .limit(limit)
+        .snapshots()
+        .map((s) => s.docs.map((d) => {...d.data(), 'id': d.id}).toList());
   }
 
-  Future<void> updateLeaderboardEntry(String uid, Map<String, dynamic> data) async {
-    await _db.collection('leaderboards').doc('grade4').collection('entries').doc(uid).set({...data, 'updatedAt': FieldValue.serverTimestamp()}, SetOptions(merge: true));
+  Future<void> updateLeaderboardEntry(
+      String uid, Map<String, dynamic> data) async {
+    await _db
+        .collection('leaderboards')
+        .doc('grade4')
+        .collection('entries')
+        .doc(uid)
+        .set({...data, 'updatedAt': FieldValue.serverTimestamp()},
+            SetOptions(merge: true));
   }
 
-  Future<List<Map<String, dynamic>>> getWorldGames(String worldId, String grade) async {
-    final snaps = await _db.collection('grade4_games').where('worldId', isEqualTo: worldId).where('grade', isEqualTo: grade).get();
+  Future<List<Map<String, dynamic>>> getWorldGames(
+      String worldId, String grade) async {
+    final snaps = await _db
+        .collection('grade4_games')
+        .where('worldId', isEqualTo: worldId)
+        .where('grade', isEqualTo: grade)
+        .get();
     return snaps.docs.map((d) => {...d.data(), 'id': d.id}).toList();
   }
 
   Future<List<String>> getUnlockedWorlds(String uid) async {
     final doc = await _playerStats.doc(uid).get();
     if (!doc.exists) return [];
-    return List<String>.from((doc.data() as Map<String, dynamic>?)?['unlockedWorlds'] ?? []);
+    return List<String>.from(
+        (doc.data() as Map<String, dynamic>?)?['unlockedWorlds'] ?? []);
   }
 
   Future<void> unlockWorld(String uid, String worldId) async {
@@ -280,7 +363,10 @@ class Grade4Repository {
       final unlocked = List<String>.from(data['unlockedWorlds'] ?? []);
       if (!unlocked.contains(worldId)) {
         unlocked.add(worldId);
-        tx.update(ref, {'unlockedWorlds': unlocked, 'updatedAt': FieldValue.serverTimestamp()});
+        tx.update(ref, {
+          'unlockedWorlds': unlocked,
+          'updatedAt': FieldValue.serverTimestamp()
+        });
         // add questkids_event to shared_calendar
         await _db.collection('shared_calendar').add({
           'childUid': uid,
@@ -293,12 +379,14 @@ class Grade4Repository {
         });
         // notify parents
         final userDoc = await _db.collection('users').doc(uid).get();
-        final linkedParents = List<String>.from(userDoc.data()?['linkedParentUids'] ?? []);
+        final linkedParents =
+            List<String>.from(userDoc.data()?['linkedParentUids'] ?? []);
         for (final p in linkedParents) {
           await _notificationRepo.createNotification({
             'recipientUid': p,
             'type': 'world_unlocked',
-            'title': '${userDoc.data()?['name'] ?? 'Your child'} unlocked a new world!',
+            'title':
+                '${userDoc.data()?['name'] ?? 'Your child'} unlocked a new world!',
             'body': 'Unlocked $worldId',
             'data': {'worldId': worldId, 'uid': uid},
           });

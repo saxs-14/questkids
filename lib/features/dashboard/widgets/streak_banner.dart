@@ -27,8 +27,7 @@ class StreakBanner extends StatelessWidget {
               children: [
                 Text(
                   '$streakDays Day Streak!',
-                  style: AppTextStyles.h4
-                      .copyWith(color: AppColors.orange),
+                  style: AppTextStyles.h4.copyWith(color: AppColors.orange),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -45,8 +44,7 @@ class StreakBanner extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 12, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
               color: AppColors.orange,
               borderRadius: BorderRadius.circular(20),

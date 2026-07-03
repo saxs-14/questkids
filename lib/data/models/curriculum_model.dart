@@ -2,7 +2,7 @@ class CurriculumSubtopic {
   final String id;
   final String name;
   final String recommendedEngine; // matches AppConstants.engine* constant
-  final String difficulty;        // 'easy' | 'medium' | 'hard'
+  final String difficulty; // 'easy' | 'medium' | 'hard'
   final List<String> keywords;
 
   const CurriculumSubtopic({
@@ -63,8 +63,8 @@ class CurriculumTopic {
 }
 
 class CurriculumModel {
-  final String id;      // e.g. 'grade4_mathematics'
-  final String grade;   // e.g. 'grade4'
+  final String id; // e.g. 'grade4_mathematics'
+  final String grade; // e.g. 'grade4'
   final String subject; // e.g. 'Mathematics'
   final List<CurriculumTopic> topics;
 

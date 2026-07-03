@@ -179,8 +179,10 @@ class GameRepository {
         .collection('entries')
         .doc(session.uid);
 
-    final statsSnap =
-        await _db.collection(AppConstants.colPlayerStats).doc(session.uid).get();
+    final statsSnap = await _db
+        .collection(AppConstants.colPlayerStats)
+        .doc(session.uid)
+        .get();
     final stats = statsSnap.data() ?? {};
 
     await entryRef.set(
@@ -442,7 +444,12 @@ class GameRepository {
                   name: 'Landforms & Physical Features',
                   recommendedEngine: AppConstants.engineExplorerMap,
                   difficulty: 'medium',
-                  keywords: ['mountain', 'plateau', 'escarpment', 'Drakensberg'],
+                  keywords: [
+                    'mountain',
+                    'plateau',
+                    'escarpment',
+                    'Drakensberg'
+                  ],
                 ),
               ],
             ),

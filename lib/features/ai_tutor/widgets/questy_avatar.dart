@@ -76,13 +76,17 @@ class _StarFacePainter extends CustomPainter {
     // ── Eyes ──────────────────────────────────────────────────────────
     final eyePaint = Paint()..color = const Color(0xFF5C35F5);
     final eyeRadius = r * 0.12;
-    canvas.drawCircle(Offset(cx - r * 0.22, cy - r * 0.08), eyeRadius, eyePaint);
-    canvas.drawCircle(Offset(cx + r * 0.22, cy - r * 0.08), eyeRadius, eyePaint);
+    canvas.drawCircle(
+        Offset(cx - r * 0.22, cy - r * 0.08), eyeRadius, eyePaint);
+    canvas.drawCircle(
+        Offset(cx + r * 0.22, cy - r * 0.08), eyeRadius, eyePaint);
 
     // Tiny eye-shine
     final shinePaint = Paint()..color = Colors.white;
-    canvas.drawCircle(Offset(cx - r * 0.18, cy - r * 0.12), eyeRadius * 0.4, shinePaint);
-    canvas.drawCircle(Offset(cx + r * 0.26, cy - r * 0.12), eyeRadius * 0.4, shinePaint);
+    canvas.drawCircle(
+        Offset(cx - r * 0.18, cy - r * 0.12), eyeRadius * 0.4, shinePaint);
+    canvas.drawCircle(
+        Offset(cx + r * 0.26, cy - r * 0.12), eyeRadius * 0.4, shinePaint);
 
     // ── Smile ─────────────────────────────────────────────────────────
     final smilePaint = Paint()

@@ -58,8 +58,8 @@ class BadgeModel {
   final String id;
   final String name;
   final String description;
-  final String icon;       // emoji or asset path
-  final String category;   // subject, streak, level, special
+  final String icon; // emoji or asset path
+  final String category; // subject, streak, level, special
   final DateTime earnedAt;
 
   BadgeModel({

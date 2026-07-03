@@ -18,7 +18,8 @@ class SequenceBuilderSession extends GameSessionState {
   /// [pack] is the pre-loaded content pack JSON (see
   /// lib/features/games/core/content_pack_loader.dart), or null to fall
   /// back to the built-in demo content.
-  SequenceBuilderSession(GameConfig config, this.uid, {Map<String, dynamic>? pack})
+  SequenceBuilderSession(GameConfig config, this.uid,
+      {Map<String, dynamic>? pack})
       : super(config) {
     _seqConfig = pack != null
         ? SequenceBuilderConfig.fromPack(pack)
@@ -86,7 +87,8 @@ class SequenceBuilderSession extends GameSessionState {
   /// Try to place [stageIndex] into the next slot. Correct only if it is the
   /// next stage in order. Wrong attempts are rejected gently (no penalty).
   void placeStage(int stageIndex) {
-    if (_phase != SequencePhase.ordering || isFinished || _roundComplete) return;
+    if (_phase != SequencePhase.ordering || isFinished || _roundComplete)
+      return;
 
     if (stageIndex == _placed.length) {
       _placed.add(stageIndex);

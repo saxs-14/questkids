@@ -17,7 +17,8 @@ class _ParentChildSetupScreenState extends State<ParentChildSetupScreen> {
   final _formKey = GlobalKey<FormState>();
   final _childNameCtrl = TextEditingController();
   String _childGender = 'Male';
-  DateTime _childBirthDate = DateTime.now().subtract(const Duration(days: 365 * 6));
+  DateTime _childBirthDate =
+      DateTime.now().subtract(const Duration(days: 365 * 6));
   String _childGrade = 'Grade 1';
   bool _consentGiven = false; // POPIA parent/guardian consent
 
@@ -43,7 +44,9 @@ class _ParentChildSetupScreenState extends State<ParentChildSetupScreen> {
     if (!_formKey.currentState!.validate()) return;
     if (!_consentGiven) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please confirm parent/guardian consent to continue.')),
+        const SnackBar(
+            content:
+                Text('Please confirm parent/guardian consent to continue.')),
       );
       return;
     }
@@ -65,10 +68,12 @@ class _ParentChildSetupScreenState extends State<ParentChildSetupScreen> {
 
     setState(() => _isProcessing = false);
     if (success && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Child created and linked successfully')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Child created and linked successfully')));
       Navigator.pop(context);
     } else if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to create child')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to create child')));
     }
   }
 
@@ -101,7 +106,8 @@ class _ParentChildSetupScreenState extends State<ParentChildSetupScreen> {
                         initialValue: _childGender,
                         decoration: const InputDecoration(labelText: 'Gender'),
                         items: ['Male', 'Female', 'Other']
-                            .map((g) => DropdownMenuItem(value: g, child: Text(g)))
+                            .map((g) =>
+                                DropdownMenuItem(value: g, child: Text(g)))
                             .toList(),
                         onChanged: (v) => setState(() => _childGender = v!),
                       ),
@@ -111,22 +117,27 @@ class _ParentChildSetupScreenState extends State<ParentChildSetupScreen> {
                       child: GestureDetector(
                         onTap: () => _selectDate(context),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 16),
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Text('${_childBirthDate.year}-${_childBirthDate.month}-${_childBirthDate.day}'),
+                          child: Text(
+                              '${_childBirthDate.year}-${_childBirthDate.month}-${_childBirthDate.day}'),
                         ),
                       ),
                     ),
                   ]),
                   const SizedBox(height: 12),
-                  GradeSelector(selectedGrade: _childGrade, onGradeChanged: (g) => setState(() => _childGrade = g)),
+                  GradeSelector(
+                      selectedGrade: _childGrade,
+                      onGradeChanged: (g) => setState(() => _childGrade = g)),
                   const SizedBox(height: 8),
                   CheckboxListTile(
                     value: _consentGiven,
-                    onChanged: (v) => setState(() => _consentGiven = v ?? false),
+                    onChanged: (v) =>
+                        setState(() => _consentGiven = v ?? false),
                     controlAffinity: ListTileControlAffinity.leading,
                     contentPadding: EdgeInsets.zero,
                     title: Text(
@@ -139,8 +150,12 @@ class _ParentChildSetupScreenState extends State<ParentChildSetupScreen> {
                   ),
                   const SizedBox(height: 12),
                   ElevatedButton(
-                    onPressed: (_isProcessing || !_consentGiven) ? null : _registerChild,
-                    child: _isProcessing ? const CircularProgressIndicator(color: Colors.white) : const Text('Register Child'),
+                    onPressed: (_isProcessing || !_consentGiven)
+                        ? null
+                        : _registerChild,
+                    child: _isProcessing
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text('Register Child'),
                   ),
                 ]),
               ),
@@ -153,17 +168,21 @@ class _ParentChildSetupScreenState extends State<ParentChildSetupScreen> {
                 color: AppColors.surface,
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                    Text('If you already have a child\'s Link Code or QR, you can link to them here.', style: AppTextStyles.bodyMedium),
-                    const SizedBox(height: 12),
-                    ElevatedButton(
-                      onPressed: () {
-                        // navigate to link child screen (implemented in Section 3)
-                        Navigator.pushNamed(context, '/link_child');
-                      },
-                      child: const Text('Link to Existing Child'),
-                    ),
-                  ]),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                            'If you already have a child\'s Link Code or QR, you can link to them here.',
+                            style: AppTextStyles.bodyMedium),
+                        const SizedBox(height: 12),
+                        ElevatedButton(
+                          onPressed: () {
+                            // navigate to link child screen (implemented in Section 3)
+                            Navigator.pushNamed(context, '/link_child');
+                          },
+                          child: const Text('Link to Existing Child'),
+                        ),
+                      ]),
                 ),
               ),
             ],

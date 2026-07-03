@@ -17,32 +17,34 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
-  
+
   // Basic Details
   final _nameCtrl = TextEditingController();
   final _surnameCtrl = TextEditingController();
   final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
   final _confirmCtrl = TextEditingController();
-  
+
   String _title = 'Mr';
   String _gender = 'Male';
   String _role = 'parent';
-  
+
   // Teacher
   String _teacherGrade = 'Grade 1';
-  
+
   // Parent
   final _childNameCtrl = TextEditingController();
   String _childGender = 'Male';
-  DateTime _childBirthDate = DateTime.now().subtract(const Duration(days: 365 * 6));
+  DateTime _childBirthDate =
+      DateTime.now().subtract(const Duration(days: 365 * 6));
   String _childGrade = 'Grade 1';
   final String _relationToChild = 'Father';
   String _parentRole = 'mother'; // mother, father, guardian
   bool _registerChild = true;
   bool _consentGiven = false; // POPIA parent/guardian consent
 
-  int _step = 0; // 0 = role, 1 = details, 2 = child details (if parent), 3 = teacher details
+  int _step =
+      0; // 0 = role, 1 = details, 2 = child details (if parent), 3 = teacher details
 
   @override
   void dispose() {
@@ -150,7 +152,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         Text('Your Role', style: AppTextStyles.h2),
         const SizedBox(height: 8),
         Text('Choose how you will use QuestKids',
-            style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary)),
+            style: AppTextStyles.bodyMedium
+                .copyWith(color: AppColors.textSecondary)),
         const SizedBox(height: 32),
         RoleSelector(
           selectedRole: _role,
@@ -269,10 +272,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: GestureDetector(
                 onTap: () => setState(() => _parentRole = 'mother'),
                 child: Card(
-                  color: _parentRole == 'mother' ? AppColors.primary : Colors.white,
+                  color: _parentRole == 'mother'
+                      ? AppColors.primary
+                      : Colors.white,
                   child: const Padding(
                     padding: EdgeInsets.all(12.0),
-                    child: Column(children: [Text('👩'), SizedBox(height: 8), Text('Mother')]),
+                    child: Column(children: [
+                      Text('👩'),
+                      SizedBox(height: 8),
+                      Text('Mother')
+                    ]),
                   ),
                 ),
               ),
@@ -282,10 +291,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: GestureDetector(
                 onTap: () => setState(() => _parentRole = 'father'),
                 child: Card(
-                  color: _parentRole == 'father' ? AppColors.primary : Colors.white,
+                  color: _parentRole == 'father'
+                      ? AppColors.primary
+                      : Colors.white,
                   child: const Padding(
                     padding: EdgeInsets.all(12.0),
-                    child: Column(children: [Text('👨'), SizedBox(height: 8), Text('Father')]),
+                    child: Column(children: [
+                      Text('👨'),
+                      SizedBox(height: 8),
+                      Text('Father')
+                    ]),
                   ),
                 ),
               ),
@@ -295,10 +310,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: GestureDetector(
                 onTap: () => setState(() => _parentRole = 'guardian'),
                 child: Card(
-                  color: _parentRole == 'guardian' ? AppColors.primary : Colors.white,
+                  color: _parentRole == 'guardian'
+                      ? AppColors.primary
+                      : Colors.white,
                   child: const Padding(
                     padding: EdgeInsets.all(12.0),
-                    child: Column(children: [Text('🧑'), SizedBox(height: 8), Text('Guardian')]),
+                    child: Column(children: [
+                      Text('🧑'),
+                      SizedBox(height: 8),
+                      Text('Guardian')
+                    ]),
                   ),
                 ),
               ),
@@ -343,12 +364,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: GestureDetector(
                   onTap: () => _selectDate(context),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 16),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Text('${_childBirthDate.year}-${_childBirthDate.month}-${_childBirthDate.day}'),
+                    child: Text(
+                        '${_childBirthDate.year}-${_childBirthDate.month}-${_childBirthDate.day}'),
                   ),
                 ),
               ),
@@ -379,7 +402,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             color: AppColors.surface,
             child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: Text('You can link your child later from your dashboard using their Link Code or QR code.', style: AppTextStyles.bodyMedium),
+              child: Text(
+                  'You can link your child later from your dashboard using their Link Code or QR code.',
+                  style: AppTextStyles.bodyMedium),
             ),
           ),
           const SizedBox(height: 24),

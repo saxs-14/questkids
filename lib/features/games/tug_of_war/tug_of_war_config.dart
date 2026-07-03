@@ -20,13 +20,14 @@ const Map<String, String> _questionTypeByTopic = {
 
 /// TugOfWar-specific parameters stored inside [GameConfig.extras].
 class TugOfWarConfig {
-  final int multiplierMin;           // lowest multiplier in questions
-  final int multiplierMax;           // highest multiplier
-  final int winThreshold;            // score-lead needed to trigger early win
-  final int fastAnswerThresholdSec;  // answer within this many seconds = bonus XP
-  final String questionType;         // 'multiplication' | 'addition' | etc.
-  final int opponentIntervalMs;      // base ms between opponent simulated answers
-  final double opponentAccuracy;     // probability (0–1) that opponent is correct
+  final int multiplierMin; // lowest multiplier in questions
+  final int multiplierMax; // highest multiplier
+  final int winThreshold; // score-lead needed to trigger early win
+  final int
+      fastAnswerThresholdSec; // answer within this many seconds = bonus XP
+  final String questionType; // 'multiplication' | 'addition' | etc.
+  final int opponentIntervalMs; // base ms between opponent simulated answers
+  final double opponentAccuracy; // probability (0–1) that opponent is correct
 
   const TugOfWarConfig({
     this.multiplierMin = 2,
@@ -41,22 +42,22 @@ class TugOfWarConfig {
   factory TugOfWarConfig.fromGameConfig(GameConfig config) {
     final d = config.difficulty;
     final defaultInterval = switch (d) {
-      'easy'     => 6000,
-      'hard'     => 2500,
+      'easy' => 6000,
+      'hard' => 2500,
       'adaptive' => 4000,
-      _          => 4000,
+      _ => 4000,
     };
     final defaultAccuracy = switch (d) {
-      'easy'     => 0.50,
-      'hard'     => 0.85,
+      'easy' => 0.50,
+      'hard' => 0.85,
       'adaptive' => 0.70,
-      _          => 0.70,
+      _ => 0.70,
     };
     final defaultMax = switch (d) {
-      'easy'     => 5,
-      'hard'     => 12,
+      'easy' => 5,
+      'hard' => 12,
       'adaptive' => 9,
-      _          => 9,
+      _ => 9,
     };
 
     final e = config.extras;

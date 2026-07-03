@@ -16,7 +16,8 @@ class ParentRepository {
     await ref.set(data);
   }
 
-  Future<void> approveLinkRequest(String requestId, String childUid, String requestingParentUid) async {
+  Future<void> approveLinkRequest(
+      String requestId, String childUid, String requestingParentUid) async {
     final reqRef = _db.collection('parent_link_requests').doc(requestId);
     await _db.runTransaction((tx) async {
       final reqSnap = await tx.get(reqRef);
@@ -33,7 +34,8 @@ class ParentRepository {
       final parentSnap = await tx.get(parentRef);
 
       if (childSnap.exists) {
-        final linkedParents = List<String>.from(childSnap.data()?['linkedParentUids'] ?? []);
+        final linkedParents =
+            List<String>.from(childSnap.data()?['linkedParentUids'] ?? []);
         if (!linkedParents.contains(requestingParentUid)) {
           linkedParents.add(requestingParentUid);
           tx.update(childRef, {'linkedParentUids': linkedParents});
@@ -41,7 +43,8 @@ class ParentRepository {
       }
 
       if (parentSnap.exists) {
-        final linkedChildren = List<String>.from(parentSnap.data()?['linkedChildrenUids'] ?? []);
+        final linkedChildren =
+            List<String>.from(parentSnap.data()?['linkedChildrenUids'] ?? []);
         if (!linkedChildren.contains(childUid)) {
           linkedChildren.add(childUid);
           tx.update(parentRef, {'linkedChildrenUids': linkedChildren});
@@ -58,10 +61,15 @@ class ParentRepository {
   }
 
   Stream<Map<String, dynamic>?> watchUserDoc(String uid) {
-    return _db.collection('users').doc(uid).snapshots().map((doc) => doc.data());
+    return _db
+        .collection('users')
+        .doc(uid)
+        .snapshots()
+        .map((doc) => doc.data());
   }
 
-  Stream<List<Map<String, dynamic>>> watchPendingRequests(String primaryParentUid) {
+  Stream<List<Map<String, dynamic>>> watchPendingRequests(
+      String primaryParentUid) {
     return _db
         .collection('parent_link_requests')
         .where('primaryParentUid', isEqualTo: primaryParentUid)
@@ -71,7 +79,8 @@ class ParentRepository {
         .map((s) => s.docs.map((d) => {...d.data(), 'id': d.id}).toList());
   }
 
-  Stream<List<Map<String, dynamic>>> watchOutgoingRequests(String requestingParentUid) {
+  Stream<List<Map<String, dynamic>>> watchOutgoingRequests(
+      String requestingParentUid) {
     return _db
         .collection('parent_link_requests')
         .where('requestingParentUid', isEqualTo: requestingParentUid)
@@ -82,18 +91,24 @@ class ParentRepository {
 
   // Child management
   Future<UserModel?> findChildByCode(String code) async {
-    final q = await _db.collection('users').where('childLinkCode', isEqualTo: code).limit(1).get();
+    final q = await _db
+        .collection('users')
+        .where('childLinkCode', isEqualTo: code)
+        .limit(1)
+        .get();
     if (q.docs.isEmpty) return null;
     final d = q.docs.first;
     return UserModel.fromMap(d.data(), d.id);
   }
 
-  Future<UserModel?> findChildByNameAndEmail(String childName, String parentEmail) async {
-    final q = await _db.collection('users')
-      .where('name', isEqualTo: childName)
-      .where('email', isEqualTo: parentEmail)
-      .limit(1)
-      .get();
+  Future<UserModel?> findChildByNameAndEmail(
+      String childName, String parentEmail) async {
+    final q = await _db
+        .collection('users')
+        .where('name', isEqualTo: childName)
+        .where('email', isEqualTo: parentEmail)
+        .limit(1)
+        .get();
     if (q.docs.isEmpty) return null;
     final d = q.docs.first;
     return UserModel.fromMap(d.data(), d.id);
@@ -107,13 +122,15 @@ class ParentRepository {
       final parentSnap = await tx.get(parentRef);
 
       if (childSnap.exists) {
-        final linkedParents = List<String>.from(childSnap.data()?['linkedParentUids'] ?? []);
+        final linkedParents =
+            List<String>.from(childSnap.data()?['linkedParentUids'] ?? []);
         if (!linkedParents.contains(parentUid)) linkedParents.add(parentUid);
         tx.update(childRef, {'linkedParentUids': linkedParents});
       }
 
       if (parentSnap.exists) {
-        final linkedChildren = List<String>.from(parentSnap.data()?['linkedChildrenUids'] ?? []);
+        final linkedChildren =
+            List<String>.from(parentSnap.data()?['linkedChildrenUids'] ?? []);
         if (!linkedChildren.contains(childUid)) linkedChildren.add(childUid);
         tx.update(parentRef, {'linkedChildrenUids': linkedChildren});
       }
@@ -128,13 +145,15 @@ class ParentRepository {
       final parentSnap = await tx.get(parentRef);
 
       if (childSnap.exists) {
-        final linkedParents = List<String>.from(childSnap.data()?['linkedParentUids'] ?? []);
+        final linkedParents =
+            List<String>.from(childSnap.data()?['linkedParentUids'] ?? []);
         linkedParents.remove(parentUid);
         tx.update(childRef, {'linkedParentUids': linkedParents});
       }
 
       if (parentSnap.exists) {
-        final linkedChildren = List<String>.from(parentSnap.data()?['linkedChildrenUids'] ?? []);
+        final linkedChildren =
+            List<String>.from(parentSnap.data()?['linkedChildrenUids'] ?? []);
         linkedChildren.remove(childUid);
         tx.update(parentRef, {'linkedChildrenUids': linkedChildren});
       }
@@ -143,7 +162,10 @@ class ParentRepository {
 
   Future<List<UserModel>> getLinkedChildren(List<String> childUids) async {
     if (childUids.isEmpty) return [];
-    final snaps = await _db.collection('users').where(FieldPath.documentId, whereIn: childUids).get();
+    final snaps = await _db
+        .collection('users')
+        .where(FieldPath.documentId, whereIn: childUids)
+        .get();
     return snaps.docs.map((d) => UserModel.fromMap(d.data(), d.id)).toList();
   }
 
@@ -151,7 +173,9 @@ class ParentRepository {
   String generateLinkCode() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     final rnd = _uuid.v4().replaceAll('-', '').toUpperCase();
-    final code = List.generate(6, (i) => chars[(rnd.codeUnitAt(i) + i) % chars.length]).join();
+    final code =
+        List.generate(6, (i) => chars[(rnd.codeUnitAt(i) + i) % chars.length])
+            .join();
     return code;
   }
 
@@ -182,7 +206,8 @@ class ParentRepository {
     await _db.collection('shared_calendar').doc(eventId).delete();
   }
 
-  Future<void> updateCalendarEvent(String eventId, Map<String, dynamic> payload) async {
+  Future<void> updateCalendarEvent(
+      String eventId, Map<String, dynamic> payload) async {
     payload['updatedAt'] = FieldValue.serverTimestamp();
     await _db.collection('shared_calendar').doc(eventId).update(payload);
   }
@@ -247,7 +272,8 @@ class ParentRepository {
   }
 
   // Analytics
-  Future<Map<String, dynamic>> getChildAnalytics(String childUid, DateTime from, DateTime to) async {
+  Future<Map<String, dynamic>> getChildAnalytics(
+      String childUid, DateTime from, DateTime to) async {
     final fromTs = Timestamp.fromDate(from);
     final toTs = Timestamp.fromDate(to);
 
@@ -294,7 +320,8 @@ class ParentRepository {
     };
   }
 
-  Future<List<ProgressModel>> getChildProgress(String childUid, {int limit = 50}) async {
+  Future<List<ProgressModel>> getChildProgress(String childUid,
+      {int limit = 50}) async {
     final snaps = await _db
         .collection('progress')
         .where('childUid', isEqualTo: childUid)
@@ -308,7 +335,8 @@ class ParentRepository {
     }).toList();
   }
 
-  Stream<List<Map<String, dynamic>>> watchPendingVerifications(List<String> childUids) {
+  Stream<List<Map<String, dynamic>>> watchPendingVerifications(
+      List<String> childUids) {
     if (childUids.isEmpty) return Stream.value([]);
     return _db
         .collection('progress')
@@ -320,7 +348,8 @@ class ParentRepository {
         .map((s) => s.docs.map((d) => {...d.data(), 'id': d.id}).toList());
   }
 
-  Future<void> approveProgress(String progressId, {int points = 0, String? childUid}) async {
+  Future<void> approveProgress(String progressId,
+      {int points = 0, String? childUid}) async {
     final ref = _db.collection('progress').doc(progressId);
     await _db.runTransaction((tx) async {
       final snap = await tx.get(ref);
@@ -335,7 +364,10 @@ class ParentRepository {
   }
 
   Future<void> declineProgress(String progressId) async {
-    await _db.collection('progress').doc(progressId).update({'verified': false});
+    await _db
+        .collection('progress')
+        .doc(progressId)
+        .update({'verified': false});
   }
 
   Future<Map<String, double>> getWeeklyScoreTrend(String childUid) async {
@@ -346,7 +378,8 @@ class ParentRepository {
       final snap = await _db
           .collection('game_sessions')
           .where('uid', isEqualTo: childUid)
-          .where('completedAt', isGreaterThanOrEqualTo: Timestamp.fromDate(weekStart))
+          .where('completedAt',
+              isGreaterThanOrEqualTo: Timestamp.fromDate(weekStart))
           .where('completedAt', isLessThan: Timestamp.fromDate(weekEnd))
           .get();
       final key = 'W${8 - i}';
@@ -354,8 +387,9 @@ class ParentRepository {
         result[key] = 0;
       } else {
         final avg = snap.docs
-            .map((d) => (d.data()['score'] as num?)?.toDouble() ?? 0)
-            .reduce((a, b) => a + b) / snap.docs.length;
+                .map((d) => (d.data()['score'] as num?)?.toDouble() ?? 0)
+                .reduce((a, b) => a + b) /
+            snap.docs.length;
         result[key] = avg;
       }
     }
@@ -366,8 +400,9 @@ class ParentRepository {
     final snap = await _db
         .collection('game_sessions')
         .where('uid', isEqualTo: childUid)
-        .where('completedAt', isGreaterThanOrEqualTo: Timestamp.fromDate(
-            DateTime.now().subtract(const Duration(days: 30))))
+        .where('completedAt',
+            isGreaterThanOrEqualTo: Timestamp.fromDate(
+                DateTime.now().subtract(const Duration(days: 30))))
         .get();
     final Map<String, int> totals = {};
     for (final doc in snap.docs) {

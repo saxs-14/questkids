@@ -2,9 +2,9 @@ class ActivityModel {
   final String id;
   final String title;
   final String description;
-  final String subject;      // Math, Science, English, Social Sciences
-  final String type;         // quiz, practical, responsibility
-  final String difficulty;   // easy, medium, hard
+  final String subject; // Math, Science, English, Social Sciences
+  final String type; // quiz, practical, responsibility
+  final String difficulty; // easy, medium, hard
   final int rewardPoints;
   final String grade;
   final List<QuestionModel> questions;

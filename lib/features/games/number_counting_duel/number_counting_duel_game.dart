@@ -20,10 +20,10 @@ enum _Phase { intro, question, correct, wrong, streak, levelDone, victory }
 // ── Question model ─────────────────────────────────────────────────────────
 
 class _Q {
-  final String type;      // 'count' | 'compare' | 'extreme'
+  final String type; // 'count' | 'compare' | 'extreme'
   final String prompt;
-  final String objEmoji;  // for count type
-  final int    objCount;  // for count type
+  final String objEmoji; // for count type
+  final int objCount; // for count type
   final List<int> choices;
   final int correct;
 
@@ -59,26 +59,25 @@ class NumberCountingDuelGame extends StatefulWidget {
 
 class _NCDState extends State<NumberCountingDuelGame>
     with TickerProviderStateMixin {
-
   // ── Levels ──────────────────────────────────────────────────────────────
   static const _levels = [
-    _Level('Count 1 – 20',   1,  20,  'count'),
-    _Level('Count 20 – 50',  20, 50,  'count'),
+    _Level('Count 1 – 20', 1, 20, 'count'),
+    _Level('Count 20 – 50', 20, 50, 'count'),
     _Level('Count 50 – 100', 50, 100, 'count'),
-    _Level('Compare',        1,  100, 'compare'),
-    _Level('Find the Number',1,  100, 'extreme'),
+    _Level('Compare', 1, 100, 'compare'),
+    _Level('Find the Number', 1, 100, 'extreme'),
   ];
 
   // ── Object emojis for count levels ──────────────────────────────────────
   static const _countEmojis = ['⭐', '🍎', '🌸', '🦋', '🎈'];
 
   // ── Animations ──────────────────────────────────────────────────────────
-  late AnimationController _floatCtrl;    // crystals bob
-  late AnimationController _playerJump;  // player champ jumps
-  late AnimationController _aiJump;      // AI champ jumps
-  late AnimationController _shakeCtrl;   // wrong-answer shake
-  late AnimationController _fireworks;   // streak fireworks
-  late AnimationController _fadeCtrl;    // question fade-in
+  late AnimationController _floatCtrl; // crystals bob
+  late AnimationController _playerJump; // player champ jumps
+  late AnimationController _aiJump; // AI champ jumps
+  late AnimationController _shakeCtrl; // wrong-answer shake
+  late AnimationController _fireworks; // streak fireworks
+  late AnimationController _fadeCtrl; // question fade-in
 
   late Animation<double> _floatAnim;
   late Animation<double> _playerJumpAnim;
@@ -88,17 +87,17 @@ class _NCDState extends State<NumberCountingDuelGame>
   late Animation<double> _fadeAnim;
 
   // ── Game state ──────────────────────────────────────────────────────────
-  int _levelIdx  = 0;
-  int _qIdx      = 0;
+  int _levelIdx = 0;
+  int _qIdx = 0;
   int _playerSco = 0;
-  int _aiSco     = 0;
-  int _streak    = 0;
-  int _totalXP   = 0;
+  int _aiSco = 0;
+  int _streak = 0;
+  int _totalXP = 0;
 
-  _Phase _phase  = _Phase.intro;
-  _Q?    _current;
-  int?   _picked;      // player's chosen answer
-  bool   _aiAnswered = false;
+  _Phase _phase = _Phase.intro;
+  _Q? _current;
+  int? _picked; // player's chosen answer
+  bool _aiAnswered = false;
 
   final _rng = math.Random();
 
@@ -125,34 +124,46 @@ class _NCDState extends State<NumberCountingDuelGame>
   }
 
   void _initAnims() {
-    _floatCtrl = AnimationController(vsync: this, duration: const Duration(seconds: 2))
-      ..repeat(reverse: true);
+    _floatCtrl =
+        AnimationController(vsync: this, duration: const Duration(seconds: 2))
+          ..repeat(reverse: true);
     _floatAnim = Tween<double>(begin: -5, end: 5)
         .animate(CurvedAnimation(parent: _floatCtrl, curve: Curves.easeInOut));
 
-    _playerJump = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
+    _playerJump = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
     _playerJumpAnim = TweenSequence<double>([
       TweenSequenceItem(tween: Tween(begin: 0, end: -30), weight: 45),
       TweenSequenceItem(tween: Tween(begin: -30, end: 0), weight: 55),
     ]).animate(CurvedAnimation(parent: _playerJump, curve: Curves.easeOut));
 
-    _aiJump = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
+    _aiJump = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
     _aiJumpAnim = TweenSequence<double>([
       TweenSequenceItem(tween: Tween(begin: 0, end: -30), weight: 45),
       TweenSequenceItem(tween: Tween(begin: -30, end: 0), weight: 55),
     ]).animate(CurvedAnimation(parent: _aiJump, curve: Curves.easeOut));
 
-    _shakeCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
+    _shakeCtrl = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 400));
     _shakeAnim = TweenSequence<Offset>([
-      TweenSequenceItem(tween: Tween(begin: Offset.zero, end: const Offset(-12, 0)), weight: 25),
-      TweenSequenceItem(tween: Tween(begin: const Offset(-12, 0), end: const Offset(12, 0)), weight: 50),
-      TweenSequenceItem(tween: Tween(begin: const Offset(12, 0), end: Offset.zero), weight: 25),
+      TweenSequenceItem(
+          tween: Tween(begin: Offset.zero, end: const Offset(-12, 0)),
+          weight: 25),
+      TweenSequenceItem(
+          tween: Tween(begin: const Offset(-12, 0), end: const Offset(12, 0)),
+          weight: 50),
+      TweenSequenceItem(
+          tween: Tween(begin: const Offset(12, 0), end: Offset.zero),
+          weight: 25),
     ]).animate(CurvedAnimation(parent: _shakeCtrl, curve: Curves.easeInOut));
 
-    _fireworks = AnimationController(vsync: this, duration: const Duration(milliseconds: 1200));
+    _fireworks = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1200));
     _fireworksAnim = CurvedAnimation(parent: _fireworks, curve: Curves.easeOut);
 
-    _fadeCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 350));
+    _fadeCtrl = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 350));
     _fadeAnim = CurvedAnimation(parent: _fadeCtrl, curve: Curves.easeIn);
   }
 
@@ -175,25 +186,25 @@ class _NCDState extends State<NumberCountingDuelGame>
 
   void _startGame() {
     setState(() {
-      _levelIdx  = 0;
-      _qIdx      = 0;
+      _levelIdx = 0;
+      _qIdx = 0;
       _playerSco = 0;
-      _aiSco     = 0;
-      _streak    = 0;
-      _totalXP   = 0;
+      _aiSco = 0;
+      _streak = 0;
+      _totalXP = 0;
     });
     _nextQuestion();
   }
 
   void _nextQuestion() {
     final lev = _levels[_levelIdx];
-    final q   = _makeQuestion(lev);
+    final q = _makeQuestion(lev);
     _fadeCtrl.reset();
     setState(() {
-      _current   = q;
-      _picked    = null;
+      _current = q;
+      _picked = null;
       _aiAnswered = false;
-      _phase     = _Phase.question;
+      _phase = _Phase.question;
     });
     _fadeCtrl.forward();
     _scheduleAI(lev);
@@ -211,7 +222,10 @@ class _NCDState extends State<NumberCountingDuelGame>
           ? q.correct
           : q.choices[_rng.nextInt(q.choices.length)];
       if (aiPick == q.correct) {
-        setState(() { _aiSco++; _aiAnswered = true; });
+        setState(() {
+          _aiSco++;
+          _aiAnswered = true;
+        });
         _aiJump.forward(from: 0);
       }
       _advance(aiAnsweredCorrectly: aiPick == q.correct);
@@ -225,7 +239,11 @@ class _NCDState extends State<NumberCountingDuelGame>
     final correct = choice == q.correct;
 
     if (correct) {
-      setState(() { _playerSco++; _streak++; _totalXP += 10; });
+      setState(() {
+        _playerSco++;
+        _streak++;
+        _totalXP += 10;
+      });
       _playerJump.forward(from: 0);
       final isStreak = _streak > 0 && _streak % 3 == 0;
       if (isStreak) {
@@ -237,7 +255,10 @@ class _NCDState extends State<NumberCountingDuelGame>
         _delayed(1200, _advance);
       }
     } else {
-      setState(() { _streak = 0; _phase = _Phase.wrong; });
+      setState(() {
+        _streak = 0;
+        _phase = _Phase.wrong;
+      });
       _shakeCtrl.forward(from: 0);
       _delayed(1200, _advance);
     }
@@ -245,7 +266,7 @@ class _NCDState extends State<NumberCountingDuelGame>
 
   void _advance({bool aiAnsweredCorrectly = false}) {
     if (!mounted) return;
-    final lev  = _levels[_levelIdx];
+    final lev = _levels[_levelIdx];
     final next = _qIdx + 1;
 
     if (next >= lev.questionCount) {
@@ -253,9 +274,14 @@ class _NCDState extends State<NumberCountingDuelGame>
       if (_levelIdx + 1 >= _levels.length) {
         setState(() => _phase = _Phase.victory);
       } else {
-        setState(() { _phase = _Phase.levelDone; });
+        setState(() {
+          _phase = _Phase.levelDone;
+        });
         _delayed(2200, () {
-          setState(() { _levelIdx++; _qIdx = 0; });
+          setState(() {
+            _levelIdx++;
+            _qIdx = 0;
+          });
           _nextQuestion();
         });
       }
@@ -269,9 +295,9 @@ class _NCDState extends State<NumberCountingDuelGame>
 
   _Q _makeQuestion(_Level lev) {
     return switch (lev.type) {
-      'count'   => _makeCountQ(lev),
+      'count' => _makeCountQ(lev),
       'compare' => _makeCompareQ(lev),
-      _         => _makeExtremeQ(lev),
+      _ => _makeExtremeQ(lev),
     };
   }
 
@@ -296,7 +322,9 @@ class _NCDState extends State<NumberCountingDuelGame>
     final askBigger = _rng.nextBool();
     return _Q(
       type: 'compare',
-      prompt: askBigger ? 'Pick the BIGGER number! 👆' : 'Pick the SMALLER number! 👇',
+      prompt: askBigger
+          ? 'Pick the BIGGER number! 👆'
+          : 'Pick the SMALLER number! 👇',
       choices: [a, b]..shuffle(_rng),
       correct: askBigger ? math.max(a, b) : math.min(a, b),
     );
@@ -304,12 +332,15 @@ class _NCDState extends State<NumberCountingDuelGame>
 
   _Q _makeExtremeQ(_Level lev) {
     final nums = <int>{};
-    while (nums.length < 4) nums.add(lev.min + _rng.nextInt(lev.max - lev.min + 1));
+    while (nums.length < 4)
+      nums.add(lev.min + _rng.nextInt(lev.max - lev.min + 1));
     final list = nums.toList()..shuffle(_rng);
     final askMax = _rng.nextBool();
     return _Q(
       type: 'extreme',
-      prompt: askMax ? 'Find the BIGGEST number! 🏆' : 'Find the SMALLEST number! 🔍',
+      prompt: askMax
+          ? 'Find the BIGGEST number! 🏆'
+          : 'Find the SMALLEST number! 🔍',
       choices: list,
       correct: askMax ? list.reduce(math.max) : list.reduce(math.min),
     );
@@ -345,8 +376,8 @@ class _NCDState extends State<NumberCountingDuelGame>
       );
     }
 
-    final lev   = _levels[_levelIdx];
-    final q     = _current;
+    final lev = _levels[_levelIdx];
+    final q = _current;
     final total = lev.questionCount;
 
     return Scaffold(
@@ -385,12 +416,13 @@ class _NCDState extends State<NumberCountingDuelGame>
                 SizedBox(
                   height: 130,
                   child: AnimatedBuilder(
-                    animation: Listenable.merge([_playerJumpAnim, _aiJumpAnim, _floatAnim]),
+                    animation: Listenable.merge(
+                        [_playerJumpAnim, _aiJumpAnim, _floatAnim]),
                     builder: (_, __) => _ArenaScene(
-                      playerJumpY:  _playerJumpAnim.value,
-                      aiJumpY:      _aiJumpAnim.value,
-                      phase:        _phase,
-                      aiAnswered:   _aiAnswered,
+                      playerJumpY: _playerJumpAnim.value,
+                      aiJumpY: _aiJumpAnim.value,
+                      phase: _phase,
+                      aiAnswered: _aiAnswered,
                     ),
                   ),
                 ),
@@ -404,7 +436,9 @@ class _NCDState extends State<NumberCountingDuelGame>
                           child: AnimatedBuilder(
                             animation: _shakeAnim,
                             builder: (_, child) => Transform.translate(
-                              offset: _phase == _Phase.wrong ? _shakeAnim.value : Offset.zero,
+                              offset: _phase == _Phase.wrong
+                                  ? _shakeAnim.value
+                                  : Offset.zero,
                               child: child,
                             ),
                             child: _QuestionArea(
@@ -483,12 +517,15 @@ class _ArenaPainter extends CustomPainter {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
       ).createShader(Rect.fromLTWH(0, floorY - 40, w, h - floorY + 60));
-    canvas.drawOval(Rect.fromLTWH(-w * 0.1, floorY - 30, w * 1.2, 90), floorPaint);
+    canvas.drawOval(
+        Rect.fromLTWH(-w * 0.1, floorY - 30, w * 1.2, 90), floorPaint);
 
     // Crowd left bleachers
-    _drawBleachers(canvas, Rect.fromLTWH(0, h * 0.05, w * 0.20, h * 0.50), true);
+    _drawBleachers(
+        canvas, Rect.fromLTWH(0, h * 0.05, w * 0.20, h * 0.50), true);
     // Crowd right bleachers
-    _drawBleachers(canvas, Rect.fromLTWH(w * 0.80, h * 0.05, w * 0.20, h * 0.50), false);
+    _drawBleachers(
+        canvas, Rect.fromLTWH(w * 0.80, h * 0.05, w * 0.20, h * 0.50), false);
 
     // Spotlights from top corners
     final spotPaint = Paint()
@@ -535,7 +572,9 @@ class _ArenaPainter extends CustomPainter {
         canvas.drawCircle(
           Offset(x + 7, y + rowH * 0.3),
           4.5,
-          Paint()..color = rowColors[rng.nextInt(rowColors.length)].withValues(alpha: 0.7),
+          Paint()
+            ..color =
+                rowColors[rng.nextInt(rowColors.length)].withValues(alpha: 0.7),
         );
       }
     }
@@ -571,7 +610,8 @@ class _Header extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.black.withValues(alpha: 0.45),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFFFD700).withValues(alpha: 0.40), width: 1.5),
+        border: Border.all(
+            color: const Color(0xFFFFD700).withValues(alpha: 0.40), width: 1.5),
       ),
       child: Column(
         children: [
@@ -579,22 +619,34 @@ class _Header extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Player score
-              _ScorePill(label: '🧒 YOU', score: playerSco, color: const Color(0xFF1565C0)),
+              _ScorePill(
+                  label: '🧒 YOU',
+                  score: playerSco,
+                  color: const Color(0xFF1565C0)),
               // Level name
               Column(
                 children: [
                   Text(
                     'Level ${levelIdx + 1}/$totalLevels',
-                    style: const TextStyle(color: Color(0xFFFFD700), fontSize: 11, fontWeight: FontWeight.w700),
+                    style: const TextStyle(
+                        color: Color(0xFFFFD700),
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700),
                   ),
                   Text(
                     levelName,
-                    style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w800),
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w800),
                   ),
                 ],
               ),
               // AI score
-              _ScorePill(label: '🤖 CPU', score: aiSco, color: const Color(0xFFC62828)),
+              _ScorePill(
+                  label: '🤖 CPU',
+                  score: aiSco,
+                  color: const Color(0xFFC62828)),
             ],
           ),
           const SizedBox(height: 8),
@@ -607,7 +659,7 @@ class _Header extends StatelessWidget {
               return AnimatedContainer(
                 duration: const Duration(milliseconds: 250),
                 margin: const EdgeInsets.symmetric(horizontal: 3),
-                width:  active ? 20 : 10,
+                width: active ? 20 : 10,
                 height: 10,
                 decoration: BoxDecoration(
                   color: done
@@ -630,7 +682,8 @@ class _ScorePill extends StatelessWidget {
   final String label;
   final int score;
   final Color color;
-  const _ScorePill({required this.label, required this.score, required this.color});
+  const _ScorePill(
+      {required this.label, required this.score, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -642,8 +695,16 @@ class _ScorePill extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text(label, style: const TextStyle(color: Colors.white70, fontSize: 10, fontWeight: FontWeight.w600)),
-          Text('$score', style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900)),
+          Text(label,
+              style: const TextStyle(
+                  color: Colors.white70,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600)),
+          Text('$score',
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900)),
         ],
       ),
     );
@@ -681,7 +742,7 @@ class _ArenaScene extends StatelessWidget {
             color: const Color(0xFF1565C0),
             jumpY: playerJumpY,
             showStar: phase == _Phase.correct || phase == _Phase.streak,
-            showX:    phase == _Phase.wrong,
+            showX: phase == _Phase.wrong,
           ),
           // VS badge
           Container(
@@ -691,10 +752,17 @@ class _ArenaScene extends StatelessWidget {
                 colors: [Color(0xFFFFD700), Color(0xFFFF8C00)],
               ),
               borderRadius: BorderRadius.circular(14),
-              boxShadow: [BoxShadow(color: const Color(0xFFFFD700).withValues(alpha: 0.5), blurRadius: 12)],
+              boxShadow: [
+                BoxShadow(
+                    color: const Color(0xFFFFD700).withValues(alpha: 0.5),
+                    blurRadius: 12)
+              ],
             ),
             child: const Text('VS',
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 20,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900,
+                    fontSize: 20,
                     shadows: [Shadow(blurRadius: 4, color: Colors.black45)])),
           ),
           _Champion(
@@ -703,7 +771,7 @@ class _ArenaScene extends StatelessWidget {
             color: const Color(0xFFC62828),
             jumpY: aiJumpY,
             showStar: aiAnswered,
-            showX:    false,
+            showX: false,
           ),
         ],
       ),
@@ -723,7 +791,7 @@ class _Champion extends StatelessWidget {
     required this.color,
     required this.jumpY,
     this.showStar = false,
-    this.showX    = false,
+    this.showX = false,
   });
 
   @override
@@ -742,23 +810,34 @@ class _Champion extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.85),
                   shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xFFFFD700), width: 2.5),
-                  boxShadow: [BoxShadow(color: color.withValues(alpha: 0.50), blurRadius: 16)],
+                  border:
+                      Border.all(color: const Color(0xFFFFD700), width: 2.5),
+                  boxShadow: [
+                    BoxShadow(
+                        color: color.withValues(alpha: 0.50), blurRadius: 16)
+                  ],
                 ),
-                child: Center(child: Text(emoji, style: const TextStyle(fontSize: 30))),
+                child: Center(
+                    child: Text(emoji, style: const TextStyle(fontSize: 30))),
               ),
             ),
             if (showStar)
               Container(
                 padding: const EdgeInsets.all(3),
-                decoration: const BoxDecoration(color: Color(0xFF4CAF50), shape: BoxShape.circle),
+                decoration: const BoxDecoration(
+                    color: Color(0xFF4CAF50), shape: BoxShape.circle),
                 child: const Text('⭐', style: TextStyle(fontSize: 13)),
               ),
             if (showX)
               Container(
                 padding: const EdgeInsets.all(3),
-                decoration: const BoxDecoration(color: Color(0xFFC62828), shape: BoxShape.circle),
-                child: const Text('✗', style: TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w900)),
+                decoration: const BoxDecoration(
+                    color: Color(0xFFC62828), shape: BoxShape.circle),
+                child: const Text('✗',
+                    style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w900)),
               ),
           ],
         ),
@@ -807,7 +886,9 @@ class _QuestionArea extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.black.withValues(alpha: 0.50),
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: const Color(0xFFFFD700).withValues(alpha: 0.50), width: 1.5),
+              border: Border.all(
+                  color: const Color(0xFFFFD700).withValues(alpha: 0.50),
+                  width: 1.5),
             ),
             child: Text(
               q.prompt,
@@ -833,27 +914,31 @@ class _QuestionArea extends StatelessWidget {
           if (q.type == 'count')
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: q.choices.map((c) => _CrystalBtn(
-                value: c,
-                phase: phase,
-                picked: picked,
-                correct: q.correct,
-                onTap: () => onAnswer(c),
-              )).toList(),
+              children: q.choices
+                  .map((c) => _CrystalBtn(
+                        value: c,
+                        phase: phase,
+                        picked: picked,
+                        correct: q.correct,
+                        onTap: () => onAnswer(c),
+                      ))
+                  .toList(),
             )
           else
             Wrap(
               spacing: 12,
               runSpacing: 12,
               alignment: WrapAlignment.center,
-              children: q.choices.map((c) => _CrystalBtn(
-                value: c,
-                phase: phase,
-                picked: picked,
-                correct: q.correct,
-                onTap: () => onAnswer(c),
-                large: true,
-              )).toList(),
+              children: q.choices
+                  .map((c) => _CrystalBtn(
+                        value: c,
+                        phase: phase,
+                        picked: picked,
+                        correct: q.correct,
+                        onTap: () => onAnswer(c),
+                        large: true,
+                      ))
+                  .toList(),
             ),
         ],
       ),
@@ -879,13 +964,16 @@ class _ObjectGrid extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(rows, (r) {
           final start = r * maxPerRow;
-          final end   = math.min(start + maxPerRow, count);
+          final end = math.min(start + maxPerRow, count);
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(end - start, (_) => Padding(
-              padding: const EdgeInsets.all(1),
-              child: Text(emoji, style: const TextStyle(fontSize: itemSize)),
-            )),
+            children: List.generate(
+                end - start,
+                (_) => Padding(
+                      padding: const EdgeInsets.all(1),
+                      child: Text(emoji,
+                          style: const TextStyle(fontSize: itemSize)),
+                    )),
           );
         }),
       ),
@@ -911,15 +999,17 @@ class _CrystalBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isAnswered = phase == _Phase.correct || phase == _Phase.wrong ||
-                       phase == _Phase.streak  || phase == _Phase.levelDone;
-    final isPickedThis   = picked == value;
-    final isCorrectThis  = value  == correct;
+    final isAnswered = phase == _Phase.correct ||
+        phase == _Phase.wrong ||
+        phase == _Phase.streak ||
+        phase == _Phase.levelDone;
+    final isPickedThis = picked == value;
+    final isCorrectThis = value == correct;
 
     Color bg1 = const Color(0xFF5C35F5);
     Color bg2 = const Color(0xFF9C27B0);
     Color border = Colors.white.withValues(alpha: 0.30);
-    Color textC  = Colors.white;
+    Color textC = Colors.white;
 
     if (isAnswered) {
       if (isCorrectThis) {
@@ -946,7 +1036,10 @@ class _CrystalBtn extends StatelessWidget {
         width: size,
         height: size,
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [bg1, bg2], begin: Alignment.topLeft, end: Alignment.bottomRight),
+          gradient: LinearGradient(
+              colors: [bg1, bg2],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight),
           borderRadius: BorderRadius.circular(18),
           border: Border.all(color: border, width: 2),
           boxShadow: [
@@ -987,11 +1080,14 @@ class _FeedbackBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (text, bg) = switch (phase) {
-      _Phase.correct  => ('✅  Amazing! Keep going!', const Color(0xFF2E7D32)),
-      _Phase.wrong    => ('❌  Oops! Try next one!', const Color(0xFFC62828)),
-      _Phase.streak   => ('🔥 ${streak}x STREAK! Incredible! 🎆', const Color(0xFFE65100)),
-      _Phase.levelDone=> ('🎉  Level Complete!',     const Color(0xFF4A148C)),
-      _             => (null, Colors.transparent),
+      _Phase.correct => ('✅  Amazing! Keep going!', const Color(0xFF2E7D32)),
+      _Phase.wrong => ('❌  Oops! Try next one!', const Color(0xFFC62828)),
+      _Phase.streak => (
+          '🔥 ${streak}x STREAK! Incredible! 🎆',
+          const Color(0xFFE65100)
+        ),
+      _Phase.levelDone => ('🎉  Level Complete!', const Color(0xFF4A148C)),
+      _ => (null, Colors.transparent),
     };
     if (text == null) return const SizedBox(height: 40);
 
@@ -999,10 +1095,14 @@ class _FeedbackBanner extends StatelessWidget {
       duration: const Duration(milliseconds: 200),
       margin: const EdgeInsets.fromLTRB(16, 0, 16, 4),
       padding: const EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(14)),
+      decoration:
+          BoxDecoration(color: bg, borderRadius: BorderRadius.circular(14)),
       child: Center(
         child: Text(text,
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 16)),
+            style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w800,
+                fontSize: 16)),
       ),
     );
   }
@@ -1028,7 +1128,10 @@ class _LevelDone extends StatelessWidget {
               const Text('⭐ ⭐ ⭐', style: TextStyle(fontSize: 40)),
               const SizedBox(height: 12),
               Text('Level $level Complete!',
-                  style: const TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w900)),
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w900)),
               const SizedBox(height: 8),
               const Text('Get ready for the next level!',
                   style: TextStyle(color: Colors.white70, fontSize: 15)),
@@ -1058,7 +1161,10 @@ class _IntroScreen extends StatelessWidget {
             Text('🏟️', style: TextStyle(fontSize: 72)),
             SizedBox(height: 16),
             Text('Number Counting Duel',
-                style: TextStyle(color: Color(0xFFFFD700), fontSize: 24, fontWeight: FontWeight.w900)),
+                style: TextStyle(
+                    color: Color(0xFFFFD700),
+                    fontSize: 24,
+                    fontWeight: FontWeight.w900)),
             SizedBox(height: 8),
             Text('Get ready to count!',
                 style: TextStyle(color: Colors.white70, fontSize: 16)),
@@ -1087,8 +1193,12 @@ class _VictoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final won   = playerScore >= aiScore;
-    final stars = playerScore >= 20 ? 3 : playerScore >= 12 ? 2 : 1;
+    final won = playerScore >= aiScore;
+    final stars = playerScore >= 20
+        ? 3
+        : playerScore >= 12
+            ? 2
+            : 1;
 
     return Scaffold(
       body: Container(
@@ -1108,16 +1218,21 @@ class _VictoryScreen extends StatelessWidget {
                 children: [
                   Text(won ? '🏆 You Won!' : '💪 Good Try!',
                       style: const TextStyle(
-                          color: Color(0xFFFFD700), fontSize: 36, fontWeight: FontWeight.w900)),
+                          color: Color(0xFFFFD700),
+                          fontSize: 36,
+                          fontWeight: FontWeight.w900)),
                   const SizedBox(height: 12),
                   // Stars
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(3, (i) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: Text(i < stars ? '⭐' : '☆',
-                          style: const TextStyle(fontSize: 44)),
-                    )),
+                    children: List.generate(
+                        3,
+                        (i) => Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 6),
+                              child: Text(i < stars ? '⭐' : '☆',
+                                  style: const TextStyle(fontSize: 44)),
+                            )),
                   ),
                   const SizedBox(height: 20),
                   // Scores
@@ -1126,20 +1241,33 @@ class _VictoryScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.black.withValues(alpha: 0.40),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: const Color(0xFFFFD700).withValues(alpha: 0.40)),
+                      border: Border.all(
+                          color:
+                              const Color(0xFFFFD700).withValues(alpha: 0.40)),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _ScorePill(label: '🧒 YOU', score: playerScore, color: const Color(0xFF1565C0)),
+                        _ScorePill(
+                            label: '🧒 YOU',
+                            score: playerScore,
+                            color: const Color(0xFF1565C0)),
                         Column(
                           children: [
-                            const Text('⭐ XP', style: TextStyle(color: Colors.white70, fontSize: 12)),
+                            const Text('⭐ XP',
+                                style: TextStyle(
+                                    color: Colors.white70, fontSize: 12)),
                             Text('+$totalXP',
-                                style: const TextStyle(color: Color(0xFFFFD700), fontSize: 26, fontWeight: FontWeight.w900)),
+                                style: const TextStyle(
+                                    color: Color(0xFFFFD700),
+                                    fontSize: 26,
+                                    fontWeight: FontWeight.w900)),
                           ],
                         ),
-                        _ScorePill(label: '🤖 CPU', score: aiScore, color: const Color(0xFFC62828)),
+                        _ScorePill(
+                            label: '🤖 CPU',
+                            score: aiScore,
+                            color: const Color(0xFFC62828)),
                       ],
                     ),
                   ),
@@ -1148,7 +1276,10 @@ class _VictoryScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _VBtn(label: '🔄 Play Again', onTap: onReplay, primary: true),
+                      _VBtn(
+                          label: '🔄 Play Again',
+                          onTap: onReplay,
+                          primary: true),
                       const SizedBox(width: 12),
                       _VBtn(label: '🗺️ Map', onTap: onExit, primary: false),
                     ],
@@ -1167,7 +1298,8 @@ class _VBtn extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
   final bool primary;
-  const _VBtn({required this.label, required this.onTap, required this.primary});
+  const _VBtn(
+      {required this.label, required this.onTap, required this.primary});
 
   @override
   Widget build(BuildContext context) {
@@ -1177,7 +1309,8 @@ class _VBtn extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
         decoration: BoxDecoration(
           gradient: primary
-              ? const LinearGradient(colors: [Color(0xFFFFD700), Color(0xFFFF8C00)])
+              ? const LinearGradient(
+                  colors: [Color(0xFFFFD700), Color(0xFFFF8C00)])
               : null,
           color: primary ? null : Colors.white.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(16),
@@ -1205,14 +1338,17 @@ class _FireworksPainter extends CustomPainter {
   _FireworksPainter(this.t);
 
   static final _rng = math.Random(77);
-  static final _bursts = List.generate(6, (i) => (
-    x:    _rng.nextDouble(),
-    y:    0.1 + _rng.nextDouble() * 0.5,
-    col:  Color.fromARGB(255, _rng.nextInt(200) + 55, _rng.nextInt(200) + 55, _rng.nextInt(200) + 55),
-    spd:  0.06 + _rng.nextDouble() * 0.08,
-    rays: 8 + _rng.nextInt(6),
-    delay: _rng.nextDouble() * 0.3,
-  ));
+  static final _bursts = List.generate(
+      6,
+      (i) => (
+            x: _rng.nextDouble(),
+            y: 0.1 + _rng.nextDouble() * 0.5,
+            col: Color.fromARGB(255, _rng.nextInt(200) + 55,
+                _rng.nextInt(200) + 55, _rng.nextInt(200) + 55),
+            spd: 0.06 + _rng.nextDouble() * 0.08,
+            rays: 8 + _rng.nextInt(6),
+            delay: _rng.nextDouble() * 0.3,
+          ));
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -1230,10 +1366,11 @@ class _FireworksPainter extends CustomPainter {
       final maxR = size.width * b.spd;
       for (int r = 0; r < b.rays; r++) {
         final angle = r * 2 * math.pi / b.rays;
-        final dist  = tt * maxR;
+        final dist = tt * maxR;
         canvas.drawLine(
-          Offset(cx + math.cos(angle) * dist * 0.2, cy + math.sin(angle) * dist * 0.2),
-          Offset(cx + math.cos(angle) * dist,        cy + math.sin(angle) * dist),
+          Offset(cx + math.cos(angle) * dist * 0.2,
+              cy + math.sin(angle) * dist * 0.2),
+          Offset(cx + math.cos(angle) * dist, cy + math.sin(angle) * dist),
           paint,
         );
         // Sparkle dot at tip

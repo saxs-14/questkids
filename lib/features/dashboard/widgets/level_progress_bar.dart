@@ -49,8 +49,8 @@ class LevelProgressBar extends StatelessWidget {
                     ),
                     Text(
                       '$totalPoints total points',
-                      style: const TextStyle(
-                          color: Colors.white70, fontSize: 13),
+                      style:
+                          const TextStyle(color: Colors.white70, fontSize: 13),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -77,8 +77,7 @@ class LevelProgressBar extends StatelessWidget {
             child: LinearProgressIndicator(
               value: progress.clamp(0.0, 1.0),
               backgroundColor: Colors.white.withValues(alpha: 0.3),
-              valueColor:
-                  const AlwaysStoppedAnimation<Color>(AppColors.gold),
+              valueColor: const AlwaysStoppedAnimation<Color>(AppColors.gold),
               minHeight: 10,
             ),
           ),

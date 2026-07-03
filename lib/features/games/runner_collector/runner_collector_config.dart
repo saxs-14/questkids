@@ -4,8 +4,8 @@ import '../core/game_config.dart';
 class LaneWord {
   final String word;
   final String wordClass; // bucket key, e.g. 'noun', 'safe', 'renewable'
-  final int lane;             // 0, 1, or 2
-  double xPosition;           // 0.0 = right edge, 1.0 = left edge (off-screen)
+  final int lane; // 0, 1, or 2
+  double xPosition; // 0.0 = right edge, 1.0 = left edge (off-screen)
   bool collected;
 
   LaneWord({
@@ -24,9 +24,9 @@ class LaneWord {
 /// topic, not just grammar's noun/verb/adjective/pronoun.
 class GrammarLevel {
   final int index;
-  final String targetClass;   // must be a key in [buckets]
-  final String missionLabel;  // e.g. "Collect only Nouns"
-  final double scrollSpeed;   // words per second across screen
+  final String targetClass; // must be a key in [buckets]
+  final String missionLabel; // e.g. "Collect only Nouns"
+  final double scrollSpeed; // words per second across screen
   final Map<String, List<String>> buckets;
 
   const GrammarLevel({
@@ -78,7 +78,16 @@ class RunnerCollectorConfig {
           missionLabel: 'Collect only Nouns! 📦',
           scrollSpeed: 0.08,
           buckets: {
-            'noun': ['dog', 'house', 'school', 'river', 'table', 'book', 'city', 'teacher'],
+            'noun': [
+              'dog',
+              'house',
+              'school',
+              'river',
+              'table',
+              'book',
+              'city',
+              'teacher'
+            ],
             'verb': ['run', 'eat', 'jump', 'sleep', 'play', 'swim'],
             'adjective': ['happy', 'big', 'cold', 'fast', 'small'],
             'pronoun': ['he', 'she', 'they', 'it', 'we'],
@@ -91,7 +100,16 @@ class RunnerCollectorConfig {
           scrollSpeed: 0.10,
           buckets: {
             'noun': ['cat', 'road', 'cloud', 'flower', 'market'],
-            'verb': ['sing', 'write', 'fly', 'build', 'cook', 'throw', 'learn', 'drive'],
+            'verb': [
+              'sing',
+              'write',
+              'fly',
+              'build',
+              'cook',
+              'throw',
+              'learn',
+              'drive'
+            ],
             'adjective': ['red', 'quiet', 'tall', 'young'],
             'pronoun': ['you', 'him', 'her', 'us'],
           },
@@ -104,7 +122,16 @@ class RunnerCollectorConfig {
           buckets: {
             'noun': ['sun', 'tree', 'train', 'door'],
             'verb': ['talk', 'draw', 'push', 'read'],
-            'adjective': ['brave', 'tiny', 'warm', 'dark', 'bright', 'loud', 'soft', 'long'],
+            'adjective': [
+              'brave',
+              'tiny',
+              'warm',
+              'dark',
+              'bright',
+              'loud',
+              'soft',
+              'long'
+            ],
             'pronoun': ['mine', 'yours', 'theirs'],
           },
         ),
@@ -117,7 +144,18 @@ class RunnerCollectorConfig {
             'noun': ['bag', 'lake', 'star', 'hill'],
             'verb': ['open', 'close', 'mix', 'lift'],
             'adjective': ['green', 'wet', 'dry', 'old'],
-            'pronoun': ['I', 'you', 'he', 'she', 'we', 'they', 'it', 'me', 'him', 'her'],
+            'pronoun': [
+              'I',
+              'you',
+              'he',
+              'she',
+              'we',
+              'they',
+              'it',
+              'me',
+              'him',
+              'her'
+            ],
           },
         ),
       ],

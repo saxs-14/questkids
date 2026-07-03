@@ -31,12 +31,11 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
-          ChangeNotifierProvider(create: (_) => ParentProvider()),
+        ChangeNotifierProvider(create: (_) => ParentProvider()),
         ChangeNotifierProvider(create: (_) => RewardsProvider()),
         ChangeNotifierProvider(create: (_) => AiTutorProvider()),
         ChangeNotifierProvider(create: (_) => MissionProvider()),
-        ChangeNotifierProvider(
-            create: (_) => ConnectivityProvider()),
+        ChangeNotifierProvider(create: (_) => ConnectivityProvider()),
       ],
       child: const QuestKidsApp(),
     ),

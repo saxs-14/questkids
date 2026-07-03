@@ -30,7 +30,9 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   for (final entry in GameCatalog.all) {
-    test('${entry.id} (${entry.engineType}) plays a full round without exceptions', () async {
+    test(
+        '${entry.id} (${entry.engineType}) plays a full round without exceptions',
+        () async {
       final config = GameConfig.fromCatalogEntry(entry);
 
       // numberCountingDuel's single catalog entry is a fully self-contained
@@ -46,59 +48,78 @@ void main() {
       }
 
       final path = config.contentPackPath;
-      expect(path, isNotNull, reason: '${entry.id} has no catalogId-derived content pack path');
+      expect(path, isNotNull,
+          reason: '${entry.id} has no catalogId-derived content pack path');
       final raw = await rootBundle.loadString(path!);
       final pack = jsonDecode(raw) as Map<String, dynamic>;
 
       final engine = _buildEngine(entry.engineType, config, pack);
       final questions = engine.generateQuestions();
-      expect(questions, isNotEmpty, reason: '${entry.id} produced no questions');
+      expect(questions, isNotEmpty,
+          reason: '${entry.id} produced no questions');
 
       final firstQuestion = questions.first;
       final correctAnswer = _correctAnswerFor(entry.engineType, firstQuestion);
-      final correctResult = engine.checkAnswer(firstQuestion, correctAnswer, elapsedThresholdSeconds: 1);
+      final correctResult = engine.checkAnswer(firstQuestion, correctAnswer,
+          elapsedThresholdSeconds: 1);
       expect(correctResult.correct, isTrue,
-          reason: '${entry.id}: engine.checkAnswer rejected the answer it says is correct');
+          reason:
+              '${entry.id}: engine.checkAnswer rejected the answer it says is correct');
       expect(correctResult.xpDelta, greaterThanOrEqualTo(0));
 
       final wrongAnswer = _wrongAnswerFor(entry.engineType, firstQuestion);
-      final wrongResult = engine.checkAnswer(firstQuestion, wrongAnswer, elapsedThresholdSeconds: 20);
+      final wrongResult = engine.checkAnswer(firstQuestion, wrongAnswer,
+          elapsedThresholdSeconds: 20);
       expect(wrongResult.correct, isFalse,
-          reason: '${entry.id}: engine.checkAnswer accepted a deliberately wrong answer');
+          reason:
+              '${entry.id}: engine.checkAnswer accepted a deliberately wrong answer');
 
       final total = questions.length;
-      final completeResult = engine.buildResult(correct: total, total: total, timeTakenSeconds: 30);
+      final completeResult = engine.buildResult(
+          correct: total, total: total, timeTakenSeconds: 30);
       expect(completeResult.score, inInclusiveRange(0, 100));
       expect(completeResult.xpEarned, greaterThanOrEqualTo(0));
       expect(completeResult.coinsEarned, greaterThanOrEqualTo(0));
       expect(completeResult.accuracy, inInclusiveRange(0.0, 1.0));
 
-      final lossResult = engine.buildResult(correct: 0, total: total, timeTakenSeconds: 30);
+      final lossResult =
+          engine.buildResult(correct: 0, total: total, timeTakenSeconds: 30);
       expect(lossResult.score, inInclusiveRange(0, 100));
     });
   }
 }
 
-GameEngine _buildEngine(String engineType, GameConfig config, Map<String, dynamic> pack) {
+GameEngine _buildEngine(
+    String engineType, GameConfig config, Map<String, dynamic> pack) {
   switch (engineType) {
     case AppConstants.engineTugOfWar:
-      return TugOfWarEngine(tugConfig: TugOfWarConfig.fromGameConfig(config), config: config);
+      return TugOfWarEngine(
+          tugConfig: TugOfWarConfig.fromGameConfig(config), config: config);
     case AppConstants.engineAdventureJourney:
-      return AdventureJourneyEngine(journeyConfig: AdventureJourneyConfig.fromPack(pack), config: config);
+      return AdventureJourneyEngine(
+          journeyConfig: AdventureJourneyConfig.fromPack(pack), config: config);
     case AppConstants.engineRunnerCollector:
-      return RunnerCollectorEngine(runnerConfig: RunnerCollectorConfig.fromPack(pack), config: config);
+      return RunnerCollectorEngine(
+          runnerConfig: RunnerCollectorConfig.fromPack(pack), config: config);
     case AppConstants.engineExplorerMap:
-      return ExplorerMapEngine(mapConfig: ExplorerMapConfig.fromPack(pack), config: config);
+      return ExplorerMapEngine(
+          mapConfig: ExplorerMapConfig.fromPack(pack), config: config);
     case AppConstants.engineSequenceBuilder:
-      return SequenceBuilderEngine(seqConfig: SequenceBuilderConfig.fromPack(pack), config: config);
+      return SequenceBuilderEngine(
+          seqConfig: SequenceBuilderConfig.fromPack(pack), config: config);
     case AppConstants.engineCircuitBuilder:
-      return CircuitBuilderEngine(config, circuits: (pack['circuits'] as List).cast<Map<String, dynamic>>());
+      return CircuitBuilderEngine(config,
+          circuits: (pack['circuits'] as List).cast<Map<String, dynamic>>());
     case AppConstants.engineBudgetBuilder:
-      return BudgetBuilderEngine(config, scenarios: (pack['scenarios'] as List).cast<Map<String, dynamic>>());
+      return BudgetBuilderEngine(config,
+          scenarios: (pack['scenarios'] as List).cast<Map<String, dynamic>>());
     case AppConstants.engineMultiplesMerge:
-      return MultiplesMergeEngine(mergeConfig: MultiplesMergeConfig.fromPack(pack, config), config: config);
+      return MultiplesMergeEngine(
+          mergeConfig: MultiplesMergeConfig.fromPack(pack, config),
+          config: config);
     default:
-      throw StateError('all_topics_smoke_test: no engine builder for "$engineType"');
+      throw StateError(
+          'all_topics_smoke_test: no engine builder for "$engineType"');
   }
 }
 
@@ -120,9 +141,13 @@ dynamic _correctAnswerFor(String engineType, Map<String, dynamic> question) {
       return blanks.map((b) => b['correctComponent'] as String).toList();
     case AppConstants.engineBudgetBuilder:
       final items = (question['items'] as List).cast<Map<String, dynamic>>();
-      return {for (final item in items) item['name'] as String: item['category'] as String};
+      return {
+        for (final item in items)
+          item['name'] as String: item['category'] as String
+      };
     default:
-      throw StateError('all_topics_smoke_test: no correct-answer builder for "$engineType"');
+      throw StateError(
+          'all_topics_smoke_test: no correct-answer builder for "$engineType"');
   }
 }
 
@@ -132,7 +157,8 @@ dynamic _wrongAnswerFor(String engineType, Map<String, dynamic> question) {
       return (question['answer'] as int) + 999999;
     case AppConstants.engineAdventureJourney:
       final options = (question['options'] as List).cast<String>();
-      return options.firstWhere((o) => o != question['answer'], orElse: () => '__wrong__');
+      return options.firstWhere((o) => o != question['answer'],
+          orElse: () => '__wrong__');
     case AppConstants.engineExplorerMap:
       return '__not_a_real_id__';
     case AppConstants.engineSequenceBuilder:
@@ -145,8 +171,11 @@ dynamic _wrongAnswerFor(String engineType, Map<String, dynamic> question) {
       return List.generate(blanks.length, (_) => '__wrong_component__');
     case AppConstants.engineBudgetBuilder:
       final items = (question['items'] as List).cast<Map<String, dynamic>>();
-      return {for (final item in items) item['name'] as String: '__wrong_category__'};
+      return {
+        for (final item in items) item['name'] as String: '__wrong_category__'
+      };
     default:
-      throw StateError('all_topics_smoke_test: no wrong-answer builder for "$engineType"');
+      throw StateError(
+          'all_topics_smoke_test: no wrong-answer builder for "$engineType"');
   }
 }

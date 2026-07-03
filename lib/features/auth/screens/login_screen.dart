@@ -17,14 +17,15 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  
+
   // Parent / Teacher
   final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
-  
+
   // Child
   final _childNameCtrl = TextEditingController();
-  DateTime _childBirthDate = DateTime.now().subtract(const Duration(days: 365 * 6));
+  DateTime _childBirthDate =
+      DateTime.now().subtract(const Duration(days: 365 * 6));
 
   bool _isChildLogin = true;
 
@@ -54,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!_formKey.currentState!.validate()) return;
     final auth = context.read<AuthProvider>();
     bool success = false;
-    
+
     if (_isChildLogin) {
       success = await auth.loginChild(
         name: _childNameCtrl.text.trim(),
@@ -66,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
         password: _passwordCtrl.text.trim(),
       );
     }
-    
+
     if (success && mounted) {
       final user = auth.user;
       if (user != null) {
@@ -79,7 +80,8 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Login succeeded but profile could not be loaded. Please try again.'),
+            content: Text(
+                'Login succeeded but profile could not be loaded. Please try again.'),
             backgroundColor: Colors.orange,
           ),
         );
@@ -106,7 +108,9 @@ class _LoginScreenState extends State<LoginScreen> {
           validator: (v) => v!.isEmpty ? 'Please enter your name' : null,
         ),
         const SizedBox(height: 16),
-        Text('Your Birthday', style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.bold)),
+        Text('Your Birthday',
+            style:
+                AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.bold)),
         const SizedBox(height: 8),
         GestureDetector(
           onTap: () => _selectDate(context),
@@ -122,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const Icon(Icons.calendar_today, color: Colors.grey),
                 const SizedBox(width: 12),
                 Text(
-                  '${_childBirthDate.year}-${_childBirthDate.month.toString().padLeft(2,'0')}-${_childBirthDate.day.toString().padLeft(2,'0')}',
+                  '${_childBirthDate.year}-${_childBirthDate.month.toString().padLeft(2, '0')}-${_childBirthDate.day.toString().padLeft(2, '0')}',
                   style: AppTextStyles.bodyMedium,
                 ),
               ],
@@ -157,8 +161,10 @@ class _LoginScreenState extends State<LoginScreen> {
         Align(
           alignment: Alignment.centerRight,
           child: TextButton(
-            onPressed: () => Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const ForgotPasswordScreen())),
+            onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => const ForgotPasswordScreen())),
             child: const Text('Forgot Password?',
                 style: TextStyle(color: AppColors.primary)),
           ),
@@ -183,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Logo & Title
                 Center(
                   child: Column(
-                     children: [
+                    children: [
                       Container(
                         width: 90,
                         height: 90,
@@ -210,13 +216,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Text('QuestKids', style: AppTextStyles.h1.copyWith(color: AppColors.primary)),
-                      Text('Learn. Play. Grow.', style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary)),
+                      Text('QuestKids',
+                          style: AppTextStyles.h1
+                              .copyWith(color: AppColors.primary)),
+                      Text('Learn. Play. Grow.',
+                          style: AppTextStyles.bodyMedium
+                              .copyWith(color: AppColors.textSecondary)),
                     ],
                   ),
                 ),
                 const SizedBox(height: 40),
-                
+
                 // Toggle Child/Adult
                 Container(
                   decoration: BoxDecoration(
@@ -231,16 +241,19 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             decoration: BoxDecoration(
-                              color: _isChildLogin ? AppColors.primary : Colors.transparent,
+                              color: _isChildLogin
+                                  ? AppColors.primary
+                                  : Colors.transparent,
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Center(
-                              child: Text('Child', 
-                                style: TextStyle(
-                                  color: _isChildLogin ? Colors.white : Colors.grey.shade600,
-                                  fontWeight: FontWeight.bold,
-                                )
-                              ),
+                              child: Text('Child',
+                                  style: TextStyle(
+                                    color: _isChildLogin
+                                        ? Colors.white
+                                        : Colors.grey.shade600,
+                                    fontWeight: FontWeight.bold,
+                                  )),
                             ),
                           ),
                         ),
@@ -251,16 +264,19 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             decoration: BoxDecoration(
-                              color: !_isChildLogin ? AppColors.primary : Colors.transparent,
+                              color: !_isChildLogin
+                                  ? AppColors.primary
+                                  : Colors.transparent,
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Center(
-                              child: Text('Parent / Teacher', 
-                                style: TextStyle(
-                                  color: !_isChildLogin ? Colors.white : Colors.grey.shade600,
-                                  fontWeight: FontWeight.bold,
-                                )
-                              ),
+                              child: Text('Parent / Teacher',
+                                  style: TextStyle(
+                                    color: !_isChildLogin
+                                        ? Colors.white
+                                        : Colors.grey.shade600,
+                                    fontWeight: FontWeight.bold,
+                                  )),
                             ),
                           ),
                         ),
@@ -269,15 +285,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 32),
-                
+
                 Text('Welcome Back! 👋', style: AppTextStyles.h2),
                 const SizedBox(height: 8),
                 Text('Sign in to continue your quest',
-                    style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary)),
+                    style: AppTextStyles.bodyMedium
+                        .copyWith(color: AppColors.textSecondary)),
                 const SizedBox(height: 32),
 
                 if (_isChildLogin) _buildChildForm() else _buildAdultForm(),
-                
+
                 const SizedBox(height: 24),
                 ElevatedButton(
                   onPressed: auth.isLoading ? null : _login,
@@ -285,12 +302,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       ? const SizedBox(
                           height: 20,
                           width: 20,
-                          child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                          child: CircularProgressIndicator(
+                              color: Colors.white, strokeWidth: 2),
                         )
                       : const Text('Sign In'),
                 ),
                 const SizedBox(height: 16),
-                
+
                 if (!_isChildLogin) ...[
                   Row(
                     children: [
@@ -314,13 +332,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (!success && context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text(auth.errorMessage ?? 'Google sign-in failed'),
+                                  content: Text(auth.errorMessage ??
+                                      'Google sign-in failed'),
                                   backgroundColor: AppColors.error,
                                 ),
                               );
                             }
                           },
-                    icon: const Text('G', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red)),
+                    icon: const Text('G',
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red)),
                     label: const Text('Continue with Google'),
                   ),
                 ],
@@ -328,10 +351,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don't have an account? ", style: AppTextStyles.bodyMedium),
+                    Text("Don't have an account? ",
+                        style: AppTextStyles.bodyMedium),
                     GestureDetector(
-                      onTap: () => Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => const RegisterScreen())),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const RegisterScreen())),
                       child: Text('Sign Up',
                           style: AppTextStyles.bodyMedium.copyWith(
                             color: AppColors.primary,

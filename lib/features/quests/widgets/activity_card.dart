@@ -15,30 +15,44 @@ class ActivityCard extends StatelessWidget {
 
   Color get _subjectColor {
     switch (activity.subject) {
-      case 'Math': return AppColors.math;
-      case 'Science': return AppColors.science;
-      case 'English': return AppColors.english;
-      case 'Social Sciences': return AppColors.socialSciences;
-      default: return AppColors.primary;
+      case 'Math':
+        return AppColors.math;
+      case 'Science':
+        return AppColors.science;
+      case 'English':
+        return AppColors.english;
+      case 'Social Sciences':
+        return AppColors.socialSciences;
+      default:
+        return AppColors.primary;
     }
   }
 
   String get _subjectEmoji {
     switch (activity.subject) {
-      case 'Math': return '🔢';
-      case 'Science': return '🔬';
-      case 'English': return '📖';
-      case 'Social Sciences': return '🌍';
-      default: return '📚';
+      case 'Math':
+        return '🔢';
+      case 'Science':
+        return '🔬';
+      case 'English':
+        return '📖';
+      case 'Social Sciences':
+        return '🌍';
+      default:
+        return '📚';
     }
   }
 
   Color get _difficultyColor {
     switch (activity.difficulty) {
-      case 'easy': return AppColors.green;
-      case 'medium': return AppColors.orange;
-      case 'hard': return AppColors.error;
-      default: return AppColors.primary;
+      case 'easy':
+        return AppColors.green;
+      case 'medium':
+        return AppColors.orange;
+      case 'hard':
+        return AppColors.error;
+      default:
+        return AppColors.primary;
     }
   }
 
@@ -92,8 +106,7 @@ class ActivityCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(activity.title,
-                            style: AppTextStyles.h4),
+                        Text(activity.title, style: AppTextStyles.h4),
                         const SizedBox(height: 4),
                         Text(activity.description,
                             style: AppTextStyles.bodySmall,
@@ -112,8 +125,7 @@ class ActivityCard extends StatelessWidget {
                               color: _difficultyColor,
                             ),
                             const Spacer(),
-                            const Text('⭐',
-                                style: TextStyle(fontSize: 14)),
+                            const Text('⭐', style: TextStyle(fontSize: 14)),
                             const SizedBox(width: 4),
                             Text(
                               '${activity.rewardPoints} pts',
@@ -134,8 +146,8 @@ class ActivityCard extends StatelessWidget {
                       color: _subjectColor.withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(Icons.play_arrow,
-                        color: _subjectColor, size: 20),
+                    child:
+                        Icon(Icons.play_arrow, color: _subjectColor, size: 20),
                   ),
                 ],
               ),

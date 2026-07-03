@@ -36,7 +36,8 @@ void main() {
     }
   });
 
-  test('adventureJourney + tugOfWar combined are at most 40% of the catalog', () {
+  test('adventureJourney + tugOfWar combined are at most 40% of the catalog',
+      () {
     final reskinCount = entries
         .where((e) =>
             e.engineType == AppConstants.engineAdventureJourney ||
@@ -46,8 +47,7 @@ void main() {
     expect(
       ratio,
       lessThanOrEqualTo(0.40),
-      reason:
-          'adventureJourney+tugOfWar is $reskinCount/${entries.length} '
+      reason: 'adventureJourney+tugOfWar is $reskinCount/${entries.length} '
           '(${(ratio * 100).toStringAsFixed(1)}%) — every topic should feel '
           'like its own game, not a single quiz reskinned',
     );
@@ -62,8 +62,7 @@ void main() {
       expect(
         bySubject[subject]!.length,
         greaterThanOrEqualTo(3),
-        reason:
-            "$subject only uses ${bySubject[subject]!.length} distinct "
+        reason: "$subject only uses ${bySubject[subject]!.length} distinct "
             'engine(s): ${bySubject[subject]}',
       );
     }
