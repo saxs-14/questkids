@@ -10,7 +10,7 @@ GameConfig _makeConfig({int questionCount = 5}) => GameConfig(
   topicId: 'electric_circuits',
   subtopicId: 'series',
   difficulty: 'easy',
-  extras: {'questionCount': questionCount},
+  questionCount: questionCount,
 );
 
 void main() {

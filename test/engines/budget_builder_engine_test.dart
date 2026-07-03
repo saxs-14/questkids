@@ -10,7 +10,7 @@ GameConfig _makeConfig({int questionCount = 4}) => GameConfig(
   topicId: 'personal_finance',
   subtopicId: 'needs_wants',
   difficulty: 'easy',
-  extras: {'questionCount': questionCount},
+  questionCount: questionCount,
 );
 
 void main() {

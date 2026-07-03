@@ -99,6 +99,15 @@ dev_dependencies:
   flutter_lints: ^3.0.0
   flutter_launcher_icons: ^0.14.1
 
+# sqlite3 >=3.0.0 loads its native library via Dart build hooks, which
+# download a prebuilt binary from a GitHub release at build time. That
+# download is unreachable from locked-down CI/sandbox networks and makes
+# `flutter test` unrunnable there. Pin to the last hook-free release so
+# sqflite_common_ffi (test/offline-desktop only) dlopens the system
+# libsqlite3 instead — no network access needed to run tests.
+dependency_overrides:
+  sqlite3: 2.9.4
+
 # App launcher / favicon icons generated from the QuestKids logo.
 # Regenerate with: dart run flutter_launcher_icons
 flutter_launcher_icons:
