@@ -6,15 +6,8 @@ import {
   HarmBlockThreshold,
 } from "@google/generative-ai";
 import * as admin from "firebase-admin";
-
-// Toggle at deploy time once App Check is verified end-to-end on all
-// platforms (Android Play Integrity + Web reCAPTCHA v3). See CLAUDE.md §6.2.
-const ENFORCE_APP_CHECK = process.env.ENFORCE_APP_CHECK === "true";
-
-// gemini-1.5-flash is deprecated / retired — gemini-2.5-flash is the current
-// GA Flash model. Overridable via env for fast rollback if Google ships a
-// breaking model change.
-const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+import { GEMINI_API_KEY } from "../secrets";
+import { ENFORCE_APP_CHECK, GEMINI_MODEL } from "../config";
 
 const DAILY_AI_QUOTA = 50;
 const MAX_MESSAGE_CHARS = 1000;
@@ -103,7 +96,7 @@ async function enforceQuota(uid: string): Promise<void> {
 }
 
 function getModel(withSystemPrompt = true) {
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = GEMINI_API_KEY.value();
   if (!apiKey) throw new HttpsError("internal", "Gemini API key not configured");
   const genAI = new GoogleGenerativeAI(apiKey);
   return genAI.getGenerativeModel({
@@ -114,7 +107,7 @@ function getModel(withSystemPrompt = true) {
   });
 }
 
-const CALLABLE_OPTS = { enforceAppCheck: ENFORCE_APP_CHECK };
+const CALLABLE_OPTS = { enforceAppCheck: ENFORCE_APP_CHECK, secrets: [GEMINI_API_KEY] };
 
 export const questyChat = onCall(CALLABLE_OPTS, async (request) => {
   const uid = requireAuth(request);

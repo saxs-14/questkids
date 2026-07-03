@@ -2,6 +2,8 @@ import { onSchedule } from "firebase-functions/v2/scheduler";
 import * as admin from "firebase-admin";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { MISSION_CATALOG } from "./catalog";
+import { GEMINI_API_KEY } from "../secrets";
+import { GEMINI_MODEL } from "../config";
 
 interface MissionEntry {
   id: string;
@@ -33,7 +35,7 @@ async function getAdaptiveMissions(
   dayIndex: number
 ): Promise<{gameId: string; subject: string; emoji: string; title: string}[]> {
   const db = admin.firestore();
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = GEMINI_API_KEY.value();
   if (!apiKey) return [];
 
   const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
@@ -67,7 +69,7 @@ async function getAdaptiveMissions(
   const catalogSubset = MISSION_CATALOG[dayIndex].map((m) => m.gameId).join(", ");
 
   const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const model = genAI.getGenerativeModel({ model: GEMINI_MODEL });
 
   const prompt = `A Grade ${grade} learner is weak in: ${weakSubjects.join(", ")}.
 Available game IDs: ${catalogSubset}
@@ -100,7 +102,12 @@ If no games match the weak subjects, return {"missions":[]}`;
 }
 
 export const generateDailyMissions = onSchedule(
-  { schedule: "every day 00:00", timeZone: "Africa/Johannesburg", memory: "512MiB" },
+  {
+    schedule: "every day 00:00",
+    timeZone: "Africa/Johannesburg",
+    memory: "512MiB",
+    secrets: [GEMINI_API_KEY],
+  },
   async () => {
     const db = admin.firestore();
     const expiresAt = admin.firestore.Timestamp.fromDate(nextMidnightSAST());
