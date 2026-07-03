@@ -1,11 +1,9 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/constants/game_catalog.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_text_styles.dart';
 import '../../games/core/game_config.dart';
+import '../../games/core/game_intro_sheet.dart';
 import '../../games/core/game_router.dart';
 import '../../../providers/auth_provider.dart';
 
@@ -74,19 +72,26 @@ class _Grade1WorldMapState extends State<Grade1WorldMap>
     final entry = GameCatalog.all.where((e) => e.id == catalogId).firstOrNull;
     if (entry == null) return;
     final user = context.read<AuthProvider>().user;
-    final config = GameConfig(
-      engineType: entry.engineType,
-      subject:    entry.subject,
-      grade:      user?.grade ?? 'grade1',
-      topicId:    entry.topicId,
-      subtopicId: entry.subtopicId,
-      difficulty: entry.difficulty,
-      extras:     entry.extras,
-      catalogId:  entry.id,
-    );
-    Navigator.push(
+
+    GameIntroSheet.show(
       context,
-      MaterialPageRoute(builder: (_) => GameRouter(config: config, user: user)),
+      entry: entry,
+      onStart: () {
+        final config = GameConfig(
+          engineType: entry.engineType,
+          subject:    entry.subject,
+          grade:      user?.grade ?? 'grade1',
+          topicId:    entry.topicId,
+          subtopicId: entry.subtopicId,
+          difficulty: entry.difficulty,
+          extras:     entry.extras,
+          catalogId:  entry.id,
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => GameRouter(config: config, user: user)),
+        );
+      },
     );
   }
 

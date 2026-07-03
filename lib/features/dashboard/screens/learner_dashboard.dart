@@ -18,6 +18,7 @@ import '../../quests/screens/quests_screen.dart';
 import '../../rewards/screens/rewards_screen.dart';
 import '../../ai_tutor/screens/ai_tutor_screen.dart';
 import '../../games/core/game_config.dart';
+import '../../games/core/game_intro_sheet.dart';
 import '../../games/core/game_router.dart';
 import '../widgets/daily_missions_card.dart';
 import '../../../providers/mission_provider.dart';
@@ -631,20 +632,26 @@ class _CatalogGameCard extends StatelessWidget {
   });
 
   void _launch(BuildContext context) {
-    final config = GameConfig(
-      engineType: entry.engineType,
-      subject: entry.subject,
-      grade: gradeKey,
-      topicId: entry.topicId,
-      subtopicId: entry.subtopicId,
-      difficulty: entry.difficulty,
-      extras: entry.extras,
-    );
-    Navigator.push(
+    GameIntroSheet.show(
       context,
-      MaterialPageRoute(
-        builder: (_) => GameRouter(config: config, user: user),
-      ),
+      entry: entry,
+      onStart: () {
+        final config = GameConfig(
+          engineType: entry.engineType,
+          subject: entry.subject,
+          grade: gradeKey,
+          topicId: entry.topicId,
+          subtopicId: entry.subtopicId,
+          difficulty: entry.difficulty,
+          extras: entry.extras,
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => GameRouter(config: config, user: user),
+          ),
+        );
+      },
     );
   }
 

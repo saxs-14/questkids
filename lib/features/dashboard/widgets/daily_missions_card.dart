@@ -8,6 +8,7 @@ import '../../../data/models/daily_mission_model.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/mission_provider.dart';
 import '../../games/core/game_config.dart';
+import '../../games/core/game_intro_sheet.dart';
 import '../../games/core/game_router.dart';
 
 class DailyMissionsCard extends StatelessWidget {
@@ -109,11 +110,17 @@ class _MissionTile extends StatelessWidget {
     if (catalogEntry == null) return;
 
     final user = context.read<AuthProvider>().user;
-    final config = GameConfig.fromCatalogEntry(catalogEntry);
 
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (_) => GameRouter(config: config, user: user),
-    ));
+    GameIntroSheet.show(
+      context,
+      entry: catalogEntry,
+      onStart: () {
+        final config = GameConfig.fromCatalogEntry(catalogEntry);
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => GameRouter(config: config, user: user),
+        ));
+      },
+    );
   }
 
   @override

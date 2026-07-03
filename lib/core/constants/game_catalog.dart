@@ -13,6 +13,11 @@ class GameCatalogEntry {
   final String engineType;
   final String emoji;
   final Color color;
+  /// CAPS-phrased learning outcome shown to the learner before they play.
+  final String learningObjective;
+  /// One child-readable sentence explaining why this engine's mechanic
+  /// teaches this particular skill.
+  final String mechanicReason;
   final String difficulty;
   final int xpReward;
   final int coinsReward;
@@ -32,6 +37,8 @@ class GameCatalogEntry {
     required this.engineType,
     required this.emoji,
     required this.color,
+    required this.learningObjective,
+    required this.mechanicReason,
     required this.difficulty,
     required this.xpReward,
     required this.coinsReward,
@@ -56,6 +63,8 @@ class GameCatalog {
       grade: 'grade1', grades: ['grade1', 'grade2', 'grade3'],
       subject: 'Mathematics', topicId: 'numbers', subtopicId: 'counting',
       engineType: 'numberCountingDuel', emoji: '🔢', color: AppColors.math,
+      learningObjective: 'Learners will count and compare numbers 1–100 in a battle of counting.',
+      mechanicReason: 'Racing to count and compare builds fast, confident number sense for counting.',
       difficulty: 'easy', xpReward: 50, coinsReward: 10, isFeatured: true,
     ),
     GameCatalogEntry(
@@ -64,7 +73,9 @@ class GameCatalog {
       description: 'Solve addition sums up to 20 and collect stars!',
       grade: 'grade1', grades: ['grade1', 'grade2', 'grade3'],
       subject: 'Mathematics', topicId: 'operations', subtopicId: 'addition',
-      engineType: 'adventureJourney', emoji: '➕', color: AppColors.math,
+      engineType: 'tugOfWar', emoji: '➕', color: AppColors.math,
+      learningObjective: 'Learners will solve addition sums up to 20 and collect stars.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of addition.',
       difficulty: 'easy', xpReward: 50, coinsReward: 10,
     ),
     GameCatalogEntry(
@@ -74,6 +85,8 @@ class GameCatalog {
       grade: 'grade1', grades: ['grade1', 'grade2', 'grade3'],
       subject: 'Mathematics', topicId: 'operations', subtopicId: 'subtraction',
       engineType: 'tugOfWar', emoji: '➖', color: AppColors.math,
+      learningObjective: 'Learners will hunt for the missing number in subtraction problems up to 20.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of subtraction.',
       difficulty: 'easy', xpReward: 50, coinsReward: 10,
     ),
     GameCatalogEntry(
@@ -82,7 +95,9 @@ class GameCatalog {
       description: 'Climb the mountain by solving addition, subtraction and multiplication basics!',
       grade: 'grade1', grades: ['grade1', 'grade2', 'grade3'],
       subject: 'Mathematics', topicId: 'operations', subtopicId: 'mixed_operations',
-      engineType: 'adventureJourney', emoji: '⛰️', color: AppColors.math,
+      engineType: 'sequenceBuilder', emoji: '⛰️', color: AppColors.math,
+      learningObjective: 'Learners will climb the mountain by solving addition, subtraction and multiplication basics.',
+      mechanicReason: 'Putting the steps in the right order breaks mixed operations into stages you can follow one by one.',
       difficulty: 'medium', xpReward: 75, coinsReward: 15,
     ),
     GameCatalogEntry(
@@ -92,6 +107,8 @@ class GameCatalog {
       grade: 'grade1', grades: ['grade1', 'grade2', 'grade3'],
       subject: 'Mathematics', topicId: 'multiplication', subtopicId: 'multiples',
       engineType: 'multiplesMerge', emoji: '🔗', color: AppColors.math,
+      learningObjective: 'Learners will link the multiples of a number to make a chain — break it and try again.',
+      mechanicReason: 'Matching and merging pairs helps you spot patterns and connections in multiples.',
       difficulty: 'medium', xpReward: 75, coinsReward: 15,
     ),
 
@@ -103,6 +120,8 @@ class GameCatalog {
       grade: 'grade1', grades: ['grade1', 'grade2', 'grade3'],
       subject: 'English', topicId: 'phonics', subtopicId: 'alphabet',
       engineType: 'adventureJourney', emoji: '🔤', color: AppColors.english,
+      learningObjective: 'Learners will explore the alphabet, learn letter names and their sounds.',
+      mechanicReason: 'Making choices through a story connects alphabet to real situations you can relate to.',
       difficulty: 'easy', xpReward: 50, coinsReward: 10, isFeatured: true,
     ),
     GameCatalogEntry(
@@ -112,6 +131,8 @@ class GameCatalog {
       grade: 'grade1', grades: ['grade1', 'grade2', 'grade3'],
       subject: 'English', topicId: 'spelling', subtopicId: 'cvc_words',
       engineType: 'sequenceBuilder', emoji: '📝', color: AppColors.english,
+      learningObjective: 'Learners will spell simple CVC words by choosing the right letters.',
+      mechanicReason: 'Putting the steps in the right order breaks cvc words into stages you can follow one by one.',
       difficulty: 'easy', xpReward: 50, coinsReward: 10,
     ),
     GameCatalogEntry(
@@ -121,6 +142,8 @@ class GameCatalog {
       grade: 'grade1', grades: ['grade1', 'grade2', 'grade3'],
       subject: 'English', topicId: 'phonics', subtopicId: 'blending',
       engineType: 'tugOfWar', emoji: '🎵', color: AppColors.english,
+      learningObjective: 'Learners will blend sounds together to decode and read words.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of blending.',
       difficulty: 'easy', xpReward: 50, coinsReward: 10,
     ),
     GameCatalogEntry(
@@ -130,6 +153,8 @@ class GameCatalog {
       grade: 'grade1', grades: ['grade1', 'grade2', 'grade3'],
       subject: 'English', topicId: 'reading', subtopicId: 'comprehension',
       engineType: 'adventureJourney', emoji: '🌈', color: AppColors.english,
+      learningObjective: 'Learners will read simple sentences and answer comprehension questions.',
+      mechanicReason: 'Making choices through a story connects comprehension to real situations you can relate to.',
       difficulty: 'medium', xpReward: 75, coinsReward: 15,
     ),
     GameCatalogEntry(
@@ -138,7 +163,9 @@ class GameCatalog {
       description: 'Plant the right nouns, verbs and adjectives in the sentence!',
       grade: 'grade1', grades: ['grade1', 'grade2', 'grade3'],
       subject: 'English', topicId: 'grammar', subtopicId: 'parts_of_speech',
-      engineType: 'sequenceBuilder', emoji: '🌻', color: AppColors.english,
+      engineType: 'runnerCollector', emoji: '🌻', color: AppColors.english,
+      learningObjective: 'Learners will plant the right nouns, verbs and adjectives in the sentence.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell parts of speech apart.',
       difficulty: 'medium', xpReward: 75, coinsReward: 15,
     ),
 
@@ -150,6 +177,8 @@ class GameCatalog {
       grade: 'grade1', grades: ['grade1', 'grade2', 'grade3'],
       subject: 'Life Skills', topicId: 'personal_care', subtopicId: 'body_parts',
       engineType: 'adventureJourney', emoji: '🧍', color: AppColors.lifeSkills,
+      learningObjective: 'Learners will learn their body parts and how they help they every day.',
+      mechanicReason: 'Making choices through a story connects body parts to real situations you can relate to.',
       difficulty: 'easy', xpReward: 50, coinsReward: 10, isFeatured: true,
     ),
     GameCatalogEntry(
@@ -158,7 +187,9 @@ class GameCatalog {
       description: 'Identify emotions and learn healthy ways to express your feelings!',
       grade: 'grade1', grades: ['grade1', 'grade2', 'grade3'],
       subject: 'Life Skills', topicId: 'social_skills', subtopicId: 'emotions',
-      engineType: 'tugOfWar', emoji: '😊', color: AppColors.lifeSkills,
+      engineType: 'runnerCollector', emoji: '😊', color: AppColors.lifeSkills,
+      learningObjective: 'Learners will identify emotions and learn healthy ways to express their feelings.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell emotions apart.',
       difficulty: 'easy', xpReward: 50, coinsReward: 10,
     ),
     GameCatalogEntry(
@@ -168,6 +199,8 @@ class GameCatalog {
       grade: 'grade1', grades: ['grade1', 'grade2', 'grade3'],
       subject: 'Life Skills', topicId: 'safety', subtopicId: 'personal_safety',
       engineType: 'adventureJourney', emoji: '🛡️', color: AppColors.lifeSkills,
+      learningObjective: 'Learners will learn the rules of personal safety at home, school and in public.',
+      mechanicReason: 'Making choices through a story connects personal safety to real situations you can relate to.',
       difficulty: 'easy', xpReward: 50, coinsReward: 10,
     ),
     GameCatalogEntry(
@@ -177,6 +210,8 @@ class GameCatalog {
       grade: 'grade1', grades: ['grade1', 'grade2', 'grade3'],
       subject: 'Life Skills', topicId: 'beginning_knowledge', subtopicId: 'community_helpers',
       engineType: 'explorerMap', emoji: '🏘️', color: AppColors.lifeSkills,
+      learningObjective: 'Learners will meet community helpers and discover how they keep us safe and healthy.',
+      mechanicReason: 'Exploring a map connects community helpers to real places, so it sticks.',
       difficulty: 'easy', xpReward: 50, coinsReward: 10,
     ),
     GameCatalogEntry(
@@ -186,6 +221,8 @@ class GameCatalog {
       grade: 'grade1', grades: ['grade1', 'grade2', 'grade3'],
       subject: 'Life Skills', topicId: 'health', subtopicId: 'healthy_habits',
       engineType: 'tugOfWar', emoji: '🥗', color: AppColors.lifeSkills,
+      learningObjective: 'Learners will build good habits around hygiene, nutrition and exercise.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of healthy habits.',
       difficulty: 'easy', xpReward: 50, coinsReward: 10,
     ),
 
@@ -200,7 +237,9 @@ class GameCatalog {
       description: 'Navigate the fraction forest — compare, simplify and add fractions!',
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Mathematics', topicId: 'fractions', subtopicId: 'fractions_operations',
-      engineType: 'tugOfWar', emoji: '🌲', color: AppColors.math,
+      engineType: 'multiplesMerge', emoji: '🌲', color: AppColors.math,
+      learningObjective: 'Learners will navigate the fraction forest — compare, simplify and add fractions.',
+      mechanicReason: 'Matching and merging pairs helps you spot patterns and connections in fractions operations.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20, isFeatured: true,
     ),
     GameCatalogEntry(
@@ -209,7 +248,9 @@ class GameCatalog {
       description: 'Identify 2D and 3D shapes, angles and properties in the jungle!',
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Mathematics', topicId: 'geometry', subtopicId: 'shapes_angles',
-      engineType: 'adventureJourney', emoji: '📐', color: AppColors.math,
+      engineType: 'runnerCollector', emoji: '📐', color: AppColors.math,
+      learningObjective: 'Learners will identify 2D and 3D shapes, angles and properties in the jungle.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell shapes angles apart.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -219,6 +260,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Mathematics', topicId: 'measurement', subtopicId: 'conversions',
       engineType: 'tugOfWar', emoji: '📏', color: AppColors.math,
+      learningObjective: 'Learners will measure length, mass, capacity and time — get the conversions right.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of conversions.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -227,7 +270,9 @@ class GameCatalog {
       description: 'Read bar graphs, pictographs and tables to answer data questions!',
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Mathematics', topicId: 'data', subtopicId: 'graphs_tables',
-      engineType: 'adventureJourney', emoji: '📊', color: AppColors.math,
+      engineType: 'multiplesMerge', emoji: '📊', color: AppColors.math,
+      learningObjective: 'Learners will read bar graphs, pictographs and tables to answer data questions.',
+      mechanicReason: 'Matching and merging pairs helps you spot patterns and connections in graphs tables.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -237,6 +282,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Mathematics', topicId: 'decimals', subtopicId: 'decimal_operations',
       engineType: 'tugOfWar', emoji: '🏜️', color: AppColors.math,
+      learningObjective: 'Learners will cross the decimal dunes by comparing, ordering and operating with decimals.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of decimal operations.',
       difficulty: 'hard', xpReward: 120, coinsReward: 24,
     ),
     GameCatalogEntry(
@@ -245,7 +292,9 @@ class GameCatalog {
       description: 'Climb higher by solving multi-digit multiplication problems!',
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Mathematics', topicId: 'multiplication', subtopicId: 'multi_digit',
-      engineType: 'adventureJourney', emoji: '✖️', color: AppColors.math,
+      engineType: 'sequenceBuilder', emoji: '✖️', color: AppColors.math,
+      learningObjective: 'Learners will climb higher by solving multi-digit multiplication problems.',
+      mechanicReason: 'Putting the steps in the right order breaks multi digit into stages you can follow one by one.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -255,6 +304,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Mathematics', topicId: 'division', subtopicId: 'long_division',
       engineType: 'tugOfWar', emoji: '➗', color: AppColors.math,
+      learningObjective: 'Learners will divide and conquer — master long division across the desert.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of long division.',
       difficulty: 'hard', xpReward: 120, coinsReward: 24,
     ),
     GameCatalogEntry(
@@ -264,6 +315,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Mathematics', topicId: 'patterns', subtopicId: 'number_sequences',
       engineType: 'sequenceBuilder', emoji: '🥷', color: AppColors.math,
+      learningObjective: 'Learners will spot number patterns and sequences like a true maths ninja.',
+      mechanicReason: 'Putting the steps in the right order breaks number sequences into stages you can follow one by one.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -273,6 +326,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Mathematics', topicId: 'problem_solving', subtopicId: 'word_problems',
       engineType: 'adventureJourney', emoji: '🧩', color: AppColors.math,
+      learningObjective: 'Learners will solve real-life word problems using all four operations.',
+      mechanicReason: 'Making choices through a story connects word problems to real situations you can relate to.',
       difficulty: 'hard', xpReward: 120, coinsReward: 24,
     ),
     GameCatalogEntry(
@@ -282,6 +337,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Mathematics', topicId: 'multiplication', subtopicId: 'times_tables',
       engineType: 'tugOfWar', emoji: '🏗️', color: AppColors.math,
+      learningObjective: 'Learners will master their times tables from 1×1 all the way to 12×12.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of times tables.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20, isFeatured: true,
     ),
 
@@ -292,7 +349,9 @@ class GameCatalog {
       description: 'Explore food chains, habitats and ecosystems across South Africa!',
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Natural Sciences', topicId: 'ecology', subtopicId: 'ecosystems',
-      engineType: 'adventureJourney', emoji: '🌿', color: AppColors.science,
+      engineType: 'circuitBuilder', emoji: '🌿', color: AppColors.science,
+      learningObjective: 'Learners will explore food chains, habitats and ecosystems across South Africa.',
+      mechanicReason: 'Connecting the pieces correctly turns ecosystems into a system you can see and build.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20, isFeatured: true,
     ),
     GameCatalogEntry(
@@ -301,7 +360,9 @@ class GameCatalog {
       description: 'Identify solids, liquids and gases and their properties!',
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Natural Sciences', topicId: 'matter', subtopicId: 'states_of_matter',
-      engineType: 'tugOfWar', emoji: '⚗️', color: AppColors.science,
+      engineType: 'runnerCollector', emoji: '⚗️', color: AppColors.science,
+      learningObjective: 'Learners will identify solids, liquids and gases and their properties.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell states of matter apart.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -310,7 +371,9 @@ class GameCatalog {
       description: 'Discover types of energy — heat, light, sound, kinetic and potential!',
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Natural Sciences', topicId: 'energy', subtopicId: 'energy_types',
-      engineType: 'adventureJourney', emoji: '⚡', color: AppColors.science,
+      engineType: 'runnerCollector', emoji: '⚡', color: AppColors.science,
+      learningObjective: 'Learners will discover types of energy — heat, light, sound, kinetic and potential.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell energy types apart.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -320,6 +383,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Natural Sciences', topicId: 'biology', subtopicId: 'life_cycles',
       engineType: 'sequenceBuilder', emoji: '🦋', color: AppColors.science,
+      learningObjective: 'Learners will trace the life cycles of frogs, butterflies, plants and humans.',
+      mechanicReason: 'Putting the steps in the right order breaks life cycles into stages you can follow one by one.',
       difficulty: 'easy', xpReward: 80, coinsReward: 16,
     ),
     GameCatalogEntry(
@@ -329,6 +394,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Natural Sciences', topicId: 'earth_science', subtopicId: 'solar_system',
       engineType: 'explorerMap', emoji: '🪐', color: AppColors.science,
+      learningObjective: 'Learners will explore the planets, moons and stars of our solar system.',
+      mechanicReason: 'Exploring a map connects solar system to real places, so it sticks.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -338,6 +405,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Natural Sciences', topicId: 'weather', subtopicId: 'weather_patterns',
       engineType: 'tugOfWar', emoji: '🌤️', color: AppColors.science,
+      learningObjective: 'Learners will read weather maps, identify cloud types and predict SA weather.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of weather patterns.',
       difficulty: 'easy', xpReward: 80, coinsReward: 16,
     ),
     GameCatalogEntry(
@@ -346,7 +415,9 @@ class GameCatalog {
       description: 'Use levers, pulleys and gears to solve engineering challenges!',
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Natural Sciences', topicId: 'technology', subtopicId: 'simple_machines',
-      engineType: 'adventureJourney', emoji: '⚙️', color: AppColors.technology,
+      engineType: 'circuitBuilder', emoji: '⚙️', color: AppColors.technology,
+      learningObjective: 'Learners will use levers, pulleys and gears to solve engineering challenges.',
+      mechanicReason: 'Connecting the pieces correctly turns simple machines into a system you can see and build.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -356,6 +427,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Natural Sciences', topicId: 'technology', subtopicId: 'coding_basics',
       engineType: 'sequenceBuilder', emoji: '💻', color: AppColors.technology,
+      learningObjective: 'Learners will sequence instructions and debug code in this beginner coding quest.',
+      mechanicReason: 'Putting the steps in the right order breaks coding basics into stages you can follow one by one.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -365,6 +438,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Natural Sciences', topicId: 'technology', subtopicId: 'electric_circuits',
       engineType: 'circuitBuilder', emoji: '🔌', color: AppColors.technology,
+      learningObjective: 'Learners will complete electrical circuits by placing the right components.',
+      mechanicReason: 'Connecting the pieces correctly turns electric circuits into a system you can see and build.',
       difficulty: 'hard', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -374,6 +449,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Natural Sciences', topicId: 'technology', subtopicId: 'robotics',
       engineType: 'adventureJourney', emoji: '🤖', color: AppColors.technology,
+      learningObjective: 'Learners will design and build a robot — apply engineering design and problem-solving.',
+      mechanicReason: 'Making choices through a story connects robotics to real situations you can relate to.',
       difficulty: 'hard', xpReward: 130, coinsReward: 26, isFeatured: true,
     ),
 
@@ -385,6 +462,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Social Sciences', topicId: 'geography', subtopicId: 'map_skills',
       engineType: 'explorerMap', emoji: '🗺️', color: AppColors.socialSciences,
+      learningObjective: 'Learners will read maps, identify compass directions and map symbols.',
+      mechanicReason: 'Exploring a map connects map skills to real places, so it sticks.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20, isFeatured: true,
     ),
     GameCatalogEntry(
@@ -394,6 +473,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Social Sciences', topicId: 'geography', subtopicId: 'sa_provinces',
       engineType: 'explorerMap', emoji: '🇿🇦', color: AppColors.socialSciences,
+      learningObjective: 'Learners will explore all 9 provinces — capitals, facts and famous landmarks.',
+      mechanicReason: 'Exploring a map connects sa provinces to real places, so it sticks.',
       difficulty: 'easy', xpReward: 80, coinsReward: 16,
     ),
     GameCatalogEntry(
@@ -402,7 +483,9 @@ class GameCatalog {
       description: "Identify South Africa's climatic zones and their characteristics!",
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Social Sciences', topicId: 'geography', subtopicId: 'climate_zones',
-      engineType: 'adventureJourney', emoji: '🌡️', color: AppColors.socialSciences,
+      engineType: 'runnerCollector', emoji: '🌡️', color: AppColors.socialSciences,
+      learningObjective: "Learners will identify South Africa's climatic zones and their characteristics.",
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell climate zones apart.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -412,6 +495,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Social Sciences', topicId: 'geography', subtopicId: 'water_cycle',
       engineType: 'sequenceBuilder', emoji: '💧', color: AppColors.socialSciences,
+      learningObjective: 'Learners will follow water through evaporation, condensation and precipitation.',
+      mechanicReason: 'Putting the steps in the right order breaks water cycle into stages you can follow one by one.',
       difficulty: 'easy', xpReward: 80, coinsReward: 16,
     ),
     GameCatalogEntry(
@@ -421,6 +506,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Social Sciences', topicId: 'geography', subtopicId: 'biomes',
       engineType: 'explorerMap', emoji: '🌍', color: AppColors.socialSciences,
+      learningObjective: "Learners will discover South Africa's biomes — fynbos, savanna, grassland and more.",
+      mechanicReason: 'Exploring a map connects biomes to real places, so it sticks.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -430,6 +517,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Social Sciences', topicId: 'history', subtopicId: 'ancient_civilizations',
       engineType: 'adventureJourney', emoji: '🏺', color: AppColors.socialSciences,
+      learningObjective: 'Learners will journey to Egypt and Mesopotamia — discover the first great civilizations.',
+      mechanicReason: 'Making choices through a story connects ancient civilizations to real situations you can relate to.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -439,6 +528,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Social Sciences', topicId: 'history', subtopicId: 'indigenous_peoples',
       engineType: 'adventureJourney', emoji: '🌿', color: AppColors.socialSciences,
+      learningObjective: 'Learners will explore the stories of indigenous peoples — San, Khoikhoi and Nguni.',
+      mechanicReason: 'Making choices through a story connects indigenous peoples to real situations you can relate to.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -447,7 +538,9 @@ class GameCatalog {
       description: 'Understand the impact of colonization on Southern Africa!',
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Social Sciences', topicId: 'history', subtopicId: 'colonization',
-      engineType: 'tugOfWar', emoji: '⛵', color: AppColors.socialSciences,
+      engineType: 'sequenceBuilder', emoji: '⛵', color: AppColors.socialSciences,
+      learningObjective: 'Learners will understand the impact of colonization on Southern Africa.',
+      mechanicReason: 'Putting the steps in the right order breaks colonization into stages you can follow one by one.',
       difficulty: 'hard', xpReward: 120, coinsReward: 24,
     ),
     GameCatalogEntry(
@@ -457,6 +550,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Social Sciences', topicId: 'history', subtopicId: 'liberation_heroes',
       engineType: 'adventureJourney', emoji: '✊', color: AppColors.socialSciences,
+      learningObjective: 'Learners will meet the heroes who fought for freedom in South Africa.',
+      mechanicReason: 'Making choices through a story connects liberation heroes to real situations you can relate to.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20, isFeatured: true,
     ),
     GameCatalogEntry(
@@ -466,6 +561,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Social Sciences', topicId: 'history', subtopicId: 'democracy',
       engineType: 'adventureJourney', emoji: '🗳️', color: AppColors.socialSciences,
+      learningObjective: 'Learners will relive the 1994 elections and the birth of South African democracy.',
+      mechanicReason: 'Making choices through a story connects democracy to real situations you can relate to.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
 
@@ -477,6 +574,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'English', topicId: 'reading', subtopicId: 'comprehension',
       engineType: 'adventureJourney', emoji: '📚', color: AppColors.english,
+      learningObjective: 'Learners will read passages and answer comprehension questions to level up.',
+      mechanicReason: 'Making choices through a story connects comprehension to real situations you can relate to.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20, isFeatured: true,
     ),
     GameCatalogEntry(
@@ -485,7 +584,9 @@ class GameCatalog {
       description: 'Identify common, proper, collective and abstract nouns!',
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'English', topicId: 'grammar', subtopicId: 'nouns',
-      engineType: 'tugOfWar', emoji: '🏷️', color: AppColors.english,
+      engineType: 'runnerCollector', emoji: '🏷️', color: AppColors.english,
+      learningObjective: 'Learners will identify common, proper, collective and abstract nouns.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell nouns apart.',
       difficulty: 'easy', xpReward: 80, coinsReward: 16,
     ),
     GameCatalogEntry(
@@ -494,7 +595,9 @@ class GameCatalog {
       description: 'Conquer tense and verb forms — present, past and future!',
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'English', topicId: 'grammar', subtopicId: 'verbs_tense',
-      engineType: 'tugOfWar', emoji: '🌋', color: AppColors.english,
+      engineType: 'runnerCollector', emoji: '🌋', color: AppColors.english,
+      learningObjective: 'Learners will conquer tense and verb forms — present, past and future.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell verbs tense apart.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -504,6 +607,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'English', topicId: 'vocabulary', subtopicId: 'synonyms_antonyms',
       engineType: 'multiplesMerge', emoji: '💬', color: AppColors.english,
+      learningObjective: 'Learners will build their vocabulary with synonyms, antonyms and context clues.',
+      mechanicReason: 'Matching and merging pairs helps you spot patterns and connections in synonyms antonyms.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -513,6 +618,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'English', topicId: 'spelling', subtopicId: 'grade_level_words',
       engineType: 'tugOfWar', emoji: '🐝', color: AppColors.english,
+      learningObjective: 'Learners will spell grade-level words correctly and win the spelling bee.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of grade level words.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -521,7 +628,9 @@ class GameCatalog {
       description: 'Catch missing punctuation and fix sentences correctly!',
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'English', topicId: 'punctuation', subtopicId: 'punctuation_rules',
-      engineType: 'tugOfWar', emoji: '❗', color: AppColors.english,
+      engineType: 'runnerCollector', emoji: '❗', color: AppColors.english,
+      learningObjective: 'Learners will catch missing punctuation and fix sentences correctly.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell punctuation rules apart.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -531,6 +640,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'English', topicId: 'writing', subtopicId: 'story_structure',
       engineType: 'sequenceBuilder', emoji: '✍️', color: AppColors.english,
+      learningObjective: 'Learners will arrange sentences into a well-structured story with beginning, middle and end.',
+      mechanicReason: 'Putting the steps in the right order breaks story structure into stages you can follow one by one.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -539,7 +650,9 @@ class GameCatalog {
       description: 'Identify rhyme, rhythm and poetic devices in fun poems!',
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'English', topicId: 'literature', subtopicId: 'poetry',
-      engineType: 'adventureJourney', emoji: '🎭', color: AppColors.english,
+      engineType: 'runnerCollector', emoji: '🎭', color: AppColors.english,
+      learningObjective: 'Learners will identify rhyme, rhythm and poetic devices in fun poems.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell poetry apart.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -548,7 +661,9 @@ class GameCatalog {
       description: 'Learn common English idioms and their meanings!',
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'English', topicId: 'vocabulary', subtopicId: 'idioms',
-      engineType: 'tugOfWar', emoji: '🏝️', color: AppColors.english,
+      engineType: 'multiplesMerge', emoji: '🏝️', color: AppColors.english,
+      learningObjective: 'Learners will learn common English idioms and their meanings.',
+      mechanicReason: 'Matching and merging pairs helps you spot patterns and connections in idioms.',
       difficulty: 'hard', xpReward: 120, coinsReward: 24,
     ),
     GameCatalogEntry(
@@ -558,6 +673,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'English', topicId: 'speaking', subtopicId: 'debate',
       engineType: 'tugOfWar', emoji: '🎤', color: AppColors.english,
+      learningObjective: 'Learners will choose their argument, support it with evidence and win the debate.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of debate.',
       difficulty: 'hard', xpReward: 120, coinsReward: 24,
     ),
 
@@ -569,6 +686,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Life Skills', topicId: 'careers', subtopicId: 'career_exploration',
       engineType: 'adventureJourney', emoji: '💼', color: AppColors.lifeSkills,
+      learningObjective: 'Learners will discover different careers and the skills they require.',
+      mechanicReason: 'Making choices through a story connects career exploration to real situations you can relate to.',
       difficulty: 'easy', xpReward: 80, coinsReward: 16, isFeatured: true,
     ),
     GameCatalogEntry(
@@ -578,6 +697,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Life Skills', topicId: 'financial_literacy', subtopicId: 'budgeting',
       engineType: 'budgetBuilder', emoji: '💰', color: AppColors.lifeSkills,
+      learningObjective: 'Learners will learn to budget, save and make smart money decisions.',
+      mechanicReason: 'Allocating a limited amount teaches real trade-offs in budgeting.',
       difficulty: 'medium', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -586,7 +707,9 @@ class GameCatalog {
       description: 'Explore physical and mental health — exercise, nutrition and mindfulness!',
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Life Skills', topicId: 'health', subtopicId: 'healthy_living',
-      engineType: 'adventureJourney', emoji: '🏃', color: AppColors.lifeSkills,
+      engineType: 'runnerCollector', emoji: '🏃', color: AppColors.lifeSkills,
+      learningObjective: 'Learners will explore physical and mental health — exercise, nutrition and mindfulness.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell healthy living apart.',
       difficulty: 'easy', xpReward: 80, coinsReward: 16,
     ),
     GameCatalogEntry(
@@ -596,6 +719,8 @@ class GameCatalog {
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Life Skills', topicId: 'social_skills', subtopicId: 'teamwork',
       engineType: 'adventureJourney', emoji: '🤝', color: AppColors.lifeSkills,
+      learningObjective: 'Learners will build teamwork, communication and conflict resolution skills.',
+      mechanicReason: 'Making choices through a story connects teamwork to real situations you can relate to.',
       difficulty: 'easy', xpReward: 80, coinsReward: 16,
     ),
     GameCatalogEntry(
@@ -604,7 +729,9 @@ class GameCatalog {
       description: 'Become an eco-champion — learn about conservation and sustainability!',
       grade: 'grade4', grades: ['grade4', 'grade5', 'grade6'],
       subject: 'Life Skills', topicId: 'environment', subtopicId: 'conservation',
-      engineType: 'adventureJourney', emoji: '♻️', color: AppColors.lifeSkills,
+      engineType: 'runnerCollector', emoji: '♻️', color: AppColors.lifeSkills,
+      learningObjective: 'Learners will become an eco-champion — learn about conservation and sustainability.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell conservation apart.',
       difficulty: 'easy', xpReward: 80, coinsReward: 16,
     ),
 
@@ -620,6 +747,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Mathematics', topicId: 'integers', subtopicId: 'integer_operations',
       engineType: 'tugOfWar', emoji: '➕', color: AppColors.math,
+      learningObjective: 'Learners will conquer negative numbers, absolute values and integer operations.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of integer operations.',
       difficulty: 'medium', xpReward: 140, coinsReward: 28, isFeatured: true,
     ),
     GameCatalogEntry(
@@ -629,6 +758,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Mathematics', topicId: 'algebra', subtopicId: 'linear_equations',
       engineType: 'tugOfWar', emoji: '🔡', color: AppColors.math,
+      learningObjective: 'Learners will solve for x — simplify expressions and solve linear equations.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of linear equations.',
       difficulty: 'hard', xpReward: 160, coinsReward: 32,
     ),
     GameCatalogEntry(
@@ -637,7 +768,9 @@ class GameCatalog {
       description: 'Race through ratios, rates and proportions!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Mathematics', topicId: 'ratio', subtopicId: 'ratios_proportions',
-      engineType: 'adventureJourney', emoji: '⚖️', color: AppColors.math,
+      engineType: 'multiplesMerge', emoji: '⚖️', color: AppColors.math,
+      learningObjective: 'Learners will race through ratios, rates and proportions.',
+      mechanicReason: 'Matching and merging pairs helps you spot patterns and connections in ratios proportions.',
       difficulty: 'medium', xpReward: 140, coinsReward: 28,
     ),
     GameCatalogEntry(
@@ -646,7 +779,9 @@ class GameCatalog {
       description: 'Explore angles, triangles, circles and geometric constructions!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Mathematics', topicId: 'geometry', subtopicId: 'constructions',
-      engineType: 'adventureJourney', emoji: '🌌', color: AppColors.math,
+      engineType: 'runnerCollector', emoji: '🌌', color: AppColors.math,
+      learningObjective: 'Learners will explore angles, triangles, circles and geometric constructions.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell constructions apart.',
       difficulty: 'hard', xpReward: 160, coinsReward: 32,
     ),
     GameCatalogEntry(
@@ -655,7 +790,9 @@ class GameCatalog {
       description: 'Calculate mean, median, mode and interpret graphs!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Mathematics', topicId: 'data', subtopicId: 'statistics',
-      engineType: 'tugOfWar', emoji: '📊', color: AppColors.math,
+      engineType: 'multiplesMerge', emoji: '📊', color: AppColors.math,
+      learningObjective: 'Learners will calculate mean, median, mode and interpret graphs.',
+      mechanicReason: 'Matching and merging pairs helps you spot patterns and connections in statistics.',
       difficulty: 'medium', xpReward: 140, coinsReward: 28,
     ),
     GameCatalogEntry(
@@ -665,6 +802,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Mathematics', topicId: 'percentages', subtopicId: 'percentage_applications',
       engineType: 'tugOfWar', emoji: '%', color: AppColors.math,
+      learningObjective: 'Learners will calculate percentages, profit, loss, discount and VAT.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of percentage applications.',
       difficulty: 'medium', xpReward: 140, coinsReward: 28,
     ),
     GameCatalogEntry(
@@ -673,7 +812,9 @@ class GameCatalog {
       description: 'Add, subtract, multiply and divide fractions and mixed numbers!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Mathematics', topicId: 'fractions', subtopicId: 'fraction_operations',
-      engineType: 'tugOfWar', emoji: '🍕', color: AppColors.math,
+      engineType: 'multiplesMerge', emoji: '🍕', color: AppColors.math,
+      learningObjective: 'Learners will add, subtract, multiply and divide fractions and mixed numbers.',
+      mechanicReason: 'Matching and merging pairs helps you spot patterns and connections in fraction operations.',
       difficulty: 'hard', xpReward: 160, coinsReward: 32,
     ),
     GameCatalogEntry(
@@ -683,6 +824,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Mathematics', topicId: 'data', subtopicId: 'probability',
       engineType: 'adventureJourney', emoji: '🎲', color: AppColors.math,
+      learningObjective: 'Learners will calculate simple probability and understand events and outcomes.',
+      mechanicReason: 'Making choices through a story connects probability to real situations you can relate to.',
       difficulty: 'medium', xpReward: 140, coinsReward: 28,
     ),
     GameCatalogEntry(
@@ -692,6 +835,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Mathematics', topicId: 'patterns', subtopicId: 'number_sequences',
       engineType: 'sequenceBuilder', emoji: '🔮', color: AppColors.math,
+      learningObjective: 'Learners will find the rule in number sequences and extend geometric patterns.',
+      mechanicReason: 'Putting the steps in the right order breaks number sequences into stages you can follow one by one.',
       difficulty: 'medium', xpReward: 140, coinsReward: 28,
     ),
     GameCatalogEntry(
@@ -700,7 +845,9 @@ class GameCatalog {
       description: 'Translate real-world problems into equations and solve them!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Mathematics', topicId: 'problem_solving', subtopicId: 'word_problems',
-      engineType: 'tugOfWar', emoji: '🧠', color: AppColors.math,
+      engineType: 'adventureJourney', emoji: '🧠', color: AppColors.math,
+      learningObjective: 'Learners will translate real-world problems into equations and solve them.',
+      mechanicReason: 'Making choices through a story connects word problems to real situations you can relate to.',
       difficulty: 'hard', xpReward: 160, coinsReward: 32,
     ),
 
@@ -712,6 +859,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'English', topicId: 'reading', subtopicId: 'comprehension',
       engineType: 'adventureJourney', emoji: '📖', color: AppColors.english,
+      learningObjective: 'Learners will read complex texts and answer inference and literal questions.',
+      mechanicReason: 'Making choices through a story connects comprehension to real situations you can relate to.',
       difficulty: 'hard', xpReward: 150, coinsReward: 30, isFeatured: true,
     ),
     GameCatalogEntry(
@@ -720,7 +869,9 @@ class GameCatalog {
       description: 'Master clauses, phrases, active/passive voice and complex sentences!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'English', topicId: 'grammar', subtopicId: 'complex_grammar',
-      engineType: 'tugOfWar', emoji: '⚔️', color: AppColors.english,
+      engineType: 'runnerCollector', emoji: '⚔️', color: AppColors.english,
+      learningObjective: 'Learners will master clauses, phrases, active/passive voice and complex sentences.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell complex grammar apart.',
       difficulty: 'hard', xpReward: 150, coinsReward: 30,
     ),
     GameCatalogEntry(
@@ -729,7 +880,9 @@ class GameCatalog {
       description: 'Identify similes, metaphors, personification and hyperbole!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'English', topicId: 'language', subtopicId: 'figurative_language',
-      engineType: 'tugOfWar', emoji: '🎭', color: AppColors.english,
+      engineType: 'runnerCollector', emoji: '🎭', color: AppColors.english,
+      learningObjective: 'Learners will identify similes, metaphors, personification and hyperbole.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell figurative language apart.',
       difficulty: 'hard', xpReward: 150, coinsReward: 30,
     ),
     GameCatalogEntry(
@@ -739,6 +892,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'English', topicId: 'vocabulary', subtopicId: 'synonyms_antonyms',
       engineType: 'multiplesMerge', emoji: '💬', color: AppColors.english,
+      learningObjective: 'Learners will build their Grade 7 vocabulary — synonyms, antonyms and context clues.',
+      mechanicReason: 'Matching and merging pairs helps you spot patterns and connections in synonyms antonyms.',
       difficulty: 'medium', xpReward: 120, coinsReward: 24,
     ),
     GameCatalogEntry(
@@ -748,6 +903,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'English', topicId: 'writing', subtopicId: 'essay_structure',
       engineType: 'sequenceBuilder', emoji: '✍️', color: AppColors.english,
+      learningObjective: 'Learners will arrange introduction, body paragraphs and conclusion in the right order.',
+      mechanicReason: 'Putting the steps in the right order breaks essay structure into stages you can follow one by one.',
       difficulty: 'medium', xpReward: 120, coinsReward: 24,
     ),
     GameCatalogEntry(
@@ -757,6 +914,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'English', topicId: 'literature', subtopicId: 'poetry',
       engineType: 'adventureJourney', emoji: '🌹', color: AppColors.english,
+      learningObjective: 'Learners will explore rhyme schemes, rhythm and poetic devices in SA poetry.',
+      mechanicReason: 'Making choices through a story connects poetry to real situations you can relate to.',
       difficulty: 'hard', xpReward: 150, coinsReward: 30, isFeatured: true,
     ),
     GameCatalogEntry(
@@ -766,6 +925,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'English', topicId: 'speaking', subtopicId: 'formal_debate',
       engineType: 'tugOfWar', emoji: '🎤', color: AppColors.english,
+      learningObjective: 'Learners will master formal debate structure — proposing, opposing and rebuttal.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of formal debate.',
       difficulty: 'hard', xpReward: 150, coinsReward: 30,
     ),
     GameCatalogEntry(
@@ -774,7 +935,9 @@ class GameCatalog {
       description: 'Analyse advertisements, news articles and social media bias!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'English', topicId: 'reading', subtopicId: 'media_texts',
-      engineType: 'tugOfWar', emoji: '📱', color: AppColors.english,
+      engineType: 'runnerCollector', emoji: '📱', color: AppColors.english,
+      learningObjective: 'Learners will analyse advertisements, news articles and social media bias.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell media texts apart.',
       difficulty: 'medium', xpReward: 120, coinsReward: 24,
     ),
     GameCatalogEntry(
@@ -784,6 +947,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'English', topicId: 'spelling', subtopicId: 'advanced_spelling',
       engineType: 'tugOfWar', emoji: '🔤', color: AppColors.english,
+      learningObjective: 'Learners will spell complex Grade 7 words — prefixes, suffixes and word origins.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of advanced spelling.',
       difficulty: 'medium', xpReward: 120, coinsReward: 24,
     ),
     GameCatalogEntry(
@@ -793,6 +958,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'English', topicId: 'speaking', subtopicId: 'oral_presentation',
       engineType: 'sequenceBuilder', emoji: '🗣️', color: AppColors.english,
+      learningObjective: 'Learners will structure and deliver a confident oral presentation.',
+      mechanicReason: 'Putting the steps in the right order breaks oral presentation into stages you can follow one by one.',
       difficulty: 'hard', xpReward: 150, coinsReward: 30,
     ),
 
@@ -804,6 +971,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Life Skills', topicId: 'relationships', subtopicId: 'healthy_relationships',
       engineType: 'adventureJourney', emoji: '❤️', color: AppColors.lifeSkills,
+      learningObjective: 'Learners will build positive relationships and recognise peer pressure.',
+      mechanicReason: 'Making choices through a story connects healthy relationships to real situations you can relate to.',
       difficulty: 'medium', xpReward: 120, coinsReward: 24, isFeatured: true,
     ),
     GameCatalogEntry(
@@ -812,7 +981,9 @@ class GameCatalog {
       description: 'Explore career options and subjects needed to reach your goals!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Life Skills', topicId: 'careers', subtopicId: 'career_pathways',
-      engineType: 'adventureJourney', emoji: '🎯', color: AppColors.lifeSkills,
+      engineType: 'explorerMap', emoji: '🎯', color: AppColors.lifeSkills,
+      learningObjective: 'Learners will explore career options and subjects needed to reach their goals.',
+      mechanicReason: 'Exploring a map connects career pathways to real places, so it sticks.',
       difficulty: 'easy', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -822,6 +993,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Life Skills', topicId: 'mental_health', subtopicId: 'wellbeing',
       engineType: 'tugOfWar', emoji: '🧘', color: AppColors.lifeSkills,
+      learningObjective: 'Learners will manage stress, build resilience and maintain mental health.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of wellbeing.',
       difficulty: 'easy', xpReward: 100, coinsReward: 20,
     ),
     GameCatalogEntry(
@@ -831,6 +1004,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Life Skills', topicId: 'citizenship', subtopicId: 'rights_responsibilities',
       engineType: 'adventureJourney', emoji: '📜', color: AppColors.lifeSkills,
+      learningObjective: 'Learners will learn about their rights and responsibilities as a South African citizen.',
+      mechanicReason: 'Making choices through a story connects rights responsibilities to real situations you can relate to.',
       difficulty: 'medium', xpReward: 120, coinsReward: 24,
     ),
     GameCatalogEntry(
@@ -839,7 +1014,9 @@ class GameCatalog {
       description: 'Stay safe online — privacy, cyberbullying and digital footprint!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Life Skills', topicId: 'digital_literacy', subtopicId: 'online_safety',
-      engineType: 'tugOfWar', emoji: '🔒', color: AppColors.lifeSkills,
+      engineType: 'runnerCollector', emoji: '🔒', color: AppColors.lifeSkills,
+      learningObjective: 'Learners will stay safe online — privacy, cyberbullying and digital footprint.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell online safety apart.',
       difficulty: 'medium', xpReward: 120, coinsReward: 24,
     ),
 
@@ -851,6 +1028,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Social Sciences', topicId: 'history', subtopicId: 'apartheid',
       engineType: 'adventureJourney', emoji: '📜', color: AppColors.socialSciences,
+      learningObjective: 'Learners will understand the apartheid system and its impact on South Africans.',
+      mechanicReason: 'Making choices through a story connects apartheid to real situations you can relate to.',
       difficulty: 'hard', xpReward: 150, coinsReward: 30, isFeatured: true,
     ),
     GameCatalogEntry(
@@ -860,6 +1039,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Social Sciences', topicId: 'history', subtopicId: 'timeline',
       engineType: 'sequenceBuilder', emoji: '⏳', color: AppColors.socialSciences,
+      learningObjective: 'Learners will place key SA historical events in the correct chronological order.',
+      mechanicReason: 'Putting the steps in the right order breaks timeline into stages you can follow one by one.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -868,7 +1049,9 @@ class GameCatalog {
       description: 'Match liberation leaders to their contributions and quotes!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Social Sciences', topicId: 'history', subtopicId: 'liberation_leaders',
-      engineType: 'tugOfWar', emoji: '✊', color: AppColors.socialSciences,
+      engineType: 'multiplesMerge', emoji: '✊', color: AppColors.socialSciences,
+      learningObjective: 'Learners will match liberation leaders to their contributions and quotes.',
+      mechanicReason: 'Matching and merging pairs helps you spot patterns and connections in liberation leaders.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -878,6 +1061,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Social Sciences', topicId: 'history', subtopicId: 'democracy',
       engineType: 'adventureJourney', emoji: '🗳️', color: AppColors.socialSciences,
+      learningObjective: 'Learners will relive 1994 — understand the negotiated settlement and first elections.',
+      mechanicReason: 'Making choices through a story connects democracy to real situations you can relate to.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -887,6 +1072,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Social Sciences', topicId: 'geography', subtopicId: 'climate_zones',
       engineType: 'explorerMap', emoji: '🌍', color: AppColors.socialSciences,
+      learningObjective: 'Learners will match climate zones, rainfall patterns and biomes of the world.',
+      mechanicReason: 'Exploring a map connects climate zones to real places, so it sticks.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -896,6 +1083,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Social Sciences', topicId: 'geography', subtopicId: 'rivers',
       engineType: 'explorerMap', emoji: '🏞️', color: AppColors.socialSciences,
+      learningObjective: 'Learners will trace SA rivers and understand their role in settlements.',
+      mechanicReason: 'Exploring a map connects rivers to real places, so it sticks.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -904,7 +1093,9 @@ class GameCatalog {
       description: 'Analyse why people settle where they do — push and pull factors!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Social Sciences', topicId: 'geography', subtopicId: 'settlements',
-      engineType: 'tugOfWar', emoji: '🏙️', color: AppColors.socialSciences,
+      engineType: 'runnerCollector', emoji: '🏙️', color: AppColors.socialSciences,
+      learningObjective: 'Learners will analyse why people settle where they do — push and pull factors.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell settlements apart.',
       difficulty: 'hard', xpReward: 150, coinsReward: 30,
     ),
     GameCatalogEntry(
@@ -913,7 +1104,9 @@ class GameCatalog {
       description: 'Interpret population data — growth, density and migration patterns!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Social Sciences', topicId: 'geography', subtopicId: 'population',
-      engineType: 'adventureJourney', emoji: '👥', color: AppColors.socialSciences,
+      engineType: 'multiplesMerge', emoji: '👥', color: AppColors.socialSciences,
+      learningObjective: 'Learners will interpret population data — growth, density and migration patterns.',
+      mechanicReason: 'Matching and merging pairs helps you spot patterns and connections in population.',
       difficulty: 'hard', xpReward: 150, coinsReward: 30,
     ),
     GameCatalogEntry(
@@ -923,6 +1116,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Social Sciences', topicId: 'geography', subtopicId: 'globalisation',
       engineType: 'adventureJourney', emoji: '🌐', color: AppColors.socialSciences,
+      learningObjective: 'Learners will understand trade, global connections and their local effects.',
+      mechanicReason: 'Making choices through a story connects globalisation to real situations you can relate to.',
       difficulty: 'hard', xpReward: 150, coinsReward: 30,
     ),
     GameCatalogEntry(
@@ -932,6 +1127,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Social Sciences', topicId: 'history', subtopicId: 'human_rights',
       engineType: 'adventureJourney', emoji: '⚖️', color: AppColors.socialSciences,
+      learningObjective: 'Learners will explore the SA Constitution and Bill of Rights in action.',
+      mechanicReason: 'Making choices through a story connects human rights to real situations you can relate to.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
 
@@ -943,6 +1140,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Natural Sciences', topicId: 'matter', subtopicId: 'atoms_molecules',
       engineType: 'adventureJourney', emoji: '⚛️', color: AppColors.science,
+      learningObjective: 'Learners will explore atoms, molecules and the building blocks of matter.',
+      mechanicReason: 'Making choices through a story connects atoms molecules to real situations you can relate to.',
       difficulty: 'hard', xpReward: 150, coinsReward: 30, isFeatured: true,
     ),
     GameCatalogEntry(
@@ -952,6 +1151,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Natural Sciences', topicId: 'energy', subtopicId: 'energy_transformations',
       engineType: 'sequenceBuilder', emoji: '⚡', color: AppColors.science,
+      learningObjective: 'Learners will track how energy changes form — electrical, heat, light and sound.',
+      mechanicReason: 'Putting the steps in the right order breaks energy transformations into stages you can follow one by one.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -960,7 +1161,9 @@ class GameCatalog {
       description: 'Compare plant and animal cells and their organelles!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Natural Sciences', topicId: 'biology', subtopicId: 'cells',
-      engineType: 'tugOfWar', emoji: '🔬', color: AppColors.science,
+      engineType: 'runnerCollector', emoji: '🔬', color: AppColors.science,
+      learningObjective: 'Learners will compare plant and animal cells and their organelles.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell cells apart.',
       difficulty: 'hard', xpReward: 150, coinsReward: 30,
     ),
     GameCatalogEntry(
@@ -969,7 +1172,9 @@ class GameCatalog {
       description: 'Maintain the balance in a food web — add or remove species and see what happens!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Natural Sciences', topicId: 'ecology', subtopicId: 'food_webs',
-      engineType: 'adventureJourney', emoji: '🌿', color: AppColors.science,
+      engineType: 'circuitBuilder', emoji: '🌿', color: AppColors.science,
+      learningObjective: 'Learners will maintain the balance in a food web — add or remove species and see what happens.',
+      mechanicReason: 'Connecting the pieces correctly turns food webs into a system you can see and build.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -978,7 +1183,9 @@ class GameCatalog {
       description: 'Classify physical and chemical changes with examples!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Natural Sciences', topicId: 'matter', subtopicId: 'physical_chemical_changes',
-      engineType: 'tugOfWar', emoji: '🧪', color: AppColors.science,
+      engineType: 'runnerCollector', emoji: '🧪', color: AppColors.science,
+      learningObjective: 'Learners will classify physical and chemical changes with examples.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell physical chemical changes apart.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -987,7 +1194,9 @@ class GameCatalog {
       description: 'Build and analyse food chains and food webs!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Natural Sciences', topicId: 'ecology', subtopicId: 'food_chains',
-      engineType: 'sequenceBuilder', emoji: '🦁', color: AppColors.science,
+      engineType: 'circuitBuilder', emoji: '🦁', color: AppColors.science,
+      learningObjective: 'Learners will build and analyse food chains and food webs.',
+      mechanicReason: 'Connecting the pieces correctly turns food chains into a system you can see and build.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -996,7 +1205,9 @@ class GameCatalog {
       description: 'Compare sexual and asexual reproduction in plants and animals!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Natural Sciences', topicId: 'biology', subtopicId: 'reproduction',
-      engineType: 'tugOfWar', emoji: '🌱', color: AppColors.science,
+      engineType: 'runnerCollector', emoji: '🌱', color: AppColors.science,
+      learningObjective: 'Learners will compare sexual and asexual reproduction in plants and animals.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell reproduction apart.',
       difficulty: 'hard', xpReward: 150, coinsReward: 30,
     ),
     GameCatalogEntry(
@@ -1006,6 +1217,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Natural Sciences', topicId: 'physics', subtopicId: 'forces',
       engineType: 'adventureJourney', emoji: '🎯', color: AppColors.science,
+      learningObjective: 'Learners will explore gravity, friction, magnetism and balanced/unbalanced forces.',
+      mechanicReason: 'Making choices through a story connects forces to real situations you can relate to.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -1014,7 +1227,9 @@ class GameCatalog {
       description: 'Separate mixtures using filtering, evaporation, sieving and more!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Natural Sciences', topicId: 'matter', subtopicId: 'separating_mixtures',
-      engineType: 'adventureJourney', emoji: '🧫', color: AppColors.science,
+      engineType: 'sequenceBuilder', emoji: '🧫', color: AppColors.science,
+      learningObjective: 'Learners will separate mixtures using filtering, evaporation, sieving and more.',
+      mechanicReason: 'Putting the steps in the right order breaks separating mixtures into stages you can follow one by one.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -1024,6 +1239,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Natural Sciences', topicId: 'biology', subtopicId: 'human_health',
       engineType: 'tugOfWar', emoji: '💉', color: AppColors.science,
+      learningObjective: 'Learners will understand diseases, the immune system and healthy lifestyle choices.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of human health.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
 
@@ -1035,6 +1252,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Technology', topicId: 'electric_circuits', subtopicId: 'series_circuits',
       engineType: 'circuitBuilder', emoji: '🔋', color: AppColors.technology,
+      learningObjective: 'Learners will complete a series circuit by placing all components correctly.',
+      mechanicReason: 'Connecting the pieces correctly turns series circuits into a system you can see and build.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26, isFeatured: true,
     ),
     GameCatalogEntry(
@@ -1044,6 +1263,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Technology', topicId: 'electric_circuits', subtopicId: 'parallel_circuits',
       engineType: 'circuitBuilder', emoji: '⚡', color: AppColors.technology,
+      learningObjective: 'Learners will wire a parallel circuit — understand current and voltage paths.',
+      mechanicReason: 'Connecting the pieces correctly turns parallel circuits into a system you can see and build.',
       difficulty: 'hard', xpReward: 160, coinsReward: 32,
     ),
     GameCatalogEntry(
@@ -1053,6 +1274,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Technology', topicId: 'design', subtopicId: 'design_process',
       engineType: 'sequenceBuilder', emoji: '✏️', color: AppColors.technology,
+      learningObjective: 'Learners will follow the full technology design process from problem to solution.',
+      mechanicReason: 'Putting the steps in the right order breaks design process into stages you can follow one by one.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -1061,7 +1284,9 @@ class GameCatalog {
       description: 'Design structures that can withstand tension, compression and bending!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Technology', topicId: 'structures', subtopicId: 'forces_structures',
-      engineType: 'adventureJourney', emoji: '🏗️', color: AppColors.technology,
+      engineType: 'circuitBuilder', emoji: '🏗️', color: AppColors.technology,
+      learningObjective: 'Learners will design structures that can withstand tension, compression and bending.',
+      mechanicReason: 'Connecting the pieces correctly turns forces structures into a system you can see and build.',
       difficulty: 'hard', xpReward: 160, coinsReward: 32,
     ),
     GameCatalogEntry(
@@ -1070,7 +1295,9 @@ class GameCatalog {
       description: 'Use gears, levers, pulleys and cams to transmit force and motion!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Technology', topicId: 'mechanisms', subtopicId: 'gears_levers_pulleys',
-      engineType: 'adventureJourney', emoji: '⚙️', color: AppColors.technology,
+      engineType: 'circuitBuilder', emoji: '⚙️', color: AppColors.technology,
+      learningObjective: 'Learners will use gears, levers, pulleys and cams to transmit force and motion.',
+      mechanicReason: 'Connecting the pieces correctly turns gears levers pulleys into a system you can see and build.',
       difficulty: 'hard', xpReward: 160, coinsReward: 32,
     ),
     GameCatalogEntry(
@@ -1080,6 +1307,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Technology', topicId: 'electronics', subtopicId: 'switching_circuits',
       engineType: 'circuitBuilder', emoji: '🔌', color: AppColors.technology,
+      learningObjective: 'Learners will identify electronic components and build simple switching circuits.',
+      mechanicReason: 'Connecting the pieces correctly turns switching circuits into a system you can see and build.',
       difficulty: 'hard', xpReward: 160, coinsReward: 32,
     ),
     GameCatalogEntry(
@@ -1088,7 +1317,9 @@ class GameCatalog {
       description: 'Choose the right material for each engineering application!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Technology', topicId: 'materials', subtopicId: 'material_selection',
-      engineType: 'tugOfWar', emoji: '🔩', color: AppColors.technology,
+      engineType: 'runnerCollector', emoji: '🔩', color: AppColors.technology,
+      learningObjective: 'Learners will choose the right material for each engineering application.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell material selection apart.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -1098,6 +1329,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Technology', topicId: 'systems', subtopicId: 'input_process_output',
       engineType: 'sequenceBuilder', emoji: '🎛️', color: AppColors.technology,
+      learningObjective: 'Learners will understand input, process and output in technological systems.',
+      mechanicReason: 'Putting the steps in the right order breaks input process output into stages you can follow one by one.',
       difficulty: 'hard', xpReward: 160, coinsReward: 32,
     ),
     GameCatalogEntry(
@@ -1106,7 +1339,9 @@ class GameCatalog {
       description: 'Evaluate the social and environmental impact of technologies!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'Technology', topicId: 'technology_society', subtopicId: 'impact',
-      engineType: 'tugOfWar', emoji: '🌍', color: AppColors.technology,
+      engineType: 'adventureJourney', emoji: '🌍', color: AppColors.technology,
+      learningObjective: 'Learners will evaluate the social and environmental impact of technologies.',
+      mechanicReason: 'Making choices through a story connects impact to real situations you can relate to.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -1116,6 +1351,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'Technology', topicId: 'design', subtopicId: 'innovation',
       engineType: 'adventureJourney', emoji: '💡', color: AppColors.technology,
+      learningObjective: 'Learners will identify a problem, brainstorm solutions and present their innovation.',
+      mechanicReason: 'Making choices through a story connects innovation to real situations you can relate to.',
       difficulty: 'hard', xpReward: 160, coinsReward: 32,
     ),
 
@@ -1126,7 +1363,9 @@ class GameCatalog {
       description: 'Understand needs vs wants, scarcity, opportunity cost and production!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'EMS', topicId: 'economics', subtopicId: 'basic_economics',
-      engineType: 'tugOfWar', emoji: '💡', color: Color(0xFF009688),
+      engineType: 'budgetBuilder', emoji: '💡', color: Color(0xFF009688),
+      learningObjective: 'Learners will understand needs vs wants, scarcity, opportunity cost and production.',
+      mechanicReason: 'Allocating a limited amount teaches real trade-offs in basic economics.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26, isFeatured: true,
     ),
     GameCatalogEntry(
@@ -1136,6 +1375,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'EMS', topicId: 'economics', subtopicId: 'supply_demand',
       engineType: 'adventureJourney', emoji: '📈', color: Color(0xFF009688),
+      learningObjective: 'Learners will watch prices change as supply and demand shift in the market.',
+      mechanicReason: 'Making choices through a story connects supply demand to real situations you can relate to.',
       difficulty: 'hard', xpReward: 150, coinsReward: 30,
     ),
     GameCatalogEntry(
@@ -1145,6 +1386,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'EMS', topicId: 'financial_literacy', subtopicId: 'budgeting',
       engineType: 'budgetBuilder', emoji: '📋', color: Color(0xFF009688),
+      learningObjective: 'Learners will allocate income wisely — distinguish needs vs wants and avoid debt.',
+      mechanicReason: 'Allocating a limited amount teaches real trade-offs in budgeting.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -1154,6 +1397,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'EMS', topicId: 'business', subtopicId: 'entrepreneurship',
       engineType: 'adventureJourney', emoji: '🚀', color: Color(0xFF009688),
+      learningObjective: 'Learners will start their business — identify opportunities, plan and pitch their idea.',
+      mechanicReason: 'Making choices through a story connects entrepreneurship to real situations you can relate to.',
       difficulty: 'hard', xpReward: 150, coinsReward: 30,
     ),
     GameCatalogEntry(
@@ -1163,6 +1408,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'EMS', topicId: 'financial_literacy', subtopicId: 'banking',
       engineType: 'tugOfWar', emoji: '🏦', color: Color(0xFF009688),
+      learningObjective: 'Learners will learn how banks work — savings, interest, loans and bank statements.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of banking.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -1172,6 +1419,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'EMS', topicId: 'economics', subtopicId: 'taxation',
       engineType: 'tugOfWar', emoji: '🧾', color: Color(0xFF009688),
+      learningObjective: 'Learners will understand VAT, income tax and how government uses tax revenue.',
+      mechanicReason: 'Answering fast head-to-head builds quick, confident recall of taxation.',
       difficulty: 'hard', xpReward: 150, coinsReward: 30,
     ),
     GameCatalogEntry(
@@ -1180,7 +1429,9 @@ class GameCatalog {
       description: 'Calculate income, expenses, profit and loss for a small business!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'EMS', topicId: 'accounting', subtopicId: 'profit_loss',
-      engineType: 'adventureJourney', emoji: '📉', color: Color(0xFF009688),
+      engineType: 'budgetBuilder', emoji: '📉', color: Color(0xFF009688),
+      learningObjective: 'Learners will calculate income, expenses, profit and loss for a small business.',
+      mechanicReason: 'Allocating a limited amount teaches real trade-offs in profit loss.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -1189,7 +1440,9 @@ class GameCatalog {
       description: 'Know your rights as a consumer — CPA, warranties and returns!',
       grade: 'grade7', grades: ['grade7'],
       subject: 'EMS', topicId: 'economics', subtopicId: 'consumer_rights',
-      engineType: 'tugOfWar', emoji: '🛒', color: Color(0xFF009688),
+      engineType: 'runnerCollector', emoji: '🛒', color: Color(0xFF009688),
+      learningObjective: 'Learners will know their rights as a consumer — CPA, warranties and returns.',
+      mechanicReason: 'Sorting the right answers on the run trains you to quickly tell consumer rights apart.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -1199,6 +1452,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'EMS', topicId: 'financial_literacy', subtopicId: 'savings',
       engineType: 'budgetBuilder', emoji: '🐷', color: Color(0xFF009688),
+      learningObjective: 'Learners will plan for the future — understand compound interest and savings goals.',
+      mechanicReason: 'Allocating a limited amount teaches real trade-offs in savings.',
       difficulty: 'medium', xpReward: 130, coinsReward: 26,
     ),
     GameCatalogEntry(
@@ -1208,6 +1463,8 @@ class GameCatalog {
       grade: 'grade7', grades: ['grade7'],
       subject: 'EMS', topicId: 'economics', subtopicId: 'global_economy',
       engineType: 'adventureJourney', emoji: '🌐', color: Color(0xFF009688),
+      learningObjective: 'Learners will explore trade, exchange rates, imports and exports.',
+      mechanicReason: 'Making choices through a story connects global economy to real situations you can relate to.',
       difficulty: 'hard', xpReward: 150, coinsReward: 30,
     ),
   ];

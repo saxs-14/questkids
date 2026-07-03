@@ -1,7 +1,84 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../core/constants/app_constants.dart';
 import '../../../core/theme/app_colors.dart';
+
+/// Visual + copy identity for one game engine — separate from subject colour
+/// (Maths/Science/English/...), this is what makes the *mechanic* itself
+/// recognisable across subjects: two Maths games using different engines
+/// should look and feel different, not just have different questions.
+class GameEngineIdentity {
+  final Color accent;
+  final IconData icon;
+  final String tagline;
+  const GameEngineIdentity({
+    required this.accent,
+    required this.icon,
+    required this.tagline,
+  });
+}
+
+/// One identity per engine, keyed by the `engineType` constants in
+/// [AppConstants]. Keep this in sync with GameRouter's switch — every
+/// engine GameRouter can launch should have an identity here.
+const Map<String, GameEngineIdentity> gameEngineIdentities = {
+  AppConstants.engineTugOfWar: GameEngineIdentity(
+    accent: Color(0xFFE53935),
+    icon: Icons.bolt,
+    tagline: 'Race & Recall',
+  ),
+  AppConstants.engineAdventureJourney: GameEngineIdentity(
+    accent: Color(0xFF3F51B5),
+    icon: Icons.auto_stories,
+    tagline: 'Explore & Decide',
+  ),
+  AppConstants.engineRunnerCollector: GameEngineIdentity(
+    accent: Color(0xFF7CB342),
+    icon: Icons.directions_run,
+    tagline: 'Sort on the Run',
+  ),
+  AppConstants.engineExplorerMap: GameEngineIdentity(
+    accent: Color(0xFF00ACC1),
+    icon: Icons.travel_explore,
+    tagline: 'Find & Discover',
+  ),
+  AppConstants.engineMultiplesMerge: GameEngineIdentity(
+    accent: Color(0xFFAB47BC),
+    icon: Icons.merge_type,
+    tagline: 'Merge & Multiply',
+  ),
+  AppConstants.engineSequenceBuilder: GameEngineIdentity(
+    accent: Color(0xFFFFA726),
+    icon: Icons.format_list_numbered,
+    tagline: 'Order & Build',
+  ),
+  AppConstants.engineCircuitBuilder: GameEngineIdentity(
+    accent: Color(0xFF2979FF),
+    icon: Icons.electrical_services,
+    tagline: 'Connect & Power',
+  ),
+  AppConstants.engineBudgetBuilder: GameEngineIdentity(
+    accent: Color(0xFF2E7D32),
+    icon: Icons.savings,
+    tagline: 'Plan & Spend',
+  ),
+  AppConstants.engineNumberCountingDuel: GameEngineIdentity(
+    accent: Color(0xFFF9A825),
+    icon: Icons.pin,
+    tagline: 'Count & Race',
+  ),
+};
+
+/// Fallback identity for any engineType not (yet) in [gameEngineIdentities].
+const _fallbackEngineIdentity = GameEngineIdentity(
+  accent: AppColors.primary,
+  icon: Icons.sports_esports,
+  tagline: 'Play & Learn',
+);
+
+GameEngineIdentity engineIdentityFor(String engineType) =>
+    gameEngineIdentities[engineType] ?? _fallbackEngineIdentity;
 
 /// Centralised design tokens for **all** mini-games.
 ///

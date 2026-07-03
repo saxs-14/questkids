@@ -6,6 +6,7 @@ import '../../games/core/game_config.dart';
 import '../../../core/constants/game_catalog.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../games/core/game_intro_sheet.dart';
 import '../../games/core/game_router.dart';
 import '../../../providers/auth_provider.dart';
 import '../../dashboard/screens/grade1_world_map.dart';
@@ -70,15 +71,21 @@ class _QuestsScreenState extends State<QuestsScreen> {
   }
 
   void _launchGame(GameCatalogEntry entry, String grade) {
-    final config = _buildConfig(entry, grade);
-    Navigator.push(
+    GameIntroSheet.show(
       context,
-      MaterialPageRoute(
-        builder: (_) => GameRouter(
-          config: config,
-          user: context.read<AuthProvider>().user,
-        ),
-      ),
+      entry: entry,
+      onStart: () {
+        final config = _buildConfig(entry, grade);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => GameRouter(
+              config: config,
+              user: context.read<AuthProvider>().user,
+            ),
+          ),
+        );
+      },
     );
   }
 
