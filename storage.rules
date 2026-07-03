@@ -1,51 +1,56 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    
+
     // ==================== HELPER FUNCTIONS ====================
     function isSignedIn() {
       return request.auth != null;
     }
-    
+
     function isUser(uid) {
       return request.auth.uid == uid;
     }
-    
+
+    function hasRole(role) {
+      return isSignedIn() && request.auth.token.role == role;
+    }
+
     function isValidImage() {
       return request.resource.contentType.matches('image/.*')
         && request.resource.size < 5 * 1024 * 1024; // 5MB limit
     }
-    
+
     // ==================== USER AVATARS ====================
     match /avatars/{uid}/{allPaths=**} {
       // Users can upload/delete their own avatar
       allow write: if isUser(uid) && isValidImage();
-      
-      // Anyone can read avatars
+
+      // Anyone signed in can read avatars
       allow read: if isSignedIn();
     }
-    
+
     // ==================== PROGRESS PROOFS ====================
     match /progress/{uid}/{allPaths=**} {
       // Users can upload proof for their progress
       allow write: if isUser(uid) && isValidImage();
-      
+
       // Users can read their own proofs
       allow read: if isUser(uid);
-      
-      // Teachers can read proofs for verification
-      allow read: if isSignedIn();
+
+      // Teachers and admins can read proofs for verification
+      allow read: if hasRole('teacher') || hasRole('admin');
     }
-    
+
     // ==================== ACTIVITY RESOURCES ====================
     match /activities/{activityId}/{allPaths=**} {
-      // Teachers and admins can manage activity resources
-      allow write: if isSignedIn();
-      
+      // Only teachers and admins can manage activity resources, and only
+      // valid, size-capped images.
+      allow write: if (hasRole('teacher') || hasRole('admin')) && isValidImage();
+
       // All signed-in users can read activity resources
       allow read: if isSignedIn();
     }
-    
+
     // ==================== DEFAULT DENY ====================
     match /{allPaths=**} {
       allow read, write: if false;

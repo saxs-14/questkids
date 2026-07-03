@@ -183,6 +183,14 @@ app.*.symbols
 .env.production
 functions/.env
 functions/.secret.local
+serviceAccountKey*.json
+*serviceAccount*.json
+*OAuth*Credentials*.json
+*.pem
+*.p12
+key.properties
+.claude/worktrees/
+*.log
 
 # Node / Firebase Functions
 node_modules/

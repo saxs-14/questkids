@@ -11,38 +11,60 @@ service cloud.firestore {
       return request.auth.uid == uid;
     }
 
+    // Roles are set exclusively by the admin/setUserRole Cloud Function as a
+    // custom claim — never trust the mirrored `role` field on the user doc
+    // for authorization decisions.
     function isAdmin() {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+      return isSignedIn() && request.auth.token.role == 'admin';
     }
 
     function isTeacher() {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'teacher';
+      return isSignedIn() && request.auth.token.role == 'teacher';
     }
 
     function isParent() {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'parent';
+      return isSignedIn() && request.auth.token.role == 'parent';
+    }
+
+    // TODO(data-model): once classId is stored per-learner, replace this with
+    // a match on request.auth.token.classId == resource.data.classId so
+    // teacher reads are scoped to their own class instead of relying on a
+    // higher-level check at the call site.
+    function isTeacherOfClass(classId) {
+      return isTeacher() && request.auth.token.classId == classId;
+    }
+
+    // Fields that can only ever be changed by a trusted server context
+    // (Cloud Functions using the Admin SDK bypass rules entirely, so this
+    // simply blocks clients from writing them directly).
+    function lockedUserFields() {
+      return ['role', 'xp', 'coins', 'level', 'linkedChildrenUids', 'uid', 'email'];
     }
 
     // ==================== USERS COLLECTION ====================
     match /users/{uid} {
       allow read: if isUser(uid);
-      allow create: if isUser(uid) && request.resource.data.uid == uid;
-      allow update: if isUser(uid);
+      allow create: if isUser(uid) &&
+                       request.resource.data.uid == uid &&
+                       request.resource.data.role == 'learner';
+      allow update: if isUser(uid) &&
+                       !request.resource.data.diff(resource.data).affectedKeys().hasAny(lockedUserFields());
       allow delete: if isUser(uid);
 
       // Parents can read their linked children
       allow read: if isParent() &&
                       uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
 
-      // Teachers can read all learners
+      // TODO(data-model): scope this to the teacher's own class once
+      // learner docs carry a classId field — see isTeacherOfClass().
       allow read: if isTeacher();
 
-      // Chats subcollection
+      // Chats subcollection — child and their linked parent only.
+      // Teachers do NOT get access to AI chat logs.
       match /chats/{chatId} {
         allow read, write: if isUser(uid);
         allow read: if isParent() &&
                         uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
-        allow read: if isTeacher();
       }
     }
 
@@ -102,6 +124,7 @@ service cloud.firestore {
       // Parents and teachers can read their learners' sessions
       allow read: if isParent() &&
                       resource.data.uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      // TODO(data-model): scope to teacher's own class once sessions carry classId.
       allow read: if isTeacher();
     }
 
@@ -110,6 +133,7 @@ service cloud.firestore {
       allow read, write: if isUser(uid);
       allow read: if isParent() &&
                       uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      // TODO(data-model): scope to teacher's own class once player_stats carry classId.
       allow read: if isTeacher();
     }
 
@@ -121,6 +145,7 @@ service cloud.firestore {
         allow read, write: if isUser(uid);
         allow read: if isParent() &&
                         uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+        // TODO(data-model): scope to teacher's own class once game_progress carries classId.
         allow read: if isTeacher();
       }
     }
@@ -166,6 +191,22 @@ service cloud.firestore {
     match /caps_curriculum/{id} {
       allow read: if isSignedIn();
       allow write: if isAdmin();
+    }
+
+    // ==================== AI REPORTS ====================
+    // Child (or parent, via client) flags a Questy message; only admins can
+    // review reports. Reporter cannot read back other users' reports.
+    match /ai_reports/{reportId} {
+      allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
+      allow read: if isAdmin();
+      allow update, delete: if isAdmin();
+    }
+
+    // ==================== AI USAGE QUOTA ====================
+    // Written transactionally by the gemini proxy Cloud Functions only.
+    match /usage_ai/{uid} {
+      allow read: if isUser(uid);
+      allow write: if false;
     }
   }
 }

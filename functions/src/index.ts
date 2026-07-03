@@ -17,6 +17,7 @@ export { questyChat, analyzeImage, getRecommendation, explainAnswer, generateHin
 export { refreshLeaderboards } from "./leaderboard/refresh";
 export { generateDailyMissions } from "./missions/generate";
 export { getTeacherInsight } from "./teacher/insights";
+export { setUserRole, assignDefaultRole } from "./admin/setUserRole";
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();
