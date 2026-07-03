@@ -1,0 +1,4876 @@
+[
+  {
+    "id": "ems_g7_banking",
+    "title": "Banks & Banking",
+    "description": "Learn how banks work — savings, interest, loans and bank statements!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "EMS",
+    "topicId": "financial_literacy",
+    "subtopicId": "banking",
+    "engine": "budgetBuilder",
+    "originalEngine": "tugOfWar",
+    "emoji": "🏦",
+    "colorExpr": "Color(0xFF009688)",
+    "capsObjective": "Learners will learn how banks work — savings, interest, loans and bank statements.",
+    "mechanicReason": "Allocating a limited amount teaches real trade-offs in banking.",
+    "cognitiveVerb": "money_budget",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/ems/ems_g7_banking.json"
+  },
+  {
+    "id": "ems_g7_budget",
+    "title": "Budget Builder",
+    "description": "Allocate income wisely — distinguish needs vs wants and avoid debt!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "EMS",
+    "topicId": "financial_literacy",
+    "subtopicId": "budgeting",
+    "engine": "budgetBuilder",
+    "emoji": "📋",
+    "colorExpr": "Color(0xFF009688)",
+    "capsObjective": "Learners will allocate income wisely — distinguish needs vs wants and avoid debt.",
+    "mechanicReason": "Allocating a limited amount teaches real trade-offs in budgeting.",
+    "cognitiveVerb": "money_budget",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/ems/ems_g7_budget.json"
+  },
+  {
+    "id": "ems_g7_consumer",
+    "title": "Consumer Rights",
+    "description": "Know your rights as a consumer — CPA, warranties and returns!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "EMS",
+    "topicId": "economics",
+    "subtopicId": "consumer_rights",
+    "engine": "runnerCollector",
+    "emoji": "🛒",
+    "colorExpr": "Color(0xFF009688)",
+    "capsObjective": "Learners will know their rights as a consumer — CPA, warranties and returns.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell consumer rights apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/ems/ems_g7_consumer.json"
+  },
+  {
+    "id": "ems_g7_economics",
+    "title": "Economics 101",
+    "description": "Understand needs vs wants, scarcity, opportunity cost and production!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "EMS",
+    "topicId": "economics",
+    "subtopicId": "basic_economics",
+    "engine": "budgetBuilder",
+    "emoji": "💡",
+    "colorExpr": "Color(0xFF009688)",
+    "capsObjective": "Learners will understand needs vs wants, scarcity, opportunity cost and production.",
+    "mechanicReason": "Allocating a limited amount teaches real trade-offs in basic economics.",
+    "cognitiveVerb": "money_budget",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade7/ems/ems_g7_economics.json"
+  },
+  {
+    "id": "ems_g7_entrepreneur",
+    "title": "Entrepreneurship",
+    "description": "Start your business — identify opportunities, plan and pitch your idea!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "EMS",
+    "topicId": "business",
+    "subtopicId": "entrepreneurship",
+    "engine": "adventureJourney",
+    "emoji": "🚀",
+    "colorExpr": "Color(0xFF009688)",
+    "capsObjective": "Learners will start their business — identify opportunities, plan and pitch their idea.",
+    "mechanicReason": "Making choices through a story connects entrepreneurship to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 150,
+    "coinsReward": 30,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/ems/ems_g7_entrepreneur.json"
+  },
+  {
+    "id": "ems_g7_globaleconomy",
+    "title": "Global Economy",
+    "description": "Explore trade, exchange rates, imports and exports!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "EMS",
+    "topicId": "economics",
+    "subtopicId": "global_economy",
+    "engine": "adventureJourney",
+    "emoji": "🌐",
+    "colorExpr": "Color(0xFF009688)",
+    "capsObjective": "Learners will explore trade, exchange rates, imports and exports.",
+    "mechanicReason": "Making choices through a story connects global economy to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 150,
+    "coinsReward": 30,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/ems/ems_g7_globaleconomy.json"
+  },
+  {
+    "id": "ems_g7_profit",
+    "title": "Profit & Loss",
+    "description": "Calculate income, expenses, profit and loss for a small business!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "EMS",
+    "topicId": "accounting",
+    "subtopicId": "profit_loss",
+    "engine": "budgetBuilder",
+    "emoji": "📉",
+    "colorExpr": "Color(0xFF009688)",
+    "capsObjective": "Learners will calculate income, expenses, profit and loss for a small business.",
+    "mechanicReason": "Allocating a limited amount teaches real trade-offs in profit loss.",
+    "cognitiveVerb": "money_budget",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/ems/ems_g7_profit.json"
+  },
+  {
+    "id": "ems_g7_savings",
+    "title": "Savings Superstar",
+    "description": "Plan for the future — understand compound interest and savings goals!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "EMS",
+    "topicId": "financial_literacy",
+    "subtopicId": "savings",
+    "engine": "budgetBuilder",
+    "emoji": "🐷",
+    "colorExpr": "Color(0xFF009688)",
+    "capsObjective": "Learners will plan for the future — understand compound interest and savings goals.",
+    "mechanicReason": "Allocating a limited amount teaches real trade-offs in savings.",
+    "cognitiveVerb": "money_budget",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/ems/ems_g7_savings.json"
+  },
+  {
+    "id": "ems_g7_supply_demand",
+    "title": "Supply & Demand",
+    "description": "Watch prices change as supply and demand shift in the market!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "EMS",
+    "topicId": "economics",
+    "subtopicId": "supply_demand",
+    "engine": "adventureJourney",
+    "emoji": "📈",
+    "colorExpr": "Color(0xFF009688)",
+    "capsObjective": "Learners will watch prices change as supply and demand shift in the market.",
+    "mechanicReason": "Making choices through a story connects supply demand to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 150,
+    "coinsReward": 30,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/ems/ems_g7_supply_demand.json"
+  },
+  {
+    "id": "ems_g7_tax",
+    "title": "Tax Tracker",
+    "description": "Understand VAT, income tax and how government uses tax revenue!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "EMS",
+    "topicId": "economics",
+    "subtopicId": "taxation",
+    "engine": "tugOfWar",
+    "emoji": "🧾",
+    "colorExpr": "Color(0xFF009688)",
+    "capsObjective": "Learners will understand VAT, income tax and how government uses tax revenue.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of taxation.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 150,
+    "coinsReward": 30,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/ems/ems_g7_tax.json"
+  },
+  {
+    "id": "eng_g1_alphabet",
+    "title": "Alphabet Explorer",
+    "description": "Explore the alphabet, learn letter names and their sounds!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "English",
+    "topicId": "phonics",
+    "subtopicId": "alphabet",
+    "engine": "adventureJourney",
+    "emoji": "🔤",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will explore the alphabet, learn letter names and their sounds.",
+    "mechanicReason": "Making choices through a story connects alphabet to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 50,
+    "coinsReward": 10,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade1/english/eng_g1_alphabet.json"
+  },
+  {
+    "id": "eng_g1_grammar",
+    "title": "Grammar Garden",
+    "description": "Plant the right nouns, verbs and adjectives in the sentence!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "English",
+    "topicId": "grammar",
+    "subtopicId": "parts_of_speech",
+    "engine": "runnerCollector",
+    "emoji": "🌻",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will plant the right nouns, verbs and adjectives in the sentence.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell parts of speech apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 75,
+    "coinsReward": 15,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade1/english/eng_g1_grammar.json"
+  },
+  {
+    "id": "eng_g1_phonics",
+    "title": "Phonics Fun",
+    "description": "Blend sounds together to decode and read words!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "English",
+    "topicId": "phonics",
+    "subtopicId": "blending",
+    "engine": "tugOfWar",
+    "emoji": "🎵",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will blend sounds together to decode and read words.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of blending.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 50,
+    "coinsReward": 10,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade1/english/eng_g1_phonics.json"
+  },
+  {
+    "id": "eng_g1_reading",
+    "title": "Reading Rainbow",
+    "description": "Read simple sentences and answer comprehension questions!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "English",
+    "topicId": "reading",
+    "subtopicId": "comprehension",
+    "engine": "adventureJourney",
+    "emoji": "🌈",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will read simple sentences and answer comprehension questions.",
+    "mechanicReason": "Making choices through a story connects comprehension to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 75,
+    "coinsReward": 15,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade1/english/eng_g1_reading.json"
+  },
+  {
+    "id": "eng_g1_words",
+    "title": "Word Builder",
+    "description": "Spell simple CVC words by choosing the right letters!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "English",
+    "topicId": "spelling",
+    "subtopicId": "cvc_words",
+    "engine": "sequenceBuilder",
+    "emoji": "📝",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will spell simple CVC words by choosing the right letters.",
+    "mechanicReason": "Putting the steps in the right order breaks cvc words into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 50,
+    "coinsReward": 10,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade1/english/eng_g1_words.json"
+  },
+  {
+    "id": "eng_g4_debate",
+    "title": "Debate Duel",
+    "description": "Choose your argument, support it with evidence and win the debate!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "English",
+    "topicId": "speaking",
+    "subtopicId": "debate",
+    "engine": "tugOfWar",
+    "emoji": "🎤",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will choose their argument, support it with evidence and win the debate.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of debate.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 120,
+    "coinsReward": 24,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/english/eng_g4_debate.json"
+  },
+  {
+    "id": "eng_g4_grammar_nouns",
+    "title": "Noun Navigator",
+    "description": "Identify common, proper, collective and abstract nouns!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "English",
+    "topicId": "grammar",
+    "subtopicId": "nouns",
+    "engine": "runnerCollector",
+    "emoji": "🏷️",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will identify common, proper, collective and abstract nouns.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell nouns apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 80,
+    "coinsReward": 16,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/english/eng_g4_grammar_nouns.json"
+  },
+  {
+    "id": "eng_g4_grammar_verbs",
+    "title": "Verb Volcano",
+    "description": "Conquer tense and verb forms — present, past and future!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "English",
+    "topicId": "grammar",
+    "subtopicId": "verbs_tense",
+    "engine": "runnerCollector",
+    "emoji": "🌋",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will conquer tense and verb forms — present, past and future.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell verbs tense apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/english/eng_g4_grammar_verbs.json"
+  },
+  {
+    "id": "eng_g4_idioms",
+    "title": "Idiom Island",
+    "description": "Learn common English idioms and their meanings!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "English",
+    "topicId": "vocabulary",
+    "subtopicId": "idioms",
+    "engine": "multiplesMerge",
+    "emoji": "🏝️",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will learn common English idioms and their meanings.",
+    "mechanicReason": "Matching and merging pairs helps you spot patterns and connections in idioms.",
+    "cognitiveVerb": "count_compare",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 120,
+    "coinsReward": 24,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/english/eng_g4_idioms.json"
+  },
+  {
+    "id": "eng_g4_poetry",
+    "title": "Poetry Explorer",
+    "description": "Identify rhyme, rhythm and poetic devices in fun poems!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "English",
+    "topicId": "literature",
+    "subtopicId": "poetry",
+    "engine": "runnerCollector",
+    "emoji": "🎭",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will identify rhyme, rhythm and poetic devices in fun poems.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell poetry apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/english/eng_g4_poetry.json"
+  },
+  {
+    "id": "eng_g4_punctuation",
+    "title": "Punctuation Police",
+    "description": "Catch missing punctuation and fix sentences correctly!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "English",
+    "topicId": "punctuation",
+    "subtopicId": "punctuation_rules",
+    "engine": "runnerCollector",
+    "emoji": "❗",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will catch missing punctuation and fix sentences correctly.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell punctuation rules apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/english/eng_g4_punctuation.json"
+  },
+  {
+    "id": "eng_g4_reading",
+    "title": "Reading Quest",
+    "description": "Read passages and answer comprehension questions to level up!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "English",
+    "topicId": "reading",
+    "subtopicId": "comprehension",
+    "engine": "adventureJourney",
+    "emoji": "📚",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will read passages and answer comprehension questions to level up.",
+    "mechanicReason": "Making choices through a story connects comprehension to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade4/english/eng_g4_reading.json"
+  },
+  {
+    "id": "eng_g4_spelling",
+    "title": "Spelling Bee",
+    "description": "Spell grade-level words correctly and win the spelling bee!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "English",
+    "topicId": "spelling",
+    "subtopicId": "grade_level_words",
+    "engine": "tugOfWar",
+    "emoji": "🐝",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will spell grade-level words correctly and win the spelling bee.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of grade level words.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/english/eng_g4_spelling.json"
+  },
+  {
+    "id": "eng_g4_vocabulary",
+    "title": "Word Power",
+    "description": "Build your vocabulary with synonyms, antonyms and context clues!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "English",
+    "topicId": "vocabulary",
+    "subtopicId": "synonyms_antonyms",
+    "engine": "multiplesMerge",
+    "emoji": "💬",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will build their vocabulary with synonyms, antonyms and context clues.",
+    "mechanicReason": "Matching and merging pairs helps you spot patterns and connections in synonyms antonyms.",
+    "cognitiveVerb": "count_compare",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/english/eng_g4_vocabulary.json"
+  },
+  {
+    "id": "eng_g4_writing",
+    "title": "Story Builder",
+    "description": "Arrange sentences into a well-structured story with beginning, middle and end!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "English",
+    "topicId": "writing",
+    "subtopicId": "story_structure",
+    "engine": "sequenceBuilder",
+    "emoji": "✍️",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will arrange sentences into a well-structured story with beginning, middle and end.",
+    "mechanicReason": "Putting the steps in the right order breaks story structure into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/english/eng_g4_writing.json"
+  },
+  {
+    "id": "eng_g7_comprehension",
+    "title": "Comprehension Champion",
+    "description": "Read complex texts and answer inference and literal questions!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "English",
+    "topicId": "reading",
+    "subtopicId": "comprehension",
+    "engine": "adventureJourney",
+    "emoji": "📖",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will read complex texts and answer inference and literal questions.",
+    "mechanicReason": "Making choices through a story connects comprehension to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 150,
+    "coinsReward": 30,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade7/english/eng_g7_comprehension.json"
+  },
+  {
+    "id": "eng_g7_debate",
+    "title": "Formal Debate",
+    "description": "Master formal debate structure — proposing, opposing and rebuttal!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "English",
+    "topicId": "speaking",
+    "subtopicId": "formal_debate",
+    "engine": "tugOfWar",
+    "emoji": "🎤",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will master formal debate structure — proposing, opposing and rebuttal.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of formal debate.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 150,
+    "coinsReward": 30,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/english/eng_g7_debate.json"
+  },
+  {
+    "id": "eng_g7_essay",
+    "title": "Essay Structure Builder",
+    "description": "Arrange introduction, body paragraphs and conclusion in the right order!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "English",
+    "topicId": "writing",
+    "subtopicId": "essay_structure",
+    "engine": "sequenceBuilder",
+    "emoji": "✍️",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will arrange introduction, body paragraphs and conclusion in the right order.",
+    "mechanicReason": "Putting the steps in the right order breaks essay structure into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 120,
+    "coinsReward": 24,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/english/eng_g7_essay.json"
+  },
+  {
+    "id": "eng_g7_figurative",
+    "title": "Figurative Language Fighter",
+    "description": "Identify similes, metaphors, personification and hyperbole!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "English",
+    "topicId": "language",
+    "subtopicId": "figurative_language",
+    "engine": "runnerCollector",
+    "emoji": "🎭",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will identify similes, metaphors, personification and hyperbole.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell figurative language apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 150,
+    "coinsReward": 30,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/english/eng_g7_figurative.json"
+  },
+  {
+    "id": "eng_g7_grammar",
+    "title": "Grammar Gladiator",
+    "description": "Master clauses, phrases, active/passive voice and complex sentences!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "English",
+    "topicId": "grammar",
+    "subtopicId": "complex_grammar",
+    "engine": "runnerCollector",
+    "emoji": "⚔️",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will master clauses, phrases, active/passive voice and complex sentences.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell complex grammar apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 150,
+    "coinsReward": 30,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/english/eng_g7_grammar.json"
+  },
+  {
+    "id": "eng_g7_media",
+    "title": "Media Literacy",
+    "description": "Analyse advertisements, news articles and social media bias!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "English",
+    "topicId": "reading",
+    "subtopicId": "media_texts",
+    "engine": "runnerCollector",
+    "emoji": "📱",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will analyse advertisements, news articles and social media bias.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell media texts apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 120,
+    "coinsReward": 24,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/english/eng_g7_media.json"
+  },
+  {
+    "id": "eng_g7_oral",
+    "title": "Oral Presentation Prep",
+    "description": "Structure and deliver a confident oral presentation!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "English",
+    "topicId": "speaking",
+    "subtopicId": "oral_presentation",
+    "engine": "sequenceBuilder",
+    "emoji": "🗣️",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will structure and deliver a confident oral presentation.",
+    "mechanicReason": "Putting the steps in the right order breaks oral presentation into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 150,
+    "coinsReward": 30,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/english/eng_g7_oral.json"
+  },
+  {
+    "id": "eng_g7_poetry",
+    "title": "Poetry Pathfinder",
+    "description": "Explore rhyme schemes, rhythm and poetic devices in SA poetry!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "English",
+    "topicId": "literature",
+    "subtopicId": "poetry",
+    "engine": "runnerCollector",
+    "originalEngine": "adventureJourney",
+    "emoji": "🌹",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will explore rhyme schemes, rhythm and poetic devices in SA poetry.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell poetry apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 150,
+    "coinsReward": 30,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade7/english/eng_g7_poetry.json"
+  },
+  {
+    "id": "eng_g7_spelling",
+    "title": "Advanced Spelling",
+    "description": "Spell complex Grade 7 words — prefixes, suffixes and word origins!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "English",
+    "topicId": "spelling",
+    "subtopicId": "advanced_spelling",
+    "engine": "tugOfWar",
+    "emoji": "🔤",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will spell complex Grade 7 words — prefixes, suffixes and word origins.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of advanced spelling.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 120,
+    "coinsReward": 24,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/english/eng_g7_spelling.json"
+  },
+  {
+    "id": "eng_g7_vocabulary",
+    "title": "Word Power Challenge",
+    "description": "Build your Grade 7 vocabulary — synonyms, antonyms and context clues!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "English",
+    "topicId": "vocabulary",
+    "subtopicId": "synonyms_antonyms",
+    "engine": "multiplesMerge",
+    "emoji": "💬",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will build their Grade 7 vocabulary — synonyms, antonyms and context clues.",
+    "mechanicReason": "Matching and merging pairs helps you spot patterns and connections in synonyms antonyms.",
+    "cognitiveVerb": "count_compare",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 120,
+    "coinsReward": 24,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/english/eng_g7_vocabulary.json"
+  },
+  {
+    "id": "ls_g1_body",
+    "title": "My Body",
+    "description": "Learn your body parts and how they help you every day!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "Life Skills",
+    "topicId": "personal_care",
+    "subtopicId": "body_parts",
+    "engine": "adventureJourney",
+    "emoji": "🧍",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will learn their body parts and how they help they every day.",
+    "mechanicReason": "Making choices through a story connects body parts to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 50,
+    "coinsReward": 10,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade1/life_skills/ls_g1_body.json"
+  },
+  {
+    "id": "ls_g1_community",
+    "title": "My Community",
+    "description": "Meet community helpers and discover how they keep us safe and healthy!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "Life Skills",
+    "topicId": "beginning_knowledge",
+    "subtopicId": "community_helpers",
+    "engine": "explorerMap",
+    "emoji": "🏘️",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will meet community helpers and discover how they keep us safe and healthy.",
+    "mechanicReason": "Exploring a map connects community helpers to real places, so it sticks.",
+    "cognitiveVerb": "locate_map",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 50,
+    "coinsReward": 10,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade1/life_skills/ls_g1_community.json"
+  },
+  {
+    "id": "ls_g1_feelings",
+    "title": "Feelings Factory",
+    "description": "Identify emotions and learn healthy ways to express your feelings!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "Life Skills",
+    "topicId": "social_skills",
+    "subtopicId": "emotions",
+    "engine": "runnerCollector",
+    "emoji": "😊",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will identify emotions and learn healthy ways to express their feelings.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell emotions apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 50,
+    "coinsReward": 10,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade1/life_skills/ls_g1_feelings.json"
+  },
+  {
+    "id": "ls_g1_habits",
+    "title": "Healthy Habits",
+    "description": "Build good habits around hygiene, nutrition and exercise!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "Life Skills",
+    "topicId": "health",
+    "subtopicId": "healthy_habits",
+    "engine": "tugOfWar",
+    "emoji": "🥗",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will build good habits around hygiene, nutrition and exercise.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of healthy habits.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 50,
+    "coinsReward": 10,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade1/life_skills/ls_g1_habits.json"
+  },
+  {
+    "id": "ls_g1_safety",
+    "title": "Safety Squad",
+    "description": "Learn the rules of personal safety at home, school and in public!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "Life Skills",
+    "topicId": "safety",
+    "subtopicId": "personal_safety",
+    "engine": "adventureJourney",
+    "emoji": "🛡️",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will learn the rules of personal safety at home, school and in public.",
+    "mechanicReason": "Making choices through a story connects personal safety to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 50,
+    "coinsReward": 10,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade1/life_skills/ls_g1_safety.json"
+  },
+  {
+    "id": "ls_g4_career",
+    "title": "Career Explorer",
+    "description": "Discover different careers and the skills they require!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Life Skills",
+    "topicId": "careers",
+    "subtopicId": "career_exploration",
+    "engine": "adventureJourney",
+    "emoji": "💼",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will discover different careers and the skills they require.",
+    "mechanicReason": "Making choices through a story connects career exploration to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 80,
+    "coinsReward": 16,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade4/life_skills/ls_g4_career.json"
+  },
+  {
+    "id": "ls_g4_environment",
+    "title": "Environmental Awareness",
+    "description": "Become an eco-champion — learn about conservation and sustainability!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Life Skills",
+    "topicId": "environment",
+    "subtopicId": "conservation",
+    "engine": "runnerCollector",
+    "emoji": "♻️",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will become an eco-champion — learn about conservation and sustainability.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell conservation apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 80,
+    "coinsReward": 16,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/life_skills/ls_g4_environment.json"
+  },
+  {
+    "id": "ls_g4_finance",
+    "title": "Financial Literacy",
+    "description": "Learn to budget, save and make smart money decisions!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Life Skills",
+    "topicId": "financial_literacy",
+    "subtopicId": "budgeting",
+    "engine": "budgetBuilder",
+    "emoji": "💰",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will learn to budget, save and make smart money decisions.",
+    "mechanicReason": "Allocating a limited amount teaches real trade-offs in budgeting.",
+    "cognitiveVerb": "money_budget",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/life_skills/ls_g4_finance.json"
+  },
+  {
+    "id": "ls_g4_health",
+    "title": "Healthy Living",
+    "description": "Explore physical and mental health — exercise, nutrition and mindfulness!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Life Skills",
+    "topicId": "health",
+    "subtopicId": "healthy_living",
+    "engine": "runnerCollector",
+    "emoji": "🏃",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will explore physical and mental health — exercise, nutrition and mindfulness.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell healthy living apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 80,
+    "coinsReward": 16,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/life_skills/ls_g4_health.json"
+  },
+  {
+    "id": "ls_g4_social",
+    "title": "Social Skills",
+    "description": "Build teamwork, communication and conflict resolution skills!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Life Skills",
+    "topicId": "social_skills",
+    "subtopicId": "teamwork",
+    "engine": "adventureJourney",
+    "emoji": "🤝",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will build teamwork, communication and conflict resolution skills.",
+    "mechanicReason": "Making choices through a story connects teamwork to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 80,
+    "coinsReward": 16,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/life_skills/ls_g4_social.json"
+  },
+  {
+    "id": "ls_g7_career",
+    "title": "Career Pathways",
+    "description": "Explore career options and subjects needed to reach your goals!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Life Skills",
+    "topicId": "careers",
+    "subtopicId": "career_pathways",
+    "engine": "explorerMap",
+    "emoji": "🎯",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will explore career options and subjects needed to reach their goals.",
+    "mechanicReason": "Exploring a map connects career pathways to real places, so it sticks.",
+    "cognitiveVerb": "locate_map",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/life_skills/ls_g7_career.json"
+  },
+  {
+    "id": "ls_g7_citizenship",
+    "title": "Active Citizenship",
+    "description": "Your rights and responsibilities as a South African citizen!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Life Skills",
+    "topicId": "citizenship",
+    "subtopicId": "rights_responsibilities",
+    "engine": "adventureJourney",
+    "emoji": "📜",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will learn about their rights and responsibilities as a South African citizen.",
+    "mechanicReason": "Making choices through a story connects rights responsibilities to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 120,
+    "coinsReward": 24,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/life_skills/ls_g7_citizenship.json"
+  },
+  {
+    "id": "ls_g7_digital",
+    "title": "Digital Safety",
+    "description": "Stay safe online — privacy, cyberbullying and digital footprint!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Life Skills",
+    "topicId": "digital_literacy",
+    "subtopicId": "online_safety",
+    "engine": "runnerCollector",
+    "emoji": "🔒",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will stay safe online — privacy, cyberbullying and digital footprint.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell online safety apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 120,
+    "coinsReward": 24,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/life_skills/ls_g7_digital.json"
+  },
+  {
+    "id": "ls_g7_relationships",
+    "title": "Healthy Relationships",
+    "description": "Build positive relationships and recognise peer pressure!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Life Skills",
+    "topicId": "relationships",
+    "subtopicId": "healthy_relationships",
+    "engine": "adventureJourney",
+    "emoji": "❤️",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will build positive relationships and recognise peer pressure.",
+    "mechanicReason": "Making choices through a story connects healthy relationships to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 120,
+    "coinsReward": 24,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade7/life_skills/ls_g7_relationships.json"
+  },
+  {
+    "id": "ls_g7_wellbeing",
+    "title": "Wellbeing Quest",
+    "description": "Manage stress, build resilience and maintain mental health!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Life Skills",
+    "topicId": "mental_health",
+    "subtopicId": "wellbeing",
+    "engine": "tugOfWar",
+    "emoji": "🧘",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will manage stress, build resilience and maintain mental health.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of wellbeing.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/life_skills/ls_g7_wellbeing.json"
+  },
+  {
+    "id": "math_g1_addition",
+    "title": "Addition Adventure",
+    "description": "Solve addition sums up to 20 and collect stars!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "Mathematics",
+    "topicId": "operations",
+    "subtopicId": "addition",
+    "engine": "tugOfWar",
+    "emoji": "➕",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will solve addition sums up to 20 and collect stars.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of addition.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 50,
+    "coinsReward": 10,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade1/mathematics/math_g1_addition.json"
+  },
+  {
+    "id": "math_g1_counting",
+    "title": "Number Counting Duel",
+    "description": "Count and compare numbers 1–100 in a battle of counting!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "Mathematics",
+    "topicId": "numbers",
+    "subtopicId": "counting",
+    "engine": "numberCountingDuel",
+    "emoji": "🔢",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will count and compare numbers 1–100 in a battle of counting.",
+    "mechanicReason": "Racing to count and compare builds fast, confident number sense for counting.",
+    "cognitiveVerb": "count_compare",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 50,
+    "coinsReward": 10,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade1/mathematics/math_g1_counting.json"
+  },
+  {
+    "id": "math_g1_mountain",
+    "title": "Maths Mountain",
+    "description": "Climb the mountain by solving addition, subtraction and multiplication basics!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "Mathematics",
+    "topicId": "operations",
+    "subtopicId": "mixed_operations",
+    "engine": "sequenceBuilder",
+    "emoji": "⛰️",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will climb the mountain by solving addition, subtraction and multiplication basics.",
+    "mechanicReason": "Putting the steps in the right order breaks mixed operations into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 75,
+    "coinsReward": 15,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade1/mathematics/math_g1_mountain.json"
+  },
+  {
+    "id": "math_g1_multiples",
+    "title": "Multiple Chain",
+    "description": "Link the multiples of a number to make a chain — break it and try again!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "Mathematics",
+    "topicId": "multiplication",
+    "subtopicId": "multiples",
+    "engine": "multiplesMerge",
+    "emoji": "🔗",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will link the multiples of a number to make a chain — break it and try again.",
+    "mechanicReason": "Matching and merging pairs helps you spot patterns and connections in multiples.",
+    "cognitiveVerb": "count_compare",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 75,
+    "coinsReward": 15,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade1/mathematics/math_g1_multiples.json"
+  },
+  {
+    "id": "math_g1_subtraction",
+    "title": "Subtraction Safari",
+    "description": "Hunt for the missing number in subtraction problems up to 20!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "Mathematics",
+    "topicId": "operations",
+    "subtopicId": "subtraction",
+    "engine": "tugOfWar",
+    "emoji": "➖",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will hunt for the missing number in subtraction problems up to 20.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of subtraction.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 50,
+    "coinsReward": 10,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade1/mathematics/math_g1_subtraction.json"
+  },
+  {
+    "id": "math_g4_data",
+    "title": "Data City",
+    "description": "Read bar graphs, pictographs and tables to answer data questions!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Mathematics",
+    "topicId": "data",
+    "subtopicId": "graphs_tables",
+    "engine": "multiplesMerge",
+    "emoji": "📊",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will read bar graphs, pictographs and tables to answer data questions.",
+    "mechanicReason": "Matching and merging pairs helps you spot patterns and connections in graphs tables.",
+    "cognitiveVerb": "count_compare",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/mathematics/math_g4_data.json"
+  },
+  {
+    "id": "math_g4_decimals",
+    "title": "Decimal Dunes",
+    "description": "Cross the decimal dunes by comparing, ordering and operating with decimals!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Mathematics",
+    "topicId": "decimals",
+    "subtopicId": "decimal_operations",
+    "engine": "tugOfWar",
+    "emoji": "🏜️",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will cross the decimal dunes by comparing, ordering and operating with decimals.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of decimal operations.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 120,
+    "coinsReward": 24,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/mathematics/math_g4_decimals.json"
+  },
+  {
+    "id": "math_g4_division",
+    "title": "Division Desert",
+    "description": "Divide and conquer — master long division across the desert!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Mathematics",
+    "topicId": "division",
+    "subtopicId": "long_division",
+    "engine": "tugOfWar",
+    "emoji": "➗",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will divide and conquer — master long division across the desert.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of long division.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 120,
+    "coinsReward": 24,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/mathematics/math_g4_division.json"
+  },
+  {
+    "id": "math_g4_fractions",
+    "title": "Fraction Forest",
+    "description": "Navigate the fraction forest — compare, simplify and add fractions!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Mathematics",
+    "topicId": "fractions",
+    "subtopicId": "fractions_operations",
+    "engine": "multiplesMerge",
+    "emoji": "🌲",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will navigate the fraction forest — compare, simplify and add fractions.",
+    "mechanicReason": "Matching and merging pairs helps you spot patterns and connections in fractions operations.",
+    "cognitiveVerb": "count_compare",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade4/mathematics/math_g4_fractions.json"
+  },
+  {
+    "id": "math_g4_geometry",
+    "title": "Geometry Jungle",
+    "description": "Identify 2D and 3D shapes, angles and properties in the jungle!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Mathematics",
+    "topicId": "geometry",
+    "subtopicId": "shapes_angles",
+    "engine": "runnerCollector",
+    "emoji": "📐",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will identify 2D and 3D shapes, angles and properties in the jungle.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell shapes angles apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/mathematics/math_g4_geometry.json"
+  },
+  {
+    "id": "math_g4_measurement",
+    "title": "Measurement Valley",
+    "description": "Measure length, mass, capacity and time — get the conversions right!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Mathematics",
+    "topicId": "measurement",
+    "subtopicId": "conversions",
+    "engine": "tugOfWar",
+    "emoji": "📏",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will measure length, mass, capacity and time — get the conversions right.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of conversions.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/mathematics/math_g4_measurement.json"
+  },
+  {
+    "id": "math_g4_multiplication",
+    "title": "Multiplication Mountains",
+    "description": "Climb higher by solving multi-digit multiplication problems!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Mathematics",
+    "topicId": "multiplication",
+    "subtopicId": "multi_digit",
+    "engine": "sequenceBuilder",
+    "emoji": "✖️",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will climb higher by solving multi-digit multiplication problems.",
+    "mechanicReason": "Putting the steps in the right order breaks multi digit into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/mathematics/math_g4_multiplication.json"
+  },
+  {
+    "id": "math_g4_patterns",
+    "title": "Number Ninja",
+    "description": "Spot number patterns and sequences like a true maths ninja!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Mathematics",
+    "topicId": "patterns",
+    "subtopicId": "number_sequences",
+    "engine": "sequenceBuilder",
+    "emoji": "🥷",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will spot number patterns and sequences like a true maths ninja.",
+    "mechanicReason": "Putting the steps in the right order breaks number sequences into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/mathematics/math_g4_patterns.json"
+  },
+  {
+    "id": "math_g4_problems",
+    "title": "Problem Solver",
+    "description": "Solve real-life word problems using all four operations!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Mathematics",
+    "topicId": "problem_solving",
+    "subtopicId": "word_problems",
+    "engine": "adventureJourney",
+    "emoji": "🧩",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will solve real-life word problems using all four operations.",
+    "mechanicReason": "Making choices through a story connects word problems to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 120,
+    "coinsReward": 24,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/mathematics/math_g4_problems.json"
+  },
+  {
+    "id": "math_g4_timestable",
+    "title": "Times Table Tower",
+    "description": "Master your times tables from 1×1 all the way to 12×12!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Mathematics",
+    "topicId": "multiplication",
+    "subtopicId": "times_tables",
+    "engine": "tugOfWar",
+    "emoji": "🏗️",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will master their times tables from 1×1 all the way to 12×12.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of times tables.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade4/mathematics/math_g4_timestable.json"
+  },
+  {
+    "id": "math_g7_algebra",
+    "title": "Algebra Arena",
+    "description": "Solve for x — simplify expressions and solve linear equations!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Mathematics",
+    "topicId": "algebra",
+    "subtopicId": "linear_equations",
+    "engine": "tugOfWar",
+    "emoji": "🔡",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will solve for x — simplify expressions and solve linear equations.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of linear equations.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 160,
+    "coinsReward": 32,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/mathematics/math_g7_algebra.json"
+  },
+  {
+    "id": "math_g7_fractions",
+    "title": "Fraction Fighter",
+    "description": "Add, subtract, multiply and divide fractions and mixed numbers!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Mathematics",
+    "topicId": "fractions",
+    "subtopicId": "fraction_operations",
+    "engine": "multiplesMerge",
+    "emoji": "🍕",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will add, subtract, multiply and divide fractions and mixed numbers.",
+    "mechanicReason": "Matching and merging pairs helps you spot patterns and connections in fraction operations.",
+    "cognitiveVerb": "count_compare",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 160,
+    "coinsReward": 32,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/mathematics/math_g7_fractions.json"
+  },
+  {
+    "id": "math_g7_geometry",
+    "title": "Geometry Galaxy",
+    "description": "Explore angles, triangles, circles and geometric constructions!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Mathematics",
+    "topicId": "geometry",
+    "subtopicId": "constructions",
+    "engine": "sequenceBuilder",
+    "originalEngine": "runnerCollector",
+    "emoji": "🌌",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will explore angles, triangles, circles and geometric constructions.",
+    "mechanicReason": "Putting the steps in the right order breaks constructions into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 160,
+    "coinsReward": 32,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/mathematics/math_g7_geometry.json"
+  },
+  {
+    "id": "math_g7_integers",
+    "title": "Integer Invaders",
+    "description": "Conquer negative numbers, absolute values and integer operations!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Mathematics",
+    "topicId": "integers",
+    "subtopicId": "integer_operations",
+    "engine": "tugOfWar",
+    "emoji": "➕",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will conquer negative numbers, absolute values and integer operations.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of integer operations.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 140,
+    "coinsReward": 28,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade7/mathematics/math_g7_integers.json"
+  },
+  {
+    "id": "math_g7_patterns",
+    "title": "Pattern Pathfinder",
+    "description": "Find the rule in number sequences and extend geometric patterns!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Mathematics",
+    "topicId": "patterns",
+    "subtopicId": "number_sequences",
+    "engine": "sequenceBuilder",
+    "emoji": "🔮",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will find the rule in number sequences and extend geometric patterns.",
+    "mechanicReason": "Putting the steps in the right order breaks number sequences into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 140,
+    "coinsReward": 28,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/mathematics/math_g7_patterns.json"
+  },
+  {
+    "id": "math_g7_percentage",
+    "title": "Percentage Pursuit",
+    "description": "Calculate percentages, profit, loss, discount and VAT!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Mathematics",
+    "topicId": "percentages",
+    "subtopicId": "percentage_applications",
+    "engine": "tugOfWar",
+    "emoji": "%",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will calculate percentages, profit, loss, discount and VAT.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of percentage applications.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 140,
+    "coinsReward": 28,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/mathematics/math_g7_percentage.json"
+  },
+  {
+    "id": "math_g7_probability",
+    "title": "Probability Play",
+    "description": "Calculate simple probability and understand events and outcomes!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Mathematics",
+    "topicId": "data",
+    "subtopicId": "probability",
+    "engine": "adventureJourney",
+    "emoji": "🎲",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will calculate simple probability and understand events and outcomes.",
+    "mechanicReason": "Making choices through a story connects probability to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 140,
+    "coinsReward": 28,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/mathematics/math_g7_probability.json"
+  },
+  {
+    "id": "math_g7_ratio",
+    "title": "Ratio Racer",
+    "description": "Race through ratios, rates and proportions!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Mathematics",
+    "topicId": "ratio",
+    "subtopicId": "ratios_proportions",
+    "engine": "multiplesMerge",
+    "emoji": "⚖️",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will race through ratios, rates and proportions.",
+    "mechanicReason": "Matching and merging pairs helps you spot patterns and connections in ratios proportions.",
+    "cognitiveVerb": "count_compare",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 140,
+    "coinsReward": 28,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/mathematics/math_g7_ratio.json"
+  },
+  {
+    "id": "math_g7_stats",
+    "title": "Stats Showdown",
+    "description": "Calculate mean, median, mode and interpret graphs!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Mathematics",
+    "topicId": "data",
+    "subtopicId": "statistics",
+    "engine": "multiplesMerge",
+    "emoji": "📊",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will calculate mean, median, mode and interpret graphs.",
+    "mechanicReason": "Matching and merging pairs helps you spot patterns and connections in statistics.",
+    "cognitiveVerb": "count_compare",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 140,
+    "coinsReward": 28,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/mathematics/math_g7_stats.json"
+  },
+  {
+    "id": "math_g7_wordproblems",
+    "title": "Word Problem Warrior",
+    "description": "Translate real-world problems into equations and solve them!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Mathematics",
+    "topicId": "problem_solving",
+    "subtopicId": "word_problems",
+    "engine": "adventureJourney",
+    "emoji": "🧠",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will translate real-world problems into equations and solve them.",
+    "mechanicReason": "Making choices through a story connects word problems to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 160,
+    "coinsReward": 32,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/mathematics/math_g7_wordproblems.json"
+  },
+  {
+    "id": "ns_g4_ecosystem",
+    "title": "Ecosystem Explorer",
+    "description": "Explore food chains, habitats and ecosystems across South Africa!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "ecology",
+    "subtopicId": "ecosystems",
+    "engine": "circuitBuilder",
+    "emoji": "🌿",
+    "colorExpr": "AppColors.science",
+    "capsObjective": "Learners will explore food chains, habitats and ecosystems across South Africa.",
+    "mechanicReason": "Connecting the pieces correctly turns ecosystems into a system you can see and build.",
+    "cognitiveVerb": "connect_systems",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade4/natural_sciences/ns_g4_ecosystem.json"
+  },
+  {
+    "id": "ns_g4_energy",
+    "title": "Energy Quest",
+    "description": "Discover types of energy — heat, light, sound, kinetic and potential!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "energy",
+    "subtopicId": "energy_types",
+    "engine": "runnerCollector",
+    "emoji": "⚡",
+    "colorExpr": "AppColors.science",
+    "capsObjective": "Learners will discover types of energy — heat, light, sound, kinetic and potential.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell energy types apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/natural_sciences/ns_g4_energy.json"
+  },
+  {
+    "id": "ns_g4_lifecycle",
+    "title": "Life Cycles",
+    "description": "Trace the life cycles of frogs, butterflies, plants and humans!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "biology",
+    "subtopicId": "life_cycles",
+    "engine": "sequenceBuilder",
+    "emoji": "🦋",
+    "colorExpr": "AppColors.science",
+    "capsObjective": "Learners will trace the life cycles of frogs, butterflies, plants and humans.",
+    "mechanicReason": "Putting the steps in the right order breaks life cycles into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 80,
+    "coinsReward": 16,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/natural_sciences/ns_g4_lifecycle.json"
+  },
+  {
+    "id": "ns_g4_matter",
+    "title": "Matter Master",
+    "description": "Identify solids, liquids and gases and their properties!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "matter",
+    "subtopicId": "states_of_matter",
+    "engine": "runnerCollector",
+    "emoji": "⚗️",
+    "colorExpr": "AppColors.science",
+    "capsObjective": "Learners will identify solids, liquids and gases and their properties.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell states of matter apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/natural_sciences/ns_g4_matter.json"
+  },
+  {
+    "id": "ns_g4_solar",
+    "title": "Solar System",
+    "description": "Explore the planets, moons and stars of our solar system!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "earth_science",
+    "subtopicId": "solar_system",
+    "engine": "explorerMap",
+    "emoji": "🪐",
+    "colorExpr": "AppColors.science",
+    "capsObjective": "Learners will explore the planets, moons and stars of our solar system.",
+    "mechanicReason": "Exploring a map connects solar system to real places, so it sticks.",
+    "cognitiveVerb": "locate_map",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/natural_sciences/ns_g4_solar.json"
+  },
+  {
+    "id": "ns_g4_weather",
+    "title": "Weather Watcher",
+    "description": "Read weather maps, identify cloud types and predict SA weather!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "weather",
+    "subtopicId": "weather_patterns",
+    "engine": "tugOfWar",
+    "emoji": "🌤️",
+    "colorExpr": "AppColors.science",
+    "capsObjective": "Learners will read weather maps, identify cloud types and predict SA weather.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of weather patterns.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 80,
+    "coinsReward": 16,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/natural_sciences/ns_g4_weather.json"
+  },
+  {
+    "id": "sci_g7_atoms",
+    "title": "Atom Adventure",
+    "description": "Explore atoms, molecules and the building blocks of matter!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "matter",
+    "subtopicId": "atoms_molecules",
+    "engine": "circuitBuilder",
+    "originalEngine": "adventureJourney",
+    "emoji": "⚛️",
+    "colorExpr": "AppColors.science",
+    "capsObjective": "Learners will explore atoms, molecules and the building blocks of matter.",
+    "mechanicReason": "Connecting the pieces correctly turns atoms molecules into a system you can see and build.",
+    "cognitiveVerb": "connect_systems",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 150,
+    "coinsReward": 30,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_atoms.json"
+  },
+  {
+    "id": "sci_g7_cells",
+    "title": "Cell Explorers",
+    "description": "Compare plant and animal cells and their organelles!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "biology",
+    "subtopicId": "cells",
+    "engine": "runnerCollector",
+    "emoji": "🔬",
+    "colorExpr": "AppColors.science",
+    "capsObjective": "Learners will compare plant and animal cells and their organelles.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell cells apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 150,
+    "coinsReward": 30,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_cells.json"
+  },
+  {
+    "id": "sci_g7_ecosystems",
+    "title": "Ecosystem Balance",
+    "description": "Maintain the balance in a food web — add or remove species and see what happens!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "ecology",
+    "subtopicId": "food_webs",
+    "engine": "circuitBuilder",
+    "emoji": "🌿",
+    "colorExpr": "AppColors.science",
+    "capsObjective": "Learners will maintain the balance in a food web — add or remove species and see what happens.",
+    "mechanicReason": "Connecting the pieces correctly turns food webs into a system you can see and build.",
+    "cognitiveVerb": "connect_systems",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_ecosystems.json"
+  },
+  {
+    "id": "sci_g7_energy",
+    "title": "Energy Transformations",
+    "description": "Track how energy changes form — electrical, heat, light and sound!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "energy",
+    "subtopicId": "energy_transformations",
+    "engine": "sequenceBuilder",
+    "emoji": "⚡",
+    "colorExpr": "AppColors.science",
+    "capsObjective": "Learners will track how energy changes form — electrical, heat, light and sound.",
+    "mechanicReason": "Putting the steps in the right order breaks energy transformations into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_energy.json"
+  },
+  {
+    "id": "sci_g7_foodchains",
+    "title": "Food Chain Fighter",
+    "description": "Build and analyse food chains and food webs!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "ecology",
+    "subtopicId": "food_chains",
+    "engine": "circuitBuilder",
+    "emoji": "🦁",
+    "colorExpr": "AppColors.science",
+    "capsObjective": "Learners will build and analyse food chains and food webs.",
+    "mechanicReason": "Connecting the pieces correctly turns food chains into a system you can see and build.",
+    "cognitiveVerb": "connect_systems",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_foodchains.json"
+  },
+  {
+    "id": "sci_g7_forces",
+    "title": "Forces in Action",
+    "description": "Explore gravity, friction, magnetism and balanced/unbalanced forces!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "physics",
+    "subtopicId": "forces",
+    "engine": "adventureJourney",
+    "emoji": "🎯",
+    "colorExpr": "AppColors.science",
+    "capsObjective": "Learners will explore gravity, friction, magnetism and balanced/unbalanced forces.",
+    "mechanicReason": "Making choices through a story connects forces to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_forces.json"
+  },
+  {
+    "id": "sci_g7_health",
+    "title": "Human Health",
+    "description": "Understand diseases, the immune system and healthy lifestyle choices!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "biology",
+    "subtopicId": "human_health",
+    "engine": "tugOfWar",
+    "emoji": "💉",
+    "colorExpr": "AppColors.science",
+    "capsObjective": "Learners will understand diseases, the immune system and healthy lifestyle choices.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of human health.",
+    "cognitiveVerb": "rapid_recall",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_health.json"
+  },
+  {
+    "id": "sci_g7_mixtures",
+    "title": "Mixture Mission",
+    "description": "Separate mixtures using filtering, evaporation, sieving and more!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "matter",
+    "subtopicId": "separating_mixtures",
+    "engine": "sequenceBuilder",
+    "emoji": "🧫",
+    "colorExpr": "AppColors.science",
+    "capsObjective": "Learners will separate mixtures using filtering, evaporation, sieving and more.",
+    "mechanicReason": "Putting the steps in the right order breaks separating mixtures into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_mixtures.json"
+  },
+  {
+    "id": "sci_g7_physical",
+    "title": "Physical vs Chemical",
+    "description": "Classify physical and chemical changes with examples!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "matter",
+    "subtopicId": "physical_chemical_changes",
+    "engine": "runnerCollector",
+    "emoji": "🧪",
+    "colorExpr": "AppColors.science",
+    "capsObjective": "Learners will classify physical and chemical changes with examples.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell physical chemical changes apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_physical.json"
+  },
+  {
+    "id": "sci_g7_reproduction",
+    "title": "Reproduction Revealed",
+    "description": "Compare sexual and asexual reproduction in plants and animals!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "biology",
+    "subtopicId": "reproduction",
+    "engine": "runnerCollector",
+    "emoji": "🌱",
+    "colorExpr": "AppColors.science",
+    "capsObjective": "Learners will compare sexual and asexual reproduction in plants and animals.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell reproduction apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 150,
+    "coinsReward": 30,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_reproduction.json"
+  },
+  {
+    "id": "ss_g4_ancient",
+    "title": "Ancient Civilizations",
+    "description": "Journey to Egypt and Mesopotamia — discover the first great civilizations!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "history",
+    "subtopicId": "ancient_civilizations",
+    "engine": "adventureJourney",
+    "emoji": "🏺",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will journey to Egypt and Mesopotamia — discover the first great civilizations.",
+    "mechanicReason": "Making choices through a story connects ancient civilizations to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_ancient.json"
+  },
+  {
+    "id": "ss_g4_biomes",
+    "title": "Ecosystems",
+    "description": "Discover South Africa's biomes — fynbos, savanna, grassland and more!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "geography",
+    "subtopicId": "biomes",
+    "engine": "explorerMap",
+    "emoji": "🌍",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will discover South Africa's biomes — fynbos, savanna, grassland and more.",
+    "mechanicReason": "Exploring a map connects biomes to real places, so it sticks.",
+    "cognitiveVerb": "locate_map",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_biomes.json"
+  },
+  {
+    "id": "ss_g4_climate",
+    "title": "Climate Quest",
+    "description": "Identify South Africa's climatic zones and their characteristics!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "geography",
+    "subtopicId": "climate_zones",
+    "engine": "runnerCollector",
+    "emoji": "🌡️",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will identify South Africa's climatic zones and their characteristics.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell climate zones apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_climate.json"
+  },
+  {
+    "id": "ss_g4_colonial",
+    "title": "Colonial Era",
+    "description": "Understand the impact of colonization on Southern Africa!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "history",
+    "subtopicId": "colonization",
+    "engine": "sequenceBuilder",
+    "emoji": "⛵",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will understand the impact of colonization on Southern Africa.",
+    "mechanicReason": "Putting the steps in the right order breaks colonization into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 120,
+    "coinsReward": 24,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_colonial.json"
+  },
+  {
+    "id": "ss_g4_democracy",
+    "title": "Democracy Game",
+    "description": "Relive the 1994 elections and the birth of South African democracy!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "history",
+    "subtopicId": "democracy",
+    "engine": "adventureJourney",
+    "emoji": "🗳️",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will relive the 1994 elections and the birth of South African democracy.",
+    "mechanicReason": "Making choices through a story connects democracy to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_democracy.json"
+  },
+  {
+    "id": "ss_g4_heroes",
+    "title": "Liberation Heroes",
+    "description": "Meet the heroes who fought for freedom in South Africa!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "history",
+    "subtopicId": "liberation_heroes",
+    "engine": "adventureJourney",
+    "emoji": "✊",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will meet the heroes who fought for freedom in South Africa.",
+    "mechanicReason": "Making choices through a story connects liberation heroes to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_heroes.json"
+  },
+  {
+    "id": "ss_g4_indigenous",
+    "title": "South African History",
+    "description": "Explore the stories of indigenous peoples — San, Khoikhoi and Nguni!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "history",
+    "subtopicId": "indigenous_peoples",
+    "engine": "adventureJourney",
+    "emoji": "🌿",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will explore the stories of indigenous peoples — San, Khoikhoi and Nguni.",
+    "mechanicReason": "Making choices through a story connects indigenous peoples to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_indigenous.json"
+  },
+  {
+    "id": "ss_g4_maps",
+    "title": "Map Master",
+    "description": "Read maps, identify compass directions and map symbols!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "geography",
+    "subtopicId": "map_skills",
+    "engine": "explorerMap",
+    "emoji": "🗺️",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will read maps, identify compass directions and map symbols.",
+    "mechanicReason": "Exploring a map connects map skills to real places, so it sticks.",
+    "cognitiveVerb": "locate_map",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_maps.json"
+  },
+  {
+    "id": "ss_g4_provinces",
+    "title": "SA Provinces Explorer",
+    "description": "Explore all 9 provinces — capitals, facts and famous landmarks!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "geography",
+    "subtopicId": "sa_provinces",
+    "engine": "explorerMap",
+    "emoji": "🇿🇦",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will explore all 9 provinces — capitals, facts and famous landmarks.",
+    "mechanicReason": "Exploring a map connects sa provinces to real places, so it sticks.",
+    "cognitiveVerb": "locate_map",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 80,
+    "coinsReward": 16,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_provinces.json"
+  },
+  {
+    "id": "ss_g4_water",
+    "title": "Water Cycle",
+    "description": "Follow water through evaporation, condensation and precipitation!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "geography",
+    "subtopicId": "water_cycle",
+    "engine": "sequenceBuilder",
+    "emoji": "💧",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will follow water through evaporation, condensation and precipitation.",
+    "mechanicReason": "Putting the steps in the right order breaks water cycle into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 80,
+    "coinsReward": 16,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_water.json"
+  },
+  {
+    "id": "ss_g7_apartheid",
+    "title": "Apartheid Era",
+    "description": "Understand the apartheid system and its impact on South Africans!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "history",
+    "subtopicId": "apartheid",
+    "engine": "adventureJourney",
+    "emoji": "📜",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will understand the apartheid system and its impact on South Africans.",
+    "mechanicReason": "Making choices through a story connects apartheid to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 150,
+    "coinsReward": 30,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_apartheid.json"
+  },
+  {
+    "id": "ss_g7_climate",
+    "title": "Climate Zones Challenge",
+    "description": "Match climate zones, rainfall patterns and biomes of the world!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "geography",
+    "subtopicId": "climate_zones",
+    "engine": "explorerMap",
+    "emoji": "🌍",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will match climate zones, rainfall patterns and biomes of the world.",
+    "mechanicReason": "Exploring a map connects climate zones to real places, so it sticks.",
+    "cognitiveVerb": "locate_map",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_climate.json"
+  },
+  {
+    "id": "ss_g7_democracy",
+    "title": "Birth of Democracy",
+    "description": "Relive 1994 — understand the negotiated settlement and first elections!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "history",
+    "subtopicId": "democracy",
+    "engine": "adventureJourney",
+    "emoji": "🗳️",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will relive 1994 — understand the negotiated settlement and first elections.",
+    "mechanicReason": "Making choices through a story connects democracy to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_democracy.json"
+  },
+  {
+    "id": "ss_g7_globalisation",
+    "title": "Globalisation Game",
+    "description": "Understand trade, global connections and their local effects!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "geography",
+    "subtopicId": "globalisation",
+    "engine": "adventureJourney",
+    "emoji": "🌐",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will understand trade, global connections and their local effects.",
+    "mechanicReason": "Making choices through a story connects globalisation to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 150,
+    "coinsReward": 30,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_globalisation.json"
+  },
+  {
+    "id": "ss_g7_leaders",
+    "title": "Leaders of Change",
+    "description": "Match liberation leaders to their contributions and quotes!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "history",
+    "subtopicId": "liberation_leaders",
+    "engine": "multiplesMerge",
+    "emoji": "✊",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will match liberation leaders to their contributions and quotes.",
+    "mechanicReason": "Matching and merging pairs helps you spot patterns and connections in liberation leaders.",
+    "cognitiveVerb": "count_compare",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_leaders.json"
+  },
+  {
+    "id": "ss_g7_population",
+    "title": "Population Dynamics",
+    "description": "Interpret population data — growth, density and migration patterns!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "geography",
+    "subtopicId": "population",
+    "engine": "multiplesMerge",
+    "emoji": "👥",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will interpret population data — growth, density and migration patterns.",
+    "mechanicReason": "Matching and merging pairs helps you spot patterns and connections in population.",
+    "cognitiveVerb": "count_compare",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 150,
+    "coinsReward": 30,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_population.json"
+  },
+  {
+    "id": "ss_g7_rights",
+    "title": "Human Rights Quest",
+    "description": "Explore the SA Constitution and Bill of Rights in action!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "history",
+    "subtopicId": "human_rights",
+    "engine": "adventureJourney",
+    "emoji": "⚖️",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will explore the SA Constitution and Bill of Rights in action.",
+    "mechanicReason": "Making choices through a story connects human rights to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_rights.json"
+  },
+  {
+    "id": "ss_g7_rivers",
+    "title": "Rivers & Resources",
+    "description": "Trace SA rivers and understand their role in settlements!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "geography",
+    "subtopicId": "rivers",
+    "engine": "explorerMap",
+    "emoji": "🏞️",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will trace SA rivers and understand their role in settlements.",
+    "mechanicReason": "Exploring a map connects rivers to real places, so it sticks.",
+    "cognitiveVerb": "locate_map",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_rivers.json"
+  },
+  {
+    "id": "ss_g7_settlement",
+    "title": "Settlement Patterns",
+    "description": "Analyse why people settle where they do — push and pull factors!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "geography",
+    "subtopicId": "settlements",
+    "engine": "runnerCollector",
+    "emoji": "🏙️",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will analyse why people settle where they do — push and pull factors.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell settlements apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 150,
+    "coinsReward": 30,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_settlement.json"
+  },
+  {
+    "id": "ss_g7_timeline",
+    "title": "History Timeline",
+    "description": "Place key SA historical events in the correct chronological order!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Social Sciences",
+    "topicId": "history",
+    "subtopicId": "timeline",
+    "engine": "sequenceBuilder",
+    "emoji": "⏳",
+    "colorExpr": "AppColors.socialSciences",
+    "capsObjective": "Learners will place key SA historical events in the correct chronological order.",
+    "mechanicReason": "Putting the steps in the right order breaks timeline into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_timeline.json"
+  },
+  {
+    "id": "tech_g4_circuit",
+    "title": "Circuit Builder",
+    "description": "Complete electrical circuits by placing the right components!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "technology",
+    "subtopicId": "electric_circuits",
+    "engine": "circuitBuilder",
+    "emoji": "🔌",
+    "colorExpr": "AppColors.technology",
+    "capsObjective": "Learners will complete electrical circuits by placing the right components.",
+    "mechanicReason": "Connecting the pieces correctly turns electric circuits into a system you can see and build.",
+    "cognitiveVerb": "connect_systems",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/natural_sciences/tech_g4_circuit.json"
+  },
+  {
+    "id": "tech_g4_coding",
+    "title": "Coding Adventure",
+    "description": "Sequence instructions and debug code in this beginner coding quest!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "technology",
+    "subtopicId": "coding_basics",
+    "engine": "sequenceBuilder",
+    "emoji": "💻",
+    "colorExpr": "AppColors.technology",
+    "capsObjective": "Learners will sequence instructions and debug code in this beginner coding quest.",
+    "mechanicReason": "Putting the steps in the right order breaks coding basics into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/natural_sciences/tech_g4_coding.json"
+  },
+  {
+    "id": "tech_g4_machines",
+    "title": "Simple Machines",
+    "description": "Use levers, pulleys and gears to solve engineering challenges!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "technology",
+    "subtopicId": "simple_machines",
+    "engine": "circuitBuilder",
+    "emoji": "⚙️",
+    "colorExpr": "AppColors.technology",
+    "capsObjective": "Learners will use levers, pulleys and gears to solve engineering challenges.",
+    "mechanicReason": "Connecting the pieces correctly turns simple machines into a system you can see and build.",
+    "cognitiveVerb": "connect_systems",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 100,
+    "coinsReward": 20,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade4/natural_sciences/tech_g4_machines.json"
+  },
+  {
+    "id": "tech_g4_robot",
+    "title": "Robot Maker",
+    "description": "Design and build a robot — apply engineering design and problem-solving!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Natural Sciences",
+    "topicId": "technology",
+    "subtopicId": "robotics",
+    "engine": "adventureJourney",
+    "emoji": "🤖",
+    "colorExpr": "AppColors.technology",
+    "capsObjective": "Learners will design and build a robot — apply engineering design and problem-solving.",
+    "mechanicReason": "Making choices through a story connects robotics to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade4/natural_sciences/tech_g4_robot.json"
+  },
+  {
+    "id": "tech_g7_circuit_parallel",
+    "title": "Parallel Circuit Builder",
+    "description": "Wire a parallel circuit — understand current and voltage paths!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Technology",
+    "topicId": "electric_circuits",
+    "subtopicId": "parallel_circuits",
+    "engine": "circuitBuilder",
+    "emoji": "⚡",
+    "colorExpr": "AppColors.technology",
+    "capsObjective": "Learners will wire a parallel circuit — understand current and voltage paths.",
+    "mechanicReason": "Connecting the pieces correctly turns parallel circuits into a system you can see and build.",
+    "cognitiveVerb": "connect_systems",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 160,
+    "coinsReward": 32,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/technology/tech_g7_circuit_parallel.json"
+  },
+  {
+    "id": "tech_g7_circuit_series",
+    "title": "Series Circuit Quest",
+    "description": "Complete a series circuit by placing all components correctly!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Technology",
+    "topicId": "electric_circuits",
+    "subtopicId": "series_circuits",
+    "engine": "circuitBuilder",
+    "emoji": "🔋",
+    "colorExpr": "AppColors.technology",
+    "capsObjective": "Learners will complete a series circuit by placing all components correctly.",
+    "mechanicReason": "Connecting the pieces correctly turns series circuits into a system you can see and build.",
+    "cognitiveVerb": "connect_systems",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/grade7/technology/tech_g7_circuit_series.json"
+  },
+  {
+    "id": "tech_g7_design",
+    "title": "Design Process",
+    "description": "Follow the full technology design process from problem to solution!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Technology",
+    "topicId": "design",
+    "subtopicId": "design_process",
+    "engine": "sequenceBuilder",
+    "emoji": "✏️",
+    "colorExpr": "AppColors.technology",
+    "capsObjective": "Learners will follow the full technology design process from problem to solution.",
+    "mechanicReason": "Putting the steps in the right order breaks design process into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/technology/tech_g7_design.json"
+  },
+  {
+    "id": "tech_g7_electronics",
+    "title": "Electronics Explorer",
+    "description": "Identify electronic components and build simple switching circuits!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Technology",
+    "topicId": "electronics",
+    "subtopicId": "switching_circuits",
+    "engine": "circuitBuilder",
+    "emoji": "🔌",
+    "colorExpr": "AppColors.technology",
+    "capsObjective": "Learners will identify electronic components and build simple switching circuits.",
+    "mechanicReason": "Connecting the pieces correctly turns switching circuits into a system you can see and build.",
+    "cognitiveVerb": "connect_systems",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 160,
+    "coinsReward": 32,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/technology/tech_g7_electronics.json"
+  },
+  {
+    "id": "tech_g7_impact",
+    "title": "Technology Impact",
+    "description": "Evaluate the social and environmental impact of technologies!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Technology",
+    "topicId": "technology_society",
+    "subtopicId": "impact",
+    "engine": "adventureJourney",
+    "emoji": "🌍",
+    "colorExpr": "AppColors.technology",
+    "capsObjective": "Learners will evaluate the social and environmental impact of technologies.",
+    "mechanicReason": "Making choices through a story connects impact to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/technology/tech_g7_impact.json"
+  },
+  {
+    "id": "tech_g7_innovation",
+    "title": "Innovation Challenge",
+    "description": "Identify a problem, brainstorm solutions and present your innovation!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Technology",
+    "topicId": "design",
+    "subtopicId": "innovation",
+    "engine": "adventureJourney",
+    "emoji": "💡",
+    "colorExpr": "AppColors.technology",
+    "capsObjective": "Learners will identify a problem, brainstorm solutions and present their innovation.",
+    "mechanicReason": "Making choices through a story connects innovation to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 160,
+    "coinsReward": 32,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/technology/tech_g7_innovation.json"
+  },
+  {
+    "id": "tech_g7_materials",
+    "title": "Materials Lab",
+    "description": "Choose the right material for each engineering application!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Technology",
+    "topicId": "materials",
+    "subtopicId": "material_selection",
+    "engine": "runnerCollector",
+    "emoji": "🔩",
+    "colorExpr": "AppColors.technology",
+    "capsObjective": "Learners will choose the right material for each engineering application.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell material selection apart.",
+    "cognitiveVerb": "word_classify",
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 130,
+    "coinsReward": 26,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/technology/tech_g7_materials.json"
+  },
+  {
+    "id": "tech_g7_mechanisms",
+    "title": "Mechanisms Matter",
+    "description": "Use gears, levers, pulleys and cams to transmit force and motion!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Technology",
+    "topicId": "mechanisms",
+    "subtopicId": "gears_levers_pulleys",
+    "engine": "circuitBuilder",
+    "emoji": "⚙️",
+    "colorExpr": "AppColors.technology",
+    "capsObjective": "Learners will use gears, levers, pulleys and cams to transmit force and motion.",
+    "mechanicReason": "Connecting the pieces correctly turns gears levers pulleys into a system you can see and build.",
+    "cognitiveVerb": "connect_systems",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 160,
+    "coinsReward": 32,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/technology/tech_g7_mechanisms.json"
+  },
+  {
+    "id": "tech_g7_structures",
+    "title": "Structures & Forces",
+    "description": "Design structures that can withstand tension, compression and bending!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Technology",
+    "topicId": "structures",
+    "subtopicId": "forces_structures",
+    "engine": "circuitBuilder",
+    "emoji": "🏗️",
+    "colorExpr": "AppColors.technology",
+    "capsObjective": "Learners will design structures that can withstand tension, compression and bending.",
+    "mechanicReason": "Connecting the pieces correctly turns forces structures into a system you can see and build.",
+    "cognitiveVerb": "connect_systems",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 160,
+    "coinsReward": 32,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/technology/tech_g7_structures.json"
+  },
+  {
+    "id": "tech_g7_systems",
+    "title": "Systems & Control",
+    "description": "Understand input, process and output in technological systems!",
+    "grade": "grade7",
+    "grades": [
+      "grade7"
+    ],
+    "subject": "Technology",
+    "topicId": "systems",
+    "subtopicId": "input_process_output",
+    "engine": "sequenceBuilder",
+    "emoji": "🎛️",
+    "colorExpr": "AppColors.technology",
+    "capsObjective": "Learners will understand input, process and output in technological systems.",
+    "mechanicReason": "Putting the steps in the right order breaks input process output into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "difficulty": {
+      "label": "hard",
+      "numberRange": {
+        "min": 1,
+        "max": 100000
+      },
+      "timerSec": 10,
+      "steps": {
+        "min": 7,
+        "max": 8
+      },
+      "lives": 3,
+      "readingLevel": "fluent",
+      "fractionsDecimals": true
+    },
+    "xpReward": 160,
+    "coinsReward": 32,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/grade7/technology/tech_g7_systems.json"
+  }
+]

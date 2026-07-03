@@ -98,6 +98,8 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^3.0.0
   flutter_launcher_icons: ^0.14.1
+  # setupFirebaseCoreMocks() for tests that touch Firebase-backed repos
+  firebase_core_platform_interface: ^6.0.3
 
 # sqlite3 >=3.0.0 loads its native library via Dart build hooks, which
 # download a prebuilt binary from a GitHub release at build time. That
