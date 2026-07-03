@@ -10,8 +10,14 @@ import 'multiples_merge_engine.dart';
 class MultiplesMergeSession extends GameSessionState {
   final String uid;
 
-  MultiplesMergeSession(GameConfig config, this.uid) : super(config) {
-    _mergeConfig = MultiplesMergeConfig.forGrade(config);
+  /// [pack] is the pre-loaded content pack JSON (see
+  /// lib/features/games/core/content_pack_loader.dart), or null to fall
+  /// back to the built-in grade-tuned demo content.
+  MultiplesMergeSession(GameConfig config, this.uid, {Map<String, dynamic>? pack})
+      : super(config) {
+    _mergeConfig = pack != null
+        ? MultiplesMergeConfig.fromPack(pack, config)
+        : MultiplesMergeConfig.forGrade(config);
     _engine = MultiplesMergeEngine(mergeConfig: _mergeConfig, config: config);
     _questions = _engine.generateQuestions();
     _startRound();

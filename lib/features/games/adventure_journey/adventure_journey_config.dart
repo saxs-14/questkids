@@ -26,6 +26,14 @@ class JourneyStage {
   });
 }
 
+/// Parses a "#RRGGBB" or "#AARRGGBB" hex string (as emitted by
+/// tools/gamegen/content packs) into a [Color].
+Color colorFromHex(String hex) {
+  final clean = hex.replaceFirst('#', '');
+  final value = clean.length == 6 ? 'FF$clean' : clean;
+  return Color(int.parse(value, radix: 16));
+}
+
 /// Config wrapper that adds stage definitions on top of [GameConfig.extras].
 class AdventureJourneyConfig {
   final List<JourneyStage> stages;
@@ -35,6 +43,29 @@ class AdventureJourneyConfig {
     required this.stages,
     this.characterEmoji = '💧',
   });
+
+  /// Builds config from a generated content pack (see
+  /// tools/gamegen/content/facts.js / word_problems.js for the shape).
+  factory AdventureJourneyConfig.fromPack(Map<String, dynamic> pack) {
+    final stages = (pack['stages'] as List)
+        .cast<Map<String, dynamic>>()
+        .map((s) => JourneyStage(
+              id: s['id'] as String,
+              name: s['name'] as String,
+              emoji: s['emoji'] as String,
+              themeColor: colorFromHex(s['themeColorHex'] as String),
+              question: s['question'] as String,
+              options: (s['options'] as List).cast<String>(),
+              correctOption: s['correctOption'] as String,
+              correctFeedback: s['correctFeedback'] as String,
+              wrongFeedback: s['wrongFeedback'] as String,
+            ))
+        .toList();
+    return AdventureJourneyConfig(
+      stages: stages,
+      characterEmoji: pack['characterEmoji'] as String? ?? '💧',
+    );
+  }
 
   static AdventureJourneyConfig waterCycle(GameConfig config) {
     return const AdventureJourneyConfig(

@@ -5,7 +5,13 @@ class BudgetBuilderEngine extends GameEngine {
   @override
   final GameConfig config;
 
-  BudgetBuilderEngine(this.config);
+  /// Topic-specific budget scenarios loaded from the content pack, or the
+  /// built-in demo set when not provided (see
+  /// tools/gamegen/content/budget_builder.js for the pack shape).
+  final List<Map<String, dynamic>> scenarios;
+
+  BudgetBuilderEngine(this.config, {List<Map<String, dynamic>>? scenarios})
+      : scenarios = scenarios ?? _scenarios;
 
   // Each question is a budget scenario with multiple items to categorise.
   static const _scenarios = [
@@ -83,7 +89,7 @@ class BudgetBuilderEngine extends GameEngine {
 
   @override
   List<Map<String, dynamic>> generateQuestions() {
-    final pool = [..._scenarios];
+    final pool = [...scenarios];
     pool.shuffle();
     return pool.take(config.questionCount).toList().cast<Map<String, dynamic>>();
   }

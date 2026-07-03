@@ -5,7 +5,13 @@ class CircuitBuilderEngine extends GameEngine {
   @override
   final GameConfig config;
 
-  CircuitBuilderEngine(this.config);
+  /// Topic-specific circuit puzzles loaded from the content pack, or the
+  /// built-in demo set when not provided (see
+  /// tools/gamegen/content/circuit_builder.js for the pack shape).
+  final List<Map<String, dynamic>> circuits;
+
+  CircuitBuilderEngine(this.config, {List<Map<String, dynamic>>? circuits})
+      : circuits = circuits ?? _circuits;
 
   static const _circuits = [
     {
@@ -113,7 +119,7 @@ class CircuitBuilderEngine extends GameEngine {
 
   @override
   List<Map<String, dynamic>> generateQuestions() {
-    final pool = [..._circuits];
+    final pool = [...circuits];
     pool.shuffle();
     return pool.take(config.questionCount).toList().cast<Map<String, dynamic>>();
   }

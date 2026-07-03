@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../core/content_pack_loader.dart';
 import '../core/game_config.dart';
 import 'circuit_builder_session.dart';
 
@@ -16,22 +17,34 @@ class CircuitBuilderGame extends StatefulWidget {
 
 class _CircuitBuilderGameState extends State<CircuitBuilderGame> {
   late CircuitBuilderSession _session;
+  Map<String, dynamic>? _pack;
+  bool _ready = false;
   String? _feedbackText;
   bool _showFeedback = false;
 
   @override
   void initState() {
     super.initState();
+    _initSession();
+  }
+
+  Future<void> _initSession() async {
+    final pack = await loadContentPack(widget.config);
+    if (!mounted) return;
+    _pack = pack;
     final uid = (widget.user?.uid as String?) ?? '';
-    _session = CircuitBuilderSession(widget.config, uid);
+    _session = CircuitBuilderSession(widget.config, uid, pack: pack);
     WidgetsBinding.instance.addPostFrameCallback((_) => _session.startSession());
     _session.addListener(_onSessionChange);
+    setState(() => _ready = true);
   }
 
   @override
   void dispose() {
-    _session.removeListener(_onSessionChange);
-    _session.dispose();
+    if (_ready) {
+      _session.removeListener(_onSessionChange);
+      _session.dispose();
+    }
     super.dispose();
   }
 
@@ -68,7 +81,7 @@ class _CircuitBuilderGameState extends State<CircuitBuilderGame> {
                 _session.removeListener(_onSessionChange);
                 _session.dispose();
                 final uid = (widget.user?.uid as String?) ?? '';
-                _session = CircuitBuilderSession(widget.config, uid);
+                _session = CircuitBuilderSession(widget.config, uid, pack: _pack);
                 _session.addListener(_onSessionChange);
                 _session.startSession();
               });
@@ -103,6 +116,7 @@ class _CircuitBuilderGameState extends State<CircuitBuilderGame> {
 
   @override
   Widget build(BuildContext context) {
+    if (!_ready) return const Scaffold(body: Center(child: CircularProgressIndicator()));
     final q = _session.currentQuestion;
     if (q == null) return const Scaffold(body: Center(child: CircularProgressIndicator()));
 

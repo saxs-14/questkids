@@ -15,8 +15,14 @@ enum SequencePhase { learn, ordering }
 class SequenceBuilderSession extends GameSessionState {
   final String uid;
 
-  SequenceBuilderSession(GameConfig config, this.uid) : super(config) {
-    _seqConfig = SequenceBuilderConfig.forGame(config);
+  /// [pack] is the pre-loaded content pack JSON (see
+  /// lib/features/games/core/content_pack_loader.dart), or null to fall
+  /// back to the built-in demo content.
+  SequenceBuilderSession(GameConfig config, this.uid, {Map<String, dynamic>? pack})
+      : super(config) {
+    _seqConfig = pack != null
+        ? SequenceBuilderConfig.fromPack(pack)
+        : SequenceBuilderConfig.forGame(config);
     _engine = SequenceBuilderEngine(seqConfig: _seqConfig, config: config);
     _questions = _engine.generateQuestions();
     _resetTray();

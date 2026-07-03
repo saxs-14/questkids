@@ -20,6 +20,23 @@ class MultiplesMergeConfig {
     required this.hintLevel,
   });
 
+  /// Builds config from a generated content pack in 'numeric' mode (see
+  /// tools/gamegen/content/multiples_merge.js). Packs in 'pairs' mode
+  /// (word/token matching — idioms, synonyms, SA leaders, population
+  /// terms) aren't wired up yet: MergeRound's grid is `List<int>`, so
+  /// rendering string tokens needs a widget-level change beyond this
+  /// config swap — see docs/DEFERRED.md. Those topics fall back to the
+  /// grade-tuned numeric demo below.
+  factory MultiplesMergeConfig.fromPack(Map<String, dynamic> pack, GameConfig config) {
+    if (pack['mode'] != 'numeric') return MultiplesMergeConfig.forGrade(config);
+    return MultiplesMergeConfig(
+      tables: (pack['tables'] as List).cast<int>(),
+      gridSize: pack['gridSize'] as int,
+      chainLength: pack['chainLength'] as int,
+      hintLevel: MultiplesMergeConfig.forGrade(config).hintLevel,
+    );
+  }
+
   factory MultiplesMergeConfig.forGrade(GameConfig config) {
     final g = GameTheme.gradeNumber(config.grade);
     if (g <= 2) {

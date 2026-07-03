@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../core/content_pack_loader.dart';
 import '../core/game_config.dart';
 import 'budget_builder_session.dart';
 
@@ -26,22 +27,34 @@ class BudgetBuilderGame extends StatefulWidget {
 
 class _BudgetBuilderGameState extends State<BudgetBuilderGame> {
   late BudgetBuilderSession _session;
+  Map<String, dynamic>? _pack;
+  bool _ready = false;
   bool _showReview = false;
   bool _submitting = false;
 
   @override
   void initState() {
     super.initState();
+    _initSession();
+  }
+
+  Future<void> _initSession() async {
+    final pack = await loadContentPack(widget.config);
+    if (!mounted) return;
+    _pack = pack;
     final uid = (widget.user?.uid as String?) ?? '';
-    _session = BudgetBuilderSession(widget.config, uid);
+    _session = BudgetBuilderSession(widget.config, uid, pack: pack);
     WidgetsBinding.instance.addPostFrameCallback((_) => _session.startSession());
     _session.addListener(_onSessionChange);
+    setState(() => _ready = true);
   }
 
   @override
   void dispose() {
-    _session.removeListener(_onSessionChange);
-    _session.dispose();
+    if (_ready) {
+      _session.removeListener(_onSessionChange);
+      _session.dispose();
+    }
     super.dispose();
   }
 
@@ -79,7 +92,7 @@ class _BudgetBuilderGameState extends State<BudgetBuilderGame> {
                 _session.removeListener(_onSessionChange);
                 _session.dispose();
                 final uid = (widget.user?.uid as String?) ?? '';
-                _session = BudgetBuilderSession(widget.config, uid);
+                _session = BudgetBuilderSession(widget.config, uid, pack: _pack);
                 _session.addListener(_onSessionChange);
                 _showReview = false;
                 _submitting = false;
@@ -103,6 +116,7 @@ class _BudgetBuilderGameState extends State<BudgetBuilderGame> {
 
   @override
   Widget build(BuildContext context) {
+    if (!_ready) return const Scaffold(body: Center(child: CircularProgressIndicator()));
     final q = _session.currentQuestion;
     if (q == null) return const Scaffold(body: Center(child: CircularProgressIndicator()));
 

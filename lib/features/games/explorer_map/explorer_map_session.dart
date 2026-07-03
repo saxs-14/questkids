@@ -20,10 +20,15 @@ class ExplorerMapSession extends GameSessionState {
   final String uid;
   final ExplorerMode mode;
 
-  ExplorerMapSession(GameConfig config, this.uid)
+  /// [pack] is the pre-loaded content pack JSON (see
+  /// lib/features/games/core/content_pack_loader.dart), or null to fall
+  /// back to the built-in demo content.
+  ExplorerMapSession(GameConfig config, this.uid, {Map<String, dynamic>? pack})
       : mode = _modeFrom(config),
         super(config) {
-    _mapConfig = ExplorerMapConfig.saProvinces(config);
+    _mapConfig = pack != null
+        ? ExplorerMapConfig.fromPack(pack)
+        : ExplorerMapConfig.saProvinces(config);
     _engine = ExplorerMapEngine(mapConfig: _mapConfig, config: config);
     _questions = _buildQuestions();
   }
@@ -127,7 +132,7 @@ class ExplorerMapSession extends GameSessionState {
 
       case ExplorerMode.hard:
         return provinces.take(8).map((p) {
-          final byCapital = _rng.nextBool();
+          final byCapital = p.capital.isNotEmpty && _rng.nextBool();
           return {
             'correctId': p.id,
             'prompt': byCapital

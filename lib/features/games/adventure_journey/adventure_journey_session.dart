@@ -9,8 +9,14 @@ enum DropletState { idle, advancing, bouncing }
 class AdventureJourneySession extends GameSessionState {
   final String uid;
 
-  AdventureJourneySession(GameConfig config, this.uid) : super(config) {
-    _journeyConfig = AdventureJourneyConfig.waterCycle(config);
+  /// [pack] is the pre-loaded content pack JSON (see
+  /// lib/features/games/core/content_pack_loader.dart), or null to fall
+  /// back to the built-in demo content.
+  AdventureJourneySession(GameConfig config, this.uid, {Map<String, dynamic>? pack})
+      : super(config) {
+    _journeyConfig = pack != null
+        ? AdventureJourneyConfig.fromPack(pack)
+        : AdventureJourneyConfig.waterCycle(config);
     _engine = AdventureJourneyEngine(
       journeyConfig: _journeyConfig,
       config: config,

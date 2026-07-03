@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 
 import '../core/game_config.dart';
 
-/// A province pin on the SA map.
+/// A pin on the explorer map — not always a province (also used for
+/// biomes, climate zones, rivers, planets, career pathways, ...), so
+/// [capital] is empty when the concept has no natural "capital".
 class ProvincePin {
   final String id;          // e.g. 'GP'
   final String name;        // e.g. 'Gauteng'
-  final String capital;     // e.g. 'Johannesburg'
+  final String capital;     // e.g. 'Johannesburg' — '' if not applicable
   final String emoji;       // representative emoji
-  final Color color;        // color used for this province's chip
+  final Color color;        // color used for this pin's chip
   final Offset position;    // fractional position on the map image (0-1)
   final List<String> facts; // quick facts shown after correct answer
 
   const ProvincePin({
     required this.id,
     required this.name,
-    required this.capital,
+    this.capital = '',
     required this.emoji,
     required this.color,
     required this.position,
@@ -48,6 +50,33 @@ class ExplorerMapConfig {
     required this.questions,
     this.mapAsset = 'assets/images/sa_map_outline.png',
   });
+
+  /// Builds config from a generated content pack (see
+  /// tools/gamegen/content/explorer_map.js for the shape).
+  factory ExplorerMapConfig.fromPack(Map<String, dynamic> pack) {
+    final pins = (pack['pins'] as List).cast<Map<String, dynamic>>();
+    final provinces = pins
+        .map((p) => ProvincePin(
+              id: p['id'] as String,
+              name: p['name'] as String,
+              capital: p['capital'] as String? ?? '',
+              emoji: p['emoji'] as String,
+              color: _colorFromHex(p['color'] as String),
+              position: Offset((p['x'] as num).toDouble(), (p['y'] as num).toDouble()),
+              facts: (p['facts'] as List).cast<String>(),
+            ))
+        .toList();
+    final questions = (pack['questions'] as List)
+        .cast<Map<String, dynamic>>()
+        .map((q) => MapQuestion(
+              question: q['question'] as String,
+              correctId: q['correctId'] as String,
+              optionIds: (q['optionIds'] as List).cast<String>(),
+              feedbackFact: q['feedbackFact'] as String,
+            ))
+        .toList();
+    return ExplorerMapConfig(provinces: provinces, questions: questions);
+  }
 
   static ExplorerMapConfig saProvinces(GameConfig config) {
     const provinces = [
@@ -205,4 +234,10 @@ class ExplorerMapConfig {
       questions: questions,
     );
   }
+}
+
+Color _colorFromHex(String hex) {
+  final clean = hex.replaceFirst('#', '');
+  final value = clean.length == 6 ? 'FF$clean' : clean;
+  return Color(int.parse(value, radix: 16));
 }

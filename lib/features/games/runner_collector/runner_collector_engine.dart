@@ -25,7 +25,7 @@ class RunnerCollectorEngine extends GameEngine {
     return runnerConfig.levels
         .map((l) => {
               'levelIndex': l.index,
-              'targetPOS': l.targetPOS,
+              'targetClass': l.targetClass,
               'missionLabel': l.missionLabel,
               'scrollSpeed': l.scrollSpeed,
             })
@@ -49,7 +49,7 @@ class RunnerCollectorEngine extends GameEngine {
 
       words.add(LaneWord(
         word: word['word'] as String,
-        partOfSpeech: word['pos'] as String,
+        wordClass: word['wordClass'] as String,
         lane: lane,
         xPosition: -(i * 0.25), // stagger spawning
       ));
@@ -57,14 +57,14 @@ class RunnerCollectorEngine extends GameEngine {
     return words;
   }
 
-  /// A single random {word, pos} for [level]. With probability [targetBias]
-  /// the word is guaranteed to match the level's target part of speech, so a
-  /// learner can always find collectables and make progress.
+  /// A single random {word, wordClass} for [level]. With probability
+  /// [targetBias] the word is guaranteed to match the level's target class,
+  /// so a learner can always find collectables and make progress.
   Map<String, String> randomWord(GrammarLevel level, {double targetBias = 0.5}) {
     final all = _shuffleWords(level);
     if (_rng.nextDouble() < targetBias) {
       final matches = all
-          .where((w) => isCorrectCollection(w['pos'] as String, level.targetPOS))
+          .where((w) => isCorrectCollection(w['wordClass'] as String, level.targetClass))
           .toList();
       if (matches.isNotEmpty) return matches[_rng.nextInt(matches.length)];
     }
@@ -72,20 +72,17 @@ class RunnerCollectorEngine extends GameEngine {
   }
 
   List<Map<String, String>> _shuffleWords(GrammarLevel level) {
-    final all = [
-      ...level.nouns.map((w) => {'word': w, 'pos': 'noun'}),
-      ...level.verbs.map((w) => {'word': w, 'pos': 'verb'}),
-      ...level.adjectives.map((w) => {'word': w, 'pos': 'adjective'}),
-      ...level.pronouns.map((w) => {'word': w, 'pos': 'pronoun'}),
+    final all = <Map<String, String>>[
+      for (final entry in level.buckets.entries)
+        for (final word in entry.value) {'word': word, 'wordClass': entry.key},
     ];
     all.shuffle(_rng);
     return all;
   }
 
-  /// A collection is correct if [wordPOS] matches the level's target(s).
-  bool isCorrectCollection(String wordPOS, String targetPOS) {
-    if (targetPOS == 'mixed') return wordPOS == 'noun' || wordPOS == 'verb';
-    return wordPOS == targetPOS;
+  /// A collection is correct if [wordClass] matches the level's target.
+  bool isCorrectCollection(String wordClass, String targetClass) {
+    return wordClass == targetClass;
   }
 
   @override

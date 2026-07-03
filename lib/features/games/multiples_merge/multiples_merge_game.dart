@@ -6,6 +6,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../core/content_pack_loader.dart';
+import '../core/content_pack_loading_view.dart';
 import '../core/game_config.dart';
 import '../core/game_theme.dart';
 import '../tug_of_war/widgets/game_result_overlay.dart';
@@ -27,7 +29,8 @@ class MultiplesMergeGame extends StatefulWidget {
 
 class _MultiplesMergeGameState extends State<MultiplesMergeGame>
     with TickerProviderStateMixin {
-  late MultiplesMergeSession _session;
+  MultiplesMergeSession? _session;
+  Map<String, dynamic>? _pack;
   late AnimationController _pulse;
   late ConfettiController _confetti;
   int _lastQ = 0;
@@ -37,39 +40,49 @@ class _MultiplesMergeGameState extends State<MultiplesMergeGame>
   @override
   void initState() {
     super.initState();
-    _session = MultiplesMergeSession(widget.config, _uid)..startSession();
     _pulse = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1100),
     )..repeat(reverse: true);
     _confetti = ConfettiController(duration: const Duration(milliseconds: 700));
-    _session.addListener(_onChange);
+    _initSession();
+  }
+
+  Future<void> _initSession() async {
+    final pack = await loadContentPack(widget.config);
+    if (!mounted) return;
+    _pack = pack;
+    final session = MultiplesMergeSession(widget.config, _uid, pack: pack)..startSession();
+    session.addListener(_onChange);
+    setState(() => _session = session);
   }
 
   void _onChange() {
-    if (_session.questionIndex != _lastQ) {
-      _lastQ = _session.questionIndex;
+    final session = _session!;
+    if (session.questionIndex != _lastQ) {
+      _lastQ = session.questionIndex;
       _confetti.play();
     }
   }
 
   @override
   void dispose() {
-    _session.removeListener(_onChange);
-    _session.dispose();
+    _session?.removeListener(_onChange);
+    _session?.dispose();
     _pulse.dispose();
     _confetti.dispose();
     super.dispose();
   }
 
   void _restart() {
-    _session.removeListener(_onChange);
-    _session.dispose();
+    _session?.removeListener(_onChange);
+    _session?.dispose();
+    final session = MultiplesMergeSession(widget.config, _uid, pack: _pack)..startSession();
     setState(() {
-      _session = MultiplesMergeSession(widget.config, _uid)..startSession();
+      _session = session;
       _lastQ = 0;
     });
-    _session.addListener(_onChange);
+    session.addListener(_onChange);
   }
 
   void _openWeeklyQuiz() {
@@ -81,9 +94,13 @@ class _MultiplesMergeGameState extends State<MultiplesMergeGame>
   @override
   Widget build(BuildContext context) {
     const accent = AppColors.math;
+    final session = _session;
+    if (session == null) {
+      return const ContentPackLoadingView(color: accent);
+    }
 
     return ChangeNotifierProvider.value(
-      value: _session,
+      value: session,
       child: Consumer<MultiplesMergeSession>(
         builder: (ctx, session, _) {
           if (session.isFinished && session.result != null) {

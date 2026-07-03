@@ -33,6 +33,29 @@ class GameConfig {
     this.catalogId,
   });
 
+  // Mirrors tools/gamegen/extract.js's SUBJECT_SLUG table.
+  static const Map<String, String> _subjectSlugs = {
+    'Mathematics': 'mathematics',
+    'English': 'english',
+    'Life Skills': 'life_skills',
+    'Natural Sciences': 'natural_sciences',
+    'Social Sciences': 'social_sciences',
+    'Technology': 'technology',
+    'EMS': 'ems',
+  };
+
+  /// Path to this topic's generated content pack asset
+  /// (assets/content/{grade}/{subject}/{catalogId}.json), or null when this
+  /// config wasn't built from a catalog entry (e.g. an ad-hoc preset) — in
+  /// that case the engine should fall back to its built-in demo content.
+  String? get contentPackPath {
+    final id = catalogId;
+    if (id == null || id.isEmpty) return null;
+    final slug = _subjectSlugs[subject] ??
+        subject.toLowerCase().replaceAll(RegExp(r'\s+'), '_');
+    return 'assets/content/$grade/$slug/$id.json';
+  }
+
   /// Build a GameConfig from a GameCatalogEntry.
   factory GameConfig.fromCatalogEntry(GameCatalogEntry entry) {
     return GameConfig(
@@ -91,6 +114,7 @@ class GameConfig {
     String? opponentName,
     String? opponentEmoji,
     Map<String, dynamic>? extras,
+    String? catalogId,
   }) {
     return GameConfig(
       engineType: engineType ?? this.engineType,
@@ -104,6 +128,7 @@ class GameConfig {
       opponentName: opponentName ?? this.opponentName,
       opponentEmoji: opponentEmoji ?? this.opponentEmoji,
       extras: extras ?? this.extras,
+      catalogId: catalogId ?? this.catalogId,
     );
   }
 

@@ -4,6 +4,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../core/content_pack_loader.dart';
+import '../core/content_pack_loading_view.dart';
 import '../core/game_config.dart';
 import '../core/game_theme.dart';
 import '../tug_of_war/widgets/game_result_overlay.dart';
@@ -23,7 +25,8 @@ class SequenceBuilderGame extends StatefulWidget {
 
 class _SequenceBuilderGameState extends State<SequenceBuilderGame>
     with TickerProviderStateMixin {
-  late SequenceBuilderSession _session;
+  SequenceBuilderSession? _session;
+  Map<String, dynamic>? _pack;
   late AnimationController _ambient;
   late ConfettiController _confetti;
   bool _wasComplete = false;
@@ -35,41 +38,55 @@ class _SequenceBuilderGameState extends State<SequenceBuilderGame>
   @override
   void initState() {
     super.initState();
-    _session = SequenceBuilderSession(widget.config, _uid)..startSession();
     _ambient = AnimationController(vsync: this, duration: const Duration(seconds: 6))
       ..repeat();
     _confetti = ConfettiController(duration: const Duration(milliseconds: 800));
-    _session.addListener(_onChange);
+    _initSession();
+  }
+
+  Future<void> _initSession() async {
+    final pack = await loadContentPack(widget.config);
+    if (!mounted) return;
+    _pack = pack;
+    final session = SequenceBuilderSession(widget.config, _uid, pack: pack)..startSession();
+    session.addListener(_onChange);
+    setState(() => _session = session);
   }
 
   void _onChange() {
-    if (_session.roundComplete && !_wasComplete) _confetti.play();
-    _wasComplete = _session.roundComplete;
+    final session = _session!;
+    if (session.roundComplete && !_wasComplete) _confetti.play();
+    _wasComplete = session.roundComplete;
   }
 
   @override
   void dispose() {
-    _session.removeListener(_onChange);
-    _session.dispose();
+    _session?.removeListener(_onChange);
+    _session?.dispose();
     _ambient.dispose();
     _confetti.dispose();
     super.dispose();
   }
 
   void _restart() {
-    _session.removeListener(_onChange);
-    _session.dispose();
+    _session?.removeListener(_onChange);
+    _session?.dispose();
+    final session = SequenceBuilderSession(widget.config, _uid, pack: _pack)..startSession();
     setState(() {
-      _session = SequenceBuilderSession(widget.config, _uid)..startSession();
+      _session = session;
       _wasComplete = false;
     });
-    _session.addListener(_onChange);
+    session.addListener(_onChange);
   }
 
   @override
   Widget build(BuildContext context) {
+    final session = _session;
+    if (session == null) {
+      return const ContentPackLoadingView(color: _teal);
+    }
     return ChangeNotifierProvider.value(
-      value: _session,
+      value: session,
       child: Consumer<SequenceBuilderSession>(
         builder: (ctx, session, _) {
           if (session.isFinished && session.result != null) {

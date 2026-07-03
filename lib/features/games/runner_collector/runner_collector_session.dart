@@ -8,8 +8,11 @@ import 'runner_collector_engine.dart';
 class RunnerCollectorSession extends GameSessionState {
   final String uid;
 
-  RunnerCollectorSession(GameConfig config, this.uid) : super(config) {
-    _runnerConfig = RunnerCollectorConfig.grammarHero(config);
+  RunnerCollectorSession(GameConfig config, this.uid, {Map<String, dynamic>? pack})
+      : super(config) {
+    _runnerConfig = pack != null
+        ? RunnerCollectorConfig.fromPack(pack)
+        : RunnerCollectorConfig.grammarHero(config);
     _engine = RunnerCollectorEngine(
       runnerConfig: _runnerConfig,
       config: config,
@@ -121,8 +124,8 @@ class RunnerCollectorSession extends GameSessionState {
 
       // Word passed player without collection — miss penalty
       if (w.xPosition > 0.85 && !w.collected) {
-        final target = currentLevel.targetPOS;
-        if (_engine.isCorrectCollection(w.partOfSpeech, target)) {
+        final target = currentLevel.targetClass;
+        if (_engine.isCorrectCollection(w.wordClass, target)) {
           // Player missed a target word → lose heart
           w.collected = true;
           _loseHeart();
@@ -143,7 +146,7 @@ class RunnerCollectorSession extends GameSessionState {
 
   void _tryCollect() {
     if (isFinished) return;
-    final target = currentLevel.targetPOS;
+    final target = currentLevel.targetClass;
 
     // Find a word in the player's lane that is "reachable"
     for (final w in _activeWords) {
@@ -151,7 +154,7 @@ class RunnerCollectorSession extends GameSessionState {
       if (w.xPosition < 0.3 || w.xPosition > 0.75) continue;
 
       w.collected = true;
-      final correct = _engine.isCorrectCollection(w.partOfSpeech, target);
+      final correct = _engine.isCorrectCollection(w.wordClass, target);
       _lastCollectionCorrect = correct;
 
       if (correct) {
@@ -228,7 +231,7 @@ class RunnerCollectorSession extends GameSessionState {
 
     _activeWords.add(LaneWord(
       word: picked['word'] as String,
-      partOfSpeech: picked['pos'] as String,
+      wordClass: picked['wordClass'] as String,
       lane: lane,
       xPosition: 0.0,
     ));

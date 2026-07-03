@@ -1,5 +1,23 @@
 import '../core/game_config.dart';
 
+/// topicId/subtopicId -> questionType, mirroring
+/// tools/gamegen/content/math.js's OP_BY_SUBTOPIC. Limited to operations
+/// whose correct answer is always a non-negative integer, because
+/// [TugOfWarKeypad] only has digits 0-9 (no decimal point or minus sign).
+/// Topics not listed here (e.g. decimals, integers, and the non-arithmetic
+/// "rapid recall" topics like phonics/spelling/debate) keep the
+/// 'multiplication' default until the keypad supports those input shapes —
+/// see docs/DEFERRED.md.
+const Map<String, String> _questionTypeByTopic = {
+  'operations/addition': 'addition',
+  'operations/subtraction': 'subtraction',
+  'multiplication/times_tables': 'multiplication',
+  'division/long_division': 'division',
+  'percentages/percentage_applications': 'percentage',
+  'measurement/conversions': 'conversion',
+  'economics/taxation': 'percentage',
+};
+
 /// TugOfWar-specific parameters stored inside [GameConfig.extras].
 class TugOfWarConfig {
   final int multiplierMin;           // lowest multiplier in questions
@@ -42,12 +60,14 @@ class TugOfWarConfig {
     };
 
     final e = config.extras;
+    final topicKey = '${config.topicId}/${config.subtopicId}';
+    final derivedType = _questionTypeByTopic[topicKey] ?? 'multiplication';
     return TugOfWarConfig(
       multiplierMin: e['multiplierMin'] as int? ?? 2,
       multiplierMax: e['multiplierMax'] as int? ?? defaultMax,
       winThreshold: e['winThreshold'] as int? ?? 5,
       fastAnswerThresholdSec: e['fastAnswerThresholdSec'] as int? ?? 5,
-      questionType: e['questionType'] as String? ?? 'multiplication',
+      questionType: e['questionType'] as String? ?? derivedType,
       opponentIntervalMs: e['opponentIntervalMs'] as int? ?? defaultInterval,
       opponentAccuracy:
           (e['opponentAccuracy'] as num?)?.toDouble() ?? defaultAccuracy,

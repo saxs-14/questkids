@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../core/content_pack_loader.dart';
 import '../core/game_config.dart';
 import '../core/game_theme.dart';
 import '../tug_of_war/widgets/game_result_overlay.dart';
@@ -30,6 +31,7 @@ class _ProvinceExplorerState extends State<ProvinceExplorer> {
 
   bool _easyUnlocked = false;
   bool _hardUnlocked = false;
+  Map<String, dynamic>? _pack;
 
   static const _kEasy = 'explorer_easy_unlocked';
   static const _kHard = 'explorer_hard_unlocked';
@@ -40,6 +42,9 @@ class _ProvinceExplorerState extends State<ProvinceExplorer> {
   void initState() {
     super.initState();
     _loadUnlocks();
+    loadContentPack(widget.config).then((pack) {
+      if (mounted) _pack = pack;
+    });
   }
 
   Future<void> _loadUnlocks() async {
@@ -67,7 +72,7 @@ class _ProvinceExplorerState extends State<ProvinceExplorer> {
     );
     setState(() {
       _mode = mode;
-      _session = ExplorerMapSession(cfg, _uid)..startSession();
+      _session = ExplorerMapSession(cfg, _uid, pack: _pack)..startSession();
     });
   }
 
@@ -384,9 +389,10 @@ class _InfoCard extends StatelessWidget {
                   children: [
                     Text(province.name,
                         style: GameTheme.display(20, color: province.color)),
-                    Text('Capital: ${province.capital}',
-                        style: GameTheme.body(13,
-                            color: AppColors.textSecondary)),
+                    if (province.capital.isNotEmpty)
+                      Text('Capital: ${province.capital}',
+                          style: GameTheme.body(13,
+                              color: AppColors.textSecondary)),
                   ],
                 ),
               ),

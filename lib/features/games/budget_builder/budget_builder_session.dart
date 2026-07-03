@@ -12,8 +12,14 @@ class BudgetBuilderSession extends GameSessionState {
 
   final String _uid;
 
-  BudgetBuilderSession(GameConfig config, String uid)
-      : engine = BudgetBuilderEngine(config),
+  /// [pack] is the pre-loaded content pack JSON (see
+  /// lib/features/games/core/content_pack_loader.dart), or null to fall
+  /// back to the built-in demo scenarios.
+  BudgetBuilderSession(GameConfig config, String uid, {Map<String, dynamic>? pack})
+      : engine = BudgetBuilderEngine(
+          config,
+          scenarios: pack != null ? (pack['scenarios'] as List).cast<Map<String, dynamic>>() : null,
+        ),
         _uid = uid,
         super(config) {
     questions = engine.generateQuestions();

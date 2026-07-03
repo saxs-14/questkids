@@ -14,8 +14,14 @@ class CircuitBuilderSession extends GameSessionState {
 
   final String _uid;
 
-  CircuitBuilderSession(GameConfig config, String uid)
-      : engine = CircuitBuilderEngine(config),
+  /// [pack] is the pre-loaded content pack JSON (see
+  /// lib/features/games/core/content_pack_loader.dart), or null to fall
+  /// back to the built-in demo circuits.
+  CircuitBuilderSession(GameConfig config, String uid, {Map<String, dynamic>? pack})
+      : engine = CircuitBuilderEngine(
+          config,
+          circuits: pack != null ? (pack['circuits'] as List).cast<Map<String, dynamic>>() : null,
+        ),
         _uid = uid,
         super(config) {
     questions = engine.generateQuestions();
