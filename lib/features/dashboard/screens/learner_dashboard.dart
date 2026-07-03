@@ -20,6 +20,7 @@ import '../../ai_tutor/screens/ai_tutor_screen.dart';
 import '../../games/core/game_config.dart';
 import '../../games/core/game_intro_sheet.dart';
 import '../../games/core/game_router.dart';
+import '../../games/core/game_theme.dart';
 import '../widgets/daily_missions_card.dart';
 import '../../../providers/mission_provider.dart';
 
@@ -697,12 +698,27 @@ class _CatalogGameCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    '→ Play',
-                    style: AppTextStyles.bodySmall.copyWith(
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        engineIdentityFor(entry.engineType).icon,
+                        size: 12,
                         color: Colors.white.withValues(alpha: 0.85),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12),
+                      ),
+                      const SizedBox(width: 4),
+                      Flexible(
+                        child: Text(
+                          engineIdentityFor(entry.engineType).tagline,
+                          style: AppTextStyles.bodySmall.copyWith(
+                              color: Colors.white.withValues(alpha: 0.85),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 11),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -1148,15 +1164,19 @@ class _ProfileStatRow extends StatelessWidget {
             child: Icon(icon, color: iconColor, size: 18),
           ),
           const SizedBox(width: 14),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(label, style: AppTextStyles.bodySmall.copyWith(fontSize: 11)),
-              const SizedBox(height: 2),
-              Text(value, style: AppTextStyles.bodyMedium),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(label, style: AppTextStyles.bodySmall.copyWith(fontSize: 11),
+                    maxLines: 1, overflow: TextOverflow.ellipsis),
+                const SizedBox(height: 2),
+                Text(value, style: AppTextStyles.bodyMedium,
+                    maxLines: 1, overflow: TextOverflow.ellipsis),
+              ],
+            ),
           ),
-          const Spacer(),
+          const SizedBox(width: 8),
           Icon(Icons.chevron_right,
               color: AppColors.textSecondary.withValues(alpha: 0.60), size: 20),
         ],

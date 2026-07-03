@@ -42,9 +42,12 @@ export const refreshLeaderboards = onSchedule(
           0
         );
 
+        // Leaderboards are readable by every signed-in learner in the app,
+        // so only ever expose a first name + avatar here — never surname,
+        // email, or any school identifier. See docs/SECURITY.md.
         entries.push({
           uid: userDoc.id,
-          displayName: `${userData["name"] ?? ""} ${userData["surname"] ?? ""}`.trim(),
+          displayName: `${userData["name"] ?? "Learner"}`.trim(),
           avatarEmoji: (userData["avatarEmoji"] as string) ?? "🦁",
           grade,
           allTimeXp,

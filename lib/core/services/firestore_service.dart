@@ -29,4 +29,20 @@ class FirestoreService {
   // Notifications
   Future<void> sendNotification(Map<String, dynamic> data) =>
       _db.collection('notifications').add(data);
+
+  // AI reports — flags on a Questy message, reviewed by admins only.
+  // See firestore.rules: create by the reporting user, read by admin claim.
+  Future<void> reportAiMessage({
+    required String uid,
+    required String messageText,
+    required String reason,
+  }) =>
+      _db.collection('ai_reports').add({
+        'uid': uid,
+        'messageText': messageText.length > 500
+            ? messageText.substring(0, 500)
+            : messageText,
+        'reason': reason,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
 }

@@ -40,6 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final String _relationToChild = 'Father';
   String _parentRole = 'mother'; // mother, father, guardian
   bool _registerChild = true;
+  bool _consentGiven = false; // POPIA parent/guardian consent
 
   int _step = 0; // 0 = role, 1 = details, 2 = child details (if parent), 3 = teacher details
 
@@ -70,9 +71,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> _register() async {
     if (!_formKey.currentState!.validate()) return;
+    if (_role == 'parent' && _registerChild && !_consentGiven) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please confirm parent/guardian consent to continue.'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+      return;
+    }
     final auth = context.read<AuthProvider>();
     bool success = false;
-    
+
     if (_role == 'teacher') {
       success = await auth.registerTeacher(
         email: _emailCtrl.text.trim(),
@@ -97,6 +107,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           childGender: _childGender,
           childBirthDate: _childBirthDate,
           childGrade: _childGrade,
+          childConsentGiven: _consentGiven,
         );
       } else {
         success = await auth.registerParent(
@@ -348,7 +359,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
             selectedGrade: _childGrade,
             onGradeChanged: (g) => setState(() => _childGrade = g),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
+          CheckboxListTile(
+            value: _consentGiven,
+            onChanged: (v) => setState(() => _consentGiven = v ?? false),
+            controlAffinity: ListTileControlAffinity.leading,
+            contentPadding: EdgeInsets.zero,
+            title: Text(
+              "I am this child's parent or legal guardian and I consent to "
+              'their QuestKids account and to QuestKids collecting and '
+              'processing their learning data, in line with our Privacy '
+              'Policy (POPIA).',
+              style: AppTextStyles.bodySmall,
+            ),
+          ),
+          const SizedBox(height: 8),
         ] else ...[
           Card(
             color: AppColors.surface,
@@ -361,7 +386,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ],
         const SizedBox(height: 32),
         ElevatedButton(
-          onPressed: auth.isLoading ? null : _register,
+          onPressed: (auth.isLoading || (_registerChild && !_consentGiven))
+              ? null
+              : _register,
           child: auth.isLoading
               ? const CircularProgressIndicator(color: Colors.white)
               : const Text('Create Accounts 🚀'),

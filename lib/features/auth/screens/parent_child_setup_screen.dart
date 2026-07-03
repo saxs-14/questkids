@@ -19,6 +19,7 @@ class _ParentChildSetupScreenState extends State<ParentChildSetupScreen> {
   String _childGender = 'Male';
   DateTime _childBirthDate = DateTime.now().subtract(const Duration(days: 365 * 6));
   String _childGrade = 'Grade 1';
+  bool _consentGiven = false; // POPIA parent/guardian consent
 
   bool _isProcessing = false;
 
@@ -40,6 +41,12 @@ class _ParentChildSetupScreenState extends State<ParentChildSetupScreen> {
 
   Future<void> _registerChild() async {
     if (!_formKey.currentState!.validate()) return;
+    if (!_consentGiven) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please confirm parent/guardian consent to continue.')),
+      );
+      return;
+    }
     setState(() => _isProcessing = true);
     final auth = context.read<AuthProvider>();
     // assume current user is parent
@@ -51,6 +58,9 @@ class _ParentChildSetupScreenState extends State<ParentChildSetupScreen> {
       childGender: _childGender,
       childBirthDate: _childBirthDate,
       childGrade: _childGrade,
+      consentGiven: _consentGiven,
+      consentGivenBy: parent.displayName,
+      consentEmail: parent.email,
     );
 
     setState(() => _isProcessing = false);
@@ -113,9 +123,23 @@ class _ParentChildSetupScreenState extends State<ParentChildSetupScreen> {
                   ]),
                   const SizedBox(height: 12),
                   GradeSelector(selectedGrade: _childGrade, onGradeChanged: (g) => setState(() => _childGrade = g)),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 8),
+                  CheckboxListTile(
+                    value: _consentGiven,
+                    onChanged: (v) => setState(() => _consentGiven = v ?? false),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      "I am this child's parent or legal guardian and I consent to "
+                      'their QuestKids account and to QuestKids collecting and '
+                      'processing their learning data, in line with our Privacy '
+                      'Policy (POPIA).',
+                      style: AppTextStyles.bodySmall,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
                   ElevatedButton(
-                    onPressed: _isProcessing ? null : _registerChild,
+                    onPressed: (_isProcessing || !_consentGiven) ? null : _registerChild,
                     child: _isProcessing ? const CircularProgressIndicator(color: Colors.white) : const Text('Register Child'),
                   ),
                 ]),

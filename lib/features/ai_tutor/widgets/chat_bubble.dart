@@ -1,13 +1,72 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../core/services/firestore_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../data/models/chat_message_model.dart';
+import '../../../providers/auth_provider.dart';
 import 'questy_avatar.dart';
 
 class ChatBubble extends StatelessWidget {
   final ChatMessageModel message;
 
   const ChatBubble({super.key, required this.message});
+
+  Future<void> _showReportSheet(BuildContext context) async {
+    final reasons = [
+      'Confusing or wrong answer',
+      'Made me uncomfortable',
+      'Not appropriate for school',
+      'Something else',
+    ];
+    final reason = await showModalBottomSheet<String>(
+      context: context,
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 8),
+              child: Text(
+                'Report this answer',
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
+              child: Text(
+                'A grown-up will check this. Why are you reporting it?',
+                style: TextStyle(color: Colors.black54),
+              ),
+            ),
+            for (final r in reasons)
+              ListTile(
+                title: Text(r),
+                onTap: () => Navigator.of(sheetContext).pop(r),
+              ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      ),
+    );
+    if (reason == null || !context.mounted) return;
+
+    final uid = context.read<AuthProvider>().user?.uid;
+    if (uid == null) return;
+
+    await FirestoreService().reportAiMessage(
+      uid: uid,
+      messageText: message.text,
+      reason: reason,
+    );
+
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Thanks — a grown-up will take a look.')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,38 +86,63 @@ class ChatBubble extends StatelessWidget {
             const SizedBox(width: 8),
           ],
           Flexible(
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 16, vertical: 12),
-              decoration: BoxDecoration(
-                color: message.isUser
-                    ? AppColors.primary
-                    : Theme.of(context).cardTheme.color,
-                borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(20),
-                  topRight: const Radius.circular(20),
-                  bottomLeft: Radius.circular(
-                      message.isUser ? 20 : 4),
-                  bottomRight: Radius.circular(
-                      message.isUser ? 4 : 20),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: message.isUser
-                        ? AppColors.primary.withValues(alpha: 0.3)
-                        : Colors.black.withValues(alpha: 0.06),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
+            child: Column(
+              crossAxisAlignment: message.isUser
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
+              children: [
+                if (!message.isUser) ...[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4, bottom: 3),
+                    child: Text(
+                      'AI · Questy',
+                      style: AppTextStyles.bodySmall.copyWith(
+                        color: AppColors.textSecondary,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 11,
+                      ),
+                    ),
                   ),
                 ],
-              ),
-              child: Text(
-                message.text,
-                style: AppTextStyles.bodyMedium.copyWith(
-                  color: message.isUser ? Colors.white : null,
-                  height: 1.5,
+                GestureDetector(
+                  onLongPress: message.isUser
+                      ? null
+                      : () => _showReportSheet(context),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    decoration: BoxDecoration(
+                      color: message.isUser
+                          ? AppColors.primary
+                          : Theme.of(context).cardTheme.color,
+                      borderRadius: BorderRadius.only(
+                        topLeft: const Radius.circular(20),
+                        topRight: const Radius.circular(20),
+                        bottomLeft: Radius.circular(
+                            message.isUser ? 20 : 4),
+                        bottomRight: Radius.circular(
+                            message.isUser ? 4 : 20),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: message.isUser
+                              ? AppColors.primary.withValues(alpha: 0.3)
+                              : Colors.black.withValues(alpha: 0.06),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Text(
+                      message.text,
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        color: message.isUser ? Colors.white : null,
+                        height: 1.5,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
           if (message.isUser) ...[

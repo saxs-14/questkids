@@ -21,23 +21,29 @@ class StreakBanner extends StatelessWidget {
         children: [
           const Text('🔥', style: TextStyle(fontSize: 28)),
           const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '$streakDays Day Streak!',
-                style: AppTextStyles.h4
-                    .copyWith(color: AppColors.orange),
-              ),
-              Text(
-                streakDays > 0
-                    ? 'Keep it up! Come back tomorrow!'
-                    : 'Start your streak today!',
-                style: AppTextStyles.bodySmall,
-              ),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '$streakDays Day Streak!',
+                  style: AppTextStyles.h4
+                      .copyWith(color: AppColors.orange),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  streakDays > 0
+                      ? 'Keep it up! Come back tomorrow!'
+                      : 'Start your streak today!',
+                  style: AppTextStyles.bodySmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
           ),
-          const Spacer(),
+          const SizedBox(width: 8),
           Container(
             padding: const EdgeInsets.symmetric(
                 horizontal: 12, vertical: 6),

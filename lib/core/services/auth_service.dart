@@ -8,6 +8,7 @@ import '../../data/repositories/user_repository.dart';
 import '../../data/repositories/reward_repository.dart';
 import '../../data/repositories/parent_repository.dart';
 import '../../data/repositories/notification_repository.dart';
+import '../constants/app_constants.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -61,6 +62,9 @@ class AuthService {
     String? childGender,
     DateTime? childBirthDate,
     String? childGrade,
+    // POPIA: required (checked below) whenever a child account is created
+    // alongside the parent account. See CLAUDE.md §6.5.
+    bool childConsentGiven = false,
   }) async {
     final cred = await _auth.createUserWithEmailAndPassword(
       email: email,
@@ -89,6 +93,9 @@ class AuthService {
 
     // If optional child data provided, create child account and link
     if (childName != null && childBirthDate != null) {
+      if (!childConsentGiven) {
+        throw Exception('Parent/guardian consent is required to register a child.');
+      }
       final parentUid = user.uid;
       final parentRepo = ParentRepository();
       final notifRepo = NotificationRepository();
@@ -129,7 +136,13 @@ class AuthService {
         await childFirestore.collection('users').doc(childUid).set(childModel.toMap());
         // generate link code and save
         final code = parentRepo.generateLinkCode();
-        await childFirestore.collection('users').doc(childUid).update({'childLinkCode': code});
+        await childFirestore.collection('users').doc(childUid).update({
+          'childLinkCode': code,
+          'consentGivenBy': name,
+          'consentEmail': email,
+          'consentAt': DateTime.now().millisecondsSinceEpoch,
+          'policyVersion': AppConstants.consentPolicyVersion,
+        });
 
         // update parent user document to include child uid
         await _userRepo.linkChild(parentUid, childUid);
@@ -312,8 +325,15 @@ class AuthService {
     required String childGender,
     required DateTime childBirthDate,
     required String childGrade,
+    // POPIA: required — see CLAUDE.md §6.5.
+    required bool consentGiven,
+    required String consentGivenBy,
+    required String consentEmail,
     String? parentSurname,
   }) async {
+    if (!consentGiven) {
+      throw Exception('Parent/guardian consent is required to register a child.');
+    }
     FirebaseApp tempApp = await Firebase.initializeApp(
       name: 'temp_create_child_$parentUid',
       options: Firebase.app().options,
@@ -346,6 +366,12 @@ class AuthService {
 
       final childFirestore = FirebaseFirestore.instanceFor(app: tempApp);
       await childFirestore.collection('users').doc(childUid).set(childModel.toMap());
+      await childFirestore.collection('users').doc(childUid).update({
+        'consentGivenBy': consentGivenBy,
+        'consentEmail': consentEmail,
+        'consentAt': DateTime.now().millisecondsSinceEpoch,
+        'policyVersion': AppConstants.consentPolicyVersion,
+      });
 
       // update parent and child linkage in main app
       await _userRepo.linkChild(parentUid, childUid);

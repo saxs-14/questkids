@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../providers/ai_tutor_provider.dart';
@@ -25,16 +26,52 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
   final _picker = ImagePicker();
   bool _showQuickPrompts = true;
 
+  static const _seenAiNoticePrefKey = 'questy_ai_notice_seen';
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final user = context.read<AuthProvider>().user;
       if (user != null) {
         context.read<AiTutorProvider>().initSession(user);
         _loadRecommendation();
       }
+      await _maybeShowFirstOpenNotice();
     });
+  }
+
+  Future<void> _maybeShowFirstOpenNotice() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool(_seenAiNoticePrefKey) == true) return;
+    if (!mounted) return;
+
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => AlertDialog(
+        title: const Row(
+          children: [
+            Text('🤖 ', style: TextStyle(fontSize: 22)),
+            Expanded(child: Text('Meet Questy!')),
+          ],
+        ),
+        content: const Text(
+          "Questy is an AI helper, not a real person. It's here to help you "
+          'learn — but it can make mistakes, so always check with a teacher '
+          "or parent too. A grown-up checks any answer you report, and you "
+          "should never share personal info (like your address or phone "
+          'number) with Questy.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: const Text('Got it!'),
+          ),
+        ],
+      ),
+    );
+    await prefs.setBool(_seenAiNoticePrefKey, true);
   }
 
   Future<void> _loadRecommendation() async {

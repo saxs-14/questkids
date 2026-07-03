@@ -53,4 +53,8 @@ class AppConstants {
   static const String prefTheme        = 'isDarkMode';
   static const String prefOnboarding   = 'onboardingDone';
   static const String prefUserRole     = 'userRole';
+
+  // POPIA parent/guardian consent — bump when the consent copy materially
+  // changes so older acceptances can be told apart from current ones.
+  static const String consentPolicyVersion = '1.0';
 }

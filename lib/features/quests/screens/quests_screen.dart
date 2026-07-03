@@ -8,6 +8,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../games/core/game_intro_sheet.dart';
 import '../../games/core/game_router.dart';
+import '../../games/core/game_theme.dart';
 import '../../../providers/auth_provider.dart';
 import '../../dashboard/screens/grade1_world_map.dart';
 
@@ -195,8 +196,15 @@ class _QuestsScreenState extends State<QuestsScreen> {
                               orElse: () => subjects.first)['emoji'] as String,
                           style: const TextStyle(fontSize: 22)),
                       const SizedBox(width: 8),
-                      Text(activeSubject, style: AppTextStyles.h3),
-                      const Spacer(),
+                      Expanded(
+                        child: Text(
+                          activeSubject,
+                          style: AppTextStyles.h3,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
@@ -573,6 +581,28 @@ class _FeaturedBannerState extends State<_FeaturedBanner> {
   }
 }
 
+// ─── Engine identity badge — makes the mechanic (not just the subject)
+// visible at a glance on the card, per-engine icon + accent colour ─────────
+
+class _EngineBadge extends StatelessWidget {
+  final String engineType;
+  const _EngineBadge({required this.engineType});
+
+  @override
+  Widget build(BuildContext context) {
+    final identity = engineIdentityFor(engineType);
+    return Container(
+      width: 18,
+      height: 18,
+      decoration: BoxDecoration(
+        color: identity.accent,
+        shape: BoxShape.circle,
+      ),
+      child: Icon(identity.icon, size: 11, color: Colors.white),
+    );
+  }
+}
+
 // ─── Game Card ────────────────────────────────────────────────────────────────
 
 class _GameCard extends StatelessWidget {
@@ -727,21 +757,31 @@ class _GameCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const Spacer(),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: gradient.first.withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        entry.subject,
-                        style: GoogleFonts.nunito(
-                          fontSize: 9,
-                          fontWeight: FontWeight.w700,
-                          color: gradient.first,
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: gradient.first.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              entry.subject,
+                              style: GoogleFonts.nunito(
+                                fontSize: 9,
+                                fontWeight: FontWeight.w700,
+                                color: gradient.first,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                         ),
-                      ),
+                        const SizedBox(width: 4),
+                        _EngineBadge(engineType: entry.engineType),
+                      ],
                     ),
                     const SizedBox(height: 6),
                     Row(

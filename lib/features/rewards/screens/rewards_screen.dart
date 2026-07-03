@@ -145,10 +145,14 @@ class _OverviewTab extends StatelessWidget {
                 Text(rewards.levelEmoji,
                     style: const TextStyle(fontSize: 28)),
                 const SizedBox(width: 10),
-                Text(
-                  rewards.levelTitle,
-                  style: AppTextStyles.h3
-                      .copyWith(color: AppColors.primary),
+                Flexible(
+                  child: Text(
+                    rewards.levelTitle,
+                    style: AppTextStyles.h3
+                        .copyWith(color: AppColors.primary),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),

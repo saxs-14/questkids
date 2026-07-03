@@ -92,6 +92,7 @@ class AuthProvider extends ChangeNotifier {
     String? childGender,
     DateTime? childBirthDate,
     String? childGrade,
+    bool childConsentGiven = false,
   }) async {
     _setLoading(true);
     _setError(null);
@@ -110,6 +111,7 @@ class AuthProvider extends ChangeNotifier {
         childGender: childGender,
         childBirthDate: childBirthDate,
         childGrade: childGrade,
+        childConsentGiven: childConsentGiven,
       );
       _status = AuthStatus.authenticated;
       notifyListeners();
@@ -202,6 +204,9 @@ class AuthProvider extends ChangeNotifier {
     required String childGender,
     required DateTime childBirthDate,
     required String childGrade,
+    required bool consentGiven,
+    required String consentGivenBy,
+    required String consentEmail,
   }) async {
     _setLoading(true);
     _setError(null);
@@ -212,6 +217,9 @@ class AuthProvider extends ChangeNotifier {
         childGender: childGender,
         childBirthDate: childBirthDate,
         childGrade: childGrade,
+        consentGiven: consentGiven,
+        consentGivenBy: consentGivenBy,
+        consentEmail: consentEmail,
       );
       return child != null;
     } catch (e) {
