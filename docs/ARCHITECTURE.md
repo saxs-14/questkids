@@ -6,7 +6,7 @@
 |---|---|
 | Frontend | Flutter 3.4+, Dart, Provider |
 | Backend | Firebase (Auth, Firestore, Storage, Functions, Messaging) |
-| AI | Google Gemini 1.5 Flash (via Cloud Functions proxy) |
+| AI | Google Gemini 2.5 Flash (via Cloud Functions proxy) |
 | Analytics | fl_chart 0.68+ |
 | Charts | fl_chart 0.68+ |
 
@@ -59,7 +59,7 @@ All functions are in `functions/src/` and exported from `index.ts`.
 
 | Function | Trigger | Purpose |
 |---|---|---|
-| `questbotChat` | HTTPS onCall | QuestBot AI chat |
+| `questyChat` | HTTPS onCall | Questy AI chat |
 | `analyzeImage` | HTTPS onCall | Image analysis |
 | `getRecommendation` | HTTPS onCall | Personalised learning recommendation |
 | `explainAnswer` | HTTPS onCall | Quiz answer explanation |

@@ -1,89 +1,76 @@
-# QuestKids - Gamified EdTech Learning Platform
+# QuestKids
 
-QuestKids is a **Flutter-based gamified learning platform** built for South African learners in Grades 1–7. It features an animated learner adventure, AI-powered tutoring via Gemini, and comprehensive dashboards for teachers and parents.
+QuestKids is a gamified learning platform for South African primary school
+learners (Grades 1–7), aligned to the CAPS curriculum. Learners play
+curriculum-mapped games and earn XP/coins/badges, chatting with **Questy**
+(a Gemini-powered AI tutor) along the way; parents and teachers get
+analytics dashboards to track progress.
 
-**Repository:** [saxs-14/questkids](https://github.com/saxs-14/questkids.git)
+**Repository:** [saxs-14/questkids](https://github.com/saxs-14/questkids)
 
----
+## What's here
+
+- **126 CAPS-mapped games** across 9 purpose-built engines (`tugOfWar`,
+  `adventureJourney`, `runnerCollector`, `explorerMap`, `multiplesMerge`,
+  `sequenceBuilder`, `circuitBuilder`, `budgetBuilder`,
+  `numberCountingDuel`) — each engine is matched to how a topic is actually
+  learned (fluency drills, ordering/sequencing, map exploration, systems and
+  connections, budgeting, narrative word problems), not a single quiz
+  reskinned 126 times.
+- **Three roles** — Learner, Parent (POPIA "competent person," QR-linked to
+  their child), and Teacher (class analytics, mission assignment).
+- **Questy**, an AI tutor scoped to primary-school content, proxied through
+  Cloud Functions so no AI key ever ships in the client.
+- **Offline-first** gameplay via a local SQLite queue that syncs to
+  Firestore when connectivity returns.
 
 ## Architecture
 
 ```text
-Flutter App (Dart)
-├── lib/
-│   ├── core/          # Services, models, themes, routing
-│   ├── features/      # Auth, learner, teacher, parent, admin modules
-│   └── shared/        # Reusable widgets
-├── functions/         # Firebase Cloud Functions (Node.js)
-├── android/           # Android platform config
-├── ios/               # iOS platform config
-└── web/               # Web platform entry point
+lib/
+├── core/           # constants (game catalog, engine registry), services, theme
+├── data/           # models + one repository per Firestore collection
+├── features/       # auth, dashboard, games, ai_tutor, quests, rewards, parent, teacher, ...
+functions/src/      # Cloud Functions (TypeScript): Gemini proxy, leaderboards, missions, admin
+firestore.rules     # Firestore security rules
+storage.rules       # Storage security rules
+android/ ios/ web/  # platform shells
 ```
 
-**Backend:** Firebase (Firestore, Auth, Storage, Messaging, Analytics, Cloud Functions)
-**AI:** Google Gemini via `google_generative_ai`
-**State:** Provider
-**Navigation:** GoRouter
+Each game follows a strict, layered engine pattern —
+`GameRouter → <Engine>Game (widget) → <Engine>Session (state) → <Engine>Engine (pure Dart rules)`
+— documented in full in [`CLAUDE.md`](CLAUDE.md).
 
----
+| Layer | Tech |
+|---|---|
+| App | Flutter (Dart ≥3.4), Material 3 |
+| State | Provider |
+| Navigation | Classic `Navigator` named routes |
+| Backend | Firebase: Auth, Firestore, Storage, Messaging, Analytics, Cloud Functions |
+| AI | Gemini, via a Cloud Functions proxy only |
+| Offline | sqflite / sqflite_common_ffi |
+| Charts | fl_chart |
 
-## Getting Started
-
-### Prerequisites
-
-- Flutter SDK `>=3.4.0`
-- Firebase project configured (see [FIREBASE_SETUP_GUIDE.md](FIREBASE_SETUP_GUIDE.md))
-- `google-services.json` placed in `android/app/`
-- `GoogleService-Info.plist` placed in `ios/Runner/`
-
-### Run the app
+## Quickstart
 
 ```bash
-# Install dependencies
+git clone https://github.com/saxs-14/questkids.git
+cd questkids
 flutter pub get
-
-# Run on a connected device or emulator
-flutter run
-
-# Run as web
+cd functions && npm install && cd ..
 flutter run -d chrome
 ```
 
-### Firebase Cloud Functions
-
-```bash
-cd functions
-npm install
-firebase deploy --only functions
-```
-
----
-
-## Key Features
-
-- **Learner Portal** — Quest-based lessons, XP/coin rewards, AI wizard chatbot, interactive activities
-- **Teacher Dashboard** — Student analytics, progress tracking, assignment creator
-- **Parent Dashboard** — Screen-time controls, activity reports, multi-child linking, shared calendar
-- **Admin Panel** — Curriculum management, user oversight
-
----
-
-## Firebase Services Used
-
-| Service            | Purpose                      |
-| ------------------ | ---------------------------- |
-| Firebase Auth      | Email, Google, phone sign-in |
-| Cloud Firestore    | Real-time data store         |
-| Firebase Storage   | Media uploads                |
-| Firebase Messaging | Push notifications           |
-| Firebase Analytics | Usage tracking               |
-| Cloud Functions    | Server-side logic            |
-
----
+See [`docs/SETUP.md`](docs/SETUP.md) for the full local dev flow and
+[`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for releasing.
 
 ## Documentation
 
-- [FIREBASE_SETUP_GUIDE.md](FIREBASE_SETUP_GUIDE.md) — Firebase project configuration steps
-- [AUTHENTICATION_README.md](AUTHENTICATION_README.md) — Auth flow details
-- [QUICK_START.md](QUICK_START.md) — Fast setup reference
-- [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) — Development progress tracker
+- [`CLAUDE.md`](CLAUDE.md) — architecture, conventions, and hard rules (the
+  source of truth for this repo)
+- [`docs/SETUP.md`](docs/SETUP.md) — quickstart
+- [`docs/ENVIRONMENT_SETUP.md`](docs/ENVIRONMENT_SETUP.md) — full local dev setup
+- [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) — release process
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — data model and Cloud Functions reference
+- [`docs/SECURITY.md`](docs/SECURITY.md) — security model (roles, rules, AI proxy, POPIA)
+- [`docs/DEFERRED.md`](docs/DEFERRED.md) — known gaps and what finishing them looks like

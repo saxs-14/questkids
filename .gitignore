@@ -74,9 +74,7 @@ analysis_benchmark.json
 .pub-preload-cache/
 .pub-cache/
 .pub/
-build/*
-# Keep the web build so Vercel can serve it as a static site
-!build/web
+build/
 flutter_*.png
 linked_*.ds
 unlinked.ds
