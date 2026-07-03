@@ -56,9 +56,12 @@ class _GrammarHeroRunState extends State<GrammarHeroRun>
     if (!mounted) return;
     _pack = pack;
     final session = RunnerCollectorSession(widget.config, _uid, pack: pack);
+    // Assign before starting: startSession() spawns the first word and
+    // notifies listeners synchronously, and _onSessionChange reads
+    // _session — it must already be set by the time that fires.
+    setState(() => _session = session);
     session.addListener(_onSessionChange);
     session.startSession();
-    setState(() => _session = session);
   }
 
   String get _uid => (widget.user?.uid as String?) ?? '';

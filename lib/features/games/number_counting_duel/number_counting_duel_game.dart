@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
@@ -42,8 +43,8 @@ class _Level {
   final String name;
   final int min, max;
   final String type;
-  final int questionCount;
-  const _Level(this.name, this.min, this.max, this.type, {this.questionCount = 5});
+  final int questionCount = 5;
+  const _Level(this.name, this.min, this.max, this.type);
 }
 
 // ── Main game widget ───────────────────────────────────────────────────────
@@ -102,14 +103,25 @@ class _NCDState extends State<NumberCountingDuelGame>
   final _rng = math.Random();
 
   // ── Timers ──────────────────────────────────────────────────────────────
-  Future<void> _delay(int ms) =>
-      Future.delayed(Duration(milliseconds: ms));
+  // Tracked (not bare Future.delayed) so dispose() can cancel any still
+  // pending when the player backs out mid-game — otherwise a callback can
+  // fire after the widget is gone.
+  final List<Timer> _pendingTimers = [];
+
+  void _delayed(int ms, VoidCallback callback) {
+    late final Timer timer;
+    timer = Timer(Duration(milliseconds: ms), () {
+      _pendingTimers.remove(timer);
+      if (mounted) callback();
+    });
+    _pendingTimers.add(timer);
+  }
 
   @override
   void initState() {
     super.initState();
     _initAnims();
-    _delay(800).then((_) => _startGame());
+    _delayed(800, _startGame);
   }
 
   void _initAnims() {
@@ -146,6 +158,10 @@ class _NCDState extends State<NumberCountingDuelGame>
 
   @override
   void dispose() {
+    for (final timer in List<Timer>.from(_pendingTimers)) {
+      timer.cancel();
+    }
+    _pendingTimers.clear();
     _floatCtrl.dispose();
     _playerJump.dispose();
     _aiJump.dispose();
@@ -215,15 +231,15 @@ class _NCDState extends State<NumberCountingDuelGame>
       if (isStreak) {
         setState(() => _phase = _Phase.streak);
         _fireworks.forward(from: 0);
-        _delay(1800).then((_) => _advance());
+        _delayed(1800, _advance);
       } else {
         setState(() => _phase = _Phase.correct);
-        _delay(1200).then((_) => _advance());
+        _delayed(1200, _advance);
       }
     } else {
       setState(() { _streak = 0; _phase = _Phase.wrong; });
       _shakeCtrl.forward(from: 0);
-      _delay(1200).then((_) => _advance());
+      _delayed(1200, _advance);
     }
   }
 
@@ -238,15 +254,14 @@ class _NCDState extends State<NumberCountingDuelGame>
         setState(() => _phase = _Phase.victory);
       } else {
         setState(() { _phase = _Phase.levelDone; });
-        _delay(2200).then((_) {
-          if (!mounted) return;
+        _delayed(2200, () {
           setState(() { _levelIdx++; _qIdx = 0; });
           _nextQuestion();
         });
       }
     } else {
       setState(() => _qIdx = next);
-      _delay(300).then((_) { if (mounted) _nextQuestion(); });
+      _delayed(300, _nextQuestion);
     }
   }
 

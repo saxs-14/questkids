@@ -20,19 +20,15 @@ const { mechanicReasonFor } = require('./phrasing');
 
 const OUT_PATH = path.join(__dirname, 'topics.json');
 
-const SUBJECT_SLUG = {
-  Mathematics: 'mathematics',
-  English: 'english',
-  'Life Skills': 'life_skills',
-  'Natural Sciences': 'natural_sciences',
-  'Social Sciences': 'social_sciences',
-  Technology: 'technology',
-  EMS: 'ems',
-};
-
+// Flat by design: Flutter's asset bundler (at least as of this project's
+// Flutter version) does not recurse into subdirectories of a directory
+// registered in pubspec.yaml's `assets:` list when running `flutter test`
+// — only files directly inside the registered path are found. Catalog
+// ids are already globally unique, so assets/content/{id}.json avoids the
+// whole nested-directory problem instead of registering every grade/
+// subject subfolder in pubspec.yaml by hand.
 function contentPackPath(grade, subject, id) {
-  const slug = SUBJECT_SLUG[subject] || subject.toLowerCase().replace(/\s+/g, '_');
-  return `assets/content/${grade}/${slug}/${id}.json`;
+  return `assets/content/${id}.json`;
 }
 
 function main() {

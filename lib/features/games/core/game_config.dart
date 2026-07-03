@@ -33,27 +33,19 @@ class GameConfig {
     this.catalogId,
   });
 
-  // Mirrors tools/gamegen/extract.js's SUBJECT_SLUG table.
-  static const Map<String, String> _subjectSlugs = {
-    'Mathematics': 'mathematics',
-    'English': 'english',
-    'Life Skills': 'life_skills',
-    'Natural Sciences': 'natural_sciences',
-    'Social Sciences': 'social_sciences',
-    'Technology': 'technology',
-    'EMS': 'ems',
-  };
-
   /// Path to this topic's generated content pack asset
-  /// (assets/content/{grade}/{subject}/{catalogId}.json), or null when this
-  /// config wasn't built from a catalog entry (e.g. an ad-hoc preset) — in
-  /// that case the engine should fall back to its built-in demo content.
+  /// (assets/content/{catalogId}.json), or null when this config wasn't
+  /// built from a catalog entry (e.g. an ad-hoc preset) — in that case the
+  /// engine should fall back to its built-in demo content.
+  ///
+  /// Flat by design (not assets/content/{grade}/{subject}/...): Flutter's
+  /// asset bundler doesn't recurse into subdirectories of a directory
+  /// registered in pubspec.yaml's `assets:` list when running
+  /// `flutter test` — see tools/gamegen/extract.js's contentPackPath.
   String? get contentPackPath {
     final id = catalogId;
     if (id == null || id.isEmpty) return null;
-    final slug = _subjectSlugs[subject] ??
-        subject.toLowerCase().replaceAll(RegExp(r'\s+'), '_');
-    return 'assets/content/$grade/$slug/$id.json';
+    return 'assets/content/$id.json';
   }
 
   /// Build a GameConfig from a GameCatalogEntry.
