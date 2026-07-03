@@ -1,0 +1,13 @@
+{
+  "id": "ems_g7_globaleconomy",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "EMS",
+  "title": "Global Economy",
+  "tagline": "Explore trade, exchange rates, imports and exports!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🌐",
+  "_scaffold": true,
+  "characterEmoji": "🌐",
+  "stages": []
+}

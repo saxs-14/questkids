@@ -1,0 +1,14 @@
+{
+  "id": "ns_g4_lifecycle",
+  "engine": "sequenceBuilder",
+  "grade": "grade4",
+  "subject": "Natural Sciences",
+  "title": "Life Cycles",
+  "tagline": "Trace the life cycles of frogs, butterflies, plants and humans!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🦋",
+  "_scaffold": true,
+  "sceneType": "biology",
+  "steps": [],
+  "roundVariants": []
+}

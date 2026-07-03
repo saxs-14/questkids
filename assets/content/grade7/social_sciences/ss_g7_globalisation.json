@@ -1,0 +1,13 @@
+{
+  "id": "ss_g7_globalisation",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "Social Sciences",
+  "title": "Globalisation Game",
+  "tagline": "Understand trade, global connections and their local effects!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🌐",
+  "_scaffold": true,
+  "characterEmoji": "🌐",
+  "stages": []
+}

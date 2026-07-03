@@ -1,0 +1,12 @@
+{
+  "id": "ns_g4_matter",
+  "engine": "runnerCollector",
+  "grade": "grade4",
+  "subject": "Natural Sciences",
+  "title": "Matter Master",
+  "tagline": "Identify solids, liquids and gases and their properties!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "⚗️",
+  "_scaffold": true,
+  "levels": []
+}

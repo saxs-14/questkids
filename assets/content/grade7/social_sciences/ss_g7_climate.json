@@ -1,0 +1,13 @@
+{
+  "id": "ss_g7_climate",
+  "engine": "explorerMap",
+  "grade": "grade7",
+  "subject": "Social Sciences",
+  "title": "Climate Zones Challenge",
+  "tagline": "Match climate zones, rainfall patterns and biomes of the world!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🌍",
+  "_scaffold": true,
+  "pins": [],
+  "questions": []
+}

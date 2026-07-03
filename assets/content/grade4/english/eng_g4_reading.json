@@ -1,0 +1,13 @@
+{
+  "id": "eng_g4_reading",
+  "engine": "adventureJourney",
+  "grade": "grade4",
+  "subject": "English",
+  "title": "Reading Quest",
+  "tagline": "Read passages and answer comprehension questions to level up!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "📚",
+  "_scaffold": true,
+  "characterEmoji": "📚",
+  "stages": []
+}

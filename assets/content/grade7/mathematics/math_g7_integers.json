@@ -1,0 +1,13 @@
+{
+  "id": "math_g7_integers",
+  "engine": "tugOfWar",
+  "grade": "grade7",
+  "subject": "Mathematics",
+  "title": "Integer Invaders",
+  "tagline": "Conquer negative numbers, absolute values and integer operations!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "➕",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

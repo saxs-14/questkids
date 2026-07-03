@@ -1,0 +1,13 @@
+{
+  "id": "ss_g7_apartheid",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "Social Sciences",
+  "title": "Apartheid Era",
+  "tagline": "Understand the apartheid system and its impact on South Africans!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "📜",
+  "_scaffold": true,
+  "characterEmoji": "📜",
+  "stages": []
+}

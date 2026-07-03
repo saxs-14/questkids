@@ -1,0 +1,12 @@
+{
+  "id": "tech_g7_electronics",
+  "engine": "circuitBuilder",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Electronics Explorer",
+  "tagline": "Identify electronic components and build simple switching circuits!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🔌",
+  "_scaffold": true,
+  "circuits": []
+}

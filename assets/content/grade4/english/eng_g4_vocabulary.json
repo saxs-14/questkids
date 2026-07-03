@@ -1,0 +1,15 @@
+{
+  "id": "eng_g4_vocabulary",
+  "engine": "multiplesMerge",
+  "grade": "grade4",
+  "subject": "English",
+  "title": "Word Power",
+  "tagline": "Build your vocabulary with synonyms, antonyms and context clues!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "💬",
+  "_scaffold": true,
+  "mode": "numeric",
+  "gridSize": 4,
+  "chainLength": 4,
+  "tables": []
+}

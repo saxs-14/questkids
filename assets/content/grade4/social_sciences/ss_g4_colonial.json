@@ -1,0 +1,14 @@
+{
+  "id": "ss_g4_colonial",
+  "engine": "sequenceBuilder",
+  "grade": "grade4",
+  "subject": "Social Sciences",
+  "title": "Colonial Era",
+  "tagline": "Understand the impact of colonization on Southern Africa!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "⛵",
+  "_scaffold": true,
+  "sceneType": "history",
+  "steps": [],
+  "roundVariants": []
+}

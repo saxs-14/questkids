@@ -1,0 +1,12 @@
+{
+  "id": "ems_g7_economics",
+  "engine": "budgetBuilder",
+  "grade": "grade7",
+  "subject": "EMS",
+  "title": "Economics 101",
+  "tagline": "Understand needs vs wants, scarcity, opportunity cost and production!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "💡",
+  "_scaffold": true,
+  "scenarios": []
+}

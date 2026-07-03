@@ -1,0 +1,13 @@
+{
+  "id": "math_g4_problems",
+  "engine": "adventureJourney",
+  "grade": "grade4",
+  "subject": "Mathematics",
+  "title": "Problem Solver",
+  "tagline": "Solve real-life word problems using all four operations!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🧩",
+  "_scaffold": true,
+  "characterEmoji": "🧩",
+  "stages": []
+}

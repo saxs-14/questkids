@@ -1,0 +1,12 @@
+{
+  "id": "tech_g4_machines",
+  "engine": "circuitBuilder",
+  "grade": "grade4",
+  "subject": "Natural Sciences",
+  "title": "Simple Machines",
+  "tagline": "Use levers, pulleys and gears to solve engineering challenges!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "⚙️",
+  "_scaffold": true,
+  "circuits": []
+}

@@ -1,0 +1,12 @@
+{
+  "id": "ems_g7_banking",
+  "engine": "budgetBuilder",
+  "grade": "grade7",
+  "subject": "EMS",
+  "title": "Banks & Banking",
+  "tagline": "Learn how banks work — savings, interest, loans and bank statements!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🏦",
+  "_scaffold": true,
+  "scenarios": []
+}

@@ -1,0 +1,13 @@
+{
+  "id": "eng_g7_spelling",
+  "engine": "tugOfWar",
+  "grade": "grade7",
+  "subject": "English",
+  "title": "Advanced Spelling",
+  "tagline": "Spell complex Grade 7 words — prefixes, suffixes and word origins!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🔤",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

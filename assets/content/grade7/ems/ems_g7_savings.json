@@ -1,0 +1,12 @@
+{
+  "id": "ems_g7_savings",
+  "engine": "budgetBuilder",
+  "grade": "grade7",
+  "subject": "EMS",
+  "title": "Savings Superstar",
+  "tagline": "Plan for the future — understand compound interest and savings goals!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🐷",
+  "_scaffold": true,
+  "scenarios": []
+}

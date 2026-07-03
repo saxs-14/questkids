@@ -1,0 +1,12 @@
+{
+  "id": "sci_g7_foodchains",
+  "engine": "circuitBuilder",
+  "grade": "grade7",
+  "subject": "Natural Sciences",
+  "title": "Food Chain Fighter",
+  "tagline": "Build and analyse food chains and food webs!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🦁",
+  "_scaffold": true,
+  "circuits": []
+}

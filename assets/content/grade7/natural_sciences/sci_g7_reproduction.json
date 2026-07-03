@@ -1,0 +1,12 @@
+{
+  "id": "sci_g7_reproduction",
+  "engine": "runnerCollector",
+  "grade": "grade7",
+  "subject": "Natural Sciences",
+  "title": "Reproduction Revealed",
+  "tagline": "Compare sexual and asexual reproduction in plants and animals!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🌱",
+  "_scaffold": true,
+  "levels": []
+}

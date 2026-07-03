@@ -6,6 +6,13 @@ a minute; if any step fails, see the note under it before improvising.
 ## 0. Pre-flight
 
 - [ ] `flutter analyze` → 0 errors
+- [ ] `flutter test` → all green
+- [ ] `cd tools/gamegen && node validate.js` → exit 0 (mandatory gate — checks
+      every catalog topic has a matching, schema-valid, sufficiently-authored
+      content pack; see tools/gamegen/README.md). If the catalog or any
+      content pack was hand-edited instead of going through
+      `node tools/gamegen/generate.js` / `author.js`, run the full pipeline
+      first: `cd tools/gamegen && npm run all`.
 - [ ] `cd functions && npm run build && npm run lint` → clean
 - [ ] Manual Phase 0 GCP/Firebase console steps are done (see the security
       notice from this session, or `docs/SECURITY.md`)

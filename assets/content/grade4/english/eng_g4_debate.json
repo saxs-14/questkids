@@ -1,0 +1,13 @@
+{
+  "id": "eng_g4_debate",
+  "engine": "tugOfWar",
+  "grade": "grade4",
+  "subject": "English",
+  "title": "Debate Duel",
+  "tagline": "Choose your argument, support it with evidence and win the debate!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🎤",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

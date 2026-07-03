@@ -1,0 +1,13 @@
+{
+  "id": "math_g1_counting",
+  "engine": "numberCountingDuel",
+  "grade": "grade1",
+  "subject": "Mathematics",
+  "title": "Number Counting Duel",
+  "tagline": "Count and compare numbers 1–100 in a battle of counting!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🔢",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

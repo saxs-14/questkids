@@ -1,0 +1,13 @@
+{
+  "id": "ss_g7_rights",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "Social Sciences",
+  "title": "Human Rights Quest",
+  "tagline": "Explore the SA Constitution and Bill of Rights in action!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "⚖️",
+  "_scaffold": true,
+  "characterEmoji": "⚖️",
+  "stages": []
+}

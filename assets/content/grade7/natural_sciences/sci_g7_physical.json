@@ -1,0 +1,12 @@
+{
+  "id": "sci_g7_physical",
+  "engine": "runnerCollector",
+  "grade": "grade7",
+  "subject": "Natural Sciences",
+  "title": "Physical vs Chemical",
+  "tagline": "Classify physical and chemical changes with examples!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🧪",
+  "_scaffold": true,
+  "levels": []
+}

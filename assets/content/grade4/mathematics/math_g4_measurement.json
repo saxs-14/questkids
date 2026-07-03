@@ -1,0 +1,13 @@
+{
+  "id": "math_g4_measurement",
+  "engine": "tugOfWar",
+  "grade": "grade4",
+  "subject": "Mathematics",
+  "title": "Measurement Valley",
+  "tagline": "Measure length, mass, capacity and time — get the conversions right!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "📏",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

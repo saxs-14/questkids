@@ -1,0 +1,12 @@
+{
+  "id": "tech_g7_circuit_parallel",
+  "engine": "circuitBuilder",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Parallel Circuit Builder",
+  "tagline": "Wire a parallel circuit — understand current and voltage paths!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "⚡",
+  "_scaffold": true,
+  "circuits": []
+}

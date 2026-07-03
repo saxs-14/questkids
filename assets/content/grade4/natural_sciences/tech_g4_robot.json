@@ -1,0 +1,13 @@
+{
+  "id": "tech_g4_robot",
+  "engine": "adventureJourney",
+  "grade": "grade4",
+  "subject": "Natural Sciences",
+  "title": "Robot Maker",
+  "tagline": "Design and build a robot — apply engineering design and problem-solving!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🤖",
+  "_scaffold": true,
+  "characterEmoji": "🤖",
+  "stages": []
+}

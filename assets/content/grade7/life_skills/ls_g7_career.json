@@ -1,0 +1,13 @@
+{
+  "id": "ls_g7_career",
+  "engine": "explorerMap",
+  "grade": "grade7",
+  "subject": "Life Skills",
+  "title": "Career Pathways",
+  "tagline": "Explore career options and subjects needed to reach your goals!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🎯",
+  "_scaffold": true,
+  "pins": [],
+  "questions": []
+}

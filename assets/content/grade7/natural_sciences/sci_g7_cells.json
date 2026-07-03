@@ -1,0 +1,12 @@
+{
+  "id": "sci_g7_cells",
+  "engine": "runnerCollector",
+  "grade": "grade7",
+  "subject": "Natural Sciences",
+  "title": "Cell Explorers",
+  "tagline": "Compare plant and animal cells and their organelles!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🔬",
+  "_scaffold": true,
+  "levels": []
+}

@@ -1,0 +1,12 @@
+{
+  "id": "ems_g7_consumer",
+  "engine": "runnerCollector",
+  "grade": "grade7",
+  "subject": "EMS",
+  "title": "Consumer Rights",
+  "tagline": "Know your rights as a consumer — CPA, warranties and returns!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🛒",
+  "_scaffold": true,
+  "levels": []
+}

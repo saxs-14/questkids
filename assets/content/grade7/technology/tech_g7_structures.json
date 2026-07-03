@@ -1,0 +1,12 @@
+{
+  "id": "tech_g7_structures",
+  "engine": "circuitBuilder",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Structures & Forces",
+  "tagline": "Design structures that can withstand tension, compression and bending!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🏗️",
+  "_scaffold": true,
+  "circuits": []
+}

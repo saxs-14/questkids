@@ -1,0 +1,13 @@
+{
+  "id": "ss_g4_biomes",
+  "engine": "explorerMap",
+  "grade": "grade4",
+  "subject": "Social Sciences",
+  "title": "Ecosystems",
+  "tagline": "Discover South Africa's biomes — fynbos, savanna, grassland and more!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🌍",
+  "_scaffold": true,
+  "pins": [],
+  "questions": []
+}

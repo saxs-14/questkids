@@ -1,0 +1,13 @@
+{
+  "id": "ss_g4_ancient",
+  "engine": "adventureJourney",
+  "grade": "grade4",
+  "subject": "Social Sciences",
+  "title": "Ancient Civilizations",
+  "tagline": "Journey to Egypt and Mesopotamia — discover the first great civilizations!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🏺",
+  "_scaffold": true,
+  "characterEmoji": "🏺",
+  "stages": []
+}

@@ -1,0 +1,14 @@
+{
+  "id": "math_g4_multiplication",
+  "engine": "sequenceBuilder",
+  "grade": "grade4",
+  "subject": "Mathematics",
+  "title": "Multiplication Mountains",
+  "tagline": "Climb higher by solving multi-digit multiplication problems!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "✖️",
+  "_scaffold": true,
+  "sceneType": "multiplication",
+  "steps": [],
+  "roundVariants": []
+}

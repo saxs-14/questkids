@@ -1,0 +1,13 @@
+{
+  "id": "eng_g1_alphabet",
+  "engine": "adventureJourney",
+  "grade": "grade1",
+  "subject": "English",
+  "title": "Alphabet Explorer",
+  "tagline": "Explore the alphabet, learn letter names and their sounds!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🔤",
+  "_scaffold": true,
+  "characterEmoji": "🔤",
+  "stages": []
+}

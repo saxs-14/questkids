@@ -40,6 +40,10 @@ function main() {
   const topics = [];
   let fixedCount = 0;
 
+  rawEntries.forEach((e, sourceOrder) => {
+    e.sourceOrder = sourceOrder;
+  });
+
   for (const e of rawEntries) {
     const cognitiveVerb = classify(e);
     const allowed = expectedEngines(cognitiveVerb);
@@ -82,6 +86,10 @@ function main() {
       isNew: e.isNew,
       isFeatured: e.isFeatured,
       contentPack: contentPackPath(e.grade, e.subject, e.id),
+      // Position in the original hand-authored catalog — generate.js uses
+      // this (not the sorted array order below) to keep entries grouped by
+      // grade band / subject the way a human reading the Dart file expects.
+      sourceOrder: e.sourceOrder,
     });
   }
 

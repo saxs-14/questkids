@@ -1,0 +1,12 @@
+{
+  "id": "math_g4_geometry",
+  "engine": "runnerCollector",
+  "grade": "grade4",
+  "subject": "Mathematics",
+  "title": "Geometry Jungle",
+  "tagline": "Identify 2D and 3D shapes, angles and properties in the jungle!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "📐",
+  "_scaffold": true,
+  "levels": []
+}

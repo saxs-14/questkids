@@ -1,0 +1,14 @@
+{
+  "id": "eng_g4_writing",
+  "engine": "sequenceBuilder",
+  "grade": "grade4",
+  "subject": "English",
+  "title": "Story Builder",
+  "tagline": "Arrange sentences into a well-structured story with beginning, middle and end!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "✍️",
+  "_scaffold": true,
+  "sceneType": "writing",
+  "steps": [],
+  "roundVariants": []
+}

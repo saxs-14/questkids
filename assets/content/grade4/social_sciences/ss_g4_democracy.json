@@ -1,0 +1,13 @@
+{
+  "id": "ss_g4_democracy",
+  "engine": "adventureJourney",
+  "grade": "grade4",
+  "subject": "Social Sciences",
+  "title": "Democracy Game",
+  "tagline": "Relive the 1994 elections and the birth of South African democracy!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🗳️",
+  "_scaffold": true,
+  "characterEmoji": "🗳️",
+  "stages": []
+}

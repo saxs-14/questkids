@@ -1,0 +1,13 @@
+{
+  "id": "math_g4_division",
+  "engine": "tugOfWar",
+  "grade": "grade4",
+  "subject": "Mathematics",
+  "title": "Division Desert",
+  "tagline": "Divide and conquer — master long division across the desert!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "➗",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

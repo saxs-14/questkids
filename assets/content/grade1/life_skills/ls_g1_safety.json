@@ -1,0 +1,13 @@
+{
+  "id": "ls_g1_safety",
+  "engine": "adventureJourney",
+  "grade": "grade1",
+  "subject": "Life Skills",
+  "title": "Safety Squad",
+  "tagline": "Learn the rules of personal safety at home, school and in public!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🛡️",
+  "_scaffold": true,
+  "characterEmoji": "🛡️",
+  "stages": []
+}

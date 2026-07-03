@@ -1,0 +1,12 @@
+{
+  "id": "ss_g7_settlement",
+  "engine": "runnerCollector",
+  "grade": "grade7",
+  "subject": "Social Sciences",
+  "title": "Settlement Patterns",
+  "tagline": "Analyse why people settle where they do — push and pull factors!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🏙️",
+  "_scaffold": true,
+  "levels": []
+}

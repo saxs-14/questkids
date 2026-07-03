@@ -1,0 +1,12 @@
+{
+  "id": "ls_g7_digital",
+  "engine": "runnerCollector",
+  "grade": "grade7",
+  "subject": "Life Skills",
+  "title": "Digital Safety",
+  "tagline": "Stay safe online — privacy, cyberbullying and digital footprint!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🔒",
+  "_scaffold": true,
+  "levels": []
+}

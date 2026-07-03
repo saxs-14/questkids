@@ -1,0 +1,13 @@
+{
+  "id": "ss_g4_maps",
+  "engine": "explorerMap",
+  "grade": "grade4",
+  "subject": "Social Sciences",
+  "title": "Map Master",
+  "tagline": "Read maps, identify compass directions and map symbols!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🗺️",
+  "_scaffold": true,
+  "pins": [],
+  "questions": []
+}

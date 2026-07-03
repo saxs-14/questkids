@@ -138,6 +138,7 @@ flutter:
     - shaders/aurora.frag
 
   assets:
+    - assets/content/
     - assets/images/
     - assets/animations/
     - assets/icons/

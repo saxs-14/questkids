@@ -1,0 +1,15 @@
+{
+  "id": "math_g4_fractions",
+  "engine": "multiplesMerge",
+  "grade": "grade4",
+  "subject": "Mathematics",
+  "title": "Fraction Forest",
+  "tagline": "Navigate the fraction forest — compare, simplify and add fractions!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🌲",
+  "_scaffold": true,
+  "mode": "numeric",
+  "gridSize": 4,
+  "chainLength": 4,
+  "tables": []
+}

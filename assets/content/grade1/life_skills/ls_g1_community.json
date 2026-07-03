@@ -1,0 +1,13 @@
+{
+  "id": "ls_g1_community",
+  "engine": "explorerMap",
+  "grade": "grade1",
+  "subject": "Life Skills",
+  "title": "My Community",
+  "tagline": "Meet community helpers and discover how they keep us safe and healthy!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🏘️",
+  "_scaffold": true,
+  "pins": [],
+  "questions": []
+}

@@ -1,0 +1,13 @@
+{
+  "id": "math_g1_subtraction",
+  "engine": "tugOfWar",
+  "grade": "grade1",
+  "subject": "Mathematics",
+  "title": "Subtraction Safari",
+  "tagline": "Hunt for the missing number in subtraction problems up to 20!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "➖",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

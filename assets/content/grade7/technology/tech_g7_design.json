@@ -1,0 +1,14 @@
+{
+  "id": "tech_g7_design",
+  "engine": "sequenceBuilder",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Design Process",
+  "tagline": "Follow the full technology design process from problem to solution!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "✏️",
+  "_scaffold": true,
+  "sceneType": "design",
+  "steps": [],
+  "roundVariants": []
+}

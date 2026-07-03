@@ -1,0 +1,12 @@
+{
+  "id": "eng_g7_grammar",
+  "engine": "runnerCollector",
+  "grade": "grade7",
+  "subject": "English",
+  "title": "Grammar Gladiator",
+  "tagline": "Master clauses, phrases, active/passive voice and complex sentences!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "⚔️",
+  "_scaffold": true,
+  "levels": []
+}

@@ -1,0 +1,12 @@
+{
+  "id": "eng_g4_poetry",
+  "engine": "runnerCollector",
+  "grade": "grade4",
+  "subject": "English",
+  "title": "Poetry Explorer",
+  "tagline": "Identify rhyme, rhythm and poetic devices in fun poems!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🎭",
+  "_scaffold": true,
+  "levels": []
+}

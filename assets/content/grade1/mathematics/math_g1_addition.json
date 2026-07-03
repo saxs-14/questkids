@@ -1,0 +1,13 @@
+{
+  "id": "math_g1_addition",
+  "engine": "tugOfWar",
+  "grade": "grade1",
+  "subject": "Mathematics",
+  "title": "Addition Adventure",
+  "tagline": "Solve addition sums up to 20 and collect stars!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "➕",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

@@ -1,0 +1,13 @@
+{
+  "id": "math_g7_algebra",
+  "engine": "tugOfWar",
+  "grade": "grade7",
+  "subject": "Mathematics",
+  "title": "Algebra Arena",
+  "tagline": "Solve for x — simplify expressions and solve linear equations!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🔡",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

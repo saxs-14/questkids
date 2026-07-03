@@ -1,0 +1,12 @@
+{
+  "id": "ss_g4_climate",
+  "engine": "runnerCollector",
+  "grade": "grade4",
+  "subject": "Social Sciences",
+  "title": "Climate Quest",
+  "tagline": "Identify South Africa's climatic zones and their characteristics!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🌡️",
+  "_scaffold": true,
+  "levels": []
+}

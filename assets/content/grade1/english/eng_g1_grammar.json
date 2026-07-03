@@ -1,0 +1,12 @@
+{
+  "id": "eng_g1_grammar",
+  "engine": "runnerCollector",
+  "grade": "grade1",
+  "subject": "English",
+  "title": "Grammar Garden",
+  "tagline": "Plant the right nouns, verbs and adjectives in the sentence!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🌻",
+  "_scaffold": true,
+  "levels": []
+}

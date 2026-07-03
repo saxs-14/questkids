@@ -1,0 +1,16 @@
+{
+  "name": "gamegen",
+  "private": true,
+  "version": "1.0.0",
+  "description": "QuestKids content generation pipeline — topics.json is the single source of truth for the game catalog and per-topic content packs.",
+  "scripts": {
+    "extract": "node extract.js",
+    "generate": "node generate.js",
+    "author": "node author.js",
+    "validate": "node validate.js",
+    "all": "npm run extract && npm run generate && npm run author && npm run validate"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

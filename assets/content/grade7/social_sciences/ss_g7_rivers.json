@@ -1,0 +1,13 @@
+{
+  "id": "ss_g7_rivers",
+  "engine": "explorerMap",
+  "grade": "grade7",
+  "subject": "Social Sciences",
+  "title": "Rivers & Resources",
+  "tagline": "Trace SA rivers and understand their role in settlements!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🏞️",
+  "_scaffold": true,
+  "pins": [],
+  "questions": []
+}

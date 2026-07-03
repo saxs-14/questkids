@@ -1,0 +1,14 @@
+{
+  "id": "ss_g7_timeline",
+  "engine": "sequenceBuilder",
+  "grade": "grade7",
+  "subject": "Social Sciences",
+  "title": "History Timeline",
+  "tagline": "Place key SA historical events in the correct chronological order!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "⏳",
+  "_scaffold": true,
+  "sceneType": "history",
+  "steps": [],
+  "roundVariants": []
+}

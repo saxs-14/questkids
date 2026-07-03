@@ -1,0 +1,14 @@
+{
+  "id": "math_g4_patterns",
+  "engine": "sequenceBuilder",
+  "grade": "grade4",
+  "subject": "Mathematics",
+  "title": "Number Ninja",
+  "tagline": "Spot number patterns and sequences like a true maths ninja!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🥷",
+  "_scaffold": true,
+  "sceneType": "patterns",
+  "steps": [],
+  "roundVariants": []
+}

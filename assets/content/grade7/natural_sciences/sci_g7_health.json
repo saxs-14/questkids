@@ -1,0 +1,13 @@
+{
+  "id": "sci_g7_health",
+  "engine": "tugOfWar",
+  "grade": "grade7",
+  "subject": "Natural Sciences",
+  "title": "Human Health",
+  "tagline": "Understand diseases, the immune system and healthy lifestyle choices!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "💉",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

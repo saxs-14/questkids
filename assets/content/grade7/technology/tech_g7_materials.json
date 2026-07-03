@@ -1,0 +1,12 @@
+{
+  "id": "tech_g7_materials",
+  "engine": "runnerCollector",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Materials Lab",
+  "tagline": "Choose the right material for each engineering application!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🔩",
+  "_scaffold": true,
+  "levels": []
+}

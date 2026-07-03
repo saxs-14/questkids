@@ -1,0 +1,14 @@
+{
+  "id": "eng_g7_essay",
+  "engine": "sequenceBuilder",
+  "grade": "grade7",
+  "subject": "English",
+  "title": "Essay Structure Builder",
+  "tagline": "Arrange introduction, body paragraphs and conclusion in the right order!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "✍️",
+  "_scaffold": true,
+  "sceneType": "writing",
+  "steps": [],
+  "roundVariants": []
+}

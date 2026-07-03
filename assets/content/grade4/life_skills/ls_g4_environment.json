@@ -1,0 +1,12 @@
+{
+  "id": "ls_g4_environment",
+  "engine": "runnerCollector",
+  "grade": "grade4",
+  "subject": "Life Skills",
+  "title": "Environmental Awareness",
+  "tagline": "Become an eco-champion — learn about conservation and sustainability!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "♻️",
+  "_scaffold": true,
+  "levels": []
+}

@@ -1,0 +1,13 @@
+{
+  "id": "eng_g1_phonics",
+  "engine": "tugOfWar",
+  "grade": "grade1",
+  "subject": "English",
+  "title": "Phonics Fun",
+  "tagline": "Blend sounds together to decode and read words!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🎵",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

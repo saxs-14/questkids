@@ -1,0 +1,13 @@
+{
+  "id": "tech_g7_innovation",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Innovation Challenge",
+  "tagline": "Identify a problem, brainstorm solutions and present your innovation!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "💡",
+  "_scaffold": true,
+  "characterEmoji": "💡",
+  "stages": []
+}

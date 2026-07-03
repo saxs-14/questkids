@@ -1,0 +1,13 @@
+{
+  "id": "eng_g1_reading",
+  "engine": "adventureJourney",
+  "grade": "grade1",
+  "subject": "English",
+  "title": "Reading Rainbow",
+  "tagline": "Read simple sentences and answer comprehension questions!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🌈",
+  "_scaffold": true,
+  "characterEmoji": "🌈",
+  "stages": []
+}

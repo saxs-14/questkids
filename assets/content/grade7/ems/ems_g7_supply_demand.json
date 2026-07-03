@@ -1,0 +1,13 @@
+{
+  "id": "ems_g7_supply_demand",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "EMS",
+  "title": "Supply & Demand",
+  "tagline": "Watch prices change as supply and demand shift in the market!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "📈",
+  "_scaffold": true,
+  "characterEmoji": "📈",
+  "stages": []
+}

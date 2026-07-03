@@ -36,7 +36,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/ems/ems_g7_banking.json"
+    "contentPack": "assets/content/grade7/ems/ems_g7_banking.json",
+    "sourceOrder": 119
   },
   {
     "id": "ems_g7_budget",
@@ -74,7 +75,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/ems/ems_g7_budget.json"
+    "contentPack": "assets/content/grade7/ems/ems_g7_budget.json",
+    "sourceOrder": 117
   },
   {
     "id": "ems_g7_consumer",
@@ -112,7 +114,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/ems/ems_g7_consumer.json"
+    "contentPack": "assets/content/grade7/ems/ems_g7_consumer.json",
+    "sourceOrder": 122
   },
   {
     "id": "ems_g7_economics",
@@ -150,7 +153,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade7/ems/ems_g7_economics.json"
+    "contentPack": "assets/content/grade7/ems/ems_g7_economics.json",
+    "sourceOrder": 115
   },
   {
     "id": "ems_g7_entrepreneur",
@@ -188,7 +192,8 @@
     "coinsReward": 30,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/ems/ems_g7_entrepreneur.json"
+    "contentPack": "assets/content/grade7/ems/ems_g7_entrepreneur.json",
+    "sourceOrder": 118
   },
   {
     "id": "ems_g7_globaleconomy",
@@ -226,7 +231,8 @@
     "coinsReward": 30,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/ems/ems_g7_globaleconomy.json"
+    "contentPack": "assets/content/grade7/ems/ems_g7_globaleconomy.json",
+    "sourceOrder": 124
   },
   {
     "id": "ems_g7_profit",
@@ -264,7 +270,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/ems/ems_g7_profit.json"
+    "contentPack": "assets/content/grade7/ems/ems_g7_profit.json",
+    "sourceOrder": 121
   },
   {
     "id": "ems_g7_savings",
@@ -302,7 +309,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/ems/ems_g7_savings.json"
+    "contentPack": "assets/content/grade7/ems/ems_g7_savings.json",
+    "sourceOrder": 123
   },
   {
     "id": "ems_g7_supply_demand",
@@ -340,7 +348,8 @@
     "coinsReward": 30,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/ems/ems_g7_supply_demand.json"
+    "contentPack": "assets/content/grade7/ems/ems_g7_supply_demand.json",
+    "sourceOrder": 116
   },
   {
     "id": "ems_g7_tax",
@@ -378,7 +387,8 @@
     "coinsReward": 30,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/ems/ems_g7_tax.json"
+    "contentPack": "assets/content/grade7/ems/ems_g7_tax.json",
+    "sourceOrder": 120
   },
   {
     "id": "eng_g1_alphabet",
@@ -418,7 +428,8 @@
     "coinsReward": 10,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade1/english/eng_g1_alphabet.json"
+    "contentPack": "assets/content/grade1/english/eng_g1_alphabet.json",
+    "sourceOrder": 5
   },
   {
     "id": "eng_g1_grammar",
@@ -458,7 +469,8 @@
     "coinsReward": 15,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade1/english/eng_g1_grammar.json"
+    "contentPack": "assets/content/grade1/english/eng_g1_grammar.json",
+    "sourceOrder": 9
   },
   {
     "id": "eng_g1_phonics",
@@ -498,7 +510,8 @@
     "coinsReward": 10,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade1/english/eng_g1_phonics.json"
+    "contentPack": "assets/content/grade1/english/eng_g1_phonics.json",
+    "sourceOrder": 7
   },
   {
     "id": "eng_g1_reading",
@@ -538,7 +551,8 @@
     "coinsReward": 15,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade1/english/eng_g1_reading.json"
+    "contentPack": "assets/content/grade1/english/eng_g1_reading.json",
+    "sourceOrder": 8
   },
   {
     "id": "eng_g1_words",
@@ -578,7 +592,8 @@
     "coinsReward": 10,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade1/english/eng_g1_words.json"
+    "contentPack": "assets/content/grade1/english/eng_g1_words.json",
+    "sourceOrder": 6
   },
   {
     "id": "eng_g4_debate",
@@ -618,7 +633,8 @@
     "coinsReward": 24,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/english/eng_g4_debate.json"
+    "contentPack": "assets/content/grade4/english/eng_g4_debate.json",
+    "sourceOrder": 54
   },
   {
     "id": "eng_g4_grammar_nouns",
@@ -658,7 +674,8 @@
     "coinsReward": 16,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/english/eng_g4_grammar_nouns.json"
+    "contentPack": "assets/content/grade4/english/eng_g4_grammar_nouns.json",
+    "sourceOrder": 46
   },
   {
     "id": "eng_g4_grammar_verbs",
@@ -698,7 +715,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/english/eng_g4_grammar_verbs.json"
+    "contentPack": "assets/content/grade4/english/eng_g4_grammar_verbs.json",
+    "sourceOrder": 47
   },
   {
     "id": "eng_g4_idioms",
@@ -738,7 +756,8 @@
     "coinsReward": 24,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/english/eng_g4_idioms.json"
+    "contentPack": "assets/content/grade4/english/eng_g4_idioms.json",
+    "sourceOrder": 53
   },
   {
     "id": "eng_g4_poetry",
@@ -778,7 +797,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/english/eng_g4_poetry.json"
+    "contentPack": "assets/content/grade4/english/eng_g4_poetry.json",
+    "sourceOrder": 52
   },
   {
     "id": "eng_g4_punctuation",
@@ -818,7 +838,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/english/eng_g4_punctuation.json"
+    "contentPack": "assets/content/grade4/english/eng_g4_punctuation.json",
+    "sourceOrder": 50
   },
   {
     "id": "eng_g4_reading",
@@ -858,7 +879,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade4/english/eng_g4_reading.json"
+    "contentPack": "assets/content/grade4/english/eng_g4_reading.json",
+    "sourceOrder": 45
   },
   {
     "id": "eng_g4_spelling",
@@ -898,7 +920,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/english/eng_g4_spelling.json"
+    "contentPack": "assets/content/grade4/english/eng_g4_spelling.json",
+    "sourceOrder": 49
   },
   {
     "id": "eng_g4_vocabulary",
@@ -938,7 +961,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/english/eng_g4_vocabulary.json"
+    "contentPack": "assets/content/grade4/english/eng_g4_vocabulary.json",
+    "sourceOrder": 48
   },
   {
     "id": "eng_g4_writing",
@@ -978,7 +1002,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/english/eng_g4_writing.json"
+    "contentPack": "assets/content/grade4/english/eng_g4_writing.json",
+    "sourceOrder": 51
   },
   {
     "id": "eng_g7_comprehension",
@@ -1016,7 +1041,8 @@
     "coinsReward": 30,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade7/english/eng_g7_comprehension.json"
+    "contentPack": "assets/content/grade7/english/eng_g7_comprehension.json",
+    "sourceOrder": 70
   },
   {
     "id": "eng_g7_debate",
@@ -1054,7 +1080,8 @@
     "coinsReward": 30,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/english/eng_g7_debate.json"
+    "contentPack": "assets/content/grade7/english/eng_g7_debate.json",
+    "sourceOrder": 76
   },
   {
     "id": "eng_g7_essay",
@@ -1092,7 +1119,8 @@
     "coinsReward": 24,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/english/eng_g7_essay.json"
+    "contentPack": "assets/content/grade7/english/eng_g7_essay.json",
+    "sourceOrder": 74
   },
   {
     "id": "eng_g7_figurative",
@@ -1130,7 +1158,8 @@
     "coinsReward": 30,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/english/eng_g7_figurative.json"
+    "contentPack": "assets/content/grade7/english/eng_g7_figurative.json",
+    "sourceOrder": 72
   },
   {
     "id": "eng_g7_grammar",
@@ -1168,7 +1197,8 @@
     "coinsReward": 30,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/english/eng_g7_grammar.json"
+    "contentPack": "assets/content/grade7/english/eng_g7_grammar.json",
+    "sourceOrder": 71
   },
   {
     "id": "eng_g7_media",
@@ -1206,7 +1236,8 @@
     "coinsReward": 24,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/english/eng_g7_media.json"
+    "contentPack": "assets/content/grade7/english/eng_g7_media.json",
+    "sourceOrder": 77
   },
   {
     "id": "eng_g7_oral",
@@ -1244,7 +1275,8 @@
     "coinsReward": 30,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/english/eng_g7_oral.json"
+    "contentPack": "assets/content/grade7/english/eng_g7_oral.json",
+    "sourceOrder": 79
   },
   {
     "id": "eng_g7_poetry",
@@ -1283,7 +1315,8 @@
     "coinsReward": 30,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade7/english/eng_g7_poetry.json"
+    "contentPack": "assets/content/grade7/english/eng_g7_poetry.json",
+    "sourceOrder": 75
   },
   {
     "id": "eng_g7_spelling",
@@ -1321,7 +1354,8 @@
     "coinsReward": 24,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/english/eng_g7_spelling.json"
+    "contentPack": "assets/content/grade7/english/eng_g7_spelling.json",
+    "sourceOrder": 78
   },
   {
     "id": "eng_g7_vocabulary",
@@ -1359,7 +1393,8 @@
     "coinsReward": 24,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/english/eng_g7_vocabulary.json"
+    "contentPack": "assets/content/grade7/english/eng_g7_vocabulary.json",
+    "sourceOrder": 73
   },
   {
     "id": "ls_g1_body",
@@ -1399,7 +1434,8 @@
     "coinsReward": 10,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade1/life_skills/ls_g1_body.json"
+    "contentPack": "assets/content/grade1/life_skills/ls_g1_body.json",
+    "sourceOrder": 10
   },
   {
     "id": "ls_g1_community",
@@ -1439,7 +1475,8 @@
     "coinsReward": 10,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade1/life_skills/ls_g1_community.json"
+    "contentPack": "assets/content/grade1/life_skills/ls_g1_community.json",
+    "sourceOrder": 13
   },
   {
     "id": "ls_g1_feelings",
@@ -1479,7 +1516,8 @@
     "coinsReward": 10,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade1/life_skills/ls_g1_feelings.json"
+    "contentPack": "assets/content/grade1/life_skills/ls_g1_feelings.json",
+    "sourceOrder": 11
   },
   {
     "id": "ls_g1_habits",
@@ -1519,7 +1557,8 @@
     "coinsReward": 10,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade1/life_skills/ls_g1_habits.json"
+    "contentPack": "assets/content/grade1/life_skills/ls_g1_habits.json",
+    "sourceOrder": 14
   },
   {
     "id": "ls_g1_safety",
@@ -1559,7 +1598,8 @@
     "coinsReward": 10,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade1/life_skills/ls_g1_safety.json"
+    "contentPack": "assets/content/grade1/life_skills/ls_g1_safety.json",
+    "sourceOrder": 12
   },
   {
     "id": "ls_g4_career",
@@ -1599,7 +1639,8 @@
     "coinsReward": 16,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade4/life_skills/ls_g4_career.json"
+    "contentPack": "assets/content/grade4/life_skills/ls_g4_career.json",
+    "sourceOrder": 55
   },
   {
     "id": "ls_g4_environment",
@@ -1639,7 +1680,8 @@
     "coinsReward": 16,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/life_skills/ls_g4_environment.json"
+    "contentPack": "assets/content/grade4/life_skills/ls_g4_environment.json",
+    "sourceOrder": 59
   },
   {
     "id": "ls_g4_finance",
@@ -1679,7 +1721,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/life_skills/ls_g4_finance.json"
+    "contentPack": "assets/content/grade4/life_skills/ls_g4_finance.json",
+    "sourceOrder": 56
   },
   {
     "id": "ls_g4_health",
@@ -1719,7 +1762,8 @@
     "coinsReward": 16,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/life_skills/ls_g4_health.json"
+    "contentPack": "assets/content/grade4/life_skills/ls_g4_health.json",
+    "sourceOrder": 57
   },
   {
     "id": "ls_g4_social",
@@ -1759,7 +1803,8 @@
     "coinsReward": 16,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/life_skills/ls_g4_social.json"
+    "contentPack": "assets/content/grade4/life_skills/ls_g4_social.json",
+    "sourceOrder": 58
   },
   {
     "id": "ls_g7_career",
@@ -1797,7 +1842,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/life_skills/ls_g7_career.json"
+    "contentPack": "assets/content/grade7/life_skills/ls_g7_career.json",
+    "sourceOrder": 81
   },
   {
     "id": "ls_g7_citizenship",
@@ -1835,7 +1881,8 @@
     "coinsReward": 24,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/life_skills/ls_g7_citizenship.json"
+    "contentPack": "assets/content/grade7/life_skills/ls_g7_citizenship.json",
+    "sourceOrder": 83
   },
   {
     "id": "ls_g7_digital",
@@ -1873,7 +1920,8 @@
     "coinsReward": 24,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/life_skills/ls_g7_digital.json"
+    "contentPack": "assets/content/grade7/life_skills/ls_g7_digital.json",
+    "sourceOrder": 84
   },
   {
     "id": "ls_g7_relationships",
@@ -1911,7 +1959,8 @@
     "coinsReward": 24,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade7/life_skills/ls_g7_relationships.json"
+    "contentPack": "assets/content/grade7/life_skills/ls_g7_relationships.json",
+    "sourceOrder": 80
   },
   {
     "id": "ls_g7_wellbeing",
@@ -1949,7 +1998,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/life_skills/ls_g7_wellbeing.json"
+    "contentPack": "assets/content/grade7/life_skills/ls_g7_wellbeing.json",
+    "sourceOrder": 82
   },
   {
     "id": "math_g1_addition",
@@ -1989,7 +2039,8 @@
     "coinsReward": 10,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade1/mathematics/math_g1_addition.json"
+    "contentPack": "assets/content/grade1/mathematics/math_g1_addition.json",
+    "sourceOrder": 1
   },
   {
     "id": "math_g1_counting",
@@ -2029,7 +2080,8 @@
     "coinsReward": 10,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade1/mathematics/math_g1_counting.json"
+    "contentPack": "assets/content/grade1/mathematics/math_g1_counting.json",
+    "sourceOrder": 0
   },
   {
     "id": "math_g1_mountain",
@@ -2069,7 +2121,8 @@
     "coinsReward": 15,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade1/mathematics/math_g1_mountain.json"
+    "contentPack": "assets/content/grade1/mathematics/math_g1_mountain.json",
+    "sourceOrder": 3
   },
   {
     "id": "math_g1_multiples",
@@ -2109,7 +2162,8 @@
     "coinsReward": 15,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade1/mathematics/math_g1_multiples.json"
+    "contentPack": "assets/content/grade1/mathematics/math_g1_multiples.json",
+    "sourceOrder": 4
   },
   {
     "id": "math_g1_subtraction",
@@ -2149,7 +2203,8 @@
     "coinsReward": 10,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade1/mathematics/math_g1_subtraction.json"
+    "contentPack": "assets/content/grade1/mathematics/math_g1_subtraction.json",
+    "sourceOrder": 2
   },
   {
     "id": "math_g4_data",
@@ -2189,7 +2244,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/mathematics/math_g4_data.json"
+    "contentPack": "assets/content/grade4/mathematics/math_g4_data.json",
+    "sourceOrder": 18
   },
   {
     "id": "math_g4_decimals",
@@ -2229,7 +2285,8 @@
     "coinsReward": 24,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/mathematics/math_g4_decimals.json"
+    "contentPack": "assets/content/grade4/mathematics/math_g4_decimals.json",
+    "sourceOrder": 19
   },
   {
     "id": "math_g4_division",
@@ -2269,7 +2326,8 @@
     "coinsReward": 24,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/mathematics/math_g4_division.json"
+    "contentPack": "assets/content/grade4/mathematics/math_g4_division.json",
+    "sourceOrder": 21
   },
   {
     "id": "math_g4_fractions",
@@ -2309,7 +2367,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade4/mathematics/math_g4_fractions.json"
+    "contentPack": "assets/content/grade4/mathematics/math_g4_fractions.json",
+    "sourceOrder": 15
   },
   {
     "id": "math_g4_geometry",
@@ -2349,7 +2408,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/mathematics/math_g4_geometry.json"
+    "contentPack": "assets/content/grade4/mathematics/math_g4_geometry.json",
+    "sourceOrder": 16
   },
   {
     "id": "math_g4_measurement",
@@ -2389,7 +2449,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/mathematics/math_g4_measurement.json"
+    "contentPack": "assets/content/grade4/mathematics/math_g4_measurement.json",
+    "sourceOrder": 17
   },
   {
     "id": "math_g4_multiplication",
@@ -2429,7 +2490,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/mathematics/math_g4_multiplication.json"
+    "contentPack": "assets/content/grade4/mathematics/math_g4_multiplication.json",
+    "sourceOrder": 20
   },
   {
     "id": "math_g4_patterns",
@@ -2469,7 +2531,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/mathematics/math_g4_patterns.json"
+    "contentPack": "assets/content/grade4/mathematics/math_g4_patterns.json",
+    "sourceOrder": 22
   },
   {
     "id": "math_g4_problems",
@@ -2509,7 +2572,8 @@
     "coinsReward": 24,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/mathematics/math_g4_problems.json"
+    "contentPack": "assets/content/grade4/mathematics/math_g4_problems.json",
+    "sourceOrder": 23
   },
   {
     "id": "math_g4_timestable",
@@ -2549,7 +2613,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade4/mathematics/math_g4_timestable.json"
+    "contentPack": "assets/content/grade4/mathematics/math_g4_timestable.json",
+    "sourceOrder": 24
   },
   {
     "id": "math_g7_algebra",
@@ -2587,7 +2652,8 @@
     "coinsReward": 32,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/mathematics/math_g7_algebra.json"
+    "contentPack": "assets/content/grade7/mathematics/math_g7_algebra.json",
+    "sourceOrder": 61
   },
   {
     "id": "math_g7_fractions",
@@ -2625,7 +2691,8 @@
     "coinsReward": 32,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/mathematics/math_g7_fractions.json"
+    "contentPack": "assets/content/grade7/mathematics/math_g7_fractions.json",
+    "sourceOrder": 66
   },
   {
     "id": "math_g7_geometry",
@@ -2664,7 +2731,8 @@
     "coinsReward": 32,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/mathematics/math_g7_geometry.json"
+    "contentPack": "assets/content/grade7/mathematics/math_g7_geometry.json",
+    "sourceOrder": 63
   },
   {
     "id": "math_g7_integers",
@@ -2702,7 +2770,8 @@
     "coinsReward": 28,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade7/mathematics/math_g7_integers.json"
+    "contentPack": "assets/content/grade7/mathematics/math_g7_integers.json",
+    "sourceOrder": 60
   },
   {
     "id": "math_g7_patterns",
@@ -2740,7 +2809,8 @@
     "coinsReward": 28,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/mathematics/math_g7_patterns.json"
+    "contentPack": "assets/content/grade7/mathematics/math_g7_patterns.json",
+    "sourceOrder": 68
   },
   {
     "id": "math_g7_percentage",
@@ -2778,7 +2848,8 @@
     "coinsReward": 28,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/mathematics/math_g7_percentage.json"
+    "contentPack": "assets/content/grade7/mathematics/math_g7_percentage.json",
+    "sourceOrder": 65
   },
   {
     "id": "math_g7_probability",
@@ -2816,7 +2887,8 @@
     "coinsReward": 28,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/mathematics/math_g7_probability.json"
+    "contentPack": "assets/content/grade7/mathematics/math_g7_probability.json",
+    "sourceOrder": 67
   },
   {
     "id": "math_g7_ratio",
@@ -2854,7 +2926,8 @@
     "coinsReward": 28,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/mathematics/math_g7_ratio.json"
+    "contentPack": "assets/content/grade7/mathematics/math_g7_ratio.json",
+    "sourceOrder": 62
   },
   {
     "id": "math_g7_stats",
@@ -2892,7 +2965,8 @@
     "coinsReward": 28,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/mathematics/math_g7_stats.json"
+    "contentPack": "assets/content/grade7/mathematics/math_g7_stats.json",
+    "sourceOrder": 64
   },
   {
     "id": "math_g7_wordproblems",
@@ -2930,7 +3004,8 @@
     "coinsReward": 32,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/mathematics/math_g7_wordproblems.json"
+    "contentPack": "assets/content/grade7/mathematics/math_g7_wordproblems.json",
+    "sourceOrder": 69
   },
   {
     "id": "ns_g4_ecosystem",
@@ -2970,7 +3045,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade4/natural_sciences/ns_g4_ecosystem.json"
+    "contentPack": "assets/content/grade4/natural_sciences/ns_g4_ecosystem.json",
+    "sourceOrder": 25
   },
   {
     "id": "ns_g4_energy",
@@ -3010,7 +3086,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/natural_sciences/ns_g4_energy.json"
+    "contentPack": "assets/content/grade4/natural_sciences/ns_g4_energy.json",
+    "sourceOrder": 27
   },
   {
     "id": "ns_g4_lifecycle",
@@ -3050,7 +3127,8 @@
     "coinsReward": 16,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/natural_sciences/ns_g4_lifecycle.json"
+    "contentPack": "assets/content/grade4/natural_sciences/ns_g4_lifecycle.json",
+    "sourceOrder": 28
   },
   {
     "id": "ns_g4_matter",
@@ -3090,7 +3168,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/natural_sciences/ns_g4_matter.json"
+    "contentPack": "assets/content/grade4/natural_sciences/ns_g4_matter.json",
+    "sourceOrder": 26
   },
   {
     "id": "ns_g4_solar",
@@ -3130,7 +3209,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/natural_sciences/ns_g4_solar.json"
+    "contentPack": "assets/content/grade4/natural_sciences/ns_g4_solar.json",
+    "sourceOrder": 29
   },
   {
     "id": "ns_g4_weather",
@@ -3170,7 +3250,8 @@
     "coinsReward": 16,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/natural_sciences/ns_g4_weather.json"
+    "contentPack": "assets/content/grade4/natural_sciences/ns_g4_weather.json",
+    "sourceOrder": 30
   },
   {
     "id": "sci_g7_atoms",
@@ -3209,7 +3290,8 @@
     "coinsReward": 30,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_atoms.json"
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_atoms.json",
+    "sourceOrder": 95
   },
   {
     "id": "sci_g7_cells",
@@ -3247,7 +3329,8 @@
     "coinsReward": 30,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_cells.json"
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_cells.json",
+    "sourceOrder": 97
   },
   {
     "id": "sci_g7_ecosystems",
@@ -3285,7 +3368,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_ecosystems.json"
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_ecosystems.json",
+    "sourceOrder": 98
   },
   {
     "id": "sci_g7_energy",
@@ -3323,7 +3407,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_energy.json"
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_energy.json",
+    "sourceOrder": 96
   },
   {
     "id": "sci_g7_foodchains",
@@ -3361,7 +3446,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_foodchains.json"
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_foodchains.json",
+    "sourceOrder": 100
   },
   {
     "id": "sci_g7_forces",
@@ -3399,7 +3485,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_forces.json"
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_forces.json",
+    "sourceOrder": 102
   },
   {
     "id": "sci_g7_health",
@@ -3437,7 +3524,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_health.json"
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_health.json",
+    "sourceOrder": 104
   },
   {
     "id": "sci_g7_mixtures",
@@ -3475,7 +3563,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_mixtures.json"
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_mixtures.json",
+    "sourceOrder": 103
   },
   {
     "id": "sci_g7_physical",
@@ -3513,7 +3602,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_physical.json"
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_physical.json",
+    "sourceOrder": 99
   },
   {
     "id": "sci_g7_reproduction",
@@ -3551,7 +3641,8 @@
     "coinsReward": 30,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_reproduction.json"
+    "contentPack": "assets/content/grade7/natural_sciences/sci_g7_reproduction.json",
+    "sourceOrder": 101
   },
   {
     "id": "ss_g4_ancient",
@@ -3591,7 +3682,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/social_sciences/ss_g4_ancient.json"
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_ancient.json",
+    "sourceOrder": 40
   },
   {
     "id": "ss_g4_biomes",
@@ -3631,7 +3723,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/social_sciences/ss_g4_biomes.json"
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_biomes.json",
+    "sourceOrder": 39
   },
   {
     "id": "ss_g4_climate",
@@ -3671,7 +3764,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/social_sciences/ss_g4_climate.json"
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_climate.json",
+    "sourceOrder": 37
   },
   {
     "id": "ss_g4_colonial",
@@ -3711,7 +3805,8 @@
     "coinsReward": 24,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/social_sciences/ss_g4_colonial.json"
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_colonial.json",
+    "sourceOrder": 42
   },
   {
     "id": "ss_g4_democracy",
@@ -3751,7 +3846,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/social_sciences/ss_g4_democracy.json"
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_democracy.json",
+    "sourceOrder": 44
   },
   {
     "id": "ss_g4_heroes",
@@ -3791,7 +3887,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade4/social_sciences/ss_g4_heroes.json"
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_heroes.json",
+    "sourceOrder": 43
   },
   {
     "id": "ss_g4_indigenous",
@@ -3831,7 +3928,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/social_sciences/ss_g4_indigenous.json"
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_indigenous.json",
+    "sourceOrder": 41
   },
   {
     "id": "ss_g4_maps",
@@ -3871,7 +3969,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade4/social_sciences/ss_g4_maps.json"
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_maps.json",
+    "sourceOrder": 35
   },
   {
     "id": "ss_g4_provinces",
@@ -3911,7 +4010,8 @@
     "coinsReward": 16,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/social_sciences/ss_g4_provinces.json"
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_provinces.json",
+    "sourceOrder": 36
   },
   {
     "id": "ss_g4_water",
@@ -3951,7 +4051,8 @@
     "coinsReward": 16,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/social_sciences/ss_g4_water.json"
+    "contentPack": "assets/content/grade4/social_sciences/ss_g4_water.json",
+    "sourceOrder": 38
   },
   {
     "id": "ss_g7_apartheid",
@@ -3989,7 +4090,8 @@
     "coinsReward": 30,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade7/social_sciences/ss_g7_apartheid.json"
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_apartheid.json",
+    "sourceOrder": 85
   },
   {
     "id": "ss_g7_climate",
@@ -4027,7 +4129,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/social_sciences/ss_g7_climate.json"
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_climate.json",
+    "sourceOrder": 89
   },
   {
     "id": "ss_g7_democracy",
@@ -4065,7 +4168,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/social_sciences/ss_g7_democracy.json"
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_democracy.json",
+    "sourceOrder": 88
   },
   {
     "id": "ss_g7_globalisation",
@@ -4103,7 +4207,8 @@
     "coinsReward": 30,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/social_sciences/ss_g7_globalisation.json"
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_globalisation.json",
+    "sourceOrder": 93
   },
   {
     "id": "ss_g7_leaders",
@@ -4141,7 +4246,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/social_sciences/ss_g7_leaders.json"
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_leaders.json",
+    "sourceOrder": 87
   },
   {
     "id": "ss_g7_population",
@@ -4179,7 +4285,8 @@
     "coinsReward": 30,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/social_sciences/ss_g7_population.json"
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_population.json",
+    "sourceOrder": 92
   },
   {
     "id": "ss_g7_rights",
@@ -4217,7 +4324,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/social_sciences/ss_g7_rights.json"
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_rights.json",
+    "sourceOrder": 94
   },
   {
     "id": "ss_g7_rivers",
@@ -4255,7 +4363,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/social_sciences/ss_g7_rivers.json"
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_rivers.json",
+    "sourceOrder": 90
   },
   {
     "id": "ss_g7_settlement",
@@ -4293,7 +4402,8 @@
     "coinsReward": 30,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/social_sciences/ss_g7_settlement.json"
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_settlement.json",
+    "sourceOrder": 91
   },
   {
     "id": "ss_g7_timeline",
@@ -4331,7 +4441,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/social_sciences/ss_g7_timeline.json"
+    "contentPack": "assets/content/grade7/social_sciences/ss_g7_timeline.json",
+    "sourceOrder": 86
   },
   {
     "id": "tech_g4_circuit",
@@ -4371,7 +4482,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/natural_sciences/tech_g4_circuit.json"
+    "contentPack": "assets/content/grade4/natural_sciences/tech_g4_circuit.json",
+    "sourceOrder": 33
   },
   {
     "id": "tech_g4_coding",
@@ -4411,7 +4523,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/natural_sciences/tech_g4_coding.json"
+    "contentPack": "assets/content/grade4/natural_sciences/tech_g4_coding.json",
+    "sourceOrder": 32
   },
   {
     "id": "tech_g4_machines",
@@ -4451,7 +4564,8 @@
     "coinsReward": 20,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade4/natural_sciences/tech_g4_machines.json"
+    "contentPack": "assets/content/grade4/natural_sciences/tech_g4_machines.json",
+    "sourceOrder": 31
   },
   {
     "id": "tech_g4_robot",
@@ -4491,7 +4605,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade4/natural_sciences/tech_g4_robot.json"
+    "contentPack": "assets/content/grade4/natural_sciences/tech_g4_robot.json",
+    "sourceOrder": 34
   },
   {
     "id": "tech_g7_circuit_parallel",
@@ -4529,7 +4644,8 @@
     "coinsReward": 32,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/technology/tech_g7_circuit_parallel.json"
+    "contentPack": "assets/content/grade7/technology/tech_g7_circuit_parallel.json",
+    "sourceOrder": 106
   },
   {
     "id": "tech_g7_circuit_series",
@@ -4567,7 +4683,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": true,
-    "contentPack": "assets/content/grade7/technology/tech_g7_circuit_series.json"
+    "contentPack": "assets/content/grade7/technology/tech_g7_circuit_series.json",
+    "sourceOrder": 105
   },
   {
     "id": "tech_g7_design",
@@ -4605,7 +4722,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/technology/tech_g7_design.json"
+    "contentPack": "assets/content/grade7/technology/tech_g7_design.json",
+    "sourceOrder": 107
   },
   {
     "id": "tech_g7_electronics",
@@ -4643,7 +4761,8 @@
     "coinsReward": 32,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/technology/tech_g7_electronics.json"
+    "contentPack": "assets/content/grade7/technology/tech_g7_electronics.json",
+    "sourceOrder": 110
   },
   {
     "id": "tech_g7_impact",
@@ -4681,7 +4800,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/technology/tech_g7_impact.json"
+    "contentPack": "assets/content/grade7/technology/tech_g7_impact.json",
+    "sourceOrder": 113
   },
   {
     "id": "tech_g7_innovation",
@@ -4719,7 +4839,8 @@
     "coinsReward": 32,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/technology/tech_g7_innovation.json"
+    "contentPack": "assets/content/grade7/technology/tech_g7_innovation.json",
+    "sourceOrder": 114
   },
   {
     "id": "tech_g7_materials",
@@ -4757,7 +4878,8 @@
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/technology/tech_g7_materials.json"
+    "contentPack": "assets/content/grade7/technology/tech_g7_materials.json",
+    "sourceOrder": 111
   },
   {
     "id": "tech_g7_mechanisms",
@@ -4795,7 +4917,8 @@
     "coinsReward": 32,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/technology/tech_g7_mechanisms.json"
+    "contentPack": "assets/content/grade7/technology/tech_g7_mechanisms.json",
+    "sourceOrder": 109
   },
   {
     "id": "tech_g7_structures",
@@ -4833,7 +4956,8 @@
     "coinsReward": 32,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/technology/tech_g7_structures.json"
+    "contentPack": "assets/content/grade7/technology/tech_g7_structures.json",
+    "sourceOrder": 108
   },
   {
     "id": "tech_g7_systems",
@@ -4871,6 +4995,7 @@
     "coinsReward": 32,
     "isNew": false,
     "isFeatured": false,
-    "contentPack": "assets/content/grade7/technology/tech_g7_systems.json"
+    "contentPack": "assets/content/grade7/technology/tech_g7_systems.json",
+    "sourceOrder": 112
   }
 ]

@@ -1,0 +1,14 @@
+{
+  "id": "math_g7_geometry",
+  "engine": "sequenceBuilder",
+  "grade": "grade7",
+  "subject": "Mathematics",
+  "title": "Geometry Galaxy",
+  "tagline": "Explore angles, triangles, circles and geometric constructions!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🌌",
+  "_scaffold": true,
+  "sceneType": "geometry",
+  "steps": [],
+  "roundVariants": []
+}

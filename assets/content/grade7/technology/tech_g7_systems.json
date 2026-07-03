@@ -1,0 +1,14 @@
+{
+  "id": "tech_g7_systems",
+  "engine": "sequenceBuilder",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Systems & Control",
+  "tagline": "Understand input, process and output in technological systems!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🎛️",
+  "_scaffold": true,
+  "sceneType": "systems",
+  "steps": [],
+  "roundVariants": []
+}

@@ -1,0 +1,13 @@
+{
+  "id": "ls_g7_wellbeing",
+  "engine": "tugOfWar",
+  "grade": "grade7",
+  "subject": "Life Skills",
+  "title": "Wellbeing Quest",
+  "tagline": "Manage stress, build resilience and maintain mental health!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🧘",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

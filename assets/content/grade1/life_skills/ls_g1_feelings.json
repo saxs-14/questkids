@@ -1,0 +1,12 @@
+{
+  "id": "ls_g1_feelings",
+  "engine": "runnerCollector",
+  "grade": "grade1",
+  "subject": "Life Skills",
+  "title": "Feelings Factory",
+  "tagline": "Identify emotions and learn healthy ways to express your feelings!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "😊",
+  "_scaffold": true,
+  "levels": []
+}

@@ -1,0 +1,13 @@
+{
+  "id": "tech_g7_impact",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Technology Impact",
+  "tagline": "Evaluate the social and environmental impact of technologies!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🌍",
+  "_scaffold": true,
+  "characterEmoji": "🌍",
+  "stages": []
+}

@@ -1,0 +1,13 @@
+{
+  "id": "ls_g7_citizenship",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "Life Skills",
+  "title": "Active Citizenship",
+  "tagline": "Your rights and responsibilities as a South African citizen!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "📜",
+  "_scaffold": true,
+  "characterEmoji": "📜",
+  "stages": []
+}

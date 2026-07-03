@@ -1,0 +1,15 @@
+{
+  "id": "math_g7_ratio",
+  "engine": "multiplesMerge",
+  "grade": "grade7",
+  "subject": "Mathematics",
+  "title": "Ratio Racer",
+  "tagline": "Race through ratios, rates and proportions!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "⚖️",
+  "_scaffold": true,
+  "mode": "numeric",
+  "gridSize": 4,
+  "chainLength": 4,
+  "tables": []
+}

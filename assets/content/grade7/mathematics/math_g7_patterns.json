@@ -1,0 +1,14 @@
+{
+  "id": "math_g7_patterns",
+  "engine": "sequenceBuilder",
+  "grade": "grade7",
+  "subject": "Mathematics",
+  "title": "Pattern Pathfinder",
+  "tagline": "Find the rule in number sequences and extend geometric patterns!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🔮",
+  "_scaffold": true,
+  "sceneType": "patterns",
+  "steps": [],
+  "roundVariants": []
+}

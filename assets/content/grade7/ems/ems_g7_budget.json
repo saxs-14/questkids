@@ -1,0 +1,12 @@
+{
+  "id": "ems_g7_budget",
+  "engine": "budgetBuilder",
+  "grade": "grade7",
+  "subject": "EMS",
+  "title": "Budget Builder",
+  "tagline": "Allocate income wisely — distinguish needs vs wants and avoid debt!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "📋",
+  "_scaffold": true,
+  "scenarios": []
+}

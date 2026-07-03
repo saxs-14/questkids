@@ -1,0 +1,12 @@
+{
+  "id": "eng_g4_grammar_verbs",
+  "engine": "runnerCollector",
+  "grade": "grade4",
+  "subject": "English",
+  "title": "Verb Volcano",
+  "tagline": "Conquer tense and verb forms — present, past and future!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🌋",
+  "_scaffold": true,
+  "levels": []
+}

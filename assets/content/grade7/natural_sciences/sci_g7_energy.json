@@ -1,0 +1,14 @@
+{
+  "id": "sci_g7_energy",
+  "engine": "sequenceBuilder",
+  "grade": "grade7",
+  "subject": "Natural Sciences",
+  "title": "Energy Transformations",
+  "tagline": "Track how energy changes form — electrical, heat, light and sound!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "⚡",
+  "_scaffold": true,
+  "sceneType": "energy",
+  "steps": [],
+  "roundVariants": []
+}

@@ -1,0 +1,12 @@
+{
+  "id": "eng_g4_grammar_nouns",
+  "engine": "runnerCollector",
+  "grade": "grade4",
+  "subject": "English",
+  "title": "Noun Navigator",
+  "tagline": "Identify common, proper, collective and abstract nouns!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🏷️",
+  "_scaffold": true,
+  "levels": []
+}

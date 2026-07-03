@@ -1,0 +1,13 @@
+{
+  "id": "sci_g7_forces",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "Natural Sciences",
+  "title": "Forces in Action",
+  "tagline": "Explore gravity, friction, magnetism and balanced/unbalanced forces!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🎯",
+  "_scaffold": true,
+  "characterEmoji": "🎯",
+  "stages": []
+}

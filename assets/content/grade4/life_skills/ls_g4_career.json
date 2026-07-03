@@ -1,0 +1,13 @@
+{
+  "id": "ls_g4_career",
+  "engine": "adventureJourney",
+  "grade": "grade4",
+  "subject": "Life Skills",
+  "title": "Career Explorer",
+  "tagline": "Discover different careers and the skills they require!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "💼",
+  "_scaffold": true,
+  "characterEmoji": "💼",
+  "stages": []
+}

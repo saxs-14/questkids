@@ -1,0 +1,14 @@
+{
+  "id": "eng_g7_oral",
+  "engine": "sequenceBuilder",
+  "grade": "grade7",
+  "subject": "English",
+  "title": "Oral Presentation Prep",
+  "tagline": "Structure and deliver a confident oral presentation!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🗣️",
+  "_scaffold": true,
+  "sceneType": "speaking",
+  "steps": [],
+  "roundVariants": []
+}

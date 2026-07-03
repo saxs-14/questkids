@@ -1,0 +1,14 @@
+{
+  "id": "eng_g1_words",
+  "engine": "sequenceBuilder",
+  "grade": "grade1",
+  "subject": "English",
+  "title": "Word Builder",
+  "tagline": "Spell simple CVC words by choosing the right letters!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "📝",
+  "_scaffold": true,
+  "sceneType": "spelling",
+  "steps": [],
+  "roundVariants": []
+}

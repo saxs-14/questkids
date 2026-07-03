@@ -1,0 +1,13 @@
+{
+  "id": "math_g7_probability",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "Mathematics",
+  "title": "Probability Play",
+  "tagline": "Calculate simple probability and understand events and outcomes!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🎲",
+  "_scaffold": true,
+  "characterEmoji": "🎲",
+  "stages": []
+}

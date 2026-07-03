@@ -1,0 +1,13 @@
+{
+  "id": "ss_g4_provinces",
+  "engine": "explorerMap",
+  "grade": "grade4",
+  "subject": "Social Sciences",
+  "title": "SA Provinces Explorer",
+  "tagline": "Explore all 9 provinces — capitals, facts and famous landmarks!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🇿🇦",
+  "_scaffold": true,
+  "pins": [],
+  "questions": []
+}

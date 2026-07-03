@@ -1,0 +1,13 @@
+{
+  "id": "ns_g4_weather",
+  "engine": "tugOfWar",
+  "grade": "grade4",
+  "subject": "Natural Sciences",
+  "title": "Weather Watcher",
+  "tagline": "Read weather maps, identify cloud types and predict SA weather!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🌤️",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

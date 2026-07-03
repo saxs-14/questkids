@@ -1,0 +1,12 @@
+{
+  "id": "eng_g7_media",
+  "engine": "runnerCollector",
+  "grade": "grade7",
+  "subject": "English",
+  "title": "Media Literacy",
+  "tagline": "Analyse advertisements, news articles and social media bias!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "📱",
+  "_scaffold": true,
+  "levels": []
+}

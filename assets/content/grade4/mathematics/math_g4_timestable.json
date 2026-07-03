@@ -1,0 +1,13 @@
+{
+  "id": "math_g4_timestable",
+  "engine": "tugOfWar",
+  "grade": "grade4",
+  "subject": "Mathematics",
+  "title": "Times Table Tower",
+  "tagline": "Master your times tables from 1×1 all the way to 12×12!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🏗️",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

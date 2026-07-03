@@ -1,0 +1,13 @@
+{
+  "id": "ems_g7_entrepreneur",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "EMS",
+  "title": "Entrepreneurship",
+  "tagline": "Start your business — identify opportunities, plan and pitch your idea!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🚀",
+  "_scaffold": true,
+  "characterEmoji": "🚀",
+  "stages": []
+}

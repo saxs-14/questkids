@@ -1,0 +1,15 @@
+{
+  "id": "ss_g7_population",
+  "engine": "multiplesMerge",
+  "grade": "grade7",
+  "subject": "Social Sciences",
+  "title": "Population Dynamics",
+  "tagline": "Interpret population data — growth, density and migration patterns!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "👥",
+  "_scaffold": true,
+  "mode": "numeric",
+  "gridSize": 4,
+  "chainLength": 4,
+  "tables": []
+}

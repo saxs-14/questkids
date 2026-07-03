@@ -1,0 +1,13 @@
+{
+  "id": "ss_g4_heroes",
+  "engine": "adventureJourney",
+  "grade": "grade4",
+  "subject": "Social Sciences",
+  "title": "Liberation Heroes",
+  "tagline": "Meet the heroes who fought for freedom in South Africa!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "✊",
+  "_scaffold": true,
+  "characterEmoji": "✊",
+  "stages": []
+}

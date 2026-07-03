@@ -1,0 +1,14 @@
+{
+  "id": "tech_g4_coding",
+  "engine": "sequenceBuilder",
+  "grade": "grade4",
+  "subject": "Natural Sciences",
+  "title": "Coding Adventure",
+  "tagline": "Sequence instructions and debug code in this beginner coding quest!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "💻",
+  "_scaffold": true,
+  "sceneType": "technology",
+  "steps": [],
+  "roundVariants": []
+}

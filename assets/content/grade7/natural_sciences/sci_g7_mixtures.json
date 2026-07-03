@@ -1,0 +1,14 @@
+{
+  "id": "sci_g7_mixtures",
+  "engine": "sequenceBuilder",
+  "grade": "grade7",
+  "subject": "Natural Sciences",
+  "title": "Mixture Mission",
+  "tagline": "Separate mixtures using filtering, evaporation, sieving and more!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🧫",
+  "_scaffold": true,
+  "sceneType": "matter",
+  "steps": [],
+  "roundVariants": []
+}

@@ -1,0 +1,13 @@
+{
+  "id": "ems_g7_tax",
+  "engine": "tugOfWar",
+  "grade": "grade7",
+  "subject": "EMS",
+  "title": "Tax Tracker",
+  "tagline": "Understand VAT, income tax and how government uses tax revenue!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🧾",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

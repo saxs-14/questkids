@@ -1,0 +1,12 @@
+{
+  "id": "ls_g4_finance",
+  "engine": "budgetBuilder",
+  "grade": "grade4",
+  "subject": "Life Skills",
+  "title": "Financial Literacy",
+  "tagline": "Learn to budget, save and make smart money decisions!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "💰",
+  "_scaffold": true,
+  "scenarios": []
+}

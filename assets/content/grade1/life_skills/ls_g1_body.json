@@ -1,0 +1,13 @@
+{
+  "id": "ls_g1_body",
+  "engine": "adventureJourney",
+  "grade": "grade1",
+  "subject": "Life Skills",
+  "title": "My Body",
+  "tagline": "Learn your body parts and how they help you every day!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🧍",
+  "_scaffold": true,
+  "characterEmoji": "🧍",
+  "stages": []
+}

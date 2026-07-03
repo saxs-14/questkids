@@ -1,0 +1,12 @@
+{
+  "id": "tech_g7_mechanisms",
+  "engine": "circuitBuilder",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Mechanisms Matter",
+  "tagline": "Use gears, levers, pulleys and cams to transmit force and motion!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "⚙️",
+  "_scaffold": true,
+  "circuits": []
+}

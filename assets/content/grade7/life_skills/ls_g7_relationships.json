@@ -1,0 +1,13 @@
+{
+  "id": "ls_g7_relationships",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "Life Skills",
+  "title": "Healthy Relationships",
+  "tagline": "Build positive relationships and recognise peer pressure!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "❤️",
+  "_scaffold": true,
+  "characterEmoji": "❤️",
+  "stages": []
+}

@@ -1,0 +1,13 @@
+{
+  "id": "ls_g1_habits",
+  "engine": "tugOfWar",
+  "grade": "grade1",
+  "subject": "Life Skills",
+  "title": "Healthy Habits",
+  "tagline": "Build good habits around hygiene, nutrition and exercise!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🥗",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

@@ -1,0 +1,12 @@
+{
+  "id": "sci_g7_atoms",
+  "engine": "circuitBuilder",
+  "grade": "grade7",
+  "subject": "Natural Sciences",
+  "title": "Atom Adventure",
+  "tagline": "Explore atoms, molecules and the building blocks of matter!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "⚛️",
+  "_scaffold": true,
+  "circuits": []
+}

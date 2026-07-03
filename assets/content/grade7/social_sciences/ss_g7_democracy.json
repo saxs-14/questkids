@@ -1,0 +1,13 @@
+{
+  "id": "ss_g7_democracy",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "Social Sciences",
+  "title": "Birth of Democracy",
+  "tagline": "Relive 1994 — understand the negotiated settlement and first elections!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🗳️",
+  "_scaffold": true,
+  "characterEmoji": "🗳️",
+  "stages": []
+}

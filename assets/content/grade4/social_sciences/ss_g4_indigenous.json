@@ -1,0 +1,13 @@
+{
+  "id": "ss_g4_indigenous",
+  "engine": "adventureJourney",
+  "grade": "grade4",
+  "subject": "Social Sciences",
+  "title": "South African History",
+  "tagline": "Explore the stories of indigenous peoples — San, Khoikhoi and Nguni!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🌿",
+  "_scaffold": true,
+  "characterEmoji": "🌿",
+  "stages": []
+}

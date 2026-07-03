@@ -1,0 +1,13 @@
+{
+  "id": "eng_g7_debate",
+  "engine": "tugOfWar",
+  "grade": "grade7",
+  "subject": "English",
+  "title": "Formal Debate",
+  "tagline": "Master formal debate structure — proposing, opposing and rebuttal!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🎤",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

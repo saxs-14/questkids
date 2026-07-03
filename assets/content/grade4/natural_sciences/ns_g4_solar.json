@@ -1,0 +1,13 @@
+{
+  "id": "ns_g4_solar",
+  "engine": "explorerMap",
+  "grade": "grade4",
+  "subject": "Natural Sciences",
+  "title": "Solar System",
+  "tagline": "Explore the planets, moons and stars of our solar system!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🪐",
+  "_scaffold": true,
+  "pins": [],
+  "questions": []
+}

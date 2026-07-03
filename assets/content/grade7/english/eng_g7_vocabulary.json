@@ -1,0 +1,15 @@
+{
+  "id": "eng_g7_vocabulary",
+  "engine": "multiplesMerge",
+  "grade": "grade7",
+  "subject": "English",
+  "title": "Word Power Challenge",
+  "tagline": "Build your Grade 7 vocabulary — synonyms, antonyms and context clues!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "💬",
+  "_scaffold": true,
+  "mode": "numeric",
+  "gridSize": 4,
+  "chainLength": 4,
+  "tables": []
+}

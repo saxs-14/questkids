@@ -1,0 +1,12 @@
+{
+  "id": "ns_g4_ecosystem",
+  "engine": "circuitBuilder",
+  "grade": "grade4",
+  "subject": "Natural Sciences",
+  "title": "Ecosystem Explorer",
+  "tagline": "Explore food chains, habitats and ecosystems across South Africa!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🌿",
+  "_scaffold": true,
+  "circuits": []
+}

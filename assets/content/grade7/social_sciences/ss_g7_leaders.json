@@ -1,0 +1,15 @@
+{
+  "id": "ss_g7_leaders",
+  "engine": "multiplesMerge",
+  "grade": "grade7",
+  "subject": "Social Sciences",
+  "title": "Leaders of Change",
+  "tagline": "Match liberation leaders to their contributions and quotes!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "✊",
+  "_scaffold": true,
+  "mode": "numeric",
+  "gridSize": 4,
+  "chainLength": 4,
+  "tables": []
+}

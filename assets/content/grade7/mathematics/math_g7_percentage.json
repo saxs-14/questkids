@@ -1,0 +1,13 @@
+{
+  "id": "math_g7_percentage",
+  "engine": "tugOfWar",
+  "grade": "grade7",
+  "subject": "Mathematics",
+  "title": "Percentage Pursuit",
+  "tagline": "Calculate percentages, profit, loss, discount and VAT!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "%",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

@@ -1,0 +1,14 @@
+{
+  "id": "ss_g4_water",
+  "engine": "sequenceBuilder",
+  "grade": "grade4",
+  "subject": "Social Sciences",
+  "title": "Water Cycle",
+  "tagline": "Follow water through evaporation, condensation and precipitation!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "💧",
+  "_scaffold": true,
+  "sceneType": "geography",
+  "steps": [],
+  "roundVariants": []
+}

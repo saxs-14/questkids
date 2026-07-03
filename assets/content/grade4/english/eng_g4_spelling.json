@@ -1,0 +1,13 @@
+{
+  "id": "eng_g4_spelling",
+  "engine": "tugOfWar",
+  "grade": "grade4",
+  "subject": "English",
+  "title": "Spelling Bee",
+  "tagline": "Spell grade-level words correctly and win the spelling bee!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🐝",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

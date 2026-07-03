@@ -1,0 +1,14 @@
+{
+  "id": "math_g1_mountain",
+  "engine": "sequenceBuilder",
+  "grade": "grade1",
+  "subject": "Mathematics",
+  "title": "Maths Mountain",
+  "tagline": "Climb the mountain by solving addition, subtraction and multiplication basics!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "⛰️",
+  "_scaffold": true,
+  "sceneType": "operations",
+  "steps": [],
+  "roundVariants": []
+}

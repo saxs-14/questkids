@@ -1,0 +1,12 @@
+{
+  "id": "tech_g4_circuit",
+  "engine": "circuitBuilder",
+  "grade": "grade4",
+  "subject": "Natural Sciences",
+  "title": "Circuit Builder",
+  "tagline": "Complete electrical circuits by placing the right components!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🔌",
+  "_scaffold": true,
+  "circuits": []
+}

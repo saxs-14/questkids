@@ -1,0 +1,13 @@
+{
+  "id": "math_g7_wordproblems",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "Mathematics",
+  "title": "Word Problem Warrior",
+  "tagline": "Translate real-world problems into equations and solve them!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🧠",
+  "_scaffold": true,
+  "characterEmoji": "🧠",
+  "stages": []
+}

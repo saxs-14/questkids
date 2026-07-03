@@ -1,0 +1,12 @@
+{
+  "id": "tech_g7_circuit_series",
+  "engine": "circuitBuilder",
+  "grade": "grade7",
+  "subject": "Technology",
+  "title": "Series Circuit Quest",
+  "tagline": "Complete a series circuit by placing all components correctly!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🔋",
+  "_scaffold": true,
+  "circuits": []
+}

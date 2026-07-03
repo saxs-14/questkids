@@ -1,0 +1,13 @@
+{
+  "id": "eng_g7_comprehension",
+  "engine": "adventureJourney",
+  "grade": "grade7",
+  "subject": "English",
+  "title": "Comprehension Champion",
+  "tagline": "Read complex texts and answer inference and literal questions!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "📖",
+  "_scaffold": true,
+  "characterEmoji": "📖",
+  "stages": []
+}

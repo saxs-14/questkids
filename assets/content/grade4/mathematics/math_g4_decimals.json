@@ -1,0 +1,13 @@
+{
+  "id": "math_g4_decimals",
+  "engine": "tugOfWar",
+  "grade": "grade4",
+  "subject": "Mathematics",
+  "title": "Decimal Dunes",
+  "tagline": "Cross the decimal dunes by comparing, ordering and operating with decimals!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🏜️",
+  "_scaffold": true,
+  "questionType": "addition",
+  "sampleItems": []
+}

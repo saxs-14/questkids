@@ -1,0 +1,12 @@
+{
+  "id": "eng_g7_figurative",
+  "engine": "runnerCollector",
+  "grade": "grade7",
+  "subject": "English",
+  "title": "Figurative Language Fighter",
+  "tagline": "Identify similes, metaphors, personification and hyperbole!",
+  "accentColorHex": "#5C35F5",
+  "emoji": "🎭",
+  "_scaffold": true,
+  "levels": []
+}
