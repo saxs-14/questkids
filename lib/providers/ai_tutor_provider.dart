@@ -161,10 +161,17 @@ class AiTutorProvider extends ChangeNotifier {
   }
 
   Future<String> getHint(String question, String subject) async {
-    return await _gemini.generateQuizHint(
+    final hint = await _gemini.generateQuizHint(
       question: question,
       subject: subject,
     );
+    if (_currentUser != null) {
+      await _chatRepo.saveMessage(
+        _currentUser!.uid,
+        ChatMessageModel.bot(hint, intent: 'hint'),
+      );
+    }
+    return hint;
   }
 
   Future<String> explainAnswer({
@@ -173,12 +180,19 @@ class AiTutorProvider extends ChangeNotifier {
     required String subject,
     required String grade,
   }) async {
-    return await _gemini.explainQuizAnswer(
+    final explanation = await _gemini.explainQuizAnswer(
       question: question,
       correctAnswer: correctAnswer,
       subject: subject,
       grade: grade,
     );
+    if (_currentUser != null) {
+      await _chatRepo.saveMessage(
+        _currentUser!.uid,
+        ChatMessageModel.bot(explanation, intent: 'explain'),
+      );
+    }
+    return explanation;
   }
 
   void clearMessages() {

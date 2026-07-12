@@ -5,6 +5,7 @@ class ChatMessageModel {
   final DateTime timestamp;
   final bool isLoading;
   final String? imageUrl;
+  final String? intent;
 
   ChatMessageModel({
     required this.id,
@@ -13,23 +14,26 @@ class ChatMessageModel {
     required this.timestamp,
     this.isLoading = false,
     this.imageUrl,
+    this.intent,
   });
 
-  factory ChatMessageModel.user(String text) {
+  factory ChatMessageModel.user(String text, {String? intent}) {
     return ChatMessageModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       text: text,
       isUser: true,
       timestamp: DateTime.now(),
+      intent: intent,
     );
   }
 
-  factory ChatMessageModel.bot(String text) {
+  factory ChatMessageModel.bot(String text, {String? intent}) {
     return ChatMessageModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       text: text,
       isUser: false,
       timestamp: DateTime.now(),
+      intent: intent,
     );
   }
 
@@ -54,6 +58,7 @@ class ChatMessageModel {
       timestamp: timestamp,
       isLoading: isLoading ?? this.isLoading,
       imageUrl: imageUrl,
+      intent: intent,
     );
   }
 
@@ -64,6 +69,7 @@ class ChatMessageModel {
       'isUser': isUser,
       'timestamp': timestamp.millisecondsSinceEpoch,
       'imageUrl': imageUrl,
+      'intent': intent,
     };
   }
 
@@ -76,6 +82,7 @@ class ChatMessageModel {
           ? DateTime.fromMillisecondsSinceEpoch(map['timestamp'])
           : DateTime.now(),
       imageUrl: map['imageUrl'],
+      intent: map['intent'] as String?,
     );
   }
 }
