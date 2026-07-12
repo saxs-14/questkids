@@ -141,8 +141,9 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
   @override
   Widget build(BuildContext context) {
     final tutor = context.watch<AiTutorProvider>();
-    final firstName =
-        context.read<AuthProvider>().user?.name.split(' ').first ?? 'there';
+    final authUser = context.read<AuthProvider>().user;
+    final firstName = authUser?.name.split(' ').first ?? 'there';
+    final userAvatarUrl = authUser?.avatarUrl;
 
     final body = Column(
       children: [
@@ -164,7 +165,10 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
                   controller: _scrollCtrl,
                   padding: const EdgeInsets.all(16),
                   itemCount: tutor.messages.length,
-                  itemBuilder: (_, i) => ChatBubble(message: tutor.messages[i]),
+                  itemBuilder: (_, i) => ChatBubble(
+                    message: tutor.messages[i],
+                    userAvatarUrl: userAvatarUrl,
+                  ),
                 ),
         ),
 

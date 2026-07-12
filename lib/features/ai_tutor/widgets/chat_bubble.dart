@@ -9,8 +9,9 @@ import 'questy_avatar.dart';
 
 class ChatBubble extends StatelessWidget {
   final ChatMessageModel message;
+  final String? userAvatarUrl;
 
-  const ChatBubble({super.key, required this.message});
+  const ChatBubble({super.key, required this.message, this.userAvatarUrl});
 
   Future<void> _showReportSheet(BuildContext context) async {
     final reasons = [
@@ -143,7 +144,7 @@ class ChatBubble extends StatelessWidget {
           ),
           if (message.isUser) ...[
             const SizedBox(width: 8),
-            _UserAvatar(),
+            _UserAvatar(avatarUrl: userAvatarUrl),
           ],
         ],
       ),
@@ -152,6 +153,10 @@ class ChatBubble extends StatelessWidget {
 }
 
 class _UserAvatar extends StatelessWidget {
+  final String? avatarUrl;
+
+  const _UserAvatar({this.avatarUrl});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -164,6 +169,12 @@ class _UserAvatar extends StatelessWidget {
           end: Alignment.bottomRight,
         ),
         shape: BoxShape.circle,
+        image: (avatarUrl != null && avatarUrl!.isNotEmpty)
+            ? DecorationImage(
+                image: NetworkImage(avatarUrl!),
+                fit: BoxFit.cover,
+              )
+            : null,
         boxShadow: [
           BoxShadow(
             color: AppColors.primary.withValues(alpha: 0.30),
@@ -172,9 +183,11 @@ class _UserAvatar extends StatelessWidget {
           ),
         ],
       ),
-      child: const Center(
-        child: Text('👧', style: TextStyle(fontSize: 19)),
-      ),
+      child: (avatarUrl != null && avatarUrl!.isNotEmpty)
+          ? null
+          : const Center(
+              child: Text('👧', style: TextStyle(fontSize: 19)),
+            ),
     );
   }
 }
