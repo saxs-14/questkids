@@ -92,6 +92,25 @@ class AppTheme {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         ),
+        dialogTheme: DialogThemeData(
+          backgroundColor: AppColors.cardLight,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          titleTextStyle: GoogleFonts.nunito(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: AppColors.textPrimary,
+          ),
+          contentTextStyle: GoogleFonts.nunito(
+            fontSize: 14,
+            color: AppColors.textSecondary,
+          ),
+        ),
+        snackBarTheme: SnackBarThemeData(
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: AppColors.textPrimary,
+          contentTextStyle: GoogleFonts.nunito(color: Colors.white),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        ),
       );
 
   static ThemeData get darkTheme => ThemeData(
@@ -164,6 +183,25 @@ class AppTheme {
           unselectedItemColor: AppColors.textDark,
           type: BottomNavigationBarType.fixed,
           elevation: 8,
+        ),
+        dialogTheme: DialogThemeData(
+          backgroundColor: AppColors.cardDark,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          titleTextStyle: GoogleFonts.nunito(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: AppColors.textDark,
+          ),
+          contentTextStyle: GoogleFonts.nunito(
+            fontSize: 14,
+            color: AppColors.textDark.withValues(alpha: 0.75),
+          ),
+        ),
+        snackBarTheme: SnackBarThemeData(
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: AppColors.primaryLight,
+          contentTextStyle: GoogleFonts.nunito(color: AppColors.backgroundDark),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         ),
       );
 }
