@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../../core/widgets/app_button.dart';
 import '../../../providers/auth_provider.dart';
 import '../widgets/auth_text_field.dart';
 
@@ -52,9 +53,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 32),
-                    ElevatedButton(
+                    AppButton(
+                      label: 'Back to Login',
                       onPressed: () => Navigator.pop(context),
-                      child: const Text('Back to Login'),
+                      fullWidth: false,
                     ),
                   ],
                 )
@@ -80,16 +82,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       keyboardType: TextInputType.emailAddress,
                     ),
                     const SizedBox(height: 24),
-                    ElevatedButton(
-                      onPressed: auth.isLoading ? null : _send,
-                      child: auth.isLoading
-                          ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                  color: Colors.white, strokeWidth: 2),
-                            )
-                          : const Text('Send Reset Link'),
+                    AppButton(
+                      label: 'Send Reset Link',
+                      isLoading: auth.isLoading,
+                      onPressed: _send,
                     ),
                   ],
                 ),
