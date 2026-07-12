@@ -7,16 +7,24 @@ what to do next.
 
 ## Environment / tooling
 
-- **`flutter test` now runs natively.** The earlier blocker was
-  `sqlite3`'s Dart build hook downloading a prebuilt `libsqlite3` binary
-  from a GitHub release at build/test time — unreachable from locked-down
-  CI/sandbox networks (the proxy returns a JSON access-denied body, which
-  the hook then hashes and rejects as a corrupt download). Fixed by
-  pinning `sqlite3: 2.9.4` via `dependency_overrides` in `pubspec.yaml`
-  (see the `gamegen-0` commit) — the last release before that package
-  switched to build hooks, so `sqflite_common_ffi` (test/offline-desktop
-  only) just `dlopen`s the system `libsqlite3` instead. No network access
-  needed to run tests, on this machine or any other CI runner.
+- **`sqlite3: 2.9.4` `dependency_overrides` pin removed (Phase 1, UI
+  redesign pass).** That pin (added in the `gamegen-0` commit to make
+  `flutter test` runnable on networks that can't reach the sqlite3 build
+  hook's GitHub release download) was actively breaking real Android
+  builds: `sqflite_common_ffi 2.4.2` calls `Database.close()` /
+  `CommonPreparedStatement.close()`, methods that don't exist on
+  `sqlite3 2.9.4` (which only has `.dispose()`) — `flutter build apk
+  --debug` failed with "The method 'close' isn't defined" every time.
+  On a machine with normal internet access, the build hook resolves fine;
+  removing the override lets pub resolve `sqlite3 3.4.0` (pulling in
+  `native_toolchain_c` for the hook), which has `.close()` and fixes the
+  Android build. `flutter test` was re-verified afterwards (164/164
+  green) — the hook only needs network the first time it fetches the
+  prebuilt binary, then it's cached in the pub cache.
+  **If a future CI/sandbox run can't reach GitHub releases**, re-add
+  `dependency_overrides: sqlite3: 2.9.4` for that environment only, but
+  know it will break real device/app builds if left in permanently —
+  don't reintroduce it as a blanket repo default.
 
 ## Game content pipeline (`tools/gamegen`)
 
