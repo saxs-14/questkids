@@ -33,6 +33,17 @@ class AiTutorProvider extends ChangeNotifier {
     await _flutterTts.setPitch(1.0);
   }
 
+  /// Maps a stored `preferredLanguage` display name to a BCP-47 TTS locale.
+  /// Several South African languages have no widely-available on-device
+  /// TTS voice, so those fall back to en-ZA rather than silently failing.
+  static String _ttsLocaleFor(String? preferredLanguage) {
+    const map = {
+      'Afrikaans': 'af-ZA',
+      'English': 'en-ZA',
+    };
+    return map[preferredLanguage] ?? 'en-ZA';
+  }
+
   Future<void> speak(String text) async {
     if (_muted) return;
     // Remove emojis for better TTS experience
@@ -68,6 +79,7 @@ class AiTutorProvider extends ChangeNotifier {
   Future<void> initSession(UserModel user) async {
     _currentUser = user;
     _gemini = GeminiService(preferredLanguage: user.preferredLanguage);
+    await _flutterTts.setLanguage(_ttsLocaleFor(user.preferredLanguage));
 
     // Fetch chat history
     _messages = await _chatRepo.fetchChatHistory(user.uid);
