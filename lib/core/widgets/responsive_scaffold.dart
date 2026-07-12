@@ -28,6 +28,7 @@ class ResponsiveScaffold extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onDestinationSelected;
   final Widget? floatingActionButton;
+  final Widget? drawer;
 
   const ResponsiveScaffold({
     super.key,
@@ -37,6 +38,7 @@ class ResponsiveScaffold extends StatelessWidget {
     required this.selectedIndex,
     required this.onDestinationSelected,
     this.floatingActionButton,
+    this.drawer,
   });
 
   @override
@@ -49,6 +51,7 @@ class ResponsiveScaffold extends StatelessWidget {
         if (!isWide) {
           return Scaffold(
             appBar: appBar,
+            drawer: drawer,
             body: body,
             floatingActionButton: floatingActionButton,
             bottomNavigationBar: BottomNavigationBar(
@@ -68,6 +71,7 @@ class ResponsiveScaffold extends StatelessWidget {
 
         return Scaffold(
           appBar: appBar,
+          drawer: drawer,
           floatingActionButton: floatingActionButton,
           body: Row(
             children: [

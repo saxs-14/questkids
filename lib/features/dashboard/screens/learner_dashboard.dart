@@ -9,6 +9,7 @@ import '../../../providers/auth_provider.dart';
 import '../../../providers/rewards_provider.dart';
 import '../../../core/services/storage_service.dart';
 import '../../../core/widgets/responsive_scaffold.dart';
+import '../../../core/widgets/app_side_menu.dart';
 import '../../../data/repositories/user_repository.dart';
 import '../../notifications/screens/notifications_screen.dart';
 import '../../offline/widgets/offline_banner.dart';
@@ -80,6 +81,7 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
     return ResponsiveScaffold(
       selectedIndex: _selectedIndex,
       onDestinationSelected: (i) => setState(() => _selectedIndex = i),
+      drawer: AppSideMenu(user: user),
       destinations: const [
         ResponsiveDestination(
             icon: Icons.home_outlined, activeIcon: Icons.home, label: 'Home'),
@@ -105,6 +107,12 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
             label: 'Offline'),
       ],
       appBar: AppBar(
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
+        ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
