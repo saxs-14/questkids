@@ -15,10 +15,12 @@ class AiTutorProvider extends ChangeNotifier {
   bool _isTyping = false;
   String? _recommendation;
   bool _recommendationLoading = false;
+  bool _muted = false;
   List<ChatMessageModel> get messages => _messages;
   bool get isTyping => _isTyping;
   String? get recommendation => _recommendation;
   bool get recommendationLoading => _recommendationLoading;
+  bool get isMuted => _muted;
 
   AiTutorProvider() {
     _initTts();
@@ -32,6 +34,7 @@ class AiTutorProvider extends ChangeNotifier {
   }
 
   Future<void> speak(String text) async {
+    if (_muted) return;
     // Remove emojis for better TTS experience
     final cleanText = text.replaceAll(
         RegExp(
@@ -43,6 +46,12 @@ class AiTutorProvider extends ChangeNotifier {
 
   void stopSpeaking() async {
     await _flutterTts.stop();
+  }
+
+  void toggleMute() {
+    _muted = !_muted;
+    if (_muted) stopSpeaking();
+    notifyListeners();
   }
 
   static const List<String> quickPrompts = [

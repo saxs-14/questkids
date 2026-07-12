@@ -221,7 +221,7 @@ class _TypingIndicatorState extends State<_TypingIndicator>
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          const QuestyAvatar(size: 36),
+          const QuestyAvatar(size: 36, expression: QuestyExpression.thinking),
           const SizedBox(width: 8),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

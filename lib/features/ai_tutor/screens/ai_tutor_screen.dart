@@ -204,6 +204,15 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
           ),
           child: Row(
             children: [
+              if (widget.embedded)
+                IconButton(
+                  icon: Icon(
+                    tutor.isMuted ? Icons.volume_off : Icons.volume_up,
+                    color: AppColors.primary,
+                  ),
+                  onPressed: () => context.read<AiTutorProvider>().toggleMute(),
+                  tooltip: tutor.isMuted ? 'Unmute Questy' : 'Mute Questy',
+                ),
               IconButton(
                 icon:
                     const Icon(Icons.image_outlined, color: AppColors.primary),
@@ -289,6 +298,11 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
         ),
         automaticallyImplyLeading: false,
         actions: [
+          IconButton(
+            icon: Icon(tutor.isMuted ? Icons.volume_off : Icons.volume_up),
+            onPressed: () => context.read<AiTutorProvider>().toggleMute(),
+            tooltip: tutor.isMuted ? 'Unmute Questy' : 'Mute Questy',
+          ),
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () {
