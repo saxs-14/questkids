@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../../core/widgets/app_button.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../core/services/navigation_service.dart';
 import '../widgets/auth_text_field.dart';
@@ -197,41 +198,49 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 const SizedBox(height: 40),
                 // Logo & Title
-                Center(
+                Container(
+                  padding: const EdgeInsets.all(28),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [AppColors.primary, Color(0xFF9C27B0)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(32),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primary.withValues(alpha: 0.35),
+                        blurRadius: 24,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
+                  ),
                   child: Column(
                     children: [
                       Container(
-                        width: 90,
-                        height: 90,
+                        width: 72,
+                        height: 72,
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(24),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.primary.withValues(alpha: 0.4),
-                              blurRadius: 20,
-                              offset: const Offset(0, 8),
-                            ),
-                          ],
+                          borderRadius: BorderRadius.circular(20),
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(20),
                           child: Image.asset(
                             'assets/icon/questkids_logo.png',
                             fit: BoxFit.contain,
                             errorBuilder: (_, __, ___) => const Center(
-                              child: Text('🎮', style: TextStyle(fontSize: 44)),
+                              child: Text('🎮', style: TextStyle(fontSize: 36)),
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 16),
                       Text('QuestKids',
-                          style: AppTextStyles.h1
-                              .copyWith(color: AppColors.primary)),
+                          style: AppTextStyles.h1.copyWith(color: Colors.white)),
                       Text('Learn. Play. Grow.',
-                          style: AppTextStyles.bodyMedium
-                              .copyWith(color: AppColors.textSecondary)),
+                          style: AppTextStyles.bodyMedium.copyWith(
+                              color: Colors.white.withValues(alpha: 0.85))),
                     ],
                   ),
                 ),
@@ -308,16 +317,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 if (_isChildLogin) _buildChildForm() else _buildAdultForm(),
 
                 const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: auth.isLoading ? null : _login,
-                  child: auth.isLoading
-                      ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                              color: Colors.white, strokeWidth: 2),
-                        )
-                      : const Text('Sign In'),
+                AppButton(
+                  label: 'Sign In',
+                  isLoading: auth.isLoading,
+                  onPressed: _login,
                 ),
                 const SizedBox(height: 16),
 
