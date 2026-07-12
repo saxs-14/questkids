@@ -5,6 +5,7 @@ import 'firebase_options.dart';
 import 'core/services/db_bootstrap.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_provider.dart';
+import 'core/widgets/app_error_view.dart';
 import 'providers/auth_provider.dart';
 import 'providers/rewards_provider.dart';
 import 'providers/ai_tutor_provider.dart';
@@ -70,6 +71,19 @@ class QuestKidsApp extends StatelessWidget {
         '/dashboard/teacher': (_) => const TeacherDashboard(),
         '/splash': (_) => const SplashScreen(),
       },
+      onUnknownRoute: (settings) => MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(title: const Text('Page Not Found')),
+          body: AppErrorView(
+            message: "We couldn't find that page.",
+            onRetry: () => Navigator.pushNamedAndRemoveUntil(
+              context,
+              '/login',
+              (route) => false,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
