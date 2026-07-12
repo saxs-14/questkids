@@ -29,6 +29,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isChildLogin = true;
 
+  bool _isDark(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark;
+
+  Color _unselectedTextColor(BuildContext context) =>
+      _isDark(context) ? Colors.white70 : Colors.grey.shade600;
+
   @override
   void dispose() {
     _emailCtrl.dispose();
@@ -117,13 +123,17 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade400),
+              border: Border.all(
+                color: _isDark(context) ? Colors.white24 : Colors.grey.shade400,
+              ),
               borderRadius: BorderRadius.circular(12),
-              color: Colors.grey.shade50,
+              color: _isDark(context)
+                  ? Colors.white.withValues(alpha: 0.05)
+                  : Colors.grey.shade50,
             ),
             child: Row(
               children: [
-                const Icon(Icons.calendar_today, color: Colors.grey),
+                const Icon(Icons.calendar_today, color: AppColors.textSecondary),
                 const SizedBox(width: 12),
                 Text(
                   '${_childBirthDate.year}-${_childBirthDate.month.toString().padLeft(2, '0')}-${_childBirthDate.day.toString().padLeft(2, '0')}',
@@ -230,7 +240,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Toggle Child/Adult
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
+                    color: _isDark(context)
+                        ? Colors.white.withValues(alpha: 0.08)
+                        : Colors.grey.shade200,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
@@ -251,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: TextStyle(
                                     color: _isChildLogin
                                         ? Colors.white
-                                        : Colors.grey.shade600,
+                                        : _unselectedTextColor(context),
                                     fontWeight: FontWeight.bold,
                                   )),
                             ),
@@ -274,7 +286,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: TextStyle(
                                     color: !_isChildLogin
                                         ? Colors.white
-                                        : Colors.grey.shade600,
+                                        : _unselectedTextColor(context),
                                     fontWeight: FontWeight.bold,
                                   )),
                             ),

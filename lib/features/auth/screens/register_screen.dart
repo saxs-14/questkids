@@ -259,6 +259,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget _buildStep2Parent() {
     final auth = context.watch<AuthProvider>();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    Color unselectedCardColor() => isDark ? AppColors.cardDark : Colors.white;
+    Color textColorFor(bool selected) => selected
+        ? Colors.white
+        : (isDark ? AppColors.textDark : AppColors.textPrimary);
+
+    Widget parentRoleCard(String value, String emoji, String label) {
+      final selected = _parentRole == value;
+      return Expanded(
+        child: GestureDetector(
+          onTap: () => setState(() => _parentRole = value),
+          child: Card(
+            color: selected ? AppColors.primary : unselectedCardColor(),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(children: [
+                Text(emoji),
+                const SizedBox(height: 8),
+                Text(label, style: TextStyle(color: textColorFor(selected))),
+              ]),
+            ),
+          ),
+        ),
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -268,62 +294,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         const SizedBox(height: 8),
         Row(
           children: [
-            Expanded(
-              child: GestureDetector(
-                onTap: () => setState(() => _parentRole = 'mother'),
-                child: Card(
-                  color: _parentRole == 'mother'
-                      ? AppColors.primary
-                      : Colors.white,
-                  child: const Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Column(children: [
-                      Text('👩'),
-                      SizedBox(height: 8),
-                      Text('Mother')
-                    ]),
-                  ),
-                ),
-              ),
-            ),
+            parentRoleCard('mother', '👩', 'Mother'),
             const SizedBox(width: 8),
-            Expanded(
-              child: GestureDetector(
-                onTap: () => setState(() => _parentRole = 'father'),
-                child: Card(
-                  color: _parentRole == 'father'
-                      ? AppColors.primary
-                      : Colors.white,
-                  child: const Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Column(children: [
-                      Text('👨'),
-                      SizedBox(height: 8),
-                      Text('Father')
-                    ]),
-                  ),
-                ),
-              ),
-            ),
+            parentRoleCard('father', '👨', 'Father'),
             const SizedBox(width: 8),
-            Expanded(
-              child: GestureDetector(
-                onTap: () => setState(() => _parentRole = 'guardian'),
-                child: Card(
-                  color: _parentRole == 'guardian'
-                      ? AppColors.primary
-                      : Colors.white,
-                  child: const Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Column(children: [
-                      Text('🧑'),
-                      SizedBox(height: 8),
-                      Text('Guardian')
-                    ]),
-                  ),
-                ),
-              ),
-            ),
+            parentRoleCard('guardian', '🧑', 'Guardian'),
           ],
         ),
         const SizedBox(height: 12),
@@ -367,7 +342,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 16),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
+                      border: Border.all(
+                        color: isDark ? Colors.white24 : Colors.grey.shade400,
+                      ),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
@@ -399,7 +376,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           const SizedBox(height: 8),
         ] else ...[
           Card(
-            color: AppColors.surface,
+            color: isDark ? AppColors.cardDark : AppColors.surface,
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Text(
