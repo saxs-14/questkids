@@ -53,6 +53,11 @@ class AppColors {
     Color(0xFF5C35F5),
     Color(0xFF9C27B0)
   ];
+  static const List<Color> heroGradientTriple = [
+    Color(0xFF5C35F5),
+    Color(0xFF7C4DFF),
+    Color(0xFF9C27B0),
+  ];
   static const List<Color> mathGradient = [
     Color(0xFFFF6B35),
     Color(0xFFFF9800)

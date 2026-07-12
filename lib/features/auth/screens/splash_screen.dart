@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../../core/widgets/shader_background.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../core/services/navigation_service.dart';
 import 'login_screen.dart';
@@ -69,50 +70,52 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primary,
-      body: Center(
-        child: FadeTransition(
-          opacity: _fadeAnim,
-          child: ScaleTransition(
-            scale: _scaleAnim,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 140,
-                  height: 140,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(36),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.25),
-                        blurRadius: 36,
-                        offset: const Offset(0, 12),
+      body: ShaderBackground(
+        colors: AppColors.heroGradientTriple,
+        child: Center(
+          child: FadeTransition(
+            opacity: _fadeAnim,
+            child: ScaleTransition(
+              scale: _scaleAnim,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 140,
+                    height: 140,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(36),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.25),
+                          blurRadius: 36,
+                          offset: const Offset(0, 12),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(36),
+                      child: Image.asset(
+                        'assets/icon/questkids_logo.png',
+                        fit: BoxFit.contain,
+                        errorBuilder: (_, __, ___) => const Center(
+                            child: Text('🎮', style: TextStyle(fontSize: 60))),
                       ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(36),
-                    child: Image.asset(
-                      'assets/icon/questkids_logo.png',
-                      fit: BoxFit.contain,
-                      errorBuilder: (_, __, ___) => const Center(
-                          child: Text('🎮', style: TextStyle(fontSize: 60))),
                     ),
                   ),
-                ),
-                const SizedBox(height: 28),
-                Text('QuestKids',
-                    style: AppTextStyles.h1.copyWith(color: Colors.white)),
-                const SizedBox(height: 8),
-                Text('Learn. Play. Grow.',
-                    style: AppTextStyles.bodyLarge
-                        .copyWith(color: Colors.white70)),
-                const SizedBox(height: 60),
-                const CircularProgressIndicator(
-                    color: Colors.white, strokeWidth: 2),
-              ],
+                  const SizedBox(height: 28),
+                  Text('QuestKids',
+                      style: AppTextStyles.h1.copyWith(color: Colors.white)),
+                  const SizedBox(height: 8),
+                  Text('Learn. Play. Grow.',
+                      style: AppTextStyles.bodyLarge
+                          .copyWith(color: Colors.white70)),
+                  const SizedBox(height: 60),
+                  const CircularProgressIndicator(
+                      color: Colors.white, strokeWidth: 2),
+                ],
+              ),
             ),
           ),
         ),
