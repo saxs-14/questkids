@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../../core/widgets/app_button.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../core/services/navigation_service.dart';
 import '../widgets/auth_text_field.dart';
@@ -160,9 +161,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           onRoleChanged: (r) => setState(() => _role = r),
         ),
         const SizedBox(height: 32),
-        ElevatedButton(
+        AppButton(
+          label: 'Next →',
           onPressed: () => setState(() => _step = 1),
-          child: const Text('Next →'),
         ),
       ],
     );
@@ -245,13 +246,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           validator: (v) => v != _passwordCtrl.text ? 'Mismatch' : null,
         ),
         const SizedBox(height: 32),
-        ElevatedButton(
+        AppButton(
+          label: 'Next →',
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               setState(() => _step = _role == 'parent' ? 2 : 3);
             }
           },
-          child: const Text('Next →'),
         ),
       ],
     );
@@ -387,13 +388,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           const SizedBox(height: 24),
         ],
         const SizedBox(height: 32),
-        ElevatedButton(
-          onPressed: (auth.isLoading || (_registerChild && !_consentGiven))
-              ? null
-              : _register,
-          child: auth.isLoading
-              ? const CircularProgressIndicator(color: Colors.white)
-              : const Text('Create Accounts 🚀'),
+        AppButton(
+          label: 'Create Accounts 🚀',
+          isLoading: auth.isLoading,
+          onPressed:
+              (_registerChild && !_consentGiven) ? null : _register,
         ),
       ],
     );
@@ -411,11 +410,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           onGradeChanged: (g) => setState(() => _teacherGrade = g),
         ),
         const SizedBox(height: 32),
-        ElevatedButton(
-          onPressed: auth.isLoading ? null : _register,
-          child: auth.isLoading
-              ? const CircularProgressIndicator(color: Colors.white)
-              : const Text('Create Account 🚀'),
+        AppButton(
+          label: 'Create Account 🚀',
+          isLoading: auth.isLoading,
+          onPressed: _register,
         ),
       ],
     );
@@ -444,13 +442,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
           padding: const EdgeInsets.all(24),
           child: Form(
             key: _formKey,
-            child: () {
-              if (_step == 0) return _buildStep0();
-              if (_step == 1) return _buildStep1();
-              if (_step == 2) return _buildStep2Parent();
-              if (_step == 3) return _buildStep3Teacher();
-              return const SizedBox();
-            }(),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: Row(
+                    children: List.generate(4, (i) {
+                      final active = i <= _step;
+                      return Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(right: i < 3 ? 6 : 0),
+                          height: 6,
+                          decoration: BoxDecoration(
+                            color: active
+                                ? AppColors.primary
+                                : AppColors.primary.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(3),
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+                () {
+                  if (_step == 0) return _buildStep0();
+                  if (_step == 1) return _buildStep1();
+                  if (_step == 2) return _buildStep2Parent();
+                  if (_step == 3) return _buildStep3Teacher();
+                  return const SizedBox();
+                }(),
+              ],
+            ),
           ),
         ),
       ),
