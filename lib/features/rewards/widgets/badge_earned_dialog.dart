@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../data/models/reward_model.dart';
+import '../../../providers/ai_tutor_provider.dart';
+import '../../ai_tutor/widgets/questy_avatar.dart';
+import '../../ai_tutor/widgets/questy_dialogue.dart';
 
 class BadgeEarnedDialog extends StatefulWidget {
   final BadgeModel badge;
@@ -23,9 +27,12 @@ class _BadgeEarnedDialogState extends State<BadgeEarnedDialog>
   late Animation<double> _scaleAnim;
   late Animation<double> _fadeAnim;
 
+  late final String _celebrationLine;
+
   @override
   void initState() {
     super.initState();
+    _celebrationLine = QuestyDialogue.celebrateBadge(widget.badge.name);
     _ctrl = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 600));
     _scaleAnim = Tween<double>(begin: 0.3, end: 1.0)
@@ -33,6 +40,9 @@ class _BadgeEarnedDialogState extends State<BadgeEarnedDialog>
     _fadeAnim = Tween<double>(begin: 0, end: 1)
         .animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeIn));
     _ctrl.forward();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) context.read<AiTutorProvider>().speak(_celebrationLine);
+    });
   }
 
   @override
@@ -69,13 +79,19 @@ class _BadgeEarnedDialogState extends State<BadgeEarnedDialog>
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('🎉', style: TextStyle(fontSize: 48)),
+                const QuestyAvatar(size: 56, expression: QuestyExpression.celebrating),
                 const SizedBox(height: 8),
                 Text(
                   'Badge Earned!',
                   style: AppTextStyles.h2.copyWith(color: Colors.white),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 8),
+                Text(
+                  _celebrationLine,
+                  style: AppTextStyles.bodyMedium.copyWith(color: Colors.white),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
                 Container(
                   width: 100,
                   height: 100,

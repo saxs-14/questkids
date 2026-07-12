@@ -15,12 +15,19 @@ class RewardsProvider extends ChangeNotifier {
   List<BadgeModel> _newlyEarnedBadges = [];
   bool _isLoading = false;
   String? _errorMessage;
+  int? _previousLevel;
+  int? _leveledUpTo;
 
   RewardModel? get rewards => _rewards;
   List<ProgressModel> get progressHistory => _progressHistory;
   List<BadgeModel> get newlyEarnedBadges => _newlyEarnedBadges;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
+
+  /// Non-null immediately after a level increase is detected by
+  /// [loadRewards]/[watchRewards]; call [clearLevelUp] once it's been
+  /// celebrated so it doesn't re-trigger on the next rebuild.
+  int? get leveledUpTo => _leveledUpTo;
 
   int get totalPoints => _rewards?.totalPoints ?? 0;
   int get level => _rewards?.level ?? 1;
@@ -52,6 +59,7 @@ class RewardsProvider extends ChangeNotifier {
       _progressHistory = await _progressRepo.getUserProgress(uid);
       await _rewardsService.updateStreak(uid);
       _rewards = await _rewardRepo.getRewards(uid);
+      _detectLevelUp();
     } catch (e) {
       _errorMessage = 'Failed to load rewards.';
     }
@@ -62,12 +70,28 @@ class RewardsProvider extends ChangeNotifier {
   void watchRewards(String uid) {
     _rewardRepo.watchRewards(uid).listen((r) {
       _rewards = r;
+      _detectLevelUp();
       notifyListeners();
     });
     _progressRepo.watchUserProgress(uid).listen((p) {
       _progressHistory = p;
       notifyListeners();
     });
+  }
+
+  /// Compares the newly-loaded [level] against the last known level and
+  /// records a level-up, skipping the very first load (there's no
+  /// "previous" level to compare against yet).
+  void _detectLevelUp() {
+    if (_previousLevel != null && level > _previousLevel!) {
+      _leveledUpTo = level;
+    }
+    _previousLevel = level;
+  }
+
+  void clearLevelUp() {
+    _leveledUpTo = null;
+    notifyListeners();
   }
 
   Future<void> checkForNewBadges({
