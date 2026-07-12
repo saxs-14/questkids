@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../../core/widgets/app_button.dart';
+import '../../../core/widgets/app_dialog.dart';
 import '../../../core/widgets/profile_avatar_picker.dart';
 import '../../../data/repositories/user_repository.dart';
 import '../../../providers/auth_provider.dart';
@@ -102,14 +104,21 @@ class ProfileScreen extends StatelessWidget {
             onTap: () => Navigator.pushNamed(context, '/settings'),
           ),
           const SizedBox(height: 24),
-          OutlinedButton.icon(
-            onPressed: () => auth.signOut(),
-            icon: const Icon(Icons.logout, color: AppColors.error),
-            label: const Text('Sign Out',
-                style: TextStyle(color: AppColors.error)),
-            style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: AppColors.error),
-            ),
+          AppButton(
+            label: 'Sign Out',
+            icon: Icons.logout,
+            variant: AppButtonVariant.danger,
+            fullWidth: false,
+            onPressed: () async {
+              final confirmed = await AppDialog.confirm(
+                context,
+                title: 'Sign Out',
+                message: 'Are you sure you want to sign out?',
+                confirmLabel: 'Sign Out',
+                isDanger: true,
+              );
+              if (confirmed) await auth.signOut();
+            },
           ),
         ],
       ),

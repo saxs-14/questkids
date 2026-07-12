@@ -10,6 +10,8 @@ import '../../../providers/rewards_provider.dart';
 import '../../../core/services/storage_service.dart';
 import '../../../core/widgets/responsive_scaffold.dart';
 import '../../../core/widgets/app_side_menu.dart';
+import '../../../core/widgets/app_button.dart';
+import '../../../core/widgets/app_dialog.dart';
 import '../../../data/repositories/user_repository.dart';
 import '../../notifications/screens/notifications_screen.dart';
 import '../../offline/widgets/offline_banner.dart';
@@ -1213,21 +1215,26 @@ class _ProfileTabState extends State<_ProfileTab> {
                 left: isMobile ? 16 : 24,
                 right: isMobile ? 16 : 24,
                 bottom: 40),
-            child: OutlinedButton.icon(
-              onPressed: () {
-                auth.signOut();
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/login', (route) => false);
+            child: AppButton(
+              label: 'Sign Out',
+              icon: Icons.logout,
+              variant: AppButtonVariant.danger,
+              fullWidth: isMobile,
+              onPressed: () async {
+                final confirmed = await AppDialog.confirm(
+                  context,
+                  title: 'Sign Out',
+                  message: 'Are you sure you want to sign out?',
+                  confirmLabel: 'Sign Out',
+                  isDanger: true,
+                );
+                if (confirmed && context.mounted) {
+                  await auth.signOut();
+                  if (context.mounted) {
+                    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                  }
+                }
               },
-              icon: const Icon(Icons.logout, color: AppColors.error),
-              label: const Text('Sign Out',
-                  style: TextStyle(color: AppColors.error)),
-              style: OutlinedButton.styleFrom(
-                minimumSize: Size(isMobile ? double.infinity : 200, 52),
-                side: const BorderSide(color: AppColors.error, width: 1.5),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14)),
-              ),
             ),
           ),
         ],
