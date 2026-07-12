@@ -94,6 +94,13 @@ class ProfileScreen extends StatelessWidget {
               }
             },
           ),
+          const SizedBox(height: 12),
+          ListTile(
+            leading: const Icon(Icons.settings_outlined, color: AppColors.primary),
+            title: Text('Settings', style: AppTextStyles.bodyMedium),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.pushNamed(context, '/settings'),
+          ),
           const SizedBox(height: 24),
           OutlinedButton.icon(
             onPressed: () => auth.signOut(),
