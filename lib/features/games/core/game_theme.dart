@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/constants/app_constants.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../ai_tutor/widgets/questy_avatar.dart';
 
 /// Visual + copy identity for one game engine — separate from subject colour
 /// (Maths/Science/English/...), this is what makes the *mechanic* itself
@@ -182,7 +183,12 @@ class MascotBubble extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(positive ? '🤖' : '🤖', style: const TextStyle(fontSize: 30)),
+        QuestyAvatar(
+          size: 30,
+          expression: positive
+              ? QuestyExpression.happy
+              : QuestyExpression.encouraging,
+        ),
         const SizedBox(width: 8),
         Flexible(
           child: Container(
