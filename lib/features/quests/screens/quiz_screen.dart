@@ -7,6 +7,7 @@ import '../../../data/models/activity_model.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/quiz_provider.dart';
 import '../../../providers/ai_tutor_provider.dart';
+import '../../ai_tutor/widgets/questy_avatar.dart';
 import '../widgets/question_card.dart';
 import '../widgets/quest_start_overlay.dart';
 import 'quiz_result_screen.dart';
@@ -36,6 +37,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
 
   bool _showStartOverlay = true;
   bool _showPointsPopup = false;
+  bool _hintLoading = false;
 
   @override
   void initState() {
@@ -176,51 +178,60 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.lightbulb_outline),
+            icon: _hintLoading
+                ? const QuestyAvatar(size: 24, expression: QuestyExpression.thinking)
+                : const QuestyAvatar(size: 24),
             tooltip: 'Ask Questy for a hint',
-            onPressed: () async {
-              final tutor = context.read<AiTutorProvider>();
-              final hint = await tutor.getHint(
-                question.question,
-                widget.activity.subject,
-              );
-              if (!context.mounted) return;
-              showModalBottomSheet(
-                context: context,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24),
-                  ),
-                ),
-                builder: (_) => Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Text('💡', style: TextStyle(fontSize: 24)),
-                          const SizedBox(width: 12),
-                          Text('Questy Hint', style: AppTextStyles.h3),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      Text(hint, style: AppTextStyles.bodyMedium),
-                      const SizedBox(height: 24),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: const Text('Got it! Onward! ⚔️'),
+            onPressed: _hintLoading
+                ? null
+                : () async {
+                    setState(() => _hintLoading = true);
+                    final tutor = context.read<AiTutorProvider>();
+                    final hint = await tutor.getHint(
+                      question.question,
+                      widget.activity.subject,
+                    );
+                    if (!mounted) return;
+                    setState(() => _hintLoading = false);
+                    if (!context.mounted) return;
+                    showModalBottomSheet(
+                      context: context,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(24),
+                          topRight: Radius.circular(24),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              );
-            },
+                      builder: (_) => Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const QuestyAvatar(
+                                    size: 32,
+                                    expression: QuestyExpression.encouraging),
+                                const SizedBox(width: 12),
+                                Text('Questy Hint', style: AppTextStyles.h3),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            Text(hint, style: AppTextStyles.bodyMedium),
+                            const SizedBox(height: 24),
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('Got it! Onward! ⚔️'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
           ),
         ],
       ),

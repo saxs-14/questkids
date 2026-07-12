@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/services/gemini_service.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../providers/ai_tutor_provider.dart';
+import '../../ai_tutor/widgets/questy_avatar.dart';
 import '../core/game_config.dart';
 import '../core/numeric_keyboard_mixin.dart';
 import 'tug_of_war_session.dart';
@@ -70,10 +71,10 @@ class _TugOfWarGameState extends State<TugOfWarGame>
     final q = _session.currentQuestion;
     if (q == null || _hintLoading) return;
     setState(() => _hintLoading = true);
-    final hint = await GeminiService().generateQuizHint(
-      question: q['display'] as String,
-      subject: widget.config.subject,
-    );
+    final hint = await context.read<AiTutorProvider>().getHint(
+          q['display'] as String,
+          widget.config.subject,
+        );
     if (mounted) {
       setState(() {
         _hintText = hint;
@@ -251,13 +252,8 @@ class _TitleBar extends StatelessWidget {
           IconButton(
             onPressed: onHint,
             icon: hintLoading
-                ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                        color: Colors.white, strokeWidth: 2),
-                  )
-                : const Text('💡', style: TextStyle(fontSize: 22)),
+                ? const QuestyAvatar(size: 24, expression: QuestyExpression.thinking)
+                : const QuestyAvatar(size: 24),
             tooltip: 'Questy hint',
           ),
         ],
@@ -286,7 +282,7 @@ class _HintBubble extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Text('💡', style: TextStyle(fontSize: 18)),
+          const QuestyAvatar(size: 22, expression: QuestyExpression.encouraging),
           const SizedBox(width: 8),
           Expanded(
             child: Text(text,
