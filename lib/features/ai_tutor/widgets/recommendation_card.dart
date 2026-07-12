@@ -35,7 +35,8 @@ class RecommendationCard extends StatelessWidget {
       child: isLoading
           ? Row(
               children: [
-                const QuestyAvatar(size: 28, glow: false),
+                const QuestyAvatar(
+                    size: 28, glow: false, expression: QuestyExpression.thinking),
                 const SizedBox(width: 10),
                 Text(
                   'Questy is looking at your progress... ✨',

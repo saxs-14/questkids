@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/constants/game_catalog.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/theme_provider.dart';
 import '../../../providers/auth_provider.dart';
+import '../../../providers/ai_tutor_provider.dart';
 import '../../../providers/rewards_provider.dart';
 import '../../../core/services/storage_service.dart';
 import '../../../core/widgets/responsive_scaffold.dart';
@@ -20,6 +22,7 @@ import '../../offline/screens/offline_screen.dart';
 import '../../quests/screens/quests_screen.dart';
 import '../../rewards/screens/rewards_screen.dart';
 import '../../ai_tutor/screens/ai_tutor_screen.dart';
+import '../../ai_tutor/widgets/recommendation_card.dart';
 import '../../games/core/game_config.dart';
 import '../../games/core/game_intro_sheet.dart';
 import '../../games/core/game_router.dart';
@@ -244,6 +247,8 @@ class _LearnerHomeTab extends StatelessWidget {
                 const DailyMissionsCard(),
                 const SizedBox(height: 24),
                 _DailyChallengeCard(user: user),
+                const SizedBox(height: 24),
+                _QuestyTipCard(user: user),
                 const SizedBox(height: 24),
               ],
             ),
@@ -568,6 +573,98 @@ class _DailyChallengeCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Questy's Tip — proactive, once-a-day recommendation on the home tab so
+// Questy isn't only reachable from its own dashboard destination.
+// ---------------------------------------------------------------------------
+class _QuestyTipCard extends StatefulWidget {
+  final dynamic user;
+  const _QuestyTipCard({required this.user});
+
+  @override
+  State<_QuestyTipCard> createState() => _QuestyTipCardState();
+}
+
+class _QuestyTipCardState extends State<_QuestyTipCard> {
+  static const _dateKey = 'questy_tip_date';
+  static const _textKey = 'questy_tip_text';
+
+  String? _tip;
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _loadTip());
+  }
+
+  String get _today {
+    final now = DateTime.now();
+    return '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+  }
+
+  Future<void> _loadTip() async {
+    final prefs = await SharedPreferences.getInstance();
+    final cachedDate = prefs.getString(_dateKey);
+    final cachedText = prefs.getString(_textKey);
+
+    if (cachedDate == _today && cachedText != null && cachedText.isNotEmpty) {
+      if (mounted) {
+        setState(() {
+          _tip = cachedText;
+          _loading = false;
+        });
+      }
+      return;
+    }
+
+    if (!mounted) return;
+    final rewards = context.read<RewardsProvider>();
+    final subjectScores = <String, int>{};
+    for (final entry in rewards.subjectCounts.entries) {
+      subjectScores[entry.key] = (entry.value * 20).clamp(0, 100);
+    }
+
+    final tutor = context.read<AiTutorProvider>();
+    await tutor.loadRecommendation(
+      name: _firstNameOf(widget.user),
+      grade: (widget.user?.grade as String?) ?? 'Grade 1',
+      subjectScores: subjectScores,
+      streakDays: rewards.streakDays,
+      totalPoints: rewards.totalPoints,
+    );
+
+    final tip = tutor.recommendation;
+    if (tip != null && tip.isNotEmpty) {
+      await prefs.setString(_dateKey, _today);
+      await prefs.setString(_textKey, tip);
+    }
+    if (mounted) {
+      setState(() {
+        _tip = tip;
+        _loading = false;
+      });
+    }
+  }
+
+  String _firstNameOf(dynamic user) {
+    final name = user?.name as String?;
+    if (name == null || name.isEmpty) return 'Learner';
+    return name.split(' ').first;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_loading && (_tip == null || _tip!.isEmpty)) {
+      return const SizedBox.shrink();
+    }
+    return RecommendationCard(
+      recommendation: _tip ?? '',
+      isLoading: _loading,
     );
   }
 }
