@@ -4,11 +4,16 @@ import '../../../../core/theme/app_colors.dart';
 
 /// Numeric keypad for Tug of War.
 ///
-/// Layout (3 columns):
+/// Layout (3 columns, plus a 2-column confirm row):
 ///   1  2  3
 ///   4  5  6
 ///   7  8  9
-///   ❌  0  ✅
+///   .  0  ±
+///   ❌     ✅
+///
+/// '.' and '±' feed the same [onDigit] callback as the digit keys;
+/// [TugOfWarSession.appendDigit] is responsible for validating placement
+/// (e.g. rejecting a second '.', toggling a leading '-' on/off for '±').
 ///
 /// [lastAnswerCorrect] drives the ✅ button flash:
 ///   null  = default colour
@@ -87,6 +92,7 @@ class TugOfWarKeypad extends StatelessWidget {
                       color: switch (key) {
                         '❌' => AppColors.error,
                         '✅' => confirmColor,
+                        '.' || '±' => AppColors.blue.withAlpha(160),
                         _ => AppColors.blue.withAlpha(220),
                       },
                       onTap: () {
@@ -114,7 +120,8 @@ class TugOfWarKeypad extends StatelessWidget {
     ['1', '2', '3'],
     ['4', '5', '6'],
     ['7', '8', '9'],
-    ['❌', '0', '✅'],
+    ['.', '0', '±'],
+    ['❌', '✅'],
   ];
 }
 

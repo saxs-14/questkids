@@ -81,7 +81,22 @@ class TugOfWarSession extends GameSessionState {
   // ── Player input ───────────────────────────────────────────────────────────
 
   void appendDigit(String digit) {
-    if (isFinished || _currentInput.length >= 4) return;
+    if (isFinished) return;
+    if (digit == '±') {
+      _currentInput = _currentInput.startsWith('-')
+          ? _currentInput.substring(1)
+          : '-$_currentInput';
+      notifyListeners();
+      return;
+    }
+    if (digit == '.') {
+      if (_currentInput.contains('.') || _currentInput.length >= 6) return;
+      _currentInput += digit;
+      notifyListeners();
+      return;
+    }
+    if (digit == '-') return; // only the ± toggle may add a sign
+    if (_currentInput.length >= 6) return;
     _currentInput += digit;
     notifyListeners();
   }
