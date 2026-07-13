@@ -21,6 +21,7 @@ export { generateDailyMissions } from "./missions/generate";
 export { getTeacherInsight } from "./teacher/insights";
 export { setUserRole, assignDefaultRole } from "./admin/setUserRole";
 export { sendPushOnNotificationCreate } from "./notifications/sendPush";
+export { onBadgeAwarded } from "./notifications/badgeAward";
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();

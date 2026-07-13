@@ -295,21 +295,13 @@ class Grade4Repository {
           category: ach['category'] ?? 'battle',
           earnedAt: DateTime.now(),
         );
+        // awardBadge writes to rewards/{uid}, which the Cloud Functions
+        // onBadgeAwarded trigger watches -- it notifies both the learner
+        // and every linked parent server-side, so no client-side
+        // notification write is needed here (it would fail the Firestore
+        // create rule anyway, since the authenticated caller is the child
+        // but recipientUid was the parent).
         await _rewardRepo.awardBadge(uid, badge);
-        // notify parents
-        final userDoc = await _db.collection('users').doc(uid).get();
-        final linkedParents =
-            List<String>.from(userDoc.data()?['linkedParentUids'] ?? []);
-        for (final p in linkedParents) {
-          await _notificationRepo.createNotification({
-            'recipientUid': p,
-            'type': 'achievement_unlocked',
-            'title':
-                '${userDoc.data()?['name'] ?? 'Your child'} unlocked ${badge.name}',
-            'body': badge.description,
-            'data': {'achievementId': achievementId, 'uid': uid},
-          });
-        }
       }
     });
   }
