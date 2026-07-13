@@ -43,7 +43,13 @@ void main() async {
         ChangeNotifierProvider(create: (_) => RewardsProvider()),
         ChangeNotifierProvider(create: (_) => AiTutorProvider()),
         ChangeNotifierProvider(create: (_) => MissionProvider()),
-        ChangeNotifierProvider(create: (_) => ConnectivityProvider()),
+        ChangeNotifierProxyProvider<AuthProvider, ConnectivityProvider>(
+          create: (_) => ConnectivityProvider(),
+          update: (_, auth, connectivity) {
+            connectivity!.setUid(auth.user?.uid);
+            return connectivity;
+          },
+        ),
       ],
       child: const QuestKidsApp(),
     ),
