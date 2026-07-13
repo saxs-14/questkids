@@ -14,6 +14,7 @@ import '../../../core/widgets/responsive_scaffold.dart';
 import '../../../core/widgets/app_side_menu.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_dialog.dart';
+import '../../../core/widgets/app_empty_state.dart';
 import '../../../data/repositories/user_repository.dart';
 import '../../notifications/screens/notifications_screen.dart';
 import '../../offline/widgets/offline_banner.dart';
@@ -1283,6 +1284,17 @@ class _ProfileTabState extends State<_ProfileTab> {
                     value: '${widget.user?.totalPoints ?? 0}',
                   ),
                   const Divider(height: 1, indent: 56),
+                  Builder(builder: (context) {
+                    final rewards = context.watch<RewardsProvider>();
+                    return _ProfileStatRow(
+                      icon: Icons.military_tech_rounded,
+                      iconColor: _DC.badgeColor,
+                      label: 'Level',
+                      value:
+                          '${rewards.level} ${rewards.levelEmoji} ${rewards.levelTitle}',
+                    );
+                  }),
+                  const Divider(height: 1, indent: 56),
                   _ProfileStatRow(
                     icon: Icons.local_fire_department_rounded,
                     iconColor: _DC.streakColor,
@@ -1307,6 +1319,54 @@ class _ProfileTabState extends State<_ProfileTab> {
               ),
             ),
           ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: isMobile ? 16 : 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('🏅 Achievements', style: AppTextStyles.h4),
+                const SizedBox(height: 12),
+                Builder(builder: (context) {
+                  final badges = context.watch<RewardsProvider>().badges;
+                  if (badges.isEmpty) {
+                    return const AppEmptyState(
+                      emoji: '🏅',
+                      title: 'No badges yet',
+                      message: 'Complete quests to start earning badges!',
+                    );
+                  }
+                  return Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: badges.map((badge) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: _DC.gold.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                              color: _DC.gold.withValues(alpha: 0.35)),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(badge.icon,
+                                style: const TextStyle(fontSize: 18)),
+                            const SizedBox(width: 6),
+                            Text(badge.name,
+                                style: AppTextStyles.bodySmall.copyWith(
+                                    fontWeight: FontWeight.w700)),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  );
+                }),
+              ],
+            ),
+          ),
+          const SizedBox(height: 24),
           Padding(
             padding: EdgeInsets.only(
                 left: isMobile ? 16 : 24,
