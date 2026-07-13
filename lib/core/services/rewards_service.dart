@@ -3,12 +3,10 @@ import '../../data/models/game_session_model.dart';
 import '../../data/models/reward_model.dart';
 import '../../data/repositories/progress_repository.dart';
 import '../../data/repositories/reward_repository.dart';
-import '../../data/repositories/user_repository.dart';
 import '../constants/app_constants.dart';
 
 class RewardsService {
   final RewardRepository _rewardRepo = RewardRepository();
-  final UserRepository _userRepo = UserRepository();
   final ProgressRepository _progressRepo = ProgressRepository();
 
   static const List<Map<String, dynamic>> allBadges = [
@@ -132,8 +130,32 @@ class RewardsService {
   Future<List<BadgeModel>> grantGameSessionRewards(
       GameSessionModel session) async {
     await _rewardRepo.initRewards(session.uid);
-    await _rewardRepo.addPoints(session.uid, session.xpEarned);
-    await _userRepo.addPoints(session.uid, session.xpEarned);
+
+    // Atomic across both stores -- previously two independent sequential
+    // awaits (RewardRepository.addPoints then UserRepository.addPoints),
+    // which could leave rewards/{uid} and users/{uid} holding different
+    // totals for the same XP if interrupted or raced between the two
+    // calls. Duplicates the small level-calc inline rather than reusing
+    // RewardRepository.addPoints, since that method isn't transaction-
+    // aware; keep this formula in sync with RewardRepository.addPoints /
+    // RewardsService.getLevelFromPoints if either ever changes.
+    final rewardsRef = FirebaseFirestore.instance
+        .collection(AppConstants.colRewards)
+        .doc(session.uid);
+    final userRef =
+        FirebaseFirestore.instance.collection(AppConstants.colUsers).doc(session.uid);
+    await FirebaseFirestore.instance.runTransaction((tx) async {
+      final rewardsSnap = await tx.get(rewardsRef);
+      final currentPoints =
+          (rewardsSnap.data()?['totalPoints'] as num?)?.toInt() ?? 0;
+      final newTotal = currentPoints + session.xpEarned;
+      tx.update(rewardsRef, {
+        'totalPoints': newTotal,
+        'level': (newTotal ~/ 100) + 1,
+        'lastActiveDate': DateTime.now().millisecondsSinceEpoch,
+      });
+      tx.update(userRef, {'totalPoints': FieldValue.increment(session.xpEarned)});
+    });
 
     final rewards = await _rewardRepo.getRewards(session.uid);
     if (rewards == null) return [];
