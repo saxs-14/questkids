@@ -7,17 +7,19 @@
   "tagline": "Race through ratios, rates and proportions!",
   "accentColorHex": "#FF6B35",
   "emoji": "⚖️",
-  "mode": "numeric",
-  "gridSize": 5,
-  "chainLength": 5,
-  "tables": [
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9
+  "mode": "pairs",
+  "gridSize": 4,
+  "chainLength": 2,
+  "tokenGroups": [
+    ["Simplify 8:12", "2:3"],
+    ["Simplify 10:15", "2:3"],
+    ["Share R60 in the ratio 1:2", "R20 and R40"],
+    ["If 3:5 and total is 40, the larger share is", "25"],
+    ["A car travels 180km in 3 hours — its rate is", "60km/h"],
+    ["Simplify 15:25", "3:5"],
+    ["If the ratio of boys:girls is 2:3 in a class of 25", "10 boys, 15 girls"],
+    ["A recipe needs flour:sugar as 4:1 — for 8 cups flour", "2 cups sugar"],
+    ["Simplify 6:9:12", "2:3:4"],
+    ["R5 for 2 apples is a rate of", "R2.50 per apple"]
   ]
 }

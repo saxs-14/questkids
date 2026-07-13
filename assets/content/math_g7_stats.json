@@ -7,17 +7,19 @@
   "tagline": "Calculate mean, median, mode and interpret graphs!",
   "accentColorHex": "#FF6B35",
   "emoji": "📊",
-  "mode": "numeric",
-  "gridSize": 5,
-  "chainLength": 5,
-  "tables": [
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    11
+  "mode": "pairs",
+  "gridSize": 4,
+  "chainLength": 2,
+  "tokenGroups": [
+    ["Mean of 2, 4, 6, 8", "5"],
+    ["Median of 3, 7, 9, 12, 15", "9"],
+    ["Mode of 2, 2, 3, 5, 5, 5", "5"],
+    ["Range of 4, 9, 15, 22", "18"],
+    ["Mean of 10, 20, 30", "20"],
+    ["Median of 1, 2, 3, 4", "2.5"],
+    ["The middle value in an ordered data set", "Median"],
+    ["The value that appears most often", "Mode"],
+    ["Sum of values divided by how many values", "Mean"],
+    ["Highest value minus lowest value", "Range"]
   ]
 }

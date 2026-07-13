@@ -7,14 +7,19 @@
   "tagline": "Read bar graphs, pictographs and tables to answer data questions!",
   "accentColorHex": "#FF6B35",
   "emoji": "📊",
-  "mode": "numeric",
+  "mode": "pairs",
   "gridSize": 4,
-  "chainLength": 4,
-  "tables": [
-    5,
-    10,
-    15,
-    20,
-    25
+  "chainLength": 2,
+  "tokenGroups": [
+    ["A graph that uses bars to show amounts", "Bar graph"],
+    ["A graph that uses pictures to show amounts", "Pictograph"],
+    ["The value shown most often in a data set", "Mode"],
+    ["Rows and columns used to organise data", "Table"],
+    ["The picture or symbol key on a pictograph", "Legend"],
+    ["The line along the bottom of a bar graph", "X-axis"],
+    ["The line up the side of a bar graph", "Y-axis"],
+    ["Sales: Mon 10, Tue 15, Wed 8 — which day sold the most?", "Tuesday"],
+    ["4 pictures = 20 apples, so 1 picture equals", "5 apples"],
+    ["Counting and recording data as it is collected", "Tally"]
   ]
 }
