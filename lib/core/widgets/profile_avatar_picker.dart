@@ -18,10 +18,19 @@ class ProfileAvatarPicker extends StatefulWidget {
   final double radius;
   final Color? accentColor;
 
+  /// Color used for the initials circle's background tint and text,
+  /// separate from [accentColor] (which governs the camera badge).
+  /// Defaults to [accentColor] when omitted. Override this when placing
+  /// the picker on a saturated background (e.g. a colored gradient
+  /// header) where [accentColor]'s low-alpha tint would have poor
+  /// contrast against itself.
+  final Color? initialsColor;
+
   const ProfileAvatarPicker({
     super.key,
     this.radius = 55,
     this.accentColor,
+    this.initialsColor,
   });
 
   @override
@@ -114,6 +123,7 @@ class _ProfileAvatarPickerState extends State<ProfileAvatarPicker> {
     final displayInitial =
         (user?.name.isNotEmpty == true) ? user!.name[0].toUpperCase() : '?';
     final accent = widget.accentColor ?? AppColors.primary;
+    final initialsAccent = widget.initialsColor ?? accent;
     final r = widget.radius;
 
     return GestureDetector(
@@ -123,7 +133,7 @@ class _ProfileAvatarPickerState extends State<ProfileAvatarPicker> {
         children: [
           CircleAvatar(
             radius: r,
-            backgroundColor: accent.withAlpha(30),
+            backgroundColor: initialsAccent.withAlpha(30),
             backgroundImage: avatarUrl != null
                 ? CachedNetworkImageProvider(avatarUrl)
                 : null,
@@ -133,7 +143,7 @@ class _ProfileAvatarPickerState extends State<ProfileAvatarPicker> {
                     style: TextStyle(
                       fontSize: r * 0.7,
                       fontWeight: FontWeight.bold,
-                      color: accent,
+                      color: initialsAccent,
                     ),
                   )
                 : null,

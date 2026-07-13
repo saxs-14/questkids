@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/constants/game_catalog.dart';
 import '../../../core/theme/app_colors.dart';
@@ -9,12 +8,11 @@ import '../../../core/theme/theme_provider.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/ai_tutor_provider.dart';
 import '../../../providers/rewards_provider.dart';
-import '../../../core/services/storage_service.dart';
+import '../../../core/widgets/profile_avatar_picker.dart';
 import '../../../core/widgets/responsive_scaffold.dart';
 import '../../../core/widgets/app_side_menu.dart';
 import '../../../core/widgets/app_empty_state.dart';
 import '../../../core/widgets/profile_settings_tile.dart';
-import '../../../data/repositories/user_repository.dart';
 import '../../notifications/screens/notifications_screen.dart';
 import '../../offline/widgets/offline_banner.dart';
 import '../../offline/widgets/sync_button.dart';
@@ -60,9 +58,6 @@ class LearnerDashboard extends StatefulWidget {
 
 class _LearnerDashboardState extends State<LearnerDashboard> {
   int _selectedIndex = 0;
-
-  final StorageService _storage = StorageService();
-  final UserRepository _userRepo = UserRepository();
 
   @override
   void initState() {
@@ -180,7 +175,7 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
                 const _QuestsTab(),
                 const _RewardsTab(),
                 const _AiTutorTab(),
-                _ProfileTab(user: user, storage: _storage, userRepo: _userRepo),
+                _ProfileTab(user: user),
                 const _OfflineTab(),
               ],
             ),
@@ -1095,58 +1090,14 @@ class _AiTutorTab extends StatelessWidget {
 // ---------------------------------------------------------------------------
 class _ProfileTab extends StatefulWidget {
   final dynamic user;
-  final StorageService storage;
-  final UserRepository userRepo;
 
-  const _ProfileTab({
-    required this.user,
-    required this.storage,
-    required this.userRepo,
-  });
+  const _ProfileTab({required this.user});
 
   @override
   State<_ProfileTab> createState() => _ProfileTabState();
 }
 
 class _ProfileTabState extends State<_ProfileTab> {
-  bool _isUploading = false;
-
-  Future<void> _pickAndUploadImage() async {
-    try {
-      final picker = ImagePicker();
-      final image = await picker.pickImage(source: ImageSource.gallery);
-      if (image == null) return;
-
-      setState(() => _isUploading = true);
-
-      final bytes = await image.readAsBytes();
-      final extension = image.name.split('.').last;
-
-      final url = await widget.storage.uploadAvatar(
-        uid: widget.user.uid,
-        imageFile: bytes,
-        extension: extension,
-      );
-
-      if (url != null && mounted) {
-        await widget.userRepo.updateUser(widget.user.uid, {'avatarUrl': url});
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Profile picture updated!')),
-          );
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
-      }
-    } finally {
-      if (mounted) setState(() => _isUploading = false);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -1171,53 +1122,7 @@ class _ProfileTabState extends State<_ProfileTab> {
             ),
             child: Column(
               children: [
-                Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    CircleAvatar(
-                      radius: 60,
-                      backgroundColor: Colors.white.withValues(alpha: 0.25),
-                      backgroundImage: widget.user?.avatarUrl != null
-                          ? NetworkImage(widget.user!.avatarUrl!)
-                          : null,
-                      child: widget.user?.avatarUrl == null
-                          ? Text(
-                              widget.user?.name.isNotEmpty == true
-                                  ? widget.user!.name[0].toUpperCase()
-                                  : '?',
-                              style: AppTextStyles.score
-                                  .copyWith(color: Colors.white),
-                            )
-                          : null,
-                    ),
-                    GestureDetector(
-                      onTap: _isUploading ? null : _pickAndUploadImage,
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: _isUploading
-                              ? Colors.grey
-                              : Colors.white.withValues(alpha: 0.90),
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                              color: _DC.heroGradientStart, width: 2),
-                        ),
-                        child: _isUploading
-                            ? const SizedBox(
-                                width: 16,
-                                height: 16,
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      _DC.heroGradientStart),
-                                  strokeWidth: 2,
-                                ),
-                              )
-                            : const Icon(Icons.camera_alt,
-                                color: _DC.heroGradientStart, size: 16),
-                      ),
-                    ),
-                  ],
-                ),
+                const ProfileAvatarPicker(radius: 60, initialsColor: Colors.white),
                 const SizedBox(height: 14),
                 Row(
                   mainAxisSize: MainAxisSize.min,
