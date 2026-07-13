@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../core/services/offline_service.dart';
 import '../../../data/models/game_session_model.dart';
 import '../../../data/repositories/game_repository.dart';
 import 'game_config.dart';
 import 'game_engine.dart';
+import 'game_session_persistence.dart';
 
 /// Abstract state controller for a game session.
 ///
@@ -121,10 +123,20 @@ abstract class GameSessionState extends ChangeNotifier {
         completedAt: DateTime.now(),
         result: _result!.result,
       );
-      try {
-        await _repo.logGameSession(session);
-      } catch (_) {
-        // Non-fatal: local state already updated
+      final offlineService = OfflineService();
+      final online = await offlineService.isOnline();
+      var writeSucceeded = false;
+      if (online) {
+        try {
+          await _repo.logGameSession(session);
+          writeSucceeded = true;
+        } catch (_) {
+          writeSucceeded = false;
+        }
+      }
+      if (shouldQueueGameSessionOffline(
+          isOnline: online, writeSucceeded: writeSucceeded)) {
+        await offlineService.saveGameSessionOffline(session);
       }
     }
   }
