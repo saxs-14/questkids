@@ -423,7 +423,7 @@ class _HomeTab extends StatelessWidget {
                 StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('progress')
-                      .where('childUid', whereIn: linkedUids.take(10).toList())
+                      .where('uid', whereIn: linkedUids.take(10).toList())
                       .orderBy('completedAt', descending: true)
                       .limit(10)
                       .snapshots(),
@@ -512,13 +512,13 @@ class _StatsGrid extends StatelessWidget {
     final results = await Future.wait([
       db
           .collection('progress')
-          .where('childUid', whereIn: limitedUids)
+          .where('uid', whereIn: limitedUids)
           .orderBy('completedAt', descending: true)
           .limit(100)
           .get(),
       db
           .collection('progress')
-          .where('childUid', whereIn: limitedUids)
+          .where('uid', whereIn: limitedUids)
           .where('completed', isEqualTo: true)
           .where('verified', isEqualTo: false)
           .get(),
@@ -535,7 +535,7 @@ class _StatsGrid extends StatelessWidget {
       final data = d.data() as Map<String, dynamic>;
       final ts = data['completedAt'];
       if (ts is Timestamp && ts.compareTo(todayTs) >= 0) {
-        final cUid = data['childUid'] as String?;
+        final cUid = data['uid'] as String?;
         if (cUid != null) activeTodayUids.add(cUid);
       }
       final score = data['score'];
@@ -933,7 +933,7 @@ class _SubjectBreakdownWidget extends StatelessWidget {
     return FutureBuilder<QuerySnapshot>(
       future: FirebaseFirestore.instance
           .collection('progress')
-          .where('childUid', isEqualTo: learnerUid)
+          .where('uid', isEqualTo: learnerUid)
           .limit(100)
           .get(),
       builder: (context, snap) {
@@ -1042,11 +1042,14 @@ class _RecentGameHistory extends StatelessWidget {
     return FutureBuilder<QuerySnapshot>(
       future: FirebaseFirestore.instance
           .collection('game_sessions')
-          .where('childUid', isEqualTo: learnerUid)
-          .orderBy('playedAt', descending: true)
+          .where('uid', isEqualTo: learnerUid)
+          .orderBy('completedAt', descending: true)
           .limit(5)
           .get(),
       builder: (context, snap) {
+        if (snap.hasError) {
+          return _ErrorCard(message: snap.error.toString());
+        }
         if (!snap.hasData) {
           return const SizedBox(
               height: 48, child: Center(child: CircularProgressIndicator()));
@@ -1102,7 +1105,7 @@ class _RecentGameHistory extends StatelessWidget {
                       Text('$score%',
                           style: AppTextStyles.bodyMedium.copyWith(
                               color: color, fontWeight: FontWeight.w700)),
-                      Text(_timeAgo(d['playedAt']),
+                      Text(_timeAgo(d['completedAt']),
                           style: AppTextStyles.bodySmall),
                     ],
                   ),
