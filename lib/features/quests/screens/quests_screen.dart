@@ -299,14 +299,16 @@ class _QuestsScreenState extends State<QuestsScreen> {
 
     if (widget.embedded) return body;
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      backgroundColor: AppColors.backgroundLight,
+      backgroundColor: isDark ? AppColors.backgroundDark : AppColors.backgroundLight,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: isDark ? AppColors.cardDark : Colors.white,
         elevation: 0,
         title: Text(
           'Game Hub',
-          style: AppTextStyles.h3.copyWith(color: AppColors.textPrimary),
+          style: AppTextStyles.h3.copyWith(
+              color: isDark ? AppColors.textDark : AppColors.textPrimary),
         ),
         automaticallyImplyLeading: false,
         actions: [
@@ -676,12 +678,13 @@ class _GameCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gradient = _gradientForSubject(entry.subject);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return GestureDetector(
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.cardLight,
+          color: isDark ? AppColors.cardDark : AppColors.cardLight,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
@@ -764,7 +767,7 @@ class _GameCard extends StatelessWidget {
                       style: GoogleFonts.nunito(
                         fontSize: 13,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.textPrimary,
+                        color: isDark ? AppColors.textDark : AppColors.textPrimary,
                         height: 1.2,
                       ),
                       maxLines: 2,
