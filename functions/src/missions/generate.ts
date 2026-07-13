@@ -125,7 +125,10 @@ export const generateDailyMissions = onSchedule(
       const chunk = learners.slice(i, i + batchSize);
       await Promise.all(chunk.map(async (learnerDoc) => {
         const uid = learnerDoc.id;
-        const grade = (learnerDoc.data()["grade"] as string) || "Grade 1";
+        // grade isn't always a string at runtime (missing/malformed docs) --
+        // `as string` is compile-time only, so guard with String() before
+        // calling .replace() or this throws "grade.replace is not a function".
+        const grade = String(learnerDoc.data()["grade"] ?? "Grade 1");
         const gradeNum = parseInt(grade.replace(/\D/g, ""), 10) || 1;
         const missions: MissionEntry[] = [];
 
