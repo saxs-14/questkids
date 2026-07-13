@@ -37,14 +37,6 @@ what to do next.
   have `_resetTray()` pick a random entry from `seqConfig.roundVariants`
   and constrain `_tray`/placement completion to that subset instead of
   `stages.length`.
-- **`multiplesMerge`'s 5 "pairs mode" topics fall back to the numeric
-  demo.** `eng_g4_idioms`, `eng_g4_vocabulary`, `eng_g7_vocabulary`,
-  `ss_g7_leaders`, `ss_g7_population` were assigned `multiplesMerge`
-  (count/compare — matching pairs) but the engine's grid (`MergeRound
-  .values`) is `List<int>`; rendering their `tokenGroups` (word/phrase
-  pairs) needs `MergeRound` and the grid widget to support string tokens,
-  not just a config swap. `MultiplesMergeConfig.fromPack` already detects
-  `pack['mode'] == 'pairs'` and falls back to `.forGrade()` for these.
 - **`sequenceBuilder`'s animated backdrop doesn't vary by topic.**
   `SequenceBuilderGame` always renders `WaterCycleScene` regardless of
   `sceneType` — cosmetic only (the step text/order is correctly
