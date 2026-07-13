@@ -63,6 +63,13 @@ class QuestKidsApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeProvider.themeMode,
+      builder: (context, child) {
+        return AnimatedTheme(
+          data: themeProvider.isDark ? AppTheme.darkTheme : AppTheme.lightTheme,
+          duration: const Duration(milliseconds: 300),
+          child: child!,
+        );
+      },
       home: const SplashScreen(),
       routes: {
         '/login': (_) => const LoginScreen(),
