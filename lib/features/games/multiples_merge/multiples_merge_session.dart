@@ -121,6 +121,17 @@ class MultiplesMergeSession extends GameSessionState {
       if (_chain.length >= 2 && cell == _chain[_chain.length - 2]) {
         _chain.removeLast();
         notifyListeners();
+        return;
+      }
+      // Tapping the only selected tile again deselects it. In pairs mode
+      // any tile is a valid first tap (unlike numeric mode, where only a
+      // correct starting value is ever selectable), so a wrong first guess
+      // must be reversible -- without this, picking a distractor as the
+      // first tap permanently soft-locks the round (no cell is ever a
+      // valid second tap for a distractor's pairPartner, which is null).
+      if (_chain.length == 1 && cell == _chain.last) {
+        _chain.removeLast();
+        notifyListeners();
       }
       return;
     }

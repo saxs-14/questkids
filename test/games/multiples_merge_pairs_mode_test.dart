@@ -1,9 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_core_platform_interface/test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:questkids/features/games/core/game_config.dart';
 import 'package:questkids/features/games/multiples_merge/multiples_merge_config.dart';
 import 'package:questkids/features/games/multiples_merge/multiples_merge_engine.dart';
+import 'package:questkids/features/games/multiples_merge/multiples_merge_session.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  setupFirebaseCoreMocks();
+
+  setUpAll(() async {
+    await Firebase.initializeApp();
+  });
+
   group('MultiplesMergeConfig.fromPack pairs mode', () {
     test('a pairs-mode pack is no longer discarded into the numeric demo', () {
       const config = GameConfig(
@@ -126,6 +136,48 @@ void main() {
               reason: 'distractors must never contain both halves of a pair');
         }
       }
+    });
+  });
+
+  group('MultiplesMergeSession pairs-mode deselect', () {
+    test('tapping the only selected tile again deselects it, allowing a retry', () {
+      final session = MultiplesMergeSession(
+        const GameConfig(
+          engineType: 'multiplesMerge',
+          subject: 'English',
+          grade: 'grade4',
+          catalogId: 'eng_g4_idioms',
+        ),
+        'test-uid',
+        pack: {
+          'mode': 'pairs',
+          'gridSize': 4,
+          'chainLength': 2,
+          'tokenGroups': [
+            ['break the ice', 'do something to relax people'],
+            ['piece of cake', 'something very easy'],
+            ['hit the books', 'study hard'],
+            ['under the weather', 'feeling unwell'],
+          ],
+        },
+      )..startSession();
+
+      // Tap any cell as the first pick -- pairs mode allows any cell as a
+      // valid first tap, unlike numeric mode.
+      session.onTileTouched(0);
+      expect(session.chain, [0]);
+
+      // Tapping the same tile again must deselect it (regardless of
+      // whether it happened to be the round's actual target or a
+      // distractor), not silently no-op and leave the player stuck.
+      session.onTileTouched(0);
+      expect(session.chain, isEmpty);
+
+      // A fresh first tap on a different cell must still work afterwards.
+      session.onTileTouched(1);
+      expect(session.chain, [1]);
+
+      session.dispose();
     });
   });
 }
