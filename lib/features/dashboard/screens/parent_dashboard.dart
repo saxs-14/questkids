@@ -348,6 +348,10 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
     List<Map<String, dynamic>> eventsForDay(DateTime day) =>
         _events[DateTime(day.year, day.month, day.day)] ?? [];
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final defaultTextColor = isDark ? AppColors.textDark : AppColors.textPrimary;
+    final weekendTextColor = isDark ? AppColors.primaryLight : AppColors.primary;
+
     return Column(children: [
       TableCalendar(
         firstDay: DateTime.now().subtract(const Duration(days: 365)),
@@ -361,6 +365,19 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
             _focused = focusedDay;
           });
         },
+        daysOfWeekStyle: DaysOfWeekStyle(
+          weekdayStyle: TextStyle(color: defaultTextColor),
+          weekendStyle: TextStyle(color: weekendTextColor),
+        ),
+        calendarStyle: CalendarStyle(
+          defaultTextStyle: TextStyle(color: defaultTextColor),
+          weekendTextStyle: TextStyle(color: weekendTextColor),
+          outsideTextStyle: TextStyle(color: defaultTextColor.withValues(alpha: 0.4)),
+          todayDecoration: const BoxDecoration(
+              color: AppColors.primary, shape: BoxShape.circle),
+          selectedDecoration: const BoxDecoration(
+              color: AppColors.primaryDark, shape: BoxShape.circle),
+        ),
       ),
       const SizedBox(height: 8),
       Expanded(
@@ -483,6 +500,7 @@ class _ParentHomeTabState extends State<_ParentHomeTab> {
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 600;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final parentProv = context.watch<ParentProvider>();
 
     final children = parentProv.linkedChildren;
@@ -511,7 +529,7 @@ class _ParentHomeTabState extends State<_ParentHomeTab> {
                       decoration: BoxDecoration(
                         color: isSelected
                             ? AppColors.primary.withValues(alpha: 0.12)
-                            : AppColors.surface,
+                            : (isDark ? AppColors.cardDark : AppColors.surface),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                             color: AppColors.primary.withValues(alpha: 0.08)),
@@ -540,7 +558,7 @@ class _ParentHomeTabState extends State<_ParentHomeTab> {
                     width: 120,
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: AppColors.surface,
+                      color: isDark ? AppColors.cardDark : AppColors.surface,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
                           color: AppColors.primary.withValues(alpha: 0.08)),
@@ -602,7 +620,7 @@ class _ParentHomeTabState extends State<_ParentHomeTab> {
               width: double.infinity,
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                  color: AppColors.surface,
+                  color: isDark ? AppColors.cardDark : AppColors.surface,
                   borderRadius: BorderRadius.circular(12)),
               child: Column(children: [
                 Text('No child selected', style: AppTextStyles.h4),
