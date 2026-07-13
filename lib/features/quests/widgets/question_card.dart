@@ -45,7 +45,9 @@ class _QuestionCardState extends State<QuestionCard> {
         index != widget.question.correctIndex) {
       return Colors.white;
     }
-    return AppColors.textPrimary;
+    return Theme.of(context).brightness == Brightness.dark
+        ? AppColors.textDark
+        : AppColors.textPrimary;
   }
 
   Widget _getOptionIcon(int index) {
