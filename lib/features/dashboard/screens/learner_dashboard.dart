@@ -752,6 +752,7 @@ class _CatalogGameCard extends StatelessWidget {
           subtopicId: entry.subtopicId,
           difficulty: entry.difficulty,
           extras: entry.extras,
+          catalogId: entry.id,
         );
         Navigator.push(
           context,

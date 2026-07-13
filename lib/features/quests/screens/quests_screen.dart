@@ -110,6 +110,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
       subtopicId: entry.subtopicId,
       difficulty: entry.difficulty,
       extras: entry.extras,
+      catalogId: entry.id,
     );
   }
 
