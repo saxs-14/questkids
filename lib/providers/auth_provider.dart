@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../core/services/auth_service.dart';
+import '../core/services/notification_service.dart';
 import '../data/models/user_model.dart';
 import '../data/repositories/user_repository.dart';
 
@@ -8,6 +9,8 @@ enum AuthStatus { unknown, authenticated, unauthenticated }
 class AuthProvider extends ChangeNotifier {
   final AuthService _authService = AuthService();
   final UserRepository _userRepo = UserRepository();
+  final NotificationService _notificationService = NotificationService();
+  final GlobalKey<NavigatorState> navigatorKey;
 
   AuthStatus _status = AuthStatus.unknown;
   UserModel? _user;
@@ -20,7 +23,7 @@ class AuthProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   bool get isAuthenticated => _status == AuthStatus.authenticated;
 
-  AuthProvider() {
+  AuthProvider({required this.navigatorKey}) {
     _init();
   }
 
@@ -32,6 +35,7 @@ class AuthProvider extends ChangeNotifier {
       } else {
         _user = await _userRepo.getUser(firebaseUser.uid);
         _status = AuthStatus.authenticated;
+        _notificationService.init(firebaseUser.uid, navigatorKey);
       }
       notifyListeners();
     });
@@ -252,6 +256,9 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> signOut() async {
+    if (_user != null) {
+      await _notificationService.removeTokenOnSignOut(_user!.uid);
+    }
     await _authService.signOut();
     _user = null;
     _status = AuthStatus.unauthenticated;

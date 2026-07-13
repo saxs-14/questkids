@@ -15,7 +15,7 @@ void main() {
   });
 
   testWidgets('ProfileSettingsTile shows Settings and Sign Out, confirms before signing out', (tester) async {
-    final auth = AuthProvider();
+    final auth = AuthProvider(navigatorKey: GlobalKey<NavigatorState>());
 
     await tester.pumpWidget(
       ChangeNotifierProvider<AuthProvider>.value(

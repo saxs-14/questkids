@@ -24,6 +24,10 @@ import 'features/dashboard/screens/learner_dashboard.dart';
 import 'features/dashboard/screens/parent_dashboard.dart';
 import 'features/dashboard/screens/teacher_dashboard.dart';
 
+/// Shared between AuthProvider (to show a foreground push banner from a
+/// stream listener with no local BuildContext) and MaterialApp itself.
+final navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   initLocalDatabase();
@@ -34,7 +38,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider(navigatorKey: navigatorKey)),
         ChangeNotifierProvider(create: (_) => ParentProvider()),
         ChangeNotifierProvider(create: (_) => RewardsProvider()),
         ChangeNotifierProvider(create: (_) => AiTutorProvider()),
@@ -53,6 +57,7 @@ class QuestKidsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'QuestKids',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
