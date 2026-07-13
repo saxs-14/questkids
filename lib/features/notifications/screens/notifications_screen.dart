@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_text_styles.dart';
+import '../../../core/widgets/app_empty_state.dart';
+import '../../../core/widgets/app_loading_view.dart';
 import '../../../data/models/notification_model.dart';
 import '../../../data/repositories/notification_repository.dart';
 import '../../../providers/auth_provider.dart';
@@ -25,12 +26,18 @@ class NotificationsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notifications'),
+        actions: [
+          TextButton(
+            onPressed: () => repo.markAllAsRead(uid),
+            child: const Text('Mark all read', style: TextStyle(color: Colors.white)),
+          ),
+        ],
       ),
       body: StreamBuilder<List<NotificationModel>>(
-        stream: repo.getUserNotifications(uid),
+        stream: repo.watchNotifications(uid),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const AppLoadingView(message: 'Loading notifications...');
           }
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
@@ -39,15 +46,10 @@ class NotificationsScreen extends StatelessWidget {
           final notifications = snapshot.data ?? [];
 
           if (notifications.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('s📭', style: TextStyle(fontSize: 64)),
-                  const SizedBox(height: 16),
-                  Text('No new notifications', style: AppTextStyles.h3),
-                ],
-              ),
+            return const AppEmptyState(
+              emoji: '📭',
+              title: 'No notifications yet',
+              message: "You'll see updates about quests, badges, and messages from Questy here.",
             );
           }
 

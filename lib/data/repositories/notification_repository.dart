@@ -4,20 +4,6 @@ import '../models/notification_model.dart';
 class NotificationRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Stream<List<NotificationModel>> getUserNotifications(String uid) {
-    return _firestore
-        .collection('notifications')
-        // support both 'targetUid' and 'recipientUid' fields
-        .where('targetUid', isEqualTo: uid)
-        .orderBy('createdAt', descending: true)
-        .snapshots()
-        .map((snapshot) {
-      return snapshot.docs
-          .map((doc) => NotificationModel.fromMap(doc.data(), doc.id))
-          .toList();
-    });
-  }
-
   Future<void> markAsRead(String notificationId) async {
     await _firestore
         .collection('notifications')
