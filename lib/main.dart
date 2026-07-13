@@ -19,6 +19,7 @@ import 'features/auth/screens/login_screen.dart';
 import 'features/auth/screens/register_screen.dart';
 import 'features/auth/screens/forgot_password_screen.dart';
 import 'features/profile/screens/settings_screen.dart';
+import 'features/profile/screens/edit_profile_screen.dart';
 import 'features/dashboard/screens/learner_dashboard.dart';
 import 'features/dashboard/screens/parent_dashboard.dart';
 import 'features/dashboard/screens/teacher_dashboard.dart';
@@ -63,6 +64,17 @@ class QuestKidsApp extends StatelessWidget {
         '/register': (_) => const RegisterScreen(),
         '/forgot_password': (_) => const ForgotPasswordScreen(),
         '/settings': (_) => const SettingsScreen(),
+        '/edit_profile': (_) => Consumer<AuthProvider>(
+              builder: (context, auth, _) {
+                final user = auth.user;
+                return EditProfileScreen(
+                  initialName: user?.name ?? '',
+                  initialSurname: user?.surname ?? '',
+                  initialGrade: user?.grade ?? 'Grade 1',
+                  initialLanguage: user?.preferredLanguage ?? 'English',
+                );
+              },
+            ),
         '/parent_child_setup': (_) => const ParentChildSetupScreen(),
         '/link_child': (_) => const LinkChildScreen(),
         '/dashboard': (_) => const LearnerDashboard(),

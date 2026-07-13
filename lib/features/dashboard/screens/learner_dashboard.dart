@@ -1221,9 +1221,19 @@ class _ProfileTabState extends State<_ProfileTab> {
                   ],
                 ),
                 const SizedBox(height: 14),
-                Text(
-                  widget.user?.name ?? 'Learner',
-                  style: AppTextStyles.h2.copyWith(color: Colors.white),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      widget.user?.name ?? 'Learner',
+                      style: AppTextStyles.h2.copyWith(color: Colors.white),
+                    ),
+                    const SizedBox(width: 6),
+                    GestureDetector(
+                      onTap: () => Navigator.pushNamed(context, '/edit_profile'),
+                      child: const Icon(Icons.edit, color: Colors.white70, size: 18),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 4),
                 Text(

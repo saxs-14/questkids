@@ -803,7 +803,17 @@ class _ParentProfileTab extends StatelessWidget {
           const SizedBox(height: 20),
           const ProfileAvatarPicker(radius: 60),
           const SizedBox(height: 16),
-          Text(user?.name ?? 'Parent', style: AppTextStyles.h2),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(user?.name ?? 'Parent', style: AppTextStyles.h2),
+              const SizedBox(width: 6),
+              GestureDetector(
+                onTap: () => Navigator.pushNamed(context, '/edit_profile'),
+                child: const Icon(Icons.edit, color: AppColors.textSecondary, size: 18),
+              ),
+            ],
+          ),
           Text(user?.displayName ?? 'Parent Account',
               style: const TextStyle(color: AppColors.textSecondary)),
           const SizedBox(height: 32),

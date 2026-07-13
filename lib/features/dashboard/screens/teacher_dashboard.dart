@@ -1510,9 +1510,19 @@ class _ProfileTab extends StatelessWidget {
         children: [
           const ProfileAvatarPicker(radius: 55),
           const SizedBox(height: 16),
-          Text(
-            currentUser?.displayName ?? currentUser?.name ?? 'Teacher',
-            style: AppTextStyles.h2,
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                currentUser?.displayName ?? currentUser?.name ?? 'Teacher',
+                style: AppTextStyles.h2,
+              ),
+              const SizedBox(width: 6),
+              GestureDetector(
+                onTap: () => Navigator.pushNamed(context, '/edit_profile'),
+                child: const Icon(Icons.edit, color: AppColors.textSecondary, size: 18),
+              ),
+            ],
           ),
           const SizedBox(height: 4),
           Container(
