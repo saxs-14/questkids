@@ -47,13 +47,13 @@ class MultiplesMergeSession extends GameSessionState {
   List<int> get mergedCells => List.unmodifiable(_merged);
   bool get isMerging => _merging;
 
-  int get table => _round?.table ?? 0;
+  int get table => _round?.mode == 'numeric' ? (_round?.table ?? 0) : 0;
   int get gridSize => _round?.gridSize ?? _mergeConfig.gridSize;
   int get chainLength => _round?.chainLength ?? _mergeConfig.chainLength;
   int get hintLevel => _mergeConfig.hintLevel;
-  List<int> get values => _round?.values ?? const [];
+  List<Object> get values => _round?.values ?? const [];
 
-  /// The next multiple the learner needs to connect.
+  /// The next multiple the learner needs to connect (numeric mode only).
   int get nextExpected => table * (_chain.length + 1);
 
   void _startRound() {
@@ -68,6 +68,14 @@ class MultiplesMergeSession extends GameSessionState {
   Set<int> get validNextCells {
     final r = _round;
     if (r == null || _merging) return {};
+    if (r.mode == 'pairs') {
+      if (_chain.length >= r.chainLength) return {};
+      if (_chain.isEmpty) {
+        return {for (int c = 0; c < r.values.length; c++) c};
+      }
+      final partner = r.pairPartner?[_chain.first];
+      return partner == null ? {} : {partner};
+    }
     final result = <int>{};
     if (_chain.isEmpty) {
       for (int c = 0; c < r.values.length; c++) {
