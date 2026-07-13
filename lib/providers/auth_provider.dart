@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../core/services/auth_service.dart';
 import '../core/services/notification_service.dart';
+import '../core/services/rewards_service.dart';
 import '../data/models/user_model.dart';
 import '../data/repositories/user_repository.dart';
 
@@ -10,6 +11,7 @@ class AuthProvider extends ChangeNotifier {
   final AuthService _authService = AuthService();
   final UserRepository _userRepo = UserRepository();
   final NotificationService _notificationService = NotificationService();
+  final RewardsService _rewardsService = RewardsService();
   final GlobalKey<NavigatorState> navigatorKey;
 
   AuthStatus _status = AuthStatus.unknown;
@@ -39,6 +41,11 @@ class AuthProvider extends ChangeNotifier {
         _status = AuthStatus.authenticated;
         _notificationPermission =
             await _notificationService.init(firebaseUser.uid, navigatorKey);
+        try {
+          await _rewardsService.updateStreak(firebaseUser.uid);
+        } catch (_) {
+          // Non-fatal: streak update failing must never block login.
+        }
       }
       notifyListeners();
     });

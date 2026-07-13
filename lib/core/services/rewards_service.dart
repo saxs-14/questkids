@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../data/models/game_session_model.dart';
 import '../../data/models/reward_model.dart';
 import '../../data/repositories/progress_repository.dart';
 import '../../data/repositories/reward_repository.dart';
 import '../../data/repositories/user_repository.dart';
+import '../constants/app_constants.dart';
 
 class RewardsService {
   final RewardRepository _rewardRepo = RewardRepository();
@@ -244,7 +246,13 @@ class RewardsService {
 
     final now = DateTime.now();
     final last = rewards.lastActiveDate;
-    final diff = now.difference(last).inDays;
+    // Compare calendar dates, not raw elapsed duration -- Duration.inDays
+    // on the raw DateTimes would miss a new day when the two visits are
+    // <24h apart but cross midnight, or fail to count 23h-apart visits
+    // that *are* on different calendar days.
+    final nowDate = DateTime(now.year, now.month, now.day);
+    final lastDate = DateTime(last.year, last.month, last.day);
+    final diff = nowDate.difference(lastDate).inDays;
 
     int newStreak = rewards.streakDays;
     if (diff == 1) {
@@ -253,10 +261,20 @@ class RewardsService {
       newStreak = 1;
     } else if (diff == 0) {
       return;
+    } else {
+      return; // diff < 0: clock skew -- do not touch the streak.
     }
 
-    await _rewardRepo.updateStreak(uid, newStreak);
-    await _userRepo.updateUser(uid, {'streakDays': newStreak});
+    final batch = FirebaseFirestore.instance.batch();
+    batch.update(
+      FirebaseFirestore.instance.collection(AppConstants.colRewards).doc(uid),
+      {'streakDays': newStreak, 'lastActiveDate': now.millisecondsSinceEpoch},
+    );
+    batch.update(
+      FirebaseFirestore.instance.collection(AppConstants.colUsers).doc(uid),
+      {'streakDays': newStreak},
+    );
+    await batch.commit();
   }
 
   static int getLevelFromPoints(int points) => (points ~/ 100) + 1;
