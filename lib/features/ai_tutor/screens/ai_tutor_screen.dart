@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../core/services/permission_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../providers/ai_tutor_provider.dart';
@@ -102,11 +103,29 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
   }
 
   Future<void> _pickImage() async {
-    final image = await _picker.pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 1024,
-      imageQuality: 85,
-    );
+    XFile? image;
+    try {
+      image = await _picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 1024,
+        imageQuality: 85,
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(PermissionService.friendlyMessage(e)),
+            action: PermissionService.isPermissionDenied(e)
+                ? const SnackBarAction(
+                    label: 'Settings',
+                    onPressed: PermissionService.openSettings,
+                  )
+                : null,
+          ),
+        );
+      }
+      return;
+    }
     if (image == null) return;
     final bytes = await image.readAsBytes();
     setState(() => _showQuickPrompts = false);
