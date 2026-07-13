@@ -28,7 +28,10 @@ class LeaderboardRepository {
         final data = doc.data();
         return LeaderboardEntry(
           uid: doc.id,
-          displayName: '${data['name'] ?? ''} ${data['surname'] ?? ''}'.trim(),
+          // Leaderboards are visible to every classmate -- never expose a
+          // surname here, matching functions/src/leaderboard/refresh.ts's
+          // first-name-only rule (see CLAUDE.md §6.5).
+          displayName: (data['name'] as String? ?? 'Learner').trim(),
           avatarEmoji: data['avatarEmoji'] as String? ?? '🦁',
           grade: data['grade'] as String? ?? 'Grade 1',
           xp: (data['totalPoints'] as num?)?.toInt() ?? 0,
