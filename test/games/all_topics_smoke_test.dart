@@ -154,7 +154,7 @@ dynamic _correctAnswerFor(String engineType, Map<String, dynamic> question) {
 dynamic _wrongAnswerFor(String engineType, Map<String, dynamic> question) {
   switch (engineType) {
     case AppConstants.engineTugOfWar:
-      return (question['answer'] as int) + 999999;
+      return (question['answer'] as num) + 999999;
     case AppConstants.engineAdventureJourney:
       final options = (question['options'] as List).cast<String>();
       return options.firstWhere((o) => o != question['answer'],

@@ -1,13 +1,11 @@
 import '../core/game_config.dart';
 
 /// topicId/subtopicId -> questionType, mirroring
-/// tools/gamegen/content/math.js's OP_BY_SUBTOPIC. Limited to operations
-/// whose correct answer is always a non-negative integer, because
-/// [TugOfWarKeypad] only has digits 0-9 (no decimal point or minus sign).
-/// Topics not listed here (e.g. decimals, integers, and the non-arithmetic
-/// "rapid recall" topics like phonics/spelling/debate) keep the
-/// 'multiplication' default until the keypad supports those input shapes —
-/// see docs/DEFERRED.md.
+/// tools/gamegen/content/math.js's OP_BY_SUBTOPIC. Non-arithmetic "rapid
+/// recall" topics (e.g. phonics/spelling/debate) aren't listed here and
+/// keep the 'multiplication' default -- tugOfWar isn't used for those
+/// subjects' catalog entries in practice (see game_catalog.dart), so the
+/// fallback is never actually reached for them today.
 const Map<String, String> _questionTypeByTopic = {
   'operations/addition': 'addition',
   'operations/subtraction': 'subtraction',
@@ -16,6 +14,8 @@ const Map<String, String> _questionTypeByTopic = {
   'percentages/percentage_applications': 'percentage',
   'measurement/conversions': 'conversion',
   'economics/taxation': 'percentage',
+  'decimals/decimal_operations': 'decimal',
+  'integers/integer_operations': 'integer',
 };
 
 /// TugOfWar-specific parameters stored inside [GameConfig.extras].

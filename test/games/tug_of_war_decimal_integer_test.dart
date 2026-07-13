@@ -76,7 +76,7 @@ void main() {
 
   group('TugOfWarEngine decimal/integer questions', () {
     test('decimal type generates a non-integer answer with one decimal place', () {
-      final config = const GameConfig(
+      const config = GameConfig(
         engineType: 'tugOfWar',
         subject: 'Mathematics',
         grade: 'grade4',
@@ -107,7 +107,7 @@ void main() {
     });
 
     test('integer type generates answers that can be negative', () {
-      final config = const GameConfig(
+      const config = GameConfig(
         engineType: 'tugOfWar',
         subject: 'Mathematics',
         grade: 'grade7',

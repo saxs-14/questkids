@@ -45,16 +45,6 @@ what to do next.
   pairs) needs `MergeRound` and the grid widget to support string tokens,
   not just a config swap. `MultiplesMergeConfig.fromPack` already detects
   `pack['mode'] == 'pairs'` and falls back to `.forGrade()` for these.
-- **`tugOfWar` doesn't support decimal or negative-integer answers.**
-  `TugOfWarKeypad` is digits 0-9 + clear/confirm only — no decimal point,
-  no minus sign. `math_g4_decimals` (decimal operations) and
-  `math_g7_integers` (signed-number operations) both need one of those,
-  so `TugOfWarConfig`'s topic→questionType table intentionally excludes
-  them and they still play multiplication questions. Fixing this needs a
-  keypad UI change (add `.`/`-` keys) plus `TugOfWarEngine` cases for
-  `'decimal'`/`'integer'` (the arithmetic itself already exists in
-  `tools/gamegen/content/math.js`'s JS generator as a reference — it just
-  isn't safe to port to the current keypad).
 - **`sequenceBuilder`'s animated backdrop doesn't vary by topic.**
   `SequenceBuilderGame` always renders `WaterCycleScene` regardless of
   `sceneType` — cosmetic only (the step text/order is correctly
