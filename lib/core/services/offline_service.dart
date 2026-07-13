@@ -1,9 +1,13 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import '../../data/models/activity_model.dart';
+import '../../data/models/game_session_model.dart';
 import '../../data/models/progress_model.dart';
 import '../../data/models/reward_model.dart';
 import '../../data/models/user_model.dart';
+import '../../data/repositories/game_repository.dart';
 import '../../data/repositories/progress_repository.dart';
 import '../../data/repositories/reward_repository.dart';
 import '../../data/repositories/user_repository.dart';
@@ -14,6 +18,7 @@ class OfflineService {
   final ProgressRepository _progressRepo = ProgressRepository();
   final RewardRepository _rewardRepo = RewardRepository();
   final UserRepository _userRepo = UserRepository();
+  final GameRepository _gameRepo = GameRepository();
 
   // ── Connectivity ────────────────────────────────────
 
@@ -137,6 +142,17 @@ class OfflineService {
     );
   }
 
+  Future<void> saveGameSessionOffline(GameSessionModel session) async {
+    final map = session.toMap();
+    // Timestamp isn't JSON-serializable; store completedAt as millis and
+    // convert back in applyPendingSyncItem's 'game_session' case.
+    map['completedAt'] = session.completedAt.millisecondsSinceEpoch;
+    await _addToPendingSync(
+      type: 'game_session',
+      data: {...map, 'id': session.id},
+    );
+  }
+
   Future<List<ProgressModel>> getCachedProgress(String uid) async {
     final rows = await _store.query(
       'progress',
@@ -248,6 +264,29 @@ class OfflineService {
 
   // ── Full sync ─────────────────────────────────────────
 
+  /// Applies one pending-sync item to Firestore. Throws if [type] is not
+  /// a recognized pending-sync type, so callers must not mark an
+  /// unhandled item as synced.
+  @visibleForTesting
+  Future<void> applyPendingSyncItem(
+      String type, Map<String, dynamic> data) async {
+    switch (type) {
+      case 'progress':
+        await _progressRepo.saveProgress(ProgressModel.fromMap(data));
+        return;
+      case 'game_session':
+        final map = Map<String, dynamic>.from(data);
+        map['completedAt'] =
+            Timestamp.fromMillisecondsSinceEpoch(map['completedAt'] as int);
+        await _gameRepo.logGameSession(
+          GameSessionModel.fromMap(data['id'] as String, map),
+        );
+        return;
+      default:
+        throw StateError('Unknown pending sync type: $type');
+    }
+  }
+
   Future<SyncResult> syncToFirestore(String uid) async {
     if (!await isOnline()) {
       return SyncResult(
@@ -270,12 +309,7 @@ class OfflineService {
         final data =
             jsonDecode(item['dataJson'] as String) as Map<String, dynamic>;
 
-        switch (type) {
-          case 'progress':
-            final progress = ProgressModel.fromMap(data);
-            await _progressRepo.saveProgress(progress);
-            break;
-        }
+        await applyPendingSyncItem(type, data);
 
         await removePendingSync(id);
         syncedCount++;
