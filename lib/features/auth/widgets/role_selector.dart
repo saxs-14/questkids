@@ -63,8 +63,11 @@ class RoleSelector extends StatelessWidget {
                       Text(
                         role['label']!,
                         style: AppTextStyles.bodyMedium.copyWith(
-                          color:
-                              isSelected ? Colors.white : AppColors.textPrimary,
+                          color: isSelected
+                              ? Colors.white
+                              : (Theme.of(context).brightness == Brightness.dark
+                                  ? AppColors.textDark
+                                  : AppColors.textPrimary),
                           fontWeight: FontWeight.w700,
                         ),
                       ),
