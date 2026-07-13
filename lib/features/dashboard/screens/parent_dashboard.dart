@@ -18,6 +18,7 @@ import '../../../providers/auth_provider.dart';
 import '../../../providers/parent_provider.dart';
 import '../../notifications/screens/notifications_screen.dart';
 import '../../parent/screens/child_analytics_screen.dart';
+import '../widgets/child_card.dart';
 
 class ParentDashboard extends StatefulWidget {
   const ParentDashboard({super.key});
@@ -833,15 +834,36 @@ class _ParentProfileTab extends StatelessWidget {
                   label: 'Gender',
                   value: user?.gender ?? 'Not specified',
                 ),
-                const Divider(),
-                _ProfileInfoRow(
-                  icon: Icons.groups_outlined,
-                  label: 'Children',
-                  value: '${user?.linkedChildrenUids?.length ?? 0}',
-                ),
               ],
             ),
           ),
+          const SizedBox(height: 24),
+          Builder(builder: (context) {
+            final children = context.watch<ParentProvider>().linkedChildren;
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('My Children', style: AppTextStyles.h4),
+                const SizedBox(height: 12),
+                if (children.isEmpty)
+                  Text(
+                    'No children linked yet.',
+                    style: AppTextStyles.bodyMedium
+                        .copyWith(color: AppColors.textSecondary),
+                  )
+                else
+                  ...children.map((c) => ChildCard(
+                        child: c,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ChildAnalyticsScreen(child: c),
+                          ),
+                        ),
+                      )),
+              ],
+            );
+          }),
           const SizedBox(height: 24),
           OutlinedButton.icon(
             onPressed: () {
