@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:questkids/core/theme/theme_provider.dart';
+import 'package:questkids/core/widgets/theme_toggle.dart';
 import 'package:questkids/features/profile/screens/settings_screen.dart';
 
 void main() {
@@ -17,11 +18,11 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Dark Mode'), findsOneWidget);
-    final switchFinder = find.byType(Switch);
-    expect(switchFinder, findsOneWidget);
+    final toggleFinder = find.byType(ThemeToggle);
+    expect(toggleFinder, findsOneWidget);
 
     final initial = themeProvider.isDark;
-    await tester.tap(switchFinder);
+    await tester.tap(toggleFinder);
     await tester.pumpAndSettle();
 
     expect(themeProvider.isDark, isNot(initial));

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/theme_provider.dart';
+import '../../../core/widgets/theme_toggle.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -19,8 +20,8 @@ class SettingsScreen extends StatelessWidget {
           Text('Appearance', style: AppTextStyles.label),
           const SizedBox(height: 8),
           Card(
-            child: SwitchListTile(
-              secondary: Icon(
+            child: ListTile(
+              leading: Icon(
                 theme.isDark ? Icons.nightlight_round : Icons.wb_sunny,
                 color: AppColors.primary,
               ),
@@ -29,8 +30,7 @@ class SettingsScreen extends StatelessWidget {
                 theme.isDark ? 'On' : 'Off',
                 style: AppTextStyles.bodySmall,
               ),
-              value: theme.isDark,
-              onChanged: (_) => theme.toggleTheme(),
+              trailing: const ThemeToggle(),
             ),
           ),
         ],
