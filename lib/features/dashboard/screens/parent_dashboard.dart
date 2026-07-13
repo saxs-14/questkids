@@ -18,6 +18,7 @@ import '../../../data/repositories/user_repository.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/parent_provider.dart';
 import '../../notifications/screens/notifications_screen.dart';
+import '../../offline/widgets/offline_banner.dart';
 import '../../parent/screens/child_analytics_screen.dart';
 import '../widgets/child_card.dart';
 
@@ -118,14 +119,21 @@ class _ParentDashboardState extends State<ParentDashboard> {
           ),
         ],
       ),
-      body: IndexedStack(
-        index: _selectedIndex,
+      body: Column(
         children: [
-          _ParentHomeTab(user: user, userRepo: _userRepo),
-          _VerificationTab(),
-          const _ParentReportsTab(),
-          _ParentCalendarTab(),
-          _ParentProfileTab(user: user),
+          const OfflineBanner(),
+          Expanded(
+            child: IndexedStack(
+              index: _selectedIndex,
+              children: [
+                _ParentHomeTab(user: user, userRepo: _userRepo),
+                _VerificationTab(),
+                const _ParentReportsTab(),
+                _ParentCalendarTab(),
+                _ParentProfileTab(user: user),
+              ],
+            ),
+          ),
         ],
       ),
     );

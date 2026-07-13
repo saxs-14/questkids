@@ -14,6 +14,7 @@ import '../../../data/models/user_model.dart';
 import '../../../data/repositories/user_repository.dart';
 import '../../../providers/auth_provider.dart';
 import '../../notifications/screens/notifications_screen.dart';
+import '../../offline/widgets/offline_banner.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Colours
@@ -136,14 +137,21 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
                       style: TextStyle(color: Colors.white)),
                 )
               : null,
-      body: IndexedStack(
-        index: _selectedIndex,
+      body: Column(
         children: [
-          _HomeTab(teacherUid: uid),
-          _ClassTab(teacherUid: uid),
-          _ActivitiesTab(teacherUid: uid),
-          ClassAnalyticsScreen(teacherUid: uid),
-          const _ProfileTab(),
+          const OfflineBanner(),
+          Expanded(
+            child: IndexedStack(
+              index: _selectedIndex,
+              children: [
+                _HomeTab(teacherUid: uid),
+                _ClassTab(teacherUid: uid),
+                _ActivitiesTab(teacherUid: uid),
+                ClassAnalyticsScreen(teacherUid: uid),
+                const _ProfileTab(),
+              ],
+            ),
+          ),
         ],
       ),
     );
