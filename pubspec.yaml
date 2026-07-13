@@ -78,6 +78,7 @@ dependencies:
   connectivity_plus: ^6.0.0
   image_picker: ^1.0.0
   flutter_image_compress: ^2.1.0
+  permission_handler: ^11.3.0
   flutter_tts: ^4.0.0
   # QR code generation (parent-child linking)
   qr_flutter: ^4.1.0
