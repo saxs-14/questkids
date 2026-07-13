@@ -8,29 +8,43 @@ import '../core/game_theme.dart';
 ///   Gr 3–4 → tables 3, 4, 6, 8, medium chains, normal hints.
 ///   Gr 5–6 → tables 7, 8, 9, 11, 12, long chains, hints off (build fluency).
 class MultiplesMergeConfig {
-  final List<int> tables; // tables a round may draw from
+  final String mode; // 'numeric' | 'pairs'
+  final List<int> tables; // numeric mode: tables a round may draw from
+  final List<List<String>> tokenGroups; // pairs mode: [term, definition] groups
   final int gridSize; // grid is gridSize × gridSize
-  final int chainLength; // multiples to connect per round
+  final int chainLength; // numeric: multiples to connect; pairs: always 2
   final int hintLevel; // 2 strong · 1 normal · 0 fluency (start hint only)
 
   const MultiplesMergeConfig({
-    required this.tables,
+    this.mode = 'numeric',
+    this.tables = const [],
+    this.tokenGroups = const [],
     required this.gridSize,
     required this.chainLength,
     required this.hintLevel,
   });
 
-  /// Builds config from a generated content pack in 'numeric' mode (see
-  /// tools/gamegen/content/multiples_merge.js). Packs in 'pairs' mode
-  /// (word/token matching — idioms, synonyms, SA leaders, population
-  /// terms) aren't wired up yet: MergeRound's grid is `List<int>`, so
-  /// rendering string tokens needs a widget-level change beyond this
-  /// config swap — see docs/DEFERRED.md. Those topics fall back to the
-  /// grade-tuned numeric demo below.
+  /// Builds config from a generated content pack (see
+  /// tools/gamegen/content/multiples_merge.js). Both 'numeric' and 'pairs'
+  /// mode packs are honoured; a pack with neither recognized shape falls
+  /// back to the grade-tuned numeric demo.
   factory MultiplesMergeConfig.fromPack(
       Map<String, dynamic> pack, GameConfig config) {
+    if (pack['mode'] == 'pairs') {
+      final groups = (pack['tokenGroups'] as List)
+          .map((g) => (g as List).cast<String>())
+          .toList();
+      return MultiplesMergeConfig(
+        mode: 'pairs',
+        tokenGroups: groups,
+        gridSize: pack['gridSize'] as int,
+        chainLength: pack['chainLength'] as int,
+        hintLevel: MultiplesMergeConfig.forGrade(config).hintLevel,
+      );
+    }
     if (pack['mode'] != 'numeric') return MultiplesMergeConfig.forGrade(config);
     return MultiplesMergeConfig(
+      mode: 'numeric',
       tables: (pack['tables'] as List).cast<int>(),
       gridSize: pack['gridSize'] as int,
       chainLength: pack['chainLength'] as int,
