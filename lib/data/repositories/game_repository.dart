@@ -293,14 +293,10 @@ class GameRepository {
 
   // ── Helpers ───────────────────────────────────────────────────────────────────
 
-  int _calcLevel(num totalXp) {
-    if (totalXp < 100) return 1;
-    if (totalXp < 300) return 2;
-    if (totalXp < 600) return 3;
-    if (totalXp < 1000) return 4;
-    if (totalXp < 1500) return 5;
-    return (totalXp / 300).floor();
-  }
+  // Matches RewardsService.getLevelFromPoints / RewardRepository.addPoints
+  // / the dashboard's level display -- kept as one formula everywhere so
+  // player_stats.level and rewards.level never disagree for the same XP.
+  int _calcLevel(num totalXp) => (totalXp ~/ 100) + 1;
 
   String _todayKey() {
     final now = DateTime.now();
