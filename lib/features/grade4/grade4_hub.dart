@@ -183,6 +183,7 @@ class _Grade4HubState extends State<Grade4Hub> {
               ][i];
               final unlocked =
                   (stats['unlockedWorlds'] ?? []).contains(worldId);
+              final isDark = Theme.of(context).brightness == Brightness.dark;
               return Padding(
                 padding: const EdgeInsets.only(right: 12),
                 child: GestureDetector(
@@ -203,7 +204,11 @@ class _Grade4HubState extends State<Grade4Hub> {
                     width: 200,
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                        color: unlocked ? Colors.white : AppColors.surface,
+                        color: unlocked
+                            ? (isDark ? AppColors.cardDark : Colors.white)
+                            : (isDark
+                                ? AppColors.cardDark.withValues(alpha: 0.6)
+                                : AppColors.surface),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                             color: AppColors.primary.withValues(alpha: 0.06))),
