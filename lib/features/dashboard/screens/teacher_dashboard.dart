@@ -761,7 +761,9 @@ class _LearnerCard extends StatelessWidget {
                       Container(
                         height: 6,
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white.withValues(alpha: 0.12)
+                              : Colors.grey.shade200,
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -829,7 +831,9 @@ class _LearnerDetailSheet extends StatelessWidget {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                  color: Colors.black26,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white24
+                      : Colors.black26,
                   borderRadius: BorderRadius.circular(2)),
             ),
           ),
@@ -1385,7 +1389,9 @@ class _CreateActivitySheetState extends State<_CreateActivitySheet> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                    color: Colors.black26,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white24
+                        : Colors.black26,
                     borderRadius: BorderRadius.circular(2)),
               ),
             ),
