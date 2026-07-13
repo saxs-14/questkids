@@ -30,10 +30,6 @@
 	<string>QuestKids needs access to your photo library so you can choose a profile picture and share images with QuestBot.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>QuestKids needs camera access so you can take a photo for your profile or share it with QuestBot.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>QuestKids needs microphone access so you can talk to QuestBot.</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>QuestKids uses speech recognition so you can ask QuestBot questions with your voice.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
