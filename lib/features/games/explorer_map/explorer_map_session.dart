@@ -55,11 +55,6 @@ class ExplorerMapSession extends GameSessionState {
   @override
   List<Map<String, dynamic>> get questions => _questions;
 
-  // The generated question list is the source of truth for length (fixes the
-  // old config.questionCount mismatch that left the screen blank at the end).
-  @override
-  int get totalQuestions => _questions.length;
-
   ExplorerMapConfig get mapConfig => _mapConfig;
 
   // ── Shared feedback state ────────────────────────────────────────────────

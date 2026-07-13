@@ -55,7 +55,12 @@ abstract class GameSessionState extends ChangeNotifier {
   int get elapsedSeconds => _elapsed;
   int get correctCount => _correctCount;
   int get questionIndex => _questionIndex;
-  int get totalQuestions => config.questionCount;
+  // The generated question list is the source of truth for length, not
+  // config.questionCount -- an engine session may generate fewer questions
+  // than that default (e.g. a demo/fallback content pack), and keying off
+  // the independent config value left currentQuestion returning null before
+  // totalQuestions was reached, permanently freezing the game screen.
+  int get totalQuestions => questions.isNotEmpty ? questions.length : config.questionCount;
   bool get isFinished => _finished;
   GameSessionResult? get result => _result;
 
