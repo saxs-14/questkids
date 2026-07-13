@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../core/services/auth_service.dart';
 import '../core/services/notification_service.dart';
@@ -19,6 +21,7 @@ class AuthProvider extends ChangeNotifier {
   String? _errorMessage;
   bool _isLoading = false;
   NotificationPermissionState? _notificationPermission;
+  StreamSubscription<UserModel?>? _userSubscription;
 
   AuthStatus get status => _status;
   UserModel? get user => _user;
@@ -33,6 +36,9 @@ class AuthProvider extends ChangeNotifier {
 
   void _init() {
     _authService.authStateChanges.listen((firebaseUser) async {
+      await _userSubscription?.cancel();
+      _userSubscription = null;
+
       if (firebaseUser == null) {
         _status = AuthStatus.unauthenticated;
         _user = null;
@@ -46,6 +52,19 @@ class AuthProvider extends ChangeNotifier {
         } catch (_) {
           // Non-fatal: streak update failing must never block login.
         }
+        // Live-stream the user doc rather than relying solely on the
+        // one-time fetch above, so fields written elsewhere (e.g.
+        // totalPoints/streakDays from RewardsService.grantGameSessionRewards)
+        // reflect on screens reading AuthProvider.user (the dashboard's
+        // XP header) without requiring a sign-out/sign-in cycle --
+        // UserRepository.watchUser already existed for this but had no
+        // caller anywhere in the app.
+        _userSubscription = _userRepo.watchUser(firebaseUser.uid).listen((user) {
+          if (user != null) {
+            _user = user;
+            notifyListeners();
+          }
+        });
       }
       notifyListeners();
     });
@@ -274,10 +293,18 @@ class AuthProvider extends ChangeNotifier {
     if (_user != null) {
       await _notificationService.removeTokenOnSignOut(_user!.uid);
     }
+    await _userSubscription?.cancel();
+    _userSubscription = null;
     await _authService.signOut();
     _user = null;
     _status = AuthStatus.unauthenticated;
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _userSubscription?.cancel();
+    super.dispose();
   }
 
   String _friendlyError(String error) {
