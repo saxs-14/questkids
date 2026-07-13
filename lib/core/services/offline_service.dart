@@ -382,6 +382,7 @@ class OfflineService {
     await _store.clearTable('progress');
     await _store.clearTable('rewards');
     await _store.clearTable('pending_sync');
+    await _store.clearTable('app_settings');
   }
 }
 

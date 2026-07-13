@@ -83,4 +83,16 @@ void main() {
       );
     });
   });
+
+  group('OfflineService.clearAllLocalData', () {
+    test('clears app_settings along with the other tables', () async {
+      final service = OfflineService();
+      await service.saveSetting('theme', 'dark');
+      expect(await service.getSetting('theme'), equals('dark'));
+
+      await service.clearAllLocalData();
+
+      expect(await service.getSetting('theme'), isNull);
+    });
+  });
 }
