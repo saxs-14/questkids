@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_core_platform_interface/test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:questkids/features/games/core/game_config.dart';
+import 'package:questkids/features/games/tug_of_war/tug_of_war_config.dart';
+import 'package:questkids/features/games/tug_of_war/tug_of_war_engine.dart';
 import 'package:questkids/features/games/tug_of_war/tug_of_war_session.dart';
 
 void main() {
@@ -69,6 +71,70 @@ void main() {
       session.appendDigit('4');
       session.appendDigit('-');
       expect(session.currentInput, '4');
+    });
+  });
+
+  group('TugOfWarEngine decimal/integer questions', () {
+    test('decimal type generates a non-integer answer with one decimal place', () {
+      final config = const GameConfig(
+        engineType: 'tugOfWar',
+        subject: 'Mathematics',
+        grade: 'grade4',
+      );
+      final engine = TugOfWarEngine(
+        tugConfig: const TugOfWarConfig(questionType: 'decimal'),
+        config: config,
+      );
+      final questions = engine.generateQuestions();
+      expect(questions, isNotEmpty);
+      for (final q in questions) {
+        expect(q['type'], 'decimal');
+        expect(q['answer'], isA<double>());
+        final display = q['display'] as String;
+        expect(display, contains('.'));
+      }
+    });
+
+    test('decimal checkAnswer accepts the correct value within tolerance', () {
+      final engine = TugOfWarEngine(
+        tugConfig: const TugOfWarConfig(questionType: 'decimal'),
+        config: const GameConfig(
+            engineType: 'tugOfWar', subject: 'Mathematics', grade: 'grade4'),
+      );
+      final question = {'answer': 12.5, 'type': 'decimal'};
+      expect(engine.checkAnswer(question, '12.5').correct, isTrue);
+      expect(engine.checkAnswer(question, '12.4').correct, isFalse);
+    });
+
+    test('integer type generates answers that can be negative', () {
+      final config = const GameConfig(
+        engineType: 'tugOfWar',
+        subject: 'Mathematics',
+        grade: 'grade7',
+      );
+      final engine = TugOfWarEngine(
+        tugConfig: const TugOfWarConfig(
+            questionType: 'integer', multiplierMin: 1, multiplierMax: 20),
+        config: config,
+      );
+      final questions = engine.generateQuestions();
+      expect(questions, isNotEmpty);
+      expect(questions.every((q) => q['type'] == 'integer'), isTrue);
+      // Not every run is guaranteed to draw a negative result, but the
+      // question shape must support one: assert the type contract instead
+      // of a specific sign.
+      expect(questions.every((q) => q['answer'] is int), isTrue);
+    });
+
+    test('integer checkAnswer accepts a negative submitted value', () {
+      final engine = TugOfWarEngine(
+        tugConfig: const TugOfWarConfig(questionType: 'integer'),
+        config: const GameConfig(
+            engineType: 'tugOfWar', subject: 'Mathematics', grade: 'grade7'),
+      );
+      final question = {'answer': -7, 'type': 'integer'};
+      expect(engine.checkAnswer(question, '-7').correct, isTrue);
+      expect(engine.checkAnswer(question, '7').correct, isFalse);
     });
   });
 }

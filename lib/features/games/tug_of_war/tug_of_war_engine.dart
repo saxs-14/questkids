@@ -102,6 +102,43 @@ class TugOfWarEngine extends GameEngine {
             'display': '$value ${units[idx][0]} = ? ${units[idx][1]}',
             'type': type,
           });
+        case 'decimal':
+          // Reuse the dedup-checked a/b pair (declared above the switch)
+          // rather than drawing fresh random numbers here -- keeps the
+          // `used` set's a×b key meaningful for this case too, matching
+          // every other case's pattern. Format `a` as a one-decimal-place
+          // value using b's last digit as the tenths; keep the second
+          // operand a small plain integer so results fit the keypad's
+          // 6-character cap (Task 1), e.g. "83.4".
+          final decimal = a + (b % 10) / 10;
+          final addend = 1 + (b % 20);
+          final isAddDecimal = _rng.nextBool();
+          final decimalAnswer =
+              isAddDecimal ? decimal + addend : decimal - addend;
+          out.add({
+            'a': decimal,
+            'b': addend,
+            'answer': double.parse(decimalAnswer.toStringAsFixed(1)),
+            'display': '$decimal ${isAddDecimal ? '+' : '-'} $addend = ?',
+            'type': type,
+          });
+        case 'integer':
+          // Reuse the dedup-checked a/b pair for magnitude; only the sign
+          // and operation are freshly randomized, so results can land
+          // negative -- exercising the ± keypad toggle from Task 1, not
+          // just addition of positives.
+          final signedA = _rng.nextBool() ? a : -a;
+          final signedB = _rng.nextBool() ? b : -b;
+          final isAddInt = _rng.nextBool();
+          out.add({
+            'a': signedA,
+            'b': signedB,
+            'answer': isAddInt ? signedA + signedB : signedA - signedB,
+            'display': isAddInt
+                ? '($signedA) + ($signedB) = ?'
+                : '($signedA) - ($signedB) = ?',
+            'type': type,
+          });
         default:
           out.add({
             'a': a,
@@ -121,9 +158,9 @@ class TugOfWarEngine extends GameEngine {
     dynamic answer, {
     int elapsedThresholdSeconds = 5,
   }) {
-    final expected = question['answer'] as int;
-    final submitted = answer is int ? answer : int.tryParse(answer.toString());
-    final correct = submitted != null && submitted == expected;
+    final expected = question['answer'] as num;
+    final submitted = answer is num ? answer : num.tryParse(answer.toString());
+    final correct = submitted != null && (expected - submitted).abs() < 0.001;
     final isBonus =
         correct && elapsedThresholdSeconds <= tugConfig.fastAnswerThresholdSec;
     return GameAnswerResult(
