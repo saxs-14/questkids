@@ -279,7 +279,7 @@ class ParentRepository {
 
     final snaps = await _db
         .collection('progress')
-        .where('childUid', isEqualTo: childUid)
+        .where('uid', isEqualTo: childUid)
         .where('completedAt', isGreaterThanOrEqualTo: fromTs)
         .where('completedAt', isLessThanOrEqualTo: toTs)
         .get();
@@ -324,7 +324,7 @@ class ParentRepository {
       {int limit = 50}) async {
     final snaps = await _db
         .collection('progress')
-        .where('childUid', isEqualTo: childUid)
+        .where('uid', isEqualTo: childUid)
         .orderBy('completedAt', descending: true)
         .limit(limit)
         .get();
@@ -340,7 +340,7 @@ class ParentRepository {
     if (childUids.isEmpty) return Stream.value([]);
     return _db
         .collection('progress')
-        .where('childUid', whereIn: childUids)
+        .where('uid', whereIn: childUids)
         .where('completed', isEqualTo: true)
         .where('verified', isEqualTo: false)
         .orderBy('completedAt', descending: true)
