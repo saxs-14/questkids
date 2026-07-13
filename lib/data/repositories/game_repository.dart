@@ -197,20 +197,6 @@ class GameRepository {
     );
   }
 
-  Future<List<Map<String, dynamic>>> getLeaderboard(
-    String grade, {
-    int limit = 20,
-  }) async {
-    final snap = await _db
-        .collection(AppConstants.colLeaderboards)
-        .doc(grade)
-        .collection('entries')
-        .orderBy('xp', descending: true)
-        .limit(limit)
-        .get();
-    return snap.docs.map((d) => {'id': d.id, ...d.data()}).toList();
-  }
-
   // ── Daily missions ────────────────────────────────────────────────────────────
 
   Future<Map<String, dynamic>?> getDailyMissions(String uid) async {

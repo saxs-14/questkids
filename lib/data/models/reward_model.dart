@@ -17,12 +17,6 @@ class RewardModel {
     required this.lastActiveDate,
   });
 
-  int get pointsToNextLevel => (level * 100) - (totalPoints % (level * 100));
-  double get levelProgress {
-    final levelPoints = level * 100;
-    return (totalPoints % levelPoints) / levelPoints;
-  }
-
   factory RewardModel.fromMap(Map<String, dynamic> map) {
     return RewardModel(
       uid: map['uid'] ?? '',
