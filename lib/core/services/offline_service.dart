@@ -12,6 +12,7 @@ import '../../data/repositories/progress_repository.dart';
 import '../../data/repositories/reward_repository.dart';
 import '../../data/repositories/user_repository.dart';
 import 'local_storage_service.dart';
+import 'rewards_service.dart';
 
 class OfflineService {
   final LocalStorageService _store = LocalStorageService.instance;
@@ -278,9 +279,17 @@ class OfflineService {
         final map = Map<String, dynamic>.from(data);
         map['completedAt'] =
             Timestamp.fromMillisecondsSinceEpoch(map['completedAt'] as int);
-        await _gameRepo.logGameSession(
-          GameSessionModel.fromMap(data['id'] as String, map),
-        );
+        final session = GameSessionModel.fromMap(data['id'] as String, map);
+        await _gameRepo.logGameSession(session);
+        try {
+          await RewardsService().grantGameSessionRewards(session);
+        } catch (_) {
+          // Non-fatal and deliberately not rethrown: logGameSession's
+          // fan-out writes (player_stats etc.) are additive, not
+          // idempotent, so letting this failure propagate would cause
+          // syncToFirestore to retry the whole item and double-count
+          // player_stats XP on the next sync attempt.
+        }
         return;
       default:
         throw StateError('Unknown pending sync type: $type');

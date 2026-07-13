@@ -1,10 +1,13 @@
+import '../../data/models/game_session_model.dart';
 import '../../data/models/reward_model.dart';
+import '../../data/repositories/progress_repository.dart';
 import '../../data/repositories/reward_repository.dart';
 import '../../data/repositories/user_repository.dart';
 
 class RewardsService {
   final RewardRepository _rewardRepo = RewardRepository();
   final UserRepository _userRepo = UserRepository();
+  final ProgressRepository _progressRepo = ProgressRepository();
 
   static const List<Map<String, dynamic>> allBadges = [
     {
@@ -116,6 +119,42 @@ class RewardsService {
       'type': 'level',
     },
   ];
+
+  /// Grants XP to rewards/{uid} and users/{uid} for a completed
+  /// game-engine session, mirroring the writes QuizService.submitQuiz
+  /// already performs for the legacy quiz path -- without this, XP
+  /// earned playing catalog games only ever landed in player_stats/{uid},
+  /// which the Rewards screen, dashboard XP header, and leaderboard never
+  /// read. Also checks for newly-earned badges using the same stats
+  /// RewardsProvider.checkForNewBadges assembles for the quiz path.
+  Future<List<BadgeModel>> grantGameSessionRewards(
+      GameSessionModel session) async {
+    await _rewardRepo.initRewards(session.uid);
+    await _rewardRepo.addPoints(session.uid, session.xpEarned);
+    await _userRepo.addPoints(session.uid, session.xpEarned);
+
+    final rewards = await _rewardRepo.getRewards(session.uid);
+    if (rewards == null) return [];
+
+    final progressHistory = await _progressRepo.getUserProgress(session.uid);
+    final questsCompleted = progressHistory.where((p) => p.completed).length;
+    final perfectScores = progressHistory.where((p) => p.score == 100).length;
+    final subjectCounts = <String, int>{};
+    for (final p in progressHistory.where((p) => p.completed)) {
+      subjectCounts[p.subject] = (subjectCounts[p.subject] ?? 0) + 1;
+    }
+
+    return checkAndAwardBadges(
+      uid: session.uid,
+      totalPoints: rewards.totalPoints,
+      level: rewards.level,
+      streakDays: rewards.streakDays,
+      questsCompleted: questsCompleted,
+      perfectScores: perfectScores,
+      subjectCounts: subjectCounts,
+      lastQuizTimeSeconds: session.timeTakenSeconds,
+    );
+  }
 
   Future<List<BadgeModel>> checkAndAwardBadges({
     required String uid,

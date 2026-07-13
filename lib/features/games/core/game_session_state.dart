@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../core/services/offline_service.dart';
+import '../../../core/services/rewards_service.dart';
 import '../../../data/models/game_session_model.dart';
 import '../../../data/repositories/game_repository.dart';
 import 'game_config.dart';
@@ -130,6 +131,13 @@ abstract class GameSessionState extends ChangeNotifier {
         try {
           await _repo.logGameSession(session);
           writeSucceeded = true;
+          try {
+            await RewardsService().grantGameSessionRewards(session);
+          } catch (_) {
+            // Non-fatal: the session itself is already saved; a failure
+            // here just means this session's XP won't show on the
+            // Rewards screen/dashboard until the next successful grant.
+          }
         } catch (_) {
           writeSucceeded = false;
         }
