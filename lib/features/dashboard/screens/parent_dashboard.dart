@@ -11,6 +11,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/theme_provider.dart';
 import '../../../core/widgets/profile_avatar_picker.dart';
+import '../../../core/widgets/profile_settings_tile.dart';
 import '../../../core/widgets/responsive_scaffold.dart';
 import '../../../data/repositories/parent_repository.dart';
 import '../../../data/repositories/user_repository.dart';
@@ -793,7 +794,6 @@ class _ParentProfileTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = context.read<AuthProvider>();
     final isMobile = MediaQuery.of(context).size.width < 600;
 
     return SingleChildScrollView(
@@ -865,23 +865,7 @@ class _ParentProfileTab extends StatelessWidget {
             );
           }),
           const SizedBox(height: 24),
-          OutlinedButton.icon(
-            onPressed: () {
-              auth.signOut();
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/login',
-                (route) => false,
-              );
-            },
-            icon: const Icon(Icons.logout, color: AppColors.error),
-            label: const Text('Sign Out',
-                style: TextStyle(color: AppColors.error)),
-            style: OutlinedButton.styleFrom(
-              minimumSize: Size(isMobile ? double.infinity : 200, 50),
-              side: const BorderSide(color: AppColors.error),
-            ),
-          ),
+          const ProfileSettingsTile(),
         ],
       ),
     );
