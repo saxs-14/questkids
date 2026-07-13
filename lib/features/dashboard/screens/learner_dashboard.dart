@@ -12,9 +12,8 @@ import '../../../providers/rewards_provider.dart';
 import '../../../core/services/storage_service.dart';
 import '../../../core/widgets/responsive_scaffold.dart';
 import '../../../core/widgets/app_side_menu.dart';
-import '../../../core/widgets/app_button.dart';
-import '../../../core/widgets/app_dialog.dart';
 import '../../../core/widgets/app_empty_state.dart';
+import '../../../core/widgets/profile_settings_tile.dart';
 import '../../../data/repositories/user_repository.dart';
 import '../../notifications/screens/notifications_screen.dart';
 import '../../offline/widgets/offline_banner.dart';
@@ -1150,7 +1149,6 @@ class _ProfileTabState extends State<_ProfileTab> {
 
   @override
   Widget build(BuildContext context) {
-    final auth = context.watch<AuthProvider>();
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final isMobile = MediaQuery.of(context).size.width < 600;
 
@@ -1422,27 +1420,7 @@ class _ProfileTabState extends State<_ProfileTab> {
                 left: isMobile ? 16 : 24,
                 right: isMobile ? 16 : 24,
                 bottom: 40),
-            child: AppButton(
-              label: 'Sign Out',
-              icon: Icons.logout,
-              variant: AppButtonVariant.danger,
-              fullWidth: isMobile,
-              onPressed: () async {
-                final confirmed = await AppDialog.confirm(
-                  context,
-                  title: 'Sign Out',
-                  message: 'Are you sure you want to sign out?',
-                  confirmLabel: 'Sign Out',
-                  isDanger: true,
-                );
-                if (confirmed && context.mounted) {
-                  await auth.signOut();
-                  if (context.mounted) {
-                    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-                  }
-                }
-              },
-            ),
+            child: const ProfileSettingsTile(),
           ),
         ],
       ),
