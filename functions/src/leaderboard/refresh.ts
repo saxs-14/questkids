@@ -34,7 +34,7 @@ export const refreshLeaderboards = onSchedule(
 
         const progressSnap = await db
           .collection("progress")
-          .where("childUid", "==", userDoc.id)
+          .where("uid", "==", userDoc.id)
           .where("completedAt", ">=", admin.firestore.Timestamp.fromDate(sevenDaysAgo))
           .get();
         const weeklyXp = progressSnap.docs.reduce(
