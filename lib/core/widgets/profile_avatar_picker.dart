@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../providers/auth_provider.dart';
+import '../services/permission_service.dart';
 import '../services/profile_image_service.dart';
 import '../theme/app_colors.dart';
 
@@ -39,6 +41,7 @@ class ProfileAvatarPicker extends StatefulWidget {
 
 class _ProfileAvatarPickerState extends State<ProfileAvatarPicker> {
   bool _uploading = false;
+  static const _rationaleSeenPrefKey = 'avatar_permission_rationale_seen';
 
   Future<void> _pick(ImageSource source) async {
     final auth = context.read<AuthProvider>();
@@ -60,12 +63,50 @@ class _ProfileAvatarPickerState extends State<ProfileAvatarPicker> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Upload failed: $e')),
+          SnackBar(
+            content: Text(PermissionService.friendlyMessage(e)),
+            action: PermissionService.isPermissionDenied(e)
+                ? const SnackBarAction(
+                    label: 'Settings',
+                    onPressed: PermissionService.openSettings,
+                  )
+                : null,
+          ),
         );
       }
     } finally {
       if (mounted) setState(() => _uploading = false);
     }
+  }
+
+  Future<void> _onTap() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool(_rationaleSeenPrefKey) != true) {
+      if (!mounted) return;
+      final continue_ = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          title: const Text('Add a Profile Picture'),
+          content: const Text(
+            "QuestKids can use your camera or photos so you can pick a "
+            "profile picture. You'll be asked to allow this next.",
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: const Text('Not now'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(true),
+              child: const Text('Continue'),
+            ),
+          ],
+        ),
+      );
+      await prefs.setBool(_rationaleSeenPrefKey, true);
+      if (continue_ != true) return;
+    }
+    if (mounted) await _showSourcePicker();
   }
 
   Future<void> _showSourcePicker() async {
@@ -127,7 +168,7 @@ class _ProfileAvatarPickerState extends State<ProfileAvatarPicker> {
     final r = widget.radius;
 
     return GestureDetector(
-      onTap: _uploading ? null : _showSourcePicker,
+      onTap: _uploading ? null : _onTap,
       child: Stack(
         alignment: Alignment.bottomRight,
         children: [

@@ -14,7 +14,9 @@ class ProfileImageService {
 
   /// Pick an image from [source], compress it (native only), upload to
   /// Firebase Storage, update Firestore `avatarUrl`, and return the URL.
-  /// Returns null if the user cancelled or an error occurred.
+  /// Returns null if the user cancelled. Throws if the pick, upload, or
+  /// Firestore update fails (e.g. a denied camera/photo permission) --
+  /// callers must catch.
   static Future<String?> pickAndUpload({
     required String uid,
     ImageSource source = ImageSource.gallery,
