@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../../core/services/permission_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/theme_provider.dart';
@@ -488,9 +489,11 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text('CSV imported')));
     } catch (e) {
-      if (mounted)
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Import failed: $e')));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(PermissionService.friendlyMessage(e))),
+        );
+      }
     }
   }
 }
