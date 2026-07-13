@@ -6,7 +6,7 @@ class TeacherRepository {
   Future<Map<String, dynamic>> getClassAnalytics(String teacherUid) async {
     final learnersSnap = await _db
         .collection('users')
-        .where('linkedTeacherUid', isEqualTo: teacherUid)
+        .where('linkedTeacherUids', arrayContains: teacherUid)
         .get();
     if (learnersSnap.docs.isEmpty) {
       return {
@@ -69,7 +69,7 @@ class TeacherRepository {
       String teacherUid) async {
     final learnersSnap = await _db
         .collection('users')
-        .where('linkedTeacherUid', isEqualTo: teacherUid)
+        .where('linkedTeacherUids', arrayContains: teacherUid)
         .get();
     final learnerUids = learnersSnap.docs.map((d) => d.id).toSet();
     if (learnerUids.isEmpty) return [];
@@ -100,7 +100,7 @@ class TeacherRepository {
       String teacherUid) async {
     final learnersSnap = await _db
         .collection('users')
-        .where('linkedTeacherUid', isEqualTo: teacherUid)
+        .where('linkedTeacherUids', arrayContains: teacherUid)
         .get();
     final rows = <Map<String, dynamic>>[];
     for (final learner in learnersSnap.docs) {
