@@ -24,6 +24,7 @@ import '../../quests/screens/quests_screen.dart';
 import '../../rewards/screens/rewards_screen.dart';
 import '../../ai_tutor/screens/ai_tutor_screen.dart';
 import '../../ai_tutor/widgets/recommendation_card.dart';
+import '../../parent/widgets/child_qr_code.dart';
 import '../../games/core/game_config.dart';
 import '../../games/core/game_intro_sheet.dart';
 import '../../games/core/game_router.dart';
@@ -1366,6 +1367,45 @@ class _ProfileTabState extends State<_ProfileTab> {
               ],
             ),
           ),
+          if (widget.user?.childLinkCode != null) ...[
+            const SizedBox(height: 24),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: isMobile ? 16 : 24),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: isDark ? Colors.white.withValues(alpha: 0.06) : Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                      color: _DC.heroGradientStart.withValues(alpha: 0.15),
+                      width: 1.5),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('👨‍👩‍👧 Parent Connection', style: AppTextStyles.h4),
+                    const SizedBox(height: 8),
+                    Text(
+                      (widget.user?.linkedParentUids?.isNotEmpty ?? false)
+                          ? '✅ Linked to ${widget.user!.linkedParentUids.length} parent(s)'
+                          : 'Not linked to a parent yet',
+                      style: AppTextStyles.bodySmall,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Ask your parent to scan this code or enter it in their app to connect:',
+                      style: AppTextStyles.bodyMedium,
+                    ),
+                    const SizedBox(height: 16),
+                    Center(
+                      child: ChildQrCode(code: widget.user!.childLinkCode!),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
           const SizedBox(height: 24),
           Padding(
             padding: EdgeInsets.only(
