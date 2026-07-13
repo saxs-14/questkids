@@ -4,21 +4,29 @@ import '../core/game_config.dart';
 import '../core/game_engine.dart';
 import 'multiples_merge_config.dart';
 
-/// One generated round: the target table, the grid values, and a guaranteed
-/// in-order solution path (cell indices) so a valid chain always exists.
+/// One generated round. In 'numeric' mode: the target table, the grid
+/// values, and a guaranteed in-order solution path (cell indices) so a
+/// valid chain always exists. In 'pairs' mode: a term/definition pair
+/// placed on two adjacent cells among distractor tokens, with
+/// [pairPartner] recording the mutual cell-index mapping so the session
+/// can validate a tap without arithmetic.
 class MergeRound {
-  final int table;
+  final String mode; // 'numeric' | 'pairs'
+  final int table; // numeric mode only; 0 for pairs rounds
   final int gridSize;
   final int chainLength;
-  final List<int> values; // length gridSize²
-  final List<int> solutionPath; // cell indices, in correct order
+  final List<Object> values; // int cells (numeric) or String cells (pairs)
+  final List<int> solutionPath; // numeric mode: cell indices, in order
+  final Map<int, int>? pairPartner; // pairs mode: cell index -> partner cell
 
   const MergeRound({
+    required this.mode,
     required this.table,
     required this.gridSize,
     required this.chainLength,
     required this.values,
     required this.solutionPath,
+    this.pairPartner,
   });
 }
 
@@ -37,8 +45,11 @@ class MultiplesMergeEngine extends GameEngine {
   List<Map<String, dynamic>> generateQuestions() =>
       List.generate(_config.questionCount, (i) => {'round': i});
 
-  /// Build a fresh, solvable round.
-  MergeRound buildRound() {
+  /// Build a fresh, solvable round for the configured mode.
+  MergeRound buildRound() =>
+      mergeConfig.mode == 'pairs' ? _buildPairsRound() : _buildNumericRound();
+
+  MergeRound _buildNumericRound() {
     final table = mergeConfig.tables[_rng.nextInt(mergeConfig.tables.length)];
     final n = mergeConfig.gridSize;
     final len = mergeConfig.chainLength.clamp(2, n * n);
@@ -57,11 +68,63 @@ class MultiplesMergeEngine extends GameEngine {
     }
 
     return MergeRound(
+      mode: 'numeric',
       table: table,
       gridSize: n,
       chainLength: len,
       values: values,
       solutionPath: path,
+    );
+  }
+
+  MergeRound _buildPairsRound() {
+    final n = mergeConfig.gridSize;
+    final groups = mergeConfig.tokenGroups;
+    final targetGroup = groups[_rng.nextInt(groups.length)];
+
+    final path = _generatePath(n, 2); // exactly 2 adjacent cells
+    final values = List<Object?>.filled(n * n, null);
+    values[path[0]] = targetGroup[0];
+    values[path[1]] = targetGroup[1];
+
+    // Fill remaining cells with ONE token per distractor pair (never both
+    // halves of the same non-target pair), so no accidental second match
+    // exists on the board.
+    final distractorPool = <String>[];
+    for (final g in groups) {
+      if (identical(g, targetGroup)) continue;
+      distractorPool.add(_rng.nextBool() ? g[0] : g[1]);
+    }
+    distractorPool.shuffle(_rng);
+
+    int di = 0;
+    for (int c = 0; c < values.length; c++) {
+      if (values[c] != null) continue;
+      if (di < distractorPool.length) {
+        values[c] = distractorPool[di++];
+      } else {
+        // More filler cells than distractor tokens available (typical: 10
+        // tokenGroups on a 4×4 grid needs 14 filler cells but the pool
+        // above only has 9 tokens -- one per non-target group). Repeat an
+        // ALREADY-PLACED distractor string rather than drawing a fresh
+        // token: drawing fresh would risk introducing a non-target group's
+        // other half, which would leave both halves of that pair on the
+        // board with no pairPartner mapping recognizing them as a match --
+        // confusing, since tapping them looks like it should work but
+        // silently does nothing. A repeated distractor string is inert by
+        // construction (it was already screened as safe above).
+        values[c] = distractorPool[_rng.nextInt(distractorPool.length)];
+      }
+    }
+
+    return MergeRound(
+      mode: 'pairs',
+      table: 0,
+      gridSize: n,
+      chainLength: 2,
+      values: values.cast<Object>(),
+      solutionPath: path,
+      pairPartner: {path[0]: path[1], path[1]: path[0]},
     );
   }
 
