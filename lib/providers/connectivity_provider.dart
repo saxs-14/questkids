@@ -11,6 +11,7 @@ class ConnectivityProvider extends ChangeNotifier {
   bool _isSyncing = false;
   String? _syncMessage;
   int _pendingSyncCount = 0;
+  String? _uid;
   StreamSubscription? _subscription;
 
   ConnectionStatus get status => _status;
@@ -24,10 +25,18 @@ class ConnectivityProvider extends ChangeNotifier {
     _init();
   }
 
+  /// Called whenever the signed-in user changes (including sign-out, where
+  /// [uid] is null) so reconnect-triggered auto-sync knows whose data to
+  /// push. See main.dart's ChangeNotifierProxyProvider<AuthProvider, ...>.
+  void setUid(String? uid) {
+    if (_uid == uid) return;
+    _uid = uid;
+  }
+
   Future<void> _init() async {
     final isOnline = await _offlineService.isOnline();
     _status = isOnline ? ConnectionStatus.online : ConnectionStatus.offline;
-    notifyListeners();
+    await updatePendingCount();
 
     _subscription = _offlineService.connectivityStream.listen((online) {
       final newStatus =
@@ -38,6 +47,12 @@ class ConnectivityProvider extends ChangeNotifier {
         if (online) {
           _syncMessage = 'Back online! Syncing your progress...';
           notifyListeners();
+          final uid = _uid;
+          if (uid != null && uid.isNotEmpty) {
+            syncNow(uid);
+          }
+        } else {
+          updatePendingCount();
         }
       }
     });
@@ -56,8 +71,7 @@ class ConnectivityProvider extends ChangeNotifier {
     _status =
         result.success ? ConnectionStatus.online : ConnectionStatus.offline;
     _syncMessage = result.message;
-    _pendingSyncCount = 0;
-    notifyListeners();
+    await updatePendingCount();
 
     await Future.delayed(const Duration(seconds: 3));
     _syncMessage = null;
