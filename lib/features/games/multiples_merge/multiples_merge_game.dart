@@ -129,6 +129,7 @@ class _MultiplesMergeGameState extends State<MultiplesMergeGame>
                   Column(
                     children: [
                       _Hud(
+                        mode: round.mode,
                         table: session.table,
                         chainLen: session.chain.length,
                         target: session.chainLength,
@@ -138,7 +139,9 @@ class _MultiplesMergeGameState extends State<MultiplesMergeGame>
                         onQuiz: _openWeeklyQuiz,
                       ),
                       _InstructionStrip(
-                          table: session.table, length: session.chainLength),
+                          mode: round.mode,
+                          table: session.table,
+                          length: session.chainLength),
                       Expanded(
                         child: Center(
                           child: Padding(
@@ -185,6 +188,7 @@ class _MultiplesMergeGameState extends State<MultiplesMergeGame>
 
 // ── HUD ─────────────────────────────────────────────────────────────────────
 class _Hud extends StatelessWidget {
+  final String mode;
   final int table;
   final int chainLen;
   final int target;
@@ -194,6 +198,7 @@ class _Hud extends StatelessWidget {
   final VoidCallback onQuiz;
 
   const _Hud({
+    required this.mode,
     required this.table,
     required this.chainLen,
     required this.target,
@@ -213,7 +218,7 @@ class _Hud extends StatelessWidget {
           Expanded(
             child: Column(
               children: [
-                Text('Multiples of $table',
+                Text(mode == 'pairs' ? 'Match the Pairs' : 'Multiples of $table',
                     style: GameTheme.display(20, color: AppColors.math)),
                 Text(
                     'Chain $chainLen / $target   •   Round $round/$totalRounds',
@@ -233,15 +238,19 @@ class _Hud extends StatelessWidget {
 }
 
 class _InstructionStrip extends StatelessWidget {
+  final String mode;
   final int table;
   final int length;
-  const _InstructionStrip({required this.table, required this.length});
+  const _InstructionStrip(
+      {required this.mode, required this.table, required this.length});
 
   @override
   Widget build(BuildContext context) {
-    final preview = [
-      for (int i = 1; i <= math.min(4, length); i++) '${table * i}'
-    ].join(' → ');
+    final text = mode == 'pairs'
+        ? 'Tap a tile, then tap its matching pair!'
+        : 'Connect the multiples in order:  ${[
+            for (int i = 1; i <= math.min(4, length); i++) '${table * i}'
+          ].join(' → ')} …';
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
@@ -250,7 +259,7 @@ class _InstructionStrip extends StatelessWidget {
         borderRadius: GameTheme.roundedSmall,
       ),
       child: Text(
-        'Connect the multiples in order:  $preview …',
+        text,
         textAlign: TextAlign.center,
         style:
             GameTheme.body(13, color: AppColors.math, weight: FontWeight.w700),
@@ -332,7 +341,7 @@ class _MergeGrid extends StatelessWidget {
 }
 
 class _Tile extends StatelessWidget {
-  final int value;
+  final Object value;
   final bool selected;
   final bool glow;
   final bool merged;
@@ -347,6 +356,11 @@ class _Tile extends StatelessWidget {
   });
 
   List<Color> _gradient() {
+    if (value is! int) {
+      // Pairs mode: a single consistent "word tile" palette instead of the
+      // magnitude-tiered numeric palette below (which needs an int).
+      return const [Color(0xFFBA68C8), Color(0xFF8E24AA)];
+    }
     // Warm "maths orange" family; tier varies by magnitude for visual variety.
     const tiers = [
       [Color(0xFFFFB74D), Color(0xFFFF9800)],
@@ -354,13 +368,14 @@ class _Tile extends StatelessWidget {
       [Color(0xFFFFA726), Color(0xFFF57C00)],
       [Color(0xFFFF7043), Color(0xFFE64A19)],
     ];
-    return tiers[((value - 1) ~/ 8).clamp(0, tiers.length - 1)];
+    return tiers[(((value as int) - 1) ~/ 8).clamp(0, tiers.length - 1)];
   }
 
   @override
   Widget build(BuildContext context) {
     final grad = _gradient();
     final glowAlpha = glow ? (0.35 + 0.45 * pulse) : 0.0;
+    final isWordTile = value is! int;
 
     final tile = AnimatedContainer(
       duration: const Duration(milliseconds: 150),
@@ -398,9 +413,16 @@ class _Tile extends StatelessWidget {
         fit: BoxFit.scaleDown,
         child: Padding(
           padding: const EdgeInsets.all(6),
-          child: Text('$value',
-              style: GameTheme.display(26,
-                  color: Colors.white, weight: FontWeight.w700)),
+          child: Text(
+            '$value',
+            textAlign: TextAlign.center,
+            maxLines: isWordTile ? 4 : 1,
+            style: GameTheme.display(
+              isWordTile ? 13 : 26,
+              color: Colors.white,
+              weight: FontWeight.w700,
+            ),
+          ),
         ),
       ),
     );
