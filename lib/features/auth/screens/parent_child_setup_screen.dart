@@ -165,7 +165,9 @@ class _ParentChildSetupScreenState extends State<ParentChildSetupScreen> {
               Text('Link to an Existing Child', style: AppTextStyles.h2),
               const SizedBox(height: 8),
               Card(
-                color: AppColors.surface,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? AppColors.cardDark
+                    : AppColors.surface,
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Column(
