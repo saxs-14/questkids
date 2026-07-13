@@ -3,11 +3,14 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import '../widgets/notification_banner.dart';
 
+enum NotificationPermissionState { granted, denied }
+
 class NotificationService {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> init(String userId, GlobalKey<NavigatorState> navigatorKey) async {
+  Future<NotificationPermissionState> init(
+      String userId, GlobalKey<NavigatorState> navigatorKey) async {
     final settings = await _fcm.requestPermission(
       alert: true,
       badge: true,
@@ -30,7 +33,19 @@ class NotificationService {
           );
         }
       });
+      return NotificationPermissionState.granted;
     }
+    return NotificationPermissionState.denied;
+  }
+
+  /// Re-checks the OS-level permission without re-prompting, so the
+  /// Settings screen can refresh its status after the user returns from
+  /// the system Settings app.
+  Future<NotificationPermissionState> currentStatus() async {
+    final settings = await _fcm.getNotificationSettings();
+    return settings.authorizationStatus == AuthorizationStatus.authorized
+        ? NotificationPermissionState.granted
+        : NotificationPermissionState.denied;
   }
 
   Future<void> _saveTokenToDatabase(String userId, String token) async {

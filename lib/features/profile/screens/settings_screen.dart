@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/services/notification_service.dart';
+import '../../../core/services/permission_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/theme_provider.dart';
 import '../../../core/widgets/theme_toggle.dart';
+import '../../../providers/auth_provider.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -32,6 +35,51 @@ class SettingsScreen extends StatelessWidget {
               ),
               trailing: const ThemeToggle(),
             ),
+          ),
+          const SizedBox(height: 20),
+          Text('Notifications', style: AppTextStyles.label),
+          const SizedBox(height: 8),
+          Consumer<AuthProvider>(
+            builder: (context, auth, _) {
+              final granted = auth.notificationPermission ==
+                  NotificationPermissionState.granted;
+              return Card(
+                child: ListTile(
+                  leading: Icon(
+                    granted
+                        ? Icons.notifications_active
+                        : Icons.notifications_off,
+                    color: AppColors.primary,
+                  ),
+                  title:
+                      Text('Push Notifications', style: AppTextStyles.bodyMedium),
+                  subtitle: Text(
+                    granted
+                        ? 'On'
+                        : 'Off — turn this on in Settings to get badge and '
+                            'quest reminders',
+                    style: AppTextStyles.bodySmall,
+                  ),
+                  trailing: granted
+                      ? null
+                      : TextButton(
+                          onPressed: () async {
+                            try {
+                              await PermissionService.openSettings();
+                            } catch (_) {
+                              // Not supported on this platform (e.g. web) --
+                              // still re-check status below rather than
+                              // leaving the button silently inert.
+                            }
+                            if (context.mounted) {
+                              await auth.refreshNotificationPermission();
+                            }
+                          },
+                          child: const Text('Open Settings'),
+                        ),
+                ),
+              );
+            },
           ),
         ],
       ),

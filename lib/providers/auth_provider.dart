@@ -16,12 +16,14 @@ class AuthProvider extends ChangeNotifier {
   UserModel? _user;
   String? _errorMessage;
   bool _isLoading = false;
+  NotificationPermissionState? _notificationPermission;
 
   AuthStatus get status => _status;
   UserModel? get user => _user;
   String? get errorMessage => _errorMessage;
   bool get isLoading => _isLoading;
   bool get isAuthenticated => _status == AuthStatus.authenticated;
+  NotificationPermissionState? get notificationPermission => _notificationPermission;
 
   AuthProvider({required this.navigatorKey}) {
     _init();
@@ -35,10 +37,16 @@ class AuthProvider extends ChangeNotifier {
       } else {
         _user = await _userRepo.getUser(firebaseUser.uid);
         _status = AuthStatus.authenticated;
-        _notificationService.init(firebaseUser.uid, navigatorKey);
+        _notificationPermission =
+            await _notificationService.init(firebaseUser.uid, navigatorKey);
       }
       notifyListeners();
     });
+  }
+
+  Future<void> refreshNotificationPermission() async {
+    _notificationPermission = await _notificationService.currentStatus();
+    notifyListeners();
   }
 
   void _setLoading(bool val) {
