@@ -20,6 +20,7 @@ export { refreshLeaderboards } from "./leaderboard/refresh";
 export { generateDailyMissions } from "./missions/generate";
 export { getTeacherInsight } from "./teacher/insights";
 export { setUserRole, assignDefaultRole } from "./admin/setUserRole";
+export { sendPushOnNotificationCreate } from "./notifications/sendPush";
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();
