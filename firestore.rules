@@ -90,6 +90,72 @@ service cloud.firestore {
                        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['verified', 'proofUrl']);
     }
 
+    // ==================== PARENT LINK REQUESTS ====================
+    // Fields: primaryParentUid (the already-linked parent who must
+    // approve), requestingParentUid (whoever is asking to be linked),
+    // status ('pending'|'approved'|'declined').
+    match /parent_link_requests/{requestId} {
+      allow create: if isParent() &&
+                        request.resource.data.requestingParentUid == request.auth.uid;
+      allow read: if isParent() &&
+                      (resource.data.primaryParentUid == request.auth.uid ||
+                       resource.data.requestingParentUid == request.auth.uid);
+      allow update: if isParent() && resource.data.primaryParentUid == request.auth.uid &&
+                       request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'resolvedAt']);
+    }
+
+    // ==================== SHARED CALENDAR ====================
+    match /shared_calendar/{eventId} {
+      allow create: if isParent() &&
+                        request.resource.data.childUid in
+                          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      allow read, update, delete: if isParent() &&
+                        resource.data.childUid in
+                          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      allow read: if isUser(resource.data.childUid);
+    }
+
+    // ==================== REMINDERS ====================
+    match /reminders/{reminderId} {
+      allow create: if isParent() &&
+                        request.resource.data.childUid in
+                          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      allow read, update, delete: if isParent() &&
+                        resource.data.childUid in
+                          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+    }
+
+    // ==================== DOCUMENT VAULT ====================
+    match /document_vault/{docId} {
+      allow create: if isParent() &&
+                        request.resource.data.childUid in
+                          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      allow read, update, delete: if isParent() &&
+                        resource.data.childUid in
+                          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+    }
+
+    // ==================== MOOD CHECK-INS ====================
+    match /mood_checkins/{checkinId} {
+      allow create: if isParent() &&
+                        request.resource.data.childUid in
+                          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      allow read: if isParent() &&
+                      resource.data.childUid in
+                        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+    }
+
+    // ==================== EMAILS (write-only queue) ====================
+    // Consumed by the sendEmail Cloud Function via the Admin SDK, which
+    // bypasses these rules entirely -- clients only ever need to create.
+    // Note: EmailService (the intended writer) currently has zero call
+    // sites anywhere in lib/ -- this rule is preparatory, not unblocking
+    // an active bug, so that the moment it's wired up it works correctly.
+    match /emails/{emailId} {
+      allow create: if isSignedIn();
+      allow read, update, delete: if false;
+    }
+
     // ==================== REWARDS COLLECTION ====================
     match /rewards/{uid} {
       allow read, write: if isUser(uid);
