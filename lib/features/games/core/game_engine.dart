@@ -51,11 +51,14 @@ abstract class GameEngine {
   });
 
   /// Build the final [GameSessionResult] once all questions are done
-  /// (or the session ends early).
+  /// (or the session ends early). [xpFromAnswers] is the sum of every
+  /// answer's [GameAnswerResult.xpDelta] this session, tracked by
+  /// [GameSessionState] -- the real per-question XP, not a flat formula.
   GameSessionResult buildResult({
     required int correct,
     required int total,
     required int timeTakenSeconds,
+    required int xpFromAnswers,
     bool earlyWin = false,
   });
 
@@ -67,6 +70,7 @@ abstract class GameEngine {
     required int correct,
     required int total,
     required int timeTakenSeconds,
+    required int xpFromAnswers,
     bool earlyWin = false,
   }) {
     final accuracy = total > 0 ? correct / total : 0.0;
@@ -74,7 +78,7 @@ abstract class GameEngine {
     final isWin = earlyWin || correct > total / 2;
     final isPerfect = correct == total;
 
-    int xp = correct * 10;
+    int xp = xpFromAnswers;
     if (isPerfect) {
       xp += 100;
     } else if (isWin) {

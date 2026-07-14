@@ -1,4 +1,5 @@
 import '../core/game_config.dart';
+import '../core/game_engine.dart';
 import '../core/game_session_state.dart';
 import 'adventure_journey_config.dart';
 import 'adventure_journey_engine.dart';
@@ -71,7 +72,7 @@ class AdventureJourneySession extends GameSessionState {
       Future.delayed(const Duration(milliseconds: 1000), () {
         _dropletState = DropletState.idle;
         _feedbackText = null;
-        final done = recordAnswer(true);
+        final done = recordAnswer(result);
         if (done) finishSession(uid);
       });
     } else {
@@ -85,7 +86,7 @@ class AdventureJourneySession extends GameSessionState {
         _dropletState = DropletState.idle;
         _feedbackText = null;
         recordAnswer(
-            false); // records the wrong attempt but does NOT advance stage
+            result); // records the wrong attempt but does NOT advance stage
         // Restore questionIndex so player retries same stage
         notifyListeners();
       });
@@ -101,13 +102,13 @@ class AdventureJourneySession extends GameSessionState {
   int get retryCount => _retryCount;
 
   @override
-  bool recordAnswer(bool correct) {
-    if (!correct) {
+  bool recordAnswer(GameAnswerResult result) {
+    if (!result.correct) {
       _retryCount++;
       notifyListeners();
       return false; // never advance on wrong
     }
     _retryCount = 0;
-    return super.recordAnswer(correct);
+    return super.recordAnswer(result);
   }
 }

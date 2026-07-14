@@ -55,9 +55,8 @@ class BudgetBuilderSession extends GameSessionState {
   @override
   void submitAnswer(dynamic answer) {
     if (isFinished) return;
-    final done = recordAnswer(engine
-        .checkAnswer(currentQuestion!, Map<String, String>.from(_categorised))
-        .correct);
+    final done = recordAnswer(
+        engine.checkAnswer(currentQuestion!, Map<String, String>.from(_categorised)));
     _categorised.clear();
     if (done) finishSession(_uid);
   }

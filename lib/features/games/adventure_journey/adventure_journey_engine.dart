@@ -48,20 +48,14 @@ class AdventureJourneyEngine extends GameEngine {
     required int correct,
     required int total,
     required int timeTakenSeconds,
+    required int xpFromAnswers,
     bool earlyWin = false,
-  }) {
-    final isPerfect = correct == total;
-    final accuracy = total > 0 ? correct / total : 0.0;
-    final score = (accuracy * 100).round();
-    int xp = correct * 10;
-    if (isPerfect) xp += 100; // "Science Star" bonus
-
-    return GameSessionResult(
-      result: isPerfect ? 'complete' : (correct > total ~/ 2 ? 'win' : 'loss'),
-      score: score,
-      xpEarned: xp,
-      coinsEarned: xp ~/ 10,
-      accuracy: accuracy,
-    );
-  }
+  }) =>
+      defaultResult(
+        correct: correct,
+        total: total,
+        timeTakenSeconds: timeTakenSeconds,
+        xpFromAnswers: xpFromAnswers,
+        earlyWin: earlyWin,
+      );
 }

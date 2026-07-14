@@ -138,7 +138,7 @@ class TugOfWarSession extends GameSessionState {
       _playerStreak = 0;
     }
 
-    final done = recordAnswer(ar.correct);
+    final done = recordAnswer(ar);
     _questionStartSec = elapsedSeconds;
 
     if (done || flagPosition >= 1.0 || flagPosition <= -1.0) {

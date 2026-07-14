@@ -76,14 +76,17 @@ void main() {
 
       final total = questions.length;
       final completeResult = engine.buildResult(
-          correct: total, total: total, timeTakenSeconds: 30);
+          correct: total,
+          total: total,
+          timeTakenSeconds: 30,
+          xpFromAnswers: correctResult.xpDelta * total);
       expect(completeResult.score, inInclusiveRange(0, 100));
       expect(completeResult.xpEarned, greaterThanOrEqualTo(0));
       expect(completeResult.coinsEarned, greaterThanOrEqualTo(0));
       expect(completeResult.accuracy, inInclusiveRange(0.0, 1.0));
 
-      final lossResult =
-          engine.buildResult(correct: 0, total: total, timeTakenSeconds: 30);
+      final lossResult = engine.buildResult(
+          correct: 0, total: total, timeTakenSeconds: 30, xpFromAnswers: 0);
       expect(lossResult.score, inInclusiveRange(0, 100));
     });
   }

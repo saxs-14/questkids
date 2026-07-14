@@ -213,12 +213,14 @@ class MultiplesMergeEngine extends GameEngine {
     required int correct,
     required int total,
     required int timeTakenSeconds,
+    required int xpFromAnswers,
     bool earlyWin = false,
   }) =>
       defaultResult(
         correct: correct,
         total: total,
         timeTakenSeconds: timeTakenSeconds,
+        xpFromAnswers: xpFromAnswers,
         earlyWin: earlyWin,
       );
 }

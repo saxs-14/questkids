@@ -98,7 +98,8 @@ class SequenceBuilderSession extends GameSessionState {
 
       if (_placed.length == stages.length) {
         _roundComplete = true;
-        final done = recordAnswer(true);
+        final done = recordAnswer(
+            engine.checkAnswer(currentQuestion ?? const {}, true));
         notifyListeners();
         Future.delayed(const Duration(milliseconds: 1100), () {
           if (done) {

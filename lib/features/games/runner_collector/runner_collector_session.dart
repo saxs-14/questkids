@@ -160,7 +160,7 @@ class RunnerCollectorSession extends GameSessionState {
 
       if (correct) {
         _wordsCollected++;
-        recordAnswer(true);
+        recordAnswer(engine.checkAnswer(currentQuestion ?? const {}, true));
 
         // Advance level every 8 correct collections
         if (_wordsCollected > 0 && _wordsCollected % 8 == 0) {
@@ -168,7 +168,7 @@ class RunnerCollectorSession extends GameSessionState {
         }
       } else {
         _loseHeart();
-        recordAnswer(false);
+        recordAnswer(engine.checkAnswer(currentQuestion ?? const {}, false));
       }
 
       // Clear flash after 500ms
@@ -195,7 +195,7 @@ class RunnerCollectorSession extends GameSessionState {
       _spawnTimer?.cancel();
       // Use recordAnswer to complete the session
       while (questionIndex < totalQuestions) {
-        recordAnswer(true);
+        recordAnswer(engine.checkAnswer(currentQuestion ?? const {}, true));
       }
       finishSession(uid, earlyWin: true);
       return;

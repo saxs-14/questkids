@@ -67,8 +67,8 @@ void main() {
 
     test('buildResult loss when fewer than half correct', () {
       final engine = BudgetBuilderEngine(_makeConfig(questionCount: 6));
-      final result =
-          engine.buildResult(correct: 2, total: 6, timeTakenSeconds: 90);
+      final result = engine.buildResult(
+          correct: 2, total: 6, timeTakenSeconds: 90, xpFromAnswers: 40);
       expect(result.result, equals('loss'));
       expect(result.score, equals(33));
     });

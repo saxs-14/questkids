@@ -53,16 +53,16 @@ void main() {
 
     test('buildResult win when majority correct', () {
       final engine = CircuitBuilderEngine(_makeConfig(questionCount: 5));
-      final result =
-          engine.buildResult(correct: 4, total: 5, timeTakenSeconds: 60);
+      final result = engine.buildResult(
+          correct: 4, total: 5, timeTakenSeconds: 60, xpFromAnswers: 60);
       expect(result.score, equals(80));
       expect(result.xpEarned, greaterThan(0));
     });
 
     test('buildResult perfect score gives complete result', () {
       final engine = CircuitBuilderEngine(_makeConfig(questionCount: 5));
-      final result =
-          engine.buildResult(correct: 5, total: 5, timeTakenSeconds: 45);
+      final result = engine.buildResult(
+          correct: 5, total: 5, timeTakenSeconds: 45, xpFromAnswers: 75);
       expect(result.result, equals('complete'));
       expect(result.accuracy, closeTo(1.0, 0.01));
     });

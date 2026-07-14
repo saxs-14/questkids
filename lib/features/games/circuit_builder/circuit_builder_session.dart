@@ -54,8 +54,7 @@ class CircuitBuilderSession extends GameSessionState {
         (currentQuestion?['blanks'] as List?)?.cast<Map<String, dynamic>>() ??
             [];
     final submitted = List.generate(blanks.length, (i) => _placed[i]);
-    final done =
-        recordAnswer(engine.checkAnswer(currentQuestion!, submitted).correct);
+    final done = recordAnswer(engine.checkAnswer(currentQuestion!, submitted));
     _placed.clear();
     if (done) finishSession(_uid);
   }

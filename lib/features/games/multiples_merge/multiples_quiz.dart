@@ -60,12 +60,14 @@ class MultiplesQuizEngine extends GameEngine {
     required int correct,
     required int total,
     required int timeTakenSeconds,
+    required int xpFromAnswers,
     bool earlyWin = false,
   }) =>
       defaultResult(
         correct: correct,
         total: total,
         timeTakenSeconds: timeTakenSeconds,
+        xpFromAnswers: xpFromAnswers,
         earlyWin: earlyWin,
       );
 }
@@ -111,7 +113,7 @@ class MultiplesQuizSession extends GameSessionState {
       _selected = null;
       _lastCorrect = null;
       _locked = false;
-      final done = recordAnswer(res.correct);
+      final done = recordAnswer(res);
       if (done) {
         finishSession(uid);
       } else {

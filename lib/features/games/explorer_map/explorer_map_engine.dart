@@ -44,24 +44,16 @@ class ExplorerMapEngine extends GameEngine {
     required int correct,
     required int total,
     required int timeTakenSeconds,
+    required int xpFromAnswers,
     bool earlyWin = false,
-  }) {
-    final base = defaultResult(
-      correct: correct,
-      total: total,
-      timeTakenSeconds: timeTakenSeconds,
-    );
-    if (correct == total) {
-      return GameSessionResult(
-        result: 'complete',
-        score: base.score,
-        xpEarned: base.xpEarned + 100,
-        coinsEarned: base.coinsEarned + 10,
-        accuracy: base.accuracy,
+  }) =>
+      defaultResult(
+        correct: correct,
+        total: total,
+        timeTakenSeconds: timeTakenSeconds,
+        xpFromAnswers: xpFromAnswers,
+        earlyWin: earlyWin,
       );
-    }
-    return base;
-  }
 
   ProvincePin? getProvince(String id) {
     try {

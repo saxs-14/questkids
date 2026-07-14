@@ -47,6 +47,7 @@ abstract class GameSessionState extends ChangeNotifier {
   Timer? _ticker;
   int _elapsed = 0;
   int _correctCount = 0;
+  int _xpFromAnswers = 0;
   int _questionIndex = 0;
   bool _finished = false;
   GameSessionResult? _result;
@@ -55,6 +56,7 @@ abstract class GameSessionState extends ChangeNotifier {
 
   int get elapsedSeconds => _elapsed;
   int get correctCount => _correctCount;
+  int get xpFromAnswers => _xpFromAnswers;
   int get questionIndex => _questionIndex;
   // The generated question list is the source of truth for length, not
   // config.questionCount -- an engine session may generate fewer questions
@@ -90,10 +92,15 @@ abstract class GameSessionState extends ChangeNotifier {
   // ── Helpers for subclasses ─────────────────────────────────────────────────
 
   /// Call inside [submitAnswer] to record the outcome of one answer and
-  /// advance to the next question.  Returns true when the session ends.
+  /// advance to the next question. [result] carries both the correctness
+  /// and the real per-question XP (see [GameAnswerResult.xpDelta]) --
+  /// accumulated here so [finishSession] can pass a true per-question XP
+  /// total into [GameEngine.buildResult] instead of a flat correct-count
+  /// formula. Returns true when the session ends.
   @protected
-  bool recordAnswer(bool correct) {
-    if (correct) _correctCount++;
+  bool recordAnswer(GameAnswerResult result) {
+    if (result.correct) _correctCount++;
+    _xpFromAnswers += result.xpDelta;
     _questionIndex++;
     notifyListeners();
     return _questionIndex >= totalQuestions;
@@ -111,6 +118,7 @@ abstract class GameSessionState extends ChangeNotifier {
       correct: _correctCount,
       total: totalQuestions,
       timeTakenSeconds: _elapsed,
+      xpFromAnswers: _xpFromAnswers,
       earlyWin: earlyWin,
     );
     notifyListeners();

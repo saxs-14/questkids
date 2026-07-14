@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import '../core/game_config.dart';
+import '../core/game_engine.dart';
 import '../core/game_session_state.dart';
 import 'explorer_map_config.dart';
 import 'explorer_map_engine.dart';
@@ -156,7 +157,8 @@ class ExplorerMapSession extends GameSessionState {
     if (mode != ExplorerMode.learn || isFinished) return;
     _infoProvince = _engine.getProvince(provinceId);
     if (_discovered.add(provinceId)) {
-      final done = recordAnswer(true);
+      final done =
+          recordAnswer(const GameAnswerResult(correct: true, xpDelta: 10));
       if (done) {
         notifyListeners();
         finishSession(uid, earlyWin: true);
@@ -197,7 +199,7 @@ class ExplorerMapSession extends GameSessionState {
     notifyListeners();
 
     Future.delayed(const Duration(milliseconds: 1700), () {
-      final done = recordAnswer(result.correct);
+      final done = recordAnswer(result);
       _selectedId = null;
       _lastAnswerCorrect = null;
       _feedbackFact = null;

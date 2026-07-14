@@ -158,7 +158,8 @@ class MultiplesMergeSession extends GameSessionState {
     _merged
       ..clear()
       ..addAll(_chain);
-    final done = recordAnswer(true);
+    final done =
+        recordAnswer(engine.checkAnswer(currentQuestion ?? const {}, true));
     notifyListeners();
 
     Future.delayed(const Duration(milliseconds: 750), () {
