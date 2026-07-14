@@ -1,11 +1,10 @@
 import '../core/game_config.dart';
 
 /// topicId/subtopicId -> questionType, mirroring
-/// tools/gamegen/content/math.js's OP_BY_SUBTOPIC. Non-arithmetic "rapid
-/// recall" topics (e.g. phonics/spelling/debate) aren't listed here and
-/// keep the 'multiplication' default -- tugOfWar isn't used for those
-/// subjects' catalog entries in practice (see game_catalog.dart), so the
-/// fallback is never actually reached for them today.
+/// tools/gamegen/content/math.js's OP_BY_SUBTOPIC. Every tugOfWar catalog
+/// entry's topic/subtopic pair must have an entry here, or it silently
+/// falls back to 'multiplication' -- see game_catalog.dart for the full
+/// list of tugOfWar entries and keep this map in sync with it.
 const Map<String, String> _questionTypeByTopic = {
   'operations/addition': 'addition',
   'operations/subtraction': 'subtraction',
@@ -16,6 +15,7 @@ const Map<String, String> _questionTypeByTopic = {
   'economics/taxation': 'percentage',
   'decimals/decimal_operations': 'decimal',
   'integers/integer_operations': 'integer',
+  'algebra/linear_equations': 'algebra',
 };
 
 /// TugOfWar-specific parameters stored inside [GameConfig.extras].

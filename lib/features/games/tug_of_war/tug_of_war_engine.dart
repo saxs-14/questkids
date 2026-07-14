@@ -151,6 +151,27 @@ class TugOfWarEngine extends GameEngine {
                 : '($signedA) - ($signedB) = ?',
             'type': type,
           });
+        case 'algebra':
+          // Solve ax + b = c for x. Reuse the dedup-checked a/b pair: a
+          // becomes the coefficient (never 0, so the equation always has
+          // exactly one solution), b becomes a random small answer (the
+          // value of x itself, kept in the keypad's comfortable range),
+          // and c is derived so the equation is guaranteed solvable in
+          // integers.
+          final coeffA = 1 + (a % 9); // 1..9, never 0
+          final answer = 1 + (b % 12); // the solution x, 1..12
+          final coeffB = 1 + ((a + b) % 15); // 1..15
+          final coeffC = coeffA * answer + coeffB;
+          out.add({
+            'a': coeffA,
+            'b': answer,
+            'coeffA': coeffA,
+            'coeffB': coeffB,
+            'coeffC': coeffC,
+            'answer': answer,
+            'display': '${coeffA}x + $coeffB = $coeffC. What is x?',
+            'type': type,
+          });
         default:
           out.add({
             'a': a,
