@@ -11,8 +11,10 @@ import '../../../core/widgets/profile_settings_tile.dart';
 import '../../../core/widgets/responsive_scaffold.dart';
 import '../../teacher/screens/class_analytics_screen.dart';
 import '../../../data/models/user_model.dart';
+import '../../../data/repositories/messaging_repository.dart';
 import '../../../data/repositories/user_repository.dart';
 import '../../../providers/auth_provider.dart';
+import '../../messaging/screens/message_thread_screen.dart';
 import '../../notifications/screens/notifications_screen.dart';
 import '../../offline/widgets/offline_banner.dart';
 
@@ -907,6 +909,36 @@ class _LearnerDetailSheet extends StatelessWidget {
           Text('Recent Activity', style: AppTextStyles.h4),
           const SizedBox(height: 12),
           _RecentGameHistory(learnerUid: learner.uid),
+          const SizedBox(height: 20),
+          if (learner.linkedParentUids.isNotEmpty)
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton.icon(
+                icon: const Icon(Icons.message_outlined),
+                label: const Text('Message Parent'),
+                onPressed: () async {
+                  final teacherUid =
+                      context.read<AuthProvider>().user?.uid ?? '';
+                  final parentUid = learner.linkedParentUids.first;
+                  final convo =
+                      await MessagingRepository().getOrCreateConversation(
+                    teacherUid: teacherUid,
+                    parentUid: parentUid,
+                    childUid: learner.uid,
+                    childName: learner.name,
+                  );
+                  if (context.mounted) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            MessageThreadScreen(conversation: convo),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
         ],
       ),
     );
