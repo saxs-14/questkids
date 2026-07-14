@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
+import '../../../core/services/permission_service.dart';
 import '../../../data/models/user_model.dart';
 import '../../../data/repositories/parent_repository.dart';
 import '../../../providers/auth_provider.dart';
@@ -164,8 +166,65 @@ class _LinkChildScreenState extends State<LinkChildScreen>
                               decoration: const InputDecoration(
                                   labelText: 'Enter Code'))
                         ])
-                      : const Center(
-                          child: Text('QR scanner available on mobile.')),
+                      : Column(
+                          children: [
+                            SizedBox(
+                              height: 320,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: MobileScanner(
+                                  onDetect: (capture) {
+                                    if (_loading || _foundChild != null) {
+                                      return;
+                                    }
+                                    final barcodes = capture.barcodes;
+                                    if (barcodes.isEmpty) return;
+                                    final scanned = barcodes.first.rawValue;
+                                    if (scanned == null ||
+                                        scanned.length != 6) {
+                                      return;
+                                    }
+                                    _codeCtrl.text = scanned.toUpperCase();
+                                    _verifyCode();
+                                  },
+                                  errorBuilder: (context, error) {
+                                    final friendly =
+                                        PermissionService.friendlyMessage(
+                                            error);
+                                    return Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(friendly,
+                                                textAlign: TextAlign.center),
+                                            const SizedBox(height: 12),
+                                            OutlinedButton(
+                                              onPressed:
+                                                  PermissionService.openSettings,
+                                              child: const Text(
+                                                  'Open Settings'),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            const Text(
+                                'Point the camera at your child\'s link QR code.'),
+                            const SizedBox(height: 12),
+                            if (_foundChild != null) _childPreview(_foundChild!),
+                            if (_foundChild != null)
+                              ElevatedButton(
+                                  onPressed: () => _sendLinkRequest('qr'),
+                                  child: const Text('Confirm Link')),
+                          ],
+                        ),
                 ),
               ],
             ),
