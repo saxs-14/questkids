@@ -99,4 +99,37 @@ void main() {
     final ids = entries.map((e) => e.id).toList();
     expect(ids.toSet().length, ids.length);
   });
+
+  test('every tugOfWar catalog entry has a real arithmetic topic/subtopic',
+      () {
+    // The complete set of topic/subtopic pairs TugOfWarEngine can render
+    // correctly -- mirrors _questionTypeByTopic in tug_of_war_config.dart.
+    // Anything not listed here silently falls back to a generic
+    // multiplication question, showing the wrong content for that entry's
+    // advertised subject (see the Phase 12 tugOfWar content-mismatch fix).
+    const arithmeticTopics = {
+      'operations/addition',
+      'operations/subtraction',
+      'multiplication/times_tables',
+      'division/long_division',
+      'percentages/percentage_applications',
+      'measurement/conversions',
+      'economics/taxation',
+      'decimals/decimal_operations',
+      'integers/integer_operations',
+      'algebra/linear_equations',
+    };
+    final offenders = entries
+        .where((e) => e.engineType == AppConstants.engineTugOfWar)
+        .where(
+            (e) => !arithmeticTopics.contains('${e.topicId}/${e.subtopicId}'))
+        .map((e) => e.id)
+        .toList();
+    expect(
+      offenders,
+      isEmpty,
+      reason: 'tugOfWar entries with no matching question type show '
+          'wrong content: $offenders',
+    );
+  });
 }
