@@ -26,14 +26,6 @@ service cloud.firestore {
       return isSignedIn() && request.auth.token.role == 'parent';
     }
 
-    // TODO(data-model): once classId is stored per-learner, replace this with
-    // a match on request.auth.token.classId == resource.data.classId so
-    // teacher reads are scoped to their own class instead of relying on a
-    // higher-level check at the call site.
-    function isTeacherOfClass(classId) {
-      return isTeacher() && request.auth.token.classId == classId;
-    }
-
     // Fields that can only ever be changed by a trusted server context
     // (Cloud Functions using the Admin SDK bypass rules entirely, so this
     // simply blocks clients from writing them directly).
@@ -55,9 +47,12 @@ service cloud.firestore {
       allow read: if isParent() &&
                       uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
 
-      // TODO(data-model): scope this to the teacher's own class once
-      // learner docs carry a classId field — see isTeacherOfClass().
-      allow read: if isTeacher();
+      // Teachers can read learners they have actually added (the
+      // linkedTeacherUids array is written by
+      // teacher_dashboard.dart's _showAddLearnerDialog) -- not every
+      // learner in the system.
+      allow read: if isTeacher() &&
+                      request.auth.uid in resource.data.linkedTeacherUids;
 
       // Chats subcollection — child and their linked parent only.
       // Teachers do NOT get access to AI chat logs.
@@ -190,8 +185,12 @@ service cloud.firestore {
       // Parents and teachers can read their learners' sessions
       allow read: if isParent() &&
                       resource.data.uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
-      // TODO(data-model): scope to teacher's own class once sessions carry classId.
-      allow read: if isTeacher();
+      // Teachers can read sessions belonging to learners they've added --
+      // look up the learner's own linkedTeacherUids (game_sessions docs
+      // don't carry that array themselves, only the learner's uid).
+      allow read: if isTeacher() &&
+                      request.auth.uid in
+                        get(/databases/$(database)/documents/users/$(resource.data.uid)).data.linkedTeacherUids;
     }
 
     // ==================== PLAYER STATS ====================
@@ -199,8 +198,11 @@ service cloud.firestore {
       allow read, write: if isUser(uid);
       allow read: if isParent() &&
                       uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
-      // TODO(data-model): scope to teacher's own class once player_stats carry classId.
-      allow read: if isTeacher();
+      // uid here is the learner's own uid (player_stats is keyed by it),
+      // so look up that learner's linkedTeacherUids directly.
+      allow read: if isTeacher() &&
+                      request.auth.uid in
+                        get(/databases/$(database)/documents/users/$(uid)).data.linkedTeacherUids;
     }
 
     // ==================== GAME PROGRESS (per-engine) ====================
@@ -211,8 +213,11 @@ service cloud.firestore {
         allow read, write: if isUser(uid);
         allow read: if isParent() &&
                         uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
-        // TODO(data-model): scope to teacher's own class once game_progress carries classId.
-        allow read: if isTeacher();
+        // uid here is the learner's own uid (game_progress is keyed by
+        // it), so look up that learner's linkedTeacherUids directly.
+        allow read: if isTeacher() &&
+                        request.auth.uid in
+                          get(/databases/$(database)/documents/users/$(uid)).data.linkedTeacherUids;
       }
     }
 
