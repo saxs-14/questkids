@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -61,13 +62,19 @@ void main() async {
   // App Check even in debug mode is still useful: it starts attaching
   // (unenforced) tokens to requests now, so switching providers later
   // doesn't require touching this call site again.
-  await FirebaseAppCheck.instance.activate(
-    androidProvider: AndroidProvider.debug,
-    appleProvider: AppleProvider.debug,
-    // webProvider intentionally omitted: reCAPTCHA v3 needs a real site
-    // key from the Firebase Console, which isn't available yet -- web
-    // builds simply won't attach an App Check token until that's set.
-  );
+  //
+  // Web is skipped entirely rather than activated with no webProvider --
+  // FirebaseAppCheck.instance.activate() on web hangs indefinitely
+  // without a ReCaptchaV3Provider site key (live-verified: it blocks
+  // main() before runApp() ever fires, producing a permanent blank
+  // white screen with no console error). Re-enable for web once a real
+  // reCAPTCHA v3 site key exists in the Firebase Console.
+  if (!kIsWeb) {
+    await FirebaseAppCheck.instance.activate(
+      androidProvider: AndroidProvider.debug,
+      appleProvider: AppleProvider.debug,
+    );
+  }
 
   FirebaseFirestore.instance.settings = const Settings(
     persistenceEnabled: true,
