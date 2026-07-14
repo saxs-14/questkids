@@ -23,6 +23,7 @@ export { setUserRole, assignDefaultRole } from "./admin/setUserRole";
 export { sendPushOnNotificationCreate } from "./notifications/sendPush";
 export { onBadgeAwarded } from "./notifications/badgeAward";
 export { sendQuestReminders } from "./notifications/reminders";
+export { onNewMessage } from "./notifications/newMessage";
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();
