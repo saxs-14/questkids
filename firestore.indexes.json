@@ -100,20 +100,6 @@
       ]
     },
     {
-      "collectionGroup": "weekly",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "rank", "order": "ASCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "allTime",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "rank", "order": "ASCENDING" }
-      ]
-    },
-    {
       "collectionGroup": "users",
       "queryScope": "COLLECTION",
       "fields": [
