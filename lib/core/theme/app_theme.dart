@@ -20,9 +20,9 @@ class AppTheme {
           foregroundColor: AppColors.textLight,
           elevation: 0,
           centerTitle: true,
-          titleTextStyle: GoogleFonts.nunito(
+          titleTextStyle: GoogleFonts.fredoka(
             fontSize: 20,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
             color: AppColors.textLight,
           ),
         ),
@@ -34,7 +34,7 @@ class AppTheme {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             textStyle:
-                GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w700),
+                GoogleFonts.fredoka(fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ),
         outlinedButtonTheme: OutlinedButtonThemeData(
@@ -45,7 +45,7 @@ class AppTheme {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             textStyle:
-                GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w700),
+                GoogleFonts.fredoka(fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ),
         cardTheme: CardThemeData(
@@ -95,9 +95,9 @@ class AppTheme {
         dialogTheme: DialogThemeData(
           backgroundColor: AppColors.cardLight,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          titleTextStyle: GoogleFonts.nunito(
+          titleTextStyle: GoogleFonts.fredoka(
             fontSize: 18,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
             color: AppColors.textPrimary,
           ),
           contentTextStyle: GoogleFonts.nunito(
@@ -130,9 +130,9 @@ class AppTheme {
           foregroundColor: AppColors.textLight,
           elevation: 0,
           centerTitle: true,
-          titleTextStyle: GoogleFonts.nunito(
+          titleTextStyle: GoogleFonts.fredoka(
             fontSize: 20,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
             color: AppColors.textLight,
           ),
         ),
@@ -144,7 +144,7 @@ class AppTheme {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             textStyle:
-                GoogleFonts.nunito(fontSize: 16, fontWeight: FontWeight.w700),
+                GoogleFonts.fredoka(fontSize: 16, fontWeight: FontWeight.w600),
           ),
         ),
         cardTheme: CardThemeData(
@@ -187,9 +187,9 @@ class AppTheme {
         dialogTheme: DialogThemeData(
           backgroundColor: AppColors.cardDark,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          titleTextStyle: GoogleFonts.nunito(
+          titleTextStyle: GoogleFonts.fredoka(
             fontSize: 18,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
             color: AppColors.textDark,
           ),
           contentTextStyle: GoogleFonts.nunito(

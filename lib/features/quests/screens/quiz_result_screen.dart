@@ -6,8 +6,8 @@ import '../../../core/theme/app_text_styles.dart';
 import '../../../providers/quiz_provider.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/rewards_provider.dart';
+import '../../../core/widgets/quest_boy_mascot.dart';
 import '../../../providers/ai_tutor_provider.dart';
-import '../../ai_tutor/widgets/questy_avatar.dart';
 import '../../ai_tutor/widgets/questy_dialogue.dart';
 import '../../rewards/widgets/badge_earned_dialog.dart';
 
@@ -356,9 +356,9 @@ class _QuizResultScreenState extends State<QuizResultScreen>
                             content: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const QuestyAvatar(
+                                const QuestBoyMascot(
                                     size: 40,
-                                    expression: QuestyExpression.celebrating),
+                                    state: QuestBoyState.achievement),
                                 const SizedBox(width: 16),
                                 Expanded(child: Text(line)),
                               ],

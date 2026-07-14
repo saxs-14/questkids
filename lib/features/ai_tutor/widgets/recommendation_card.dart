@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
-import 'questy_avatar.dart';
+import '../../../core/widgets/quest_boy_mascot.dart';
 
 class RecommendationCard extends StatelessWidget {
   final String recommendation;
@@ -35,11 +35,11 @@ class RecommendationCard extends StatelessWidget {
       child: isLoading
           ? Row(
               children: [
-                const QuestyAvatar(
-                    size: 28, glow: false, expression: QuestyExpression.thinking),
+                const QuestBoyMascot(
+                    size: 28, glow: false, state: QuestBoyState.knowledge),
                 const SizedBox(width: 10),
                 Text(
-                  'Questy is looking at your progress... ✨',
+                  'QuestBot is looking at your progress... ✨',
                   style: AppTextStyles.bodySmall.copyWith(
                     color: AppColors.primary,
                     fontStyle: FontStyle.italic,
@@ -50,14 +50,14 @@ class RecommendationCard extends StatelessWidget {
           : Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const QuestyAvatar(size: 36),
+                const QuestBoyMascot(size: 36, state: QuestBoyState.waving),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Questy says ✨',
+                        'QuestBot says ✨',
                         style: AppTextStyles.label.copyWith(
                           color: const Color(0xFFCC8800),
                           fontWeight: FontWeight.w800,

@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/constants/app_constants.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../ai_tutor/widgets/questy_avatar.dart';
+import '../../../core/widgets/quest_boy_mascot.dart';
 
 /// Visual + copy identity for one game engine — separate from subject colour
 /// (Maths/Science/English/...), this is what makes the *mechanic* itself
@@ -171,8 +171,8 @@ class GameTheme {
   }
 }
 
-/// A small Questy mascot bubble that cheers on success / encourages on a miss.
-/// Pure code-drawn (emoji + speech bubble) — no bundled assets.
+/// A small Quest Boy mascot bubble that cheers on success / encourages on a
+/// miss. Pure code-drawn (CustomPainter + speech bubble) — no bundled assets.
 class MascotBubble extends StatelessWidget {
   final String message;
   final bool positive;
@@ -183,11 +183,9 @@ class MascotBubble extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        QuestyAvatar(
+        QuestBoyMascot(
           size: 30,
-          expression: positive
-              ? QuestyExpression.happy
-              : QuestyExpression.encouraging,
+          state: positive ? QuestBoyState.achievement : QuestBoyState.waving,
         ),
         const SizedBox(width: 8),
         Flexible(

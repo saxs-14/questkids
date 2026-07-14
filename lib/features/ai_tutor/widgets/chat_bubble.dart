@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import '../../../core/services/firestore_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../../core/widgets/quest_boy_mascot.dart';
 import '../../../data/models/chat_message_model.dart';
 import '../../../providers/auth_provider.dart';
-import 'questy_avatar.dart';
 
 class ChatBubble extends StatelessWidget {
   final ChatMessageModel message;
@@ -82,7 +82,7 @@ class ChatBubble extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (!message.isUser) ...[
-            const QuestyAvatar(size: 36),
+            const QuestBoyMascot(size: 36, state: QuestBoyState.waving),
             const SizedBox(width: 8),
           ],
           Flexible(
@@ -95,7 +95,7 @@ class ChatBubble extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 4, bottom: 3),
                     child: Text(
-                      'AI · Questy',
+                      'AI · QuestBot',
                       style: AppTextStyles.bodySmall.copyWith(
                         color: AppColors.textSecondary,
                         fontWeight: FontWeight.w700,
@@ -234,7 +234,7 @@ class _TypingIndicatorState extends State<_TypingIndicator>
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          const QuestyAvatar(size: 36, expression: QuestyExpression.thinking),
+          const QuestBoyMascot(size: 36, state: QuestBoyState.knowledge),
           const SizedBox(width: 8),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

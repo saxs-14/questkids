@@ -97,7 +97,7 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
         ResponsiveDestination(
             icon: Icons.smart_toy_outlined,
             activeIcon: Icons.smart_toy,
-            label: 'Questy'),
+            label: 'QuestBot'),
         ResponsiveDestination(
             icon: Icons.person_outline,
             activeIcon: Icons.person,
@@ -244,7 +244,7 @@ class _LearnerHomeTab extends StatelessWidget {
                 const SizedBox(height: 24),
                 _DailyChallengeCard(user: user),
                 const SizedBox(height: 24),
-                _QuestyTipCard(user: user),
+                _QuestBotTipCard(user: user),
                 const SizedBox(height: 24),
               ],
             ),
@@ -574,20 +574,20 @@ class _DailyChallengeCard extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Questy's Tip — proactive, once-a-day recommendation on the home tab so
-// Questy isn't only reachable from its own dashboard destination.
+// QuestBot's Tip — proactive, once-a-day recommendation on the home tab so
+// QuestBot isn't only reachable from its own dashboard destination.
 // ---------------------------------------------------------------------------
-class _QuestyTipCard extends StatefulWidget {
+class _QuestBotTipCard extends StatefulWidget {
   final dynamic user;
-  const _QuestyTipCard({required this.user});
+  const _QuestBotTipCard({required this.user});
 
   @override
-  State<_QuestyTipCard> createState() => _QuestyTipCardState();
+  State<_QuestBotTipCard> createState() => _QuestBotTipCardState();
 }
 
-class _QuestyTipCardState extends State<_QuestyTipCard> {
-  static const _dateKey = 'questy_tip_date';
-  static const _textKey = 'questy_tip_text';
+class _QuestBotTipCardState extends State<_QuestBotTipCard> {
+  static const _dateKey = 'questbot_tip_date';
+  static const _textKey = 'questbot_tip_text';
 
   String? _tip;
   bool _loading = true;

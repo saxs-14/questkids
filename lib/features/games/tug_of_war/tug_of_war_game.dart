@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/quest_boy_mascot.dart';
 import '../../../providers/ai_tutor_provider.dart';
-import '../../ai_tutor/widgets/questy_avatar.dart';
 import '../core/game_config.dart';
 import '../core/numeric_keyboard_mixin.dart';
 import 'tug_of_war_session.dart';
@@ -65,7 +65,7 @@ class _TugOfWarGameState extends State<TugOfWarGame>
   @override
   void handleBackspace() => _session.clearInput();
 
-  // ── Questy hint ──────────────────────────────────────────────────────────
+  // ── QuestBot hint ────────────────────────────────────────────────────────
 
   Future<void> _fetchHint() async {
     final q = _session.currentQuestion;
@@ -252,9 +252,9 @@ class _TitleBar extends StatelessWidget {
           IconButton(
             onPressed: onHint,
             icon: hintLoading
-                ? const QuestyAvatar(size: 24, expression: QuestyExpression.thinking)
-                : const QuestyAvatar(size: 24),
-            tooltip: 'Questy hint',
+                ? const QuestBoyMascot(size: 24, state: QuestBoyState.knowledge)
+                : const QuestBoyMascot(size: 24, state: QuestBoyState.waving),
+            tooltip: 'QuestBot hint',
           ),
         ],
       ),
@@ -282,7 +282,7 @@ class _HintBubble extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const QuestyAvatar(size: 22, expression: QuestyExpression.encouraging),
+          const QuestBoyMascot(size: 22, state: QuestBoyState.waving),
           const SizedBox(width: 8),
           Expanded(
             child: Text(text,

@@ -48,6 +48,14 @@ class AppColors {
   // Surface
   static const Color surface = Color(0xFFF5F5FF);
 
+  // Premium-2D surface treatment — soft ambient shadow + a top-edge gloss
+  // highlight, used by the rebuilt AppButton/AppCard family for the
+  // "chunky glossy component" look. Kept as separate tokens (not baked
+  // into the widgets) so the strength/tint can be tuned in one place.
+  static const Color shadowSoft = Color(0x1F1A1A2E); // ~12% textPrimary
+  static const Color shadowSoftDark = Color(0x40000000); // ~25% black
+  static const Color glossHighlight = Color(0x33FFFFFF); // ~20% white
+
   // Game-specific gradients
   static const List<Color> heroGradient = [
     Color(0xFF5C35F5),

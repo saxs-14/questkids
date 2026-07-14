@@ -94,7 +94,7 @@ class AiTutorProvider extends ChangeNotifier {
     _gemini.startNewSession(history: history);
 
     if (_messages.isEmpty) {
-      final text = 'Hi ${user.name.split(' ').first}! 👋 I am Questy, '
+      final text = 'Hi ${user.name.split(' ').first}! 👋 I am QuestBot, '
           'your personal AI tutor! I am here to help you with '
           '${user.grade} work.\n\n'
           'You can ask me anything about Maths, Science, English '

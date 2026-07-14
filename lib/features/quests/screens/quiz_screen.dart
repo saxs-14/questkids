@@ -6,8 +6,8 @@ import '../../../core/theme/app_text_styles.dart';
 import '../../../data/models/activity_model.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/quiz_provider.dart';
+import '../../../core/widgets/quest_boy_mascot.dart';
 import '../../../providers/ai_tutor_provider.dart';
-import '../../ai_tutor/widgets/questy_avatar.dart';
 import '../widgets/question_card.dart';
 import '../widgets/quest_start_overlay.dart';
 import 'quiz_result_screen.dart';
@@ -179,9 +179,9 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
         actions: [
           IconButton(
             icon: _hintLoading
-                ? const QuestyAvatar(size: 24, expression: QuestyExpression.thinking)
-                : const QuestyAvatar(size: 24),
-            tooltip: 'Ask Questy for a hint',
+                ? const QuestBoyMascot(size: 24, state: QuestBoyState.knowledge)
+                : const QuestBoyMascot(size: 24, state: QuestBoyState.waving),
+            tooltip: 'Ask QuestBot for a hint',
             onPressed: _hintLoading
                 ? null
                 : () async {
@@ -210,11 +210,10 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                           children: [
                             Row(
                               children: [
-                                const QuestyAvatar(
-                                    size: 32,
-                                    expression: QuestyExpression.encouraging),
+                                const QuestBoyMascot(
+                                    size: 32, state: QuestBoyState.knowledge),
                                 const SizedBox(width: 12),
-                                Text('Questy Hint', style: AppTextStyles.h3),
+                                Text('QuestBot Hint', style: AppTextStyles.h3),
                               ],
                             ),
                             const SizedBox(height: 16),

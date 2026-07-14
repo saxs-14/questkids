@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 /// Thin helper around device permissions used across the avatar picker,
-/// the Questy image-attach flow, and CSV import.
+/// the QuestBot image-attach flow, and CSV import.
 ///
 /// image_picker and file_selector already trigger the native OS
 /// permission prompt themselves -- this class does not duplicate that

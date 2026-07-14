@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../../core/widgets/quest_boy_mascot.dart';
 import '../../../data/models/reward_model.dart';
 import '../../../providers/ai_tutor_provider.dart';
-import '../../ai_tutor/widgets/questy_avatar.dart';
 import '../../ai_tutor/widgets/questy_dialogue.dart';
 
 class BadgeEarnedDialog extends StatefulWidget {
@@ -79,7 +79,7 @@ class _BadgeEarnedDialogState extends State<BadgeEarnedDialog>
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const QuestyAvatar(size: 56, expression: QuestyExpression.celebrating),
+                const QuestBoyMascot(size: 56, state: QuestBoyState.achievement),
                 const SizedBox(height: 8),
                 Text(
                   'Badge Earned!',

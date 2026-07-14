@@ -49,7 +49,7 @@ class NotificationsScreen extends StatelessWidget {
             return const AppEmptyState(
               emoji: '📭',
               title: 'No notifications yet',
-              message: "You'll see updates about quests, badges, and messages from Questy here.",
+              message: "You'll see updates about quests, badges, and messages from QuestBot here.",
             );
           }
 

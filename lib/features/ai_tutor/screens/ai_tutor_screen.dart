@@ -5,12 +5,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/services/permission_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../../core/widgets/quest_boy_mascot.dart';
 import '../../../providers/ai_tutor_provider.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/rewards_provider.dart';
 import '../widgets/chat_bubble.dart';
 import '../widgets/quick_prompt_chip.dart';
-import '../widgets/questy_avatar.dart';
 import '../widgets/recommendation_card.dart';
 
 class AiTutorScreen extends StatefulWidget {
@@ -54,15 +54,15 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
         title: const Row(
           children: [
             Text('🤖 ', style: TextStyle(fontSize: 22)),
-            Expanded(child: Text('Meet Questy!')),
+            Expanded(child: Text('Meet QuestBot!')),
           ],
         ),
         content: const Text(
-          "Questy is an AI helper, not a real person. It's here to help you "
-          'learn — but it can make mistakes, so always check with a teacher '
-          "or parent too. A grown-up checks any answer you report, and you "
-          "should never share personal info (like your address or phone "
-          'number) with Questy.',
+          "QuestBot is an AI helper, not a real person. It's here to help "
+          'you learn — but it can make mistakes, so always check with a '
+          "teacher or parent too. A grown-up checks any answer you report, "
+          "and you should never share personal info (like your address or "
+          'phone number) with QuestBot.',
         ),
         actions: [
           TextButton(
@@ -234,7 +234,7 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
                     color: AppColors.primary,
                   ),
                   onPressed: () => context.read<AiTutorProvider>().toggleMute(),
-                  tooltip: tutor.isMuted ? 'Unmute Questy' : 'Mute Questy',
+                  tooltip: tutor.isMuted ? 'Unmute QuestBot' : 'Mute QuestBot',
                 ),
               IconButton(
                 icon:
@@ -246,7 +246,7 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
                 child: TextField(
                   controller: _textCtrl,
                   decoration: InputDecoration(
-                    hintText: 'Ask Questy anything...',
+                    hintText: 'Ask QuestBot anything...',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(24),
                       borderSide: BorderSide.none,
@@ -292,12 +292,12 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
       appBar: AppBar(
         title: Row(
           children: [
-            const QuestyAvatar(size: 38),
+            const QuestBoyMascot(size: 38, state: QuestBoyState.waving),
             const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Questy',
+                const Text('QuestBot',
                     style:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 Row(
@@ -311,7 +311,7 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
                       ),
                     ),
                     const SizedBox(width: 4),
-                    const Text('Your Learning Star ✨',
+                    const Text('Your Quest Guide ✨',
                         style: TextStyle(fontSize: 11, color: Colors.white70)),
                   ],
                 ),
@@ -324,7 +324,7 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
           IconButton(
             icon: Icon(tutor.isMuted ? Icons.volume_off : Icons.volume_up),
             onPressed: () => context.read<AiTutorProvider>().toggleMute(),
-            tooltip: tutor.isMuted ? 'Unmute Questy' : 'Mute Questy',
+            tooltip: tutor.isMuted ? 'Unmute QuestBot' : 'Mute QuestBot',
           ),
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -359,7 +359,7 @@ class _WelcomeBanner extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
       child: Column(
         children: [
-          // Kids + Questy illustration
+          // Kids + QuestBot illustration
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -399,10 +399,10 @@ class _WelcomeBanner extends StatelessWidget {
                 ),
               ),
 
-              // Questy (center, bigger)
+              // QuestBot (center, bigger)
               Column(
                 children: [
-                  const QuestyAvatar(size: 72),
+                  const QuestBoyMascot(size: 72, state: QuestBoyState.waving),
                   const SizedBox(height: 6),
                   Container(
                     padding:
@@ -414,7 +414,7 @@ class _WelcomeBanner extends StatelessWidget {
                           color:
                               const Color(0xFFFFB800).withValues(alpha: 0.40)),
                     ),
-                    child: const Text('Questy',
+                    child: const Text('QuestBot',
                         style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w800,
@@ -470,7 +470,7 @@ class _WelcomeBanner extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'I\'m Questy — your personal learning star! ✨\nAsk me anything about school.',
+            'I\'m QuestBot — your personal quest guide! ✨\nAsk me anything about school.',
             style: AppTextStyles.bodyMedium.copyWith(
               color: AppColors.textSecondary,
               height: 1.5,
