@@ -45,14 +45,25 @@ class MultiplesMergeEngine extends GameEngine {
   List<Map<String, dynamic>> generateQuestions() =>
       List.generate(_config.questionCount, (i) => {'round': i});
 
-  /// Build a fresh, solvable round for the configured mode.
-  MergeRound buildRound() =>
-      mergeConfig.mode == 'pairs' ? _buildPairsRound() : _buildNumericRound();
+  /// Build a fresh, solvable round for the configured mode. [roundIndex]
+  /// (0-based) and [totalRounds] ramp numeric mode's chain length up
+  /// across a session -- pairs mode always uses exactly 2 cells (one
+  /// term/definition pair), so ramping doesn't apply there.
+  MergeRound buildRound({required int roundIndex, required int totalRounds}) =>
+      mergeConfig.mode == 'pairs'
+          ? _buildPairsRound()
+          : _buildNumericRound(roundIndex, totalRounds);
 
-  MergeRound _buildNumericRound() {
+  MergeRound _buildNumericRound(int roundIndex, int totalRounds) {
     final table = mergeConfig.tables[_rng.nextInt(mergeConfig.tables.length)];
     final n = mergeConfig.gridSize;
-    final len = mergeConfig.chainLength.clamp(2, n * n);
+    final baseLen = mergeConfig.chainLength.clamp(2, n * n);
+    // Ramp: first round starts 2 shorter than the configured chain length
+    // (never below 2, the minimum a chain can be), the last round reaches
+    // the full configured length, and rounds in between step evenly
+    // between those two bounds.
+    final progress = totalRounds > 1 ? roundIndex / (totalRounds - 1) : 1.0;
+    final len = (baseLen - 2 + (2 * progress).round()).clamp(2, n * n);
 
     final path = _generatePath(n, len);
     final values = List<int>.filled(n * n, 0);

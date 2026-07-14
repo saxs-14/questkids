@@ -77,7 +77,7 @@ void main() {
             engineType: 'multiplesMerge', subject: 'English', grade: 'grade4'),
       );
 
-      final round = engine.buildRound();
+      final round = engine.buildRound(roundIndex: 0, totalRounds: 1);
 
       expect(round.mode, 'pairs');
       expect(round.values, hasLength(16)); // 4×4
@@ -123,7 +123,7 @@ void main() {
       );
 
       for (int i = 0; i < 30; i++) {
-        final round = engine.buildRound();
+        final round = engine.buildRound(roundIndex: i, totalRounds: 30);
         final targetCells = round.pairPartner!.keys.toSet();
         final otherTexts = [
           for (int c = 0; c < round.values.length; c++)

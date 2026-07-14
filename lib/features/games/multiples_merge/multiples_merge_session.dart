@@ -57,7 +57,10 @@ class MultiplesMergeSession extends GameSessionState {
   int get nextExpected => table * (_chain.length + 1);
 
   void _startRound() {
-    _round = _engine.buildRound();
+    _round = _engine.buildRound(
+      roundIndex: questionIndex,
+      totalRounds: config.questionCount,
+    );
     _chain.clear();
     _merged.clear();
     _merging = false;
