@@ -130,6 +130,7 @@ class AuthService {
           gender: childGender,
           birthDate: childBirthDate,
           grade: childGrade ?? grade,
+          parentUid: parentUid,
           linkedParentUids: [parentUid],
           createdAt: DateTime.now(),
         );
@@ -369,6 +370,7 @@ class AuthService {
         gender: childGender,
         birthDate: childBirthDate,
         grade: childGrade,
+        parentUid: parentUid,
         linkedParentUids: [parentUid],
         createdAt: DateTime.now(),
       );
