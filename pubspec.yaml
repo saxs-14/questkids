@@ -93,6 +93,7 @@ dependencies:
   file_selector: ^1.1.0
   # Call Cloud Functions from Flutter (Gemini proxy, leaderboard, missions)
   cloud_functions: ^5.6.2
+  firebase_crashlytics: ^4.3.10
 
 dev_dependencies:
   flutter_test:
