@@ -1,133 +1,30 @@
 {
   "id": "ls_g7_wellbeing",
-  "engine": "tugOfWar",
+  "engine": "runnerCollector",
   "grade": "grade7",
   "subject": "Life Skills",
   "title": "Wellbeing Quest",
   "tagline": "Manage stress, build resilience and maintain mental health!",
   "accentColorHex": "#FF9800",
   "emoji": "🧘",
-  "questionType": "general-knowledge",
-  "sampleItems": [
+  "levels": [
     {
-      "question": "What is a healthy way to deal with stress?",
-      "options": [
-        "Accepting your feelings and talking it through",
-        "Talking to someone you trust",
-        "A trusted adult or counsellor",
-        "Deep breathing"
-      ],
-      "answerIndex": 1,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "Talking to someone you trust — that's correct!"
+      "targetClass": "helps_wellbeing",
+      "missionLabel": "Collect healthy coping strategies! 🧘",
+      "scrollSpeed": 0.1,
+      "buckets": {
+        "helps_wellbeing": ["deep breathing", "talking to a friend", "regular exercise", "getting enough sleep", "journaling"],
+        "hurts_wellbeing": ["bottling up feelings", "isolating yourself", "skipping meals", "staying up all night", "avoiding help"]
+      }
     },
     {
-      "question": "Why is it important to talk about your feelings?",
-      "options": [
-        "It helps you cope and feel supported",
-        "How much you value and respect yourself",
-        "A trusted adult or counsellor",
-        "Withdrawing from friends and family"
-      ],
-      "answerIndex": 0,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "It helps you cope and feel supported — that's correct!"
-    },
-    {
-      "question": "What is 'self-esteem'?",
-      "options": [
-        "Deep breathing",
-        "It helps your brain rest and recover",
-        "It releases feel-good chemicals in the brain",
-        "How much you value and respect yourself"
-      ],
-      "answerIndex": 3,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "How much you value and respect yourself — that's correct!"
-    },
-    {
-      "question": "Name one way to relax your mind.",
-      "options": [
-        "A trusted adult or counsellor",
-        "Deep breathing",
-        "Withdrawing from friends and family",
-        "It releases feel-good chemicals in the brain"
-      ],
-      "answerIndex": 1,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "Deep breathing — that's correct!"
-    },
-    {
-      "question": "Who can you talk to if you feel overwhelmed?",
-      "options": [
-        "It releases feel-good chemicals in the brain",
-        "A trusted adult or counsellor",
-        "Talking to someone you trust",
-        "It helps you cope and feel supported"
-      ],
-      "answerIndex": 1,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "A trusted adult or counsellor — that's correct!"
-    },
-    {
-      "question": "What is a sign that someone needs support?",
-      "options": [
-        "Withdrawing from friends and family",
-        "It helps you cope and feel supported",
-        "How much you value and respect yourself",
-        "Deep breathing"
-      ],
-      "answerIndex": 0,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "Withdrawing from friends and family — that's correct!"
-    },
-    {
-      "question": "Why is sleep important for mental wellbeing?",
-      "options": [
-        "It helps your brain rest and recover",
-        "Accepting your feelings and talking it through",
-        "Withdrawing from friends and family",
-        "How much you value and respect yourself"
-      ],
-      "answerIndex": 0,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "It helps your brain rest and recover — that's correct!"
-    },
-    {
-      "question": "What does resilience mean?",
-      "options": [
-        "The ability to bounce back from difficulties",
-        "It helps you cope and feel supported",
-        "A trusted adult or counsellor",
-        "Accepting your feelings and talking it through"
-      ],
-      "answerIndex": 0,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "The ability to bounce back from difficulties — that's correct!"
-    },
-    {
-      "question": "Why is physical activity good for your mood?",
-      "options": [
-        "Withdrawing from friends and family",
-        "It releases feel-good chemicals in the brain",
-        "Deep breathing",
-        "It helps your brain rest and recover"
-      ],
-      "answerIndex": 1,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "It releases feel-good chemicals in the brain — that's correct!"
-    },
-    {
-      "question": "What is a healthy way to handle disappointment?",
-      "options": [
-        "Deep breathing",
-        "It helps your brain rest and recover",
-        "Accepting your feelings and talking it through",
-        "Withdrawing from friends and family"
-      ],
-      "answerIndex": 2,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "Accepting your feelings and talking it through — that's correct!"
+      "targetClass": "hurts_wellbeing",
+      "missionLabel": "Spot the unhelpful habits! ⚠️",
+      "scrollSpeed": 0.11,
+      "buckets": {
+        "helps_wellbeing": ["deep breathing", "talking to a friend", "regular exercise", "getting enough sleep", "journaling"],
+        "hurts_wellbeing": ["bottling up feelings", "isolating yourself", "skipping meals", "staying up all night", "avoiding help"]
+      }
     }
   ]
 }
