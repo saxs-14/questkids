@@ -136,13 +136,9 @@ class AuthService {
         );
 
         final childFirestore = FirebaseFirestore.instanceFor(app: tempApp);
-        await childFirestore
-            .collection('users')
-            .doc(childUid)
-            .set(childModel.toMap());
-        // generate link code and save
         final code = parentRepo.generateLinkCode();
-        await childFirestore.collection('users').doc(childUid).update({
+        await childFirestore.collection('users').doc(childUid).set({
+          ...childModel.toMap(),
           'childLinkCode': code,
           'consentGivenBy': name,
           'consentEmail': email,
@@ -376,11 +372,8 @@ class AuthService {
       );
 
       final childFirestore = FirebaseFirestore.instanceFor(app: tempApp);
-      await childFirestore
-          .collection('users')
-          .doc(childUid)
-          .set(childModel.toMap());
-      await childFirestore.collection('users').doc(childUid).update({
+      await childFirestore.collection('users').doc(childUid).set({
+        ...childModel.toMap(),
         'consentGivenBy': consentGivenBy,
         'consentEmail': consentEmail,
         'consentAt': DateTime.now().millisecondsSinceEpoch,
