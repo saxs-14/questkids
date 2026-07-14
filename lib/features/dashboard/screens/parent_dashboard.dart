@@ -669,6 +669,16 @@ class _ParentHomeTabState extends State<_ParentHomeTab> {
               onTap: () => Navigator.pushNamed(context, '/mood_checkin'),
             ),
           ),
+          const SizedBox(height: 12),
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.message_outlined),
+              title: const Text('Messages'),
+              subtitle: const Text("Chat with your child's teacher"),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => Navigator.pushNamed(context, '/messages'),
+            ),
+          ),
         ],
       ),
     );
