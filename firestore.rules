@@ -36,9 +36,20 @@ service cloud.firestore {
     // ==================== USERS COLLECTION ====================
     match /users/{uid} {
       allow read: if isUser(uid);
+      // POPIA: a learner account may only be created with a recorded
+      // parent/guardian consent trail -- see CLAUDE.md §6.5 and
+      // AppConstants.consentPolicyVersion. This is a server-side backstop;
+      // the client (auth_service.dart) already always writes these fields
+      // in the same set() call as account creation.
       allow create: if isUser(uid) &&
                        request.resource.data.uid == uid &&
-                       request.resource.data.role == 'learner';
+                       request.resource.data.role == 'learner' &&
+                       request.resource.data.consentGivenBy is string &&
+                       request.resource.data.consentGivenBy.size() > 0 &&
+                       request.resource.data.consentEmail is string &&
+                       request.resource.data.consentEmail.size() > 0 &&
+                       request.resource.data.consentAt is int &&
+                       request.resource.data.policyVersion is string;
       allow update: if isUser(uid) &&
                        !request.resource.data.diff(resource.data).affectedKeys().hasAny(lockedUserFields());
       allow delete: if isUser(uid);
