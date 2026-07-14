@@ -140,11 +140,11 @@ class ParentProvider extends ChangeNotifier {
     await _parentRepo.deleteCalendarEvent(eventId);
   }
 
-  Future<void> logMoodCheckin(
-      String childUid, String mood, String emoji, String? note) async {
+  Future<void> logMoodCheckin(String childUid, String loggedByUid,
+      String mood, String emoji, String? note) async {
     await _parentRepo.logMood({
       'childUid': childUid,
-      'loggedByUid': '',
+      'loggedByUid': loggedByUid,
       'mood': mood,
       'moodEmoji': emoji,
       'note': note,

@@ -156,6 +156,10 @@ service cloud.firestore {
       allow read: if isParent() &&
                       resource.data.childUid in
                         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      // Scoped to the entry's own logger, not any linked parent, so one
+      // parent can't delete another linked parent's mood log entry.
+      allow delete: if isParent() &&
+                        resource.data.loggedByUid == request.auth.uid;
     }
 
     // ==================== EMAILS (write-only queue) ====================

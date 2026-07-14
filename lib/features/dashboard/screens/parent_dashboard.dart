@@ -659,6 +659,16 @@ class _ParentHomeTabState extends State<_ParentHomeTab> {
               onTap: () => Navigator.pushNamed(context, '/document_vault'),
             ),
           ),
+          const SizedBox(height: 12),
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.mood_outlined),
+              title: const Text('Mood Check-in'),
+              subtitle: const Text('Log how your child is feeling today'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => Navigator.pushNamed(context, '/mood_checkin'),
+            ),
+          ),
         ],
       ),
     );

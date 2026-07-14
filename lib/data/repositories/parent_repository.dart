@@ -297,6 +297,10 @@ class ParentRepository {
         .map((s) => s.docs.map((d) => {...d.data(), 'id': d.id}).toList());
   }
 
+  Future<void> deleteMoodEntry(String checkinId) async {
+    await _db.collection('mood_checkins').doc(checkinId).delete();
+  }
+
   // Analytics
   Future<Map<String, dynamic>> getChildAnalytics(
       String childUid, DateTime from, DateTime to) async {

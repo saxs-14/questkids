@@ -23,6 +23,7 @@ import 'features/auth/screens/parent_child_setup_screen.dart';
 import 'features/parent/screens/link_child_screen.dart';
 import 'features/parent/screens/link_requests_screen.dart';
 import 'features/parent/screens/document_vault_screen.dart';
+import 'features/parent/screens/mood_checkin_screen.dart';
 import 'features/auth/screens/splash_screen.dart';
 import 'features/auth/screens/login_screen.dart';
 import 'features/auth/screens/register_screen.dart';
@@ -146,6 +147,7 @@ class QuestKidsApp extends StatelessWidget {
         '/link_child': (_) => const LinkChildScreen(),
         '/link_requests': (_) => const LinkRequestsScreen(),
         '/document_vault': (_) => const DocumentVaultScreen(),
+        '/mood_checkin': (_) => const MoodCheckinScreen(),
         '/dashboard': (_) => const LearnerDashboard(),
         '/dashboard/learner': (_) => const LearnerDashboard(),
         '/dashboard/parent': (_) => const ParentDashboard(),
