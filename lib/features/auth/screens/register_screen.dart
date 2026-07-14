@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/app_button.dart';
+import '../../../data/models/user_model.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../core/services/navigation_service.dart';
 import '../widgets/auth_text_field.dart';
@@ -126,16 +127,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     if (success && mounted) {
-      // Navigate to role-based dashboard on success
-      final user = auth.user;
-      if (user != null) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) => NavigationService.getDashboard(user),
-          ),
-        );
-      }
+      _navigateAfterRegister(auth);
     } else if (!success && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -144,6 +136,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       );
     }
+  }
+
+  // registerParent/registerTeacher already set AuthProvider.user before
+  // resolving `success`, but the underlying createUserWithEmailAndPassword
+  // call also fires Firebase's authStateChanges listener as a side effect,
+  // which does its own async Firestore fetch and can briefly race the user
+  // back to null right before this runs -- which is why navigation only
+  // used to happen reliably after a manual reload. Reacting to the next
+  // non-null user instead of a single synchronous check makes this
+  // deterministic regardless of which async chain wins the race.
+  void _navigateAfterRegister(AuthProvider auth) {
+    if (auth.user != null) {
+      _goToDashboard(auth.user!);
+      return;
+    }
+    late VoidCallback listener;
+    listener = () {
+      if (!mounted) {
+        auth.removeListener(listener);
+        return;
+      }
+      if (auth.user != null) {
+        auth.removeListener(listener);
+        _goToDashboard(auth.user!);
+      }
+    };
+    auth.addListener(listener);
+  }
+
+  void _goToDashboard(UserModel user) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => NavigationService.getDashboard(user)),
+    );
   }
 
   Widget _buildStep0() {
