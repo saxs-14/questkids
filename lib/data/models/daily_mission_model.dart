@@ -10,6 +10,7 @@ class DailyMission {
   final bool completed;
   final DateTime? completedAt;
   final String source; // 'teacher' | 'adaptive' | 'curated'
+  final String? reason; // learner-facing "why this mission" (adaptive only)
 
   const DailyMission({
     required this.id,
@@ -21,6 +22,7 @@ class DailyMission {
     required this.completed,
     this.completedAt,
     required this.source,
+    this.reason,
   });
 
   factory DailyMission.fromMap(String id, Map<String, dynamic> map) {
@@ -36,6 +38,7 @@ class DailyMission {
           ? (map['completedAt'] as Timestamp).toDate()
           : null,
       source: map['source'] as String? ?? 'curated',
+      reason: map['reason'] as String?,
     );
   }
 

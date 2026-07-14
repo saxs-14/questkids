@@ -14,6 +14,7 @@ interface MissionEntry {
   xpBonus: number;
   completed: boolean;
   source: "teacher" | "adaptive" | "curated";
+  reason?: string;
 }
 
 function nextMidnightSAST(): Date {
@@ -33,7 +34,7 @@ async function getAdaptiveMissions(
   uid: string,
   grade: string,
   dayIndex: number
-): Promise<{gameId: string; subject: string; emoji: string; title: string}[]> {
+): Promise<{gameId: string; subject: string; emoji: string; title: string; reason: string}[]> {
   const db = admin.firestore();
   const apiKey = GEMINI_API_KEY.value();
   if (!apiKey) return [];
@@ -82,7 +83,8 @@ If no games match the weak subjects, return {"missions":[]}`;
     const text = result.response.text().trim();
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) return [];
-    const parsed = JSON.parse(jsonMatch[0]) as {missions: {gameId: string}[]};
+    const parsed = JSON.parse(jsonMatch[0]) as
+      {missions: {gameId: string; reason?: string}[]};
     const validIds = new Set(MISSION_CATALOG[dayIndex].map((m) => m.gameId));
     return (parsed.missions || [])
       .filter((m) => validIds.has(m.gameId))
@@ -93,6 +95,7 @@ If no games match the weak subjects, return {"missions":[]}`;
           subject: catalog.subject,
           emoji: catalog.emoji,
           title: catalog.title,
+          reason: m.reason || `Because you're working on ${catalog.subject}`,
         };
       })
       .slice(0, 2);
@@ -166,6 +169,7 @@ export const generateDailyMissions = onSchedule(
                 xpBonus: 15,
                 completed: false,
                 source: "adaptive",
+                reason: m.reason,
               });
             }
           });

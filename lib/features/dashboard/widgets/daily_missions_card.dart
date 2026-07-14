@@ -170,13 +170,17 @@ class _MissionTile extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  mission.sourceBadge,
+                  mission.source == 'adaptive' && mission.reason != null
+                      ? mission.reason!
+                      : mission.sourceBadge,
                   style: AppTextStyles.bodySmall.copyWith(
                     color: done
                         ? Colors.grey
                         : Colors.white.withValues(alpha: 0.75),
                     fontSize: 10,
                   ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
