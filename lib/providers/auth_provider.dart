@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import '../core/services/analytics_service.dart';
 import '../core/services/auth_service.dart';
 import '../core/services/notification_service.dart';
 import '../core/services/rewards_service.dart';
@@ -108,6 +109,11 @@ class AuthProvider extends ChangeNotifier {
         grade: grade,
       );
       _status = AuthStatus.authenticated;
+      try {
+        await AnalyticsService.logSignUp('teacher');
+      } catch (_) {
+        // Non-fatal: analytics failures must never block a real signup.
+      }
       notifyListeners();
       return true;
     } catch (e) {
@@ -152,6 +158,11 @@ class AuthProvider extends ChangeNotifier {
         childConsentGiven: childConsentGiven,
       );
       _status = AuthStatus.authenticated;
+      try {
+        await AnalyticsService.logSignUp('parent');
+      } catch (_) {
+        // Non-fatal: analytics failures must never block a real signup.
+      }
       notifyListeners();
       return true;
     } catch (e) {
@@ -180,6 +191,11 @@ class AuthProvider extends ChangeNotifier {
         return false;
       }
       _status = AuthStatus.authenticated;
+      try {
+        await AnalyticsService.logLogin(_user!.role);
+      } catch (_) {
+        // Non-fatal: analytics failures must never block a real login.
+      }
       notifyListeners();
       return true;
     } catch (e) {
@@ -202,6 +218,11 @@ class AuthProvider extends ChangeNotifier {
         birthDate: birthDate,
       );
       _status = AuthStatus.authenticated;
+      try {
+        await AnalyticsService.logLogin('learner');
+      } catch (_) {
+        // Non-fatal: analytics failures must never block a real login.
+      }
       notifyListeners();
       return true;
     } catch (e) {
@@ -225,6 +246,11 @@ class AuthProvider extends ChangeNotifier {
       );
       if (_user != null) {
         _status = AuthStatus.authenticated;
+        try {
+          await AnalyticsService.logSignUp('google_$role');
+        } catch (_) {
+          // Non-fatal: analytics failures must never block a real signup.
+        }
         notifyListeners();
         return true;
       }

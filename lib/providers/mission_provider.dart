@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import '../core/services/analytics_service.dart';
 import '../data/models/daily_mission_model.dart';
 import '../data/repositories/mission_repository.dart';
 
@@ -25,6 +26,11 @@ class MissionProvider extends ChangeNotifier {
   Future<void> completeMission(
       String uid, String missionId, String gameId) async {
     await _repo.completeMission(uid, missionId, gameId);
+    try {
+      await AnalyticsService.logQuestComplete(gameId);
+    } catch (_) {
+      // Non-fatal: analytics failures must never block mission completion.
+    }
     _missions = _missions.map((m) {
       if (m.id == missionId) {
         return DailyMission(

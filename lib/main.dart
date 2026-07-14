@@ -6,6 +6,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
+import 'core/services/analytics_service.dart';
 import 'core/services/db_bootstrap.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_provider.dart';
@@ -86,6 +87,7 @@ class QuestKidsApp extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       navigatorKey: navigatorKey,
+      navigatorObservers: [AnalyticsService.observer],
       title: 'QuestKids',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
