@@ -1,133 +1,54 @@
 {
   "id": "eng_g7_debate",
-  "engine": "tugOfWar",
+  "engine": "sequenceBuilder",
   "grade": "grade7",
   "subject": "English",
   "title": "Formal Debate",
   "tagline": "Master formal debate structure — proposing, opposing and rebuttal!",
   "accentColorHex": "#E91E63",
   "emoji": "🎤",
-  "questionType": "general-knowledge",
-  "sampleItems": [
+  "sceneType": "debateStage",
+  "steps": [
     {
-      "question": "What is a 'point of information'?",
-      "options": [
-        "The responsibility to prove your claim",
-        "Clear reasoning backed by evidence",
-        "To judge and score the debate",
-        "A brief interruption to ask or offer a fact"
-      ],
-      "answerIndex": 3,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "A brief interruption to ask or offer a fact — that's correct!"
+      "id": "motion",
+      "label": "State the Motion",
+      "emoji": "📜",
+      "description": "Read out the motion being debated so everyone understands the topic."
     },
     {
-      "question": "What does 'burden of proof' mean?",
-      "options": [
-        "The responsibility to prove your claim",
-        "An argument that opposes the original point",
-        "To support claims with credible evidence",
-        "It helps the audience follow your argument"
-      ],
-      "answerIndex": 0,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "The responsibility to prove your claim — that's correct!"
+      "id": "propose",
+      "label": "Proposing Argument",
+      "emoji": "✅",
+      "description": "The proposing team argues in favour of the motion with clear points."
     },
     {
-      "question": "What is a logical fallacy?",
-      "options": [
-        "A flaw in reasoning that weakens an argument",
-        "To judge and score the debate",
-        "Clear reasoning backed by evidence",
-        "The responsibility to prove your claim"
-      ],
-      "answerIndex": 0,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "A flaw in reasoning that weakens an argument — that's correct!"
+      "id": "oppose",
+      "label": "Opposing Argument",
+      "emoji": "❌",
+      "description": "The opposing team argues against the motion with their own points."
     },
     {
-      "question": "What is an 'ad hominem' attack?",
-      "options": [
-        "Attacking the person instead of their argument",
-        "A brief interruption to ask or offer a fact",
-        "To judge and score the debate",
-        "Clear reasoning backed by evidence"
-      ],
-      "answerIndex": 0,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "Attacking the person instead of their argument — that's correct!"
+      "id": "rebuttal",
+      "label": "Rebuttal",
+      "emoji": "🔄",
+      "description": "Each side responds directly to the other side's strongest point."
     },
     {
-      "question": "Why do debaters use statistics?",
-      "options": [
-        "Directly countering the opposing team's arguments",
-        "A flaw in reasoning that weakens an argument",
-        "To support claims with credible evidence",
-        "An argument that opposes the original point"
-      ],
-      "answerIndex": 2,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "To support claims with credible evidence — that's correct!"
+      "id": "summary",
+      "label": "Closing Summary",
+      "emoji": "🏁",
+      "description": "Each side sums up why their argument was stronger."
     },
     {
-      "question": "What is 'rebuttal time' used for?",
-      "options": [
-        "It helps the audience follow your argument",
-        "An argument that opposes the original point",
-        "Clear reasoning backed by evidence",
-        "Directly countering the opposing team's arguments"
-      ],
-      "answerIndex": 3,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "Directly countering the opposing team's arguments — that's correct!"
-    },
-    {
-      "question": "What makes an argument 'persuasive'?",
-      "options": [
-        "It helps the audience follow your argument",
-        "The responsibility to prove your claim",
-        "Directly countering the opposing team's arguments",
-        "Clear reasoning backed by evidence"
-      ],
-      "answerIndex": 3,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "Clear reasoning backed by evidence — that's correct!"
-    },
-    {
-      "question": "What is the role of the adjudicator?",
-      "options": [
-        "To judge and score the debate",
-        "A flaw in reasoning that weakens an argument",
-        "A brief interruption to ask or offer a fact",
-        "An argument that opposes the original point"
-      ],
-      "answerIndex": 0,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "To judge and score the debate — that's correct!"
-    },
-    {
-      "question": "What is a counter-argument?",
-      "options": [
-        "To judge and score the debate",
-        "A flaw in reasoning that weakens an argument",
-        "An argument that opposes the original point",
-        "The responsibility to prove your claim"
-      ],
-      "answerIndex": 2,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "An argument that opposes the original point — that's correct!"
-    },
-    {
-      "question": "Why is structure important in a speech?",
-      "options": [
-        "An argument that opposes the original point",
-        "It helps the audience follow your argument",
-        "To judge and score the debate",
-        "Clear reasoning backed by evidence"
-      ],
-      "answerIndex": 1,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "It helps the audience follow your argument — that's correct!"
+      "id": "vote",
+      "label": "Audience Vote",
+      "emoji": "🗳️",
+      "description": "The audience votes on which side argued the motion more convincingly."
     }
+  ],
+  "roundVariants": [
+    ["motion", "propose", "oppose", "summary"],
+    ["propose", "oppose", "rebuttal", "summary"],
+    ["motion", "propose", "oppose", "rebuttal", "summary", "vote"]
   ]
 }

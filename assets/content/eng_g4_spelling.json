@@ -1,133 +1,54 @@
 {
   "id": "eng_g4_spelling",
-  "engine": "tugOfWar",
+  "engine": "sequenceBuilder",
   "grade": "grade4",
   "subject": "English",
   "title": "Spelling Bee",
   "tagline": "Spell grade-level words correctly and win the spelling bee!",
   "accentColorHex": "#E91E63",
   "emoji": "🐝",
-  "questionType": "general-knowledge",
-  "sampleItems": [
+  "sceneType": "spellingBee",
+  "steps": [
     {
-      "question": "Spell: a place where you learn.",
-      "options": [
-        "important",
-        "grateful",
-        "teacher",
-        "school"
-      ],
-      "answerIndex": 3,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "school — that's correct!"
+      "id": "school",
+      "label": "school",
+      "emoji": "🏫",
+      "description": "S-C-H-O-O-L: a place where you learn."
     },
     {
-      "question": "Spell: the day after today.",
-      "options": [
-        "school",
-        "tomorrow",
-        "beautiful",
-        "important"
-      ],
-      "answerIndex": 1,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "tomorrow — that's correct!"
+      "id": "tomorrow",
+      "label": "tomorrow",
+      "emoji": "📅",
+      "description": "T-O-M-O-R-R-O-W: the day after today."
     },
     {
-      "question": "Spell: a person who teaches.",
-      "options": [
-        "friend",
-        "teacher",
-        "different",
-        "because"
-      ],
-      "answerIndex": 1,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "teacher — that's correct!"
+      "id": "teacher",
+      "label": "teacher",
+      "emoji": "👩‍🏫",
+      "description": "T-E-A-C-H-E-R: a person who teaches."
     },
     {
-      "question": "Spell: feeling thankful.",
-      "options": [
-        "grateful",
-        "school",
-        "different",
-        "favourite"
-      ],
-      "answerIndex": 0,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "grateful — that's correct!"
+      "id": "grateful",
+      "label": "grateful",
+      "emoji": "🙏",
+      "description": "G-R-A-T-E-F-U-L: feeling thankful."
     },
     {
-      "question": "Spell: not the same.",
-      "options": [
-        "because",
-        "important",
-        "different",
-        "teacher"
-      ],
-      "answerIndex": 2,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "different — that's correct!"
+      "id": "different",
+      "label": "different",
+      "emoji": "🔀",
+      "description": "D-I-F-F-E-R-E-N-T: not the same."
     },
     {
-      "question": "Spell: liked the most.",
-      "options": [
-        "tomorrow",
-        "because",
-        "favourite",
-        "teacher"
-      ],
-      "answerIndex": 2,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "favourite — that's correct!"
-    },
-    {
-      "question": "Spell: very pretty.",
-      "options": [
-        "favourite",
-        "beautiful",
-        "teacher",
-        "important"
-      ],
-      "answerIndex": 1,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "beautiful — that's correct!"
-    },
-    {
-      "question": "Spell: needed or significant.",
-      "options": [
-        "beautiful",
-        "favourite",
-        "because",
-        "important"
-      ],
-      "answerIndex": 3,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "important — that's correct!"
-    },
-    {
-      "question": "Spell: used to give a reason.",
-      "options": [
-        "school",
-        "different",
-        "because",
-        "favourite"
-      ],
-      "answerIndex": 2,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "because — that's correct!"
-    },
-    {
-      "question": "Spell: someone you like and trust.",
-      "options": [
-        "teacher",
-        "friend",
-        "grateful",
-        "because"
-      ],
-      "answerIndex": 1,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "friend — that's correct!"
+      "id": "beautiful",
+      "label": "beautiful",
+      "emoji": "🌸",
+      "description": "B-E-A-U-T-I-F-U-L: very pretty."
     }
+  ],
+  "roundVariants": [
+    ["school", "teacher", "tomorrow"],
+    ["grateful", "different", "beautiful"],
+    ["school", "grateful", "different", "beautiful"]
   ]
 }

@@ -1,133 +1,54 @@
 {
   "id": "eng_g7_spelling",
-  "engine": "tugOfWar",
+  "engine": "sequenceBuilder",
   "grade": "grade7",
   "subject": "English",
   "title": "Advanced Spelling",
   "tagline": "Spell complex Grade 7 words — prefixes, suffixes and word origins!",
   "accentColorHex": "#E91E63",
   "emoji": "🔤",
-  "questionType": "general-knowledge",
-  "sampleItems": [
+  "sceneType": "spellingBee",
+  "steps": [
     {
-      "question": "Spell: needed; required.",
-      "options": [
-        "necessary",
-        "accommodate",
-        "rhythm",
-        "immediately"
-      ],
-      "answerIndex": 0,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "necessary — that's correct!"
+      "id": "unnecessary",
+      "label": "unnecessary",
+      "emoji": "🚫",
+      "description": "U-N-N-E-C-E-S-S-A-R-Y: prefix 'un-' meaning not needed."
     },
     {
-      "question": "Spell: without doubt.",
-      "options": [
-        "conscience",
-        "definitely",
-        "rhythm",
-        "immediately"
-      ],
-      "answerIndex": 1,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "definitely — that's correct!"
+      "id": "achievement",
+      "label": "achievement",
+      "emoji": "🏆",
+      "description": "A-C-H-I-E-V-E-M-E-N-T: suffix '-ment' turns a verb into a noun."
     },
     {
-      "question": "Spell: to make someone feel shy or ashamed.",
-      "options": [
-        "embarrass",
-        "immediately",
-        "necessary",
-        "privilege"
-      ],
-      "answerIndex": 0,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "embarrass — that's correct!"
+      "id": "responsibility",
+      "label": "responsibility",
+      "emoji": "🤝",
+      "description": "R-E-S-P-O-N-S-I-B-I-L-I-T-Y: suffix '-ity' turns an adjective into a noun."
     },
     {
-      "question": "Spell: a regular repeated pattern of sound.",
-      "options": [
-        "rhythm",
-        "immediately",
-        "accommodate",
-        "privilege"
-      ],
-      "answerIndex": 0,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "rhythm — that's correct!"
+      "id": "disappear",
+      "label": "disappear",
+      "emoji": "💨",
+      "description": "D-I-S-A-P-P-E-A-R: prefix 'dis-' meaning the opposite."
     },
     {
-      "question": "Spell: your inner sense of right and wrong.",
-      "options": [
-        "conscience",
-        "definitely",
-        "government",
-        "embarrass"
-      ],
-      "answerIndex": 0,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "conscience — that's correct!"
+      "id": "irresponsible",
+      "label": "irresponsible",
+      "emoji": "⚠️",
+      "description": "I-R-R-E-S-P-O-N-S-I-B-L-E: prefix 'ir-' before words starting with 'r'."
     },
     {
-      "question": "Spell: a special right or advantage.",
-      "options": [
-        "privilege",
-        "questionnaire",
-        "government",
-        "immediately"
-      ],
-      "answerIndex": 0,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "privilege — that's correct!"
-    },
-    {
-      "question": "Spell: the group that governs a country.",
-      "options": [
-        "necessary",
-        "rhythm",
-        "government",
-        "questionnaire"
-      ],
-      "answerIndex": 2,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "government — that's correct!"
-    },
-    {
-      "question": "Spell: right away, without delay.",
-      "options": [
-        "definitely",
-        "immediately",
-        "rhythm",
-        "embarrass"
-      ],
-      "answerIndex": 1,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "immediately — that's correct!"
-    },
-    {
-      "question": "Spell: a set of questions for a survey.",
-      "options": [
-        "accommodate",
-        "necessary",
-        "questionnaire",
-        "definitely"
-      ],
-      "answerIndex": 2,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "questionnaire — that's correct!"
-    },
-    {
-      "question": "Spell: to provide space or make room for.",
-      "options": [
-        "conscience",
-        "accommodate",
-        "immediately",
-        "necessary"
-      ],
-      "answerIndex": 1,
-      "hint": "Think back to what you learned about this topic.",
-      "explanation": "accommodate — that's correct!"
+      "id": "biography",
+      "label": "biography",
+      "emoji": "📖",
+      "description": "B-I-O-G-R-A-P-H-Y: from Greek 'bio' (life) + 'graphy' (writing)."
     }
+  ],
+  "roundVariants": [
+    ["unnecessary", "achievement", "disappear"],
+    ["responsibility", "irresponsible", "biography"],
+    ["unnecessary", "disappear", "irresponsible", "biography"]
   ]
 }
