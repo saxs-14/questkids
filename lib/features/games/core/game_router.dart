@@ -46,7 +46,7 @@ class GameRouter extends StatelessWidget {
       AppConstants.engineBudgetBuilder =>
         BudgetBuilderGame(config: config, user: user),
       AppConstants.engineNumberCountingDuel =>
-        NumberCountingDuelGame(user: user),
+        NumberCountingDuelGame(config: config, user: user),
       _ => _UnknownEngine(config: config),
     };
   }

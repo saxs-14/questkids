@@ -3,11 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../core/services/analytics_service.dart';
-import '../../../core/services/offline_service.dart';
-import '../../../core/services/rewards_service.dart';
 import '../../../data/models/game_session_model.dart';
-import '../../../data/repositories/game_repository.dart';
 import 'game_config.dart';
 import 'game_engine.dart';
 import 'game_session_persistence.dart';
@@ -41,7 +37,6 @@ abstract class GameSessionState extends ChangeNotifier {
 
   // ── Internal state ─────────────────────────────────────────────────────────
 
-  final _repo = GameRepository();
   final _uuid = const Uuid();
 
   Timer? _ticker;
@@ -138,37 +133,7 @@ abstract class GameSessionState extends ChangeNotifier {
         completedAt: DateTime.now(),
         result: _result!.result,
       );
-      final offlineService = OfflineService();
-      final online = await offlineService.isOnline();
-      var writeSucceeded = false;
-      if (online) {
-        try {
-          await _repo.logGameSession(session);
-          writeSucceeded = true;
-          try {
-            await AnalyticsService.logGameComplete(
-              engineType: config.engineType,
-              subject: config.subject,
-              score: _result!.score,
-            );
-          } catch (_) {
-            // Non-fatal: analytics failures must never affect gameplay.
-          }
-          try {
-            await RewardsService().grantGameSessionRewards(session);
-          } catch (_) {
-            // Non-fatal: the session itself is already saved; a failure
-            // here just means this session's XP won't show on the
-            // Rewards screen/dashboard until the next successful grant.
-          }
-        } catch (_) {
-          writeSucceeded = false;
-        }
-      }
-      if (shouldQueueGameSessionOffline(
-          isOnline: online, writeSucceeded: writeSucceeded)) {
-        await offlineService.saveGameSessionOffline(session);
-      }
+      await persistGameSession(session);
     }
   }
 

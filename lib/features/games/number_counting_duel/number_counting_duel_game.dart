@@ -1,6 +1,11 @@
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
+
+import '../../../data/models/game_session_model.dart';
+import '../core/game_config.dart';
+import '../core/game_session_persistence.dart';
 
 // ────────────────────────────────────────────────────────────────────────────
 // Number Counting Duel — Grade 1 magical arena counting game
@@ -50,8 +55,9 @@ class _Level {
 // ── Main game widget ───────────────────────────────────────────────────────
 
 class NumberCountingDuelGame extends StatefulWidget {
+  final GameConfig config;
   final dynamic user;
-  const NumberCountingDuelGame({super.key, this.user});
+  const NumberCountingDuelGame({super.key, required this.config, this.user});
 
   @override
   State<NumberCountingDuelGame> createState() => _NCDState();
@@ -100,6 +106,8 @@ class _NCDState extends State<NumberCountingDuelGame>
   bool _aiAnswered = false;
 
   final _rng = math.Random();
+
+  String get _uid => (widget.user?.uid as String?) ?? '';
 
   // ── Timers ──────────────────────────────────────────────────────────────
   // Tracked (not bare Future.delayed) so dispose() can cancel any still
@@ -272,6 +280,7 @@ class _NCDState extends State<NumberCountingDuelGame>
     if (next >= lev.questionCount) {
       // Level done
       if (_levelIdx + 1 >= _levels.length) {
+        _persistSession();
         setState(() => _phase = _Phase.victory);
       } else {
         setState(() {
@@ -289,6 +298,45 @@ class _NCDState extends State<NumberCountingDuelGame>
       setState(() => _qIdx = next);
       _delayed(300, _nextQuestion);
     }
+  }
+
+  /// Persists this completed session the same way every other engine's
+  /// GameSessionState.finishSession does -- this widget is intentionally
+  /// self-contained (no GameEngine/GameSessionState), but it must not
+  /// silently drop the XP it already shows the player on the victory
+  /// screen. Applies the same completion-bonus tiers as
+  /// GameEngine.defaultResult() so the number shown here matches what
+  /// actually gets awarded.
+  void _persistSession() {
+    const totalQuestions = 25; // 5 levels x 5 questions (_Level.questionCount)
+    final accuracy = totalQuestions > 0 ? _playerSco / totalQuestions : 0.0;
+    final isPerfect = _playerSco == totalQuestions;
+    final isWin = _playerSco > totalQuestions / 2;
+    var xp = _totalXP;
+    if (isPerfect) {
+      xp += 100;
+    } else if (isWin) {
+      xp += 50;
+    }
+    setState(() => _totalXP = xp);
+
+    final uid = _uid;
+    if (uid.isEmpty) return;
+    final session = GameSessionModel(
+      id: const Uuid().v4(),
+      uid: uid,
+      grade: widget.config.grade,
+      subject: widget.config.subject,
+      engineType: widget.config.engineType,
+      score: (accuracy * 100).round(),
+      xpEarned: xp,
+      coinsEarned: xp ~/ 10,
+      accuracy: accuracy,
+      timeTakenSeconds: 0,
+      completedAt: DateTime.now(),
+      result: isPerfect ? 'complete' : (isWin ? 'win' : 'loss'),
+    );
+    persistGameSession(session);
   }
 
   // ── Question generation ──────────────────────────────────────────────────
