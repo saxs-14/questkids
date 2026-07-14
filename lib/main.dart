@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
@@ -52,6 +53,21 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+
+  // Debug providers only for now -- functions/src/config.ts's
+  // ENFORCE_APP_CHECK stays false until Play Integrity (Android)/App
+  // Attest (iOS)/reCAPTCHA v3 (Web) are configured in the Firebase
+  // Console and this is swapped to the release providers. Activating
+  // App Check even in debug mode is still useful: it starts attaching
+  // (unenforced) tokens to requests now, so switching providers later
+  // doesn't require touching this call site again.
+  await FirebaseAppCheck.instance.activate(
+    androidProvider: AndroidProvider.debug,
+    appleProvider: AppleProvider.debug,
+    // webProvider intentionally omitted: reCAPTCHA v3 needs a real site
+    // key from the Firebase Console, which isn't available yet -- web
+    // builds simply won't attach an App Check token until that's set.
+  );
 
   FirebaseFirestore.instance.settings = const Settings(
     persistenceEnabled: true,
