@@ -28,8 +28,20 @@ class TugOfWarEngine extends GameEngine {
 
     while (out.length < count && attempts < 2000) {
       attempts++;
-      final a = min + _rng.nextInt(max - min + 1);
-      final b = min + _rng.nextInt(max - min + 1);
+      // Ramp the effective range across the session: the first third of
+      // questions stays at the easiest half of [min, max], the middle
+      // third opens up to three-quarters of the range, and only the
+      // final third reaches the full configured max. Keeps early
+      // questions approachable and later ones the hardest, rather than
+      // drawing uniformly from the full range for every question.
+      final progress = count > 1 ? out.length / count : 1.0;
+      final rampFactor =
+          progress < 1 / 3 ? 0.5 : (progress < 2 / 3 ? 0.75 : 1.0);
+      final effectiveMax =
+          (min + ((max - min) * rampFactor)).round().clamp(min, max);
+
+      final a = min + _rng.nextInt(effectiveMax - min + 1);
+      final b = min + _rng.nextInt(effectiveMax - min + 1);
       final key = '$a×$b';
       if (used.contains(key)) continue;
       used.add(key);
