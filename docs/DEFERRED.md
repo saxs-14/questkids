@@ -67,14 +67,20 @@ what to do next.
   by this pass except removing the machine-specific `org.gradle.java.home`
   line (Phase 1).
 
-## Data model (Phase 0, firestore.rules)
+## Data model (Phase 11, firestore.rules)
 
-- Teacher reads on `users/{uid}`, `game_sessions/{sessionId}`,
-  `player_stats/{uid}`, and `game_progress/{uid}/engines/{engineType}` are
-  currently scoped by role only (`request.auth.token.role == 'teacher'`), not
-  by class. TODOs are left in `firestore.rules` at each spot
-  (`isTeacherOfClass`). To finish this: add a `classId` field to learner user
-  docs (and to the collections above, or join through the user doc), add a
-  `classId` custom claim when a teacher is provisioned via
-  `functions/src/admin/setUserRole.ts`, and swap the TODO'd `allow read: if
-  isTeacher()` lines for `allow read: if isTeacherOfClass(resource.data.classId)`.
+- **Resolved (Phase 11):** teacher reads on `users/{uid}`, `game_sessions/{sessionId}`,
+  `player_stats/{uid}`, and `game_progress/{uid}/engines/{engineType}` used to
+  be scoped by role only (`allow read: if isTeacher();`) — any teacher could
+  read any learner's data. Fixed by scoping to `linkedTeacherUids` array
+  membership (the relationship `_showAddLearnerDialog` already writes), not
+  a new `classId` field — see `firestore.rules` and the Phase 11 commit
+  history for the exact change.
+- **Still open, lower priority:** the fix above scopes reads to "learners
+  this teacher has personally added," which is coarser than true
+  multi-tenant class scoping (e.g. it can't yet express "teacher A's Grade 4
+  class" as a first-class boundary independent of the ad-hoc add-a-learner
+  flow). If that's ever needed: add a `classId` field to learner user docs, a
+  `classId` custom claim via `functions/src/admin/setUserRole.ts`, and a
+  `classId`-based rule variant alongside (not instead of) the
+  `linkedTeacherUids` check.
