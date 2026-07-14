@@ -18,4 +18,4 @@ export const ENFORCE_APP_CHECK = process.env.ENFORCE_APP_CHECK === "true";
 
 // Not secret (it's the public "From" address), unlike MAIL_PASSWORD in
 // secrets.ts.
-export const MAIL_SENDER = process.env.MAIL_SENDER || "questkids.dev@gmail.com";
+export const MAIL_SENDER = process.env.MAIL_SENDER || "questkids.game@gmail.com";
