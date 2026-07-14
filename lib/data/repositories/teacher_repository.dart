@@ -96,6 +96,23 @@ class TeacherRepository {
     return result;
   }
 
+  /// Writes a broadcast doc the teacher owns; a Cloud Function
+  /// (onClassBroadcast) fans it out to a `notifications` doc per learner
+  /// linked to this teacher, since firestore.rules only lets a client
+  /// write a notification for its own uid.
+  Future<void> sendClassBroadcast({
+    required String teacherUid,
+    required String title,
+    required String body,
+  }) async {
+    await _db.collection('class_broadcasts').add({
+      'teacherUid': teacherUid,
+      'title': title,
+      'body': body,
+      'createdAt': FieldValue.serverTimestamp(),
+    });
+  }
+
   Future<List<Map<String, dynamic>>> exportClassProgress(
       String teacherUid) async {
     final learnersSnap = await _db

@@ -9,7 +9,12 @@ import '../widgets/leaderboard_entry_tile.dart';
 import '../widgets/own_rank_banner.dart';
 
 class LeaderboardScreen extends StatefulWidget {
-  const LeaderboardScreen({super.key});
+  /// When set, shows only the "My Class" board for this teacher, bypassing
+  /// AuthProvider (a teacher isn't a learner, so has no grade/own rank) --
+  /// used by the Teacher Dashboard's "View Leaderboard" quick action.
+  final String? teacherUid;
+
+  const LeaderboardScreen({super.key, this.teacherUid});
 
   @override
   State<LeaderboardScreen> createState() => _LeaderboardScreenState();
@@ -27,12 +32,21 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
   @override
   void initState() {
     super.initState();
-    final user = context.read<AuthProvider>().user;
-    _grade = user?.grade ?? 'Grade 1';
-    _uid = user?.uid ?? '';
-    _avatarEmoji = user?.avatarEmoji ?? '🦁';
-    _teacherUid = user?.linkedTeacherUid;
-    _tabCtrl = TabController(length: _teacherUid != null ? 2 : 1, vsync: this);
+    if (widget.teacherUid != null) {
+      _grade = '';
+      _uid = '';
+      _avatarEmoji = '👩‍🏫';
+      _teacherUid = widget.teacherUid;
+      _tabCtrl = TabController(length: 1, vsync: this);
+    } else {
+      final user = context.read<AuthProvider>().user;
+      _grade = user?.grade ?? 'Grade 1';
+      _uid = user?.uid ?? '';
+      _avatarEmoji = user?.avatarEmoji ?? '🦁';
+      _teacherUid = user?.linkedTeacherUid;
+      _tabCtrl =
+          TabController(length: _teacherUid != null ? 2 : 1, vsync: this);
+    }
   }
 
   @override
@@ -53,7 +67,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
             unselectedLabelColor: Colors.white60,
             indicatorColor: Colors.white,
             tabs: [
-              const Tab(text: 'Grade'),
+              if (widget.teacherUid == null) const Tab(text: 'Grade'),
               if (_teacherUid != null) const Tab(text: 'My Class'),
             ],
           ),
@@ -62,12 +76,13 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
           child: TabBarView(
             controller: _tabCtrl,
             children: [
-              _GradeBoard(
-                grade: _grade,
-                uid: _uid,
-                avatarEmoji: _avatarEmoji,
-                repo: _repo,
-              ),
+              if (widget.teacherUid == null)
+                _GradeBoard(
+                  grade: _grade,
+                  uid: _uid,
+                  avatarEmoji: _avatarEmoji,
+                  repo: _repo,
+                ),
               if (_teacherUid != null)
                 _ClassBoard(
                   teacherUid: _teacherUid!,

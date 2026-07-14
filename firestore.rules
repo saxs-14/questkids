@@ -183,6 +183,17 @@ service cloud.firestore {
       }
     }
 
+    // ==================== CLASS BROADCASTS (write-only queue) ====================
+    // Consumed by the onClassBroadcast Cloud Function, which fans this out
+    // to a notifications doc per linked learner via the Admin SDK
+    // (bypassing these rules) -- a teacher can't write a notifications doc
+    // for another uid directly.
+    match /class_broadcasts/{broadcastId} {
+      allow create: if isTeacher() &&
+                        request.resource.data.teacherUid == request.auth.uid;
+      allow read: if isTeacher() && resource.data.teacherUid == request.auth.uid;
+    }
+
     // ==================== EMAILS (write-only queue) ====================
     // Consumed by the sendEmail Cloud Function via the Admin SDK, which
     // bypasses these rules entirely -- clients only ever need to create.

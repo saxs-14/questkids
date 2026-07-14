@@ -24,6 +24,7 @@ export { sendPushOnNotificationCreate } from "./notifications/sendPush";
 export { onBadgeAwarded } from "./notifications/badgeAward";
 export { sendQuestReminders } from "./notifications/reminders";
 export { onNewMessage } from "./notifications/newMessage";
+export { onClassBroadcast } from "./notifications/classBroadcast";
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();

@@ -12,11 +12,13 @@ import '../../../core/widgets/responsive_scaffold.dart';
 import '../../teacher/screens/class_analytics_screen.dart';
 import '../../../data/models/user_model.dart';
 import '../../../data/repositories/messaging_repository.dart';
+import '../../../data/repositories/teacher_repository.dart';
 import '../../../data/repositories/user_repository.dart';
 import '../../../providers/auth_provider.dart';
 import '../../messaging/screens/message_thread_screen.dart';
 import '../../notifications/screens/notifications_screen.dart';
 import '../../offline/widgets/offline_banner.dart';
+import '../../rewards/screens/leaderboard_screen.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Colours
@@ -301,6 +303,62 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
   }
 }
 
+void _showSendNotificationDialog(BuildContext context, String teacherUid) {
+  final titleCtrl = TextEditingController();
+  final bodyCtrl = TextEditingController();
+  showDialog(
+    context: context,
+    builder: (dialogContext) => AlertDialog(
+      title: const Text('Send Notification to Class'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            controller: titleCtrl,
+            decoration: const InputDecoration(labelText: 'Title'),
+            textCapitalization: TextCapitalization.sentences,
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            controller: bodyCtrl,
+            decoration: const InputDecoration(labelText: 'Message'),
+            textCapitalization: TextCapitalization.sentences,
+            maxLines: 3,
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(dialogContext),
+          child: const Text('Cancel'),
+        ),
+        FilledButton(
+          onPressed: () async {
+            final title = titleCtrl.text.trim();
+            final body = bodyCtrl.text.trim();
+            if (title.isEmpty || body.isEmpty) {
+              ScaffoldMessenger.of(dialogContext).showSnackBar(const SnackBar(
+                  content: Text('Please fill in both a title and a message')));
+              return;
+            }
+            Navigator.pop(dialogContext);
+            await TeacherRepository().sendClassBroadcast(
+              teacherUid: teacherUid,
+              title: title,
+              body: body,
+            );
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('Notification sent to your class')));
+            }
+          },
+          child: const Text('Send'),
+        ),
+      ],
+    ),
+  );
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // HOME TAB
 // ─────────────────────────────────────────────────────────────────────────────
@@ -467,22 +525,42 @@ class _HomeTab extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 12),
-              const Row(
+              Row(
                 children: [
                   _QuickActionBtn(
                       label: 'Grade\nReport',
                       icon: Icons.bar_chart_rounded,
-                      color: _kPrimary),
-                  SizedBox(width: 8),
+                      color: _kPrimary,
+                      onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  ClassAnalyticsScreen(teacherUid: teacherUid),
+                            ),
+                          )),
+                  const SizedBox(width: 8),
                   _QuickActionBtn(
                       label: 'Send\nNotification',
                       icon: Icons.send_outlined,
-                      color: _kMath),
-                  SizedBox(width: 8),
+                      color: _kMath,
+                      onTap: () =>
+                          _showSendNotificationDialog(context, teacherUid)),
+                  const SizedBox(width: 8),
                   _QuickActionBtn(
                       label: 'View\nLeaderboard',
                       icon: Icons.emoji_events_outlined,
-                      color: AppColors.gold),
+                      color: AppColors.gold,
+                      onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => Scaffold(
+                                appBar: AppBar(
+                                    title: const Text('Class Leaderboard')),
+                                body:
+                                    LeaderboardScreen(teacherUid: teacherUid),
+                              ),
+                            ),
+                          )),
                 ],
               ),
               const SizedBox(height: 20),
@@ -1737,18 +1815,19 @@ class _QuickActionBtn extends StatelessWidget {
   final String label;
   final IconData icon;
   final Color color;
+  final VoidCallback onTap;
 
   const _QuickActionBtn(
-      {required this.label, required this.icon, required this.color});
+      {required this.label,
+      required this.icon,
+      required this.color,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: InkWell(
-        onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text('${label.replaceAll('\n', ' ')} — coming soon')),
-        ),
+        onTap: onTap,
         borderRadius: BorderRadius.circular(14),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 14),

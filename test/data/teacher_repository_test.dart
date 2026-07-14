@@ -21,4 +21,8 @@ void main() {
     // never written by any live code path.
     expect(() => TeacherRepository(), returnsNormally);
   });
+
+  test('sendClassBroadcast has the expected named-parameter signature', () {
+    expect(TeacherRepository().sendClassBroadcast, isA<Function>());
+  });
 }
