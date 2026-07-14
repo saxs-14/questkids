@@ -45,8 +45,6 @@ async function getAdaptiveMissions(
     .where("completedAt", ">=", admin.firestore.Timestamp.fromDate(thirtyDaysAgo))
     .get();
 
-  if (progressSnap.size < 7) return [];
-
   const subjectScores: Record<string, number[]> = {};
   progressSnap.docs.forEach((d) => {
     const data = d.data();
@@ -55,8 +53,15 @@ async function getAdaptiveMissions(
     subjectScores[subj].push((data["score"] as number) || 0);
   });
 
+  // Require at least 5 samples of a SPECIFIC subject before judging it
+  // weak -- gating on a combined total across all subjects (the old
+  // `progressSnap.size < 7` check) let a subject with just 1-2 data
+  // points get flagged "weak" off a tiny, noisy sample as long as some
+  // OTHER subject padded out the combined count.
+  const minSamplesPerSubject = 5;
   const avgScores: Record<string, number> = {};
   for (const [subj, scores] of Object.entries(subjectScores)) {
+    if (scores.length < minSamplesPerSubject) continue;
     avgScores[subj] = scores.reduce((a, b) => a + b, 0) / scores.length;
   }
 
