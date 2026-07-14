@@ -51,6 +51,20 @@ service firebase.storage {
       allow read: if isSignedIn();
     }
 
+    // ==================== DOCUMENT VAULT ====================
+    // School reports, medical notes, etc. uploaded by a parent for a
+    // linked child. linkedChildrenUids mirrors the same Firestore array
+    // firestore.rules checks for document_vault Firestore doc access.
+    match /document_vault/{childUid}/{fileName} {
+      allow write: if hasRole('parent') &&
+                      childUid in
+                        firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      allow read: if isUser(childUid) ||
+                      (hasRole('parent') &&
+                       childUid in
+                         firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.linkedChildrenUids);
+    }
+
     // ==================== DEFAULT DENY ====================
     match /{allPaths=**} {
       allow read, write: if false;

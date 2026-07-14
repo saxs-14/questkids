@@ -26,4 +26,8 @@ void main() {
   test('cancelLinkRequest delegates to declineLinkRequest (same terminal state)', () {
     expect(ParentRepository().cancelLinkRequest, isA<Function>());
   });
+
+  test('uploadDocument has the expected named-parameter signature', () {
+    expect(ParentRepository().uploadDocument, isA<Function>());
+  });
 }

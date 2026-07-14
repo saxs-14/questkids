@@ -1,4 +1,6 @@
+import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
 import '../models/user_model.dart';
 import '../models/progress_model.dart';
@@ -243,11 +245,26 @@ class ParentRepository {
   }
 
   // Document vault
-  Future<void> uploadDocument(Map<String, dynamic> doc) async {
-    final ref = _db.collection('document_vault').doc();
-    doc['id'] = ref.id;
-    doc['createdAt'] = FieldValue.serverTimestamp();
-    await ref.set(doc);
+  Future<void> uploadDocument({
+    required String childUid,
+    required String uploadedByUid,
+    required String fileName,
+    required Uint8List bytes,
+  }) async {
+    final docRef = _db.collection('document_vault').doc();
+    final storageRef = FirebaseStorage.instance
+        .ref('document_vault/$childUid/${docRef.id}_$fileName');
+    await storageRef.putData(bytes);
+    final url = await storageRef.getDownloadURL();
+    await docRef.set({
+      'id': docRef.id,
+      'childUid': childUid,
+      'uploadedByUid': uploadedByUid,
+      'fileName': fileName,
+      'url': url,
+      'sizeBytes': bytes.length,
+      'createdAt': FieldValue.serverTimestamp(),
+    });
   }
 
   Stream<List<Map<String, dynamic>>> watchDocuments(String childUid) {

@@ -140,10 +140,6 @@ class ParentProvider extends ChangeNotifier {
     await _parentRepo.deleteCalendarEvent(eventId);
   }
 
-  Future<void> uploadDocument(Map<String, dynamic> doc) async {
-    await _parentRepo.uploadDocument(doc);
-  }
-
   Future<void> logMoodCheckin(
       String childUid, String mood, String emoji, String? note) async {
     await _parentRepo.logMood({

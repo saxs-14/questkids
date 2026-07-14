@@ -648,6 +648,17 @@ class _ParentHomeTabState extends State<_ParentHomeTab> {
           Text('Quick Stats', style: AppTextStyles.h3),
           const SizedBox(height: 12),
           _buildQuickStats(isMobile),
+
+          const SizedBox(height: 20),
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.folder_outlined),
+              title: const Text('Document Vault'),
+              subtitle: const Text('School reports, medical notes and more'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => Navigator.pushNamed(context, '/document_vault'),
+            ),
+          ),
         ],
       ),
     );
