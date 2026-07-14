@@ -878,6 +878,31 @@ class _ParentProfileTab extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           Builder(builder: (context) {
+            final count = context.watch<ParentProvider>().pendingRequests.length;
+            return Card(
+              child: ListTile(
+                leading: const Icon(Icons.link_outlined),
+                title: const Text('Link Requests'),
+                subtitle: Text(count > 0
+                    ? '$count pending request${count == 1 ? '' : 's'}'
+                    : 'No pending requests'),
+                trailing: count > 0
+                    ? CircleAvatar(
+                        radius: 12,
+                        backgroundColor: Colors.red,
+                        child: Text(
+                          '$count',
+                          style:
+                              const TextStyle(color: Colors.white, fontSize: 12),
+                        ),
+                      )
+                    : const Icon(Icons.chevron_right),
+                onTap: () => Navigator.pushNamed(context, '/link_requests'),
+              ),
+            );
+          }),
+          const SizedBox(height: 12),
+          Builder(builder: (context) {
             final children = context.watch<ParentProvider>().linkedChildren;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
