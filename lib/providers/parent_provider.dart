@@ -124,6 +124,10 @@ class ParentProvider extends ChangeNotifier {
     await _parentRepo.declineLinkRequest(requestId);
   }
 
+  Future<void> cancelLinkRequest(String requestId) async {
+    await _parentRepo.cancelLinkRequest(requestId);
+  }
+
   Future<void> unlinkChild(String parentUid, String childUid) async {
     await _parentRepo.unlinkParentFromChild(parentUid, childUid);
   }

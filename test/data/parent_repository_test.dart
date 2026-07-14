@@ -22,4 +22,8 @@ void main() {
     // not `childUid`, which nothing writes.
     expect(() => ParentRepository(), returnsNormally);
   });
+
+  test('cancelLinkRequest delegates to declineLinkRequest (same terminal state)', () {
+    expect(ParentRepository().cancelLinkRequest, isA<Function>());
+  });
 }

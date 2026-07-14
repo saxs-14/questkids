@@ -60,6 +60,15 @@ class ParentRepository {
     });
   }
 
+  /// Cancels a still-pending outgoing request. Same effect as
+  /// [declineLinkRequest] (marks the request 'declined') but named for
+  /// the requesting parent's own action, not the primary parent's --
+  /// the Firestore rule for parent_link_requests separately allows each
+  /// side to make this same status transition from their own role.
+  Future<void> cancelLinkRequest(String requestId) async {
+    await declineLinkRequest(requestId);
+  }
+
   Stream<Map<String, dynamic>?> watchUserDoc(String uid) {
     return _db
         .collection('users')

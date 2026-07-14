@@ -66,7 +66,9 @@ class _LinkRequestsScreenState extends State<LinkRequestsScreen> {
                   subtitle: Text('Status: ${r['status'] ?? 'pending'}'),
                   trailing: r['status'] == 'pending'
                       ? OutlinedButton(
-                          onPressed: () async {/* cancel logic */},
+                          onPressed: () async {
+                            await parent.cancelLinkRequest(r['id']);
+                          },
                           child: const Text('Cancel'))
                       : null,
                 ),
