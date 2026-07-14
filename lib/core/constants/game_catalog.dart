@@ -440,7 +440,7 @@ class GameCatalog {
           'Learners will measure length, mass, capacity and time — get the conversions right.',
       mechanicReason:
           'Answering fast head-to-head builds quick, confident recall of conversions.',
-      difficulty: 'medium',
+      difficulty: 'adaptive',
       xpReward: 100,
       coinsReward: 20,
     ),
@@ -482,7 +482,7 @@ class GameCatalog {
           'Learners will cross the decimal dunes by comparing, ordering and operating with decimals.',
       mechanicReason:
           'Answering fast head-to-head builds quick, confident recall of decimal operations.',
-      difficulty: 'hard',
+      difficulty: 'adaptive',
       xpReward: 120,
       coinsReward: 24,
     ),
@@ -524,7 +524,7 @@ class GameCatalog {
           'Learners will divide and conquer — master long division across the desert.',
       mechanicReason:
           'Answering fast head-to-head builds quick, confident recall of long division.',
-      difficulty: 'hard',
+      difficulty: 'adaptive',
       xpReward: 120,
       coinsReward: 24,
     ),
@@ -585,7 +585,7 @@ class GameCatalog {
           'Learners will master their times tables from 1×1 all the way to 12×12.',
       mechanicReason:
           'Answering fast head-to-head builds quick, confident recall of times tables.',
-      difficulty: 'medium',
+      difficulty: 'adaptive',
       xpReward: 100,
       coinsReward: 20,
       isFeatured: true,

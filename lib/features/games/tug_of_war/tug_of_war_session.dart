@@ -37,6 +37,7 @@ class TugOfWarSession extends GameSessionState {
   String _currentInput = '';
   int _questionStartSec = 0;
   int _playerStreak = 0;
+  int _missStreak = 0;
   bool? _lastAnswerCorrect; // null = no flash
 
   // Adaptive difficulty
@@ -51,6 +52,8 @@ class TugOfWarSession extends GameSessionState {
   int get opponentScore => _opponentScore;
   String get currentInput => _currentInput;
   bool? get lastAnswerCorrect => _lastAnswerCorrect;
+  int get currentOpponentIntervalMs => _currentOpponentIntervalMs;
+  TugOfWarConfig get tugConfig => _tugConfig;
 
   Map<String, dynamic>? get opponentCurrentQuestion =>
       _opponentQIndex < _opponentQuestions.length
@@ -129,6 +132,7 @@ class TugOfWarSession extends GameSessionState {
 
     if (ar.correct) {
       _playerStreak++;
+      _missStreak = 0;
       if (_playerStreak >= 3 && config.difficulty == 'adaptive') {
         _currentOpponentIntervalMs =
             (_currentOpponentIntervalMs * 0.85).toInt().clamp(1500, 8000);
@@ -136,6 +140,14 @@ class TugOfWarSession extends GameSessionState {
       }
     } else {
       _playerStreak = 0;
+      _missStreak++;
+      if (_missStreak >= 3 && config.difficulty == 'adaptive') {
+        _currentOpponentIntervalMs = (_currentOpponentIntervalMs * 1.18)
+            .toInt()
+            .clamp(1500, _tugConfig.opponentIntervalMs);
+        _missStreak = 0;
+        _restartOpponent();
+      }
     }
 
     final done = recordAnswer(ar);
