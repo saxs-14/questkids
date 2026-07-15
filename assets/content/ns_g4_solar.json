@@ -7,12 +7,13 @@
   "tagline": "Explore the planets, moons and stars of our solar system!",
   "accentColorHex": "#00BFA5",
   "emoji": "🪐",
+  "backdropTheme": "space",
   "pins": [
     {
       "id": "mercury",
       "name": "Mercury",
       "emoji": "☄️",
-      "x": 0.1,
+      "x": 0.08,
       "y": 0.5,
       "facts": [
         "Mercury is the closest planet to the Sun.",
@@ -24,7 +25,7 @@
       "id": "venus",
       "name": "Venus",
       "emoji": "🌕",
-      "x": 0.2,
+      "x": 0.20,
       "y": 0.5,
       "facts": [
         "Venus is the hottest planet in the solar system.",
@@ -36,7 +37,7 @@
       "id": "earth",
       "name": "Earth",
       "emoji": "🌍",
-      "x": 0.32,
+      "x": 0.26,
       "y": 0.5,
       "facts": [
         "Earth is the only known planet with life.",
@@ -48,7 +49,7 @@
       "id": "mars",
       "name": "Mars",
       "emoji": "🔴",
-      "x": 0.44,
+      "x": 0.34,
       "y": 0.5,
       "facts": [
         "Mars is known as the Red Planet.",
@@ -72,7 +73,7 @@
       "id": "saturn",
       "name": "Saturn",
       "emoji": "🪐",
-      "x": 0.7,
+      "x": 0.70,
       "y": 0.5,
       "facts": [
         "Saturn is famous for its bright rings.",
@@ -84,7 +85,7 @@
       "id": "uranus",
       "name": "Uranus",
       "emoji": "🔵",
-      "x": 0.82,
+      "x": 0.83,
       "y": 0.5,
       "facts": [
         "Uranus spins on its side compared to other planets.",

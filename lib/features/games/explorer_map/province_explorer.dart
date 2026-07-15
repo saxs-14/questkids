@@ -342,6 +342,7 @@ class _LearnView extends StatelessWidget {
         children: [
           _MapStage(
             provinces: session.mapConfig.provinces,
+            theme: session.mapConfig.backdropTheme,
             styleFor: (p) {
               final found = session.discovered.contains(p.id);
               return _PinStyle(
@@ -432,6 +433,7 @@ class _EasyView extends StatelessWidget {
             flex: 5,
             child: _MapStage(
               provinces: session.mapConfig.provinces,
+              theme: session.mapConfig.backdropTheme,
               styleFor: (p) {
                 final isTarget = p.id == correct?.id;
                 return _PinStyle(
@@ -541,6 +543,7 @@ class _HardView extends StatelessWidget {
           Expanded(
             child: _MapStage(
               provinces: session.mapConfig.provinces,
+              theme: session.mapConfig.backdropTheme,
               styleFor: (p) {
                 final isLit = lit.contains(p.id);
                 final selected = session.selectedId == p.id;
@@ -613,11 +616,13 @@ class _MapStage extends StatelessWidget {
   final List<ProvincePin> provinces;
   final _PinStyle Function(ProvincePin) styleFor;
   final void Function(ProvincePin)? onTap;
+  final MapBackdropTheme theme;
 
   const _MapStage({
     required this.provinces,
     required this.styleFor,
     this.onTap,
+    this.theme = MapBackdropTheme.geography,
   });
 
   @override
@@ -631,8 +636,8 @@ class _MapStage extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child:
-                  CustomPaint(size: Size(w, h), painter: _MapBackdropPainter()),
+              child: CustomPaint(
+                  size: Size(w, h), painter: _MapBackdropPainter(theme)),
             ),
           ),
           for (final p in provinces)
@@ -717,11 +722,66 @@ class _FeedbackBanner extends StatelessWidget {
   }
 }
 
-/// Stylised explorer-map backdrop: ocean gradient, a soft landmass, a
-/// latitude/longitude graticule, and a compass rose in the corner.
+/// Stylised explorer-map backdrop. [MapBackdropTheme.geography] draws an
+/// ocean gradient, a soft landmass, a latitude/longitude graticule and a
+/// compass rose -- for real-world map content. [MapBackdropTheme.space]
+/// draws a starfield with a glowing sun instead, since an ocean/landmass
+/// behind Solar System pins would be factually wrong.
 class _MapBackdropPainter extends CustomPainter {
+  final MapBackdropTheme theme;
+  _MapBackdropPainter(this.theme);
+
   @override
   void paint(Canvas canvas, Size size) {
+    if (theme == MapBackdropTheme.space) {
+      _paintSpace(canvas, size);
+      return;
+    }
+    _paintGeography(canvas, size);
+  }
+
+  void _paintSpace(Canvas canvas, Size size) {
+    final w = size.width;
+    final h = size.height;
+
+    final sky = Rect.fromLTWH(0, 0, w, h);
+    canvas.drawRect(
+      sky,
+      Paint()
+        ..shader = const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF0A0E27), Color(0xFF1A1440), Color(0xFF0A0E27)],
+        ).createShader(sky),
+    );
+
+    // Glowing sun in the top-left corner -- planet pins read left-to-right
+    // as distance-from-Sun, so the Sun itself anchors that reading. Kept
+    // clear of Mercury's pin (the nearest planet, x=0.08) so the two
+    // don't visually merge into one blob.
+    final sunCenter = Offset(w * 0.02, h * 0.5);
+    canvas.drawCircle(
+      sunCenter,
+      w * 0.06,
+      Paint()
+        ..color = const Color(0xFFFFC93C).withValues(alpha: 0.35)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 20),
+    );
+    canvas.drawCircle(
+        sunCenter, w * 0.035, Paint()..color = const Color(0xFFFFD54A));
+
+    // Deterministic starfield (fixed seed so it doesn't repaint-flicker).
+    final rng = math.Random(7);
+    final star = Paint()..color = Colors.white.withValues(alpha: 0.8);
+    for (int i = 0; i < 60; i++) {
+      final x = rng.nextDouble() * w;
+      final y = rng.nextDouble() * h;
+      final r = rng.nextDouble() * 1.4 + 0.4;
+      canvas.drawCircle(Offset(x, y), r, star);
+    }
+  }
+
+  void _paintGeography(Canvas canvas, Size size) {
     final w = size.width;
     final h = size.height;
 
@@ -784,5 +844,5 @@ class _MapBackdropPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_MapBackdropPainter old) => false;
+  bool shouldRepaint(_MapBackdropPainter old) => old.theme != theme;
 }

@@ -13,8 +13,8 @@
       "name": "Gauteng",
       "capital": "Johannesburg",
       "emoji": "🏙️",
-      "x": 0.6,
-      "y": 0.45,
+      "x": 0.70,
+      "y": 0.33,
       "facts": [
         "Gauteng is the smallest province but the most populous.",
         "Gauteng's name means 'place of gold' in Sotho."
@@ -26,8 +26,8 @@
       "name": "Western Cape",
       "capital": "Cape Town",
       "emoji": "🍷",
-      "x": 0.25,
-      "y": 0.85,
+      "x": 0.24,
+      "y": 0.86,
       "facts": [
         "Table Mountain is one of the New 7 Wonders of Nature.",
         "The Cape Winelands are famous worldwide."
@@ -39,8 +39,8 @@
       "name": "KwaZulu-Natal",
       "capital": "Pietermaritzburg",
       "emoji": "🌊",
-      "x": 0.78,
-      "y": 0.62,
+      "x": 0.85,
+      "y": 0.55,
       "facts": [
         "The Drakensberg mountains run through KwaZulu-Natal.",
         "Durban is South Africa’s busiest port city."
@@ -52,8 +52,8 @@
       "name": "Eastern Cape",
       "capital": "Bhisho",
       "emoji": "🐘",
-      "x": 0.55,
-      "y": 0.85,
+      "x": 0.64,
+      "y": 0.78,
       "facts": [
         "Addo Elephant National Park is in the Eastern Cape.",
         "Nelson Mandela was born in the Eastern Cape."
@@ -65,7 +65,7 @@
       "name": "Limpopo",
       "capital": "Polokwane",
       "emoji": "🦁",
-      "x": 0.6,
+      "x": 0.79,
       "y": 0.12,
       "facts": [
         "Limpopo borders Zimbabwe, Botswana and Mozambique.",
@@ -78,8 +78,8 @@
       "name": "Mpumalanga",
       "capital": "Mbombela",
       "emoji": "🌅",
-      "x": 0.72,
-      "y": 0.32,
+      "x": 0.85,
+      "y": 0.27,
       "facts": [
         "Mpumalanga's name means 'place where the sun rises'.",
         "The Blyde River Canyon is one of the largest canyons on Earth."
@@ -91,7 +91,7 @@
       "name": "North West",
       "capital": "Mahikeng",
       "emoji": "🌾",
-      "x": 0.45,
+      "x": 0.55,
       "y": 0.35,
       "facts": [
         "The Sun City resort is in North West province.",
@@ -104,8 +104,8 @@
       "name": "Free State",
       "capital": "Bloemfontein",
       "emoji": "🌻",
-      "x": 0.55,
-      "y": 0.6,
+      "x": 0.61,
+      "y": 0.51,
       "facts": [
         "Bloemfontein is known as the judicial capital of South Africa.",
         "The Free State is known for its wide-open maize and sunflower fields."
@@ -117,8 +117,8 @@
       "name": "Northern Cape",
       "capital": "Kimberley",
       "emoji": "💎",
-      "x": 0.3,
-      "y": 0.5,
+      "x": 0.31,
+      "y": 0.59,
       "facts": [
         "The Northern Cape is the largest but least populated province.",
         "Kimberley is famous for its diamond mining history."

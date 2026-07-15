@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../core/game_config.dart';
 
+/// Which code-drawn backdrop [_MapBackdropPainter] renders behind the
+/// pins. `geography` (ocean + landmass + compass rose) suits real-world
+/// map content; `space` (starfield + sun glow) is for the Solar System
+/// pack, where an ocean/landmass backdrop would be factually wrong.
+enum MapBackdropTheme { geography, space }
+
 /// A pin on the explorer map — not always a province (also used for
 /// biomes, climate zones, rivers, planets, career pathways, ...), so
 /// [capital] is empty when the concept has no natural "capital".
@@ -43,16 +49,20 @@ class MapQuestion {
 class ExplorerMapConfig {
   final List<ProvincePin> provinces;
   final List<MapQuestion> questions;
-  final String mapAsset; // placeholder — swap for real SA map SVG/image
+  final MapBackdropTheme backdropTheme;
 
   const ExplorerMapConfig({
     required this.provinces,
     required this.questions,
-    this.mapAsset = 'assets/images/sa_map_outline.png',
+    this.backdropTheme = MapBackdropTheme.geography,
   });
 
   /// Builds config from a generated content pack (see
-  /// tools/gamegen/content/explorer_map.js for the shape).
+  /// tools/gamegen/content/explorer_map.js for the shape). An optional
+  /// top-level `"backdropTheme": "space"` switches the backdrop for
+  /// packs that aren't a real-world map (e.g. the Solar System) --
+  /// anything else, or a missing field, keeps the default geography
+  /// backdrop so every existing pack is unaffected.
   factory ExplorerMapConfig.fromPack(Map<String, dynamic> pack) {
     final pins = (pack['pins'] as List).cast<Map<String, dynamic>>();
     final provinces = pins
@@ -76,10 +86,24 @@ class ExplorerMapConfig {
               feedbackFact: q['feedbackFact'] as String,
             ))
         .toList();
-    return ExplorerMapConfig(provinces: provinces, questions: questions);
+    final theme = pack['backdropTheme'] == 'space'
+        ? MapBackdropTheme.space
+        : MapBackdropTheme.geography;
+    return ExplorerMapConfig(
+      provinces: provinces,
+      questions: questions,
+      backdropTheme: theme,
+    );
   }
 
   static ExplorerMapConfig saProvinces(GameConfig config) {
+    // Positions are normalised from each province's approximate
+    // geographic centre (lat/long) projected onto South Africa's real
+    // bounding box (lat -22.0..-34.8, lon 16.5..32.9) -- not pixel-exact
+    // borders, but each province sits in its true relative direction
+    // and distance from its neighbours, which the previous hand-guessed
+    // values didn't reliably do (e.g. Gauteng/KwaZulu-Natal weren't far
+    // enough east, Limpopo wasn't far enough north).
     const provinces = [
       ProvincePin(
         id: 'GP',
@@ -87,7 +111,7 @@ class ExplorerMapConfig {
         capital: 'Johannesburg',
         emoji: '🏙️',
         color: Color(0xFFE53935),
-        position: Offset(0.60, 0.45),
+        position: Offset(0.70, 0.33),
         facts: [
           'Gauteng is the smallest province but most populous.',
           'The name means "place of gold" in Sotho.'
@@ -99,7 +123,7 @@ class ExplorerMapConfig {
         capital: 'Cape Town',
         emoji: '🍷',
         color: Color(0xFF1E88E5),
-        position: Offset(0.25, 0.80),
+        position: Offset(0.24, 0.86),
         facts: [
           'Table Mountain is one of the New 7 Wonders of Nature.',
           'The Cape Winelands are famous worldwide.'
@@ -111,7 +135,7 @@ class ExplorerMapConfig {
         capital: 'Pietermaritzburg',
         emoji: '🌊',
         color: Color(0xFF43A047),
-        position: Offset(0.75, 0.60),
+        position: Offset(0.85, 0.55),
         facts: [
           'The Drakensberg Mountains stretch along its border.',
           'Durban has the busiest port in Africa.'
@@ -123,7 +147,7 @@ class ExplorerMapConfig {
         capital: 'Polokwane',
         emoji: '🦁',
         color: Color(0xFFFB8C00),
-        position: Offset(0.62, 0.20),
+        position: Offset(0.79, 0.12),
         facts: [
           'Home to part of the famous Kruger National Park.',
           'The Limpopo River forms South Africa\'s northern border.'
@@ -135,7 +159,7 @@ class ExplorerMapConfig {
         capital: 'Mbombela',
         emoji: '🌅',
         color: Color(0xFF8E24AA),
-        position: Offset(0.72, 0.38),
+        position: Offset(0.85, 0.27),
         facts: [
           'Mpumalanga means "place where the sun rises" in Zulu.',
           'Blyde River Canyon is the third-largest canyon in the world.'
@@ -147,7 +171,7 @@ class ExplorerMapConfig {
         capital: 'Mahikeng',
         emoji: '💎',
         color: Color(0xFF00ACC1),
-        position: Offset(0.47, 0.35),
+        position: Offset(0.55, 0.35),
         facts: [
           'The world\'s largest platinum reserves are here.',
           'Sun City is a famous resort in this province.'
@@ -159,7 +183,7 @@ class ExplorerMapConfig {
         capital: 'Bloemfontein',
         emoji: '🌾',
         color: Color(0xFFD81B60),
-        position: Offset(0.52, 0.58),
+        position: Offset(0.61, 0.51),
         facts: [
           'Bloemfontein is one of South Africa\'s three capital cities.',
           'Known as the "breadbasket" of South Africa.'
@@ -171,7 +195,7 @@ class ExplorerMapConfig {
         capital: 'Kimberley',
         emoji: '🌵',
         color: Color(0xFF6D4C41),
-        position: Offset(0.35, 0.55),
+        position: Offset(0.31, 0.59),
         facts: [
           'Largest province by area — almost one-third of South Africa.',
           'The world\'s largest diamond was found in Kimberley.'
@@ -183,7 +207,7 @@ class ExplorerMapConfig {
         capital: 'Bhisho',
         emoji: '🐘',
         color: Color(0xFF00897B),
-        position: Offset(0.57, 0.75),
+        position: Offset(0.64, 0.78),
         facts: [
           'Nelson Mandela was born in the Eastern Cape.',
           'Home to the Addo Elephant National Park.'
