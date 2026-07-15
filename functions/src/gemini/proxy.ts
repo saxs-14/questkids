@@ -46,7 +46,7 @@ Always respond in a warm, child-friendly tone.`;
 
 function requireAuth(request: CallableRequest): string {
   if (!request.auth) {
-    throw new HttpsError("unauthenticated", "You must be signed in to use Questy.");
+    throw new HttpsError("unauthenticated", "You must be signed in to use QuestBot.");
   }
   return request.auth.uid;
 }
@@ -88,7 +88,7 @@ async function enforceQuota(uid: string): Promise<void> {
     if (count >= DAILY_AI_QUOTA) {
       throw new HttpsError(
         "resource-exhausted",
-        "You've reached today's chat limit with Questy. Come back tomorrow!"
+        "You've reached today's chat limit with QuestBot. Come back tomorrow!"
       );
     }
 

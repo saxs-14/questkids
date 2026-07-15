@@ -44,9 +44,7 @@ class ProfileImageService {
     }
 
     final url = await _storage.uploadAvatarBytes(uid: uid, bytes: bytes);
-    if (url != null) {
-      await _userRepo.updateUser(uid, {'avatarUrl': url});
-    }
+    await _userRepo.updateUser(uid, {'avatarUrl': url});
     return url;
   }
 }

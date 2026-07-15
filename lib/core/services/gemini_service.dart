@@ -5,6 +5,16 @@ import 'package:cloud_functions/cloud_functions.dart';
 class GeminiService {
   final _functions = FirebaseFunctions.instanceFor(region: 'us-central1');
 
+  // Callable Functions default to a 70s timeout, which leaves a child
+  // staring at a spinner far too long if Gemini or the function hangs.
+  // Fail fast into the existing friendly fallback message instead.
+  static final _callTimeout = HttpsCallableOptions(
+    timeout: const Duration(seconds: 20),
+  );
+  static final _imageCallTimeout = HttpsCallableOptions(
+    timeout: const Duration(seconds: 30),
+  );
+
   // preferredLanguage kept for constructor compatibility; language is set server-side.
   // ignore: avoid_unused_constructor_parameters
   GeminiService({String preferredLanguage = 'English'});
@@ -17,7 +27,9 @@ class GeminiService {
     List<Map<String, String>> history = const [],
   }) async {
     try {
-      final result = await _functions.httpsCallable('questyChat').call({
+      final result = await _functions
+          .httpsCallable('questyChat', options: _callTimeout)
+          .call({
         'message': message,
         'history': history,
       });
@@ -34,7 +46,9 @@ class GeminiService {
   }) async {
     try {
       final base64Image = base64Encode(Uint8List.fromList(imageBytes));
-      final result = await _functions.httpsCallable('analyzeImage').call({
+      final result = await _functions
+          .httpsCallable('analyzeImage', options: _imageCallTimeout)
+          .call({
         'imageBase64': base64Image,
         'prompt': prompt,
       });
@@ -53,7 +67,9 @@ class GeminiService {
     required int totalPoints,
   }) async {
     try {
-      final result = await _functions.httpsCallable('getRecommendation').call({
+      final result = await _functions
+          .httpsCallable('getRecommendation', options: _callTimeout)
+          .call({
         'name': name,
         'grade': grade,
         'subjectScores': subjectScores,
@@ -74,7 +90,9 @@ class GeminiService {
     required String grade,
   }) async {
     try {
-      final result = await _functions.httpsCallable('explainAnswer').call({
+      final result = await _functions
+          .httpsCallable('explainAnswer', options: _callTimeout)
+          .call({
         'question': question,
         'correctAnswer': correctAnswer,
         'subject': subject,
@@ -92,7 +110,9 @@ class GeminiService {
     required String subject,
   }) async {
     try {
-      final result = await _functions.httpsCallable('generateHint').call({
+      final result = await _functions
+          .httpsCallable('generateHint', options: _callTimeout)
+          .call({
         'question': question,
         'subject': subject,
       });
