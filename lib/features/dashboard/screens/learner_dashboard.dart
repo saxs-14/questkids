@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/constants/game_catalog.dart';
+import '../../../core/constants/labels.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/theme_provider.dart';
@@ -19,6 +20,7 @@ import '../../offline/widgets/sync_button.dart';
 import '../../offline/screens/offline_screen.dart';
 import '../../quests/screens/quests_screen.dart';
 import '../../rewards/screens/rewards_screen.dart';
+import '../../rewards/screens/trading_post_screen.dart';
 import '../../ai_tutor/screens/ai_tutor_screen.dart';
 import '../../ai_tutor/widgets/recommendation_card.dart';
 import '../../parent/widgets/child_qr_code.dart';
@@ -202,7 +204,6 @@ class _LearnerHomeTab extends StatelessWidget {
   int get _level => ((user?.totalPoints as int?) ?? 0) ~/ 100 + 1;
   int get _totalPoints => (user?.totalPoints as int?) ?? 0;
   int get _streakDays => (user?.streakDays as int?) ?? 0;
-  int get _coins => (user?.totalPoints as int?) ?? 0;
 
   String get _firstName {
     final name = user?.name as String?;
@@ -236,7 +237,7 @@ class _LearnerHomeTab extends StatelessWidget {
               children: [
                 const SizedBox(height: 20),
                 _StatsRow(
-                    coins: _coins,
+                    goldBalance: rewards.goldBalance,
                     streakDays: _streakDays,
                     badgeCount: badgeCount),
                 const SizedBox(height: 24),
@@ -394,12 +395,12 @@ class _HeroSection extends StatelessWidget {
 // Stats Row  — three Expanded cards inside a bounded Row (no scroll)
 // ---------------------------------------------------------------------------
 class _StatsRow extends StatelessWidget {
-  final int coins;
+  final int goldBalance;
   final int streakDays;
   final int badgeCount;
 
   const _StatsRow(
-      {required this.coins,
+      {required this.goldBalance,
       required this.streakDays,
       required this.badgeCount});
 
@@ -415,38 +416,46 @@ class _StatsRow extends StatelessWidget {
       required String label,
       required String value,
       required Color accentColor,
+      VoidCallback? onTap,
     }) {
-      return Expanded(
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
-          decoration: BoxDecoration(
-            color: cardBg,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-                color: accentColor.withValues(alpha: 0.25), width: 1.5),
-            boxShadow: [
-              BoxShadow(
-                  color: shadow, blurRadius: 8, offset: const Offset(0, 3)),
-            ],
-          ),
-          child: Column(
-            children: [
-              Text(emoji, style: const TextStyle(fontSize: 26)),
-              const SizedBox(height: 4),
-              Text(
-                value,
-                style:
-                    AppTextStyles.h4.copyWith(color: accentColor, fontSize: 16),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                label,
-                style: AppTextStyles.bodySmall.copyWith(fontSize: 11),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
+      final content = Container(
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+        decoration: BoxDecoration(
+          color: cardBg,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+              color: accentColor.withValues(alpha: 0.25), width: 1.5),
+          boxShadow: [
+            BoxShadow(
+                color: shadow, blurRadius: 8, offset: const Offset(0, 3)),
+          ],
         ),
+        child: Column(
+          children: [
+            Text(emoji, style: const TextStyle(fontSize: 26)),
+            const SizedBox(height: 4),
+            Text(
+              value,
+              style:
+                  AppTextStyles.h4.copyWith(color: accentColor, fontSize: 16),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              label,
+              style: AppTextStyles.bodySmall.copyWith(fontSize: 11),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      );
+      return Expanded(
+        child: onTap == null
+            ? content
+            : InkWell(
+                onTap: onTap,
+                borderRadius: BorderRadius.circular(16),
+                child: content,
+              ),
       );
     }
 
@@ -454,9 +463,13 @@ class _StatsRow extends StatelessWidget {
       children: [
         card(
             emoji: '🪙',
-            label: 'Coins',
-            value: '$coins',
-            accentColor: _DC.coinColor),
+            label: QuestLabels.gold,
+            value: '$goldBalance',
+            accentColor: _DC.coinColor,
+            onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (_) => const TradingPostScreen()),
+                )),
         const SizedBox(width: 10),
         card(
             emoji: '🔥',

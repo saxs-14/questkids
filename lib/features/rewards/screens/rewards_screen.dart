@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/constants/labels.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/services/rewards_service.dart';
+import '../../../core/widgets/app_card.dart';
+import '../../../core/widgets/app_coin_pill.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/rewards_provider.dart';
 import '../widgets/badge_card.dart';
@@ -11,6 +14,7 @@ import '../../dashboard/widgets/level_progress_bar.dart';
 import '../../dashboard/widgets/streak_banner.dart';
 import '../../dashboard/widgets/stat_card.dart';
 import 'leaderboard_screen.dart';
+import 'trading_post_screen.dart';
 
 class RewardsScreen extends StatefulWidget {
   final bool embedded;
@@ -157,6 +161,26 @@ class _OverviewTab extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           StreakBanner(streakDays: rewards.streakDays),
+          const SizedBox(height: 20),
+          AppCard(
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const TradingPostScreen()),
+            ),
+            child: Row(
+              children: [
+                AppCoinPill(amount: rewards.goldBalance),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    'Spend Gold at the ${QuestLabels.tradingPost}',
+                    style: AppTextStyles.bodyMedium
+                        .copyWith(fontWeight: FontWeight.w700),
+                  ),
+                ),
+                const Icon(Icons.chevron_right, color: AppColors.textSecondary),
+              ],
+            ),
+          ),
           const SizedBox(height: 20),
           Row(
             children: [

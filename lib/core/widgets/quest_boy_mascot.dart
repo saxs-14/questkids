@@ -1,6 +1,8 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
+import '../constants/trading_post_catalog.dart';
+
 /// Quest Boy — the app's mascot, replacing "Questy". The old
 /// `QuestyAvatar` widget (previously at
 /// lib/features/ai_tutor/widgets/questy_avatar.dart) has been removed;
@@ -47,11 +49,17 @@ class QuestBoyMascot extends StatefulWidget {
   final QuestBoyState state;
   final bool glow;
 
+  /// Trading Post cosmetic to render instead of the classic default
+  /// look. `null` (the default) always renders the classic look, so
+  /// every existing call site is unaffected by this field's existence.
+  final CosmeticSkin? skin;
+
   const QuestBoyMascot({
     super.key,
     this.size = 96,
     this.state = QuestBoyState.waving,
     this.glow = false,
+    this.skin,
   });
 
   @override
@@ -134,6 +142,7 @@ class _QuestBoyMascotState extends State<QuestBoyMascot>
                 state: widget.state,
                 armSwing: armSwing,
                 glow: widget.glow,
+                skin: widget.skin,
               ),
             ),
           ),
@@ -147,11 +156,13 @@ class _QuestBoyPainter extends CustomPainter {
   final QuestBoyState state;
   final double armSwing;
   final bool glow;
+  final CosmeticSkin? skin;
 
   _QuestBoyPainter({
     required this.state,
     required this.armSwing,
     required this.glow,
+    this.skin,
   });
 
   // Palette trued up against the "Quest for Knowledge" reference art.
@@ -192,6 +203,7 @@ class _QuestBoyPainter extends CustomPainter {
     _paintShorts(canvas);
     _paintTorso(canvas);
     _paintVest(canvas);
+    _paintSticker(canvas);
     _paintFrontArm(canvas);
     _paintHead(canvas);
     _paintHelmet(canvas);
@@ -393,9 +405,30 @@ class _QuestBoyPainter extends CustomPainter {
     );
   }
 
+  void _paintSticker(Canvas canvas) {
+    // Trading Post vest sticker, layered on top of the vest panels.
+    // Purely cosmetic -- never affects gameplay or unlocks.
+    switch (skin?.sticker ?? CosmeticSticker.none) {
+      case CosmeticSticker.none:
+        return;
+      case CosmeticSticker.star:
+        _drawStar(canvas, const Offset(50, 56), 5, const Color(0xFFFFD54A));
+        return;
+      case CosmeticSticker.compass:
+        final bg = Paint()..color = _compassBlue;
+        final ring = Paint()
+          ..color = Colors.white
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1;
+        canvas.drawCircle(const Offset(50, 56), 5, bg);
+        canvas.drawCircle(const Offset(50, 56), 5, ring);
+        return;
+    }
+  }
+
   void _paintHelmet(Canvas canvas) {
-    final dome = Paint()..color = _helmetBrown;
-    final brimPaint = Paint()..color = _helmetBrownDark;
+    final dome = Paint()..color = skin?.helmetColor ?? _helmetBrown;
+    final brimPaint = Paint()..color = skin?.helmetColorDark ?? _helmetBrownDark;
 
     // Dome, sitting above the brim.
     canvas.drawArc(
@@ -579,5 +612,6 @@ class _QuestBoyPainter extends CustomPainter {
   bool shouldRepaint(covariant _QuestBoyPainter oldDelegate) =>
       oldDelegate.state != state ||
       oldDelegate.armSwing != armSwing ||
-      oldDelegate.glow != glow;
+      oldDelegate.glow != glow ||
+      oldDelegate.skin != skin;
 }

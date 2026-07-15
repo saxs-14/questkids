@@ -149,10 +149,13 @@ class RewardsService {
       final currentPoints =
           (rewardsSnap.data()?['totalPoints'] as num?)?.toInt() ?? 0;
       final newTotal = currentPoints + session.xpEarned;
+      final currentGold =
+          (rewardsSnap.data()?['goldBalance'] as num?)?.toInt() ?? 0;
       tx.update(rewardsRef, {
         'totalPoints': newTotal,
         'level': (newTotal ~/ 100) + 1,
         'lastActiveDate': DateTime.now().millisecondsSinceEpoch,
+        'goldBalance': currentGold + session.coinsEarned,
       });
       tx.update(userRef, {'totalPoints': FieldValue.increment(session.xpEarned)});
     });

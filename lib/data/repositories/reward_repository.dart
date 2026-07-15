@@ -51,4 +51,39 @@ class RewardRepository {
   Future<void> updateStreak(String uid, int streak) async {
     await _rewards.doc(uid).update({'streakDays': streak});
   }
+
+  /// Atomically deducts [priceGold] from the wallet and adds [itemId] to
+  /// the owned set. Throws a [StateError] (with a friendly message) if
+  /// the item is already owned or the balance is too low -- callers must
+  /// catch and surface that message rather than assuming success.
+  Future<void> purchaseItem(String uid, String itemId, int priceGold) async {
+    final ref = _rewards.doc(uid);
+    await _db.runTransaction((tx) async {
+      final snap = await tx.get(ref);
+      if (!snap.exists) {
+        throw StateError('Your rewards profile is not ready yet.');
+      }
+      final data = snap.data() as Map<String, dynamic>;
+      final balance = (data['goldBalance'] as num? ?? 0).toInt();
+      final owned = (data['ownedItemIds'] as List<dynamic>? ?? [])
+          .map((e) => e as String)
+          .toSet();
+      if (owned.contains(itemId)) {
+        throw StateError('You already own this item.');
+      }
+      if (balance < priceGold) {
+        throw StateError('Not enough Gold for this item.');
+      }
+      tx.update(ref, {
+        'goldBalance': balance - priceGold,
+        'ownedItemIds': FieldValue.arrayUnion([itemId]),
+      });
+    });
+  }
+
+  /// Sets the equipped cosmetic. Does not itself check ownership --
+  /// callers (RewardsProvider) only ever offer owned items to equip.
+  Future<void> equipItem(String uid, String itemId) async {
+    await _rewards.doc(uid).update({'equippedItemId': itemId});
+  }
 }

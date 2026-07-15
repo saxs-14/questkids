@@ -1,3 +1,5 @@
+import '../../core/constants/trading_post_catalog.dart';
+
 class RewardModel {
   final String uid;
   final int totalPoints;
@@ -7,6 +9,20 @@ class RewardModel {
   final List<AchievementModel> achievements;
   final DateTime lastActiveDate;
 
+  /// Canonical spendable Gold balance -- the single source of truth for
+  /// the Trading Post. Earned atomically alongside XP in
+  /// RewardsService.grantGameSessionRewards. (player_stats/{uid}.coins
+  /// still exists as a legacy write for analytics history, but nothing
+  /// reads it as currency any more.)
+  final int goldBalance;
+
+  /// Cosmetic item IDs the learner owns (from [TradingPostCatalog]).
+  /// Always contains at least the free starter item.
+  final List<String> ownedItemIds;
+
+  /// The cosmetic currently equipped on Quest Boy in the Hideout.
+  final String equippedItemId;
+
   RewardModel({
     required this.uid,
     this.totalPoints = 0,
@@ -15,6 +31,9 @@ class RewardModel {
     this.badges = const [],
     this.achievements = const [],
     required this.lastActiveDate,
+    this.goldBalance = 0,
+    this.ownedItemIds = const [TradingPostCatalog.starterItemId],
+    this.equippedItemId = TradingPostCatalog.starterItemId,
   });
 
   factory RewardModel.fromMap(Map<String, dynamic> map) {
@@ -32,6 +51,13 @@ class RewardModel {
       lastActiveDate: map['lastActiveDate'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['lastActiveDate'])
           : DateTime.now(),
+      goldBalance: (map['goldBalance'] as num?)?.toInt() ?? 0,
+      ownedItemIds: (map['ownedItemIds'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [TradingPostCatalog.starterItemId],
+      equippedItemId:
+          map['equippedItemId'] as String? ?? TradingPostCatalog.starterItemId,
     );
   }
 
@@ -44,6 +70,9 @@ class RewardModel {
       'badges': badges.map((b) => b.toMap()).toList(),
       'achievements': achievements.map((a) => a.toMap()).toList(),
       'lastActiveDate': lastActiveDate.millisecondsSinceEpoch,
+      'goldBalance': goldBalance,
+      'ownedItemIds': ownedItemIds,
+      'equippedItemId': equippedItemId,
     };
   }
 }

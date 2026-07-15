@@ -3,6 +3,7 @@ import '../data/models/reward_model.dart';
 import '../data/models/progress_model.dart';
 import '../data/repositories/reward_repository.dart';
 import '../data/repositories/progress_repository.dart';
+import '../core/constants/trading_post_catalog.dart';
 import '../core/services/rewards_service.dart';
 
 class RewardsProvider extends ChangeNotifier {
@@ -41,6 +42,46 @@ class RewardsProvider extends ChangeNotifier {
 
   int get questsCompleted => _progressHistory.where((p) => p.completed).length;
   int get perfectScores => _progressHistory.where((p) => p.score == 100).length;
+
+  int get goldBalance => _rewards?.goldBalance ?? 0;
+  List<String> get ownedItemIds =>
+      _rewards?.ownedItemIds ?? const [TradingPostCatalog.starterItemId];
+  String get equippedItemId =>
+      _rewards?.equippedItemId ?? TradingPostCatalog.starterItemId;
+
+  String? _walletError;
+  String? get walletError => _walletError;
+
+  void clearWalletError() {
+    _walletError = null;
+    notifyListeners();
+  }
+
+  /// Attempts to buy [item] with the learner's current Gold balance.
+  /// Returns true on success. On failure, sets [walletError] to a
+  /// friendly message (insufficient Gold, already owned, etc.) and
+  /// returns false -- the balance is left untouched either way, since
+  /// the deduction only happens inside RewardRepository's transaction.
+  Future<bool> purchaseItem(String uid, TradingPostItem item) async {
+    _walletError = null;
+    try {
+      await _rewardRepo.purchaseItem(uid, item.id, item.priceGold);
+      _rewards = await _rewardRepo.getRewards(uid);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _walletError =
+          e is StateError ? e.message : 'Something went wrong. Please try again.';
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<void> equipItem(String uid, String itemId) async {
+    await _rewardRepo.equipItem(uid, itemId);
+    _rewards = await _rewardRepo.getRewards(uid);
+    notifyListeners();
+  }
 
   Map<String, int> get subjectCounts {
     final counts = <String, int>{};

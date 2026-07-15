@@ -34,6 +34,7 @@ import 'features/profile/screens/edit_profile_screen.dart';
 import 'features/dashboard/screens/learner_dashboard.dart';
 import 'features/dashboard/screens/parent_dashboard.dart';
 import 'features/dashboard/screens/teacher_dashboard.dart';
+import 'features/rewards/screens/trading_post_screen.dart';
 
 /// Shared between AuthProvider (to show a foreground push banner from a
 /// stream listener with no local BuildContext) and MaterialApp itself.
@@ -154,6 +155,7 @@ class QuestKidsApp extends StatelessWidget {
         '/dashboard/learner': (_) => const LearnerDashboard(),
         '/dashboard/parent': (_) => const ParentDashboard(),
         '/dashboard/teacher': (_) => const TeacherDashboard(),
+        '/trading_post': (_) => const TradingPostScreen(),
         '/splash': (_) => const SplashScreen(),
       },
       onUnknownRoute: (settings) => MaterialPageRoute(
