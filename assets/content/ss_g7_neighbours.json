@@ -1,0 +1,164 @@
+{
+  "id": "ss_g7_neighbours",
+  "engine": "explorerMap",
+  "grade": "grade7",
+  "subject": "Social Sciences",
+  "title": "Neighbouring Countries",
+  "tagline": "Explore the countries that share a border with South Africa!",
+  "accentColorHex": "#43A047",
+  "emoji": "🌍",
+  "pins": [
+    {
+      "id": "namibia",
+      "name": "Namibia",
+      "capital": "Windhoek",
+      "emoji": "🇳🇦",
+      "x": 0.23,
+      "y": 0.46,
+      "facts": [
+        "Namibia is home to the Namib Desert, one of the oldest deserts in the world.",
+        "Namibia gained independence from South Africa in 1990."
+      ],
+      "color": "#E53935"
+    },
+    {
+      "id": "botswana",
+      "name": "Botswana",
+      "capital": "Gaborone",
+      "emoji": "🇧🇼",
+      "x": 0.43,
+      "y": 0.39,
+      "facts": [
+        "Most of Botswana is covered by the Kalahari Desert.",
+        "Botswana is famous for the Okavango Delta, a huge inland river delta."
+      ],
+      "color": "#1E88E5"
+    },
+    {
+      "id": "zimbabwe",
+      "name": "Zimbabwe",
+      "capital": "Harare",
+      "emoji": "🇿🇼",
+      "x": 0.63,
+      "y": 0.15,
+      "facts": [
+        "Victoria Falls, one of the world's largest waterfalls, sits on Zimbabwe's border with Zambia.",
+        "Great Zimbabwe is an ancient stone city that gave the country its name."
+      ],
+      "color": "#43A047"
+    },
+    {
+      "id": "mozambique",
+      "name": "Mozambique",
+      "capital": "Maputo",
+      "emoji": "🇲🇿",
+      "x": 0.82,
+      "y": 0.12,
+      "facts": [
+        "Mozambique has a long coastline on the Indian Ocean.",
+        "Portuguese is the official language of Mozambique."
+      ],
+      "color": "#FB8C00"
+    },
+    {
+      "id": "eswatini",
+      "name": "Eswatini",
+      "capital": "Mbabane",
+      "emoji": "🇸🇿",
+      "x": 0.68,
+      "y": 0.73,
+      "facts": [
+        "Eswatini is one of the last absolute monarchies in the world.",
+        "Eswatini was called Swaziland until it changed its name in 2018."
+      ],
+      "color": "#8E24AA"
+    },
+    {
+      "id": "lesotho",
+      "name": "Lesotho",
+      "capital": "Maseru",
+      "emoji": "🇱🇸",
+      "x": 0.57,
+      "y": 0.97,
+      "facts": [
+        "Lesotho is completely surrounded by South Africa.",
+        "Lesotho is called the 'Kingdom in the Sky' because of its high mountains."
+      ],
+      "color": "#00897B"
+    }
+  ],
+  "questions": [
+    {
+      "question": "Which one is true: \"Namibia is home to the Namib Desert, one of the oldest deserts in the world.\"?",
+      "correctId": "namibia",
+      "optionIds": ["botswana", "namibia", "zimbabwe", "lesotho"],
+      "feedbackFact": "Namibia is home to the Namib Desert, one of the oldest deserts in the world."
+    },
+    {
+      "question": "Which one is true: \"Namibia gained independence from South Africa in 1990.\"?",
+      "correctId": "namibia",
+      "optionIds": ["mozambique", "eswatini", "namibia", "botswana"],
+      "feedbackFact": "Namibia gained independence from South Africa in 1990."
+    },
+    {
+      "question": "Which one is true: \"Most of Botswana is covered by the Kalahari Desert.\"?",
+      "correctId": "botswana",
+      "optionIds": ["botswana", "zimbabwe", "lesotho", "mozambique"],
+      "feedbackFact": "Most of Botswana is covered by the Kalahari Desert."
+    },
+    {
+      "question": "Which one is true: \"Botswana is famous for the Okavango Delta, a huge inland river delta.\"?",
+      "correctId": "botswana",
+      "optionIds": ["namibia", "botswana", "eswatini", "zimbabwe"],
+      "feedbackFact": "Botswana is famous for the Okavango Delta, a huge inland river delta."
+    },
+    {
+      "question": "Which one is true: \"Victoria Falls sits on Zimbabwe's border with Zambia.\"?",
+      "correctId": "zimbabwe",
+      "optionIds": ["lesotho", "zimbabwe", "mozambique", "namibia"],
+      "feedbackFact": "Victoria Falls, one of the world's largest waterfalls, sits on Zimbabwe's border with Zambia."
+    },
+    {
+      "question": "Which one is true: \"Great Zimbabwe is an ancient stone city that gave the country its name.\"?",
+      "correctId": "zimbabwe",
+      "optionIds": ["zimbabwe", "botswana", "eswatini", "mozambique"],
+      "feedbackFact": "Great Zimbabwe is an ancient stone city that gave the country its name."
+    },
+    {
+      "question": "Which one is true: \"Mozambique has a long coastline on the Indian Ocean.\"?",
+      "correctId": "mozambique",
+      "optionIds": ["namibia", "lesotho", "mozambique", "botswana"],
+      "feedbackFact": "Mozambique has a long coastline on the Indian Ocean."
+    },
+    {
+      "question": "Which one is true: \"Portuguese is the official language of Mozambique.\"?",
+      "correctId": "mozambique",
+      "optionIds": ["mozambique", "zimbabwe", "namibia", "eswatini"],
+      "feedbackFact": "Portuguese is the official language of Mozambique."
+    },
+    {
+      "question": "Which one is true: \"Eswatini is one of the last absolute monarchies in the world.\"?",
+      "correctId": "eswatini",
+      "optionIds": ["botswana", "eswatini", "lesotho", "zimbabwe"],
+      "feedbackFact": "Eswatini is one of the last absolute monarchies in the world."
+    },
+    {
+      "question": "Which one is true: \"Eswatini was called Swaziland until it changed its name in 2018.\"?",
+      "correctId": "eswatini",
+      "optionIds": ["mozambique", "namibia", "eswatini", "botswana"],
+      "feedbackFact": "Eswatini was called Swaziland until it changed its name in 2018."
+    },
+    {
+      "question": "Which one is true: \"Lesotho is completely surrounded by South Africa.\"?",
+      "correctId": "lesotho",
+      "optionIds": ["lesotho", "eswatini", "zimbabwe", "namibia"],
+      "feedbackFact": "Lesotho is completely surrounded by South Africa."
+    },
+    {
+      "question": "Which one is true: \"Lesotho is called the 'Kingdom in the Sky' because of its high mountains.\"?",
+      "correctId": "lesotho",
+      "optionIds": ["botswana", "mozambique", "lesotho", "zimbabwe"],
+      "feedbackFact": "Lesotho is called the 'Kingdom in the Sky' because of its high mountains."
+    }
+  ]
+}

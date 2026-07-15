@@ -1990,6 +1990,27 @@ class GameCatalog {
       coinsReward: 26,
     ),
     GameCatalogEntry(
+      id: 'ss_g7_neighbours',
+      title: 'Neighbouring Countries',
+      description:
+          'Explore the 6 countries that share a border with South Africa!',
+      grade: 'grade7',
+      grades: ['grade7'],
+      subject: 'Social Sciences',
+      topicId: 'geography',
+      subtopicId: 'neighbouring_countries',
+      engineType: 'explorerMap',
+      emoji: '🌍',
+      color: AppColors.socialSciences,
+      learningObjective:
+          'Learners will identify South Africa\'s neighbouring countries, their capitals and flags, and understand their trade and transport links.',
+      mechanicReason:
+          'Exploring a map connects each country to its real location and flag, so it sticks.',
+      difficulty: 'medium',
+      xpReward: 130,
+      coinsReward: 26,
+    ),
+    GameCatalogEntry(
       id: 'ss_g7_settlement',
       title: 'Settlement Patterns',
       description:
