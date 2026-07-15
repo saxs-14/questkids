@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../games/core/game_config.dart';
 import '../../../core/constants/game_catalog.dart';
+import '../../../core/constants/labels.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../games/core/game_intro_sheet.dart';
@@ -463,9 +464,9 @@ class _FeaturedBannerState extends State<_FeaturedBanner> {
                                       ),
                                       child: Text(
                                         entry.grades.length > 1
-                                            ? 'All Grades'
-                                            : entry.grade
-                                                .replaceAll('grade', 'Grade '),
+                                            ? 'All Camps'
+                                            : QuestLabels.campName(
+                                                entry.grade),
                                         style: GoogleFonts.nunito(
                                           fontSize: 11,
                                           fontWeight: FontWeight.w700,

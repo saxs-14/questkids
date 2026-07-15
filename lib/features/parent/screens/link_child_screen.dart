@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
 import '../../../core/services/permission_service.dart';
+import '../../../core/widgets/app_button.dart';
 import '../../../data/models/user_model.dart';
 import '../../../data/repositories/parent_repository.dart';
 import '../../../providers/auth_provider.dart';
@@ -109,17 +110,16 @@ class _LinkChildScreenState extends State<LinkChildScreen>
                         decoration: const InputDecoration(
                             labelText: '6-character code')),
                     const SizedBox(height: 12),
-                    ElevatedButton(
-                        onPressed: _loading ? null : _verifyCode,
-                        child: _loading
-                            ? const CircularProgressIndicator()
-                            : const Text('Verify Code')),
+                    AppButton(
+                        label: 'Verify Code',
+                        isLoading: _loading,
+                        onPressed: _loading ? null : _verifyCode),
                     const SizedBox(height: 12),
                     if (_foundChild != null) _childPreview(_foundChild!),
                     if (_foundChild != null)
-                      ElevatedButton(
-                          onPressed: () => _sendLinkRequest('code'),
-                          child: const Text('Confirm Link')),
+                      AppButton(
+                          label: 'Confirm Link',
+                          onPressed: () => _sendLinkRequest('code')),
                   ]),
                 ),
 
@@ -137,17 +137,16 @@ class _LinkChildScreenState extends State<LinkChildScreen>
                         decoration: const InputDecoration(
                             labelText: 'Primary Parent Email')),
                     const SizedBox(height: 12),
-                    ElevatedButton(
-                        onPressed: _loading ? null : _findByNameEmail,
-                        child: _loading
-                            ? const CircularProgressIndicator()
-                            : const Text('Find Child')),
+                    AppButton(
+                        label: 'Find Child',
+                        isLoading: _loading,
+                        onPressed: _loading ? null : _findByNameEmail),
                     const SizedBox(height: 12),
                     if (_foundChild != null) _childPreview(_foundChild!),
                     if (_foundChild != null)
-                      ElevatedButton(
-                          onPressed: () => _sendLinkRequest('email'),
-                          child: const Text('Confirm Link')),
+                      AppButton(
+                          label: 'Confirm Link',
+                          onPressed: () => _sendLinkRequest('email')),
                   ]),
                 ),
 
@@ -200,11 +199,13 @@ class _LinkChildScreenState extends State<LinkChildScreen>
                                             Text(friendly,
                                                 textAlign: TextAlign.center),
                                             const SizedBox(height: 12),
-                                            OutlinedButton(
-                                              onPressed:
-                                                  PermissionService.openSettings,
-                                              child: const Text(
-                                                  'Open Settings'),
+                                            AppButton(
+                                              label: 'Open Settings',
+                                              variant:
+                                                  AppButtonVariant.secondary,
+                                              fullWidth: false,
+                                              onPressed: PermissionService
+                                                  .openSettings,
                                             ),
                                           ],
                                         ),
@@ -220,9 +221,9 @@ class _LinkChildScreenState extends State<LinkChildScreen>
                             const SizedBox(height: 12),
                             if (_foundChild != null) _childPreview(_foundChild!),
                             if (_foundChild != null)
-                              ElevatedButton(
-                                  onPressed: () => _sendLinkRequest('qr'),
-                                  child: const Text('Confirm Link')),
+                              AppButton(
+                                  label: 'Confirm Link',
+                                  onPressed: () => _sendLinkRequest('qr')),
                           ],
                         ),
                 ),

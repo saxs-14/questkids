@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/constants/labels.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../core/content_pack_loader.dart';
@@ -76,7 +77,8 @@ class _CircuitBuilderGameState extends State<CircuitBuilderGame> {
         content: Column(mainAxisSize: MainAxisSize.min, children: [
           Text('Score: ${result.score}%',
               style: AppTextStyles.h2.copyWith(color: AppColors.primary)),
-          Text('+${result.xpEarned} XP  •  +${result.coinsEarned} coins',
+          Text(
+              '+${result.xpEarned} XP  •  +${result.coinsEarned} ${QuestLabels.gold}',
               style: AppTextStyles.bodyMedium),
         ]),
         actions: [

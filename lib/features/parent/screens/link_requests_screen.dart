@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/theme/app_text_styles.dart';
 import '../../../providers/parent_provider.dart';
 import '../../../providers/auth_provider.dart';
 
@@ -28,8 +29,7 @@ class _LinkRequestsScreenState extends State<LinkRequestsScreen> {
         padding: const EdgeInsets.all(12),
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          const Text('Incoming Requests',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          Text('Incoming Requests', style: AppTextStyles.h4),
           const SizedBox(height: 8),
           if (parent.pendingRequests.isEmpty)
             const Text('No incoming requests'),
@@ -55,8 +55,7 @@ class _LinkRequestsScreenState extends State<LinkRequestsScreen> {
                 ),
               )),
           const SizedBox(height: 16),
-          const Text('Outgoing Requests',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          Text('Outgoing Requests', style: AppTextStyles.h4),
           const SizedBox(height: 8),
           if (parent.outgoingRequests.isEmpty)
             const Text('No outgoing requests'),

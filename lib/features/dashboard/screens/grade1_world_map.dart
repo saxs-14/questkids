@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/constants/game_catalog.dart';
@@ -240,13 +241,13 @@ class _MapHeader extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 48, 20, 16),
       child: Column(
         children: [
-          const Text('✨ Learning World ✨',
-              style: TextStyle(
+          Text('✨ Learning World ✨',
+              style: GoogleFonts.fredoka(
                   fontSize: 26,
-                  fontWeight: FontWeight.w900,
+                  fontWeight: FontWeight.w700,
                   color: Colors.white,
                   letterSpacing: 0.5,
-                  shadows: [
+                  shadows: const [
                     Shadow(
                         color: Color(0x880D47A1),
                         blurRadius: 12,

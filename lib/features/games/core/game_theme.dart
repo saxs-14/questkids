@@ -124,7 +124,7 @@ class GameTheme {
 
   static TextStyle body(double size,
           {Color? color, FontWeight weight = FontWeight.w600}) =>
-      GoogleFonts.baloo2(fontSize: size, fontWeight: weight, color: color);
+      GoogleFonts.nunito(fontSize: size, fontWeight: weight, color: color);
 
   // ── Subject identity ────────────────────────────────────────────────────
   static Color subjectColor(String subject) {

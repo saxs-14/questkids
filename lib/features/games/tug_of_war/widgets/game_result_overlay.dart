@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/labels.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/shader_background.dart';
 import '../../core/game_engine.dart';
@@ -86,7 +87,7 @@ class GameResultOverlay extends StatelessWidget {
                       valueColor: AppColors.gold,
                     ),
                     _ScoreLine(
-                      label: 'Coins',
+                      label: QuestLabels.gold,
                       value: '+${result.coinsEarned} 🪙',
                       valueColor: AppColors.gold,
                     ),

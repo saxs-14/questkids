@@ -11,6 +11,7 @@ import '../../../core/services/permission_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/theme/theme_provider.dart';
+import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/profile_avatar_picker.dart';
 import '../../../core/widgets/profile_settings_tile.dart';
 import '../../../core/widgets/responsive_scaffold.dart';
@@ -436,20 +437,25 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
       Padding(
         padding: const EdgeInsets.all(12),
         child: Row(children: [
-          ElevatedButton.icon(
-              onPressed: () => _showEventDialog(childUid: child.uid),
-              icon: const Icon(Icons.add),
-              label: const Text('Add Event')),
+          AppButton(
+              label: 'Add Event',
+              icon: Icons.add,
+              fullWidth: false,
+              onPressed: () => _showEventDialog(childUid: child.uid)),
           const SizedBox(width: 12),
-          OutlinedButton.icon(
-              onPressed: () => _showReminderDialog(childUid: child.uid),
-              icon: const Icon(Icons.alarm),
-              label: const Text('Add Reminder')),
+          AppButton(
+              label: 'Add Reminder',
+              icon: Icons.alarm,
+              variant: AppButtonVariant.secondary,
+              fullWidth: false,
+              onPressed: () => _showReminderDialog(childUid: child.uid)),
           const SizedBox(width: 12),
-          OutlinedButton.icon(
-              onPressed: () => _importCsv(child.uid),
-              icon: const Icon(Icons.upload_file),
-              label: const Text('Import CSV')),
+          AppButton(
+              label: 'Import CSV',
+              icon: Icons.upload_file,
+              variant: AppButtonVariant.secondary,
+              fullWidth: false,
+              onPressed: () => _importCsv(child.uid)),
         ]),
       )
     ]);

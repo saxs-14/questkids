@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../../core/constants/labels.dart';
 import '../../../data/repositories/grade4_repository.dart';
 
 class TugOfWarScreen extends StatefulWidget {
@@ -112,7 +113,7 @@ class _TugOfWarScreenState extends State<TugOfWarScreen> {
                     ? 'You won! 🎉'
                     : 'Try again'),
             content: Text(
-                'Score: $_correct/$_total\nXP: $xpEarned\nCoins: $coinsEarned'),
+                'Score: $_correct/$_total\nXP: $xpEarned\n${QuestLabels.gold}: $coinsEarned'),
             actions: [
               TextButton(
                   onPressed: () => Navigator.of(context).pop(),
