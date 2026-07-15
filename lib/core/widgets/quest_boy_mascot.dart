@@ -195,6 +195,7 @@ class _QuestBoyPainter extends CustomPainter {
     _paintFrontArm(canvas);
     _paintHead(canvas);
     _paintHelmet(canvas);
+    _paintHairFringe(canvas);
     _paintProp(canvas);
 
     canvas.restore();
@@ -364,19 +365,6 @@ class _QuestBoyPainter extends CustomPainter {
     final skin = Paint()..color = _skin;
     canvas.drawCircle(const Offset(50, 26), 16, skin);
 
-    // Brown hair fringe peeking out from under the helmet brim.
-    final hair = Paint()..color = _hair;
-    canvas.drawArc(
-      const Rect.fromLTWH(35, 12, 30, 14),
-      math.pi * 0.15,
-      math.pi * 0.7,
-      false,
-      hair
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 5
-        ..strokeCap = StrokeCap.round,
-    );
-
     // Cheeks
     final blush = Paint()..color = const Color(0x33FF8A65);
     canvas.drawCircle(const Offset(41, 30), 3.2, blush);
@@ -409,18 +397,20 @@ class _QuestBoyPainter extends CustomPainter {
     final dome = Paint()..color = _helmetBrown;
     final brimPaint = Paint()..color = _helmetBrownDark;
 
-    // Brim (a flattened oval sitting just above the eyeline).
-    canvas.drawOval(
-      const Rect.fromLTWH(29, 14, 42, 8),
-      brimPaint,
-    );
-    // Dome.
+    // Dome, sitting above the brim.
     canvas.drawArc(
-      const Rect.fromLTWH(32, 2, 36, 26),
+      const Rect.fromLTWH(32, -3, 36, 24),
       math.pi,
       math.pi,
       true,
       dome,
+    );
+    // Brim -- a thin flattened oval at the hairline, well clear of the
+    // eyes (which sit at y=25) so the forehead and hair fringe underneath
+    // both stay visible instead of reading as a mask across the face.
+    canvas.drawOval(
+      const Rect.fromLTWH(27, 8, 46, 6),
+      brimPaint,
     );
     // Compass emblem: blue disc with a white cross-needle, matching the
     // reference's compass-rose badge on the helmet band.
@@ -433,12 +423,27 @@ class _QuestBoyPainter extends CustomPainter {
       ..color = Colors.white
       ..strokeWidth = 1.1
       ..strokeCap = StrokeCap.round;
-    canvas.drawCircle(const Offset(50, 12), 4.2, emblemBg);
-    canvas.drawCircle(const Offset(50, 12), 4.2, emblemRing);
-    canvas.drawLine(
-        const Offset(50, 8.5), const Offset(50, 15.5), needle);
-    canvas.drawLine(
-        const Offset(46.5, 12), const Offset(53.5, 12), needle);
+    canvas.drawCircle(const Offset(50, 6), 4.2, emblemBg);
+    canvas.drawCircle(const Offset(50, 6), 4.2, emblemRing);
+    canvas.drawLine(const Offset(50, 2.5), const Offset(50, 9.5), needle);
+    canvas.drawLine(const Offset(46.5, 6), const Offset(53.5, 6), needle);
+  }
+
+  void _paintHairFringe(Canvas canvas) {
+    // Brown hair fringe peeking out from under the helmet brim, in the
+    // clear gap between the brim (bottom ~y=14) and the eyes (~y=23).
+    final hair = Paint()
+      ..color = _hair
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.5
+      ..strokeCap = StrokeCap.round;
+    canvas.drawArc(
+      const Rect.fromLTWH(35, 12, 30, 8),
+      math.pi * 0.12,
+      math.pi * 0.76,
+      false,
+      hair,
+    );
   }
 
   void _paintProp(Canvas canvas) {
