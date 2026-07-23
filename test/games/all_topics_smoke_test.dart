@@ -35,11 +35,99 @@ void main() {
         () async {
       final config = GameConfig.fromCatalogEntry(entry);
 
-      // numberCountingDuel's single catalog entry is a fully self-contained
-      // widget with no GameConfig-driven engine layer (see GameRouter) — its
-      // pack exists for theming/schema completeness only. Widget coverage
-      // for it is in game_router_widget_test.dart instead.
-      if (entry.engineType == AppConstants.engineNumberCountingDuel) {
+      // numberCountingDuel, additionAdventure, subtractionSafari,
+      // mathsMountain, multipleChain, alphabetExplorer, wordBuilder,
+      // phonicsFun, readingRainbow, grammarGarden, fractionForest,
+      // geometryJungle, measurementValley, dataCity, decimalDunes,
+      // multiplicationMountains, divisionDesert, numberNinja,
+      // problemSolver, timesTableTower, ecosystemExplorer, matterMaster,
+      // energyQuest, lifeCycles, solarSystem, weatherWatcher,
+      // simpleMachines, codingAdventure, circuitLab, robotMaker,
+      // mapMaster, saProvincesExplorer, climateQuest, waterCycle,
+      // ecosystems, ancientCivilizations, saHistory, colonialEra,
+      // liberationHeroes, democracyGame, readingQuest, nounNavigator,
+      // verbVolcano, wordPower, spellingBee, punctuationPolice,
+      // storyBuilder, poetryExplorer, idiomIsland, debateDuel,
+      // careerExplorer, financialLiteracy, healthyLiving,
+      // socialSkills, and environmentalAwareness are fully
+      // self-contained widgets with no GameConfig-driven engine layer
+      // (see GameRouter) — their packs exist for theming/schema
+      // completeness only. Widget coverage for all fifty-five is in
+      // game_router_widget_test.dart instead, which builds one
+      // representative per engineType automatically. Note: circuitLab,
+      // robotMaker, mapMaster, saProvincesExplorer, climateQuest,
+      // waterCycle, ecosystems, ancientCivilizations, saHistory,
+      // colonialEra, liberationHeroes, democracyGame, readingQuest,
+      // nounNavigator, verbVolcano, wordPower, spellingBee,
+      // punctuationPolice, storyBuilder, poetryExplorer, idiomIsland,
+      // debateDuel, careerExplorer, financialLiteracy, healthyLiving,
+      // socialSkills and environmentalAwareness are NOT the same
+      // engines as circuitBuilder / adventureJourney / explorerMap /
+      // runnerCollector / sequenceBuilder / multiplesMerge /
+      // budgetBuilder — those are shared generic engines still used by
+      // other (non-grade4) catalog entries and are exercised via the
+      // normal engine-based path below.
+      //
+      // This carve-out list is now complete for the full 45-game
+      // Grade 4 CAPS arc: Mathematics (10), Natural Sciences (6),
+      // Technology (4), Social Sciences (10), English (10), and Life
+      // Skills (5) each have a genuinely distinct, self-contained
+      // engine with no gameplay reuse across the catalog.
+      if (entry.engineType == AppConstants.engineNumberCountingDuel ||
+          entry.engineType == AppConstants.engineAdditionAdventure ||
+          entry.engineType == AppConstants.engineSubtractionSafari ||
+          entry.engineType == AppConstants.engineMathsMountain ||
+          entry.engineType == AppConstants.engineMultipleChain ||
+          entry.engineType == AppConstants.engineAlphabetExplorer ||
+          entry.engineType == AppConstants.engineWordBuilder ||
+          entry.engineType == AppConstants.enginePhonicsFun ||
+          entry.engineType == AppConstants.engineReadingRainbow ||
+          entry.engineType == AppConstants.engineGrammarGarden ||
+          entry.engineType == AppConstants.engineFractionForest ||
+          entry.engineType == AppConstants.engineGeometryJungle ||
+          entry.engineType == AppConstants.engineMeasurementValley ||
+          entry.engineType == AppConstants.engineDataCity ||
+          entry.engineType == AppConstants.engineDecimalDunes ||
+          entry.engineType == AppConstants.engineMultiplicationMountains ||
+          entry.engineType == AppConstants.engineDivisionDesert ||
+          entry.engineType == AppConstants.engineNumberNinja ||
+          entry.engineType == AppConstants.engineProblemSolver ||
+          entry.engineType == AppConstants.engineTimesTableTower ||
+          entry.engineType == AppConstants.engineEcosystemExplorer ||
+          entry.engineType == AppConstants.engineMatterMaster ||
+          entry.engineType == AppConstants.engineEnergyQuest ||
+          entry.engineType == AppConstants.engineLifeCycles ||
+          entry.engineType == AppConstants.engineSolarSystem ||
+          entry.engineType == AppConstants.engineWeatherWatcher ||
+          entry.engineType == AppConstants.engineSimpleMachines ||
+          entry.engineType == AppConstants.engineCodingAdventure ||
+          entry.engineType == AppConstants.engineCircuitLab ||
+          entry.engineType == AppConstants.engineRobotMaker ||
+          entry.engineType == AppConstants.engineMapMaster ||
+          entry.engineType == AppConstants.engineSaProvincesExplorer ||
+          entry.engineType == AppConstants.engineClimateQuest ||
+          entry.engineType == AppConstants.engineWaterCycle ||
+          entry.engineType == AppConstants.engineEcosystems ||
+          entry.engineType == AppConstants.engineAncientCivilizations ||
+          entry.engineType == AppConstants.engineSaHistory ||
+          entry.engineType == AppConstants.engineColonialEra ||
+          entry.engineType == AppConstants.engineLiberationHeroes ||
+          entry.engineType == AppConstants.engineDemocracyGame ||
+          entry.engineType == AppConstants.engineReadingQuest ||
+          entry.engineType == AppConstants.engineNounNavigator ||
+          entry.engineType == AppConstants.engineVerbVolcano ||
+          entry.engineType == AppConstants.engineWordPower ||
+          entry.engineType == AppConstants.engineSpellingBee ||
+          entry.engineType == AppConstants.enginePunctuationPolice ||
+          entry.engineType == AppConstants.engineStoryBuilder ||
+          entry.engineType == AppConstants.enginePoetryExplorer ||
+          entry.engineType == AppConstants.engineIdiomIsland ||
+          entry.engineType == AppConstants.engineDebateDuel ||
+          entry.engineType == AppConstants.engineCareerExplorer ||
+          entry.engineType == AppConstants.engineFinancialLiteracy ||
+          entry.engineType == AppConstants.engineHealthyLiving ||
+          entry.engineType == AppConstants.engineSocialSkills ||
+          entry.engineType == AppConstants.engineEnvironmentalAwareness) {
         final path = config.contentPackPath;
         expect(path, isNotNull);
         final raw = await rootBundle.loadString(path!);
