@@ -9,8 +9,12 @@ import '../../games/core/game_router.dart';
 import '../../../providers/auth_provider.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Grade 1 World Map  — animated illustrated map showing 13 game locations.
-// Each location card launches the matching game engine.
+// Grade 1 World Map  — animated illustrated map. Locations are built
+// dynamically from whichever Grade 1 catalog entries currently exist, in
+// catalog order -- NOT a hardcoded list. Grade 1 is being rebuilt one game
+// at a time (each with its own bespoke engine), so this must never assume
+// a fixed count or a fixed set of ids, or every not-yet-rebuilt slot would
+// render as a dead tile.
 // ─────────────────────────────────────────────────────────────────────────────
 
 class Grade1WorldMap extends StatefulWidget {
@@ -29,27 +33,36 @@ class _Grade1WorldMapState extends State<Grade1WorldMap>
   static const _englishColor = Color(0xFF5C35F5);
   static const _lsColor = Color(0xFF2E7D32);
 
-  // 13 world-map locations in display order (snake path)
-  static const _locations = [
-    _Loc('math_g1_counting', '🏟️', 'The Arena', _mathColor, 'Mathematics'),
-    _Loc('math_g1_addition', '🏝️', 'Treasure Island', _mathColor,
-        'Mathematics'),
-    _Loc('math_g1_subtraction', '🦁', 'Safari Park', _mathColor, 'Mathematics'),
-    _Loc('math_g1_mountain', '⛰️', 'Mountain Peak', _mathColor, 'Mathematics'),
-    _Loc(
-        'math_g1_multiples', '⚙️', 'Magic Workshop', _mathColor, 'Mathematics'),
-    _Loc('eng_g1_phonics', '🔤', 'Alphabet Castle', _englishColor, 'English'),
-    _Loc('eng_g1_reading', '🌈', 'Rainbow Kingdom', _englishColor, 'English'),
-    _Loc('eng_g1_grammar', '🌻', 'Magic Garden', _englishColor, 'English'),
-    _Loc('ls_g1_body', '🧍', 'Health Lab', _lsColor, 'Life Skills'),
-    _Loc('ls_g1_feelings', '😊', 'Emotion Factory', _lsColor, 'Life Skills'),
-    _Loc('ls_g1_safety', '🦸', 'Hero HQ', _lsColor, 'Life Skills'),
-    _Loc('ls_g1_community', '🏘️', 'Community Town', _lsColor, 'Life Skills'),
-    _Loc('ls_g1_habits', '🍎', 'Healthy City', _lsColor, 'Life Skills'),
-  ];
+  static Color _colorForSubject(String subject) => switch (subject) {
+        'Mathematics' => _mathColor,
+        'English' => _englishColor,
+        _ => _lsColor,
+      };
 
-  // Winding path positions: 0=left  1=center  2=right
-  static const _positions = [1, 0, 2, 0, 2, 1, 0, 2, 1, 0, 2, 0, 2];
+  // Hand-picked flavour names for the world-map location a game is set
+  // in, keyed by catalog id. Falls back to the game's own title when a
+  // game hasn't been given a flavour name yet -- see _locationName.
+  static const _locationNames = <String, String>{
+    'math_g1_counting': 'The Arena',
+    'math_g1_addition': 'Treasure Island',
+    'math_g1_subtraction': 'Safari Park',
+    'math_g1_mountain': 'Mountain Peak',
+    'math_g1_multiples': 'Crystal Cavern',
+    'eng_g1_alphabet': 'The Jungle Temple',
+    'eng_g1_words': 'The Toy Workshop',
+    'eng_g1_phonics': 'Sunny Meadow',
+    'eng_g1_reading': 'Storybook Valley',
+    'eng_g1_grammar': 'Blossom Garden',
+  };
+
+  static String _locationName(GameCatalogEntry e) =>
+      _locationNames[e.id] ?? e.title;
+
+  List<GameCatalogEntry> get _entries =>
+      GameCatalog.all.where((e) => e.grade == 'grade1').toList();
+
+  // Winding path position for index i: 0=left 1=center 2=right, cycling.
+  static int _positionAt(int i) => const [1, 0, 2, 0, 2, 1][i % 6];
 
   @override
   void initState() {
@@ -71,9 +84,7 @@ class _Grade1WorldMapState extends State<Grade1WorldMap>
     super.dispose();
   }
 
-  void _launch(String catalogId) {
-    final entry = GameCatalog.all.where((e) => e.id == catalogId).firstOrNull;
-    if (entry == null) return;
+  void _launch(GameCatalogEntry entry) {
     final user = context.read<AuthProvider>().user;
 
     GameIntroSheet.show(
@@ -99,12 +110,14 @@ class _Grade1WorldMapState extends State<Grade1WorldMap>
     );
   }
 
-  // Which subject group this index belongs to
-  static String _subjectAt(int i) => _locations[i].subject;
-
   @override
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
+    final entries = _entries;
+
+    if (entries.isEmpty) {
+      return const _ComingSoonMap();
+    }
 
     return Stack(
       children: [
@@ -159,7 +172,7 @@ class _Grade1WorldMapState extends State<Grade1WorldMap>
         CustomScrollView(
           slivers: [
             // Header
-            SliverToBoxAdapter(child: _MapHeader()),
+            SliverToBoxAdapter(child: _MapHeader(adventureCount: entries.length)),
 
             // Game items
             SliverPadding(
@@ -167,16 +180,21 @@ class _Grade1WorldMapState extends State<Grade1WorldMap>
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (ctx, i) {
-                    if (i >= _locations.length) return null;
+                    if (i >= entries.length) return null;
+
+                    final entry = entries[i];
+                    final loc = _Loc(
+                      entry.id,
+                      entry.emoji,
+                      _locationName(entry),
+                      _colorForSubject(entry.subject),
+                      entry.subject,
+                    );
+                    final pos = _positionAt(i);
 
                     // Subject section divider before first game of each group
                     final isFirst =
-                        i == 0 || _subjectAt(i) != _subjectAt(i - 1);
-                    final loc = _locations[i];
-                    final pos = _positions[i];
-                    final entry = GameCatalog.all
-                        .where((e) => e.id == loc.id)
-                        .firstOrNull;
+                        i == 0 || entries[i - 1].subject != entry.subject;
 
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -191,24 +209,91 @@ class _Grade1WorldMapState extends State<Grade1WorldMap>
                           entry: entry,
                           position: pos,
                           pulseCtrl: _pulseCtrl,
-                          onTap: () => _launch(loc.id),
+                          onTap: () => _launch(entry),
                         ),
 
-                        if (i < _locations.length - 1)
+                        if (i < entries.length - 1)
                           _PathArrow(
                             fromPos: pos,
-                            toPos: _positions[i + 1],
+                            toPos: _positionAt(i + 1),
                             fromColor: loc.color,
-                            toColor: _locations[i + 1].color,
+                            toColor:
+                                _colorForSubject(entries[i + 1].subject),
                           ),
                       ],
                     );
                   },
-                  childCount: _locations.length,
+                  childCount: entries.length,
                 ),
               ),
             ),
           ],
+        ),
+      ],
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Shown instead of the map when there are no Grade 1 catalog entries yet
+// (e.g. while new Grade 1 content is being rebuilt) -- keeps the sky
+// backdrop for visual continuity, but doesn't try to render location
+// cards for games that don't exist.
+// ─────────────────────────────────────────────────────────────────────────────
+
+class _ComingSoonMap extends StatelessWidget {
+  const _ComingSoonMap();
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF1565C0),
+                  Color(0xFF42A5F5),
+                  Color(0xFF80CBC4),
+                  Color(0xFFA5D6A7)
+                ],
+                stops: [0.0, 0.35, 0.70, 1.0],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
+        ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('🚧', style: TextStyle(fontSize: 64)),
+                const SizedBox(height: 16),
+                Text('New Adventures Coming Soon!',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.fredoka(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                        shadows: const [
+                          Shadow(
+                              color: Color(0x880D47A1),
+                              blurRadius: 12,
+                              offset: Offset(0, 3))
+                        ])),
+                const SizedBox(height: 8),
+                const Text(
+                  "We're building fresh Grade 1 games. Check back soon!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white70, fontSize: 14),
+                ),
+              ],
+            ),
+          ),
         ),
       ],
     );
@@ -234,6 +319,9 @@ class _Loc {
 // ─────────────────────────────────────────────────────────────────────────────
 
 class _MapHeader extends StatelessWidget {
+  final int adventureCount;
+  const _MapHeader({required this.adventureCount});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -260,8 +348,10 @@ class _MapHeader extends StatelessWidget {
               color: Colors.white.withValues(alpha: 0.20),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Text('Grade 1 — 13 Adventures await!',
-                style: TextStyle(
+            child: Text(
+                'Grade 1 — $adventureCount '
+                '${adventureCount == 1 ? 'Adventure' : 'Adventures'} await!',
+                style: const TextStyle(
                     color: Colors.white,
                     fontSize: 13,
                     fontWeight: FontWeight.w600)),
@@ -377,7 +467,7 @@ class _GameNode extends StatelessWidget {
                 return Transform.scale(scale: scale, child: child);
               },
               child: Container(
-                width: 155,
+                width: 182,
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -447,39 +537,49 @@ class _GameNode extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
 
-                    // XP badge + PLAY button row
+                    // XP badge + PLAY button row. Flexible on both pills
+                    // as defense-in-depth against longer XP text (e.g.
+                    // "100 XP") on top of the card's own width margin --
+                    // shrinks gracefully instead of a hard overflow.
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 3),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.20),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            '⭐ $xp XP',
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w700),
+                        Flexible(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.20),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              '⭐ $xp XP',
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w700),
+                            ),
                           ),
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            'PLAY',
-                            style: TextStyle(
-                              color: loc.color,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w900,
-                              letterSpacing: 0.5,
+                        const SizedBox(width: 6),
+                        Flexible(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              'PLAY',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: loc.color,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 0.5,
+                              ),
                             ),
                           ),
                         ),

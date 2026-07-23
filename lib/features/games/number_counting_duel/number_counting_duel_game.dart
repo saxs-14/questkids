@@ -579,9 +579,6 @@ class _ArenaPainter extends CustomPainter {
     final spotPaint = Paint()
       ..color = Colors.yellow.withValues(alpha: 0.07)
       ..style = PaintingStyle.fill;
-    final path1 = Path()
-      ..moveTo(0, 0)
-      ..lineTo(w * 0.5, h * 0.55);
     final spot1 = Path()
       ..moveTo(-30, 0)
       ..lineTo(w * 0.15, 0)
@@ -596,7 +593,6 @@ class _ArenaPainter extends CustomPainter {
       ..lineTo(w * 0.6, h * 0.55)
       ..close();
     canvas.drawPath(spot2, spotPaint);
-    canvas.drawPath(path1, Paint()); // suppress unused
   }
 
   void _drawBleachers(Canvas canvas, Rect rect, bool leftSide) {

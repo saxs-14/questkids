@@ -222,6 +222,8 @@ class _TitleBar extends StatelessWidget {
             child: Text(
               'TUG OF WAR: $topicName',
               textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 15,
@@ -525,13 +527,17 @@ class _PlayerPanel extends StatelessWidget {
                       offset: Offset(0, 2)),
                 ],
               ),
-              child: Text(
-                q != null ? q['display'] as String : '...',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: compact ? 20 : 26,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  q != null ? q['display'] as String : '...',
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: compact ? 20 : 26,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
+                  ),
                 ),
               ),
             ),

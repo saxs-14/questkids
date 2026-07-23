@@ -3,5 +3,8 @@
     "java.configuration.updateBuildConfiguration": "automatic",
     "files.exclude": {
         "**/android/build/**": true
-    }
+    },
+    "cSpell.words": [
+        "Questy"
+    ]
 }
