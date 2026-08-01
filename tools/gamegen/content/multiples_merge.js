@@ -12,6 +12,7 @@
 
 const NUMERIC = {
   math_g1_multiples: { tables: [2, 3, 4, 5], gridSize: 4, chainLength: 4 },
+  math_g2_multiples: { tables: [2, 3, 4, 5, 10], gridSize: 4, chainLength: 5 },
   math_g4_fractions: { tables: [2, 3, 4, 5, 6, 8, 9, 10, 12], gridSize: 5, chainLength: 5 },
   math_g4_data: { tables: [5, 10, 15, 20, 25], gridSize: 4, chainLength: 4 },
   // math_g7_ratio, math_g7_stats, math_g7_fractions were REMOVED from here:
