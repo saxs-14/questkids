@@ -14,7 +14,7 @@
 const fs = require('fs');
 const path = require('path');
 const { parseCatalog } = require('./parse_catalog');
-const { classify, expectedEngines, VERB_LABELS } = require('./classify');
+const { classify, expectedEngines, VERB_LABELS, SHARED_ENGINES } = require('./classify');
 const { bandFor } = require('./difficulty');
 const { mechanicReasonFor } = require('./phrasing');
 
@@ -41,20 +41,24 @@ function main() {
   });
 
   for (const e of rawEntries) {
-    const cognitiveVerb = classify(e);
-    const allowed = expectedEngines(cognitiveVerb);
+    const bespoke = !SHARED_ENGINES.has(e.engineType);
+    let cognitiveVerb = null;
     let engine = e.engineType;
     let engineFixed = false;
     let mechanicReason = e.mechanicReason;
-    if (!allowed.includes(engine)) {
-      engine = allowed[0];
-      engineFixed = true;
-      fixedCount++;
-      mechanicReason = mechanicReasonFor(engine, e.subtopicId);
-      console.log(
-        `fix: ${e.id} engine ${e.engineType} -> ${engine} ` +
-          `(cognitiveVerb=${cognitiveVerb}: ${VERB_LABELS[cognitiveVerb]})`
-      );
+    if (!bespoke) {
+      cognitiveVerb = classify(e);
+      const allowed = expectedEngines(cognitiveVerb);
+      if (!allowed.includes(engine)) {
+        engine = allowed[0];
+        engineFixed = true;
+        fixedCount++;
+        mechanicReason = mechanicReasonFor(engine, e.subtopicId);
+        console.log(
+          `fix: ${e.id} engine ${e.engineType} -> ${engine} ` +
+            `(cognitiveVerb=${cognitiveVerb}: ${VERB_LABELS[cognitiveVerb]})`
+        );
+      }
     }
 
     topics.push({
@@ -73,6 +77,7 @@ function main() {
       capsObjective: e.learningObjective,
       mechanicReason,
       cognitiveVerb,
+      bespoke,
       difficulty: {
         label: e.difficulty,
         ...bandFor(e.grade),
