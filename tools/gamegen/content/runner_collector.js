@@ -21,6 +21,20 @@ const BANKS = {
       { targetClass: 'adjective', missionLabel: 'Collect only Adjectives! ✨', scrollSpeed: 0.12 },
     ],
   },
+  eng_g2_grammar: {
+    buckets: {
+      noun: ['teacher', 'beach', 'garden', 'bicycle', 'kitchen', 'forest', 'village', 'bridge'],
+      verb: ['climb', 'laugh', 'whisper', 'skip', 'build', 'paint', 'dance', 'shout'],
+      adjective: ['bright', 'gentle', 'enormous', 'shiny', 'quiet', 'clever'],
+      pronoun: ['he', 'she', 'it', 'they', 'we', 'you'],
+    },
+    levels: [
+      { targetClass: 'noun', missionLabel: 'Collect only Nouns! 📦', scrollSpeed: 0.09 },
+      { targetClass: 'verb', missionLabel: 'Collect only Verbs! 🏃', scrollSpeed: 0.11 },
+      { targetClass: 'adjective', missionLabel: 'Collect only Adjectives! ✨', scrollSpeed: 0.12 },
+      { targetClass: 'pronoun', missionLabel: 'Collect only Pronouns! 👤', scrollSpeed: 0.13 },
+    ],
+  },
   eng_g4_grammar_nouns: {
     buckets: {
       'common noun': ['dog', 'city', 'teacher', 'river', 'shop', 'phone', 'chair', 'garden'],
@@ -133,6 +147,30 @@ const BANKS = {
       { targetClass: 'sad', missionLabel: 'Collect sad feelings! 😢', scrollSpeed: 0.07 },
       { targetClass: 'angry', missionLabel: 'Collect angry feelings! 😠', scrollSpeed: 0.08 },
       { targetClass: 'scared', missionLabel: 'Collect scared feelings! 😟', scrollSpeed: 0.08 },
+    ],
+  },
+  ls_g2_feelings: {
+    buckets: {
+      happy: ['delighted', 'joyful', 'grateful', 'content', 'thrilled'],
+      sad: ['heartbroken', 'discouraged', 'homesick', 'tearful', 'glum'],
+      angry: ['irritated', 'outraged', 'resentful', 'fuming', 'impatient'],
+      scared: ['terrified', 'uneasy', 'panicked', 'timid', 'startled'],
+    },
+    levels: [
+      { targetClass: 'happy', missionLabel: 'Collect happy feelings! 😄', scrollSpeed: 0.08 },
+      { targetClass: 'sad', missionLabel: 'Collect sad feelings! 😢', scrollSpeed: 0.08 },
+      { targetClass: 'angry', missionLabel: 'Collect angry feelings! 😠', scrollSpeed: 0.09 },
+      { targetClass: 'scared', missionLabel: 'Collect scared feelings! 😟', scrollSpeed: 0.09 },
+    ],
+  },
+  ls_g2_habits: {
+    buckets: {
+      healthy: ['washing hands', 'eating vegetables', 'drinking water', 'sleeping early', 'brushing teeth', 'playing outside'],
+      unhealthy: ['skipping meals', 'staying up late', 'too much sugar', 'not washing hands', 'too much screen time', 'skipping breakfast'],
+    },
+    levels: [
+      { targetClass: 'healthy', missionLabel: 'Collect healthy habits! 🥗', scrollSpeed: 0.08 },
+      { targetClass: 'unhealthy', missionLabel: 'Collect unhealthy habits! 🚫', scrollSpeed: 0.09 },
     ],
   },
   ls_g4_environment: {
