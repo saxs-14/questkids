@@ -14,9 +14,14 @@ const NUMERIC = {
   math_g1_multiples: { tables: [2, 3, 4, 5], gridSize: 4, chainLength: 4 },
   math_g4_fractions: { tables: [2, 3, 4, 5, 6, 8, 9, 10, 12], gridSize: 5, chainLength: 5 },
   math_g4_data: { tables: [5, 10, 15, 20, 25], gridSize: 4, chainLength: 4 },
-  math_g7_ratio: { tables: [2, 3, 4, 5, 6, 7, 8, 9], gridSize: 5, chainLength: 5 },
-  math_g7_stats: { tables: [3, 4, 5, 6, 7, 8, 9, 11], gridSize: 5, chainLength: 5 },
-  math_g7_fractions: { tables: [2, 3, 4, 5, 6, 7, 8, 9, 10, 12], gridSize: 5, chainLength: 6 },
+  // math_g7_ratio, math_g7_stats, math_g7_fractions were REMOVED from here:
+  // they are `bespoke: false` multiplesMerge topics whose real, hand-authored
+  // content packs on disk are pairs-shaped (tokenGroups — ratio/statistics/
+  // fractions vocabulary), not a numeric grid. These NUMERIC entries were
+  // stale and, once author.js stopped crashing before reaching them, caused
+  // it to silently overwrite the correct packs with generated numeric-grid
+  // content on every run. Do not re-add them here without re-authoring
+  // matching tokenGroups entries in PAIRS instead.
 };
 
 const PAIRS = {
