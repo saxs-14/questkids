@@ -1,0 +1,184 @@
+{
+  "id": "eng_g2_grammar",
+  "engine": "runnerCollector",
+  "grade": "grade2",
+  "subject": "English",
+  "title": "Grammar Garden: Level 2",
+  "tagline": "Plant nouns, verbs, adjectives — and now pronouns too — in the right spot!",
+  "accentColorHex": "#E91E63",
+  "emoji": "🌻",
+  "levels": [
+    {
+      "targetClass": "noun",
+      "missionLabel": "Collect only Nouns! 📦",
+      "scrollSpeed": 0.09,
+      "buckets": {
+        "noun": [
+          "teacher",
+          "beach",
+          "garden",
+          "bicycle",
+          "kitchen",
+          "forest",
+          "village",
+          "bridge"
+        ],
+        "verb": [
+          "climb",
+          "laugh",
+          "whisper",
+          "skip",
+          "build",
+          "paint",
+          "dance",
+          "shout"
+        ],
+        "adjective": [
+          "bright",
+          "gentle",
+          "enormous",
+          "shiny",
+          "quiet",
+          "clever"
+        ],
+        "pronoun": [
+          "he",
+          "she",
+          "it",
+          "they",
+          "we",
+          "you"
+        ]
+      }
+    },
+    {
+      "targetClass": "verb",
+      "missionLabel": "Collect only Verbs! 🏃",
+      "scrollSpeed": 0.11,
+      "buckets": {
+        "noun": [
+          "teacher",
+          "beach",
+          "garden",
+          "bicycle",
+          "kitchen",
+          "forest",
+          "village",
+          "bridge"
+        ],
+        "verb": [
+          "climb",
+          "laugh",
+          "whisper",
+          "skip",
+          "build",
+          "paint",
+          "dance",
+          "shout"
+        ],
+        "adjective": [
+          "bright",
+          "gentle",
+          "enormous",
+          "shiny",
+          "quiet",
+          "clever"
+        ],
+        "pronoun": [
+          "he",
+          "she",
+          "it",
+          "they",
+          "we",
+          "you"
+        ]
+      }
+    },
+    {
+      "targetClass": "adjective",
+      "missionLabel": "Collect only Adjectives! ✨",
+      "scrollSpeed": 0.12,
+      "buckets": {
+        "noun": [
+          "teacher",
+          "beach",
+          "garden",
+          "bicycle",
+          "kitchen",
+          "forest",
+          "village",
+          "bridge"
+        ],
+        "verb": [
+          "climb",
+          "laugh",
+          "whisper",
+          "skip",
+          "build",
+          "paint",
+          "dance",
+          "shout"
+        ],
+        "adjective": [
+          "bright",
+          "gentle",
+          "enormous",
+          "shiny",
+          "quiet",
+          "clever"
+        ],
+        "pronoun": [
+          "he",
+          "she",
+          "it",
+          "they",
+          "we",
+          "you"
+        ]
+      }
+    },
+    {
+      "targetClass": "pronoun",
+      "missionLabel": "Collect only Pronouns! 👤",
+      "scrollSpeed": 0.13,
+      "buckets": {
+        "noun": [
+          "teacher",
+          "beach",
+          "garden",
+          "bicycle",
+          "kitchen",
+          "forest",
+          "village",
+          "bridge"
+        ],
+        "verb": [
+          "climb",
+          "laugh",
+          "whisper",
+          "skip",
+          "build",
+          "paint",
+          "dance",
+          "shout"
+        ],
+        "adjective": [
+          "bright",
+          "gentle",
+          "enormous",
+          "shiny",
+          "quiet",
+          "clever"
+        ],
+        "pronoun": [
+          "he",
+          "she",
+          "it",
+          "they",
+          "we",
+          "you"
+        ]
+      }
+    }
+  ]
+}

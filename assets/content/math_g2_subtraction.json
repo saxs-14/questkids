@@ -1,0 +1,133 @@
+{
+  "id": "math_g2_subtraction",
+  "engine": "tugOfWar",
+  "grade": "grade2",
+  "subject": "Mathematics",
+  "title": "Subtraction Safari: Level 2",
+  "tagline": "Hunt for the missing number in subtraction problems up to 100!",
+  "accentColorHex": "#FF6B35",
+  "emoji": "➖",
+  "questionType": "subtraction",
+  "sampleItems": [
+    {
+      "question": "74 - 52 = ?",
+      "options": [
+        "18",
+        "27",
+        "26",
+        "22"
+      ],
+      "answerIndex": 3,
+      "hint": "Count back from 74.",
+      "explanation": "74 - 52 = 22."
+    },
+    {
+      "question": "86 - 79 = ?",
+      "options": [
+        "3",
+        "9",
+        "2",
+        "7"
+      ],
+      "answerIndex": 3,
+      "hint": "Count back from 86.",
+      "explanation": "86 - 79 = 7."
+    },
+    {
+      "question": "12 - 5 = ?",
+      "options": [
+        "4",
+        "11",
+        "7",
+        "8"
+      ],
+      "answerIndex": 2,
+      "hint": "Count back from 12.",
+      "explanation": "12 - 5 = 7."
+    },
+    {
+      "question": "89 - 80 = ?",
+      "options": [
+        "13",
+        "7",
+        "10",
+        "9"
+      ],
+      "answerIndex": 3,
+      "hint": "Count back from 89.",
+      "explanation": "89 - 80 = 9."
+    },
+    {
+      "question": "96 - 26 = ?",
+      "options": [
+        "65",
+        "69",
+        "71",
+        "70"
+      ],
+      "answerIndex": 3,
+      "hint": "Count back from 96.",
+      "explanation": "96 - 26 = 70."
+    },
+    {
+      "question": "57 - 14 = ?",
+      "options": [
+        "48",
+        "43",
+        "47",
+        "42"
+      ],
+      "answerIndex": 1,
+      "hint": "Count back from 57.",
+      "explanation": "57 - 14 = 43."
+    },
+    {
+      "question": "11 - 4 = ?",
+      "options": [
+        "7",
+        "8",
+        "4",
+        "3"
+      ],
+      "answerIndex": 0,
+      "hint": "Count back from 11.",
+      "explanation": "11 - 4 = 7."
+    },
+    {
+      "question": "97 - 21 = ?",
+      "options": [
+        "75",
+        "77",
+        "71",
+        "76"
+      ],
+      "answerIndex": 3,
+      "hint": "Count back from 97.",
+      "explanation": "97 - 21 = 76."
+    },
+    {
+      "question": "90 - 51 = ?",
+      "options": [
+        "44",
+        "36",
+        "38",
+        "39"
+      ],
+      "answerIndex": 3,
+      "hint": "Count back from 90.",
+      "explanation": "90 - 51 = 39."
+    },
+    {
+      "question": "96 - 25 = ?",
+      "options": [
+        "71",
+        "73",
+        "68",
+        "69"
+      ],
+      "answerIndex": 0,
+      "hint": "Count back from 96.",
+      "explanation": "96 - 25 = 71."
+    }
+  ]
+}

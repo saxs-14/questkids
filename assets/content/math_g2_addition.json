@@ -1,0 +1,193 @@
+{
+  "id": "math_g2_addition",
+  "engine": "tugOfWar",
+  "grade": "grade2",
+  "subject": "Mathematics",
+  "title": "Addition Adventure: Level 2",
+  "tagline": "Solve addition sums up to 100 and collect stars!",
+  "accentColorHex": "#FF6B35",
+  "emoji": "➕",
+  "questionType": "addition",
+  "sampleItems": [
+    {
+      "question": "3 + 22 = ?",
+      "options": [
+        "30",
+        "25",
+        "29",
+        "23"
+      ],
+      "answerIndex": 1,
+      "hint": "Count on from 3.",
+      "explanation": "3 + 22 = 25."
+    },
+    {
+      "question": "42 + 80 = ?",
+      "options": [
+        "120",
+        "123",
+        "122",
+        "119"
+      ],
+      "answerIndex": 2,
+      "hint": "Count on from 42.",
+      "explanation": "42 + 80 = 122."
+    },
+    {
+      "question": "92 + 50 = ?",
+      "options": [
+        "145",
+        "142",
+        "140",
+        "147"
+      ],
+      "answerIndex": 1,
+      "hint": "Count on from 92.",
+      "explanation": "92 + 50 = 142."
+    },
+    {
+      "question": "15 + 13 = ?",
+      "options": [
+        "28",
+        "26",
+        "24",
+        "30"
+      ],
+      "answerIndex": 0,
+      "hint": "Count on from 15.",
+      "explanation": "15 + 13 = 28."
+    },
+    {
+      "question": "91 + 78 = ?",
+      "options": [
+        "166",
+        "169",
+        "170",
+        "165"
+      ],
+      "answerIndex": 1,
+      "hint": "Count on from 91.",
+      "explanation": "91 + 78 = 169."
+    },
+    {
+      "question": "39 + 95 = ?",
+      "options": [
+        "135",
+        "139",
+        "136",
+        "134"
+      ],
+      "answerIndex": 3,
+      "hint": "Count on from 39.",
+      "explanation": "39 + 95 = 134."
+    },
+    {
+      "question": "1 + 19 = ?",
+      "options": [
+        "20",
+        "17",
+        "18",
+        "22"
+      ],
+      "answerIndex": 0,
+      "hint": "Count on from 1.",
+      "explanation": "1 + 19 = 20."
+    },
+    {
+      "question": "1 + 39 = ?",
+      "options": [
+        "40",
+        "39",
+        "45",
+        "35"
+      ],
+      "answerIndex": 0,
+      "hint": "Count on from 1.",
+      "explanation": "1 + 39 = 40."
+    },
+    {
+      "question": "54 + 70 = ?",
+      "options": [
+        "124",
+        "129",
+        "125",
+        "123"
+      ],
+      "answerIndex": 0,
+      "hint": "Count on from 54.",
+      "explanation": "54 + 70 = 124."
+    },
+    {
+      "question": "91 + 4 = ?",
+      "options": [
+        "98",
+        "94",
+        "96",
+        "95"
+      ],
+      "answerIndex": 3,
+      "hint": "Count on from 91.",
+      "explanation": "91 + 4 = 95."
+    },
+    {
+      "question": "42 + 49 = ?",
+      "options": [
+        "91",
+        "87",
+        "90",
+        "88"
+      ],
+      "answerIndex": 0,
+      "hint": "Count on from 42.",
+      "explanation": "42 + 49 = 91."
+    },
+    {
+      "question": "32 + 47 = ?",
+      "options": [
+        "79",
+        "82",
+        "77",
+        "78"
+      ],
+      "answerIndex": 0,
+      "hint": "Count on from 32.",
+      "explanation": "32 + 47 = 79."
+    },
+    {
+      "question": "15 + 69 = ?",
+      "options": [
+        "86",
+        "87",
+        "88",
+        "84"
+      ],
+      "answerIndex": 3,
+      "hint": "Count on from 15.",
+      "explanation": "15 + 69 = 84."
+    },
+    {
+      "question": "45 + 97 = ?",
+      "options": [
+        "146",
+        "142",
+        "145",
+        "147"
+      ],
+      "answerIndex": 1,
+      "hint": "Count on from 45.",
+      "explanation": "45 + 97 = 142."
+    },
+    {
+      "question": "68 + 58 = ?",
+      "options": [
+        "129",
+        "126",
+        "123",
+        "127"
+      ],
+      "answerIndex": 1,
+      "hint": "Count on from 68.",
+      "explanation": "68 + 58 = 126."
+    }
+  ]
+}

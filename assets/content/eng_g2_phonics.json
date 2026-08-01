@@ -1,0 +1,193 @@
+{
+  "id": "eng_g2_phonics",
+  "engine": "tugOfWar",
+  "grade": "grade2",
+  "subject": "English",
+  "title": "Phonics Fun: Blends & Digraphs",
+  "tagline": "Blend consonant clusters and digraphs to read trickier words!",
+  "accentColorHex": "#E91E63",
+  "emoji": "🎵",
+  "questionType": "general-knowledge",
+  "sampleItems": [
+    {
+      "question": "What sound do the letters 'sh' make in 'ship'?",
+      "options": [
+        "th",
+        "tree",
+        "/wh/",
+        "/sh/"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "/sh/ — that's correct!"
+    },
+    {
+      "question": "Blend st-o-p together. What word do you get?",
+      "options": [
+        "/ch/",
+        "/th/",
+        "th",
+        "stop"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "stop — that's correct!"
+    },
+    {
+      "question": "What sound do the letters 'ch' make in 'chip'?",
+      "options": [
+        "/wh/",
+        "/ch/",
+        "flag",
+        "swim"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "/ch/ — that's correct!"
+    },
+    {
+      "question": "Blend fl-a-g together. What word do you get?",
+      "options": [
+        "tree",
+        "grab",
+        "flag",
+        "ch"
+      ],
+      "answerIndex": 2,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "flag — that's correct!"
+    },
+    {
+      "question": "What sound do the letters 'th' make in 'this'?",
+      "options": [
+        "/sh/",
+        "/th/",
+        "flag",
+        "drum"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "/th/ — that's correct!"
+    },
+    {
+      "question": "Blend gr-a-b together. What word do you get?",
+      "options": [
+        "/wh/",
+        "sh",
+        "tree",
+        "grab"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "grab — that's correct!"
+    },
+    {
+      "question": "What two letters together make the /sh/ sound?",
+      "options": [
+        "tree",
+        "spot",
+        "/wh/",
+        "sh"
+      ],
+      "answerIndex": 3,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "sh — that's correct!"
+    },
+    {
+      "question": "Blend cr-a-b together. What word do you get?",
+      "options": [
+        "crab",
+        "/th/",
+        "/ch/",
+        "stop"
+      ],
+      "answerIndex": 0,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "crab — that's correct!"
+    },
+    {
+      "question": "What two letters together make the /ch/ sound?",
+      "options": [
+        "grab",
+        "spot",
+        "ch",
+        "flag"
+      ],
+      "answerIndex": 2,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "ch — that's correct!"
+    },
+    {
+      "question": "Blend sw-i-m together. What word do you get?",
+      "options": [
+        "/ch/",
+        "stop",
+        "swim",
+        "/wh/"
+      ],
+      "answerIndex": 2,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "swim — that's correct!"
+    },
+    {
+      "question": "What sound do the letters 'wh' make in 'whale'?",
+      "options": [
+        "tree",
+        "/wh/",
+        "swim",
+        "spot"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "/wh/ — that's correct!"
+    },
+    {
+      "question": "Blend sp-o-t together. What word do you get?",
+      "options": [
+        "ch",
+        "tree",
+        "spot",
+        "stop"
+      ],
+      "answerIndex": 2,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "spot — that's correct!"
+    },
+    {
+      "question": "What two letters together make the /th/ sound?",
+      "options": [
+        "/sh/",
+        "th",
+        "stop",
+        "spot"
+      ],
+      "answerIndex": 1,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "th — that's correct!"
+    },
+    {
+      "question": "Blend dr-u-m together. What word do you get?",
+      "options": [
+        "/th/",
+        "flag",
+        "drum",
+        "ch"
+      ],
+      "answerIndex": 2,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "drum — that's correct!"
+    },
+    {
+      "question": "Blend tr-ee together. What word do you get?",
+      "options": [
+        "tree",
+        "spot",
+        "sh",
+        "/ch/"
+      ],
+      "answerIndex": 0,
+      "hint": "Think back to what you learned about this topic.",
+      "explanation": "tree — that's correct!"
+    }
+  ]
+}

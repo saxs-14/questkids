@@ -1,0 +1,253 @@
+{
+  "id": "ls_g2_body",
+  "engine": "adventureJourney",
+  "grade": "grade2",
+  "subject": "Life Skills",
+  "title": "My Body: Level 2",
+  "tagline": "Learn how your body systems work together to keep you healthy!",
+  "accentColorHex": "#FF9800",
+  "emoji": "🧍",
+  "characterEmoji": "🧍",
+  "stages": [
+    {
+      "id": "ls_g2_body_0",
+      "name": "Stage 1",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "Which body system helps you breathe?",
+      "options": [
+        "To let your body and brain recover",
+        "To give your body energy to grow and work",
+        "It travels down to your stomach",
+        "The respiratory system"
+      ],
+      "correctOption": "The respiratory system",
+      "correctFeedback": "Yes! The respiratory system is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The respiratory system."
+    },
+    {
+      "id": "ls_g2_body_1",
+      "name": "Stage 2",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "Which organ pumps blood around your body?",
+      "options": [
+        "The heart",
+        "Move",
+        "Blood vessels",
+        "The skeletal system"
+      ],
+      "correctOption": "The heart",
+      "correctFeedback": "Yes! The heart is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The heart."
+    },
+    {
+      "id": "ls_g2_body_2",
+      "name": "Stage 3",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What do we call the tubes that carry blood around your body?",
+      "options": [
+        "It travels down to your stomach",
+        "To let your body and brain recover",
+        "Blood vessels",
+        "The heart"
+      ],
+      "correctOption": "Blood vessels",
+      "correctFeedback": "Yes! Blood vessels is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Blood vessels."
+    },
+    {
+      "id": "ls_g2_body_3",
+      "name": "Stage 4",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "Which body system helps you digest food?",
+      "options": [
+        "To let your body and brain recover",
+        "The digestive system",
+        "The heart",
+        "Air"
+      ],
+      "correctOption": "The digestive system",
+      "correctFeedback": "Yes! The digestive system is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The digestive system."
+    },
+    {
+      "id": "ls_g2_body_4",
+      "name": "Stage 5",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What happens to food after you chew it?",
+      "options": [
+        "Your kidneys",
+        "Blood vessels",
+        "Move",
+        "It travels down to your stomach"
+      ],
+      "correctOption": "It travels down to your stomach",
+      "correctFeedback": "Yes! It travels down to your stomach is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It travels down to your stomach."
+    },
+    {
+      "id": "ls_g2_body_5",
+      "name": "Stage 6",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "Which bones protect your brain?",
+      "options": [
+        "Your ribs",
+        "The skeletal system",
+        "The digestive system",
+        "Your skull"
+      ],
+      "correctOption": "Your skull",
+      "correctFeedback": "Yes! Your skull is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Your skull."
+    },
+    {
+      "id": "ls_g2_body_6",
+      "name": "Stage 7",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What do muscles help your body do?",
+      "options": [
+        "Your ears",
+        "Move",
+        "The skeletal system",
+        "To give your body energy to grow and work"
+      ],
+      "correctOption": "Move",
+      "correctFeedback": "Yes! Move is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Move."
+    },
+    {
+      "id": "ls_g2_body_7",
+      "name": "Stage 8",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "Which body part filters waste from your blood?",
+      "options": [
+        "Your ribs",
+        "It beats faster",
+        "To give your body energy to grow and work",
+        "Your kidneys"
+      ],
+      "correctOption": "Your kidneys",
+      "correctFeedback": "Yes! Your kidneys is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Your kidneys."
+    },
+    {
+      "id": "ls_g2_body_8",
+      "name": "Stage 9",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What do your lungs fill with when you breathe in?",
+      "options": [
+        "The skeletal system",
+        "Blood vessels",
+        "The digestive system",
+        "Air"
+      ],
+      "correctOption": "Air",
+      "correctFeedback": "Yes! Air is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Air."
+    },
+    {
+      "id": "ls_g2_body_9",
+      "name": "Stage 10",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "Which system in your body is made of bones?",
+      "options": [
+        "It beats faster",
+        "Your kidneys",
+        "To give your body energy to grow and work",
+        "The skeletal system"
+      ],
+      "correctOption": "The skeletal system",
+      "correctFeedback": "Yes! The skeletal system is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The skeletal system."
+    },
+    {
+      "id": "ls_g2_body_10",
+      "name": "Stage 11",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "Why do you need to eat healthy food?",
+      "options": [
+        "Your ears",
+        "It beats faster",
+        "The heart",
+        "To give your body energy to grow and work"
+      ],
+      "correctOption": "To give your body energy to grow and work",
+      "correctFeedback": "Yes! To give your body energy to grow and work is right — onward!",
+      "wrongFeedback": "Not quite — the answer is To give your body energy to grow and work."
+    },
+    {
+      "id": "ls_g2_body_11",
+      "name": "Stage 12",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What happens to your heart rate when you exercise?",
+      "options": [
+        "The skeletal system",
+        "To give your body energy to grow and work",
+        "It travels down to your stomach",
+        "It beats faster"
+      ],
+      "correctOption": "It beats faster",
+      "correctFeedback": "Yes! It beats faster is right — onward!",
+      "wrongFeedback": "Not quite — the answer is It beats faster."
+    },
+    {
+      "id": "ls_g2_body_12",
+      "name": "Stage 13",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "What protects your organs inside your chest?",
+      "options": [
+        "Your ribs",
+        "The skeletal system",
+        "Your ears",
+        "To let your body and brain recover"
+      ],
+      "correctOption": "Your ribs",
+      "correctFeedback": "Yes! Your ribs is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Your ribs."
+    },
+    {
+      "id": "ls_g2_body_13",
+      "name": "Stage 14",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "Why is it important to rest and sleep?",
+      "options": [
+        "Your ribs",
+        "Blood vessels",
+        "It travels down to your stomach",
+        "To let your body and brain recover"
+      ],
+      "correctOption": "To let your body and brain recover",
+      "correctFeedback": "Yes! To let your body and brain recover is right — onward!",
+      "wrongFeedback": "Not quite — the answer is To let your body and brain recover."
+    },
+    {
+      "id": "ls_g2_body_14",
+      "name": "Stage 15",
+      "emoji": "🧍",
+      "themeColorHex": "#FF9800",
+      "question": "Which sense organ helps you keep your balance?",
+      "options": [
+        "To let your body and brain recover",
+        "Your kidneys",
+        "The digestive system",
+        "Your ears"
+      ],
+      "correctOption": "Your ears",
+      "correctFeedback": "Yes! Your ears is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Your ears."
+    }
+  ]
+}

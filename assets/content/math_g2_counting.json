@@ -1,0 +1,193 @@
+{
+  "id": "math_g2_counting",
+  "engine": "numberCountingDuel",
+  "grade": "grade2",
+  "subject": "Mathematics",
+  "title": "Number Counting Duel: Level 2",
+  "tagline": "Count and compare numbers up to 100, and start skip-counting by 2s, 5s and 10s!",
+  "accentColorHex": "#FF6B35",
+  "emoji": "🔢",
+  "questionType": "counting",
+  "sampleItems": [
+    {
+      "question": "Which number is bigger: 97 or 1?",
+      "options": [
+        "97",
+        "95",
+        "93",
+        "99"
+      ],
+      "answerIndex": 0,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "97 is bigger than 1."
+    },
+    {
+      "question": "Which number is bigger: 72 or 3?",
+      "options": [
+        "76",
+        "72",
+        "69",
+        "70"
+      ],
+      "answerIndex": 1,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "72 is bigger than 3."
+    },
+    {
+      "question": "Which number is bigger: 60 or 56?",
+      "options": [
+        "57",
+        "64",
+        "60",
+        "56"
+      ],
+      "answerIndex": 2,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "60 is bigger than 56."
+    },
+    {
+      "question": "Which number is bigger: 63 or 49?",
+      "options": [
+        "62",
+        "63",
+        "66",
+        "65"
+      ],
+      "answerIndex": 1,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "63 is bigger than 49."
+    },
+    {
+      "question": "Which number is bigger: 12 or 78?",
+      "options": [
+        "80",
+        "75",
+        "78",
+        "81"
+      ],
+      "answerIndex": 2,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "78 is bigger than 12."
+    },
+    {
+      "question": "Which number is bigger: 42 or 80?",
+      "options": [
+        "80",
+        "79",
+        "84",
+        "83"
+      ],
+      "answerIndex": 0,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "80 is bigger than 42."
+    },
+    {
+      "question": "Which number is bigger: 73 or 5?",
+      "options": [
+        "74",
+        "76",
+        "69",
+        "73"
+      ],
+      "answerIndex": 3,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "73 is bigger than 5."
+    },
+    {
+      "question": "Which number is bigger: 7 or 12?",
+      "options": [
+        "11",
+        "9",
+        "14",
+        "12"
+      ],
+      "answerIndex": 3,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "12 is bigger than 7."
+    },
+    {
+      "question": "Which number is bigger: 83 or 44?",
+      "options": [
+        "85",
+        "83",
+        "80",
+        "87"
+      ],
+      "answerIndex": 1,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "83 is bigger than 44."
+    },
+    {
+      "question": "Which number is bigger: 23 or 8?",
+      "options": [
+        "20",
+        "23",
+        "24",
+        "27"
+      ],
+      "answerIndex": 1,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "23 is bigger than 8."
+    },
+    {
+      "question": "Which number is bigger: 89 or 63?",
+      "options": [
+        "88",
+        "87",
+        "91",
+        "89"
+      ],
+      "answerIndex": 3,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "89 is bigger than 63."
+    },
+    {
+      "question": "Which number is bigger: 91 or 75?",
+      "options": [
+        "89",
+        "90",
+        "91",
+        "94"
+      ],
+      "answerIndex": 2,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "91 is bigger than 75."
+    },
+    {
+      "question": "Which number is bigger: 1 or 82?",
+      "options": [
+        "80",
+        "78",
+        "86",
+        "82"
+      ],
+      "answerIndex": 3,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "82 is bigger than 1."
+    },
+    {
+      "question": "Which number is bigger: 30 or 66?",
+      "options": [
+        "68",
+        "63",
+        "66",
+        "62"
+      ],
+      "answerIndex": 2,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "66 is bigger than 30."
+    },
+    {
+      "question": "Which number is bigger: 39 or 17?",
+      "options": [
+        "41",
+        "40",
+        "39",
+        "35"
+      ],
+      "answerIndex": 2,
+      "hint": "Count up from the smaller number to check.",
+      "explanation": "39 is bigger than 17."
+    }
+  ]
+}

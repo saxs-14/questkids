@@ -1,0 +1,253 @@
+{
+  "id": "eng_g2_alphabet",
+  "engine": "adventureJourney",
+  "grade": "grade2",
+  "subject": "English",
+  "title": "Sight Word Safari",
+  "tagline": "Recognise common sight words and blend longer letter sounds!",
+  "accentColorHex": "#E91E63",
+  "emoji": "🔤",
+  "characterEmoji": "🔤",
+  "stages": [
+    {
+      "id": "eng_g2_alphabet_0",
+      "name": "Stage 1",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "What word do you get if you blend s-t-o-p?",
+      "options": [
+        "star",
+        "stop",
+        "have",
+        "said"
+      ],
+      "correctOption": "stop",
+      "correctFeedback": "Yes! stop is right — onward!",
+      "wrongFeedback": "Not quite — the answer is stop."
+    },
+    {
+      "id": "eng_g2_alphabet_1",
+      "name": "Stage 2",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "What is a 'sight word'?",
+      "options": [
+        "have",
+        "A word you learn to read by memory, not by sounding out",
+        "/th/",
+        "they"
+      ],
+      "correctOption": "A word you learn to read by memory, not by sounding out",
+      "correctFeedback": "Yes! A word you learn to read by memory, not by sounding out is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A word you learn to read by memory, not by sounding out."
+    },
+    {
+      "id": "eng_g2_alphabet_2",
+      "name": "Stage 3",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "Read this sight word: 'the'.",
+      "options": [
+        "/ch/",
+        "you",
+        "the",
+        "was"
+      ],
+      "correctOption": "the",
+      "correctFeedback": "Yes! the is right — onward!",
+      "wrongFeedback": "Not quite — the answer is the."
+    },
+    {
+      "id": "eng_g2_alphabet_3",
+      "name": "Stage 4",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "Read this sight word: 'was'.",
+      "options": [
+        "flag",
+        "stop",
+        "was",
+        "you"
+      ],
+      "correctOption": "was",
+      "correctFeedback": "Yes! was is right — onward!",
+      "wrongFeedback": "Not quite — the answer is was."
+    },
+    {
+      "id": "eng_g2_alphabet_4",
+      "name": "Stage 5",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "Blend fl-a-g together. What word do you get?",
+      "options": [
+        "/ch/",
+        "said",
+        "flag",
+        "A word you learn to read by memory, not by sounding out"
+      ],
+      "correctOption": "flag",
+      "correctFeedback": "Yes! flag is right — onward!",
+      "wrongFeedback": "Not quite — the answer is flag."
+    },
+    {
+      "id": "eng_g2_alphabet_5",
+      "name": "Stage 6",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "What sound do the letters 'sh' make together?",
+      "options": [
+        "/sh/",
+        "A word you learn to read by memory, not by sounding out",
+        "have",
+        "you"
+      ],
+      "correctOption": "/sh/",
+      "correctFeedback": "Yes! /sh/ is right — onward!",
+      "wrongFeedback": "Not quite — the answer is /sh/."
+    },
+    {
+      "id": "eng_g2_alphabet_6",
+      "name": "Stage 7",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "Read this sight word: 'said'.",
+      "options": [
+        "said",
+        "have",
+        "was",
+        "/ch/"
+      ],
+      "correctOption": "said",
+      "correctFeedback": "Yes! said is right — onward!",
+      "wrongFeedback": "Not quite — the answer is said."
+    },
+    {
+      "id": "eng_g2_alphabet_7",
+      "name": "Stage 8",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "Blend s-t-a-r together. What word do you get?",
+      "options": [
+        "star",
+        "A word you learn to read by memory, not by sounding out",
+        "they",
+        "block"
+      ],
+      "correctOption": "star",
+      "correctFeedback": "Yes! star is right — onward!",
+      "wrongFeedback": "Not quite — the answer is star."
+    },
+    {
+      "id": "eng_g2_alphabet_8",
+      "name": "Stage 9",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "What sound do the letters 'ch' make together?",
+      "options": [
+        "/ch/",
+        "/th/",
+        "stop",
+        "you"
+      ],
+      "correctOption": "/ch/",
+      "correctFeedback": "Yes! /ch/ is right — onward!",
+      "wrongFeedback": "Not quite — the answer is /ch/."
+    },
+    {
+      "id": "eng_g2_alphabet_9",
+      "name": "Stage 10",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "Read this sight word: 'they'.",
+      "options": [
+        "A word you learn to read by memory, not by sounding out",
+        "they",
+        "was",
+        "/ch/"
+      ],
+      "correctOption": "they",
+      "correctFeedback": "Yes! they is right — onward!",
+      "wrongFeedback": "Not quite — the answer is they."
+    },
+    {
+      "id": "eng_g2_alphabet_10",
+      "name": "Stage 11",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "Blend bl-o-ck together. What word do you get?",
+      "options": [
+        "block",
+        "star",
+        "have",
+        "flag"
+      ],
+      "correctOption": "block",
+      "correctFeedback": "Yes! block is right — onward!",
+      "wrongFeedback": "Not quite — the answer is block."
+    },
+    {
+      "id": "eng_g2_alphabet_11",
+      "name": "Stage 12",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "What sound do the letters 'th' make together?",
+      "options": [
+        "stop",
+        "/th/",
+        "you",
+        "A word you learn to read by memory, not by sounding out"
+      ],
+      "correctOption": "/th/",
+      "correctFeedback": "Yes! /th/ is right — onward!",
+      "wrongFeedback": "Not quite — the answer is /th/."
+    },
+    {
+      "id": "eng_g2_alphabet_12",
+      "name": "Stage 13",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "Read this sight word: 'have'.",
+      "options": [
+        "A word you learn to read by memory, not by sounding out",
+        "have",
+        "/th/",
+        "was"
+      ],
+      "correctOption": "have",
+      "correctFeedback": "Yes! have is right — onward!",
+      "wrongFeedback": "Not quite — the answer is have."
+    },
+    {
+      "id": "eng_g2_alphabet_13",
+      "name": "Stage 14",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "Blend gr-a-ss together. What word do you get?",
+      "options": [
+        "you",
+        "/sh/",
+        "grass",
+        "they"
+      ],
+      "correctOption": "grass",
+      "correctFeedback": "Yes! grass is right — onward!",
+      "wrongFeedback": "Not quite — the answer is grass."
+    },
+    {
+      "id": "eng_g2_alphabet_14",
+      "name": "Stage 15",
+      "emoji": "🔤",
+      "themeColorHex": "#E91E63",
+      "question": "Read this sight word: 'you'.",
+      "options": [
+        "you",
+        "they",
+        "star",
+        "the"
+      ],
+      "correctOption": "you",
+      "correctFeedback": "Yes! you is right — onward!",
+      "wrongFeedback": "Not quite — the answer is you."
+    }
+  ]
+}

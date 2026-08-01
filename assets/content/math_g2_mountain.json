@@ -1,0 +1,98 @@
+{
+  "id": "math_g2_mountain",
+  "engine": "sequenceBuilder",
+  "grade": "grade2",
+  "subject": "Mathematics",
+  "title": "Maths Mountain: Level 2",
+  "tagline": "Climb higher by solving addition, subtraction and early multiplication facts!",
+  "accentColorHex": "#FF6B35",
+  "emoji": "⛰️",
+  "sceneType": "mathsMountainLevel2",
+  "steps": [
+    {
+      "id": "read",
+      "label": "Read",
+      "emoji": "👀",
+      "description": "Read the number sentence carefully."
+    },
+    {
+      "id": "choose",
+      "label": "Choose",
+      "emoji": "🤔",
+      "description": "Choose which operation to use: +, − or ×."
+    },
+    {
+      "id": "regroup",
+      "label": "Regroup",
+      "emoji": "🔄",
+      "description": "Regroup tens and ones if you need to."
+    },
+    {
+      "id": "solve",
+      "label": "Solve",
+      "emoji": "✏️",
+      "description": "Work out the answer step by step."
+    },
+    {
+      "id": "check",
+      "label": "Check",
+      "emoji": "✅",
+      "description": "Check your answer makes sense."
+    }
+  ],
+  "roundVariants": [
+    [
+      "choose",
+      "regroup",
+      "solve"
+    ],
+    [
+      "read",
+      "regroup",
+      "solve"
+    ],
+    [
+      "read",
+      "choose",
+      "solve"
+    ],
+    [
+      "read",
+      "choose",
+      "check"
+    ],
+    [
+      "read",
+      "choose",
+      "solve",
+      "check"
+    ],
+    [
+      "choose",
+      "solve",
+      "check"
+    ],
+    [
+      "read",
+      "choose",
+      "regroup",
+      "check"
+    ],
+    [
+      "read",
+      "choose",
+      "regroup"
+    ],
+    [
+      "read",
+      "regroup",
+      "solve",
+      "check"
+    ],
+    [
+      "read",
+      "solve",
+      "check"
+    ]
+  ]
+}

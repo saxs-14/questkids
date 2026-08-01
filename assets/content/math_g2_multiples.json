@@ -1,0 +1,20 @@
+{
+  "id": "math_g2_multiples",
+  "engine": "multiplesMerge",
+  "grade": "grade2",
+  "subject": "Mathematics",
+  "title": "Multiple Chain: Level 2",
+  "tagline": "Link the multiples of 2, 5 and 10 to make a chain — break it and try again!",
+  "accentColorHex": "#FF6B35",
+  "emoji": "🔗",
+  "mode": "numeric",
+  "gridSize": 4,
+  "chainLength": 5,
+  "tables": [
+    2,
+    3,
+    4,
+    5,
+    10
+  ]
+}

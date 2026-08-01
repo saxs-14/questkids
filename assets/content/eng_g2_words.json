@@ -1,0 +1,97 @@
+{
+  "id": "eng_g2_words",
+  "engine": "sequenceBuilder",
+  "grade": "grade2",
+  "subject": "English",
+  "title": "Word Builder: Level 2",
+  "tagline": "Spell longer CVC and CVCC words by choosing the right letters!",
+  "accentColorHex": "#E91E63",
+  "emoji": "📝",
+  "sceneType": "cvccWords",
+  "steps": [
+    {
+      "id": "first_sound",
+      "label": "First sound",
+      "emoji": "🔤",
+      "description": "Pick the sound you hear first, like s in stop."
+    },
+    {
+      "id": "blend_cluster",
+      "label": "Blend the cluster",
+      "emoji": "🔡",
+      "description": "Blend a two-letter cluster, like st or fl."
+    },
+    {
+      "id": "middle_sound",
+      "label": "Middle sound",
+      "emoji": "🔠",
+      "description": "Pick the vowel sound in the middle."
+    },
+    {
+      "id": "last_sound",
+      "label": "Last sound",
+      "emoji": "🔤",
+      "description": "Pick the sound you hear last."
+    },
+    {
+      "id": "blend_all",
+      "label": "Blend it together",
+      "emoji": "🗣️",
+      "description": "Say all the sounds together to read the word."
+    }
+  ],
+  "roundVariants": [
+    [
+      "first_sound",
+      "blend_cluster",
+      "last_sound"
+    ],
+    [
+      "first_sound",
+      "blend_cluster",
+      "blend_all"
+    ],
+    [
+      "first_sound",
+      "blend_cluster",
+      "last_sound",
+      "blend_all"
+    ],
+    [
+      "first_sound",
+      "last_sound",
+      "blend_all"
+    ],
+    [
+      "first_sound",
+      "blend_cluster",
+      "middle_sound"
+    ],
+    [
+      "middle_sound",
+      "last_sound",
+      "blend_all"
+    ],
+    [
+      "blend_cluster",
+      "last_sound",
+      "blend_all"
+    ],
+    [
+      "first_sound",
+      "middle_sound",
+      "blend_all"
+    ],
+    [
+      "blend_cluster",
+      "middle_sound",
+      "last_sound"
+    ],
+    [
+      "first_sound",
+      "blend_cluster",
+      "middle_sound",
+      "last_sound"
+    ]
+  ]
+}

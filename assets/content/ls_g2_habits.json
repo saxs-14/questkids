@@ -1,0 +1,58 @@
+{
+  "id": "ls_g2_habits",
+  "engine": "runnerCollector",
+  "grade": "grade2",
+  "subject": "Life Skills",
+  "title": "Healthy Habits: Level 2",
+  "tagline": "Build stronger habits around hygiene, nutrition, sleep and exercise!",
+  "accentColorHex": "#FF9800",
+  "emoji": "🥗",
+  "levels": [
+    {
+      "targetClass": "healthy",
+      "missionLabel": "Collect healthy habits! 🥗",
+      "scrollSpeed": 0.08,
+      "buckets": {
+        "healthy": [
+          "washing hands",
+          "eating vegetables",
+          "drinking water",
+          "sleeping early",
+          "brushing teeth",
+          "playing outside"
+        ],
+        "unhealthy": [
+          "skipping meals",
+          "staying up late",
+          "too much sugar",
+          "not washing hands",
+          "too much screen time",
+          "skipping breakfast"
+        ]
+      }
+    },
+    {
+      "targetClass": "unhealthy",
+      "missionLabel": "Collect unhealthy habits! 🚫",
+      "scrollSpeed": 0.09,
+      "buckets": {
+        "healthy": [
+          "washing hands",
+          "eating vegetables",
+          "drinking water",
+          "sleeping early",
+          "brushing teeth",
+          "playing outside"
+        ],
+        "unhealthy": [
+          "skipping meals",
+          "staying up late",
+          "too much sugar",
+          "not washing hands",
+          "too much screen time",
+          "skipping breakfast"
+        ]
+      }
+    }
+  ]
+}

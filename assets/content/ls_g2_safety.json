@@ -1,0 +1,253 @@
+{
+  "id": "ls_g2_safety",
+  "engine": "adventureJourney",
+  "grade": "grade2",
+  "subject": "Life Skills",
+  "title": "Safety Squad: Level 2",
+  "tagline": "Learn safety rules for the road, water and being home alone!",
+  "accentColorHex": "#FF9800",
+  "emoji": "🛡️",
+  "characterEmoji": "🛡️",
+  "stages": [
+    {
+      "id": "ls_g2_safety_0",
+      "name": "Stage 1",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What should you do before crossing at a robot (traffic light)?",
+      "options": [
+        "Because you could fall in and no one would know",
+        "Wait for the green man and look both ways",
+        "Get outside immediately and call for help",
+        "A life jacket"
+      ],
+      "correctOption": "Wait for the green man and look both ways",
+      "correctFeedback": "Yes! Wait for the green man and look both ways is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Wait for the green man and look both ways."
+    },
+    {
+      "id": "ls_g2_safety_1",
+      "name": "Stage 2",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What should you always wear when swimming in open water?",
+      "options": [
+        "Put on your seatbelt",
+        "A life jacket",
+        "Wait for the green man and look both ways",
+        "A trusted adult"
+      ],
+      "correctOption": "A life jacket",
+      "correctFeedback": "Yes! A life jacket is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A life jacket."
+    },
+    {
+      "id": "ls_g2_safety_2",
+      "name": "Stage 3",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "If you're ever home alone, what should you never do for strangers?",
+      "options": [
+        "Because you could fall in and no one would know",
+        "Stay where you are and look for a helper like a security guard",
+        "A life jacket",
+        "Open the door"
+      ],
+      "correctOption": "Open the door",
+      "correctFeedback": "Yes! Open the door is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Open the door."
+    },
+    {
+      "id": "ls_g2_safety_3",
+      "name": "Stage 4",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What number can you call for help in an emergency in South Africa?",
+      "options": [
+        "10110",
+        "10111",
+        "10101",
+        "10106"
+      ],
+      "correctOption": "10111",
+      "correctFeedback": "Yes! 10111 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 10111."
+    },
+    {
+      "id": "ls_g2_safety_4",
+      "name": "Stage 5",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What should you do if you smell gas at home?",
+      "options": [
+        "Stop, look both ways, and listen",
+        "Tell an adult and go outside immediately",
+        "Put on your seatbelt",
+        "Because you could fall in and no one would know"
+      ],
+      "correctOption": "Tell an adult and go outside immediately",
+      "correctFeedback": "Yes! Tell an adult and go outside immediately is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Tell an adult and go outside immediately."
+    },
+    {
+      "id": "ls_g2_safety_5",
+      "name": "Stage 6",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "Why should you never swim alone?",
+      "options": [
+        "Put on your seatbelt",
+        "So someone can help you if something goes wrong",
+        "Stop, look both ways, and listen",
+        "Say no and tell a trusted adult"
+      ],
+      "correctOption": "So someone can help you if something goes wrong",
+      "correctFeedback": "Yes! So someone can help you if something goes wrong is right — onward!",
+      "wrongFeedback": "Not quite — the answer is So someone can help you if something goes wrong."
+    },
+    {
+      "id": "ls_g2_safety_6",
+      "name": "Stage 7",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What should you do if you get separated from your parent in a crowd?",
+      "options": [
+        "Stay where you are and look for a helper like a security guard",
+        "No, always ask a trusted adult first",
+        "Say no and tell a trusted adult",
+        "Get outside immediately and call for help"
+      ],
+      "correctOption": "Stay where you are and look for a helper like a security guard",
+      "correctFeedback": "Yes! Stay where you are and look for a helper like a security guard is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Stay where you are and look for a helper like a security guard."
+    },
+    {
+      "id": "ls_g2_safety_7",
+      "name": "Stage 8",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What should you do before getting into a car?",
+      "options": [
+        "Open the door",
+        "So someone can help you if something goes wrong",
+        "Put on your seatbelt",
+        "A trusted adult"
+      ],
+      "correctOption": "Put on your seatbelt",
+      "correctFeedback": "Yes! Put on your seatbelt is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Put on your seatbelt."
+    },
+    {
+      "id": "ls_g2_safety_8",
+      "name": "Stage 9",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "Is it safe to talk to strangers online without an adult?",
+      "options": [
+        "Open the door",
+        "Tell an adult and go outside immediately",
+        "Stay where you are and look for a helper like a security guard",
+        "No, always ask a trusted adult first"
+      ],
+      "correctOption": "No, always ask a trusted adult first",
+      "correctFeedback": "Yes! No, always ask a trusted adult first is right — onward!",
+      "wrongFeedback": "Not quite — the answer is No, always ask a trusted adult first."
+    },
+    {
+      "id": "ls_g2_safety_9",
+      "name": "Stage 10",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What should you do if a stranger offers you sweets?",
+      "options": [
+        "Get outside immediately and call for help",
+        "No, always ask a trusted adult first",
+        "Tell an adult and go outside immediately",
+        "Say no and tell a trusted adult"
+      ],
+      "correctOption": "Say no and tell a trusted adult",
+      "correctFeedback": "Yes! Say no and tell a trusted adult is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Say no and tell a trusted adult."
+    },
+    {
+      "id": "ls_g2_safety_10",
+      "name": "Stage 11",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "Why should you never play near a pool without an adult watching?",
+      "options": [
+        "Water and metal objects",
+        "A life jacket",
+        "Because you could fall in and no one would know",
+        "Tell an adult and go outside immediately"
+      ],
+      "correctOption": "Because you could fall in and no one would know",
+      "correctFeedback": "Yes! Because you could fall in and no one would know is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Because you could fall in and no one would know."
+    },
+    {
+      "id": "ls_g2_safety_11",
+      "name": "Stage 12",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What should you do if you see a fire at home?",
+      "options": [
+        "Because you could fall in and no one would know",
+        "Water and metal objects",
+        "So someone can help you if something goes wrong",
+        "Get outside immediately and call for help"
+      ],
+      "correctOption": "Get outside immediately and call for help",
+      "correctFeedback": "Yes! Get outside immediately and call for help is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Get outside immediately and call for help."
+    },
+    {
+      "id": "ls_g2_safety_12",
+      "name": "Stage 13",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What should you do before you cross a busy road?",
+      "options": [
+        "Stop, look both ways, and listen",
+        "Because you could fall in and no one would know",
+        "A trusted adult",
+        "Open the door"
+      ],
+      "correctOption": "Stop, look both ways, and listen",
+      "correctFeedback": "Yes! Stop, look both ways, and listen is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Stop, look both ways, and listen."
+    },
+    {
+      "id": "ls_g2_safety_13",
+      "name": "Stage 14",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "Who should you tell if someone makes you feel unsafe?",
+      "options": [
+        "Say no and tell a trusted adult",
+        "So someone can help you if something goes wrong",
+        "Stop, look both ways, and listen",
+        "A trusted adult"
+      ],
+      "correctOption": "A trusted adult",
+      "correctFeedback": "Yes! A trusted adult is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A trusted adult."
+    },
+    {
+      "id": "ls_g2_safety_14",
+      "name": "Stage 15",
+      "emoji": "🛡️",
+      "themeColorHex": "#FF9800",
+      "question": "What should you keep away from electrical outlets?",
+      "options": [
+        "So someone can help you if something goes wrong",
+        "A trusted adult",
+        "Water and metal objects",
+        "Wait for the green man and look both ways"
+      ],
+      "correctOption": "Water and metal objects",
+      "correctFeedback": "Yes! Water and metal objects is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Water and metal objects."
+    }
+  ]
+}

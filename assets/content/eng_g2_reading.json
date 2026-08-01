@@ -1,0 +1,253 @@
+{
+  "id": "eng_g2_reading",
+  "engine": "adventureJourney",
+  "grade": "grade2",
+  "subject": "English",
+  "title": "Reading Rainbow: Level 2",
+  "tagline": "Read short paragraphs and answer 'who, what, where, why' questions!",
+  "accentColorHex": "#E91E63",
+  "emoji": "🌈",
+  "characterEmoji": "🌈",
+  "stages": [
+    {
+      "id": "eng_g2_reading_0",
+      "name": "Stage 1",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "In a story about a boy who lost his dog, who is the main character?",
+      "options": [
+        "A question mark",
+        "The boy",
+        "The conflict",
+        "Because it was cold"
+      ],
+      "correctOption": "The boy",
+      "correctFeedback": "Yes! The boy is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The boy."
+    },
+    {
+      "id": "eng_g2_reading_1",
+      "name": "Stage 2",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "If a story says 'Thabo ran to the shop before it closed', where did Thabo go?",
+      "options": [
+        "To the shop",
+        "Because she won the race",
+        "The moral",
+        "She packed her bag"
+      ],
+      "correctOption": "To the shop",
+      "correctFeedback": "Yes! To the shop is right — onward!",
+      "wrongFeedback": "Not quite — the answer is To the shop."
+    },
+    {
+      "id": "eng_g2_reading_2",
+      "name": "Stage 3",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "If a story says 'Lindiwe was happy because she won the race', why was Lindiwe happy?",
+      "options": [
+        "The sun came out",
+        "He reached the top of the hill",
+        "Because she won the race",
+        "The setting"
+      ],
+      "correctOption": "Because she won the race",
+      "correctFeedback": "Yes! Because she won the race is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Because she won the race."
+    },
+    {
+      "id": "eng_g2_reading_3",
+      "name": "Stage 4",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "What do we call the place and time where a story happens?",
+      "options": [
+        "Because she won the race",
+        "The setting",
+        "Characters",
+        "The moral"
+      ],
+      "correctOption": "The setting",
+      "correctFeedback": "Yes! The setting is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The setting."
+    },
+    {
+      "id": "eng_g2_reading_4",
+      "name": "Stage 5",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "If a sentence says 'First she packed her bag, then she left for school', what happened first?",
+      "options": [
+        "Because she won the race",
+        "A past-tense clue word like 'yesterday'",
+        "A question mark",
+        "She packed her bag"
+      ],
+      "correctOption": "She packed her bag",
+      "correctFeedback": "Yes! She packed her bag is right — onward!",
+      "wrongFeedback": "Not quite — the answer is She packed her bag."
+    },
+    {
+      "id": "eng_g2_reading_5",
+      "name": "Stage 6",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "What is the problem in a story usually called?",
+      "options": [
+        "A past-tense clue word like 'yesterday'",
+        "She packed her bag",
+        "A question mark",
+        "The conflict"
+      ],
+      "correctOption": "The conflict",
+      "correctFeedback": "Yes! The conflict is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The conflict."
+    },
+    {
+      "id": "eng_g2_reading_6",
+      "name": "Stage 7",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "What do we call the people in a story?",
+      "options": [
+        "Characters",
+        "Scared",
+        "Because it was cold",
+        "The sun came out"
+      ],
+      "correctOption": "Characters",
+      "correctFeedback": "Yes! Characters is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Characters."
+    },
+    {
+      "id": "eng_g2_reading_7",
+      "name": "Stage 8",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "What word tells you a story is happening 'yesterday'?",
+      "options": [
+        "Characters",
+        "A past-tense clue word like 'yesterday'",
+        "The boy",
+        "The setting"
+      ],
+      "correctOption": "A past-tense clue word like 'yesterday'",
+      "correctFeedback": "Yes! A past-tense clue word like 'yesterday' is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A past-tense clue word like 'yesterday'."
+    },
+    {
+      "id": "eng_g2_reading_8",
+      "name": "Stage 9",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "If a character says 'I am scared of the dark', how does the character feel?",
+      "options": [
+        "Because it was cold",
+        "Scared",
+        "She packed her bag",
+        "Characters"
+      ],
+      "correctOption": "Scared",
+      "correctFeedback": "Yes! Scared is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Scared."
+    },
+    {
+      "id": "eng_g2_reading_9",
+      "name": "Stage 10",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "If a story says 'The rain stopped and the sun came out', what happened after the rain?",
+      "options": [
+        "To tell readers what the story is about",
+        "Scared",
+        "To the shop",
+        "The sun came out"
+      ],
+      "correctOption": "The sun came out",
+      "correctFeedback": "Yes! The sun came out is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The sun came out."
+    },
+    {
+      "id": "eng_g2_reading_10",
+      "name": "Stage 11",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "Why do authors write titles for stories?",
+      "options": [
+        "The boy",
+        "A question mark",
+        "To the shop",
+        "To tell readers what the story is about"
+      ],
+      "correctOption": "To tell readers what the story is about",
+      "correctFeedback": "Yes! To tell readers what the story is about is right — onward!",
+      "wrongFeedback": "Not quite — the answer is To tell readers what the story is about."
+    },
+    {
+      "id": "eng_g2_reading_11",
+      "name": "Stage 12",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "If a sentence says 'Because it was cold, she wore a jacket', why did she wear a jacket?",
+      "options": [
+        "Because it was cold",
+        "Because she won the race",
+        "She packed her bag",
+        "A past-tense clue word like 'yesterday'"
+      ],
+      "correctOption": "Because it was cold",
+      "correctFeedback": "Yes! Because it was cold is right — onward!",
+      "wrongFeedback": "Not quite — the answer is Because it was cold."
+    },
+    {
+      "id": "eng_g2_reading_12",
+      "name": "Stage 13",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "What is the lesson a story teaches sometimes called?",
+      "options": [
+        "Because it was cold",
+        "The moral",
+        "The setting",
+        "She packed her bag"
+      ],
+      "correctOption": "The moral",
+      "correctFeedback": "Yes! The moral is right — onward!",
+      "wrongFeedback": "Not quite — the answer is The moral."
+    },
+    {
+      "id": "eng_g2_reading_13",
+      "name": "Stage 14",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "If a story says 'Sipho finally reached the top of the hill', what did Sipho do?",
+      "options": [
+        "The setting",
+        "Because she won the race",
+        "He reached the top of the hill",
+        "To the shop"
+      ],
+      "correctOption": "He reached the top of the hill",
+      "correctFeedback": "Yes! He reached the top of the hill is right — onward!",
+      "wrongFeedback": "Not quite — the answer is He reached the top of the hill."
+    },
+    {
+      "id": "eng_g2_reading_14",
+      "name": "Stage 15",
+      "emoji": "🌈",
+      "themeColorHex": "#E91E63",
+      "question": "What punctuation mark do you read with a question in your voice?",
+      "options": [
+        "Because it was cold",
+        "A question mark",
+        "He reached the top of the hill",
+        "Scared"
+      ],
+      "correctOption": "A question mark",
+      "correctFeedback": "Yes! A question mark is right — onward!",
+      "wrongFeedback": "Not quite — the answer is A question mark."
+    }
+  ]
+}

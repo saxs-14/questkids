@@ -1,0 +1,152 @@
+{
+  "id": "ls_g2_feelings",
+  "engine": "runnerCollector",
+  "grade": "grade2",
+  "subject": "Life Skills",
+  "title": "Feelings Factory: Level 2",
+  "tagline": "Tell apart more feelings and learn healthy ways to handle each one!",
+  "accentColorHex": "#FF9800",
+  "emoji": "😊",
+  "levels": [
+    {
+      "targetClass": "happy",
+      "missionLabel": "Collect happy feelings! 😄",
+      "scrollSpeed": 0.08,
+      "buckets": {
+        "happy": [
+          "delighted",
+          "joyful",
+          "grateful",
+          "content",
+          "thrilled"
+        ],
+        "sad": [
+          "heartbroken",
+          "discouraged",
+          "homesick",
+          "tearful",
+          "glum"
+        ],
+        "angry": [
+          "irritated",
+          "outraged",
+          "resentful",
+          "fuming",
+          "impatient"
+        ],
+        "scared": [
+          "terrified",
+          "uneasy",
+          "panicked",
+          "timid",
+          "startled"
+        ]
+      }
+    },
+    {
+      "targetClass": "sad",
+      "missionLabel": "Collect sad feelings! 😢",
+      "scrollSpeed": 0.08,
+      "buckets": {
+        "happy": [
+          "delighted",
+          "joyful",
+          "grateful",
+          "content",
+          "thrilled"
+        ],
+        "sad": [
+          "heartbroken",
+          "discouraged",
+          "homesick",
+          "tearful",
+          "glum"
+        ],
+        "angry": [
+          "irritated",
+          "outraged",
+          "resentful",
+          "fuming",
+          "impatient"
+        ],
+        "scared": [
+          "terrified",
+          "uneasy",
+          "panicked",
+          "timid",
+          "startled"
+        ]
+      }
+    },
+    {
+      "targetClass": "angry",
+      "missionLabel": "Collect angry feelings! 😠",
+      "scrollSpeed": 0.09,
+      "buckets": {
+        "happy": [
+          "delighted",
+          "joyful",
+          "grateful",
+          "content",
+          "thrilled"
+        ],
+        "sad": [
+          "heartbroken",
+          "discouraged",
+          "homesick",
+          "tearful",
+          "glum"
+        ],
+        "angry": [
+          "irritated",
+          "outraged",
+          "resentful",
+          "fuming",
+          "impatient"
+        ],
+        "scared": [
+          "terrified",
+          "uneasy",
+          "panicked",
+          "timid",
+          "startled"
+        ]
+      }
+    },
+    {
+      "targetClass": "scared",
+      "missionLabel": "Collect scared feelings! 😟",
+      "scrollSpeed": 0.09,
+      "buckets": {
+        "happy": [
+          "delighted",
+          "joyful",
+          "grateful",
+          "content",
+          "thrilled"
+        ],
+        "sad": [
+          "heartbroken",
+          "discouraged",
+          "homesick",
+          "tearful",
+          "glum"
+        ],
+        "angry": [
+          "irritated",
+          "outraged",
+          "resentful",
+          "fuming",
+          "impatient"
+        ],
+        "scared": [
+          "terrified",
+          "uneasy",
+          "panicked",
+          "timid",
+          "startled"
+        ]
+      }
+    }
+  ]
+}
