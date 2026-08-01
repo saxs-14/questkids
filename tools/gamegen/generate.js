@@ -178,6 +178,16 @@ function scaffoldFor(t) {
     emoji: t.emoji,
     _scaffold: true,
   };
+  if (t.bespoke) {
+    // Bespoke engines are self-contained widgets that don't read their
+    // content pack. Return a minimal, valid stub instead of throwing so a
+    // future bespoke topic added without a hand-authored pack doesn't crash
+    // this step after game_catalog.dart has already been written.
+    return {
+      ...common,
+      note: 'bespoke engine — self-contained widget, does not read this pack',
+    };
+  }
   switch (t.engine) {
     case 'tugOfWar':
     case 'numberCountingDuel':

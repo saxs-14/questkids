@@ -115,12 +115,30 @@ function bodyFor(t, min) {
 function main() {
   const tierOf = computeTiers(topicsList);
   let written = 0;
+  let skipped = 0;
   let failed = 0;
 
   for (const t of topicsList) {
+    if (t.bespoke) {
+      // Bespoke engines are self-contained widgets that don't read their
+      // content pack — author.js has no content generator for them (and
+      // shouldn't grow one), so skip rather than crash on the
+      // throwing-default case in bodyFor().
+      skipped++;
+      continue;
+    }
+
     const tier = tierOf.get(t.id);
     const min = minItemsForTier(tier);
-    const pack = { ...commonHeader(t), ...bodyFor(t, min) };
+
+    let pack;
+    try {
+      pack = { ...commonHeader(t), ...bodyFor(t, min) };
+    } catch (e) {
+      failed++;
+      console.error(`SKIP: ${t.id} (${t.engine}): ${e.message}`);
+      continue;
+    }
 
     const errors = validatePack(t.engine, pack, { min });
     if (errors.length) {
@@ -136,9 +154,9 @@ function main() {
     written++;
   }
 
-  console.log(`Authored ${written}/${topicsList.length} content packs.`);
+  console.log(`${written} written, ${skipped} bespoke skipped, ${failed} failed (of ${topicsList.length} total).`);
   if (failed) {
-    console.error(`${failed} pack(s) failed schema validation — see above.`);
+    console.error(`${failed} pack(s) failed to author — see above.`);
     process.exit(1);
   }
 }
