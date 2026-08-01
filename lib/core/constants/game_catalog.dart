@@ -363,13 +363,13 @@ class GameCatalog {
       subject: 'Life Skills',
       topicId: 'health',
       subtopicId: 'healthy_habits',
-      engineType: 'tugOfWar',
+      engineType: 'runnerCollector',
       emoji: '🥗',
       color: AppColors.lifeSkills,
       learningObjective:
           'Learners will build good habits around hygiene, nutrition and exercise.',
       mechanicReason:
-          'Answering fast head-to-head builds quick, confident recall of healthy habits.',
+          'Sorting the right answers on the run trains you to quickly tell healthy habits apart.',
       difficulty: 'easy',
       xpReward: 50,
       coinsReward: 10,

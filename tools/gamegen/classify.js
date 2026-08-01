@@ -97,7 +97,9 @@ const BY_TOPIC_KEY = {
   'social_skills/emotions': 'word_classify',
   'safety/personal_safety': 'narrative_comprehension',
   'beginning_knowledge/community_helpers': 'locate_map',
-  'health/healthy_habits': 'rapid_recall',
+  // runnerCollector in production (sorting healthy habits from unhealthy
+  // ones on the run is classification), not rapid-recall fluency.
+  'health/healthy_habits': 'word_classify',
   'careers/career_exploration': 'narrative_comprehension',
   'financial_literacy/budgeting': 'money_budget',
   'health/healthy_living': 'word_classify',
