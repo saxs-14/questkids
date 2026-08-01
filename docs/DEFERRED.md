@@ -83,9 +83,9 @@ what to do next.
   opening one of these files expecting it to reflect what the game actually shows.
 - **Grade 2 curriculum content (Phase 14, 2026-08-02): added 15 catalog entries + 2 bugs fixed.**
   Phase 14 added Grade 2 its own dedicated difficulty band and 15 new `topics.json` entries:
-  English x5 (`eng_g2_phonics`, `eng_g2_alphabet`, `eng_g2_vocabulary`, `eng_g2_reading`, `eng_g2_comprehension`),
-  Life Skills x5 (`ls_g2_hygiene`, `ls_g2_emotions`, `ls_g2_health`, `ls_g2_social`, `ls_g2_safety`),
-  Mathematics x5 (`math_g2_counting`, `math_g2_addition`, `math_g2_subtraction`, `math_g2_shapes`, `math_g2_measurement`).
+  English x5 (`eng_g2_alphabet`, `eng_g2_grammar`, `eng_g2_phonics`, `eng_g2_reading`, `eng_g2_words`),
+  Life Skills x5 (`ls_g2_body`, `ls_g2_community`, `ls_g2_feelings`, `ls_g2_habits`, `ls_g2_safety`),
+  Mathematics x5 (`math_g2_addition`, `math_g2_counting`, `math_g2_mountain`, `math_g2_multiples`, `math_g2_subtraction`).
   All reuse existing shared engines (no new engine code). Narrowed the original 15 Grade 1 entries' `grades` arrays
   so Grade 1 content stops being silently served to Grade 2 learners. Authored real, CAPS-appropriate
   Grade 2 difficulty content for all 15 topics across `facts.js`, `runner_collector.js`, `explorer_map.js`,
