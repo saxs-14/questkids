@@ -405,8 +405,7 @@
     "description": "Uncover a jungle temple map by matching and finding letters!",
     "grade": "grade1",
     "grades": [
-      "grade1",
-      "grade2"
+      "grade1"
     ],
     "subject": "English",
     "topicId": "letter_knowledge",
@@ -446,8 +445,7 @@
     "description": "Spot the one word that needs fixing in each sentence!",
     "grade": "grade1",
     "grades": [
-      "grade1",
-      "grade2"
+      "grade1"
     ],
     "subject": "English",
     "topicId": "grammar",
@@ -487,8 +485,7 @@
     "description": "Sort picture cards into the right nest by matching sounds!",
     "grade": "grade1",
     "grades": [
-      "grade1",
-      "grade2"
+      "grade1"
     ],
     "subject": "English",
     "topicId": "phonics",
@@ -528,8 +525,7 @@
     "description": "Tap picture cards in the right order to build a rainbow!",
     "grade": "grade1",
     "grades": [
-      "grade1",
-      "grade2"
+      "grade1"
     ],
     "subject": "English",
     "topicId": "comprehension",
@@ -569,8 +565,7 @@
     "description": "Tap letter blocks in order to build simple words!",
     "grade": "grade1",
     "grades": [
-      "grade1",
-      "grade2"
+      "grade1"
     ],
     "subject": "English",
     "topicId": "spelling",
@@ -1431,7 +1426,6 @@
     "grade": "grade1",
     "grades": [
       "grade1",
-      "grade2",
       "grade3"
     ],
     "subject": "Life Skills",
@@ -1473,7 +1467,6 @@
     "grade": "grade1",
     "grades": [
       "grade1",
-      "grade2",
       "grade3"
     ],
     "subject": "Life Skills",
@@ -1515,7 +1508,6 @@
     "grade": "grade1",
     "grades": [
       "grade1",
-      "grade2",
       "grade3"
     ],
     "subject": "Life Skills",
@@ -1557,7 +1549,6 @@
     "grade": "grade1",
     "grades": [
       "grade1",
-      "grade2",
       "grade3"
     ],
     "subject": "Life Skills",
@@ -1599,7 +1590,6 @@
     "grade": "grade1",
     "grades": [
       "grade1",
-      "grade2",
       "grade3"
     ],
     "subject": "Life Skills",
@@ -2051,7 +2041,6 @@
     "grade": "grade1",
     "grades": [
       "grade1",
-      "grade2",
       "grade3"
     ],
     "subject": "Mathematics",
@@ -2093,7 +2082,6 @@
     "grade": "grade1",
     "grades": [
       "grade1",
-      "grade2",
       "grade3"
     ],
     "subject": "Mathematics",
@@ -2135,7 +2123,6 @@
     "grade": "grade1",
     "grades": [
       "grade1",
-      "grade2",
       "grade3"
     ],
     "subject": "Mathematics",
@@ -2177,7 +2164,6 @@
     "grade": "grade1",
     "grades": [
       "grade1",
-      "grade2",
       "grade3"
     ],
     "subject": "Mathematics",
@@ -2219,7 +2205,6 @@
     "grade": "grade1",
     "grades": [
       "grade1",
-      "grade2",
       "grade3"
     ],
     "subject": "Mathematics",
