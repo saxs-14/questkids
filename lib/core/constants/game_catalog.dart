@@ -56,7 +56,7 @@ class GameCatalogEntry {
 class GameCatalog {
   static const List<GameCatalogEntry> all = [
     // ═══════════════════════════════════════════════════════════════════════════
-    // FOUNDATION PHASE — GRADES 1–3
+    // FOUNDATION PHASE — GRADE 1
     // ═══════════════════════════════════════════════════════════════════════════
 
     // MATHEMATICS (5 games) ───────────────────────────────────────────────────
@@ -65,7 +65,7 @@ class GameCatalog {
       title: 'Number Counting Duel',
       description: 'Count and compare numbers 1–100 in a battle of counting!',
       grade: 'grade1',
-      grades: ['grade1', 'grade2', 'grade3'],
+      grades: ['grade1', 'grade3'],
       subject: 'Mathematics',
       topicId: 'numbers',
       subtopicId: 'counting',
@@ -87,7 +87,7 @@ class GameCatalog {
       description:
           'Sail the seas and collect treasure by solving sums up to 20!',
       grade: 'grade1',
-      grades: ['grade1', 'grade2', 'grade3'],
+      grades: ['grade1', 'grade3'],
       subject: 'Mathematics',
       topicId: 'operations',
       subtopicId: 'addition',
@@ -108,7 +108,7 @@ class GameCatalog {
       description:
           'Rescue animals from their cages by solving subtraction within 20!',
       grade: 'grade1',
-      grades: ['grade1', 'grade2', 'grade3'],
+      grades: ['grade1', 'grade3'],
       subject: 'Mathematics',
       topicId: 'operations',
       subtopicId: 'subtraction',
@@ -129,7 +129,7 @@ class GameCatalog {
       description:
           'Climb to the summit by solving mixed addition and subtraction!',
       grade: 'grade1',
-      grades: ['grade1', 'grade2', 'grade3'],
+      grades: ['grade1', 'grade3'],
       subject: 'Mathematics',
       topicId: 'operations',
       subtopicId: 'mixed_operations',
@@ -149,7 +149,7 @@ class GameCatalog {
       title: 'Multiple Chain',
       description: 'Link glowing crystals by skip counting in 2s, 5s and 10s!',
       grade: 'grade1',
-      grades: ['grade1', 'grade2', 'grade3'],
+      grades: ['grade1', 'grade3'],
       subject: 'Mathematics',
       topicId: 'operations',
       subtopicId: 'skip_counting',
@@ -172,7 +172,7 @@ class GameCatalog {
       description:
           'Uncover a jungle temple map by matching and finding letters!',
       grade: 'grade1',
-      grades: ['grade1', 'grade2'],
+      grades: ['grade1'],
       subject: 'English',
       topicId: 'letter_knowledge',
       subtopicId: 'alphabet',
@@ -193,7 +193,7 @@ class GameCatalog {
       title: 'Word Builder',
       description: 'Tap letter blocks in order to build simple words!',
       grade: 'grade1',
-      grades: ['grade1', 'grade2'],
+      grades: ['grade1'],
       subject: 'English',
       topicId: 'spelling',
       subtopicId: 'cvc_words',
@@ -213,7 +213,7 @@ class GameCatalog {
       title: 'Phonics Fun',
       description: 'Sort picture cards into the right nest by matching sounds!',
       grade: 'grade1',
-      grades: ['grade1', 'grade2'],
+      grades: ['grade1'],
       subject: 'English',
       topicId: 'phonics',
       subtopicId: 'sound_sorting',
@@ -233,7 +233,7 @@ class GameCatalog {
       title: 'Reading Rainbow',
       description: 'Tap picture cards in the right order to build a rainbow!',
       grade: 'grade1',
-      grades: ['grade1', 'grade2'],
+      grades: ['grade1'],
       subject: 'English',
       topicId: 'comprehension',
       subtopicId: 'sequencing',
@@ -253,7 +253,7 @@ class GameCatalog {
       title: 'Grammar Garden',
       description: 'Spot the one word that needs fixing in each sentence!',
       grade: 'grade1',
-      grades: ['grade1', 'grade2'],
+      grades: ['grade1'],
       subject: 'English',
       topicId: 'grammar',
       subtopicId: 'sentence_conventions',
@@ -275,7 +275,7 @@ class GameCatalog {
       title: 'My Body',
       description: 'Learn your body parts and how they help you every day!',
       grade: 'grade1',
-      grades: ['grade1', 'grade2', 'grade3'],
+      grades: ['grade1', 'grade3'],
       subject: 'Life Skills',
       topicId: 'personal_care',
       subtopicId: 'body_parts',
@@ -297,7 +297,7 @@ class GameCatalog {
       description:
           'Identify emotions and learn healthy ways to express your feelings!',
       grade: 'grade1',
-      grades: ['grade1', 'grade2', 'grade3'],
+      grades: ['grade1', 'grade3'],
       subject: 'Life Skills',
       topicId: 'social_skills',
       subtopicId: 'emotions',
@@ -318,7 +318,7 @@ class GameCatalog {
       description:
           'Learn the rules of personal safety at home, school and in public!',
       grade: 'grade1',
-      grades: ['grade1', 'grade2', 'grade3'],
+      grades: ['grade1', 'grade3'],
       subject: 'Life Skills',
       topicId: 'safety',
       subtopicId: 'personal_safety',
@@ -339,7 +339,7 @@ class GameCatalog {
       description:
           'Meet community helpers and discover how they keep us safe and healthy!',
       grade: 'grade1',
-      grades: ['grade1', 'grade2', 'grade3'],
+      grades: ['grade1', 'grade3'],
       subject: 'Life Skills',
       topicId: 'beginning_knowledge',
       subtopicId: 'community_helpers',
@@ -359,7 +359,7 @@ class GameCatalog {
       title: 'Healthy Habits',
       description: 'Build good habits around hygiene, nutrition and exercise!',
       grade: 'grade1',
-      grades: ['grade1', 'grade2', 'grade3'],
+      grades: ['grade1', 'grade3'],
       subject: 'Life Skills',
       topicId: 'health',
       subtopicId: 'healthy_habits',
@@ -376,7 +376,348 @@ class GameCatalog {
     ),
 
     // ═══════════════════════════════════════════════════════════════════════════
-    // INTERMEDIATE PHASE — GRADES 4–6
+    // FOUNDATION PHASE — GRADE 2
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    // MATHEMATICS (5 games) ───────────────────────────────────────────────────
+    GameCatalogEntry(
+      id: 'math_g2_addition',
+      title: 'Addition Adventure: Level 2',
+      description: 'Solve addition sums up to 100 and collect stars!',
+      grade: 'grade2',
+      grades: ['grade2'],
+      subject: 'Mathematics',
+      topicId: 'operations',
+      subtopicId: 'addition',
+      engineType: 'tugOfWar',
+      emoji: '➕',
+      color: AppColors.math,
+      learningObjective:
+          'Learners will solve addition sums up to 100 and collect stars.',
+      mechanicReason:
+          'Answering fast head-to-head builds quick, confident recall of addition.',
+      difficulty: 'easy',
+      xpReward: 65,
+      coinsReward: 13,
+      isNew: true,
+    ),
+    GameCatalogEntry(
+      id: 'math_g2_counting',
+      title: 'Number Counting Duel: Level 2',
+      description:
+          'Count and compare numbers up to 100, and start skip-counting by 2s, 5s and 10s!',
+      grade: 'grade2',
+      grades: ['grade2'],
+      subject: 'Mathematics',
+      topicId: 'numbers',
+      subtopicId: 'counting',
+      engineType: 'numberCountingDuel',
+      emoji: '🔢',
+      color: AppColors.math,
+      learningObjective:
+          'Learners will count and compare numbers up to 100 and skip-count by 2s, 5s and 10s.',
+      mechanicReason:
+          'Racing to count and compare builds fast, confident number sense for counting.',
+      difficulty: 'easy',
+      xpReward: 65,
+      coinsReward: 13,
+      isNew: true,
+      isFeatured: true,
+    ),
+    GameCatalogEntry(
+      id: 'math_g2_mountain',
+      title: 'Maths Mountain: Level 2',
+      description:
+          'Climb higher by solving addition, subtraction and early multiplication facts!',
+      grade: 'grade2',
+      grades: ['grade2'],
+      subject: 'Mathematics',
+      topicId: 'operations',
+      subtopicId: 'mixed_operations',
+      engineType: 'sequenceBuilder',
+      emoji: '⛰️',
+      color: AppColors.math,
+      learningObjective:
+          'Learners will climb higher by solving addition, subtraction and early multiplication facts.',
+      mechanicReason:
+          'Putting the steps in the right order breaks mixed operations into stages you can follow one by one.',
+      difficulty: 'medium',
+      xpReward: 90,
+      coinsReward: 18,
+      isNew: true,
+    ),
+    GameCatalogEntry(
+      id: 'math_g2_multiples',
+      title: 'Multiple Chain: Level 2',
+      description:
+          'Link the multiples of 2, 5 and 10 to make a chain — break it and try again!',
+      grade: 'grade2',
+      grades: ['grade2'],
+      subject: 'Mathematics',
+      topicId: 'multiplication',
+      subtopicId: 'multiples',
+      engineType: 'multiplesMerge',
+      emoji: '🔗',
+      color: AppColors.math,
+      learningObjective:
+          'Learners will link the multiples of 2, 5 and 10 to make a chain.',
+      mechanicReason:
+          'Matching and merging pairs helps you spot patterns and connections in multiples.',
+      difficulty: 'medium',
+      xpReward: 90,
+      coinsReward: 18,
+      isNew: true,
+    ),
+    GameCatalogEntry(
+      id: 'math_g2_subtraction',
+      title: 'Subtraction Safari: Level 2',
+      description:
+          'Hunt for the missing number in subtraction problems up to 100!',
+      grade: 'grade2',
+      grades: ['grade2'],
+      subject: 'Mathematics',
+      topicId: 'operations',
+      subtopicId: 'subtraction',
+      engineType: 'tugOfWar',
+      emoji: '➖',
+      color: AppColors.math,
+      learningObjective:
+          'Learners will hunt for the missing number in subtraction problems up to 100.',
+      mechanicReason:
+          'Answering fast head-to-head builds quick, confident recall of subtraction.',
+      difficulty: 'easy',
+      xpReward: 65,
+      coinsReward: 13,
+      isNew: true,
+    ),
+
+    // ENGLISH (5 games) ───────────────────────────────────────────────────────
+    GameCatalogEntry(
+      id: 'eng_g2_alphabet',
+      title: 'Sight Word Safari',
+      description:
+          'Recognise common sight words and blend longer letter sounds!',
+      grade: 'grade2',
+      grades: ['grade2'],
+      subject: 'English',
+      topicId: 'phonics',
+      subtopicId: 'alphabet',
+      engineType: 'adventureJourney',
+      emoji: '🔤',
+      color: AppColors.english,
+      learningObjective:
+          'Learners will recognise common sight words and blend longer letter sounds.',
+      mechanicReason:
+          'Making choices through a story connects sight words to real situations you can relate to.',
+      difficulty: 'easy',
+      xpReward: 65,
+      coinsReward: 13,
+      isNew: true,
+      isFeatured: true,
+    ),
+    GameCatalogEntry(
+      id: 'eng_g2_grammar',
+      title: 'Grammar Garden: Level 2',
+      description:
+          'Plant nouns, verbs, adjectives — and now pronouns too — in the right spot!',
+      grade: 'grade2',
+      grades: ['grade2'],
+      subject: 'English',
+      topicId: 'grammar',
+      subtopicId: 'parts_of_speech',
+      engineType: 'runnerCollector',
+      emoji: '🌻',
+      color: AppColors.english,
+      learningObjective:
+          'Learners will plant nouns, verbs, adjectives and pronouns in the sentence.',
+      mechanicReason:
+          'Sorting the right answers on the run trains you to quickly tell parts of speech apart.',
+      difficulty: 'medium',
+      xpReward: 90,
+      coinsReward: 18,
+      isNew: true,
+    ),
+    GameCatalogEntry(
+      id: 'eng_g2_phonics',
+      title: 'Phonics Fun: Blends & Digraphs',
+      description:
+          'Blend consonant clusters and digraphs to read trickier words!',
+      grade: 'grade2',
+      grades: ['grade2'],
+      subject: 'English',
+      topicId: 'phonics',
+      subtopicId: 'blending',
+      engineType: 'tugOfWar',
+      emoji: '🎵',
+      color: AppColors.english,
+      learningObjective:
+          'Learners will blend consonant clusters and digraphs to decode and read words.',
+      mechanicReason:
+          'Answering fast head-to-head builds quick, confident recall of blending.',
+      difficulty: 'easy',
+      xpReward: 65,
+      coinsReward: 13,
+      isNew: true,
+    ),
+    GameCatalogEntry(
+      id: 'eng_g2_reading',
+      title: 'Reading Rainbow: Level 2',
+      description:
+          "Read short paragraphs and answer 'who, what, where, why' questions!",
+      grade: 'grade2',
+      grades: ['grade2'],
+      subject: 'English',
+      topicId: 'reading',
+      subtopicId: 'comprehension',
+      engineType: 'adventureJourney',
+      emoji: '🌈',
+      color: AppColors.english,
+      learningObjective:
+          'Learners will read short paragraphs and answer who/what/where/why comprehension questions.',
+      mechanicReason:
+          'Making choices through a story connects comprehension to real situations you can relate to.',
+      difficulty: 'medium',
+      xpReward: 90,
+      coinsReward: 18,
+      isNew: true,
+    ),
+    GameCatalogEntry(
+      id: 'eng_g2_words',
+      title: 'Word Builder: Level 2',
+      description:
+          'Spell longer CVC and CVCC words by choosing the right letters!',
+      grade: 'grade2',
+      grades: ['grade2'],
+      subject: 'English',
+      topicId: 'spelling',
+      subtopicId: 'cvc_words',
+      engineType: 'sequenceBuilder',
+      emoji: '📝',
+      color: AppColors.english,
+      learningObjective:
+          'Learners will spell longer CVC and CVCC words by choosing the right letters.',
+      mechanicReason:
+          'Putting the steps in the right order breaks cvc words into stages you can follow one by one.',
+      difficulty: 'easy',
+      xpReward: 65,
+      coinsReward: 13,
+      isNew: true,
+    ),
+
+    // LIFE SKILLS (5 games) ───────────────────────────────────────────────────
+    GameCatalogEntry(
+      id: 'ls_g2_body',
+      title: 'My Body: Level 2',
+      description:
+          'Learn how your body systems work together to keep you healthy!',
+      grade: 'grade2',
+      grades: ['grade2'],
+      subject: 'Life Skills',
+      topicId: 'personal_care',
+      subtopicId: 'body_parts',
+      engineType: 'adventureJourney',
+      emoji: '🧍',
+      color: AppColors.lifeSkills,
+      learningObjective:
+          'Learners will learn how their body systems work together to keep them healthy.',
+      mechanicReason:
+          'Making choices through a story connects body systems to real situations you can relate to.',
+      difficulty: 'easy',
+      xpReward: 65,
+      coinsReward: 13,
+      isNew: true,
+    ),
+    GameCatalogEntry(
+      id: 'ls_g2_community',
+      title: 'My Community: Level 2',
+      description:
+          'Discover more community helpers and the tools they use to help us!',
+      grade: 'grade2',
+      grades: ['grade2'],
+      subject: 'Life Skills',
+      topicId: 'beginning_knowledge',
+      subtopicId: 'community_helpers',
+      engineType: 'explorerMap',
+      emoji: '🏘️',
+      color: AppColors.lifeSkills,
+      learningObjective:
+          'Learners will discover more community helpers and the tools they use to help us.',
+      mechanicReason:
+          'Exploring a map connects community helpers to real places, so it sticks.',
+      difficulty: 'easy',
+      xpReward: 65,
+      coinsReward: 13,
+      isNew: true,
+    ),
+    GameCatalogEntry(
+      id: 'ls_g2_feelings',
+      title: 'Feelings Factory: Level 2',
+      description:
+          'Tell apart more feelings and learn healthy ways to handle each one!',
+      grade: 'grade2',
+      grades: ['grade2'],
+      subject: 'Life Skills',
+      topicId: 'social_skills',
+      subtopicId: 'emotions',
+      engineType: 'runnerCollector',
+      emoji: '😊',
+      color: AppColors.lifeSkills,
+      learningObjective:
+          'Learners will tell apart more feelings and learn healthy ways to handle each one.',
+      mechanicReason:
+          'Sorting the right answers on the run trains you to quickly tell emotions apart.',
+      difficulty: 'easy',
+      xpReward: 65,
+      coinsReward: 13,
+      isNew: true,
+    ),
+    GameCatalogEntry(
+      id: 'ls_g2_habits',
+      title: 'Healthy Habits: Level 2',
+      description:
+          'Build stronger habits around hygiene, nutrition, sleep and exercise!',
+      grade: 'grade2',
+      grades: ['grade2'],
+      subject: 'Life Skills',
+      topicId: 'health',
+      subtopicId: 'healthy_habits',
+      engineType: 'runnerCollector',
+      emoji: '🥗',
+      color: AppColors.lifeSkills,
+      learningObjective:
+          'Learners will build stronger habits around hygiene, nutrition, sleep and exercise.',
+      mechanicReason:
+          'Sorting the right answers on the run trains you to quickly tell healthy habits apart.',
+      difficulty: 'easy',
+      xpReward: 65,
+      coinsReward: 13,
+      isNew: true,
+    ),
+    GameCatalogEntry(
+      id: 'ls_g2_safety',
+      title: 'Safety Squad: Level 2',
+      description:
+          'Learn safety rules for the road, water and being home alone!',
+      grade: 'grade2',
+      grades: ['grade2'],
+      subject: 'Life Skills',
+      topicId: 'safety',
+      subtopicId: 'personal_safety',
+      engineType: 'adventureJourney',
+      emoji: '🛡️',
+      color: AppColors.lifeSkills,
+      learningObjective:
+          'Learners will learn safety rules for the road, water and being home alone.',
+      mechanicReason:
+          'Making choices through a story connects personal safety to real situations you can relate to.',
+      difficulty: 'easy',
+      xpReward: 65,
+      coinsReward: 13,
+      isNew: true,
+    ),
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // INTERMEDIATE PHASE — GRADE 4
     // ═══════════════════════════════════════════════════════════════════════════
 
     // MATHEMATICS (10 games) ───────────────────────────────────────────────────

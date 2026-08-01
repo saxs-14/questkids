@@ -19,14 +19,27 @@ const CATALOG_OUT = path.join(ROOT, 'lib/core/constants/game_catalog.dart');
 const PUBSPEC_PATH = path.join(ROOT, 'pubspec.yaml');
 
 const GRADE_BAND_LABEL = {
-  grade1: 'FOUNDATION PHASE — GRADES 1–3',
-  grade4: 'INTERMEDIATE PHASE — GRADES 4–6',
+  grade1: 'FOUNDATION PHASE — GRADE 1',
+  grade2: 'FOUNDATION PHASE — GRADE 2',
+  grade3: 'FOUNDATION PHASE — GRADE 3',
+  grade4: 'INTERMEDIATE PHASE — GRADE 4',
+  grade5: 'INTERMEDIATE PHASE — GRADE 5',
+  grade6: 'INTERMEDIATE PHASE — GRADE 6',
   grade7: 'SENIOR PHASE — GRADES 7–9',
 };
-const GRADE_ORDER = ['grade1', 'grade4', 'grade7'];
+// One entry per grade this catalog can hold topics for -- byGrade groups by
+// the exact `grade` string (not by phase), so a grade missing from this list
+// is silently dropped from the generated Dart file even though it's present
+// in topics.json (see docs/superpowers/plans/2026-08-01-phase14-grade2-curriculum-content.md
+// Task 13 fix note). grade2/3/5/6 added alongside their difficulty.js bands.
+const GRADE_ORDER = ['grade1', 'grade2', 'grade3', 'grade4', 'grade5', 'grade6', 'grade7'];
 const SUBJECT_ORDER = {
   grade1: ['Mathematics', 'English', 'Life Skills'],
+  grade2: ['Mathematics', 'English', 'Life Skills'],
+  grade3: ['Mathematics', 'English', 'Life Skills'],
   grade4: ['Mathematics', 'Natural Sciences', 'Social Sciences', 'English', 'Life Skills'],
+  grade5: ['Mathematics', 'Natural Sciences', 'Social Sciences', 'English', 'Life Skills'],
+  grade6: ['Mathematics', 'Natural Sciences', 'Social Sciences', 'English', 'Life Skills'],
   grade7: [
     'Mathematics',
     'English',
