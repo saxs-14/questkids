@@ -81,6 +81,36 @@ what to do next.
   repurpose them as a designed-data layer if the bespoke widgets are ever
   refactored to read from packs — noted here to prevent confusion for anyone
   opening one of these files expecting it to reflect what the game actually shows.
+- **Grade 2 curriculum content (Phase 14, 2026-08-02): added 15 catalog entries + 2 bugs fixed.**
+  Phase 14 added Grade 2 its own dedicated difficulty band and 15 new `topics.json` entries:
+  English x5 (`eng_g2_phonics`, `eng_g2_alphabet`, `eng_g2_vocabulary`, `eng_g2_reading`, `eng_g2_comprehension`),
+  Life Skills x5 (`ls_g2_hygiene`, `ls_g2_emotions`, `ls_g2_health`, `ls_g2_social`, `ls_g2_safety`),
+  Mathematics x5 (`math_g2_counting`, `math_g2_addition`, `math_g2_subtraction`, `math_g2_shapes`, `math_g2_measurement`).
+  All reuse existing shared engines (no new engine code). Narrowed the original 15 Grade 1 entries' `grades` arrays
+  so Grade 1 content stops being silently served to Grade 2 learners. Authored real, CAPS-appropriate
+  Grade 2 difficulty content for all 15 topics across `facts.js`, `runner_collector.js`, `explorer_map.js`,
+  `sequence_builder.js`, `multiples_merge.js`. Final state: 141 total catalog entries (was 126).
+  
+  **Two previously-hidden bugs surfaced and were fixed during this work:**
+  1. `tools/gamegen/generate.js` had hardcoded `GRADE_ORDER = ['grade1','grade4','grade7']` — a remnant
+     from before Grade 2 existed. This silently dropped any topic with a grade outside that list from
+     the generated `game_catalog.dart`, even though the log line falsely claimed all topics were written.
+     Fixed by adding `grade2`/`grade3`/`grade5`/`grade6` to `GRADE_ORDER`/`SUBJECT_ORDER`/`GRADE_BAND_LABEL`
+     (the last three currently unused, added for future-proofing matching the `difficulty.js` bands
+     already defined in Phase 14).
+  2. `eng_g2_phonics` was initially authored using `engine: 'tugOfWar'`, copying an old assignment
+     for this exact topic pattern (phonics blending) from before the correct precedent was established.
+     `TugOfWarEngine` only renders arithmetic content correctly, so this would have shown wrong
+     (generic multiplication) questions to Grade 2 English learners. A prior, unrelated commit
+     (`aad5f25`) had already established the correct `sequenceBuilder` assignment for the equivalent
+     Grade 1 topic. Fixed by moving `eng_g2_phonics` to `sequenceBuilder`, matching that precedent.
+  
+  **Grade 3, 5, 6 remain on the hand-me-down pattern** (using Grade 1 and Grade 4 entries respectively).
+  `tools/gamegen/difficulty.js` already has `BANDS.grade3`/`grade5`/`grade6` defined — Phases 15–17
+  just need to repeat Phase 14's pattern for each remaining grade: add `topics.json` entries mirroring
+  the anchor grade's topicId/subtopicId pairs, narrow the anchor grade's `grades` array, author the
+  non-procedural content banks, run `npm run generate && npm run author && npm run validate`.
+  See `docs/superpowers/plans/2026-08-01-phase14-grade2-curriculum-content.md` for the detailed template.
 
 ## Android release build (Phase 4)
 
