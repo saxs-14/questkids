@@ -37,7 +37,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ems_g7_banking.json",
-    "sourceOrder": 115
+    "sourceOrder": 120
   },
   {
     "id": "ems_g7_budget",
@@ -77,7 +77,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ems_g7_budget.json",
-    "sourceOrder": 113
+    "sourceOrder": 118
   },
   {
     "id": "ems_g7_consumer",
@@ -117,7 +117,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ems_g7_consumer.json",
-    "sourceOrder": 118
+    "sourceOrder": 123
   },
   {
     "id": "ems_g7_economics",
@@ -157,7 +157,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/ems_g7_economics.json",
-    "sourceOrder": 111
+    "sourceOrder": 116
   },
   {
     "id": "ems_g7_entrepreneur",
@@ -197,7 +197,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ems_g7_entrepreneur.json",
-    "sourceOrder": 114
+    "sourceOrder": 119
   },
   {
     "id": "ems_g7_globaleconomy",
@@ -237,7 +237,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ems_g7_globaleconomy.json",
-    "sourceOrder": 120
+    "sourceOrder": 125
   },
   {
     "id": "ems_g7_profit",
@@ -277,7 +277,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ems_g7_profit.json",
-    "sourceOrder": 117
+    "sourceOrder": 122
   },
   {
     "id": "ems_g7_savings",
@@ -317,7 +317,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ems_g7_savings.json",
-    "sourceOrder": 119
+    "sourceOrder": 124
   },
   {
     "id": "ems_g7_supply_demand",
@@ -357,7 +357,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ems_g7_supply_demand.json",
-    "sourceOrder": 112
+    "sourceOrder": 117
   },
   {
     "id": "ems_g7_tax",
@@ -397,7 +397,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ems_g7_tax.json",
-    "sourceOrder": 116
+    "sourceOrder": 121
   },
   {
     "id": "eng_g1_alphabet",
@@ -644,7 +644,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g4_debate.json",
-    "sourceOrder": 49
+    "sourceOrder": 54
   },
   {
     "id": "eng_g4_grammar_nouns",
@@ -686,7 +686,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g4_grammar_nouns.json",
-    "sourceOrder": 41
+    "sourceOrder": 46
   },
   {
     "id": "eng_g4_grammar_verbs",
@@ -728,7 +728,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g4_grammar_verbs.json",
-    "sourceOrder": 42
+    "sourceOrder": 47
   },
   {
     "id": "eng_g4_idioms",
@@ -770,7 +770,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g4_idioms.json",
-    "sourceOrder": 48
+    "sourceOrder": 53
   },
   {
     "id": "eng_g4_poetry",
@@ -812,7 +812,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g4_poetry.json",
-    "sourceOrder": 47
+    "sourceOrder": 52
   },
   {
     "id": "eng_g4_punctuation",
@@ -854,7 +854,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g4_punctuation.json",
-    "sourceOrder": 45
+    "sourceOrder": 50
   },
   {
     "id": "eng_g4_reading",
@@ -896,7 +896,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/eng_g4_reading.json",
-    "sourceOrder": 40
+    "sourceOrder": 45
   },
   {
     "id": "eng_g4_spelling",
@@ -938,7 +938,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g4_spelling.json",
-    "sourceOrder": 44
+    "sourceOrder": 49
   },
   {
     "id": "eng_g4_vocabulary",
@@ -980,7 +980,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g4_vocabulary.json",
-    "sourceOrder": 43
+    "sourceOrder": 48
   },
   {
     "id": "eng_g4_writing",
@@ -1022,7 +1022,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g4_writing.json",
-    "sourceOrder": 46
+    "sourceOrder": 51
   },
   {
     "id": "eng_g7_comprehension",
@@ -1062,7 +1062,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/eng_g7_comprehension.json",
-    "sourceOrder": 65
+    "sourceOrder": 70
   },
   {
     "id": "eng_g7_debate",
@@ -1075,13 +1075,12 @@
     "subject": "English",
     "topicId": "speaking",
     "subtopicId": "formal_debate",
-    "engine": "tugOfWar",
-    "originalEngine": "sequenceBuilder",
+    "engine": "sequenceBuilder",
     "emoji": "🎤",
     "colorExpr": "AppColors.english",
     "capsObjective": "Learners will master formal debate structure — proposing, opposing and rebuttal.",
-    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of formal debate.",
-    "cognitiveVerb": "rapid_recall",
+    "mechanicReason": "Putting the steps in the right order breaks formal debate into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
     "bespoke": false,
     "difficulty": {
       "label": "hard",
@@ -1103,7 +1102,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g7_debate.json",
-    "sourceOrder": 71
+    "sourceOrder": 76
   },
   {
     "id": "eng_g7_essay",
@@ -1143,7 +1142,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g7_essay.json",
-    "sourceOrder": 69
+    "sourceOrder": 74
   },
   {
     "id": "eng_g7_figurative",
@@ -1183,7 +1182,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g7_figurative.json",
-    "sourceOrder": 67
+    "sourceOrder": 72
   },
   {
     "id": "eng_g7_grammar",
@@ -1223,7 +1222,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g7_grammar.json",
-    "sourceOrder": 66
+    "sourceOrder": 71
   },
   {
     "id": "eng_g7_media",
@@ -1263,7 +1262,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g7_media.json",
-    "sourceOrder": 72
+    "sourceOrder": 77
   },
   {
     "id": "eng_g7_oral",
@@ -1303,7 +1302,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g7_oral.json",
-    "sourceOrder": 74
+    "sourceOrder": 79
   },
   {
     "id": "eng_g7_poetry",
@@ -1343,7 +1342,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/eng_g7_poetry.json",
-    "sourceOrder": 70
+    "sourceOrder": 75
   },
   {
     "id": "eng_g7_spelling",
@@ -1356,13 +1355,12 @@
     "subject": "English",
     "topicId": "spelling",
     "subtopicId": "advanced_spelling",
-    "engine": "tugOfWar",
-    "originalEngine": "sequenceBuilder",
+    "engine": "sequenceBuilder",
     "emoji": "🔤",
     "colorExpr": "AppColors.english",
     "capsObjective": "Learners will spell complex Grade 7 words — prefixes, suffixes and word origins.",
-    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of advanced spelling.",
-    "cognitiveVerb": "rapid_recall",
+    "mechanicReason": "Putting the steps in the right order breaks advanced spelling into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
     "bespoke": false,
     "difficulty": {
       "label": "medium",
@@ -1384,7 +1382,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g7_spelling.json",
-    "sourceOrder": 73
+    "sourceOrder": 78
   },
   {
     "id": "eng_g7_vocabulary",
@@ -1424,7 +1422,217 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g7_vocabulary.json",
-    "sourceOrder": 68
+    "sourceOrder": 73
+  },
+  {
+    "id": "ls_g1_body",
+    "title": "My Body",
+    "description": "Learn your body parts and how they help you every day!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "Life Skills",
+    "topicId": "personal_care",
+    "subtopicId": "body_parts",
+    "engine": "adventureJourney",
+    "emoji": "🧍",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will learn their body parts and how they help they every day.",
+    "mechanicReason": "Making choices through a story connects body parts to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "bespoke": false,
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 50,
+    "coinsReward": 10,
+    "isNew": false,
+    "isFeatured": true,
+    "contentPack": "assets/content/ls_g1_body.json",
+    "sourceOrder": 10
+  },
+  {
+    "id": "ls_g1_community",
+    "title": "My Community",
+    "description": "Meet community helpers and discover how they keep us safe and healthy!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "Life Skills",
+    "topicId": "beginning_knowledge",
+    "subtopicId": "community_helpers",
+    "engine": "explorerMap",
+    "emoji": "🏘️",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will meet community helpers and discover how they keep us safe and healthy.",
+    "mechanicReason": "Exploring a map connects community helpers to real places, so it sticks.",
+    "cognitiveVerb": "locate_map",
+    "bespoke": false,
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 50,
+    "coinsReward": 10,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/ls_g1_community.json",
+    "sourceOrder": 13
+  },
+  {
+    "id": "ls_g1_feelings",
+    "title": "Feelings Factory",
+    "description": "Identify emotions and learn healthy ways to express your feelings!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "Life Skills",
+    "topicId": "social_skills",
+    "subtopicId": "emotions",
+    "engine": "runnerCollector",
+    "emoji": "😊",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will identify emotions and learn healthy ways to express their feelings.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell emotions apart.",
+    "cognitiveVerb": "word_classify",
+    "bespoke": false,
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 50,
+    "coinsReward": 10,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/ls_g1_feelings.json",
+    "sourceOrder": 11
+  },
+  {
+    "id": "ls_g1_habits",
+    "title": "Healthy Habits",
+    "description": "Build good habits around hygiene, nutrition and exercise!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "Life Skills",
+    "topicId": "health",
+    "subtopicId": "healthy_habits",
+    "engine": "tugOfWar",
+    "emoji": "🥗",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will build good habits around hygiene, nutrition and exercise.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of healthy habits.",
+    "cognitiveVerb": "rapid_recall",
+    "bespoke": false,
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 50,
+    "coinsReward": 10,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/ls_g1_habits.json",
+    "sourceOrder": 14
+  },
+  {
+    "id": "ls_g1_safety",
+    "title": "Safety Squad",
+    "description": "Learn the rules of personal safety at home, school and in public!",
+    "grade": "grade1",
+    "grades": [
+      "grade1",
+      "grade2",
+      "grade3"
+    ],
+    "subject": "Life Skills",
+    "topicId": "safety",
+    "subtopicId": "personal_safety",
+    "engine": "adventureJourney",
+    "emoji": "🛡️",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will learn the rules of personal safety at home, school and in public.",
+    "mechanicReason": "Making choices through a story connects personal safety to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "bespoke": false,
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 50,
+    "coinsReward": 10,
+    "isNew": false,
+    "isFeatured": false,
+    "contentPack": "assets/content/ls_g1_safety.json",
+    "sourceOrder": 12
   },
   {
     "id": "ls_g4_career",
@@ -1466,7 +1674,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/ls_g4_career.json",
-    "sourceOrder": 50
+    "sourceOrder": 55
   },
   {
     "id": "ls_g4_environment",
@@ -1508,7 +1716,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ls_g4_environment.json",
-    "sourceOrder": 54
+    "sourceOrder": 59
   },
   {
     "id": "ls_g4_finance",
@@ -1550,7 +1758,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ls_g4_finance.json",
-    "sourceOrder": 51
+    "sourceOrder": 56
   },
   {
     "id": "ls_g4_health",
@@ -1592,7 +1800,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ls_g4_health.json",
-    "sourceOrder": 52
+    "sourceOrder": 57
   },
   {
     "id": "ls_g4_social",
@@ -1634,7 +1842,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ls_g4_social.json",
-    "sourceOrder": 53
+    "sourceOrder": 58
   },
   {
     "id": "ls_g7_career",
@@ -1674,7 +1882,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ls_g7_career.json",
-    "sourceOrder": 76
+    "sourceOrder": 81
   },
   {
     "id": "ls_g7_citizenship",
@@ -1714,7 +1922,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ls_g7_citizenship.json",
-    "sourceOrder": 78
+    "sourceOrder": 83
   },
   {
     "id": "ls_g7_digital",
@@ -1754,7 +1962,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ls_g7_digital.json",
-    "sourceOrder": 79
+    "sourceOrder": 84
   },
   {
     "id": "ls_g7_relationships",
@@ -1794,7 +2002,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/ls_g7_relationships.json",
-    "sourceOrder": 75
+    "sourceOrder": 80
   },
   {
     "id": "ls_g7_wellbeing",
@@ -1807,13 +2015,12 @@
     "subject": "Life Skills",
     "topicId": "mental_health",
     "subtopicId": "wellbeing",
-    "engine": "tugOfWar",
-    "originalEngine": "runnerCollector",
+    "engine": "runnerCollector",
     "emoji": "🧘",
     "colorExpr": "AppColors.lifeSkills",
     "capsObjective": "Learners will manage stress, build resilience and maintain mental health.",
-    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of wellbeing.",
-    "cognitiveVerb": "rapid_recall",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell wellbeing apart.",
+    "cognitiveVerb": "word_classify",
     "bespoke": false,
     "difficulty": {
       "label": "easy",
@@ -1835,7 +2042,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ls_g7_wellbeing.json",
-    "sourceOrder": 77
+    "sourceOrder": 82
   },
   {
     "id": "math_g1_addition",
@@ -2087,7 +2294,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g4_data.json",
-    "sourceOrder": 13
+    "sourceOrder": 18
   },
   {
     "id": "math_g4_decimals",
@@ -2129,7 +2336,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g4_decimals.json",
-    "sourceOrder": 14
+    "sourceOrder": 19
   },
   {
     "id": "math_g4_division",
@@ -2171,7 +2378,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g4_division.json",
-    "sourceOrder": 16
+    "sourceOrder": 21
   },
   {
     "id": "math_g4_fractions",
@@ -2213,7 +2420,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/math_g4_fractions.json",
-    "sourceOrder": 10
+    "sourceOrder": 15
   },
   {
     "id": "math_g4_geometry",
@@ -2255,7 +2462,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g4_geometry.json",
-    "sourceOrder": 11
+    "sourceOrder": 16
   },
   {
     "id": "math_g4_measurement",
@@ -2297,7 +2504,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g4_measurement.json",
-    "sourceOrder": 12
+    "sourceOrder": 17
   },
   {
     "id": "math_g4_multiplication",
@@ -2339,7 +2546,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g4_multiplication.json",
-    "sourceOrder": 15
+    "sourceOrder": 20
   },
   {
     "id": "math_g4_patterns",
@@ -2381,7 +2588,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g4_patterns.json",
-    "sourceOrder": 17
+    "sourceOrder": 22
   },
   {
     "id": "math_g4_problems",
@@ -2423,7 +2630,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g4_problems.json",
-    "sourceOrder": 18
+    "sourceOrder": 23
   },
   {
     "id": "math_g4_timestable",
@@ -2465,7 +2672,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/math_g4_timestable.json",
-    "sourceOrder": 19
+    "sourceOrder": 24
   },
   {
     "id": "math_g7_algebra",
@@ -2505,7 +2712,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g7_algebra.json",
-    "sourceOrder": 56
+    "sourceOrder": 61
   },
   {
     "id": "math_g7_fractions",
@@ -2545,7 +2752,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g7_fractions.json",
-    "sourceOrder": 61
+    "sourceOrder": 66
   },
   {
     "id": "math_g7_geometry",
@@ -2585,7 +2792,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g7_geometry.json",
-    "sourceOrder": 58
+    "sourceOrder": 63
   },
   {
     "id": "math_g7_integers",
@@ -2625,7 +2832,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/math_g7_integers.json",
-    "sourceOrder": 55
+    "sourceOrder": 60
   },
   {
     "id": "math_g7_patterns",
@@ -2665,7 +2872,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g7_patterns.json",
-    "sourceOrder": 63
+    "sourceOrder": 68
   },
   {
     "id": "math_g7_percentage",
@@ -2705,7 +2912,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g7_percentage.json",
-    "sourceOrder": 60
+    "sourceOrder": 65
   },
   {
     "id": "math_g7_probability",
@@ -2745,7 +2952,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g7_probability.json",
-    "sourceOrder": 62
+    "sourceOrder": 67
   },
   {
     "id": "math_g7_ratio",
@@ -2785,7 +2992,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g7_ratio.json",
-    "sourceOrder": 57
+    "sourceOrder": 62
   },
   {
     "id": "math_g7_stats",
@@ -2825,7 +3032,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g7_stats.json",
-    "sourceOrder": 59
+    "sourceOrder": 64
   },
   {
     "id": "math_g7_wordproblems",
@@ -2865,7 +3072,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g7_wordproblems.json",
-    "sourceOrder": 64
+    "sourceOrder": 69
   },
   {
     "id": "ns_g4_ecosystem",
@@ -2907,7 +3114,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/ns_g4_ecosystem.json",
-    "sourceOrder": 20
+    "sourceOrder": 25
   },
   {
     "id": "ns_g4_energy",
@@ -2949,7 +3156,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ns_g4_energy.json",
-    "sourceOrder": 22
+    "sourceOrder": 27
   },
   {
     "id": "ns_g4_lifecycle",
@@ -2991,7 +3198,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ns_g4_lifecycle.json",
-    "sourceOrder": 23
+    "sourceOrder": 28
   },
   {
     "id": "ns_g4_matter",
@@ -3033,7 +3240,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ns_g4_matter.json",
-    "sourceOrder": 21
+    "sourceOrder": 26
   },
   {
     "id": "ns_g4_solar",
@@ -3075,7 +3282,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ns_g4_solar.json",
-    "sourceOrder": 24
+    "sourceOrder": 29
   },
   {
     "id": "ns_g4_weather",
@@ -3117,7 +3324,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ns_g4_weather.json",
-    "sourceOrder": 25
+    "sourceOrder": 30
   },
   {
     "id": "sci_g7_atoms",
@@ -3157,7 +3364,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/sci_g7_atoms.json",
-    "sourceOrder": 91
+    "sourceOrder": 96
   },
   {
     "id": "sci_g7_cells",
@@ -3197,7 +3404,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/sci_g7_cells.json",
-    "sourceOrder": 93
+    "sourceOrder": 98
   },
   {
     "id": "sci_g7_ecosystems",
@@ -3237,7 +3444,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/sci_g7_ecosystems.json",
-    "sourceOrder": 94
+    "sourceOrder": 99
   },
   {
     "id": "sci_g7_energy",
@@ -3277,7 +3484,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/sci_g7_energy.json",
-    "sourceOrder": 92
+    "sourceOrder": 97
   },
   {
     "id": "sci_g7_foodchains",
@@ -3317,7 +3524,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/sci_g7_foodchains.json",
-    "sourceOrder": 96
+    "sourceOrder": 101
   },
   {
     "id": "sci_g7_forces",
@@ -3357,7 +3564,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/sci_g7_forces.json",
-    "sourceOrder": 98
+    "sourceOrder": 103
   },
   {
     "id": "sci_g7_health",
@@ -3370,13 +3577,12 @@
     "subject": "Natural Sciences",
     "topicId": "biology",
     "subtopicId": "human_health",
-    "engine": "tugOfWar",
-    "originalEngine": "runnerCollector",
+    "engine": "runnerCollector",
     "emoji": "💉",
     "colorExpr": "AppColors.science",
     "capsObjective": "Learners will understand diseases, the immune system and healthy lifestyle choices.",
-    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of human health.",
-    "cognitiveVerb": "rapid_recall",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell human health apart.",
+    "cognitiveVerb": "word_classify",
     "bespoke": false,
     "difficulty": {
       "label": "medium",
@@ -3398,7 +3604,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/sci_g7_health.json",
-    "sourceOrder": 100
+    "sourceOrder": 105
   },
   {
     "id": "sci_g7_mixtures",
@@ -3438,7 +3644,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/sci_g7_mixtures.json",
-    "sourceOrder": 99
+    "sourceOrder": 104
   },
   {
     "id": "sci_g7_physical",
@@ -3478,7 +3684,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/sci_g7_physical.json",
-    "sourceOrder": 95
+    "sourceOrder": 100
   },
   {
     "id": "sci_g7_reproduction",
@@ -3518,7 +3724,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/sci_g7_reproduction.json",
-    "sourceOrder": 97
+    "sourceOrder": 102
   },
   {
     "id": "ss_g4_ancient",
@@ -3560,7 +3766,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g4_ancient.json",
-    "sourceOrder": 35
+    "sourceOrder": 40
   },
   {
     "id": "ss_g4_biomes",
@@ -3602,7 +3808,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g4_biomes.json",
-    "sourceOrder": 34
+    "sourceOrder": 39
   },
   {
     "id": "ss_g4_climate",
@@ -3644,7 +3850,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g4_climate.json",
-    "sourceOrder": 32
+    "sourceOrder": 37
   },
   {
     "id": "ss_g4_colonial",
@@ -3686,7 +3892,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g4_colonial.json",
-    "sourceOrder": 37
+    "sourceOrder": 42
   },
   {
     "id": "ss_g4_democracy",
@@ -3728,7 +3934,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g4_democracy.json",
-    "sourceOrder": 39
+    "sourceOrder": 44
   },
   {
     "id": "ss_g4_heroes",
@@ -3770,7 +3976,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/ss_g4_heroes.json",
-    "sourceOrder": 38
+    "sourceOrder": 43
   },
   {
     "id": "ss_g4_indigenous",
@@ -3812,7 +4018,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g4_indigenous.json",
-    "sourceOrder": 36
+    "sourceOrder": 41
   },
   {
     "id": "ss_g4_maps",
@@ -3854,7 +4060,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/ss_g4_maps.json",
-    "sourceOrder": 30
+    "sourceOrder": 35
   },
   {
     "id": "ss_g4_provinces",
@@ -3896,7 +4102,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g4_provinces.json",
-    "sourceOrder": 31
+    "sourceOrder": 36
   },
   {
     "id": "ss_g4_water",
@@ -3938,7 +4144,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g4_water.json",
-    "sourceOrder": 33
+    "sourceOrder": 38
   },
   {
     "id": "ss_g7_apartheid",
@@ -3978,7 +4184,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/ss_g7_apartheid.json",
-    "sourceOrder": 80
+    "sourceOrder": 85
   },
   {
     "id": "ss_g7_climate",
@@ -4018,7 +4224,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_climate.json",
-    "sourceOrder": 84
+    "sourceOrder": 89
   },
   {
     "id": "ss_g7_democracy",
@@ -4058,7 +4264,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_democracy.json",
-    "sourceOrder": 83
+    "sourceOrder": 88
   },
   {
     "id": "ss_g7_globalisation",
@@ -4098,7 +4304,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_globalisation.json",
-    "sourceOrder": 89
+    "sourceOrder": 94
   },
   {
     "id": "ss_g7_leaders",
@@ -4138,7 +4344,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_leaders.json",
-    "sourceOrder": 82
+    "sourceOrder": 87
   },
   {
     "id": "ss_g7_neighbours",
@@ -4178,7 +4384,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_neighbours.json",
-    "sourceOrder": 86
+    "sourceOrder": 91
   },
   {
     "id": "ss_g7_population",
@@ -4218,7 +4424,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_population.json",
-    "sourceOrder": 88
+    "sourceOrder": 93
   },
   {
     "id": "ss_g7_rights",
@@ -4258,7 +4464,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_rights.json",
-    "sourceOrder": 90
+    "sourceOrder": 95
   },
   {
     "id": "ss_g7_rivers",
@@ -4298,7 +4504,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_rivers.json",
-    "sourceOrder": 85
+    "sourceOrder": 90
   },
   {
     "id": "ss_g7_settlement",
@@ -4338,7 +4544,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_settlement.json",
-    "sourceOrder": 87
+    "sourceOrder": 92
   },
   {
     "id": "ss_g7_timeline",
@@ -4378,7 +4584,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_timeline.json",
-    "sourceOrder": 81
+    "sourceOrder": 86
   },
   {
     "id": "tech_g4_circuit",
@@ -4420,7 +4626,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g4_circuit.json",
-    "sourceOrder": 28
+    "sourceOrder": 33
   },
   {
     "id": "tech_g4_coding",
@@ -4462,7 +4668,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g4_coding.json",
-    "sourceOrder": 27
+    "sourceOrder": 32
   },
   {
     "id": "tech_g4_machines",
@@ -4504,7 +4710,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g4_machines.json",
-    "sourceOrder": 26
+    "sourceOrder": 31
   },
   {
     "id": "tech_g4_robot",
@@ -4546,7 +4752,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/tech_g4_robot.json",
-    "sourceOrder": 29
+    "sourceOrder": 34
   },
   {
     "id": "tech_g7_circuit_parallel",
@@ -4586,7 +4792,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g7_circuit_parallel.json",
-    "sourceOrder": 102
+    "sourceOrder": 107
   },
   {
     "id": "tech_g7_circuit_series",
@@ -4626,7 +4832,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/tech_g7_circuit_series.json",
-    "sourceOrder": 101
+    "sourceOrder": 106
   },
   {
     "id": "tech_g7_design",
@@ -4666,7 +4872,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g7_design.json",
-    "sourceOrder": 103
+    "sourceOrder": 108
   },
   {
     "id": "tech_g7_electronics",
@@ -4706,7 +4912,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g7_electronics.json",
-    "sourceOrder": 106
+    "sourceOrder": 111
   },
   {
     "id": "tech_g7_impact",
@@ -4746,7 +4952,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g7_impact.json",
-    "sourceOrder": 109
+    "sourceOrder": 114
   },
   {
     "id": "tech_g7_innovation",
@@ -4786,7 +4992,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g7_innovation.json",
-    "sourceOrder": 110
+    "sourceOrder": 115
   },
   {
     "id": "tech_g7_materials",
@@ -4826,7 +5032,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g7_materials.json",
-    "sourceOrder": 107
+    "sourceOrder": 112
   },
   {
     "id": "tech_g7_mechanisms",
@@ -4866,7 +5072,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g7_mechanisms.json",
-    "sourceOrder": 105
+    "sourceOrder": 110
   },
   {
     "id": "tech_g7_structures",
@@ -4906,7 +5112,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g7_structures.json",
-    "sourceOrder": 104
+    "sourceOrder": 109
   },
   {
     "id": "tech_g7_systems",
@@ -4946,216 +5152,6 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g7_systems.json",
-    "sourceOrder": 108
-  },
-  {
-    "id": "ls_g1_body",
-    "title": "My Body",
-    "description": "Learn your body parts and how they help you every day!",
-    "grade": "grade1",
-    "grades": [
-      "grade1",
-      "grade2",
-      "grade3"
-    ],
-    "subject": "Life Skills",
-    "topicId": "personal_care",
-    "subtopicId": "body_parts",
-    "engine": "adventureJourney",
-    "emoji": "🧍",
-    "colorExpr": "AppColors.lifeSkills",
-    "capsObjective": "Learners will learn their body parts and how they help they every day.",
-    "mechanicReason": "Making choices through a story connects body parts to real situations you can relate to.",
-    "cognitiveVerb": "narrative_comprehension",
-    "difficulty": {
-      "label": "easy",
-      "numberRange": {
-        "min": 1,
-        "max": 20
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 3,
-        "max": 4
-      },
-      "lives": 5,
-      "readingLevel": "emergent",
-      "fractionsDecimals": false
-    },
-    "xpReward": 50,
-    "coinsReward": 10,
-    "isNew": false,
-    "isFeatured": true,
-    "contentPack": "assets/content/ls_g1_body.json",
-    "sourceOrder": 10,
-    "bespoke": false
-  },
-  {
-    "id": "ls_g1_feelings",
-    "title": "Feelings Factory",
-    "description": "Identify emotions and learn healthy ways to express your feelings!",
-    "grade": "grade1",
-    "grades": [
-      "grade1",
-      "grade2",
-      "grade3"
-    ],
-    "subject": "Life Skills",
-    "topicId": "social_skills",
-    "subtopicId": "emotions",
-    "engine": "runnerCollector",
-    "emoji": "😊",
-    "colorExpr": "AppColors.lifeSkills",
-    "capsObjective": "Learners will identify emotions and learn healthy ways to express their feelings.",
-    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell emotions apart.",
-    "cognitiveVerb": "word_classify",
-    "difficulty": {
-      "label": "easy",
-      "numberRange": {
-        "min": 1,
-        "max": 20
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 3,
-        "max": 4
-      },
-      "lives": 5,
-      "readingLevel": "emergent",
-      "fractionsDecimals": false
-    },
-    "xpReward": 50,
-    "coinsReward": 10,
-    "isNew": false,
-    "isFeatured": false,
-    "contentPack": "assets/content/ls_g1_feelings.json",
-    "sourceOrder": 11,
-    "bespoke": false
-  },
-  {
-    "id": "ls_g1_safety",
-    "title": "Safety Squad",
-    "description": "Learn the rules of personal safety at home, school and in public!",
-    "grade": "grade1",
-    "grades": [
-      "grade1",
-      "grade2",
-      "grade3"
-    ],
-    "subject": "Life Skills",
-    "topicId": "safety",
-    "subtopicId": "personal_safety",
-    "engine": "adventureJourney",
-    "emoji": "🛡️",
-    "colorExpr": "AppColors.lifeSkills",
-    "capsObjective": "Learners will learn the rules of personal safety at home, school and in public.",
-    "mechanicReason": "Making choices through a story connects personal safety to real situations you can relate to.",
-    "cognitiveVerb": "narrative_comprehension",
-    "difficulty": {
-      "label": "easy",
-      "numberRange": {
-        "min": 1,
-        "max": 20
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 3,
-        "max": 4
-      },
-      "lives": 5,
-      "readingLevel": "emergent",
-      "fractionsDecimals": false
-    },
-    "xpReward": 50,
-    "coinsReward": 10,
-    "isNew": false,
-    "isFeatured": false,
-    "contentPack": "assets/content/ls_g1_safety.json",
-    "sourceOrder": 12,
-    "bespoke": false
-  },
-  {
-    "id": "ls_g1_community",
-    "title": "My Community",
-    "description": "Meet community helpers and discover how they keep us safe and healthy!",
-    "grade": "grade1",
-    "grades": [
-      "grade1",
-      "grade2",
-      "grade3"
-    ],
-    "subject": "Life Skills",
-    "topicId": "beginning_knowledge",
-    "subtopicId": "community_helpers",
-    "engine": "explorerMap",
-    "emoji": "🏘️",
-    "colorExpr": "AppColors.lifeSkills",
-    "capsObjective": "Learners will meet community helpers and discover how they keep us safe and healthy.",
-    "mechanicReason": "Exploring a map connects community helpers to real places, so it sticks.",
-    "cognitiveVerb": "locate_map",
-    "difficulty": {
-      "label": "easy",
-      "numberRange": {
-        "min": 1,
-        "max": 20
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 3,
-        "max": 4
-      },
-      "lives": 5,
-      "readingLevel": "emergent",
-      "fractionsDecimals": false
-    },
-    "xpReward": 50,
-    "coinsReward": 10,
-    "isNew": false,
-    "isFeatured": false,
-    "contentPack": "assets/content/ls_g1_community.json",
-    "sourceOrder": 13,
-    "bespoke": false
-  },
-  {
-    "id": "ls_g1_habits",
-    "title": "Healthy Habits",
-    "description": "Build good habits around hygiene, nutrition and exercise!",
-    "grade": "grade1",
-    "grades": [
-      "grade1",
-      "grade2",
-      "grade3"
-    ],
-    "subject": "Life Skills",
-    "topicId": "health",
-    "subtopicId": "healthy_habits",
-    "engine": "tugOfWar",
-    "emoji": "🥗",
-    "colorExpr": "AppColors.lifeSkills",
-    "capsObjective": "Learners will build good habits around hygiene, nutrition and exercise.",
-    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of healthy habits.",
-    "cognitiveVerb": "rapid_recall",
-    "difficulty": {
-      "label": "easy",
-      "numberRange": {
-        "min": 1,
-        "max": 20
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 3,
-        "max": 4
-      },
-      "lives": 5,
-      "readingLevel": "emergent",
-      "fractionsDecimals": false
-    },
-    "xpReward": 50,
-    "coinsReward": 10,
-    "isNew": false,
-    "isFeatured": false,
-    "contentPack": "assets/content/ls_g1_habits.json",
-    "sourceOrder": 14,
-    "bespoke": false
+    "sourceOrder": 113
   }
 ]

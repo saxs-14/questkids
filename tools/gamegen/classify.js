@@ -83,9 +83,13 @@ const BY_TOPIC_KEY = {
   'grammar/complex_grammar': 'word_classify',
   'language/figurative_language': 'word_classify',
   'writing/essay_structure': 'order_sequence',
-  'speaking/formal_debate': 'rapid_recall',
+  // sequenceBuilder in production (formal debate structure: propose ->
+  // oppose -> rebut is an ordered sequence), not rapid-recall fluency.
+  'speaking/formal_debate': 'order_sequence',
   'reading/media_texts': 'word_classify',
-  'spelling/advanced_spelling': 'rapid_recall',
+  // sequenceBuilder in production (spelling by breaking words into
+  // prefix/root/suffix stages), not rapid-recall fluency.
+  'spelling/advanced_spelling': 'order_sequence',
   'speaking/oral_presentation': 'order_sequence',
 
   // Life Skills
@@ -101,7 +105,9 @@ const BY_TOPIC_KEY = {
   'environment/conservation': 'word_classify',
   'relationships/healthy_relationships': 'narrative_comprehension',
   'careers/career_pathways': 'locate_map',
-  'mental_health/wellbeing': 'rapid_recall',
+  // runnerCollector in production (sorting healthy vs unhealthy coping
+  // strategies on the run is classification), not rapid-recall fluency.
+  'mental_health/wellbeing': 'word_classify',
   'citizenship/rights_responsibilities': 'narrative_comprehension',
   'digital_literacy/online_safety': 'word_classify',
 
@@ -124,7 +130,9 @@ const BY_TOPIC_KEY = {
   'biology/reproduction': 'word_classify',
   'physics/forces': 'narrative_comprehension',
   'matter/separating_mixtures': 'order_sequence',
-  'biology/human_health': 'rapid_recall',
+  // runnerCollector in production (sorting healthy vs unhealthy lifestyle
+  // choices on the run is classification), not rapid-recall fluency.
+  'biology/human_health': 'word_classify',
   'matter/atoms_molecules': 'connect_systems',
   'electric_circuits/series_circuits': 'connect_systems',
   'electric_circuits/parallel_circuits': 'connect_systems',

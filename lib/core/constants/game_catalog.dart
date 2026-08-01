@@ -56,13 +56,10 @@ class GameCatalogEntry {
 class GameCatalog {
   static const List<GameCatalogEntry> all = [
     // ═══════════════════════════════════════════════════════════════════════════
-    // FOUNDATION PHASE — GRADE 1
+    // FOUNDATION PHASE — GRADES 1–3
     // ═══════════════════════════════════════════════════════════════════════════
-    // Being rebuilt one game at a time, each with its own bespoke engine
-    // (not a shared/reused engine) -- see lib/features/games/<engine>/ for
-    // each game's dedicated implementation.
 
-    // MATHEMATICS ────────────────────────────────────────────────────────────
+    // MATHEMATICS (5 games) ───────────────────────────────────────────────────
     GameCatalogEntry(
       id: 'math_g1_counting',
       title: 'Number Counting Duel',
@@ -87,7 +84,8 @@ class GameCatalog {
     GameCatalogEntry(
       id: 'math_g1_addition',
       title: 'Addition Adventure',
-      description: 'Sail the seas and collect treasure by solving sums up to 20!',
+      description:
+          'Sail the seas and collect treasure by solving sums up to 20!',
       grade: 'grade1',
       grades: ['grade1', 'grade2', 'grade3'],
       subject: 'Mathematics',
@@ -167,11 +165,12 @@ class GameCatalog {
       coinsReward: 15,
     ),
 
-    // ENGLISH ────────────────────────────────────────────────────────────────
+    // ENGLISH (5 games) ───────────────────────────────────────────────────────
     GameCatalogEntry(
       id: 'eng_g1_alphabet',
       title: 'Alphabet Explorer',
-      description: 'Uncover a jungle temple map by matching and finding letters!',
+      description:
+          'Uncover a jungle temple map by matching and finding letters!',
       grade: 'grade1',
       grades: ['grade1', 'grade2'],
       subject: 'English',
@@ -268,6 +267,112 @@ class GameCatalog {
       difficulty: 'medium',
       xpReward: 60,
       coinsReward: 12,
+    ),
+
+    // LIFE SKILLS (5 games) ───────────────────────────────────────────────────
+    GameCatalogEntry(
+      id: 'ls_g1_body',
+      title: 'My Body',
+      description: 'Learn your body parts and how they help you every day!',
+      grade: 'grade1',
+      grades: ['grade1', 'grade2', 'grade3'],
+      subject: 'Life Skills',
+      topicId: 'personal_care',
+      subtopicId: 'body_parts',
+      engineType: 'adventureJourney',
+      emoji: '🧍',
+      color: AppColors.lifeSkills,
+      learningObjective:
+          'Learners will learn their body parts and how they help they every day.',
+      mechanicReason:
+          'Making choices through a story connects body parts to real situations you can relate to.',
+      difficulty: 'easy',
+      xpReward: 50,
+      coinsReward: 10,
+      isFeatured: true,
+    ),
+    GameCatalogEntry(
+      id: 'ls_g1_feelings',
+      title: 'Feelings Factory',
+      description:
+          'Identify emotions and learn healthy ways to express your feelings!',
+      grade: 'grade1',
+      grades: ['grade1', 'grade2', 'grade3'],
+      subject: 'Life Skills',
+      topicId: 'social_skills',
+      subtopicId: 'emotions',
+      engineType: 'runnerCollector',
+      emoji: '😊',
+      color: AppColors.lifeSkills,
+      learningObjective:
+          'Learners will identify emotions and learn healthy ways to express their feelings.',
+      mechanicReason:
+          'Sorting the right answers on the run trains you to quickly tell emotions apart.',
+      difficulty: 'easy',
+      xpReward: 50,
+      coinsReward: 10,
+    ),
+    GameCatalogEntry(
+      id: 'ls_g1_safety',
+      title: 'Safety Squad',
+      description:
+          'Learn the rules of personal safety at home, school and in public!',
+      grade: 'grade1',
+      grades: ['grade1', 'grade2', 'grade3'],
+      subject: 'Life Skills',
+      topicId: 'safety',
+      subtopicId: 'personal_safety',
+      engineType: 'adventureJourney',
+      emoji: '🛡️',
+      color: AppColors.lifeSkills,
+      learningObjective:
+          'Learners will learn the rules of personal safety at home, school and in public.',
+      mechanicReason:
+          'Making choices through a story connects personal safety to real situations you can relate to.',
+      difficulty: 'easy',
+      xpReward: 50,
+      coinsReward: 10,
+    ),
+    GameCatalogEntry(
+      id: 'ls_g1_community',
+      title: 'My Community',
+      description:
+          'Meet community helpers and discover how they keep us safe and healthy!',
+      grade: 'grade1',
+      grades: ['grade1', 'grade2', 'grade3'],
+      subject: 'Life Skills',
+      topicId: 'beginning_knowledge',
+      subtopicId: 'community_helpers',
+      engineType: 'explorerMap',
+      emoji: '🏘️',
+      color: AppColors.lifeSkills,
+      learningObjective:
+          'Learners will meet community helpers and discover how they keep us safe and healthy.',
+      mechanicReason:
+          'Exploring a map connects community helpers to real places, so it sticks.',
+      difficulty: 'easy',
+      xpReward: 50,
+      coinsReward: 10,
+    ),
+    GameCatalogEntry(
+      id: 'ls_g1_habits',
+      title: 'Healthy Habits',
+      description: 'Build good habits around hygiene, nutrition and exercise!',
+      grade: 'grade1',
+      grades: ['grade1', 'grade2', 'grade3'],
+      subject: 'Life Skills',
+      topicId: 'health',
+      subtopicId: 'healthy_habits',
+      engineType: 'tugOfWar',
+      emoji: '🥗',
+      color: AppColors.lifeSkills,
+      learningObjective:
+          'Learners will build good habits around hygiene, nutrition and exercise.',
+      mechanicReason:
+          'Answering fast head-to-head builds quick, confident recall of healthy habits.',
+      difficulty: 'easy',
+      xpReward: 50,
+      coinsReward: 10,
     ),
 
     // ═══════════════════════════════════════════════════════════════════════════
@@ -757,7 +862,7 @@ class GameCatalog {
       learningObjective:
           "Learners will identify South Africa's climatic zones and their characteristics.",
       mechanicReason:
-          "Tapping the right level on a real thermometer that fills before your eyes turns a climate description into a temperature you set yourself.",
+          'Tapping the right level on a real thermometer that fills before your eyes turns a climate description into a temperature you set yourself.',
       difficulty: 'medium',
       xpReward: 100,
       coinsReward: 20,
@@ -820,7 +925,7 @@ class GameCatalog {
       learningObjective:
           'Learners will journey to Egypt and Mesopotamia — discover the first great civilizations.',
       mechanicReason:
-          'Answering correctly to sweep away a buried artifact\'s sand tiles turns each fact into something you excavate and reveal, not just read.',
+          "Answering correctly to sweep away a buried artifact's sand tiles turns each fact into something you excavate and reveal, not just read.",
       difficulty: 'medium',
       xpReward: 100,
       coinsReward: 20,
@@ -841,7 +946,7 @@ class GameCatalog {
       learningObjective:
           'Learners will explore the stories of indigenous peoples — San, Khoikhoi and Nguni.',
       mechanicReason:
-          "Watching the whole scene change to match the people you pick turns each way of life into something you can instantly picture and compare.",
+          'Watching the whole scene change to match the people you pick turns each way of life into something you can instantly picture and compare.',
       difficulty: 'medium',
       xpReward: 100,
       coinsReward: 20,
@@ -1757,7 +1862,7 @@ class GameCatalog {
       coinsReward: 24,
     ),
 
-    // SOCIAL SCIENCES (10 games) ───────────────────────────────────────────────
+    // SOCIAL SCIENCES (11 games) ───────────────────────────────────────────────
     GameCatalogEntry(
       id: 'ss_g7_apartheid',
       title: 'Apartheid Era',
@@ -1898,7 +2003,7 @@ class GameCatalog {
       emoji: '🌍',
       color: AppColors.socialSciences,
       learningObjective:
-          'Learners will identify South Africa\'s neighbouring countries, their capitals and flags, and understand their trade and transport links.',
+          "Learners will identify South Africa's neighbouring countries, their capitals and flags, and understand their trade and transport links.",
       mechanicReason:
           'Exploring a map connects each country to its real location and flag, so it sticks.',
       difficulty: 'medium',
