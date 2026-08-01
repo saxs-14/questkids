@@ -21,6 +21,8 @@ const VERB_TO_ENGINES = {
   narrative_comprehension: ['adventureJourney'],
 };
 
+const SHARED_ENGINES = new Set(Object.values(VERB_TO_ENGINES).flat());
+
 const VERB_LABELS = {
   count_compare: 'count / compare',
   order_sequence: 'order / sequence / stages / cycles',
@@ -151,6 +153,7 @@ const BY_TOPIC_KEY = {
   'history/timeline': 'order_sequence',
   'history/liberation_leaders': 'count_compare',
   'geography/rivers': 'locate_map',
+  'geography/neighbouring_countries': 'locate_map',
   'geography/settlements': 'word_classify',
   'geography/population': 'count_compare',
   'geography/globalisation': 'narrative_comprehension',
@@ -190,4 +193,4 @@ function expectedEngines(verb) {
   return VERB_TO_ENGINES[verb];
 }
 
-module.exports = { classify, VERB_TO_ENGINES, VERB_LABELS, expectedEngines };
+module.exports = { classify, VERB_TO_ENGINES, VERB_LABELS, expectedEngines, SHARED_ENGINES };
