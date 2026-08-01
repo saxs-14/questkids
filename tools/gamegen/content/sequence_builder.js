@@ -20,6 +20,16 @@ const TOPICS = {
       { id: 'blend', label: 'Blend it together', emoji: '🗣️', description: 'Say all three sounds together to read the word.' },
     ],
   },
+  eng_g2_words: {
+    sceneType: 'cvccWords',
+    steps: [
+      { id: 'first_sound', label: 'First sound', emoji: '🔤', description: 'Pick the sound you hear first, like s in stop.' },
+      { id: 'blend_cluster', label: 'Blend the cluster', emoji: '🔡', description: 'Blend a two-letter cluster, like st or fl.' },
+      { id: 'middle_sound', label: 'Middle sound', emoji: '🔠', description: 'Pick the vowel sound in the middle.' },
+      { id: 'last_sound', label: 'Last sound', emoji: '🔤', description: 'Pick the sound you hear last.' },
+      { id: 'blend_all', label: 'Blend it together', emoji: '🗣️', description: 'Say all the sounds together to read the word.' },
+    ],
+  },
   eng_g4_writing: {
     sceneType: 'storyStructure',
     steps: [
@@ -58,6 +68,16 @@ const TOPICS = {
     steps: [
       { id: 'read', label: 'Read', emoji: '👀', description: 'Read the number sentence carefully.' },
       { id: 'choose', label: 'Choose', emoji: '🤔', description: 'Choose which operation to use: + or −.' },
+      { id: 'solve', label: 'Solve', emoji: '✏️', description: 'Work out the answer step by step.' },
+      { id: 'check', label: 'Check', emoji: '✅', description: 'Check your answer makes sense.' },
+    ],
+  },
+  math_g2_mountain: {
+    sceneType: 'mathsMountainLevel2',
+    steps: [
+      { id: 'read', label: 'Read', emoji: '👀', description: 'Read the number sentence carefully.' },
+      { id: 'choose', label: 'Choose', emoji: '🤔', description: 'Choose which operation to use: +, − or ×.' },
+      { id: 'regroup', label: 'Regroup', emoji: '🔄', description: 'Regroup tens and ones if you need to.' },
       { id: 'solve', label: 'Solve', emoji: '✏️', description: 'Work out the answer step by step.' },
       { id: 'check', label: 'Check', emoji: '✅', description: 'Check your answer makes sense.' },
     ],
