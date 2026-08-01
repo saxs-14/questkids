@@ -123,6 +123,7 @@ const TOPIC_PINS = {
   ss_g4_provinces: PROVINCES,
   ss_g4_maps: MAP_SKILLS,
   ls_g1_community: COMMUNITY_HELPERS,
+  ls_g2_community: COMMUNITY_HELPERS,
   ns_g4_solar: SOLAR_SYSTEM,
   ss_g4_biomes: BIOMES,
   ss_g7_climate: CLIMATE_ZONES,
