@@ -47,6 +47,37 @@ what to do next.
   EMS subject use a raw `Color(0xFF009688)` literal (pre-existing, not
   introduced by gamegen) rather than an `AppColors.ems`-style constant
   like the other six subjects.
+- **Bespoke-engine reconciliation (Phase 14a) complete; 2 content-pack gaps remain.**
+  The 54 topics using unique per-topic bespoke game engines (instead of 9 shared
+  ones) have been fully reconciled: `topics.json` was synced with `game_catalog.dart`
+  (commits 19b64f0, 4b31cfd, c774104), `classify.js` now derives `SHARED_ENGINES`
+  for pipeline validation, and `extract.js`/`validate.js` are bespoke-aware.
+  Five Grade 1 Life Skills topics accidentally deleted during the migration
+  (`ls_g1_body`, `ls_g1_feelings`, `ls_g1_safety`, `ls_g1_community`, `ls_g1_habits`)
+  were restored; one restoration (ls_g1_habits) revealed and fixed a pre-existing
+  stale-snapshot bug (commit ddd241f). Five separate pre-existing `classify.js`
+  classification gaps were also fixed: `ss_g7_neighbours` (never classified),
+  and four Grade 7 topics whose real shipped engines (`sequenceBuilder`,
+  `runnerCollector`) weren't permitted by stale cognitiveVerb mappings — these
+  were actively causing `extract.js` to silently corrupt topics back to `tugOfWar`
+  on every run (commit 98ddedf).
+  **Two content-pack validation gaps remain and are out of scope**: `eng_g7_debate`
+  and `eng_g7_spelling` have disk-stored content shaped for a different engine
+  (missing `roundVariants` / proper `sampleItems` for their current `sequenceBuilder`
+  engine). These are pre-existing content-authoring gaps, not regressions from this
+  reconciliation — they are documented in the validator output for future
+  content-team attention.
+- **Stale bespoke content packs (`assets/content/*.json` for 54 bespoke topics).**
+  The content packs on disk for all 54 bespoke-engine topics are stale leftovers
+  from before the migration (e.g., `math_g1_addition.json` still declares
+  `"engine": "tugOfWar"` while the catalog declares `additionAdventure`). The
+  bespoke widgets are self-contained and hardcoded, so they don't read these
+  packs and the mismatch is harmless. However, the Dart smoke test requires these
+  files to exist and parse, so they're kept as-is. Future cleanup could either
+  delete their now-unused engine-specific fields down to a minimal stub, or
+  repurpose them as a designed-data layer if the bespoke widgets are ever
+  refactored to read from packs — noted here to prevent confusion for anyone
+  opening one of these files expecting it to reflect what the game actually shows.
 
 ## Android release build (Phase 4)
 
