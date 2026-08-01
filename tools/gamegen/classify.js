@@ -68,7 +68,7 @@ const BY_TOPIC_KEY = {
   // English
   'phonics/alphabet': 'narrative_comprehension',
   'spelling/cvc_words': 'order_sequence',
-  'phonics/blending': 'rapid_recall',
+  'phonics/blending': 'order_sequence',
   'reading/comprehension': 'narrative_comprehension',
   'grammar/parts_of_speech': 'word_classify',
   'grammar/nouns': 'word_classify',

@@ -30,6 +30,15 @@ const TOPICS = {
       { id: 'blend_all', label: 'Blend it together', emoji: '🗣️', description: 'Say all the sounds together to read the word.' },
     ],
   },
+  eng_g2_phonics: {
+    sceneType: 'phonicsBlending',
+    steps: [
+      { id: 'first_sound', label: 'First sound', emoji: '🔤', description: 'Pick the first sound or blend, like sh in ship.' },
+      { id: 'middle_sound', label: 'Middle sound', emoji: '🔡', description: 'Pick the vowel sound in the middle.' },
+      { id: 'last_sound', label: 'Last sound', emoji: '🔠', description: 'Pick the sound you hear last.' },
+      { id: 'blend_all', label: 'Blend it together', emoji: '🗣️', description: 'Say all the sounds together to read the word.' },
+    ],
+  },
   eng_g4_writing: {
     sceneType: 'storyStructure',
     steps: [

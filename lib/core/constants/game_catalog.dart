@@ -547,13 +547,13 @@ class GameCatalog {
       subject: 'English',
       topicId: 'phonics',
       subtopicId: 'blending',
-      engineType: 'tugOfWar',
+      engineType: 'sequenceBuilder',
       emoji: '🎵',
       color: AppColors.english,
       learningObjective:
           'Learners will blend consonant clusters and digraphs to decode and read words.',
       mechanicReason:
-          'Answering fast head-to-head builds quick, confident recall of blending.',
+          'Putting the steps in the right order breaks blending into stages you can follow one by one.',
       difficulty: 'easy',
       xpReward: 65,
       coinsReward: 13,

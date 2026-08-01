@@ -5230,12 +5230,12 @@
     "subject": "English",
     "topicId": "phonics",
     "subtopicId": "blending",
-    "engine": "tugOfWar",
+    "engine": "sequenceBuilder",
     "emoji": "🎵",
     "colorExpr": "AppColors.english",
     "capsObjective": "Learners will blend consonant clusters and digraphs to decode and read words.",
-    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of blending.",
-    "cognitiveVerb": "rapid_recall",
+    "mechanicReason": "Putting the steps in the right order breaks blending into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
     "difficulty": {
       "label": "easy",
       "numberRange": {
