@@ -9,7 +9,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { classify, expectedEngines } = require('./classify');
+const { classify, expectedEngines, SHARED_ENGINES } = require('./classify');
 const { validatePack } = require('./schemas');
 const { computeTiers, minItemsForTier } = require('./tiers');
 const { bandFor } = require('./difficulty');
@@ -24,6 +24,17 @@ function fail(msg) {
 }
 function ok(msg) {
   console.log(`ok:   ${msg}`);
+}
+
+function validateBespokePack(pack) {
+  // Bespoke engines are fully self-contained (no content-pack-driven
+  // rendering) — the Dart smoke test (test/games/all_topics_smoke_test.dart)
+  // only requires the pack file to exist and parse as a JSON object, so
+  // that's all this checks too.
+  if (typeof pack !== 'object' || pack === null || Array.isArray(pack)) {
+    return ['bespoke content pack must parse to a JSON object'];
+  }
+  return [];
 }
 
 function main() {
@@ -49,9 +60,20 @@ function main() {
   if (gradeDupes.length) fail(`duplicate id+grade pairs: ${gradeDupes.map(([k]) => k).join(', ')}`);
   else ok('exactly one catalog entry per topic per grade');
 
-  // 3. engine matches the cognitiveVerb table
+  // 3. engine matches the cognitiveVerb table (shared-engine topics only —
+  //    bespoke topics have a 1:1 unique engine by construction, so the
+  //    shared-pool match doesn't apply to them)
   let verbMismatches = 0;
+  let bespokeCount = 0;
   for (const t of topics) {
+    if (t.bespoke) {
+      bespokeCount++;
+      if (SHARED_ENGINES.has(t.engine)) {
+        fail(`${t.id}: marked bespoke but engine "${t.engine}" is a shared engine`);
+        verbMismatches++;
+      }
+      continue;
+    }
     const verb = classify(t);
     if (verb !== t.cognitiveVerb) {
       fail(`${t.id}: stored cognitiveVerb "${t.cognitiveVerb}" != re-derived "${verb}"`);
@@ -63,7 +85,7 @@ function main() {
       verbMismatches++;
     }
   }
-  if (verbMismatches === 0) ok('every engine matches its cognitiveVerb table entry');
+  if (verbMismatches === 0) ok(`every shared-engine topic matches its cognitiveVerb table entry (${bespokeCount} bespoke topics exempt)`);
 
   // 4. adventureJourney + tugOfWar <= 40% combined
   const reskin = topics.filter((t) => t.engine === 'adventureJourney' || t.engine === 'tugOfWar').length;
@@ -135,7 +157,7 @@ function main() {
     if (pack._scaffold) scaffoldsRemaining++;
     const tier = tierOf.get(t.id);
     const min = minItemsForTier(tier);
-    const errors = validatePack(t.engine, pack, { min });
+    const errors = t.bespoke ? validateBespokePack(pack) : validatePack(t.engine, pack, { min });
     if (errors.length) {
       schemaFailures++;
       for (const e of errors) fail(`${t.id} [${t.engine}, tier ${tier}, min ${min}]: ${e}`);
