@@ -94,9 +94,37 @@ self-registration is genuinely usable end-to-end — not mechanical fixes:**
    Its child-doc create was ALSO missing the POPIA consent fields the
    `learner` branch requires (the other two creation paths already had
    them) — fixed for consistency, but it hits the exact same item-2 gap the
-   moment someone wires it up. Whoever does should first decide which of
-   the two implementations is meant to be canonical, and delete the other
-   — having both live invites them drifting out of sync again.
+   moment someone wires it up (its `linkChild` call at
+   `auth_service.dart:311` has no orphan-cleanup around it either, unlike
+   the other two live call sites — worse failure behavior than either,
+   since by that point `tempApp` is already deleted, so a fix there needs
+   the same `_cleanupOrphanedChild` treatment before this dead code should
+   ever be wired up). Whoever does should first decide which of the two
+   implementations is meant to be canonical, and delete the other — having
+   both live invites them drifting out of sync again.
+4. **Widening the `allow create` role check (item above) also widened what
+   `allow delete: if isUser(uid)` can erase.** A signed-in user — including
+   a learner, whose child-account credentials are deterministic on
+   name+birthdate via `_generateChildEmail`/`_generateChildPassword`, so
+   not meaningfully secret — can now delete their own `/users/{uid}` doc
+   and recreate it as `role: 'parent'`, `birthDate: null`,
+   `linkedChildrenUids: []`, erasing any POPIA consent trail the original
+   doc carried with no server-side record it ever existed. Before this
+   branch the recreate still required the four consent fields (forgeable,
+   since they're self-supplied strings, but at least present); the delta
+   introduced here is that the trail can now be removed outright, not just
+   faked. **Not fixed in this branch** because the obvious fix
+   (`allow delete: if false`) is unsafe: `AuthService._cleanupOrphanedChild`
+   (added in this same branch, see item 1/2 above) relies on exactly this
+   permission to delete an orphaned child's own doc via a client SDK call
+   authenticated as that child — blocking client deletes outright would
+   silently break that cleanup and reintroduce the orphaned-account
+   problem it exists to prevent. A real fix needs delete to stay allowed
+   for non-consent-bearing docs (or for an Admin SDK cleanup path
+   specifically) while being blocked once a consent trail is present —
+   that's a rule that needs to read `resource.data` for consent fields
+   before authorizing delete, which is a design decision, not a
+   mechanical tightening.
 
 ## Environment / tooling
 

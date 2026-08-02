@@ -50,6 +50,50 @@ class AuthService {
     return 'Child@${birthDate.year}';
   }
 
+  // firebase_crashlytics has no web implementation (its pubspec declares
+  // only android/ios/macos) -- on web, recordError throws instead of
+  // reporting. Since this is always awaited right before a `rethrow` (or
+  // inside a cleanup catch block that itself must not throw), an unguarded
+  // call would mask the real error on web, and inside a cleanup catch it
+  // would abort the remaining cleanup steps entirely. Reporting must never
+  // be able to break the flow it's reporting on.
+  Future<void> _reportNonFatal(Object e, StackTrace st, String reason) async {
+    if (kIsWeb) return;
+    try {
+      await FirebaseCrashlytics.instance
+          .recordError(e, st, reason: reason, fatal: false);
+    } catch (_) {}
+  }
+
+  // Deletes a just-created child's Firestore doc and Auth account after a
+  // post-creation step (e.g. linkChild) failed. Without this, the child is
+  // left as an orphaned account, and since _generateChildEmail/
+  // _generateChildPassword are deterministic on name+birthdate, every retry
+  // with the same details would then permanently fail with
+  // email-already-in-use. `childFirestore`/`childFirebaseUser` must belong
+  // to the same temp app the child was created in, authenticated as the
+  // child themself (required for the Firestore doc delete to satisfy
+  // `allow delete: if isUser(uid)`).
+  Future<void> _cleanupOrphanedChild({
+    required FirebaseFirestore childFirestore,
+    required User childFirebaseUser,
+    required String childUid,
+    required String context,
+  }) async {
+    try {
+      await childFirestore.collection('users').doc(childUid).delete();
+    } catch (e, st) {
+      await _reportNonFatal(e, st,
+          '$context: failed to clean up orphaned child Firestore doc $childUid');
+    }
+    try {
+      await childFirebaseUser.delete();
+    } catch (e, st) {
+      await _reportNonFatal(e, st,
+          '$context: failed to clean up orphaned child Auth account $childUid');
+    }
+  }
+
   // Teacher/Standard Register
   Future<UserModel?> registerWithEmail({
     required String email,
@@ -152,8 +196,26 @@ class AuthService {
         try {
           // update parent user document to include child uid
           await _userRepo.linkChild(parentUid, childUid);
+        } catch (linkError, linkStack) {
+          // linkChild failed after the child's Auth account and Firestore
+          // doc already exist -- clean up both before rethrowing so the
+          // parent can actually retry. See _cleanupOrphanedChild.
+          await _cleanupOrphanedChild(
+            childFirestore: childFirestore,
+            childFirebaseUser: childFirebaseUser,
+            childUid: childUid,
+            context: 'registerWithEmail',
+          );
+          await _reportNonFatal(linkError, linkStack,
+              'registerWithEmail: linkChild failed for parent $parentUid / child $childUid');
+          rethrow;
+        }
 
-          // create welcome notification for parent
+        // Best-effort: the parent<->child link already succeeded above, so
+        // a failure here must NOT trigger the orphan cleanup -- that would
+        // delete a successfully-linked child while leaving its uid stuck
+        // in the parent's (locked, client-unfixable) linkedChildrenUids.
+        try {
           await notifRepo.createNotification({
             'recipientUid': parentUid,
             'title': 'Welcome to QuestKids',
@@ -161,45 +223,9 @@ class AuthService {
                 'Your account and child account have been created successfully.',
             'type': 'welcome',
           });
-        } catch (linkError, linkStack) {
-          // linkChild (or the notification) failed after the child's Auth
-          // account and Firestore doc already exist -- without this, the
-          // child would be left as an orphaned account, and since
-          // _generateChildEmail/_generateChildPassword are deterministic on
-          // name+birthdate, every retry with the same details would then
-          // permanently fail with email-already-in-use. Clean up both
-          // before rethrowing so the parent can actually retry. Record any
-          // cleanup failure (not the original linkError, which rethrows
-          // below) -- a silently-failed delete here means a real orphaned
-          // child account, the exact incident this whole cleanup exists to
-          // prevent, so it must not go unlogged.
-          try {
-            await childFirestore.collection('users').doc(childUid).delete();
-          } catch (e, st) {
-            await FirebaseCrashlytics.instance.recordError(
-              e, st,
-              reason: 'registerWithEmail: failed to clean up orphaned '
-                  'child Firestore doc $childUid after linkChild failure',
-              fatal: false,
-            );
-          }
-          try {
-            await childFirebaseUser.delete();
-          } catch (e, st) {
-            await FirebaseCrashlytics.instance.recordError(
-              e, st,
-              reason: 'registerWithEmail: failed to clean up orphaned '
-                  'child Auth account $childUid after linkChild failure',
-              fatal: false,
-            );
-          }
-          await FirebaseCrashlytics.instance.recordError(
-            linkError, linkStack,
-            reason: 'registerWithEmail: linkChild failed for parent '
-                '$parentUid / child $childUid',
-            fatal: false,
-          );
-          rethrow;
+        } catch (e, st) {
+          await _reportNonFatal(e, st,
+              'registerWithEmail: welcome notification failed for parent $parentUid / child $childUid');
         }
       } finally {
         await tempApp.delete();
@@ -449,32 +475,14 @@ class AuthService {
         // name+birthdate, every retry -- including this exact flow, which
         // is the one an existing parent actually uses to retry -- would
         // otherwise permanently fail with email-already-in-use.
-        try {
-          await childFirestore.collection('users').doc(childUid).delete();
-        } catch (e, st) {
-          await FirebaseCrashlytics.instance.recordError(
-            e, st,
-            reason: 'createChildForParent: failed to clean up orphaned '
-                'child Firestore doc $childUid after linkChild failure',
-            fatal: false,
-          );
-        }
-        try {
-          await childFirebaseUser.delete();
-        } catch (e, st) {
-          await FirebaseCrashlytics.instance.recordError(
-            e, st,
-            reason: 'createChildForParent: failed to clean up orphaned '
-                'child Auth account $childUid after linkChild failure',
-            fatal: false,
-          );
-        }
-        await FirebaseCrashlytics.instance.recordError(
-          linkError, linkStack,
-          reason: 'createChildForParent: linkChild failed for parent '
-              '$parentUid / child $childUid',
-          fatal: false,
+        await _cleanupOrphanedChild(
+          childFirestore: childFirestore,
+          childFirebaseUser: childFirebaseUser,
+          childUid: childUid,
+          context: 'createChildForParent',
         );
+        await _reportNonFatal(linkError, linkStack,
+            'createChildForParent: linkChild failed for parent $parentUid / child $childUid');
         rethrow;
       }
 

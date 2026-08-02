@@ -38,12 +38,14 @@ a minute; if any step fails, see the note under it before improvising.
      in this repo, and no in-app flow creates a standalone learner account
      (every learner is created as a child of a parent, and that path is
      exactly what's broken here) — to reach step 2 anyway, manually seed a
-     learner via the Firebase Emulator UI (`localhost:4000` → Firestore:
-     create a `users/{uid}` doc with `role: 'learner'` and the other
-     required fields per `UserModel`; Authentication: create the matching
-     Auth user, then use the Admin SDK or `firebase emulators:exec` to set
-     its custom claim to `{"role": "learner"}` — the emulator UI itself
-     doesn't expose custom-claim editing).
+     learner via the Firebase Emulator UI (`localhost:4000`): Authentication
+     tab → **Add user**, then use its **Custom Claims** field to set
+     `{"role": "learner"}` directly (recent Auth Emulator UI builds expose
+     this in the add/edit-user dialog — verify it's present in whatever
+     `firebase-tools` version is actually installed, `firebase --version`,
+     since this has changed across releases); then Firestore tab → create a
+     matching `users/{uid}` doc (same uid as the Auth user) with
+     `role: 'learner'` and the other fields `UserModel` expects.
 
 ## 2. Play one game per engine family
 

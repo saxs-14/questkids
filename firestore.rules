@@ -61,20 +61,24 @@ service cloud.firestore {
       //
       // The birthDate == null check on the parent/teacher branch below is
       // NOT a comparable security boundary -- a hostile client can simply
-      // omit birthDate and pass it. It only keeps QuestKids' own genuine
-      // adult-registration paths (registerWithEmail's userModel,
-      // registerParentWithChild's parentModel, signInWithGoogle's
-      // userModel -- all three always leave it null) from ever
-      // accidentally satisfying that branch. The POPIA consent trail is
-      // therefore client-declared, not server-enforced, for anyone who
-      // self-declares role:'parent'/'teacher'; real enforcement is
-      // deferred to whatever grants the custom claim after create (see
-      // docs/DEFERRED.md -- that function must NOT trust this doc's
-      // mirrored role field when deciding what to grant, since a client
-      // can self-declare it).
+      // send birthDate: null explicitly (omitting the key entirely does
+      // NOT bypass this: reading an absent map key is an evaluation error
+      // in Firestore rules, which denies the whole `create`, so `.get()`
+      // with an explicit default is used below rather than direct field
+      // access). It only keeps QuestKids' own genuine adult-registration
+      // paths (registerWithEmail's userModel, registerParentWithChild's
+      // parentModel, signInWithGoogle's userModel -- all three always
+      // leave it null) from ever accidentally satisfying that branch. The
+      // POPIA consent trail is therefore client-declared, not
+      // server-enforced, for anyone who self-declares role:'parent'/
+      // 'teacher'; real enforcement is deferred to whatever grants the
+      // custom claim after create (see docs/DEFERRED.md -- that function
+      // must NOT trust this doc's mirrored role field when deciding what
+      // to grant, since a client can self-declare it).
       allow create: if isUser(uid) &&
                        request.resource.data.uid == uid &&
-                       request.resource.data.linkedChildrenUids.size() == 0 &&
+                       request.resource.data.get('linkedChildrenUids', []) is list &&
+                       request.resource.data.get('linkedChildrenUids', []).size() == 0 &&
                        (
                          (request.resource.data.role == 'learner' &&
                           request.resource.data.consentGivenBy is string &&
@@ -84,7 +88,7 @@ service cloud.firestore {
                           request.resource.data.consentAt is int &&
                           request.resource.data.policyVersion is string) ||
                          (request.resource.data.role in ['parent', 'teacher'] &&
-                          request.resource.data.birthDate == null)
+                          request.resource.data.get('birthDate', null) == null)
                        );
       allow update: if isUser(uid) &&
                        !request.resource.data.diff(resource.data).affectedKeys().hasAny(lockedUserFields());

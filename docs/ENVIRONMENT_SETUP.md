@@ -86,8 +86,13 @@ In a separate terminal, run the app pointing at emulators:
 flutter run --dart-define=USE_EMULATORS=true
 ```
 
-`lib/main.dart` wires `USE_EMULATORS` to `FirebaseAuth`/`Firestore`/`Functions`/`Storage`
-(ports match `firebase.json`'s `emulators` block), gated behind `kDebugMode` so it can
-never activate in a release build. The emulator UI is at http://localhost:4000 — use it
+`core/config/emulator_config.dart`'s `connectToEmulatorsIfEnabled` wires `USE_EMULATORS` to
+`FirebaseAuth`/`Firestore`/`Functions`/`Storage` (ports match `firebase.json`'s `emulators`
+block), gated behind `kDebugMode` so it can never activate in a release build. This must be
+called on every `FirebaseApp` instance separately, not just once globally — `lib/main.dart`
+calls it for the default app, and `lib/core/services/auth_service.dart` calls it for each of
+the three secondary/temporary `FirebaseApp` instances it creates for child-account
+registration. A secondary app that skips this call silently talks to production even while
+the default app is correctly emulated. The emulator UI is at http://localhost:4000 — use it
 to create a test user and inspect/edit their Firestore user doc (e.g. set `grade` to
 `grade4`, `role` to `learner`) without touching production data.
