@@ -28,7 +28,20 @@ self-registration is genuinely usable end-to-end — not mechanical fixes:**
    their Firebase Auth custom claim doesn't follow.** `functions/src/admin/setUserRole.ts`'s
    `assignDefaultRole` trigger pins *every* new Auth user's `customClaims`
    to `{role: "learner"}`, and nothing else grants `parent`/`teacher` except
-   an admin manually calling `setUserRole`. Firestore rules authorize off
+   an admin manually calling `setUserRole`. **Confirmed live in production
+   as of 2026-08-02**: this trigger is a Firebase Auth blocking function
+   (`beforeUserCreated`), which requires the project's Auth to be upgraded
+   to Identity Platform (GCIP) — until that was done, every `firebase
+   deploy --only functions` silently failed to deploy this one function
+   specifically (`Blocking Functions may only be configured for GCIP
+   projects`), while every other function deployed fine and gave no
+   indication anything was wrong. It's unknown how long it had been
+   broken this way; GCIP is now enabled and `assignDefaultRole` deploys
+   and runs. This makes the gap below real and active for every new
+   signup from now on, not theoretical — check this first if
+   `firebase deploy --only functions` output ever needs re-verifying,
+   since a per-function silent failure like this is easy to miss in a
+   long deploy log. Firestore rules authorize off
    `request.auth.token.role` (the claim), never the mirrored doc field — so
    a self-registered parent is routed to `ParentDashboard`
    (`NavigationService.getDashboard` reads the doc's `role`) but every
