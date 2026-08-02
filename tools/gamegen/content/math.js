@@ -101,7 +101,7 @@ function generateItem(op, rng, range) {
     }
     case 'addition': {
       const a = randInt(rng, min, max);
-      const b = randInt(rng, min, max);
+      const b = randInt(rng, min, Math.max(min, max - a));
       const correct = a + b;
       const { options, answerIndex } = buildOptions(rng, correct, () =>
         Math.max(0, correct + randInt(rng, -5, 5) || 1)

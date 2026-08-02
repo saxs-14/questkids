@@ -22,64 +22,64 @@
       "explanation": "3 + 22 = 25."
     },
     {
-      "question": "42 + 80 = ?",
+      "question": "42 + 46 = ?",
       "options": [
-        "120",
-        "123",
-        "122",
-        "119"
+        "86",
+        "89",
+        "88",
+        "85"
       ],
       "answerIndex": 2,
       "hint": "Count on from 42.",
-      "explanation": "42 + 80 = 122."
+      "explanation": "42 + 46 = 88."
     },
     {
-      "question": "92 + 50 = ?",
+      "question": "92 + 4 = ?",
       "options": [
-        "145",
-        "142",
-        "140",
-        "147"
+        "99",
+        "96",
+        "94",
+        "101"
       ],
       "answerIndex": 1,
       "hint": "Count on from 92.",
-      "explanation": "92 + 50 = 142."
+      "explanation": "92 + 4 = 96."
     },
     {
-      "question": "15 + 13 = ?",
+      "question": "15 + 11 = ?",
       "options": [
-        "28",
         "26",
         "24",
-        "30"
+        "22",
+        "28"
       ],
       "answerIndex": 0,
       "hint": "Count on from 15.",
-      "explanation": "15 + 13 = 28."
+      "explanation": "15 + 11 = 26."
     },
     {
-      "question": "91 + 78 = ?",
+      "question": "91 + 7 = ?",
       "options": [
-        "166",
-        "169",
-        "170",
-        "165"
+        "95",
+        "98",
+        "99",
+        "94"
       ],
       "answerIndex": 1,
       "hint": "Count on from 91.",
-      "explanation": "91 + 78 = 169."
+      "explanation": "91 + 7 = 98."
     },
     {
-      "question": "39 + 95 = ?",
+      "question": "39 + 58 = ?",
       "options": [
-        "135",
-        "139",
-        "136",
-        "134"
+        "98",
+        "102",
+        "99",
+        "97"
       ],
       "answerIndex": 3,
       "hint": "Count on from 39.",
-      "explanation": "39 + 95 = 134."
+      "explanation": "39 + 58 = 97."
     },
     {
       "question": "1 + 19 = ?",
@@ -94,100 +94,100 @@
       "explanation": "1 + 19 = 20."
     },
     {
-      "question": "1 + 39 = ?",
+      "question": "1 + 38 = ?",
       "options": [
-        "40",
         "39",
-        "45",
-        "35"
+        "38",
+        "44",
+        "34"
       ],
       "answerIndex": 0,
       "hint": "Count on from 1.",
-      "explanation": "1 + 39 = 40."
+      "explanation": "1 + 38 = 39."
     },
     {
-      "question": "54 + 70 = ?",
+      "question": "54 + 32 = ?",
       "options": [
-        "124",
-        "129",
-        "125",
-        "123"
+        "86",
+        "91",
+        "87",
+        "85"
       ],
       "answerIndex": 0,
       "hint": "Count on from 54.",
-      "explanation": "54 + 70 = 124."
+      "explanation": "54 + 32 = 86."
     },
     {
-      "question": "91 + 4 = ?",
+      "question": "91 + 1 = ?",
       "options": [
-        "98",
-        "94",
-        "96",
-        "95"
+        "95",
+        "91",
+        "93",
+        "92"
       ],
       "answerIndex": 3,
       "hint": "Count on from 91.",
-      "explanation": "91 + 4 = 95."
+      "explanation": "91 + 1 = 92."
     },
     {
-      "question": "42 + 49 = ?",
+      "question": "42 + 29 = ?",
       "options": [
-        "91",
-        "87",
-        "90",
-        "88"
+        "71",
+        "67",
+        "70",
+        "68"
       ],
       "answerIndex": 0,
       "hint": "Count on from 42.",
-      "explanation": "42 + 49 = 91."
+      "explanation": "42 + 29 = 71."
     },
     {
-      "question": "32 + 47 = ?",
+      "question": "32 + 32 = ?",
       "options": [
-        "79",
-        "82",
-        "77",
-        "78"
+        "64",
+        "67",
+        "62",
+        "63"
       ],
       "answerIndex": 0,
       "hint": "Count on from 32.",
-      "explanation": "32 + 47 = 79."
+      "explanation": "32 + 32 = 64."
     },
     {
-      "question": "15 + 69 = ?",
+      "question": "15 + 59 = ?",
       "options": [
-        "86",
-        "87",
-        "88",
-        "84"
+        "76",
+        "77",
+        "78",
+        "74"
       ],
       "answerIndex": 3,
       "hint": "Count on from 15.",
-      "explanation": "15 + 69 = 84."
+      "explanation": "15 + 59 = 74."
     },
     {
-      "question": "45 + 97 = ?",
+      "question": "45 + 53 = ?",
       "options": [
-        "146",
-        "142",
-        "145",
-        "147"
+        "102",
+        "98",
+        "101",
+        "103"
       ],
       "answerIndex": 1,
       "hint": "Count on from 45.",
-      "explanation": "45 + 97 = 142."
+      "explanation": "45 + 53 = 98."
     },
     {
-      "question": "68 + 58 = ?",
+      "question": "68 + 19 = ?",
       "options": [
-        "129",
-        "126",
-        "123",
-        "127"
+        "90",
+        "87",
+        "84",
+        "88"
       ],
       "answerIndex": 1,
       "hint": "Count on from 68.",
-      "explanation": "68 + 58 = 126."
+      "explanation": "68 + 19 = 87."
     }
   ]
 }
