@@ -43,6 +43,15 @@ service cloud.firestore {
       // in the same set() call as account creation. Parent/teacher accounts
       // aren't children, so they never carry a consent trail -- self
       // registration for those two roles just needs to be self-owned.
+      // Two extra guards on the parent/teacher branch close a laundering
+      // path a plain role-string check would otherwise leave open: (a) no
+      // linkedChildrenUids at create time, so a fresh doc can't pre-claim
+      // read access to other users' data the moment an admin later grants
+      // the real 'parent' claim; (b) no birthDate, since every real client
+      // path (registerWithEmail's parentModel, signInWithGoogle's
+      // userModel) always leaves it null for an adult self-registration --
+      // this stops a child account from being created as 'parent' just to
+      // dodge the consent trail above.
       allow create: if isUser(uid) &&
                        request.resource.data.uid == uid &&
                        (
@@ -53,7 +62,9 @@ service cloud.firestore {
                           request.resource.data.consentEmail.size() > 0 &&
                           request.resource.data.consentAt is int &&
                           request.resource.data.policyVersion is string) ||
-                         request.resource.data.role in ['parent', 'teacher']
+                         (request.resource.data.role in ['parent', 'teacher'] &&
+                          request.resource.data.linkedChildrenUids.size() == 0 &&
+                          request.resource.data.birthDate == null)
                        );
       allow update: if isUser(uid) &&
                        !request.resource.data.diff(resource.data).affectedKeys().hasAny(lockedUserFields());
