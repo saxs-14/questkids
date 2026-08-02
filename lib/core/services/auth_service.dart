@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../config/emulator_config.dart';
 import '../../data/models/user_model.dart';
 import '../../data/repositories/user_repository.dart';
 import '../../data/repositories/reward_repository.dart';
@@ -107,6 +108,7 @@ class AuthService {
         name: 'temp_auth_app_$parentUid',
         options: Firebase.app().options,
       );
+      await connectToEmulatorsIfEnabled(tempApp);
 
       String childUid = '';
       try {
@@ -193,6 +195,7 @@ class AuthService {
       name: 'temp_auth_app',
       options: Firebase.app().options,
     );
+    await connectToEmulatorsIfEnabled(tempApp);
 
     String childUid = '';
     try {
@@ -344,6 +347,7 @@ class AuthService {
       name: 'temp_create_child_$parentUid',
       options: Firebase.app().options,
     );
+    await connectToEmulatorsIfEnabled(tempApp);
 
     try {
       final tempAuth = FirebaseAuth.instanceFor(app: tempApp);
