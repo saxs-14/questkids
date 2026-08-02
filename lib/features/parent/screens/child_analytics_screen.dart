@@ -140,9 +140,10 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
       await Share.shareXFiles([XFile(file.path)],
           text: 'QuestKids report for ${widget.child.name}');
     } catch (e) {
-      if (mounted)
+      if (mounted) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('Export failed: $e')));
+      }
     } finally {
       if (mounted) setState(() => _exporting = false);
     }

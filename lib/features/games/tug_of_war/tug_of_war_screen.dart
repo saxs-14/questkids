@@ -127,9 +127,10 @@ class _TugOfWarScreenState extends State<TugOfWarScreen> {
         );
       }
     } catch (e) {
-      if (mounted)
+      if (mounted) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('Error saving result: $e')));
+      }
     }
   }
 

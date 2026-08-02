@@ -488,10 +488,12 @@ class _HomeTab extends StatelessWidget {
                       .limit(10)
                       .snapshots(),
                   builder: (context, snap) {
-                    if (snap.hasError)
+                    if (snap.hasError) {
                       return _ErrorCard(message: snap.error.toString());
-                    if (!snap.hasData)
+                    }
+                    if (!snap.hasData) {
                       return const Center(child: CircularProgressIndicator());
+                    }
                     final docs = snap.data!.docs;
                     if (docs.isEmpty) {
                       return const _EmptyCard(
@@ -692,10 +694,12 @@ class _ClassTab extends StatelessWidget {
           .doc(teacherUid)
           .snapshots(),
       builder: (context, snap) {
-        if (snap.hasError)
+        if (snap.hasError) {
           return Center(child: _ErrorCard(message: snap.error.toString()));
-        if (!snap.hasData)
+        }
+        if (!snap.hasData) {
           return const Center(child: CircularProgressIndicator());
+        }
 
         final data = snap.data!.data() as Map<String, dynamic>? ?? {};
         final linkedUids = List<String>.from(data['linkedChildrenUids'] ?? []);
@@ -738,8 +742,9 @@ class _ClassTab extends StatelessWidget {
               return Center(
                   child: _ErrorCard(message: learnerSnap.error.toString()));
             }
-            if (!learnerSnap.hasData)
+            if (!learnerSnap.hasData) {
               return const Center(child: CircularProgressIndicator());
+            }
             final learners = learnerSnap.data!;
             return ListView.separated(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
@@ -1048,8 +1053,9 @@ class _SubjectBreakdownWidget extends StatelessWidget {
           .get(),
       builder: (context, snap) {
         if (snap.hasError) return _ErrorCard(message: snap.error.toString());
-        if (!snap.hasData)
+        if (!snap.hasData) {
           return const Center(child: CircularProgressIndicator());
+        }
 
         final Map<String, List<int>> bySubject = {};
         for (final doc in snap.data!.docs) {
@@ -1245,10 +1251,12 @@ class _ActivitiesTab extends StatelessWidget {
           .orderBy('createdAt', descending: true)
           .snapshots(),
       builder: (context, snap) {
-        if (snap.hasError)
+        if (snap.hasError) {
           return Center(child: _ErrorCard(message: snap.error.toString()));
-        if (!snap.hasData)
+        }
+        if (!snap.hasData) {
           return const Center(child: CircularProgressIndicator());
+        }
 
         final docs = snap.data!.docs;
         if (docs.isEmpty) {

@@ -312,7 +312,9 @@ class _SSState extends State<SubtractionSafariGame>
       if (c >= 0 && c <= total && c != correct) s.add(c);
       attempts++;
     }
-    while (s.length < 3) s.add(s.length); // 0,1,2 fallback, still >= 0
+    while (s.length < 3) {
+      s.add(s.length); // 0,1,2 fallback, still >= 0
+    }
     return s.toList()..shuffle(_rng);
   }
 

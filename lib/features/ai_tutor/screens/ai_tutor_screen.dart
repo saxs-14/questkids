@@ -384,15 +384,15 @@ class _WelcomeBanner extends StatelessWidget {
               ),
 
               // Speech arrows
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
                   children: [
-                    const Text('→',
+                    Text('→',
                         style:
                             TextStyle(fontSize: 22, color: Color(0xFFFFB800))),
-                    const SizedBox(height: 4),
-                    const Text('←',
+                    SizedBox(height: 4),
+                    Text('←',
                         style:
                             TextStyle(fontSize: 22, color: Color(0xFF5C35F5))),
                   ],
@@ -424,15 +424,15 @@ class _WelcomeBanner extends StatelessWidget {
               ),
 
               // Speech arrows right side
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
                   children: [
-                    const Text('←',
+                    Text('←',
                         style:
                             TextStyle(fontSize: 22, color: Color(0xFFFFB800))),
-                    const SizedBox(height: 4),
-                    const Text('→',
+                    SizedBox(height: 4),
+                    Text('→',
                         style:
                             TextStyle(fontSize: 22, color: Color(0xFF5C35F5))),
                   ],

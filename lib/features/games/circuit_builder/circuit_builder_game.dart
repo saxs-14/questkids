@@ -137,11 +137,13 @@ class _CircuitBuilderGameState extends State<CircuitBuilderGame> {
 
   @override
   Widget build(BuildContext context) {
-    if (!_ready)
+    if (!_ready) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     final q = _session.currentQuestion;
-    if (q == null)
+    if (q == null) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
 
     final blanks = (q['blanks'] as List).cast<Map<String, dynamic>>();
     final bank = (q['bank'] as List).cast<String>();
@@ -263,8 +265,9 @@ class _CircuitBuilderGameState extends State<CircuitBuilderGame> {
                                 break;
                               }
                             }
-                            if (emptyIndex != null)
+                            if (emptyIndex != null) {
                               _session.placeComponent(emptyIndex, comp);
+                            }
                           },
                   );
                 }).toList()),

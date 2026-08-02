@@ -339,24 +339,33 @@ class AuthProvider extends ChangeNotifier {
         error.contains('invalid-login-credentials')) {
       return 'Incorrect email or password. Please check and try again.';
     }
-    if (error.contains('user-not-found'))
+    if (error.contains('user-not-found')) {
       return 'No account found with this email.';
-    if (error.contains('wrong-password'))
+    }
+    if (error.contains('wrong-password')) {
       return 'Incorrect password. Try again.';
-    if (error.contains('email-already-in-use'))
+    }
+    if (error.contains('email-already-in-use')) {
       return 'This email is already registered.';
-    if (error.contains('weak-password'))
+    }
+    if (error.contains('weak-password')) {
       return 'Password must be at least 6 characters.';
-    if (error.contains('invalid-email'))
+    }
+    if (error.contains('invalid-email')) {
       return 'Please enter a valid email address.';
-    if (error.contains('network-request-failed'))
+    }
+    if (error.contains('network-request-failed')) {
       return 'No internet connection.';
-    if (error.contains('too-many-requests'))
+    }
+    if (error.contains('too-many-requests')) {
       return 'Too many failed attempts. Please wait a moment and try again.';
-    if (error.contains('user-disabled'))
+    }
+    if (error.contains('user-disabled')) {
       return 'This account has been disabled. Contact support.';
-    if (error.contains('operation-not-allowed'))
+    }
+    if (error.contains('operation-not-allowed')) {
       return 'Email/password sign-in is not enabled. Contact support.';
+    }
     return 'Something went wrong. Please try again.';
   }
 }

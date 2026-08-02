@@ -126,21 +126,24 @@ class _BudgetBuilderGameState extends State<BudgetBuilderGame> {
     setState(() => _submitting = true);
     _session.submitAnswer(null);
     Future.delayed(const Duration(milliseconds: 300), () {
-      if (mounted)
+      if (mounted) {
         setState(() {
           _showReview = false;
           _submitting = false;
         });
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!_ready)
+    if (!_ready) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     final q = _session.currentQuestion;
-    if (q == null)
+    if (q == null) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
 
     final items = _session.currentItems;
     final budget = q['budget'] as int;

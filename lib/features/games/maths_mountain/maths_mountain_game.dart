@@ -321,7 +321,9 @@ class _MMState extends State<MathsMountainGame>
       if (c >= 0 && c != correct) s.add(c);
       attempts++;
     }
-    while (s.length < 3) s.add(s.length);
+    while (s.length < 3) {
+      s.add(s.length);
+    }
     return s.toList()..shuffle(_rng);
   }
 

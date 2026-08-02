@@ -10,8 +10,9 @@ class ActiveTrendChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (dailyData.isEmpty)
+    if (dailyData.isEmpty) {
       return Center(child: Text('No data yet', style: AppTextStyles.bodySmall));
+    }
     final spots = dailyData
         .asMap()
         .entries

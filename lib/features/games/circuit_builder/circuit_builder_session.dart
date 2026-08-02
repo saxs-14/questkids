@@ -1,4 +1,3 @@
-import '../core/game_config.dart';
 import '../core/game_session_state.dart';
 import 'circuit_builder_engine.dart';
 
@@ -17,7 +16,7 @@ class CircuitBuilderSession extends GameSessionState {
   /// [pack] is the pre-loaded content pack JSON (see
   /// lib/features/games/core/content_pack_loader.dart), or null to fall
   /// back to the built-in demo circuits.
-  CircuitBuilderSession(GameConfig config, String uid,
+  CircuitBuilderSession(super.config, String uid,
       {Map<String, dynamic>? pack})
       : engine = CircuitBuilderEngine(
           config,
@@ -25,8 +24,7 @@ class CircuitBuilderSession extends GameSessionState {
               ? (pack['circuits'] as List).cast<Map<String, dynamic>>()
               : null,
         ),
-        _uid = uid,
-        super(config) {
+        _uid = uid {
     questions = engine.generateQuestions();
   }
 

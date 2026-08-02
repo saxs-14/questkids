@@ -12,8 +12,9 @@ class CompletionPieChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (attempted == 0)
+    if (attempted == 0) {
       return Center(child: Text('No data yet', style: AppTextStyles.bodySmall));
+    }
     final failed = (attempted - completed).clamp(0, attempted);
     final pct = (completed / attempted * 100).toStringAsFixed(1);
 

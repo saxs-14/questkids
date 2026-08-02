@@ -36,10 +36,12 @@ class _QuestionCardState extends State<QuestionCard> {
   }
 
   Color _getOptionTextColor(int index) {
-    if (!widget.isRevealed && widget.selectedIndex == index)
+    if (!widget.isRevealed && widget.selectedIndex == index) {
       return Colors.white;
-    if (widget.isRevealed && index == widget.question.correctIndex)
+    }
+    if (widget.isRevealed && index == widget.question.correctIndex) {
       return Colors.white;
+    }
     if (widget.isRevealed &&
         index == widget.selectedIndex &&
         index != widget.question.correctIndex) {

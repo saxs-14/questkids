@@ -15,8 +15,9 @@ class ClassSubjectChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (subjectAvg.isEmpty)
+    if (subjectAvg.isEmpty) {
       return Center(child: Text('No data yet', style: AppTextStyles.bodySmall));
+    }
     final entries = subjectAvg.entries.toList();
     return SizedBox(
       height: 180,

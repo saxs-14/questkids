@@ -136,8 +136,9 @@ class _Grade4HubState extends State<Grade4Hub> {
                                         await _repo.getOrCreateDailyMissions(
                                             uid,
                                             widget.user?.grade ?? 'Grade 4');
-                                    if (mounted)
+                                    if (mounted) {
                                       setState(() => _daily = refreshed);
+                                    }
                                     final newProgress =
                                         (m['progress'] ?? 0) + 1;
                                     if (newProgress >= (m['target'] ?? 1)) {

@@ -87,8 +87,9 @@ class SequenceBuilderSession extends GameSessionState {
   /// Try to place [stageIndex] into the next slot. Correct only if it is the
   /// next stage in order. Wrong attempts are rejected gently (no penalty).
   void placeStage(int stageIndex) {
-    if (_phase != SequencePhase.ordering || isFinished || _roundComplete)
+    if (_phase != SequencePhase.ordering || isFinished || _roundComplete) {
       return;
+    }
 
     if (stageIndex == _placed.length) {
       _placed.add(stageIndex);

@@ -330,7 +330,9 @@ class _MCState extends State<MultipleChainGame>
       if (candidate > 0 && candidate != correct) s.add(candidate);
       attempts++;
     }
-    while (s.length < 3) s.add(correct + step * (s.length + 1));
+    while (s.length < 3) {
+      s.add(correct + step * (s.length + 1));
+    }
     return s.toList()..shuffle(_rng);
   }
 

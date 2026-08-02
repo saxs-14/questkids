@@ -10,8 +10,9 @@ class ScoreTrendChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (weeklyData.isEmpty)
+    if (weeklyData.isEmpty) {
       return Center(child: Text('No data yet', style: AppTextStyles.bodySmall));
+    }
     final keys = weeklyData.keys.toList();
     final spots = weeklyData.entries
         .toList()

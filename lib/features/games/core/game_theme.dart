@@ -130,10 +130,12 @@ class GameTheme {
   static Color subjectColor(String subject) {
     final s = subject.toLowerCase();
     if (s.contains('math')) return AppColors.math; // orange
-    if (s.contains('science') && s.contains('natural'))
+    if (s.contains('science') && s.contains('natural')) {
       return AppColors.science;
-    if (s.contains('science') && s.contains('social'))
+    }
+    if (s.contains('science') && s.contains('social')) {
       return AppColors.socialSciences;
+    }
     if (s.contains('english')) return AppColors.english; // pink
     if (s.contains('social')) return AppColors.socialSciences; // green
     if (s.contains('science')) return AppColors.science; // teal

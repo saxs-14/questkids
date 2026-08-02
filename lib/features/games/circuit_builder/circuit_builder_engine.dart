@@ -241,8 +241,9 @@ class CircuitBuilderEngine extends GameEngine {
 
     int correct = 0;
     for (int i = 0; i < blanks.length; i++) {
-      if (i < submitted.length && submitted[i] == blanks[i]['correctComponent'])
+      if (i < submitted.length && submitted[i] == blanks[i]['correctComponent']) {
         correct++;
+      }
     }
     final allCorrect = correct == blanks.length;
     return GameAnswerResult(correct: allCorrect, xpDelta: allCorrect ? 15 : 0);

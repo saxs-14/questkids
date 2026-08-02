@@ -306,7 +306,9 @@ class _AAState extends State<AdditionAdventureGame>
       if (c >= 1 && c != correct) s.add(c);
       attempts++;
     }
-    while (s.length < 3) s.add(correct + s.length);
+    while (s.length < 3) {
+      s.add(correct + s.length);
+    }
     return s.toList()..shuffle(_rng);
   }
 

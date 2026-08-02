@@ -199,7 +199,7 @@ class _LinkChildScreenState extends State<LinkChildScreen>
                                             Text(friendly,
                                                 textAlign: TextAlign.center),
                                             const SizedBox(height: 12),
-                                            AppButton(
+                                            const AppButton(
                                               label: 'Open Settings',
                                               variant:
                                                   AppButtonVariant.secondary,

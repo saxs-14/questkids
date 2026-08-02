@@ -150,19 +150,19 @@ class _Grade1WorldMapState extends State<Grade1WorldMap>
                 Positioned(
                     top: 30,
                     left: dx - w * 0.1,
-                    child: _Cloud(size: 80, opacity: 0.45)),
+                    child: const _Cloud(size: 80, opacity: 0.45)),
                 Positioned(
                     top: 60,
                     left: dx - w * 0.55,
-                    child: _Cloud(size: 110, opacity: 0.35)),
+                    child: const _Cloud(size: 110, opacity: 0.35)),
                 Positioned(
                     top: 18,
                     left: dx + w * 0.40,
-                    child: _Cloud(size: 65, opacity: 0.40)),
+                    child: const _Cloud(size: 65, opacity: 0.40)),
                 Positioned(
                     top: 90,
                     left: dx - w * 0.80,
-                    child: _Cloud(size: 95, opacity: 0.30)),
+                    child: const _Cloud(size: 95, opacity: 0.30)),
               ],
             );
           },

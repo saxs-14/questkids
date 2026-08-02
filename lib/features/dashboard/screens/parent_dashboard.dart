@@ -229,13 +229,14 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
                                 .subtract(const Duration(days: 365)),
                             lastDate:
                                 DateTime.now().add(const Duration(days: 365)));
-                        if (picked != null)
+                        if (picked != null) {
                           setDialogState(() => selectedDate = DateTime(
                               picked.year,
                               picked.month,
                               picked.day,
                               selectedDate.hour,
                               selectedDate.minute));
+                        }
                       },
                       child: const Text('Change')),
                 ])
@@ -303,13 +304,14 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
                                 .subtract(const Duration(days: 365)),
                             lastDate:
                                 DateTime.now().add(const Duration(days: 365)));
-                        if (picked != null)
+                        if (picked != null) {
                           setDialogState(() => selectedDate = DateTime(
                               picked.year,
                               picked.month,
                               picked.day,
                               selectedDate.hour,
                               selectedDate.minute));
+                        }
                       },
                       child: const Text('Change')),
                 ])
@@ -349,11 +351,12 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
       WidgetsBinding.instance
           .addPostFrameCallback((_) => _loadEvents(child.uid));
     }
-    if (child == null)
+    if (child == null) {
       return Center(
           child: Text('Select a child to view calendar',
               style: AppTextStyles.bodyMedium
                   .copyWith(color: AppColors.textSecondary)));
+    }
 
     List<Map<String, dynamic>> eventsForDay(DateTime day) =>
         _events[DateTime(day.year, day.month, day.day)] ?? [];
@@ -491,9 +494,10 @@ class _ParentCalendarTabState extends State<_ParentCalendarTab> {
           'date': Timestamp.fromDate(date)
         });
       }
-      if (mounted)
+      if (mounted) {
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text('CSV imported')));
+      }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

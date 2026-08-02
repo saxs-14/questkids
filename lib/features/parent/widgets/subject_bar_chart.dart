@@ -27,8 +27,9 @@ class SubjectBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (breakdown.isEmpty)
+    if (breakdown.isEmpty) {
       return Center(child: Text('No data yet', style: AppTextStyles.bodySmall));
+    }
     final entries = breakdown.entries.toList();
     final groups = entries.asMap().entries.map((e) {
       final subj = e.value.key;

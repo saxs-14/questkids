@@ -27,8 +27,9 @@ class TimeSpentChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (timeData.isEmpty)
+    if (timeData.isEmpty) {
       return Center(child: Text('No data yet', style: AppTextStyles.bodySmall));
+    }
     final sorted = timeData.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
     final maxMins =

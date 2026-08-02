@@ -702,8 +702,9 @@ class _FeaturedGamesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.watch<AuthProvider>().user;
     var featured = GameCatalog.featured(gradeKey);
-    if (featured.isEmpty)
+    if (featured.isEmpty) {
       featured = GameCatalog.forGrade(gradeKey).take(4).toList();
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

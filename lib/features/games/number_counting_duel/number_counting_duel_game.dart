@@ -366,7 +366,9 @@ class _NCDState extends State<NumberCountingDuelGame>
   _Q _makeCompareQ(_Level lev) {
     int a = lev.min + _rng.nextInt(lev.max - lev.min + 1);
     int b = lev.min + _rng.nextInt(lev.max - lev.min + 1);
-    while (b == a) b = lev.min + _rng.nextInt(lev.max - lev.min + 1);
+    while (b == a) {
+      b = lev.min + _rng.nextInt(lev.max - lev.min + 1);
+    }
     final askBigger = _rng.nextBool();
     return _Q(
       type: 'compare',
@@ -380,8 +382,9 @@ class _NCDState extends State<NumberCountingDuelGame>
 
   _Q _makeExtremeQ(_Level lev) {
     final nums = <int>{};
-    while (nums.length < 4)
+    while (nums.length < 4) {
       nums.add(lev.min + _rng.nextInt(lev.max - lev.min + 1));
+    }
     final list = nums.toList()..shuffle(_rng);
     final askMax = _rng.nextBool();
     return _Q(
@@ -403,7 +406,9 @@ class _NCDState extends State<NumberCountingDuelGame>
       if (c >= lo && c != correct) s.add(c);
       attempts++;
     }
-    while (s.length < 3) s.add(correct + s.length);
+    while (s.length < 3) {
+      s.add(correct + s.length);
+    }
     return s.toList()..shuffle(_rng);
   }
 
