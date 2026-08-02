@@ -8,6 +8,7 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'core/services/analytics_service.dart';
@@ -63,6 +64,7 @@ void main() async {
     await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
     FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
     FirebaseFunctions.instance.useFunctionsEmulator(emulatorHost, 5001);
+    await FirebaseStorage.instance.useStorageEmulator(emulatorHost, 9199);
   }
 
   // Route every uncaught Flutter framework error to Crashlytics instead of

@@ -78,10 +78,16 @@ firebase deploy --only firestore   # deploys rules + indexes
 ## 7. Firebase Emulator (Local Testing)
 
 ```bash
-firebase emulators:start --only functions,firestore,auth
+firebase emulators:start --only functions,firestore,auth,storage
 ```
 
 In a separate terminal, run the app pointing at emulators:
 ```bash
 flutter run --dart-define=USE_EMULATORS=true
 ```
+
+`lib/main.dart` wires `USE_EMULATORS` to `FirebaseAuth`/`Firestore`/`Functions`/`Storage`
+(ports match `firebase.json`'s `emulators` block), gated behind `kDebugMode` so it can
+never activate in a release build. The emulator UI is at http://localhost:4000 — use it
+to create a test user and inspect/edit their Firestore user doc (e.g. set `grade` to
+`grade4`, `role` to `learner`) without touching production data.
