@@ -43,17 +43,26 @@ service cloud.firestore {
       // in the same set() call as account creation. Parent/teacher accounts
       // aren't children, so they never carry a consent trail -- self
       // registration for those two roles just needs to be self-owned.
-      // Two extra guards on the parent/teacher branch close a laundering
-      // path a plain role-string check would otherwise leave open: (a) no
-      // linkedChildrenUids at create time, so a fresh doc can't pre-claim
-      // read access to other users' data the moment an admin later grants
-      // the real 'parent' claim -- every creation path (registerWithEmail's
-      // userModel, registerParentWithChild's parentModel, signInWithGoogle's
-      // userModel) leaves this empty at create and links children
-      // separately via UserRepository.linkChild(); (b) no birthDate, since
-      // every one of those same paths always leaves it null for an adult
-      // self-registration -- this stops a child account from being created
-      // as 'parent' just to dodge the consent trail above.
+      // Two extra guards on the parent/teacher branch, with two different
+      // strengths -- neither is a substitute for the real enforcement
+      // point, which is whatever grants the 'parent'/'teacher' custom
+      // claim after create (see docs/DEFERRED.md; that function must NOT
+      // trust this doc's mirrored `role` field when deciding what to
+      // grant, since a client can self-declare it). (a) no
+      // linkedChildrenUids at create time -- this one is a real, closed
+      // gap: the field is in lockedUserFields() so create is the only
+      // moment a client could ever set it, and this permanently blocks a
+      // fresh doc from pre-claiming read access to other users' data
+      // ahead of a future claim grant. (b) no birthDate -- this one is
+      // NOT a security boundary, since a hostile client can simply omit
+      // birthDate and pass it; it only keeps QuestKids' own genuine adult-
+      // registration paths (registerWithEmail's userModel,
+      // registerParentWithChild's parentModel, signInWithGoogle's
+      // userModel -- all three always leave it null) from ever
+      // accidentally satisfying this branch. The POPIA consent trail is
+      // therefore client-declared, not server-enforced, for anyone who
+      // self-declares role:'parent'; real enforcement is deferred to the
+      // claim-granting function.
       allow create: if isUser(uid) &&
                        request.resource.data.uid == uid &&
                        (

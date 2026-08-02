@@ -21,9 +21,8 @@ otherwise leave open; corrected a false claim in the first fix's own comment
 about which code path was actually safe. All three verified against the
 Firestore emulator and the full `flutter test` suite (318/318).
 
-**This closes the immediate crash, but two deeper gaps remain — both are
-real design decisions, not mechanical fixes, and need a deliberate call
-before self-registration is genuinely usable end-to-end:**
+**This closes the immediate crash, but real design decisions remain before
+self-registration is genuinely usable end-to-end — not mechanical fixes:**
 
 1. **A self-registered parent/teacher's Firestore doc now gets created, but
    their Firebase Auth custom claim doesn't follow.** `functions/src/admin/setUserRole.ts`'s
@@ -38,30 +37,54 @@ before self-registration is genuinely usable end-to-end:**
    immediately (and if so, gated by what — email verification? nothing?),
    or does it land in an explicit "pending admin approval" state? Either
    way this is a Cloud Function change (claims can only be set server-side),
-   not a rules change.
+   not a rules change — **and whatever that function is, it must not trust
+   this doc's mirrored `role` field when deciding what to grant**, since a
+   client can now self-declare it (see the `firestore.rules` comment on the
+   `allow create` block: the POPIA consent trail on the `parent`/`teacher`
+   branch is client-declared, not server-enforced, until this function
+   exists).
 2. **Linking a child to a parent is blocked for every client, not just at
-   create time.** `UserRepository.linkChild()` calls `.update()` on both the
-   parent and child docs to set `linkedChildrenUids`/`parentUid` —
-   `linkedChildrenUids` is in `firestore.rules`' `lockedUserFields()`, which
-   `allow update` rejects unconditionally for all clients (by design — see
-   CLAUDE.md §6, roles/relationships are meant to be a trusted-server-only
-   write). This means the "parent + child" signup flow's child-linking step
-   fails today regardless of the fixes above, in both `registerWithEmail`'s
-   child branch and `registerParentWithChild` (see below). This needs a
-   Cloud Function callable (Admin SDK, bypasses rules) that verifies the
-   caller is the child's actual parent (matching `parentUid` already on the
-   child doc) before performing the link — not a client-side rules
-   exception, since that would let any signed-in user link themselves to
-   an arbitrary child uid.
-3. **`registerParentWithChild` (`auth_service.dart`) is dead code — currently
-   unwired, no caller anywhere in `lib/providers/` or `lib/features/`.** The
-   real "parent + child" signup UI goes through `AuthProvider.registerParent`
-   → `AuthService.registerWithEmail`'s child branch instead. Fixed its
-   create-time `linkedChildrenUids` population (was a landmine against the
-   rules change above) so it's consistent with the working path, but
-   whoever wires this function up next should first confirm which of the
-   two "parent + child" implementations is meant to be canonical — having
-   both live invites them drifting out of sync again.
+   create time — and now the failure comes AFTER real Auth accounts and
+   Firestore docs already exist for both parent and child.**
+   `UserRepository.linkChild()` calls `.update()` on the parent doc to set
+   `linkedChildrenUids` (rejected — that field is in `lockedUserFields()`,
+   and `allow update` blocks it unconditionally for all clients by design,
+   see CLAUDE.md §6) and on the child doc to set `parentUid` (rejected
+   separately — `allow update: if isUser(uid)` and the parent is not the
+   child, so this one fails on ownership, not on a locked field; a fix that
+   only unlocked `linkedChildrenUids` would still leave this second call
+   denied). This needs a Cloud Function callable (Admin SDK, bypasses
+   rules) that verifies the caller is the child's actual parent before
+   performing the link — not a client-side rules exception, since that
+   would let any signed-in user link themselves to an arbitrary child uid.
+
+   **Real-user impact today, mitigated but not fixed:** `registerWithEmail`'s
+   child branch (the live "parent + child" signup path — see item 3) now
+   creates the parent Auth account + Firestore doc, then the child Auth
+   account + Firestore doc, and only THEN hits the `linkChild` rejection —
+   worse than before this branch's fixes, where it failed at the first
+   step with a single orphaned account. Mitigated (not fixed) by wrapping
+   the `linkChild`/notification step in a try/catch that deletes the
+   child's just-created Firestore doc and Auth account before rethrowing,
+   so a retry with the same child name+birthdate doesn't permanently fail
+   with `email-already-in-use` (child email/password are deterministic on
+   those two fields). The parent's Auth account + Firestore doc are still
+   left behind on every failed attempt — cleaning those up too would mean
+   deleting the account the user is mid-signing-up-as, which needs its own
+   design decision (roll back entirely vs. let them retry as that same
+   parent and re-attempt adding a child). **Until the Cloud Function in
+   this item exists, `docs/DEMO_CHECKLIST.md`'s parent+child signup step
+   will fail with a visible error and should not be demoed as working.**
+3. **Two implementations of "parent + child" signup exist; only one is
+   wired up.** `AuthService.registerWithEmail`'s child branch is live (via
+   `AuthProvider.registerParent` → the real signup UI). `registerParentWithChild`
+   is dead code — no caller anywhere in `lib/providers/` or `lib/features/`.
+   Its child-doc create was ALSO missing the POPIA consent fields the
+   `learner` branch requires (the other two creation paths already had
+   them) — fixed for consistency, but it hits the exact same item-2 gap the
+   moment someone wires it up. Whoever does should first decide which of
+   the two implementations is meant to be canonical, and delete the other
+   — having both live invites them drifting out of sync again.
 
 ## Environment / tooling
 

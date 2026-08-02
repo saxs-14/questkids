@@ -27,7 +27,15 @@ a minute; if any step fails, see the note under it before improvising.
    checkbox unchecked**, and confirm the "Create Accounts" button stays
    disabled.
 4. Check the consent box, confirm the button enables, and submit.
-   - Expect: both accounts created, redirected to the parent dashboard.
+   - **Currently expected to fail with a visible error, not redirect to the
+     parent dashboard** — see `docs/DEFERRED.md`'s "Linking a child to a
+     parent is blocked for every client" entry. The parent and child Auth
+     accounts + Firestore docs do get created (that part of the bug this
+     entry is about is fixed), but the final child-linking step is rejected
+     by `firestore.rules`, so the demo will show an error here until the
+     Cloud Function described in that entry exists. Do not demo this step
+     as working until it's resolved; skip to step 2 using a pre-existing
+     test account instead.
 
 ## 2. Play one game per engine family
 

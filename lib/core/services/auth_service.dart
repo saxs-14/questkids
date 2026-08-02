@@ -148,17 +148,34 @@ class AuthService {
           'policyVersion': AppConstants.consentPolicyVersion,
         });
 
-        // update parent user document to include child uid
-        await _userRepo.linkChild(parentUid, childUid);
+        try {
+          // update parent user document to include child uid
+          await _userRepo.linkChild(parentUid, childUid);
 
-        // create welcome notification for parent
-        await notifRepo.createNotification({
-          'recipientUid': parentUid,
-          'title': 'Welcome to QuestKids',
-          'body':
-              'Your account and child account have been created successfully.',
-          'type': 'welcome',
-        });
+          // create welcome notification for parent
+          await notifRepo.createNotification({
+            'recipientUid': parentUid,
+            'title': 'Welcome to QuestKids',
+            'body':
+                'Your account and child account have been created successfully.',
+            'type': 'welcome',
+          });
+        } catch (linkError) {
+          // linkChild (or the notification) failed after the child's Auth
+          // account and Firestore doc already exist -- without this, the
+          // child would be left as an orphaned account, and since
+          // _generateChildEmail/_generateChildPassword are deterministic on
+          // name+birthdate, every retry with the same details would then
+          // permanently fail with email-already-in-use. Clean up both
+          // before rethrowing so the parent can actually retry.
+          try {
+            await childFirestore.collection('users').doc(childUid).delete();
+          } catch (_) {}
+          try {
+            await childFirebaseUser.delete();
+          } catch (_) {}
+          rethrow;
+        }
       } finally {
         await tempApp.delete();
       }
@@ -225,10 +242,17 @@ class AuthService {
       );
 
       final childFirestore = FirebaseFirestore.instanceFor(app: tempApp);
-      await childFirestore
-          .collection('users')
-          .doc(childUid)
-          .set(childModel.toMap());
+      // POPIA consent fields required by firestore.rules' `allow create` for
+      // role:'learner' (see CLAUDE.md §6.5) -- missing here previously,
+      // which meant this function's child-doc create was rejected even
+      // before reaching the parent-doc create fixed elsewhere in this file.
+      await childFirestore.collection('users').doc(childUid).set({
+        ...childModel.toMap(),
+        'consentGivenBy': parentName,
+        'consentEmail': parentEmail,
+        'consentAt': DateTime.now().millisecondsSinceEpoch,
+        'policyVersion': AppConstants.consentPolicyVersion,
+      });
       await childFirestore.collection('rewards').doc(childUid).set({
         'uid': childUid,
         'unlockedAvatars': [],
