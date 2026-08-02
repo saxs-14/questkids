@@ -40,16 +40,21 @@ service cloud.firestore {
       // parent/guardian consent trail -- see CLAUDE.md §6.5 and
       // AppConstants.consentPolicyVersion. This is a server-side backstop;
       // the client (auth_service.dart) already always writes these fields
-      // in the same set() call as account creation.
+      // in the same set() call as account creation. Parent/teacher accounts
+      // aren't children, so they never carry a consent trail -- self
+      // registration for those two roles just needs to be self-owned.
       allow create: if isUser(uid) &&
                        request.resource.data.uid == uid &&
-                       request.resource.data.role == 'learner' &&
-                       request.resource.data.consentGivenBy is string &&
-                       request.resource.data.consentGivenBy.size() > 0 &&
-                       request.resource.data.consentEmail is string &&
-                       request.resource.data.consentEmail.size() > 0 &&
-                       request.resource.data.consentAt is int &&
-                       request.resource.data.policyVersion is string;
+                       (
+                         (request.resource.data.role == 'learner' &&
+                          request.resource.data.consentGivenBy is string &&
+                          request.resource.data.consentGivenBy.size() > 0 &&
+                          request.resource.data.consentEmail is string &&
+                          request.resource.data.consentEmail.size() > 0 &&
+                          request.resource.data.consentAt is int &&
+                          request.resource.data.policyVersion is string) ||
+                         request.resource.data.role in ['parent', 'teacher']
+                       );
       allow update: if isUser(uid) &&
                        !request.resource.data.diff(resource.data).affectedKeys().hasAny(lockedUserFields());
       allow delete: if isUser(uid);
