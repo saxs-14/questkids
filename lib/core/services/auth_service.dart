@@ -240,7 +240,12 @@ class AuthService {
       await tempApp.delete();
     }
 
-    // 3. Create Parent UserModel
+    // 3. Create Parent UserModel. linkedChildrenUids starts empty and is
+    // populated by a separate linkChild() call below (matching
+    // registerWithEmail's pattern) rather than being set here: it's a
+    // locked field firestore.rules' `allow create` requires to be empty,
+    // to stop a client pre-claiming read access to other users' data the
+    // moment an admin later grants their real 'parent' custom claim.
     final parentModel = UserModel(
       uid: parentUser.uid,
       name: parentName,
@@ -251,10 +256,10 @@ class AuthService {
       email: parentEmail,
       role: 'parent',
       grade: childGrade, // Keep as reference or empty
-      linkedChildrenUids: [childUid],
       createdAt: DateTime.now(),
     );
     await _userRepo.createUser(parentModel);
+    await _userRepo.linkChild(parentUser.uid, childUid);
     return parentModel;
   }
 

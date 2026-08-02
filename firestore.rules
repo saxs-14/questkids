@@ -47,11 +47,13 @@ service cloud.firestore {
       // path a plain role-string check would otherwise leave open: (a) no
       // linkedChildrenUids at create time, so a fresh doc can't pre-claim
       // read access to other users' data the moment an admin later grants
-      // the real 'parent' claim; (b) no birthDate, since every real client
-      // path (registerWithEmail's parentModel, signInWithGoogle's
-      // userModel) always leaves it null for an adult self-registration --
-      // this stops a child account from being created as 'parent' just to
-      // dodge the consent trail above.
+      // the real 'parent' claim -- every creation path (registerWithEmail's
+      // userModel, registerParentWithChild's parentModel, signInWithGoogle's
+      // userModel) leaves this empty at create and links children
+      // separately via UserRepository.linkChild(); (b) no birthDate, since
+      // every one of those same paths always leaves it null for an adult
+      // self-registration -- this stops a child account from being created
+      // as 'parent' just to dodge the consent trail above.
       allow create: if isUser(uid) &&
                        request.resource.data.uid == uid &&
                        (
