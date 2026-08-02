@@ -34,8 +34,16 @@ a minute; if any step fails, see the note under it before improvising.
      entry is about is fixed), but the final child-linking step is rejected
      by `firestore.rules`, so the demo will show an error here until the
      Cloud Function described in that entry exists. Do not demo this step
-     as working until it's resolved; skip to step 2 using a pre-existing
-     test account instead.
+     as working until it's resolved. There is no pre-existing test account
+     in this repo, and no in-app flow creates a standalone learner account
+     (every learner is created as a child of a parent, and that path is
+     exactly what's broken here) — to reach step 2 anyway, manually seed a
+     learner via the Firebase Emulator UI (`localhost:4000` → Firestore:
+     create a `users/{uid}` doc with `role: 'learner'` and the other
+     required fields per `UserModel`; Authentication: create the matching
+     Auth user, then use the Admin SDK or `firebase emulators:exec` to set
+     its custom claim to `{"role": "learner"}` — the emulator UI itself
+     doesn't expose custom-claim editing).
 
 ## 2. Play one game per engine family
 
@@ -70,6 +78,13 @@ Confirm two games in the same subject visibly look/play differently.
      was created with `uid`, `messageText`, `reason`, `createdAt`.
 
 ## 5. Parent link
+
+**Currently expected to fail** — both sub-flows below hit the same
+"linking a child to a parent is blocked for every client" bug as step 1
+(see `docs/DEFERRED.md`), just via different `ParentRepository` call sites
+(`linkParentToChild` / `approveLinkRequest` instead of `linkChild`). Do not
+demo this step as working until the Cloud Function described in that entry
+exists.
 
 1. From the parent dashboard, go to **Add or Link a Child**.
 2. Either register a second child (consent checkbox required again) or use

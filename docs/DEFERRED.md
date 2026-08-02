@@ -45,7 +45,8 @@ self-registration is genuinely usable end-to-end — not mechanical fixes:**
    exists).
 2. **Linking a child to a parent is blocked for every client, not just at
    create time — and now the failure comes AFTER real Auth accounts and
-   Firestore docs already exist for both parent and child.**
+   Firestore docs already exist for both parent and child. This is not one
+   call site; it's the same root cause in four places.**
    `UserRepository.linkChild()` calls `.update()` on the parent doc to set
    `linkedChildrenUids` (rejected — that field is in `lockedUserFields()`,
    and `allow update` blocks it unconditionally for all clients by design,
@@ -53,10 +54,21 @@ self-registration is genuinely usable end-to-end — not mechanical fixes:**
    separately — `allow update: if isUser(uid)` and the parent is not the
    child, so this one fails on ownership, not on a locked field; a fix that
    only unlocked `linkedChildrenUids` would still leave this second call
-   denied). This needs a Cloud Function callable (Admin SDK, bypasses
-   rules) that verifies the caller is the child's actual parent before
-   performing the link — not a client-side rules exception, since that
-   would let any signed-in user link themselves to an arbitrary child uid.
+   denied). The identical pair of rejections hits three more call sites in
+   `ParentRepository` — `approveLinkRequest` (approving a
+   "Link to Existing Child" request), `linkParentToChild` (the direct
+   link-code flow), and `unlinkParentFromChild` — each of which runs a
+   transaction that updates the parent's `linkedChildrenUids` (locked
+   field, rejected) and the child's `linkedParentUids` (not a locked
+   field, but still rejected on ownership: `allow update: if isUser(uid)`
+   and the parent is not the child). **This is why `docs/DEMO_CHECKLIST.md`
+   step 5 ("Parent link") also fails** — it exercises this exact path, not
+   a separate bug. All four call sites need the same fix: a Cloud Function
+   callable (Admin SDK, bypasses rules) that verifies the caller is
+   authorized (the child's actual parent, or — for `approveLinkRequest` —
+   the primary parent approving a pending request) before performing the
+   link/unlink — not a client-side rules exception, since that would let
+   any signed-in user link themselves to an arbitrary child uid.
 
    **Real-user impact today, mitigated but not fixed:** `registerWithEmail`'s
    child branch (the live "parent + child" signup path — see item 3) now
