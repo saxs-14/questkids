@@ -1,11 +1,13 @@
 import 'dart:ui';
 
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'core/services/analytics_service.dart';
@@ -46,6 +48,22 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // Point every Firebase service at the local emulator suite (see
+  // `firebase.json`'s `emulators` block for ports and
+  // `docs/ENVIRONMENT_SETUP.md` §7 for the matching `firebase
+  // emulators:start` command) instead of production, for local dev/testing
+  // only. `kDebugMode &&` is a hard safety net on top of the dart-define --
+  // even if a release build were ever built with this flag set, it still
+  // cannot connect to emulators, since emulator config must be set before
+  // any other Firebase call.
+  const useEmulators = bool.fromEnvironment('USE_EMULATORS');
+  if (useEmulators && kDebugMode) {
+    const emulatorHost = 'localhost';
+    await FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
+    FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
+    FirebaseFunctions.instance.useFunctionsEmulator(emulatorHost, 5001);
+  }
 
   // Route every uncaught Flutter framework error to Crashlytics instead of
   // just printing to the console, so crashes are visible after launch.
