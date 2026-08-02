@@ -38,10 +38,18 @@ class RewardModel {
 
   factory RewardModel.fromMap(Map<String, dynamic> map) {
     return RewardModel(
+      // Firestore's Web SDK can return an integer field as a JS double
+      // (most reliably reproduced right after a FieldValue.increment()
+      // write) -- goldBalance below already guards against this with
+      // (x as num?)?.toInt(); totalPoints/level/streakDays/lastActiveDate
+      // didn't, which meant a stream built on this model (RewardRepository
+      // .watchRewards) could throw and silently die on the very update
+      // that was supposed to refresh those fields. See the identical fix
+      // in UserModel.fromMap for the fuller incident writeup.
       uid: map['uid'] ?? '',
-      totalPoints: map['totalPoints'] ?? 0,
-      level: map['level'] ?? 1,
-      streakDays: map['streakDays'] ?? 0,
+      totalPoints: (map['totalPoints'] as num?)?.toInt() ?? 0,
+      level: (map['level'] as num?)?.toInt() ?? 1,
+      streakDays: (map['streakDays'] as num?)?.toInt() ?? 0,
       badges: (map['badges'] as List<dynamic>? ?? [])
           .map((b) => BadgeModel.fromMap(b))
           .toList(),
@@ -49,7 +57,8 @@ class RewardModel {
           .map((a) => AchievementModel.fromMap(a))
           .toList(),
       lastActiveDate: map['lastActiveDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['lastActiveDate'])
+          ? DateTime.fromMillisecondsSinceEpoch(
+              (map['lastActiveDate'] as num).toInt())
           : DateTime.now(),
       goldBalance: (map['goldBalance'] as num?)?.toInt() ?? 0,
       ownedItemIds: (map['ownedItemIds'] as List<dynamic>?)

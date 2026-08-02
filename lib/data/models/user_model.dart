@@ -85,7 +85,12 @@ class UserModel {
   static DateTime? _tsToDate(dynamic v) {
     if (v == null) return null;
     if (v is Timestamp) return v.toDate();
-    if (v is int) return DateTime.fromMillisecondsSinceEpoch(v);
+    // Firestore's Web SDK can return a millisecondsSinceEpoch int field as
+    // a JS double -- `v is int` silently fails on that (falls through to
+    // null below) instead of throwing, so this was a quieter case of the
+    // same numeric-type mismatch fixed in fromMap's totalPoints/streakDays
+    // reads just above.
+    if (v is num) return DateTime.fromMillisecondsSinceEpoch(v.toInt());
     return null;
   }
 
@@ -109,8 +114,19 @@ class UserModel {
       twoFactorEnabled: map['twoFactorEnabled'] ?? false,
       profileImageBase64: map['profileImageBase64'],
       lastActiveDate: _tsToDate(map['lastActiveDate']),
-      totalPoints: map['totalPoints'] ?? 0,
-      streakDays: map['streakDays'] ?? 0,
+      // Firestore's Web SDK can return integer fields as a JS double
+      // (most reliably reproduced right after a FieldValue.increment()
+      // write, e.g. RewardsService.grantGameSessionRewards on totalPoints)
+      // -- a plain `?? 0` binds that double straight to this int field and
+      // throws at runtime, which silently kills any stream built on top
+      // of this (e.g. AuthProvider's watchUser() subscription errors out
+      // with no onError handler and never emits again, freezing the
+      // dashboard's XP header until the next full sign-in). Every other
+      // repository in this codebase already guards numeric Firestore
+      // reads this way (see RewardsService._updatePlayerStats); this was
+      // the one path that didn't.
+      totalPoints: (map['totalPoints'] as num?)?.toInt() ?? 0,
+      streakDays: (map['streakDays'] as num?)?.toInt() ?? 0,
       createdAt: _tsToDate(map['createdAt']) ?? DateTime.now(),
       linkedChildrenUids: List<String>.from(map['linkedChildrenUids'] ?? []),
       preferredLanguage: map['preferredLanguage'] ?? 'English',

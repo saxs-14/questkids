@@ -58,13 +58,23 @@ void main() async {
 
   // Route every uncaught Flutter framework error to Crashlytics instead of
   // just printing to the console, so crashes are visible after launch.
+  // firebase_crashlytics has no web implementation (its pubspec declares
+  // only android/ios/macos) -- calling it unguarded on web throws from
+  // inside the error handler itself, silently swallowing whatever error
+  // it was trying to report instead of surfacing it anywhere (not even
+  // the browser console). Guard both handlers with kIsWeb so errors on
+  // web still reach FlutterError.presentError / are left uncaught (both
+  // of which do reach the console), rather than vanishing.
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.presentError(details);
-    FirebaseCrashlytics.instance.recordFlutterFatalError(details);
+    if (!kIsWeb) {
+      FirebaseCrashlytics.instance.recordFlutterFatalError(details);
+    }
   };
   // Catches errors outside the Flutter framework's own error zone (e.g.
   // from a Future that isn't awaited) that FlutterError.onError misses.
   PlatformDispatcher.instance.onError = (error, stack) {
+    if (kIsWeb) return false;
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };

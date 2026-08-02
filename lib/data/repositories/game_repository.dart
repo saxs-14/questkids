@@ -12,9 +12,16 @@ import '../../core/constants/app_constants.dart';
 ///   game_sessions/{sessionId}
 ///   player_stats/{uid}
 ///   game_progress/{uid}/engines/{engineType}
-///   leaderboards/{grade}/entries/{uid}
 ///   daily_missions/{uid}_{date}
 ///   caps_curriculum/{grade_subject}
+///
+/// Leaderboards (leaderboards/{grade}/weekly, leaderboards/{grade}/allTime)
+/// are populated server-side only, by the scheduled refreshLeaderboards
+/// Cloud Function reading player_stats -- firestore.rules blocks all client
+/// writes under leaderboards/{grade} (`allow write: if false`), and there
+/// is no rule at all for a leaderboards/{grade}/entries subcollection, so a
+/// client write there can never succeed. See LeaderboardRepository for the
+/// read side.
 class GameRepository {
   final _db = FirebaseFirestore.instance;
   final _uuid = const Uuid();
@@ -42,11 +49,18 @@ class GameRepository {
 
     await batch.commit();
 
-    // Fan-out updates: non-critical, run in parallel
+    // Fan-out updates: non-critical, run in parallel. Each is caught
+    // individually so a failure in one can never propagate out of this
+    // function and abort the caller's subsequent reward-granting step --
+    // Future.wait alone does not achieve that: even with the default
+    // eagerError:false, it still rethrows the first error to its own
+    // caller once every future has settled. This is not hypothetical: a
+    // client write to leaderboards/{grade}/entries here previously did
+    // exactly that (always rules-denied, see the class doc comment),
+    // silently blocking every player's XP/coins grant after every game.
     await Future.wait([
-      _updatePlayerStats(session),
-      _updateGameProgress(session),
-      _updateLeaderboard(session),
+      _updatePlayerStats(session).catchError((_) {}),
+      _updateGameProgress(session).catchError((_) {}),
     ]);
 
     return id;
@@ -168,33 +182,6 @@ class GameRepository {
         .doc(engineType)
         .get();
     return snap.data();
-  }
-
-  // ── Leaderboard ───────────────────────────────────────────────────────────────
-
-  Future<void> _updateLeaderboard(GameSessionModel session) async {
-    final entryRef = _db
-        .collection(AppConstants.colLeaderboards)
-        .doc(session.grade)
-        .collection('entries')
-        .doc(session.uid);
-
-    final statsSnap = await _db
-        .collection(AppConstants.colPlayerStats)
-        .doc(session.uid)
-        .get();
-    final stats = statsSnap.data() ?? {};
-
-    await entryRef.set(
-      {
-        'uid': session.uid,
-        'xp': stats['xp'] ?? 0,
-        'level': stats['level'] ?? 1,
-        'coins': stats['coins'] ?? 0,
-        'updatedAt': Timestamp.fromDate(session.completedAt),
-      },
-      SetOptions(merge: true),
-    );
   }
 
   // ── Daily missions ────────────────────────────────────────────────────────────

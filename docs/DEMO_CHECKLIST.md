@@ -68,6 +68,12 @@ Confirm two games in the same subject visibly look/play differently.
 
 - [ ] After finishing a game, XP/coins shown on the result screen match
       what's added to the dashboard header (level progress bar / stats).
+      **Known issue (see `docs/DEFERRED.md`):** the underlying reward data
+      is correct (verified via Firestore directly), but the header's XP/
+      Level numbers currently only refresh on a full page reload, not
+      live after returning from a game -- Gold/Badges on the same header
+      do update live. If demoing this step, reload the page after the
+      game before checking the header, or expect XP/Level to look stale.
 
 ## 4. Questy chat, including report flow
 

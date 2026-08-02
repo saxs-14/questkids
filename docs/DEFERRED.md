@@ -126,6 +126,87 @@ self-registration is genuinely usable end-to-end — not mechanical fixes:**
    before authorizing delete, which is a design decision, not a
    mechanical tightening.
 
+## Web platform (2026-08-02): dashboard XP/Level header still doesn't live-update after a game (root cause NOT fully found)
+
+Found by actually playing games in a browser against the Firebase emulator
+(per `docs/DEMO_CHECKLIST.md`'s step 3, "XP/coins shown on the result screen
+match what's added to the dashboard header"): after finishing a game, the
+result screen correctly shows the XP earned, and the reward really is
+written to Firestore correctly (verified directly via the Admin SDK, twice,
+across two separate games -- `users/{uid}.totalPoints` and
+`rewards/{uid}.totalPoints` both land on the exact right total both times).
+But the dashboard's XP/Level header stays frozen at its pre-game value
+until a full page reload. **This is a display-only bug -- the underlying
+reward data has been directly verified correct every time it was checked.**
+Gold and Badges on the exact same header, sourced from a separate
+`RewardsProvider.watchRewards()` stream, do update live correctly, which is
+what makes this reproducible and worth chasing rather than a flake.
+
+**Fixed, but did not resolve the symptom (kept anyway -- both are real,
+independently-valid bugs):**
+1. `cloud_firestore`'s Web SDK can return an integer field as a JS
+   `double` (most reliably reproduced right after a `FieldValue.increment()`
+   write -- `RewardsService.grantGameSessionRewards` increments
+   `users/{uid}.totalPoints` this way). `UserModel.fromMap`'s
+   `totalPoints: map['totalPoints'] ?? 0` bound that `double` straight to
+   an `int`-typed field, which throws at runtime -- and since
+   `UserRepository.watchUser()`'s `.map()` transform is consumed by
+   `AuthProvider`'s `.listen()` call with no `onError` handler, a throw
+   there would silently kill the stream after its first emission with no
+   trace anywhere. `RewardsProvider`'s `goldBalance` field already guards
+   against exactly this with `(map['goldBalance'] as num?)?.toInt() ?? 0`;
+   `totalPoints` right next to it in the same model did not. Fixed both
+   `UserModel.fromMap` (`totalPoints`, `streakDays`, and the `_tsToDate`
+   helper used for `birthDate`/`lastActiveDate`/`createdAt`, which had the
+   same `v is int` check silently failing to `null` instead of throwing)
+   and the identical pattern in `RewardModel.fromMap` (`totalPoints`,
+   `level`, `streakDays`, `lastActiveDate`) to match the already-correct
+   `goldBalance` handling. **Rebuilt and re-tested against two full games
+   after this fix -- the header was still stale both times**, so this was
+   a real bug worth having fixed (it's a plausible crash/silent-stream-
+   death vector generally) but not the cause of this specific symptom, or
+   not the only one.
+2. `main.dart`'s global `PlatformDispatcher.instance.onError`/
+   `FlutterError.onError` handlers called `FirebaseCrashlytics.instance
+   .recordError(...)` unconditionally; `firebase_crashlytics` has no web
+   implementation, so on web the error handler itself throws, which could
+   mask whatever it was trying to report. Guarded both with `kIsWeb`.
+   Also did not resolve the symptom.
+
+**Ruled out:** a stale browser cache/service-worker serving an older JS
+bundle across rebuilds (real, and separately worth knowing about --
+`flutter build web` output is aggressively cached by the Flutter-generated
+service worker; `page.evaluate` unregistering service workers + clearing
+`caches` before reload is required to actually pick up a new build when
+testing this way, and it's easy to test against stale JS without realizing
+it). Controlled for this explicitly on the final test round and the
+staleness still reproduced.
+
+**Not yet tried:** attaching Chrome DevTools / a debugger to see whether
+`_userSubscription`'s `.listen()` callback fires at all after the first
+emission (would definitively separate "stream never fires again" from
+"fires but something in the widget tree doesn't rebuild") -- the tool used
+for this testing pass (Playwright driving CanvasKit Flutter Web, no real
+DOM) can't set Dart breakpoints or read Dart-level state, only observe via
+screenshots, the accessibility bridge, and network/console logs, which
+was enough to prove the bug and disprove two hypotheses but not enough to
+find the real one. `flutter run -d chrome` with DevTools attached (noted
+elsewhere in this doc as having its own DWDS websocket issues in this
+environment) or a native (non-CanvasKit) debug session would be the next
+step.
+
+**Not yet audited: the same `map['x'] ?? 0`-without-`num`-coercion pattern
+exists in `progress_model.dart`** (`score`, `pointsEarned`,
+`timeTakenSeconds`) and possibly other model `fromMap` factories --
+`grep -rn "'\] ?? 0" lib/data/models/` is the starting point. `ProgressModel
+.fromMap` is used inside `ProgressRepository`'s `.snapshots()`-based list
+streams (parent/teacher progress views), so the same silent-stream-death
+failure mode is plausible there too, but this was not directly observed
+broken in this testing pass (only the dashboard XP header was actually
+exercised end-to-end in a browser) -- flagged here rather than fixed
+speculatively, since fixing without reproducing first risks papering over a
+different bug with the same-looking patch.
+
 ## Environment / tooling
 
 - **`sqlite3: 2.9.4` `dependency_overrides` pin removed (Phase 1, UI
