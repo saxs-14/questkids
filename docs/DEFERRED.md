@@ -147,6 +147,17 @@ what to do next.
   - `ls_g2_feelings`: some vocabulary (`resentful`, `outraged`, `discouraged`, `heartbroken`,
     `homesick`) is above a Grade 2 reading level.
 
+  **A fourth bug, caught by final whole-branch review (not task-level review): `math_g2_addition`
+  generated sums up to ~169 despite promising "up to 100"**, because `tools/gamegen/content/math.js`'s
+  `case 'addition':` drew both operands independently from `[min, max]`. Fixed in two passes — the
+  first attempt (`706195c`) only narrowed the failure window rather than closing it (still ~1% violation
+  rate, proven by simulation), the second (`42b3599`) bounds `a` itself to `[min, max-min]`, which is
+  provably correct (not just empirically rare) whenever `max >= 2*min` — true for every band in this
+  repo today. That precondition is implicit/unguarded in the code; a one-line assertion in the
+  `'addition'` case (or a property-style test looping N draws per band) would make it self-enforcing
+  instead of tribal knowledge, and is recommended before this generator is reused for a future
+  narrow/custom `numberRange`.
+
 ## Android release build (Phase 4)
 
 - **`flutter build appbundle --release` could not be run in this sandbox.**
