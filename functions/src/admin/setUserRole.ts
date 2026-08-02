@@ -1,5 +1,6 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { beforeUserCreated } from "firebase-functions/v2/identity";
+import { onDocumentCreated } from "firebase-functions/v2/firestore";
 import * as admin from "firebase-admin";
 
 const VALID_ROLES = ["learner", "parent", "teacher", "admin"] as const;
@@ -59,3 +60,47 @@ export const assignDefaultRole = beforeUserCreated(() => {
     customClaims: { role: "learner" },
   };
 });
+
+/**
+ * assignDefaultRole above fires at Auth-account-creation time, before the
+ * client's users/{uid} Firestore doc exists -- it has no way to know
+ * whether a signup intends to be a learner, parent, or teacher, so it can
+ * only ever set the safe default. This trigger fires immediately after
+ * that doc actually gets created (AuthService.registerWithEmail's
+ * createUser() call, right after createUserWithEmailAndPassword) and
+ * upgrades the claim to match the self-declared role if it's 'parent' or
+ * 'teacher' ('learner' is already correct from assignDefaultRole, so left
+ * untouched to avoid a redundant claims write on every single signup).
+ *
+ * Trusting this doc's role field here is intentional and safe, not an
+ * oversight: it's the exact same self-declaration the client already made
+ * in the create() call itself (firestore.rules' `allow create` requires
+ * the POPIA consent fields for learner, or birthDate == null for
+ * parent/teacher, but there is no stronger signal available at self-
+ * service signup to verify someone actually IS a teacher -- same
+ * trust model as most consumer apps' self-service signup, this is not a
+ * KYC flow). What must never happen -- and is guaranteed elsewhere, not
+ * here -- is a self-declared parent/teacher getting pre-populated access
+ * to another user's data: firestore.rules' `allow create` on /users/{uid}
+ * requires linkedChildrenUids.size() == 0 on every role branch, closing
+ * that off before this function ever runs.
+ */
+export const grantSelfDeclaredRoleClaim = onDocumentCreated(
+  "users/{uid}",
+  async (event) => {
+    const snap = event.data;
+    if (!snap) return;
+
+    const role = snap.data()?.role;
+    if (role !== "parent" && role !== "teacher") return;
+
+    const uid = event.params.uid;
+    const user = await admin.auth().getUser(uid);
+    if (user.customClaims?.role === role) return;
+
+    await admin.auth().setCustomUserClaims(uid, {
+      ...user.customClaims,
+      role,
+    });
+  }
+);

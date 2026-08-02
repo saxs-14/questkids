@@ -94,6 +94,34 @@ class AuthService {
     }
   }
 
+  // A parent/teacher's Auth custom claim starts as 'learner', set
+  // synchronously by the assignDefaultRole Cloud Function before this
+  // doc even exists (it has no way to know the intended role at that
+  // point). A separate Firestore trigger (grantSelfDeclaredRoleClaim,
+  // functions/src/admin/setUserRole.ts) upgrades the claim to match this
+  // doc's self-declared role immediately after create, but that trigger
+  // runs asynchronously server-side -- without waiting here, the
+  // freshly-registered user would land on their dashboard with a stale
+  // 'learner' ID token, and every parent/teacher-gated Firestore read or
+  // write (which authorize off the token claim, never this doc's role
+  // field) would be denied until the SDK's own next natural token
+  // refresh, up to an hour later. Bounded retry, not an indefinite wait:
+  // if the trigger is ever slow or fails, the user still lands on the
+  // right dashboard shell (NavigationService routes off this doc's role)
+  // and self-heals once the SDK's background refresh eventually catches
+  // up, so failing to catch up here is degraded, not broken.
+  Future<void> _waitForRoleClaim(User user, String expectedRole) async {
+    for (var attempt = 0; attempt < 8; attempt++) {
+      await Future.delayed(const Duration(milliseconds: 500));
+      try {
+        final result = await user.getIdTokenResult(true);
+        if (result.claims?['role'] == expectedRole) return;
+      } catch (_) {
+        // Transient token-refresh failure -- keep retrying within budget.
+      }
+    }
+  }
+
   // Teacher/Standard Register
   Future<UserModel?> registerWithEmail({
     required String email,
@@ -136,6 +164,9 @@ class AuthService {
       createdAt: DateTime.now(),
     );
     await _userRepo.createUser(userModel);
+    if (role == 'parent' || role == 'teacher') {
+      await _waitForRoleClaim(user, role);
+    }
     await _rewardRepo.initRewards(user.uid);
 
     // If optional child data provided, create child account and link
@@ -391,6 +422,9 @@ class AuthService {
       createdAt: DateTime.now(),
     );
     await _userRepo.createUser(userModel);
+    if (role == 'parent' || role == 'teacher') {
+      await _waitForRoleClaim(user, role);
+    }
     await _rewardRepo.initRewards(user.uid);
     return userModel;
   }

@@ -21,85 +21,110 @@ otherwise leave open; corrected a false claim in the first fix's own comment
 about which code path was actually safe. All three verified against the
 Firestore emulator and the full `flutter test` suite (318/318).
 
-**This closes the immediate crash, but real design decisions remain before
-self-registration is genuinely usable end-to-end — not mechanical fixes:**
+**This closes the immediate crash. Items 1 and 2 below are now FIXED
+(2026-08-03) — a real parent+child signup was driven through the actual
+UI against the Firebase emulator and confirmed working end-to-end,
+landing on the parent dashboard with the child correctly linked and
+visible. Items 3 and 4 are still open.**
 
-1. **A self-registered parent/teacher's Firestore doc now gets created, but
-   their Firebase Auth custom claim doesn't follow.** `functions/src/admin/setUserRole.ts`'s
-   `assignDefaultRole` trigger pins *every* new Auth user's `customClaims`
-   to `{role: "learner"}`, and nothing else grants `parent`/`teacher` except
-   an admin manually calling `setUserRole`. **Confirmed live in production
-   as of 2026-08-02**: this trigger is a Firebase Auth blocking function
-   (`beforeUserCreated`), which requires the project's Auth to be upgraded
-   to Identity Platform (GCIP) — until that was done, every `firebase
-   deploy --only functions` silently failed to deploy this one function
-   specifically (`Blocking Functions may only be configured for GCIP
-   projects`), while every other function deployed fine and gave no
-   indication anything was wrong. It's unknown how long it had been
-   broken this way; GCIP is now enabled and `assignDefaultRole` deploys
-   and runs. This makes the gap below real and active for every new
-   signup from now on, not theoretical — check this first if
-   `firebase deploy --only functions` output ever needs re-verifying,
-   since a per-function silent failure like this is easy to miss in a
-   long deploy log. Firestore rules authorize off
-   `request.auth.token.role` (the claim), never the mirrored doc field — so
-   a self-registered parent is routed to `ParentDashboard`
-   (`NavigationService.getDashboard` reads the doc's `role`) but every
-   parent-gated read/write there is denied, since their real claim is still
-   `learner`. Needs a decision: does self-registration grant the claim
-   immediately (and if so, gated by what — email verification? nothing?),
-   or does it land in an explicit "pending admin approval" state? Either
-   way this is a Cloud Function change (claims can only be set server-side),
-   not a rules change — **and whatever that function is, it must not trust
-   this doc's mirrored `role` field when deciding what to grant**, since a
-   client can now self-declare it (see the `firestore.rules` comment on the
-   `allow create` block: the POPIA consent trail on the `parent`/`teacher`
-   branch is client-declared, not server-enforced, until this function
-   exists).
-2. **Linking a child to a parent is blocked for every client, not just at
-   create time — and now the failure comes AFTER real Auth accounts and
-   Firestore docs already exist for both parent and child. This is not one
-   call site; it's the same root cause in four places.**
-   `UserRepository.linkChild()` calls `.update()` on the parent doc to set
-   `linkedChildrenUids` (rejected — that field is in `lockedUserFields()`,
-   and `allow update` blocks it unconditionally for all clients by design,
-   see CLAUDE.md §6) and on the child doc to set `parentUid` (rejected
-   separately — `allow update: if isUser(uid)` and the parent is not the
-   child, so this one fails on ownership, not on a locked field; a fix that
-   only unlocked `linkedChildrenUids` would still leave this second call
-   denied). The identical pair of rejections hits three more call sites in
-   `ParentRepository` — `approveLinkRequest` (approving a
+1. **FIXED: a self-registered parent/teacher's Firestore doc got created,
+   but their Firebase Auth custom claim never followed, and even once it
+   did server-side, the client never picked it up.** Two separate bugs,
+   both fixed:
+
+   - `assignDefaultRole` (see above) pins every new Auth user to
+     `{role: "learner"}` — it fires at Auth-account-creation time, before
+     the client's Firestore doc even exists, so it has no way to know a
+     signup intends to be a parent or teacher. Added
+     `grantSelfDeclaredRoleClaim` (`functions/src/admin/setUserRole.ts`),
+     a Firestore `onDocumentCreated` trigger on `users/{uid}` that upgrades
+     the claim to `parent`/`teacher` immediately after that doc is
+     created, trusting the doc's self-declared `role` the same way the
+     client's own registration flow already does (see the trigger's own
+     doc comment for why that's safe — the real boundary is
+     `linkedChildrenUids.size() == 0` at create, not this claim).
+   - Even with the claim correctly upgraded server-side (confirmed via
+     `admin.auth().getUser(uid).customClaims`), the **client never
+     refreshed its cached ID token to pick it up — not even across a full
+     page reload.** Confirmed directly via the Firestore Emulator UI's
+     Requests tab: a query made well after the server-side claim was
+     already `parent` was still presenting `role: "learner"` to
+     `firestore.rules`. Firebase Auth does not retroactively update an
+     already-issued token when a custom claim changes; the SDK just
+     restores whatever's in local persistence on every app start unless
+     something explicitly calls `getIdToken(forceRefresh: true)`. Fixed
+     by forcing a refresh in `AuthProvider._init()`'s `authStateChanges`
+     handler, so every session start self-heals regardless of whether any
+     earlier claim-grant caught up in time.
+   - `AuthService` also gained `_waitForRoleClaim`, called right after the
+     parent/teacher doc is created during registration, so the *current*
+     session can pick up the claim without needing a reload at all. **This
+     does not fully work yet** — confirmed live: immediately after a
+     successful registration, in the same continuous session, the parent
+     dashboard still shows no linked child until the page is reloaded once.
+     The `_init()` fix above makes this self-healing (reload once and it's
+     fixed), but the root cause of why the same-session polling doesn't
+     propagate to Firestore's own cached credential hasn't been pinned
+     down — likely a `cloud_firestore`/`firebase_auth` plugin-level gap
+     between "Auth's token is refreshed" and "Firestore's connection
+     picks up the new token," not an application bug. Worth a follow-up
+     if the one-reload requirement turns out to matter for the real UX
+     (a toast telling the user to refresh, or an explicit
+     `FirebaseFirestore.instance` reconnect call, are both plausible
+     workarounds if so).
+2. **FIXED (registration-time case only): a parent could never link a
+   child to their own account — not even one they just created
+   themselves.** `linkedChildrenUids` is a locked field
+   (`lockedUserFields()`); `allow update` on `/users/{uid}` rejects every
+   client write to it unconditionally, by design, so no client-side code
+   could ever complete this link, including `UserRepository.linkChild()`
+   during registration. Added `linkRegisteredChild`
+   (`functions/src/parent/linkChild.ts`), a callable Cloud Function that
+   verifies the caller is `uid == parentUid` and that the target child's
+   own doc already declares `parentUid == parentUid` (set correctly at
+   child-doc-creation time by the child's own temp Auth session), then
+   completes the parent-side write via the Admin SDK. Rewired
+   `UserRepository.linkChild()` to call it instead of writing directly.
+   Also removed the now-redundant, separately-doomed child-side
+   `.update({'parentUid': ...})` call this function used to make (that
+   field is already set correctly at doc creation; the write was rejected
+   on ownership anyway, not just redundant).
+
+   Hit one real bug while building the fix itself, since it's worth
+   recording: the function's first version used
+   `admin.firestore.FieldValue.arrayUnion(...)` (the namespaced style
+   already used everywhere else in this functions codebase) and threw
+   `Cannot read properties of undefined (reading 'arrayUnion')` at
+   runtime in the emulator, despite that exact pattern working in a
+   standalone Node script against the same `firebase-admin` version.
+   Switched to the modular `import { getFirestore, FieldValue } from
+   "firebase-admin/firestore"` style, which resolved it. **Not
+   confirmed whether the namespaced style is genuinely broken elsewhere
+   in this codebase or whether this was specific to something about this
+   one function/file** — every other `admin.firestore.FieldValue.X` call
+   site (`badgeAward.ts`, `sendPush.ts`, `classBroadcast.ts`,
+   `newMessage.ts`, `reminders.ts`, `index.ts`'s `sendEmail`) still uses
+   the namespaced style and has not been directly observed failing, but
+   none of them have been directly exercised end-to-end against the
+   emulator this session either (several are scheduled functions the
+   local emulator can't even run without pubsub). Worth switching them to
+   the modular style preemptively, or at least verifying each one
+   live, before trusting them.
+
+   **Not fixed: the other three call sites with the identical root
+   cause** — `ParentRepository.approveLinkRequest` (approving a
    "Link to Existing Child" request), `linkParentToChild` (the direct
-   link-code flow), and `unlinkParentFromChild` — each of which runs a
-   transaction that updates the parent's `linkedChildrenUids` (locked
-   field, rejected) and the child's `linkedParentUids` (not a locked
-   field, but still rejected on ownership: `allow update: if isUser(uid)`
-   and the parent is not the child). **This is why `docs/DEMO_CHECKLIST.md`
-   step 5 ("Parent link") also fails** — it exercises this exact path, not
-   a separate bug. All four call sites need the same fix: a Cloud Function
-   callable (Admin SDK, bypasses rules) that verifies the caller is
-   authorized (the child's actual parent, or — for `approveLinkRequest` —
-   the primary parent approving a pending request) before performing the
-   link/unlink — not a client-side rules exception, since that would let
-   any signed-in user link themselves to an arbitrary child uid.
-
-   **Real-user impact today, mitigated but not fixed:** `registerWithEmail`'s
-   child branch (the live "parent + child" signup path — see item 3) now
-   creates the parent Auth account + Firestore doc, then the child Auth
-   account + Firestore doc, and only THEN hits the `linkChild` rejection —
-   worse than before this branch's fixes, where it failed at the first
-   step with a single orphaned account. Mitigated (not fixed) by wrapping
-   the `linkChild`/notification step in a try/catch that deletes the
-   child's just-created Firestore doc and Auth account before rethrowing,
-   so a retry with the same child name+birthdate doesn't permanently fail
-   with `email-already-in-use` (child email/password are deterministic on
-   those two fields). The parent's Auth account + Firestore doc are still
-   left behind on every failed attempt — cleaning those up too would mean
-   deleting the account the user is mid-signing-up-as, which needs its own
-   design decision (roll back entirely vs. let them retry as that same
-   parent and re-attempt adding a child). **Until the Cloud Function in
-   this item exists, `docs/DEMO_CHECKLIST.md`'s parent+child signup step
-   will fail with a visible error and should not be demoed as working.**
+   link-code flow), and `unlinkParentFromChild` — each of which still runs
+   a transaction that updates the parent's `linkedChildrenUids` (locked
+   field, rejected) and the child's `linkedParentUids` (not locked, but
+   still rejected on ownership: `allow update: if isUser(uid)` and the
+   parent is not the child). **This is why `docs/DEMO_CHECKLIST.md` step 5
+   ("Parent link") still fails** — a separate, larger feature area
+   (co-parent linking / linking to a child registered on a different
+   device) with its own authorization model per call site (link-code
+   ownership for `linkParentToChild`; an approved
+   `parent_link_requests` entry for `approveLinkRequest`) — not yet
+   built.
 3. **Two implementations of "parent + child" signup exist; only one is
    wired up.** `AuthService.registerWithEmail`'s child branch is live (via
    `AuthProvider.registerParent` → the real signup UI). `registerParentWithChild`

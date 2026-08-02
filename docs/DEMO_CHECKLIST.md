@@ -27,25 +27,20 @@ a minute; if any step fails, see the note under it before improvising.
    checkbox unchecked**, and confirm the "Create Accounts" button stays
    disabled.
 4. Check the consent box, confirm the button enables, and submit.
-   - **Currently expected to fail with a visible error, not redirect to the
-     parent dashboard** — see `docs/DEFERRED.md`'s "Linking a child to a
-     parent is blocked for every client" entry. The parent and child Auth
-     accounts + Firestore docs do get created (that part of the bug this
-     entry is about is fixed), but the final child-linking step is rejected
-     by `firestore.rules`, so the demo will show an error here until the
-     Cloud Function described in that entry exists. Do not demo this step
-     as working until it's resolved. There is no pre-existing test account
-     in this repo, and no in-app flow creates a standalone learner account
-     (every learner is created as a child of a parent, and that path is
-     exactly what's broken here) — to reach step 2 anyway, manually seed a
-     learner via the Firebase Emulator UI (`localhost:4000`): Authentication
-     tab → **Add user**, then use its **Custom Claims** field to set
-     `{"role": "learner"}` directly (recent Auth Emulator UI builds expose
-     this in the add/edit-user dialog — verify it's present in whatever
-     `firebase-tools` version is actually installed, `firebase --version`,
-     since this has changed across releases); then Firestore tab → create a
-     matching `users/{uid}` doc (same uid as the Auth user) with
-     `role: 'learner'` and the other fields `UserModel` expects.
+   - **Fixed 2026-08-03** — confirmed working end-to-end against the
+     Firebase emulator: submitting lands on the parent dashboard. See
+     `docs/DEFERRED.md`'s items 1 and 2 for what was actually broken (a
+     missing claim-upgrade Cloud Function, a stale client token that
+     never refreshed, and a missing Cloud Function to complete the
+     parent↔child link) and what was fixed.
+   - **One remaining rough edge, not yet fixed:** immediately after
+     submitting, in that same browser session, the parent dashboard may
+     still show "No child selected" until the page is reloaded once —
+     the child *is* correctly linked server-side by this point, it's a
+     client-side token-propagation delay (see `docs/DEFERRED.md` item 1's
+     last bullet). If demoing, do one reload after registration completes
+     and before showing the parent dashboard, or set expectations that a
+     refresh may be needed.
 
 ## 2. Play one game per engine family
 
@@ -87,12 +82,17 @@ Confirm two games in the same subject visibly look/play differently.
 
 ## 5. Parent link
 
-**Currently expected to fail** — both sub-flows below hit the same
-"linking a child to a parent is blocked for every client" bug as step 1
-(see `docs/DEFERRED.md`), just via different `ParentRepository` call sites
-(`linkParentToChild` / `approveLinkRequest` instead of `linkChild`). Do not
-demo this step as working until the Cloud Function described in that entry
-exists.
+The two sub-flows below are in different states as of 2026-08-03 — see
+`docs/DEFERRED.md` items 1/2:
+
+- **Registering a second child** goes through `createChildForParent`,
+  which uses the same `UserRepository.linkChild()` fixed alongside step 1
+  — should work (not yet explicitly re-tested for the *second*-child case
+  specifically, only the first-child-at-registration case).
+- **"Link to Existing Child"** (link code / QR) goes through
+  `ParentRepository.linkParentToChild`, a separate, still-unfixed call
+  site with the identical locked-field root cause. **Still expected to
+  fail.** Do not demo this specific sub-flow as working.
 
 1. From the parent dashboard, go to **Add or Link a Child**.
 2. Either register a second child (consent checkbox required again) or use

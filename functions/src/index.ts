@@ -19,7 +19,8 @@ export { questyChat, analyzeImage, getRecommendation, explainAnswer, generateHin
 export { refreshLeaderboards } from "./leaderboard/refresh";
 export { generateDailyMissions } from "./missions/generate";
 export { getTeacherInsight } from "./teacher/insights";
-export { setUserRole, assignDefaultRole } from "./admin/setUserRole";
+export { setUserRole, assignDefaultRole, grantSelfDeclaredRoleClaim } from "./admin/setUserRole";
+export { linkRegisteredChild } from "./parent/linkChild";
 export { sendPushOnNotificationCreate } from "./notifications/sendPush";
 export { onBadgeAwarded } from "./notifications/badgeAward";
 export { sendQuestReminders } from "./notifications/reminders";

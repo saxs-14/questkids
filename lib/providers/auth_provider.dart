@@ -44,6 +44,25 @@ class AuthProvider extends ChangeNotifier {
         _status = AuthStatus.unauthenticated;
         _user = null;
       } else {
+        // A custom claim change (e.g. grantSelfDeclaredRoleClaim upgrading
+        // a fresh signup from 'learner' to 'parent'/'teacher') does NOT
+        // retroactively update an already-issued ID token -- the SDK just
+        // restores whatever token is cached in local persistence on every
+        // app start/reload, with no automatic refresh. Confirmed live: a
+        // parent whose claim was upgraded mid-registration still carried
+        // the stale 'learner' claim on every subsequent reload, so every
+        // parent-gated Firestore read below (including the getUser() and
+        // watchUser() calls immediately following) was silently denied
+        // until this forced refresh. This makes the flow self-healing
+        // regardless of whether a caller's own post-write wait (e.g.
+        // AuthService._waitForRoleClaim) already caught up -- one extra
+        // refresh call is a no-op if the token was already current.
+        try {
+          await firebaseUser.getIdTokenResult(true);
+        } catch (_) {
+          // Non-fatal: worst case the user proceeds with a stale claim
+          // until the SDK's own next natural refresh.
+        }
         _user = await _userRepo.getUser(firebaseUser.uid);
         _status = AuthStatus.authenticated;
         _notificationPermission =

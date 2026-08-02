@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import '../models/user_model.dart';
 import '../../core/constants/app_constants.dart';
 
@@ -34,11 +35,19 @@ class UserRepository {
     });
   }
 
+  // linkedChildrenUids is a locked field -- firestore.rules' `allow update`
+  // rejects every client write to it unconditionally, including a parent
+  // linking a child they just created themselves (see CLAUDE.md §6.3).
+  // The child doc's own `parentUid` is already set correctly at doc-
+  // creation time by the child's own temp Auth session (see
+  // AuthService.registerWithEmail/createChildForParent), so writing it
+  // again here would be both redundant and separately rejected on
+  // ownership -- linkRegisteredChild (functions/src/parent/linkChild.ts)
+  // only needs to complete the parent side, via the Admin SDK.
   Future<void> linkChild(String parentUid, String childUid) async {
-    await _users.doc(parentUid).update({
-      'linkedChildrenUids': FieldValue.arrayUnion([childUid]),
-    });
-    await _users.doc(childUid).update({'parentUid': parentUid});
+    await FirebaseFunctions.instanceFor(region: 'us-central1')
+        .httpsCallable('linkRegisteredChild')
+        .call({'childUid': childUid});
   }
 
   Future<List<UserModel>> getChildren(List<String> childUids) async {
