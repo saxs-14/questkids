@@ -5,6 +5,64 @@ and the phase-by-phase prompts in `docs/PROMPT_1_UPGRADE_AND_CLEANUP.md` /
 `docs/PROMPT_2_FINAL_SHIP_0800.md`). Each entry says why it was deferred and
 what to do next.
 
+## Auth / Firestore rules (2026-08-02): parent/teacher registration still not fully working end-to-end
+
+Found by actually running the real signup flow (`AuthProvider.registerParent`
+→ `AuthService.registerWithEmail`) against the Firebase emulator with a fresh
+Grade 4 test account. `firestore.rules`' `allow create` on `/users/{uid}`
+required `role == 'learner'` unconditionally, so **any parent or teacher
+self-registration was rejected outright** — the very first Firestore write
+in the signup flow, before any child-related code runs. Fixed across three
+commits: allow `role in ['parent', 'teacher']` to create without the POPIA
+consent trail (which stays required for `learner`); require
+`linkedChildrenUids.size() == 0` and `birthDate == null` on that branch to
+close a claim-laundering / consent-bypass gap a plain role check would
+otherwise leave open; corrected a false claim in the first fix's own comment
+about which code path was actually safe. All three verified against the
+Firestore emulator and the full `flutter test` suite (318/318).
+
+**This closes the immediate crash, but two deeper gaps remain — both are
+real design decisions, not mechanical fixes, and need a deliberate call
+before self-registration is genuinely usable end-to-end:**
+
+1. **A self-registered parent/teacher's Firestore doc now gets created, but
+   their Firebase Auth custom claim doesn't follow.** `functions/src/admin/setUserRole.ts`'s
+   `assignDefaultRole` trigger pins *every* new Auth user's `customClaims`
+   to `{role: "learner"}`, and nothing else grants `parent`/`teacher` except
+   an admin manually calling `setUserRole`. Firestore rules authorize off
+   `request.auth.token.role` (the claim), never the mirrored doc field — so
+   a self-registered parent is routed to `ParentDashboard`
+   (`NavigationService.getDashboard` reads the doc's `role`) but every
+   parent-gated read/write there is denied, since their real claim is still
+   `learner`. Needs a decision: does self-registration grant the claim
+   immediately (and if so, gated by what — email verification? nothing?),
+   or does it land in an explicit "pending admin approval" state? Either
+   way this is a Cloud Function change (claims can only be set server-side),
+   not a rules change.
+2. **Linking a child to a parent is blocked for every client, not just at
+   create time.** `UserRepository.linkChild()` calls `.update()` on both the
+   parent and child docs to set `linkedChildrenUids`/`parentUid` —
+   `linkedChildrenUids` is in `firestore.rules`' `lockedUserFields()`, which
+   `allow update` rejects unconditionally for all clients (by design — see
+   CLAUDE.md §6, roles/relationships are meant to be a trusted-server-only
+   write). This means the "parent + child" signup flow's child-linking step
+   fails today regardless of the fixes above, in both `registerWithEmail`'s
+   child branch and `registerParentWithChild` (see below). This needs a
+   Cloud Function callable (Admin SDK, bypasses rules) that verifies the
+   caller is the child's actual parent (matching `parentUid` already on the
+   child doc) before performing the link — not a client-side rules
+   exception, since that would let any signed-in user link themselves to
+   an arbitrary child uid.
+3. **`registerParentWithChild` (`auth_service.dart`) is dead code — currently
+   unwired, no caller anywhere in `lib/providers/` or `lib/features/`.** The
+   real "parent + child" signup UI goes through `AuthProvider.registerParent`
+   → `AuthService.registerWithEmail`'s child branch instead. Fixed its
+   create-time `linkedChildrenUids` population (was a landmine against the
+   rules change above) so it's consistent with the working path, but
+   whoever wires this function up next should first confirm which of the
+   two "parent + child" implementations is meant to be canonical — having
+   both live invites them drifting out of sync again.
+
 ## Environment / tooling
 
 - **`sqlite3: 2.9.4` `dependency_overrides` pin removed (Phase 1, UI
