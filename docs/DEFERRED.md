@@ -81,36 +81,71 @@ what to do next.
   repurpose them as a designed-data layer if the bespoke widgets are ever
   refactored to read from packs — noted here to prevent confusion for anyone
   opening one of these files expecting it to reflect what the game actually shows.
-- **Grade 2 curriculum content (Phase 14, 2026-08-02): added 15 catalog entries + 2 bugs fixed.**
+- **Grade 2 curriculum content (Phase 14, 2026-08-02): added 15 catalog entries + 3 bugs fixed.**
   Phase 14 added Grade 2 its own dedicated difficulty band and 15 new `topics.json` entries:
   English x5 (`eng_g2_alphabet`, `eng_g2_grammar`, `eng_g2_phonics`, `eng_g2_reading`, `eng_g2_words`),
   Life Skills x5 (`ls_g2_body`, `ls_g2_community`, `ls_g2_feelings`, `ls_g2_habits`, `ls_g2_safety`),
   Mathematics x5 (`math_g2_addition`, `math_g2_counting`, `math_g2_mountain`, `math_g2_multiples`, `math_g2_subtraction`).
   All reuse existing shared engines (no new engine code). Narrowed the original 15 Grade 1 entries' `grades` arrays
-  so Grade 1 content stops being silently served to Grade 2 learners. Authored real, CAPS-appropriate
-  Grade 2 difficulty content for all 15 topics across `facts.js`, `runner_collector.js`, `explorer_map.js`,
-  `sequence_builder.js`, `multiples_merge.js`. Final state: 141 total catalog entries (was 126).
-  
-  **Two previously-hidden bugs surfaced and were fixed during this work:**
+  so Grade 1 content stops being silently served to Grade 2 learners. Authored structurally correct,
+  schema-valid, difficulty-band-conformant Grade 2 content for all 15 topics across `facts.js`,
+  `runner_collector.js`, `explorer_map.js`, `sequence_builder.js`, `multiples_merge.js` — see the
+  content-quality follow-up list below for topics that still need a content-quality pass.
+  Final state: 141 total catalog entries (was 126).
+
+  **Three previously-hidden bugs surfaced and were fixed during this work:**
   1. `tools/gamegen/generate.js` had hardcoded `GRADE_ORDER = ['grade1','grade4','grade7']` — a remnant
      from before Grade 2 existed. This silently dropped any topic with a grade outside that list from
      the generated `game_catalog.dart`, even though the log line falsely claimed all topics were written.
      Fixed by adding `grade2`/`grade3`/`grade5`/`grade6` to `GRADE_ORDER`/`SUBJECT_ORDER`/`GRADE_BAND_LABEL`
      (the last three currently unused, added for future-proofing matching the `difficulty.js` bands
      already defined in Phase 14).
-  2. `eng_g2_phonics` was initially authored using `engine: 'tugOfWar'`, copying an old assignment
-     for this exact topic pattern (phonics blending) from before the correct precedent was established.
-     `TugOfWarEngine` only renders arithmetic content correctly, so this would have shown wrong
-     (generic multiplication) questions to Grade 2 English learners. A prior, unrelated commit
-     (`aad5f25`) had already established the correct `sequenceBuilder` assignment for the equivalent
-     Grade 1 topic. Fixed by moving `eng_g2_phonics` to `sequenceBuilder`, matching that precedent.
-  
-  **Grade 3, 5, 6 remain on the hand-me-down pattern** (using Grade 1 and Grade 4 entries respectively).
+  2. `eng_g2_phonics` was initially authored using `engine: 'tugOfWar'`. `TugOfWarEngine` only renders
+     arithmetic content correctly, so this would have shown wrong (generic multiplication) questions to
+     Grade 2 English learners. Fixed by moving `eng_g2_phonics` to `sequenceBuilder`. Informed by the
+     general lesson of a prior, unrelated commit (`aad5f25`, which found `TugOfWarEngine`'s
+     arithmetic-only rendering breaks for non-math topics) — though that commit didn't touch this
+     specific topic pattern, since Grade 1's phonics topic (`eng_g1_phonics`) uses a different, bespoke
+     engine (`phonicsFun`) entirely, not `sequenceBuilder`.
+  3. `ls_g2_habits` (commit `9a2c650`) was likewise assigned an engine (`tugOfWar`) that was already
+     stale for its Grade 1 counterpart: a separate, earlier reconciliation had already corrected
+     `ls_g1_habits` to `runnerCollector` in `classify.js`/`topics.json`, but the Grade 2 content plan
+     was written before that fix landed, so `ls_g2_habits` inherited the old, wrong assignment. Caught
+     during task review, before it ever reached the generated catalog. Fixed by assigning
+     `runnerCollector`, mirroring `ls_g1_habits`'s actual current engine.
+
+  **Grade 3, 5, 6 remain on the hand-me-down pattern.** Grade 3 currently receives only the 10 Life
+  Skills/Mathematics Grade 1 entries as a hand-me-down — the 5 English entries already dropped `grade3`
+  from their `grades` array in an earlier, unrelated change, so **Grade 3 has zero English games today**.
+  A future Grade 3 phase should treat English as a priority, not just parity with Life Skills/Mathematics.
+  Grades 5 and 6 hand-me-down from Grade 4 entries as originally described.
   `tools/gamegen/difficulty.js` already has `BANDS.grade3`/`grade5`/`grade6` defined — Phases 15–17
   just need to repeat Phase 14's pattern for each remaining grade: add `topics.json` entries mirroring
   the anchor grade's topicId/subtopicId pairs, narrow the anchor grade's `grades` array, author the
   non-procedural content banks, run `npm run generate && npm run author && npm run validate`.
   See `docs/superpowers/plans/2026-08-01-phase14-grade2-curriculum-content.md` for the detailed template.
+
+  **Content-quality follow-ups identified by final review (structurally valid, not yet polished):**
+  - `eng_g2_alphabet`: several sight-word questions print the answer verbatim in the question text
+    (self-answering).
+  - `math_g2_counting`: the underlying widget (`NumberCountingDuelGame`) is fully self-contained/hardcoded
+    and doesn't actually vary by grade difficulty — Grade 2's experience is currently identical to
+    Grade 1's despite the "Level 2" title; the pack's skip-counting claim also isn't reflected in the
+    actual generated items.
+  - `ls_g2_community`: reuses Grade 1's exact same 8 community-helper pins verbatim (sanctioned by the
+    plan) — the description's "discover more" framing should be softened since there's no new content,
+    only a higher question count.
+  - `math_g2_mountain`/`eng_g2_phonics`/`eng_g2_words` (all `sequenceBuilder`): the engine only asks
+    learners to order procedure-step cards, so descriptions promising "solving"/"blending"/"spelling"
+    overstate what the mechanic actually does — should be reworded to describe the ordering/procedure
+    mechanic accurately.
+  - `eng_g2_phonics`/`eng_g2_words`: near-duplicate step sequences (one is a subset of the other) —
+    consider differentiating further.
+  - `math_g2_multiples`: authored `tables: [2,3,4,5,10]` overrides the Dart engine's own correct
+    Grade 2 default (`[2,5,10]`, per `MultiplesMergeConfig.forGrade`) and contradicts its own
+    description's "multiples of 2, 5 and 10" claim.
+  - `ls_g2_feelings`: some vocabulary (`resentful`, `outraged`, `discouraged`, `heartbroken`,
+    `homesick`) is above a Grade 2 reading level.
 
 ## Android release build (Phase 4)
 
