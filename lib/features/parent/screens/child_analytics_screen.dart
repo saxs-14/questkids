@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../../core/widgets/app_dialog.dart';
 import '../../../data/models/user_model.dart';
 import '../../../data/repositories/parent_repository.dart';
+import '../../../providers/auth_provider.dart';
+import '../../../providers/parent_provider.dart';
 import '../widgets/mastery_radar_chart.dart';
 import '../widgets/score_trend_chart.dart';
 import '../widgets/subject_bar_chart.dart';
@@ -30,6 +34,7 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
   Map<String, int> _timeSpent = {};
   bool _loading = true;
   bool _exporting = false;
+  bool _unlinking = false;
 
   @override
   void initState() {
@@ -53,6 +58,43 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
         _timeSpent = Map<String, int>.from(results[2] as Map? ?? {});
         _loading = false;
       });
+    }
+  }
+
+  Future<void> _unlink() async {
+    final confirmed = await AppDialog.confirm(
+      context,
+      title: 'Unlink ${widget.child.name}?',
+      message:
+          "You'll no longer be able to see ${widget.child.name}'s progress "
+          'or manage their account. ${widget.child.name} can still play — '
+          "this only removes your access, not their account. You'll need "
+          'a new link request to reconnect.',
+      confirmLabel: 'Unlink',
+      isDanger: true,
+    );
+    if (!confirmed || !mounted) return;
+
+    final parentUid = context.read<AuthProvider>().user?.uid;
+    if (parentUid == null) return;
+    final parentProv = context.read<ParentProvider>();
+
+    setState(() => _unlinking = true);
+    try {
+      await parentProv.unlinkChild(parentUid, widget.child.uid);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('${widget.child.name} has been unlinked.')));
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _unlinking = false);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Could not unlink: ${e.toString()}'),
+          backgroundColor: AppColors.error,
+        ));
+      }
     }
   }
 
@@ -213,6 +255,17 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
                       style: AppTextStyles.bodySmall
                           .copyWith(color: AppColors.textSecondary)),
                 ])),
+            IconButton(
+              tooltip: 'Unlink ${widget.child.name}',
+              onPressed: _unlinking ? null : _unlink,
+              icon: _unlinking
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2))
+                  : const Icon(Icons.link_off),
+              color: AppColors.error,
+            ),
             ElevatedButton.icon(
               onPressed: _exporting ? null : _exportPdf,
               icon: _exporting

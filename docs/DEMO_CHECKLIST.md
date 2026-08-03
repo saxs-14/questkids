@@ -82,23 +82,41 @@ Confirm two games in the same subject visibly look/play differently.
 
 ## 5. Parent link
 
-The two sub-flows below are in different states as of 2026-08-03 — see
-`docs/DEFERRED.md` items 1/2:
+As of 2026-08-03, both sub-flows below should work — see
+`docs/DEFERRED.md` items 1/2 for what was fixed and how each was tested:
 
 - **Registering a second child** goes through `createChildForParent`,
   which uses the same `UserRepository.linkChild()` fixed alongside step 1
   — should work (not yet explicitly re-tested for the *second*-child case
   specifically, only the first-child-at-registration case).
-- **"Link to Existing Child"** (link code / QR) goes through
-  `ParentRepository.linkParentToChild`, a separate, still-unfixed call
-  site with the identical locked-field root cause. **Still expected to
-  fail.** Do not demo this specific sub-flow as working.
+- **"Link to Existing Child"** (code / name+email / QR — all three tabs
+  in `link_child_screen.dart`) creates a *pending request*
+  (`sendLinkRequest`), not an instant link — this is by design (an
+  instant link without the primary parent's consent would be a security
+  hole), not a bug. The child's **primary parent** then needs to approve
+  it from **Link Requests** on their own Profile tab before the new
+  parent sees the child. `approveParentLinkRequest` (the Cloud Function
+  behind that approval) is fixed and deployed, tested directly against
+  the emulator with a seeded two-parent scenario.
 
 1. From the parent dashboard, go to **Add or Link a Child**.
 2. Either register a second child (consent checkbox required again) or use
-   **Link to Existing Child** with a child's link code / QR.
+   **Link to Existing Child** with a child's link code / QR — this only
+   sends a request; note that a demo needs a *second* parent account
+   (the child's primary parent) signed in separately to approve it from
+   their **Profile → Link Requests**.
 3. Confirm the newly linked child shows up under the parent's children list
    with progress visible.
+
+## 5b. Unlink a child
+
+New as of 2026-08-03. From a parent's **Profile → My Children**, tap a
+child to open their analytics screen, then tap the red link-off icon next
+to the PDF button (top right). Confirm the dialog, confirm a success
+snackbar appears and the screen returns to the dashboard, and confirm the
+child no longer appears under **My Children**. This only removes *your*
+access — the child's own account and data are untouched, and any other
+linked parent (if one exists) keeps their own access.
 
 ## 6. Teacher view
 

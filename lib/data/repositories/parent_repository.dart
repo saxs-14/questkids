@@ -141,36 +141,19 @@ class ParentRepository {
     });
   }
 
-  // Dead code as of 2026-08-03 -- grep finds zero callers anywhere in
-  // lib/ (ParentProvider.unlinkChild, the one wrapper that calls this,
-  // itself has zero callers). Has the identical locked-field/ownership
-  // problem as linkParentToChild/approveLinkRequest and would need the
-  // same kind of Admin-SDK Cloud Function to actually work -- unlike
-  // linkParentToChild, an "unlink yourself or a co-parent" action doesn't
-  // obviously need a consent step the way linking does, so this one is a
-  // more reasonable candidate to just fix when there's a real "Unlink"
-  // button somewhere to wire it up to.
+  // linkedChildrenUids is a locked field (no client write to it can ever
+  // succeed) and the child doc's linkedParentUids update is separately
+  // rejected on ownership -- see functions/src/parent/unlinkChild.ts,
+  // which is self-service only (a parent can remove their own link, not
+  // another parent's) and verifies the caller is actually currently
+  // linked before completing both writes via the Admin SDK. parentUid is
+  // no longer sent -- the function always derives identity from the
+  // caller's own auth token, never a client-supplied value -- but kept as
+  // a param for call-site compatibility.
   Future<void> unlinkParentFromChild(String parentUid, String childUid) async {
-    final childRef = _db.collection('users').doc(childUid);
-    final parentRef = _db.collection('users').doc(parentUid);
-    await _db.runTransaction((tx) async {
-      final childSnap = await tx.get(childRef);
-      final parentSnap = await tx.get(parentRef);
-
-      if (childSnap.exists) {
-        final linkedParents =
-            List<String>.from(childSnap.data()?['linkedParentUids'] ?? []);
-        linkedParents.remove(parentUid);
-        tx.update(childRef, {'linkedParentUids': linkedParents});
-      }
-
-      if (parentSnap.exists) {
-        final linkedChildren =
-            List<String>.from(parentSnap.data()?['linkedChildrenUids'] ?? []);
-        linkedChildren.remove(childUid);
-        tx.update(parentRef, {'linkedChildrenUids': linkedChildren});
-      }
-    });
+    await FirebaseFunctions.instanceFor(region: 'us-central1')
+        .httpsCallable('unlinkParentChild')
+        .call({'childUid': childUid});
   }
 
   Future<List<UserModel>> getLinkedChildren(List<String> childUids) async {

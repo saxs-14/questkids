@@ -111,20 +111,53 @@ visible. Items 3 and 4 are still open.**
    the modular style preemptively, or at least verifying each one
    live, before trusting them.
 
-   **Not fixed: the other three call sites with the identical root
-   cause** — `ParentRepository.approveLinkRequest` (approving a
-   "Link to Existing Child" request), `linkParentToChild` (the direct
-   link-code flow), and `unlinkParentFromChild` — each of which still runs
-   a transaction that updates the parent's `linkedChildrenUids` (locked
-   field, rejected) and the child's `linkedParentUids` (not locked, but
-   still rejected on ownership: `allow update: if isUser(uid)` and the
-   parent is not the child). **This is why `docs/DEMO_CHECKLIST.md` step 5
-   ("Parent link") still fails** — a separate, larger feature area
-   (co-parent linking / linking to a child registered on a different
-   device) with its own authorization model per call site (link-code
-   ownership for `linkParentToChild`; an approved
-   `parent_link_requests` entry for `approveLinkRequest`) — not yet
-   built.
+   **Update (2026-08-03): 2 of the other 3 call sites are now also
+   fixed.** First, an important correction to the original framing above:
+   `ParentRepository.linkParentToChild` and `unlinkParentFromChild` had
+   zero callers anywhere in `lib/` at the time they were first flagged —
+   the real "link to an existing child" UI (`link_child_screen.dart`)
+   goes through `sendLinkRequest` → `approveLinkRequest` (a request/
+   approval model) for every sub-flow, code included, not a direct link.
+   So `docs/DEMO_CHECKLIST.md` step 5 failing was really about
+   `approveLinkRequest` alone, not four independently-broken call sites.
+
+   - **`approveLinkRequest`: FIXED.** Added `approveParentLinkRequest`
+     (`functions/src/parent/approveLinkRequest.ts`) — verifies the caller
+     is the request's `primaryParentUid` (a different authorization model
+     than `linkRegisteredChild`, since here a parent is being granted
+     access to a child they didn't create, so it has to come from the
+     primary parent's explicit approval of a specific pending request,
+     not from anything the requester can assert about themselves) and a
+     `status == 'pending'` check, then completes both writes via the
+     Admin SDK. Tested directly against the emulator: wrong-parent
+     approval attempt denied, correct approval succeeds with verified
+     Firestore state on both sides, re-approving an already-resolved
+     request denied. Deployed to production.
+   - **`unlinkParentFromChild`: FIXED, and a real "Unlink" UI now
+     exists** (`ChildAnalyticsScreen`'s new `link_off` icon button, next
+     to the PDF export button, with an `AppDialog.confirm` destructive-
+     action dialog). Added `unlinkParentChild`
+     (`functions/src/parent/unlinkChild.ts`) — self-service only (a
+     parent can remove their own link, never another parent's; revoking
+     a co-parent's access is a separate, harder authorization question
+     not addressed here) — verifies the caller is actually currently
+     linked before removing both sides via the Admin SDK. Tested both
+     directly against the emulator (unrelated parent denied; correct
+     parent's self-unlink succeeds and leaves a co-parent's own link
+     untouched) and through the real UI end-to-end: click Unlink →
+     confirm → snackbar → pops back to the dashboard → "My Children"
+     correctly shows the child removed, no reload needed (unlike the
+     claim-upgrade case in item 1, a plain array removal doesn't need a
+     token refresh to propagate through the live Firestore listener
+     already in place). Deployed to production.
+   - **`linkParentToChild` is still genuinely dead code, deliberately
+     left unfixed.** It has no concept of the primary parent's consent at
+     all — fixing it naively (the same kind of Cloud Function as the
+     other three) would let any signed-in parent link themselves to an
+     arbitrary child by uid alone, bypassing the exact approval step that
+     makes `approveLinkRequest` safe. Fixing it requires first deciding
+     whether it should exist at all, given `sendLinkRequest` →
+     `approveLinkRequest` already covers the same use case more safely.
 3. **Two implementations of "parent + child" signup exist; only one is
    wired up.** `AuthService.registerWithEmail`'s child branch is live (via
    `AuthProvider.registerParent` → the real signup UI). `registerParentWithChild`

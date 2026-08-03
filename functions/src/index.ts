@@ -22,6 +22,7 @@ export { getTeacherInsight } from "./teacher/insights";
 export { setUserRole, assignDefaultRole, grantSelfDeclaredRoleClaim } from "./admin/setUserRole";
 export { linkRegisteredChild } from "./parent/linkChild";
 export { approveParentLinkRequest } from "./parent/approveLinkRequest";
+export { unlinkParentChild } from "./parent/unlinkChild";
 export { sendPushOnNotificationCreate } from "./notifications/sendPush";
 export { onBadgeAwarded } from "./notifications/badgeAward";
 export { sendQuestReminders } from "./notifications/reminders";
