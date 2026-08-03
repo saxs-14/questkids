@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
 import '../models/user_model.dart';
@@ -18,41 +19,19 @@ class ParentRepository {
     await ref.set(data);
   }
 
+  // linkedChildrenUids is a locked field (no client write to it can ever
+  // succeed) and the child doc's linkedParentUids update is separately
+  // rejected on ownership (the primary parent is not the child) -- see
+  // functions/src/parent/approveLinkRequest.ts, which verifies the caller
+  // really is this request's primaryParentUid before completing both
+  // writes via the Admin SDK. childUid/requestingParentUid are no longer
+  // needed as params since the function reads them from the request doc
+  // itself server-side, but kept for call-site compatibility.
   Future<void> approveLinkRequest(
       String requestId, String childUid, String requestingParentUid) async {
-    final reqRef = _db.collection('parent_link_requests').doc(requestId);
-    await _db.runTransaction((tx) async {
-      final reqSnap = await tx.get(reqRef);
-      if (!reqSnap.exists) return;
-      tx.update(reqRef, {
-        'status': 'approved',
-        'resolvedAt': FieldValue.serverTimestamp(),
-      });
-
-      final childRef = _db.collection('users').doc(childUid);
-      final parentRef = _db.collection('users').doc(requestingParentUid);
-
-      final childSnap = await tx.get(childRef);
-      final parentSnap = await tx.get(parentRef);
-
-      if (childSnap.exists) {
-        final linkedParents =
-            List<String>.from(childSnap.data()?['linkedParentUids'] ?? []);
-        if (!linkedParents.contains(requestingParentUid)) {
-          linkedParents.add(requestingParentUid);
-          tx.update(childRef, {'linkedParentUids': linkedParents});
-        }
-      }
-
-      if (parentSnap.exists) {
-        final linkedChildren =
-            List<String>.from(parentSnap.data()?['linkedChildrenUids'] ?? []);
-        if (!linkedChildren.contains(childUid)) {
-          linkedChildren.add(childUid);
-          tx.update(parentRef, {'linkedChildrenUids': linkedChildren});
-        }
-      }
-    });
+    await FirebaseFunctions.instanceFor(region: 'us-central1')
+        .httpsCallable('approveParentLinkRequest')
+        .call({'requestId': requestId});
   }
 
   Future<void> declineLinkRequest(String requestId) async {
@@ -125,6 +104,20 @@ class ParentRepository {
     return UserModel.fromMap(d.data(), d.id);
   }
 
+  // Dead code as of 2026-08-03 -- grep finds zero callers anywhere in
+  // lib/. The live "link to an existing child" UI flow
+  // (link_child_screen.dart) goes through sendLinkRequest ->
+  // approveLinkRequest instead: the requesting parent submits a request,
+  // and only the child's PRIMARY parent can approve it. That's a
+  // deliberately different (and safer) authorization model than this
+  // method has -- this one has no concept of the primary parent's
+  // consent at all, so a naive fix (the same locked-field/ownership
+  // problem as approveLinkRequest, requiring the identical kind of
+  // Admin-SDK Cloud Function) would let any signed-in parent link
+  // themselves to an arbitrary child by uid alone. Left broken and
+  // unfixed rather than fixed-but-unreachable, since fixing it without
+  // also deciding whether/how it should require the primary parent's
+  // consent would just be adding a bypass no one's asked for yet.
   Future<void> linkParentToChild(String parentUid, String childUid) async {
     final childRef = _db.collection('users').doc(childUid);
     final parentRef = _db.collection('users').doc(parentUid);
@@ -148,6 +141,15 @@ class ParentRepository {
     });
   }
 
+  // Dead code as of 2026-08-03 -- grep finds zero callers anywhere in
+  // lib/ (ParentProvider.unlinkChild, the one wrapper that calls this,
+  // itself has zero callers). Has the identical locked-field/ownership
+  // problem as linkParentToChild/approveLinkRequest and would need the
+  // same kind of Admin-SDK Cloud Function to actually work -- unlike
+  // linkParentToChild, an "unlink yourself or a co-parent" action doesn't
+  // obviously need a consent step the way linking does, so this one is a
+  // more reasonable candidate to just fix when there's a real "Unlink"
+  // button somewhere to wire it up to.
   Future<void> unlinkParentFromChild(String parentUid, String childUid) async {
     final childRef = _db.collection('users').doc(childUid);
     final parentRef = _db.collection('users').doc(parentUid);
