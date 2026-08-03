@@ -60,7 +60,7 @@ class _TeacherInsightCardState extends State<TeacherInsightCard> {
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('🤖', style: TextStyle(fontSize: 28)),
+        const Text('✨', style: TextStyle(fontSize: 28)),
         const SizedBox(width: 12),
         Expanded(
             child:

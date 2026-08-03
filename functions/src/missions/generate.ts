@@ -1,5 +1,5 @@
 import { onSchedule } from "firebase-functions/v2/scheduler";
-import * as admin from "firebase-admin";
+import { getFirestore, Timestamp } from "firebase-admin/firestore";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { MISSION_CATALOG } from "./catalog";
 import { GEMINI_API_KEY } from "../secrets";
@@ -35,14 +35,19 @@ async function getAdaptiveMissions(
   grade: string,
   dayIndex: number
 ): Promise<{gameId: string; subject: string; emoji: string; title: string; reason: string}[]> {
-  const db = admin.firestore();
+  const db = getFirestore();
   const apiKey = GEMINI_API_KEY.value();
   if (!apiKey) return [];
 
-  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  // ProgressModel writes uid + completedAt-as-millis (see
+  // lib/data/models/progress_model.dart's toMap()), not "childUid" and
+  // not a Firestore Timestamp -- this previously queried a field that
+  // doesn't exist and compared against the wrong type, so it silently
+  // matched zero progress docs for every learner.
+  const thirtyDaysAgoMs = Date.now() - 30 * 24 * 60 * 60 * 1000;
   const progressSnap = await db.collection("progress")
-    .where("childUid", "==", uid)
-    .where("completedAt", ">=", admin.firestore.Timestamp.fromDate(thirtyDaysAgo))
+    .where("uid", "==", uid)
+    .where("completedAt", ">=", thirtyDaysAgoMs)
     .get();
 
   const subjectScores: Record<string, number[]> = {};
@@ -117,9 +122,9 @@ export const generateDailyMissions = onSchedule(
     secrets: [GEMINI_API_KEY],
   },
   async () => {
-    const db = admin.firestore();
-    const expiresAt = admin.firestore.Timestamp.fromDate(nextMidnightSAST());
-    const generatedAt = admin.firestore.Timestamp.now();
+    const db = getFirestore();
+    const expiresAt = Timestamp.fromDate(nextMidnightSAST());
+    const generatedAt = Timestamp.now();
     const dayIndex = new Date().getDay();
 
     const learnersSnap = await db.collection("users")

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../core/constants/app_constants.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../data/repositories/leaderboard_repository.dart';
@@ -117,6 +118,8 @@ class _GradeBoard extends StatefulWidget {
 
 class _GradeBoardState extends State<_GradeBoard> {
   String _period = 'weekly';
+  // null == "Overall" (all subjects combined).
+  String? _subject;
 
   @override
   Widget build(BuildContext context) {
@@ -140,9 +143,32 @@ class _GradeBoardState extends State<_GradeBoard> {
             ],
           ),
         ),
+        SizedBox(
+          height: 40,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            children: [
+              _PeriodChip(
+                label: 'Overall',
+                selected: _subject == null,
+                onTap: () => setState(() => _subject = null),
+              ),
+              for (final subject in AppConstants.subjects) ...[
+                const SizedBox(width: 8),
+                _PeriodChip(
+                  label: subject,
+                  selected: _subject == subject,
+                  onTap: () => setState(() => _subject = subject),
+                ),
+              ],
+            ],
+          ),
+        ),
+        const SizedBox(height: 4),
         FutureBuilder<int?>(
-          future:
-              widget.repo.getOwnRank(widget.uid, widget.grade, period: _period),
+          future: widget.repo.getOwnRank(widget.uid, widget.grade,
+              period: _period, subject: _subject),
           builder: (_, snap) => OwnRankBanner(
             rank: snap.data,
             xp: 0,
@@ -151,8 +177,8 @@ class _GradeBoardState extends State<_GradeBoard> {
         ),
         Expanded(
           child: StreamBuilder<List<LeaderboardEntry>>(
-            stream: widget.repo
-                .watchGradeLeaderboard(widget.grade, period: _period),
+            stream: widget.repo.watchGradeLeaderboard(widget.grade,
+                period: _period, subject: _subject),
             builder: (_, snap) {
               if (snap.hasError) {
                 return Center(

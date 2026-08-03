@@ -47,7 +47,7 @@ class DailyMission {
       case 'teacher':
         return '📋 Teacher';
       case 'adaptive':
-        return '🤖 AI Pick';
+        return '✨ AI Pick';
       default:
         return '⭐ Daily';
     }

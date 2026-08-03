@@ -53,7 +53,8 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
       builder: (dialogContext) => AlertDialog(
         title: const Row(
           children: [
-            Text('🤖 ', style: TextStyle(fontSize: 22)),
+            QuestBoyMascot(size: 28, state: QuestBoyState.waving),
+            SizedBox(width: 6),
             Expanded(child: Text('Meet QuestBot!')),
           ],
         ),

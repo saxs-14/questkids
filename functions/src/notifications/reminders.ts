@@ -1,5 +1,5 @@
 import { onSchedule } from "firebase-functions/v2/scheduler";
-import * as admin from "firebase-admin";
+import { getFirestore, FieldValue } from "firebase-admin/firestore";
 
 interface MissionEntry {
   completed?: boolean;
@@ -14,7 +14,7 @@ interface MissionEntry {
 export const sendQuestReminders = onSchedule(
   { schedule: "every day 17:00", timeZone: "Africa/Johannesburg" },
   async () => {
-    const db = admin.firestore();
+    const db = getFirestore();
     const usersSnap = await db
       .collection("users")
       .where("role", "==", "learner")
@@ -43,7 +43,7 @@ export const sendQuestReminders = onSchedule(
         recipientUid: uid,
         read: false,
         isRead: false,
-        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        createdAt: FieldValue.serverTimestamp(),
       });
       remindersSent++;
     }

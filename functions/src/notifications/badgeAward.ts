@@ -1,5 +1,5 @@
 import { onDocumentUpdated } from "firebase-functions/v2/firestore";
-import * as admin from "firebase-admin";
+import { getFirestore, FieldValue } from "firebase-admin/firestore";
 
 interface BadgeMap {
   id?: string;
@@ -32,17 +32,17 @@ export const onBadgeAwarded = onDocumentUpdated(
     if (newBadges.length === 0) return;
 
     const uid = event.params.uid;
-    const userDoc = await admin.firestore().collection("users").doc(uid).get();
+    const userDoc = await getFirestore().collection("users").doc(uid).get();
     const learner = userDoc.data();
     if (!learner) return;
 
     const learnerName: string = learner.name ?? "Your child";
     const linkedParentUids: string[] = learner.linkedParentUids ?? [];
 
-    const batch = admin.firestore().batch();
+    const batch = getFirestore().batch();
     for (const badge of newBadges) {
       // Notify the learner themselves.
-      const learnerRef = admin.firestore().collection("notifications").doc();
+      const learnerRef = getFirestore().collection("notifications").doc();
       batch.set(learnerRef, {
         title: "Badge earned! 🏅",
         body: `You earned the ${badge.name ?? "a new"} badge!`,
@@ -50,12 +50,12 @@ export const onBadgeAwarded = onDocumentUpdated(
         recipientUid: uid,
         read: false,
         isRead: false,
-        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        createdAt: FieldValue.serverTimestamp(),
       });
 
       // Notify each linked parent.
       for (const parentUid of linkedParentUids) {
-        const parentRef = admin.firestore().collection("notifications").doc();
+        const parentRef = getFirestore().collection("notifications").doc();
         batch.set(parentRef, {
           title: `${learnerName} earned a badge! 🏅`,
           body: `${learnerName} just earned the ${badge.name ?? "a new"} badge.`,
@@ -63,7 +63,7 @@ export const onBadgeAwarded = onDocumentUpdated(
           recipientUid: parentUid,
           read: false,
           isRead: false,
-          createdAt: admin.firestore.FieldValue.serverTimestamp(),
+          createdAt: FieldValue.serverTimestamp(),
         });
       }
     }

@@ -1,5 +1,6 @@
 import { onDocumentCreated } from "firebase-functions/v2/firestore";
 import * as admin from "firebase-admin";
+import { getFirestore, FieldValue } from "firebase-admin/firestore";
 
 /**
  * Cloud Function: send an FCM push whenever a document is created in the
@@ -23,8 +24,7 @@ export const sendPushOnNotificationCreate = onDocumentCreated(
     }
 
     try {
-      const userDoc = await admin
-        .firestore()
+      const userDoc = await getFirestore()
         .collection("users")
         .doc(recipientUid)
         .get();
@@ -53,16 +53,15 @@ export const sendPushOnNotificationCreate = onDocumentCreated(
         }
       });
       if (staleTokens.length > 0) {
-        await admin
-          .firestore()
+        await getFirestore()
           .collection("users")
           .doc(recipientUid)
-          .update({ fcmTokens: admin.firestore.FieldValue.arrayRemove(...staleTokens) });
+          .update({ fcmTokens: FieldValue.arrayRemove(...staleTokens) });
       }
 
       await event.data?.ref.update({
         pushSent: true,
-        pushSentAt: admin.firestore.FieldValue.serverTimestamp(),
+        pushSentAt: FieldValue.serverTimestamp(),
       });
     } catch (error) {
       console.error("Error sending push notification:", error);

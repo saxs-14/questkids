@@ -97,8 +97,8 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
             activeIcon: Icons.emoji_events,
             label: 'Rewards'),
         ResponsiveDestination(
-            icon: Icons.smart_toy_outlined,
-            activeIcon: Icons.smart_toy,
+            icon: Icons.auto_awesome_outlined,
+            activeIcon: Icons.auto_awesome,
             label: 'QuestBot'),
         ResponsiveDestination(
             icon: Icons.person_outline,

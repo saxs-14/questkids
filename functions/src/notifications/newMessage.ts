@@ -1,5 +1,5 @@
 import { onDocumentCreated } from "firebase-functions/v2/firestore";
-import * as admin from "firebase-admin";
+import { getFirestore, FieldValue } from "firebase-admin/firestore";
 
 export const onNewMessage = onDocumentCreated(
   "conversations/{conversationId}/messages/{messageId}",
@@ -8,7 +8,7 @@ export const onNewMessage = onDocumentCreated(
     if (!message) return;
 
     const conversationId = event.params.conversationId;
-    const convoSnap = await admin.firestore()
+    const convoSnap = await getFirestore()
       .collection("conversations").doc(conversationId).get();
     const convo = convoSnap.data();
     if (!convo) return;
@@ -23,13 +23,13 @@ export const onNewMessage = onDocumentCreated(
     const childName: string = convo.childName ?? "your child";
     const senderLabel = senderRole === "teacher" ? "Teacher" : "Parent";
 
-    await admin.firestore().collection("notifications").add({
+    await getFirestore().collection("notifications").add({
       title: `New message about ${childName}`,
       body: `${senderLabel}: ${String(message.text).slice(0, 100)}`,
       type: "message",
       recipientUid,
       read: false,
       isRead: false,
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      createdAt: FieldValue.serverTimestamp(),
     });
   });

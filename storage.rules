@@ -22,8 +22,14 @@ service firebase.storage {
 
     // ==================== USER AVATARS ====================
     match /avatars/{uid}/{allPaths=**} {
-      // Users can upload/delete their own avatar
-      allow write: if isUser(uid) && isValidImage();
+      // Users can upload their own avatar. Split from delete because
+      // request.resource is null on a delete -- isValidImage() reading
+      // request.resource.contentType would deny every delete
+      // unconditionally (StorageService.uploadAvatarBytes's "delete old
+      // file first" step silently swallows that failure today, but the
+      // rule was still wrong).
+      allow create, update: if isUser(uid) && isValidImage();
+      allow delete: if isUser(uid);
 
       // Anyone signed in can read avatars
       allow read: if isSignedIn();

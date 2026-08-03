@@ -11,6 +11,7 @@ import { setGlobalOptions } from "firebase-functions";
 import { onDocumentCreated } from "firebase-functions/v2/firestore";
 import { onSchedule } from "firebase-functions/v2/scheduler";
 import * as admin from "firebase-admin";
+import { getFirestore, FieldValue } from "firebase-admin/firestore";
 import * as nodemailer from "nodemailer";
 import { MAIL_PASSWORD } from "./secrets";
 import { MAIL_SENDER } from "./config";
@@ -82,7 +83,7 @@ export const sendEmail = onDocumentCreated(
       // Mark email as sent
       await event.data?.ref.update({
         sent: true,
-        sentAt: admin.firestore.FieldValue.serverTimestamp(),
+        sentAt: FieldValue.serverTimestamp(),
       });
 
       console.log(`Email sent to ${to}`);
@@ -102,9 +103,8 @@ export const cleanupOldEmails = onSchedule("every day 02:00", async () => {
   try {
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
-    const batch = admin.firestore().batch();
-    const snapshot = await admin
-      .firestore()
+    const batch = getFirestore().batch();
+    const snapshot = await getFirestore()
       .collection("emails")
       .where("createdAt", "<", thirtyDaysAgo)
       .get();
