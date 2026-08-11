@@ -281,9 +281,22 @@ class _CEState extends State<CareerExplorerGame> with TickerProviderStateMixin {
     _fadeCtrl.forward(from: 0);
   }
 
+  Object? _cachedQ;
+  List<String> _cachedChoices = [];
+
+  List<String> _getShuffledChoices(dynamic q) {
+    if (!identical(_cachedQ, q)) {
+      _cachedQ = q;
+      _cachedChoices = List<String>.from(q.choices as List<String>)..shuffle(_rng);
+    }
+    return _cachedChoices;
+  }
+
   void _onBadgeAnswer(int index) {
     if (_phase != _Phase.playing) return;
-    final isCorrect = index == 0;
+    final q = _zones[_zoneIdx].badge[_qIdx];
+    final choices = _getShuffledChoices(q);
+    final isCorrect = choices[index] == q.choices[0];
     setState(() => _selectedIndex = index);
     if (isCorrect) _flipCtrl.forward(from: 0);
     _applyAnswerResult(isCorrect);
@@ -291,7 +304,9 @@ class _CEState extends State<CareerExplorerGame> with TickerProviderStateMixin {
 
   void _onSimpleAnswer(int index) {
     if (_phase != _Phase.playing) return;
-    final isCorrect = index == 0;
+    final q = _zones[_zoneIdx].simple[_qIdx];
+    final choices = _getShuffledChoices(q);
+    final isCorrect = choices[index] == q.choices[0];
     setState(() => _selectedIndex = index);
     _applyAnswerResult(isCorrect);
   }
@@ -498,6 +513,7 @@ class _CEState extends State<CareerExplorerGame> with TickerProviderStateMixin {
   }
 
   Widget _buildBadgeQuestion(_BadgeQ q, bool revealed) {
+    final choices = _getShuffledChoices(q);
     return Column(
       children: [
         const SizedBox(height: 8),
@@ -531,11 +547,11 @@ class _CEState extends State<CareerExplorerGame> with TickerProviderStateMixin {
                 runSpacing: 14,
                 alignment: WrapAlignment.center,
                 children: [
-                  for (var i = 0; i < q.choices.length; i++)
+                  for (var i = 0; i < choices.length; i++)
                     _SimpleTile(
-                      label: q.choices[i],
+                      label: choices[i],
                       selected: _selectedIndex == i,
-                      isCorrect: i == 0,
+                      isCorrect: choices[i] == q.choices[0],
                       revealed: revealed,
                       onTap: () => _onBadgeAnswer(i),
                     ),
@@ -559,6 +575,7 @@ class _CEState extends State<CareerExplorerGame> with TickerProviderStateMixin {
   }
 
   Widget _buildSimpleQuestion(_SimpleQ q, bool revealed) {
+    final choices = _getShuffledChoices(q);
     return Column(
       children: [
         const SizedBox(height: 12),
@@ -581,11 +598,11 @@ class _CEState extends State<CareerExplorerGame> with TickerProviderStateMixin {
                 runSpacing: 14,
                 alignment: WrapAlignment.center,
                 children: [
-                  for (var i = 0; i < q.choices.length; i++)
+                  for (var i = 0; i < choices.length; i++)
                     _SimpleTile(
-                      label: q.choices[i],
+                      label: choices[i],
                       selected: _selectedIndex == i,
-                      isCorrect: i == 0,
+                      isCorrect: choices[i] == q.choices[0],
                       revealed: revealed,
                       onTap: () => _onSimpleAnswer(i),
                     ),

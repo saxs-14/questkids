@@ -314,9 +314,22 @@ class _EAState extends State<EnvironmentalAwarenessGame> with TickerProviderStat
     _fadeCtrl.forward(from: 0);
   }
 
+  Object? _cachedQ;
+  List<String> _cachedChoices = [];
+
+  List<String> _getShuffledChoices(dynamic q) {
+    if (!identical(_cachedQ, q)) {
+      _cachedQ = q;
+      _cachedChoices = List<String>.from(q.choices as List<String>)..shuffle(_rng);
+    }
+    return _cachedChoices;
+  }
+
   void _onCleanupAnswer(int index) {
     if (_phase != _Phase.playing) return;
-    final isCorrect = index == 0;
+    final q = _zones[_zoneIdx].cleanup[_qIdx];
+    final choices = _getShuffledChoices(q);
+    final isCorrect = choices[index] == q.choices[0];
     setState(() => _selectedIndex = index);
     if (isCorrect) {
       setState(() => _itemsCleaned++);
@@ -327,7 +340,9 @@ class _EAState extends State<EnvironmentalAwarenessGame> with TickerProviderStat
 
   void _onSimpleAnswer(int index) {
     if (_phase != _Phase.playing) return;
-    final isCorrect = index == 0;
+    final q = _zones[_zoneIdx].simple[_qIdx];
+    final choices = _getShuffledChoices(q);
+    final isCorrect = choices[index] == q.choices[0];
     setState(() => _selectedIndex = index);
     _applyAnswerResult(isCorrect);
   }
@@ -532,6 +547,7 @@ class _EAState extends State<EnvironmentalAwarenessGame> with TickerProviderStat
   }
 
   Widget _buildCleanupQuestion(_CleanupQ q, bool revealed) {
+    final choices = _getShuffledChoices(q);
     return Column(
       children: [
         const SizedBox(height: 8),
@@ -562,13 +578,13 @@ class _EAState extends State<EnvironmentalAwarenessGame> with TickerProviderStat
               offset: Offset(dx, 0),
               child: Column(
                 children: [
-                  for (var i = 0; i < q.choices.length; i++)
+                  for (var i = 0; i < choices.length; i++)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: _ChoiceTile(
-                        label: q.choices[i],
+                        label: choices[i],
                         selected: _selectedIndex == i,
-                        isCorrect: i == 0,
+                        isCorrect: choices[i] == q.choices[0],
                         revealed: revealed,
                         onTap: () => _onCleanupAnswer(i),
                       ),
@@ -593,6 +609,7 @@ class _EAState extends State<EnvironmentalAwarenessGame> with TickerProviderStat
   }
 
   Widget _buildSimpleQuestion(_SimpleQ q, bool revealed) {
+    final choices = _getShuffledChoices(q);
     return Column(
       children: [
         const SizedBox(height: 12),
@@ -615,11 +632,11 @@ class _EAState extends State<EnvironmentalAwarenessGame> with TickerProviderStat
                 runSpacing: 14,
                 alignment: WrapAlignment.center,
                 children: [
-                  for (var i = 0; i < q.choices.length; i++)
+                  for (var i = 0; i < choices.length; i++)
                     _SimpleTile(
-                      label: q.choices[i],
+                      label: choices[i],
                       selected: _selectedIndex == i,
-                      isCorrect: i == 0,
+                      isCorrect: choices[i] == q.choices[0],
                       revealed: revealed,
                       onTap: () => _onSimpleAnswer(i),
                     ),

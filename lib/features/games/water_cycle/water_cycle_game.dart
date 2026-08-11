@@ -329,9 +329,21 @@ class _WCState extends State<WaterCycleGame> with TickerProviderStateMixin {
     _fadeCtrl.forward(from: 0);
   }
 
+  Object? _cachedQ;
+  List<String> _cachedChoices = [];
+
+  List<String> _getShuffledChoices(dynamic q) {
+    if (!identical(_cachedQ, q)) {
+      _cachedQ = q;
+      _cachedChoices = List<String>.from(q.choices as List<String>)..shuffle(_rng);
+    }
+    return _cachedChoices;
+  }
+
   void _onDropletAnswer(int index, _DropletQ q) {
     if (_phase != _Phase.playing) return;
-    final isCorrect = index == 0;
+    final choices = _getShuffledChoices(q);
+    final isCorrect = choices[index] == q.choices[0];
     setState(() {
       _selectedIndex = index;
       if (isCorrect) _dropletStage = q.toStage;
@@ -341,7 +353,9 @@ class _WCState extends State<WaterCycleGame> with TickerProviderStateMixin {
 
   void _onSimpleAnswer(int index) {
     if (_phase != _Phase.playing) return;
-    final isCorrect = index == 0;
+    final q = _zones[_zoneIdx].simple[_qIdx];
+    final choices = _getShuffledChoices(q);
+    final isCorrect = choices[index] == q.choices[0];
     setState(() => _selectedIndex = index);
     _applyAnswerResult(isCorrect);
   }
@@ -602,6 +616,7 @@ class _WCState extends State<WaterCycleGame> with TickerProviderStateMixin {
             final dx = _phase == _Phase.wrong
                 ? math.sin(_shakeAnim.value * math.pi * 6) * 6
                 : 0.0;
+            final choices = _getShuffledChoices(q);
             return Transform.translate(
               offset: Offset(dx, 0),
               child: Wrap(
@@ -609,11 +624,11 @@ class _WCState extends State<WaterCycleGame> with TickerProviderStateMixin {
                 runSpacing: 12,
                 alignment: WrapAlignment.center,
                 children: [
-                  for (var i = 0; i < q.choices.length; i++)
+                  for (var i = 0; i < choices.length; i++)
                     _SimpleTile(
-                      label: q.choices[i],
+                      label: choices[i],
                       selected: _selectedIndex == i,
-                      isCorrect: i == 0,
+                      isCorrect: choices[i] == q.choices[0],
                       revealed: revealed,
                       onTap: () => _onDropletAnswer(i, q),
                     ),
@@ -637,6 +652,7 @@ class _WCState extends State<WaterCycleGame> with TickerProviderStateMixin {
   }
 
   Widget _buildSimpleQuestion(_SimpleQ q, bool revealed) {
+    final choices = _getShuffledChoices(q);
     return Column(
       children: [
         const SizedBox(height: 12),
@@ -659,11 +675,11 @@ class _WCState extends State<WaterCycleGame> with TickerProviderStateMixin {
                 runSpacing: 14,
                 alignment: WrapAlignment.center,
                 children: [
-                  for (var i = 0; i < q.choices.length; i++)
+                  for (var i = 0; i < choices.length; i++)
                     _SimpleTile(
-                      label: q.choices[i],
+                      label: choices[i],
                       selected: _selectedIndex == i,
-                      isCorrect: i == 0,
+                      isCorrect: choices[i] == q.choices[0],
                       revealed: revealed,
                       onTap: () => _onSimpleAnswer(i),
                     ),

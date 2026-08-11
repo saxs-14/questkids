@@ -378,10 +378,23 @@ class _FFState extends State<FractionForestGame>
     _fadeCtrl.forward(from: 0);
   }
 
+  Object? _cachedQ;
+  List<String> _cachedChoices = [];
+
+  List<String> _getShuffledChoices(_FractionQ q) {
+    if (!identical(_cachedQ, q)) {
+      _cachedQ = q;
+      _cachedChoices = List<String>.from(q.choices)..shuffle(_rng);
+    }
+    return _cachedChoices;
+  }
+
   void _onAnswer(int index) {
     if (_phase != _Phase.playing) return;
     final q = _zones[_zoneIdx].questions[_qIdx];
-    final isCorrect = index == q.correctIndex;
+    final isCorrect = q.type == _DiagramType.compareBar
+        ? index == q.correctIndex
+        : _getShuffledChoices(q)[index] == q.choices[q.correctIndex];
 
     setState(() {
       _selectedIndex = index;
@@ -710,6 +723,7 @@ class _FFState extends State<FractionForestGame>
         final dx = _phase == _Phase.wrong
             ? math.sin(_shakeAnim.value * math.pi * 6) * 6
             : 0.0;
+        final choices = _getShuffledChoices(q);
         return Transform.translate(
           offset: Offset(dx, 0),
           child: Wrap(
@@ -717,11 +731,11 @@ class _FFState extends State<FractionForestGame>
             runSpacing: 14,
             alignment: WrapAlignment.center,
             children: [
-              for (var i = 0; i < q.choices.length; i++)
+              for (var i = 0; i < choices.length; i++)
                 _LeafButton(
-                  label: q.choices[i],
+                  label: choices[i],
                   selected: _selectedIndex == i,
-                  isCorrect: i == q.correctIndex,
+                  isCorrect: choices[i] == q.choices[q.correctIndex],
                   revealed:
                       _phase == _Phase.correct || _phase == _Phase.wrong,
                   onTap: () => _onAnswer(i),

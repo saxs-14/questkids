@@ -274,9 +274,22 @@ class _SPState extends State<SaProvincesExplorerGame> with TickerProviderStateMi
     _pickedProvince = null;
   }
 
+  Object? _cachedQ;
+  List<String> _cachedChoices = [];
+
+  List<String> _getShuffledChoices(_SimpleQ q) {
+    if (!identical(_cachedQ, q)) {
+      _cachedQ = q;
+      _cachedChoices = List<String>.from(q.choices)..shuffle(_rng);
+    }
+    return _cachedChoices;
+  }
+
   void _onSimpleAnswer(int index) {
     if (_phase != _Phase.playing) return;
-    final isCorrect = index == 0;
+    final q = _zones[_zoneIdx].simple[_qIdx];
+    final choices = _getShuffledChoices(q);
+    final isCorrect = choices[index] == q.choices[0];
     setState(() => _selectedIndex = index);
     _applyAnswerResult(isCorrect);
   }
@@ -574,6 +587,7 @@ class _SPState extends State<SaProvincesExplorerGame> with TickerProviderStateMi
   }
 
   Widget _buildSimpleQuestion(_SimpleQ q, bool revealed) {
+    final choices = _getShuffledChoices(q);
     return Column(
       children: [
         const SizedBox(height: 12),
@@ -596,11 +610,11 @@ class _SPState extends State<SaProvincesExplorerGame> with TickerProviderStateMi
                 runSpacing: 14,
                 alignment: WrapAlignment.center,
                 children: [
-                  for (var i = 0; i < q.choices.length; i++)
+                  for (var i = 0; i < choices.length; i++)
                     _SimpleTile(
-                      label: q.choices[i],
+                      label: choices[i],
                       selected: _selectedIndex == i,
-                      isCorrect: i == 0,
+                      isCorrect: choices[i] == q.choices[0],
                       revealed: revealed,
                       onTap: () => _onSimpleAnswer(i),
                     ),

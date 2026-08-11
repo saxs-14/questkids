@@ -269,9 +269,23 @@ class _SMState extends State<SimpleMachinesGame> with TickerProviderStateMixin {
     _tiltCtrl.value = 0;
   }
 
+  Object? _cachedQ;
+  List<String> _cachedChoices = [];
+
+  List<String> _getShuffledChoices(dynamic q) {
+    if (!identical(_cachedQ, q)) {
+      _cachedQ = q;
+      _cachedChoices = List<String>.from(q.choices as List<String>)..shuffle(_rng);
+    }
+    return _cachedChoices;
+  }
+
   void _onAnswer(int index) {
     if (_phase != _Phase.playing) return;
-    final isCorrect = index == 0;
+    final zone = _zones[_zoneIdx];
+    final dynamic q = zone.kind == _Kind.lever ? zone.levers[_qIdx] : zone.simple[_qIdx];
+    final choices = _getShuffledChoices(q);
+    final isCorrect = choices[index] == q.choices[0];
     setState(() {
       _selectedIndex = index;
       if (isCorrect) {
@@ -399,15 +413,11 @@ class _SMState extends State<SimpleMachinesGame> with TickerProviderStateMixin {
         _zones.take(_zoneIdx).fold<int>(0, (sum, z) => sum + z.length) + _qIdx;
     final revealed = _phase == _Phase.correct || _phase == _Phase.wrong;
 
-    late final String prompt;
-    late final List<String> choices;
-    if (zone.kind == _Kind.lever) {
-      prompt = 'Study the lever -- what will happen?';
-      choices = zone.levers[_qIdx].choices;
-    } else {
-      prompt = zone.simple[_qIdx].prompt;
-      choices = zone.simple[_qIdx].choices;
-    }
+    final dynamic currentQ = zone.kind == _Kind.lever ? zone.levers[_qIdx] : zone.simple[_qIdx];
+    final choices = _getShuffledChoices(currentQ);
+    final prompt = zone.kind == _Kind.lever
+        ? 'Study the lever -- what will happen?'
+        : zone.simple[_qIdx].prompt;
 
     return Scaffold(
       body: Stack(
@@ -490,7 +500,7 @@ class _SMState extends State<SimpleMachinesGame> with TickerProviderStateMixin {
                                       _GearTile(
                                         label: choices[i],
                                         selected: _selectedIndex == i,
-                                        isCorrect: i == 0,
+                                        isCorrect: choices[i] == currentQ.choices[0],
                                         revealed: revealed,
                                         onTap: () => _onAnswer(i),
                                       ),
@@ -499,11 +509,11 @@ class _SMState extends State<SimpleMachinesGame> with TickerProviderStateMixin {
                               );
                             },
                           ),
-                          if (_phase == _Phase.wrong)
+                           if (_phase == _Phase.wrong)
                             Padding(
                               padding: const EdgeInsets.only(top: 18),
                               child: Text(
-                                '$_wrongReaction The answer was ${choices[0]}.',
+                                '$_wrongReaction The answer was ${currentQ.choices[0]}.',
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                     color: _card, fontSize: 14, fontWeight: FontWeight.w600),

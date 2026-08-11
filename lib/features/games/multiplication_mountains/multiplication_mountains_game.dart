@@ -257,9 +257,22 @@ class _MMState extends State<MultiplicationMountainsGame>
     _fadeCtrl.forward(from: 0);
   }
 
+  Object? _cachedQ;
+  List<String> _cachedChoices = [];
+
+  List<String> _getShuffledChoices(_MMQ q) {
+    if (!identical(_cachedQ, q)) {
+      _cachedQ = q;
+      _cachedChoices = List<String>.from(q.choices)..shuffle(_rng);
+    }
+    return _cachedChoices;
+  }
+
   void _onAnswer(int index) {
     if (_phase != _Phase.playing) return;
-    final isCorrect = index == 0;
+    final q = _zones[_zoneIdx].questions[_qIdx];
+    final choices = _getShuffledChoices(q);
+    final isCorrect = choices[index] == q.choices[0];
 
     setState(() {
       _selectedIndex = index;
@@ -453,6 +466,7 @@ class _MMState extends State<MultiplicationMountainsGame>
                                                 _shakeAnim.value * math.pi * 6) *
                                             6
                                         : 0.0;
+                                    final choices = _getShuffledChoices(q);
                                     return Transform.translate(
                                       offset: Offset(dx, 0),
                                       child: Wrap(
@@ -460,11 +474,11 @@ class _MMState extends State<MultiplicationMountainsGame>
                                         runSpacing: 14,
                                         alignment: WrapAlignment.center,
                                         children: [
-                                          for (var i = 0; i < q.choices.length; i++)
+                                          for (var i = 0; i < choices.length; i++)
                                             _FlagButton(
-                                              label: q.choices[i],
+                                              label: choices[i],
                                               selected: _selectedIndex == i,
-                                              isCorrect: i == 0,
+                                              isCorrect: choices[i] == q.choices[0],
                                               revealed: revealed,
                                               onTap: () => _onAnswer(i),
                                             ),

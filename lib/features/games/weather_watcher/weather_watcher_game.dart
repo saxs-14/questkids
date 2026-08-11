@@ -293,9 +293,27 @@ class _WWState extends State<WeatherWatcherGame> with TickerProviderStateMixin {
     _fadeCtrl.forward(from: 0);
   }
 
+  Object? _cachedQ;
+  List<String> _cachedChoices = [];
+
+  List<String> _getShuffledChoices(dynamic q) {
+    if (!identical(_cachedQ, q)) {
+      _cachedQ = q;
+      _cachedChoices = List<String>.from(q.choices as List<String>)..shuffle(_rng);
+    }
+    return _cachedChoices;
+  }
+
   void _onAnswer(int index) {
     if (_phase != _Phase.playing) return;
-    final isCorrect = index == 0;
+    final zone = _zones[_zoneIdx];
+    final dynamic currentQ = switch (zone.kind) {
+      _Kind.cloud => zone.clouds[_qIdx],
+      _Kind.dashboard => zone.dashboards[_qIdx],
+      _Kind.simple => zone.simple[_qIdx],
+    };
+    final choices = _getShuffledChoices(currentQ);
+    final isCorrect = choices[index] == currentQ.choices[0];
     setState(() {
       _selectedIndex = index;
       if (isCorrect) {
@@ -421,18 +439,24 @@ class _WWState extends State<WeatherWatcherGame> with TickerProviderStateMixin {
     final revealed = _phase == _Phase.correct || _phase == _Phase.wrong;
 
     late final String prompt;
-    late final List<String> choices;
+    late final List<String> originalChoices;
     switch (zone.kind) {
       case _Kind.cloud:
         prompt = zone.clouds[_qIdx].prompt;
-        choices = zone.clouds[_qIdx].choices;
+        originalChoices = zone.clouds[_qIdx].choices;
       case _Kind.dashboard:
         prompt = zone.dashboards[_qIdx].prompt;
-        choices = zone.dashboards[_qIdx].choices;
+        originalChoices = zone.dashboards[_qIdx].choices;
       case _Kind.simple:
         prompt = zone.simple[_qIdx].prompt;
-        choices = zone.simple[_qIdx].choices;
+        originalChoices = zone.simple[_qIdx].choices;
     }
+    final currentQ = switch (zone.kind) {
+      _Kind.cloud => zone.clouds[_qIdx],
+      _Kind.dashboard => zone.dashboards[_qIdx],
+      _Kind.simple => zone.simple[_qIdx],
+    };
+    final choices = _getShuffledChoices(currentQ);
 
     return Scaffold(
       body: Stack(
@@ -507,7 +531,7 @@ class _WWState extends State<WeatherWatcherGame> with TickerProviderStateMixin {
                                       _WeatherTile(
                                         label: choices[i],
                                         selected: _selectedIndex == i,
-                                        isCorrect: i == 0,
+                                        isCorrect: choices[i] == originalChoices[0],
                                         revealed: revealed,
                                         onTap: () => _onAnswer(i),
                                       ),

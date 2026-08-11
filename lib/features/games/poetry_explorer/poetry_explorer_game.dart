@@ -245,9 +245,22 @@ class _PEState extends State<PoetryExplorerGame> with TickerProviderStateMixin {
     _fadeCtrl.forward(from: 0);
   }
 
+  Object? _cachedQ;
+  List<String> _cachedChoices = [];
+
+  List<String> _getShuffledChoices(dynamic q) {
+    if (!identical(_cachedQ, q)) {
+      _cachedQ = q;
+      _cachedChoices = List<String>.from(q.choices as List<String>)..shuffle(_rng);
+    }
+    return _cachedChoices;
+  }
+
   void _onRhymeAnswer(int index) {
     if (_phase != _Phase.playing) return;
-    final isCorrect = index == 0;
+    final q = _zones[_zoneIdx].rhymes[_qIdx];
+    final choices = _getShuffledChoices(q);
+    final isCorrect = choices[index] == q.choices[0];
     setState(() => _pickedRhymeIdx = index);
     _rippleCtrl.forward(from: 0);
     _applyAnswerResult(isCorrect);
@@ -255,7 +268,9 @@ class _PEState extends State<PoetryExplorerGame> with TickerProviderStateMixin {
 
   void _onSimpleAnswer(int index) {
     if (_phase != _Phase.playing) return;
-    final isCorrect = index == 0;
+    final q = _zones[_zoneIdx].simple[_qIdx];
+    final choices = _getShuffledChoices(q);
+    final isCorrect = choices[index] == q.choices[0];
     setState(() => _selectedIndex = index);
     _applyAnswerResult(isCorrect);
   }
@@ -462,6 +477,8 @@ class _PEState extends State<PoetryExplorerGame> with TickerProviderStateMixin {
   }
 
   Widget _buildRhymeQuestion(_RhymeQ q, bool revealed) {
+    final choices = _getShuffledChoices(q);
+    final isCorrectPicked = _pickedRhymeIdx != null && choices[_pickedRhymeIdx!] == q.choices[0];
     return Column(
       children: [
         const SizedBox(height: 8),
@@ -478,7 +495,7 @@ class _PEState extends State<PoetryExplorerGame> with TickerProviderStateMixin {
               AnimatedBuilder(
                 animation: _rippleCtrl,
                 builder: (context, _) {
-                  final color = !revealed ? _teal : (_pickedRhymeIdx == 0 ? const Color(0xFF4CAF7D) : const Color(0xFFE05656));
+                  final color = !revealed ? _teal : (isCorrectPicked ? const Color(0xFF4CAF7D) : const Color(0xFFE05656));
                   return CustomPaint(
                     painter: _RipplePainter(progress: _rippleCtrl.value, color: color),
                     size: const Size(280, 130),
@@ -492,15 +509,15 @@ class _PEState extends State<PoetryExplorerGame> with TickerProviderStateMixin {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    for (var i = 0; i < q.choices.length; i++)
+                    for (var i = 0; i < choices.length; i++)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 6),
                         child: GestureDetector(
                           onTap: () => _onRhymeAnswer(i),
                           child: _WordBubble(
-                            text: q.choices[i],
+                            text: choices[i],
                             isTarget: false,
-                            fill: _bubbleFill(i, revealed),
+                            fill: _bubbleFill(q, i, revealed),
                             border: _teal,
                           ),
                         ),
@@ -525,14 +542,16 @@ class _PEState extends State<PoetryExplorerGame> with TickerProviderStateMixin {
     );
   }
 
-  Color _bubbleFill(int i, bool revealed) {
+  Color _bubbleFill(_RhymeQ q, int i, bool revealed) {
     if (!revealed) return _card;
-    if (i == 0) return const Color(0xFF4CAF7D);
+    final choices = _getShuffledChoices(q);
+    if (choices[i] == q.choices[0]) return const Color(0xFF4CAF7D);
     if (_pickedRhymeIdx == i) return const Color(0xFFE05656);
     return _card;
   }
 
   Widget _buildSimpleQuestion(_SimpleQ q, bool revealed) {
+    final choices = _getShuffledChoices(q);
     return Column(
       children: [
         const SizedBox(height: 12),
@@ -555,11 +574,11 @@ class _PEState extends State<PoetryExplorerGame> with TickerProviderStateMixin {
                 runSpacing: 14,
                 alignment: WrapAlignment.center,
                 children: [
-                  for (var i = 0; i < q.choices.length; i++)
+                  for (var i = 0; i < choices.length; i++)
                     _SimpleTile(
-                      label: q.choices[i],
+                      label: choices[i],
                       selected: _selectedIndex == i,
-                      isCorrect: i == 0,
+                      isCorrect: choices[i] == q.choices[0],
                       revealed: revealed,
                       onTap: () => _onSimpleAnswer(i),
                     ),

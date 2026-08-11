@@ -256,9 +256,22 @@ class _WPState extends State<WordPowerGame> with TickerProviderStateMixin {
     _fadeCtrl.forward(from: 0);
   }
 
+  Object? _cachedQ;
+  List<String> _cachedChoices = [];
+
+  List<String> _getShuffledChoices(dynamic q) {
+    if (!identical(_cachedQ, q)) {
+      _cachedQ = q;
+      _cachedChoices = List<String>.from(q.choices as List<String>)..shuffle(_rng);
+    }
+    return _cachedChoices;
+  }
+
   void _onWebAnswer(int index) {
     if (_phase != _Phase.playing) return;
-    final isCorrect = index == 0;
+    final q = _zones[_zoneIdx].web[_qIdx];
+    final choices = _getShuffledChoices(q);
+    final isCorrect = choices[index] == q.choices[0];
     setState(() => _pickedWebIdx = index);
     _threadCtrl.forward(from: 0);
     _applyAnswerResult(isCorrect);
@@ -266,7 +279,9 @@ class _WPState extends State<WordPowerGame> with TickerProviderStateMixin {
 
   void _onSimpleAnswer(int index) {
     if (_phase != _Phase.playing) return;
-    final isCorrect = index == 0;
+    final q = _zones[_zoneIdx].simple[_qIdx];
+    final choices = _getShuffledChoices(q);
+    final isCorrect = choices[index] == q.choices[0];
     setState(() => _selectedIndex = index);
     _applyAnswerResult(isCorrect);
   }
@@ -479,6 +494,8 @@ class _WPState extends State<WordPowerGame> with TickerProviderStateMixin {
 
     const targetPos = Offset(0.5, 0.18);
     const choicePositions = [Offset(0.15, 0.82), Offset(0.5, 0.82), Offset(0.85, 0.82)];
+    final choices = _getShuffledChoices(q);
+    final isCorrectPicked = _pickedWebIdx != null && choices[_pickedWebIdx!] == q.choices[0];
 
     return Column(
       children: [
@@ -507,7 +524,7 @@ class _WPState extends State<WordPowerGame> with TickerProviderStateMixin {
                       progress: Curves.easeOut.transform(_threadCtrl.value),
                       color: !revealed
                           ? _violet
-                          : (_pickedWebIdx == 0 ? const Color(0xFF4CAF7D) : const Color(0xFFE05656)),
+                          : (isCorrectPicked ? const Color(0xFF4CAF7D) : const Color(0xFFE05656)),
                     ),
                   ),
                 ),
@@ -516,16 +533,16 @@ class _WPState extends State<WordPowerGame> with TickerProviderStateMixin {
                 top: targetPos.dy * boxHeight - 24,
                 child: _WordBubble(text: q.target, isTarget: true, fill: _card, border: _violet),
               ),
-              for (var i = 0; i < q.choices.length; i++)
+              for (var i = 0; i < choices.length; i++)
                 Positioned(
                   left: choicePositions[i].dx * boxWidth - 55,
                   top: choicePositions[i].dy * boxHeight - 24,
                   child: GestureDetector(
                     onTap: () => _onWebAnswer(i),
                     child: _WordBubble(
-                      text: q.choices[i],
+                      text: choices[i],
                       isTarget: false,
-                      fill: _bubbleFill(i, revealed),
+                      fill: _bubbleFill(q, i, revealed),
                       border: _violet,
                     ),
                   ),
@@ -547,14 +564,16 @@ class _WPState extends State<WordPowerGame> with TickerProviderStateMixin {
     );
   }
 
-  Color _bubbleFill(int i, bool revealed) {
+  Color _bubbleFill(_WebQ q, int i, bool revealed) {
     if (!revealed) return _card;
-    if (i == 0) return const Color(0xFF4CAF7D);
+    final choices = _getShuffledChoices(q);
+    if (choices[i] == q.choices[0]) return const Color(0xFF4CAF7D);
     if (_pickedWebIdx == i) return const Color(0xFFE05656);
     return _card;
   }
 
   Widget _buildSimpleQuestion(_SimpleQ q, bool revealed) {
+    final choices = _getShuffledChoices(q);
     return Column(
       children: [
         const SizedBox(height: 12),
@@ -577,11 +596,11 @@ class _WPState extends State<WordPowerGame> with TickerProviderStateMixin {
                 runSpacing: 14,
                 alignment: WrapAlignment.center,
                 children: [
-                  for (var i = 0; i < q.choices.length; i++)
+                  for (var i = 0; i < choices.length; i++)
                     _SimpleTile(
-                      label: q.choices[i],
+                      label: choices[i],
                       selected: _selectedIndex == i,
-                      isCorrect: i == 0,
+                      isCorrect: choices[i] == q.choices[0],
                       revealed: revealed,
                       onTap: () => _onSimpleAnswer(i),
                     ),

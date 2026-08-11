@@ -269,9 +269,22 @@ class _GJState extends State<GeometryJungleGame>
     _fadeCtrl.forward(from: 0);
   }
 
+  Object? _cachedQ;
+  List<String> _cachedChoices = [];
+
+  List<String> _getShuffledChoices(_GeoQ q) {
+    if (!identical(_cachedQ, q)) {
+      _cachedQ = q;
+      _cachedChoices = List<String>.from(q.choices)..shuffle(_rng);
+    }
+    return _cachedChoices;
+  }
+
   void _onAnswer(int index) {
     if (_phase != _Phase.playing) return;
-    final isCorrect = index == 0;
+    final q = _zones[_zoneIdx].questions[_qIdx];
+    final choices = _getShuffledChoices(q);
+    final isCorrect = choices[index] == q.choices[0];
 
     setState(() {
       _selectedIndex = index;
@@ -466,22 +479,25 @@ class _GJState extends State<GeometryJungleGame>
                             },
                           ),
                           const SizedBox(height: 28),
-                          Wrap(
-                            spacing: 14,
-                            runSpacing: 14,
-                            alignment: WrapAlignment.center,
-                            children: [
-                              for (var i = 0; i < q.choices.length; i++)
-                                _SignBin(
-                                  label: q.choices[i],
-                                  index: i,
-                                  selected: _selectedIndex == i,
-                                  isCorrect: i == 0,
-                                  revealed: revealed,
-                                  onAccept: () => _onAnswer(i),
-                                ),
-                            ],
-                          ),
+                          Builder(builder: (context) {
+                            final choices = _getShuffledChoices(q);
+                            return Wrap(
+                              spacing: 14,
+                              runSpacing: 14,
+                              alignment: WrapAlignment.center,
+                              children: [
+                                for (var i = 0; i < choices.length; i++)
+                                  _SignBin(
+                                    label: choices[i],
+                                    index: i,
+                                    selected: _selectedIndex == i,
+                                    isCorrect: choices[i] == q.choices[0],
+                                    revealed: revealed,
+                                    onAccept: () => _onAnswer(i),
+                                  ),
+                              ],
+                            );
+                          }),
                           if (_phase == _Phase.wrong)
                             Padding(
                               padding: const EdgeInsets.only(top: 16),

@@ -305,9 +305,22 @@ class _PSState extends State<ProblemSolverGame> with TickerProviderStateMixin {
     });
   }
 
+  Object? _cachedQ;
+  List<String> _cachedChoices = [];
+
+  List<String> _getShuffledChoices(_CaseQ q) {
+    if (!identical(_cachedQ, q)) {
+      _cachedQ = q;
+      _cachedChoices = List<String>.from(q.answerChoices)..shuffle(_rng);
+    }
+    return _cachedChoices;
+  }
+
   void _onAnswerTap(int index) {
     if (_phase != _Phase.playing || _subStep != 1) return;
-    final step2Correct = index == 0;
+    final q = _zones[_zoneIdx].questions[_qIdx];
+    final choices = _getShuffledChoices(q);
+    final step2Correct = choices[index] == q.answerChoices[0];
     final overallCorrect = _step1WasCorrect && step2Correct;
     setState(() => _selectedIndex = index);
     _applyAnswerResult(overallCorrect);
@@ -612,16 +625,17 @@ class _PSState extends State<ProblemSolverGame> with TickerProviderStateMixin {
   }
 
   Widget _buildAnswerRow(_CaseQ q, bool revealed) {
+    final choices = _getShuffledChoices(q);
     return Wrap(
       spacing: 14,
       runSpacing: 14,
       alignment: WrapAlignment.center,
       children: [
-        for (var i = 0; i < q.answerChoices.length; i++)
+        for (var i = 0; i < choices.length; i++)
           _CaseFileTile(
-            label: q.answerChoices[i],
+            label: choices[i],
             selected: _selectedIndex == i,
-            isCorrect: i == 0,
+            isCorrect: choices[i] == q.answerChoices[0],
             revealed: revealed,
             onTap: () => _onAnswerTap(i),
           ),

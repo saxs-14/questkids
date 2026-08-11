@@ -1,3 +1,4 @@
+import 'dart:math';
 import '../core/game_config.dart';
 import '../core/game_engine.dart';
 import 'adventure_journey_config.dart';
@@ -14,19 +15,24 @@ class AdventureJourneyEngine extends GameEngine {
   @override
   GameConfig get config => _config;
 
+  final Random _rng = Random();
+
   @override
   List<Map<String, dynamic>> generateQuestions() {
     return journeyConfig.stages
-        .map((s) => {
-              'stageId': s.id,
-              'stageName': s.name,
-              'question': s.question,
-              'options': s.options,
-              'answer': s.correctOption,
-              'correctFeedback': s.correctFeedback,
-              'wrongFeedback': s.wrongFeedback,
-              'display': s.question,
-            })
+        .map((s) {
+          final shuffledOptions = List<String>.from(s.options)..shuffle(_rng);
+          return {
+            'stageId': s.id,
+            'stageName': s.name,
+            'question': s.question,
+            'options': shuffledOptions,
+            'answer': s.correctOption,
+            'correctFeedback': s.correctFeedback,
+            'wrongFeedback': s.wrongFeedback,
+            'display': s.question,
+          };
+        })
         .toList();
   }
 

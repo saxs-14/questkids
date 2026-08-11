@@ -238,11 +238,23 @@ class _DDState extends State<DecimalDunesGame> with TickerProviderStateMixin {
     _fadeCtrl.forward(from: 0);
   }
 
+  Object? _cachedQ;
+  List<String> _cachedChoices = [];
+
+  List<String> _getShuffledChoices(_DDQ q) {
+    if (!identical(_cachedQ, q)) {
+      _cachedQ = q;
+      _cachedChoices = List<String>.from(q.tiles)..shuffle(_rng);
+    }
+    return _cachedChoices;
+  }
+
   void _onTileAnswer(int tappedIndex) {
     if (_phase != _Phase.playing) return;
     final zone = _zones[_zoneIdx];
     final q = zone.questions[_qIdx];
-    final isCorrect = tappedIndex == q.correctIndex;
+    final choices = _getShuffledChoices(q);
+    final isCorrect = choices[tappedIndex] == q.tiles[q.correctIndex];
     setState(() => _selectedIndex = tappedIndex);
     _applyAnswerResult(isCorrect);
   }
@@ -446,6 +458,7 @@ class _DDState extends State<DecimalDunesGame> with TickerProviderStateMixin {
                                     ? math.sin(_shakeAnim.value * math.pi * 6) *
                                         6
                                     : 0.0;
+                                final choices = _getShuffledChoices(q);
                                 return Transform.translate(
                                   offset: Offset(dx, 0),
                                   child: Wrap(
@@ -453,11 +466,11 @@ class _DDState extends State<DecimalDunesGame> with TickerProviderStateMixin {
                                     runSpacing: 14,
                                     alignment: WrapAlignment.center,
                                     children: [
-                                      for (var i = 0; i < q.tiles.length; i++)
+                                      for (var i = 0; i < choices.length; i++)
                                         _DuneTile(
-                                          label: q.tiles[i],
+                                          label: choices[i],
                                           selected: _selectedIndex == i,
-                                          isCorrect: i == q.correctIndex,
+                                          isCorrect: choices[i] == q.tiles[q.correctIndex],
                                           revealed: revealed,
                                           onTap: () => _onTileAnswer(i),
                                         ),

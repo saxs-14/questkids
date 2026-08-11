@@ -271,17 +271,32 @@ class _DivState extends State<DivisionDesertGame>
     _fadeCtrl.forward(from: 0);
   }
 
+  Object? _cachedQKey;
+  List<String> _cachedChoices = [];
+
+  List<String> _getShuffledChoices(List<String> rawChoices, Object key) {
+    if (!identical(_cachedQKey, key)) {
+      _cachedQKey = key;
+      _cachedChoices = List<String>.from(rawChoices)..shuffle(_rng);
+    }
+    return _cachedChoices;
+  }
+
   void _onSimpleAnswer(int index) {
     if (_phase != _Phase.playing) return;
-    final isCorrect = index == 0;
+    final q = _zones[_zoneIdx].questions[_qIdx];
+    final choices = _getShuffledChoices(q.choices, q);
+    final isCorrect = choices[index] == q.choices[0];
     setState(() => _selectedIndex = index);
     _applyAnswerResult(isCorrect);
   }
 
   void _onTwoStepAnswer(int index) {
     if (_phase != _Phase.playing) return;
+    final q = _zones[_zoneIdx].questions[_qIdx];
     if (_subStep == 0) {
-      final isCorrect = index == 0;
+      final choices = _getShuffledChoices(q.quotientChoices, '${_zoneIdx}_${_qIdx}_0');
+      final isCorrect = choices[index] == q.quotientChoices[0];
       setState(() {
         _selectedIndex = index;
         _step1WasCorrect = isCorrect;
@@ -297,7 +312,8 @@ class _DivState extends State<DivisionDesertGame>
         });
       });
     } else {
-      final step2Correct = index == 0;
+      final choices = _getShuffledChoices(q.remainderChoices, '${_zoneIdx}_${_qIdx}_1');
+      final step2Correct = choices[index] == q.remainderChoices[0];
       final overallCorrect = _step1WasCorrect && step2Correct;
       setState(() => _selectedIndex = index);
       _applyAnswerResult(overallCorrect);
@@ -438,9 +454,11 @@ class _DivState extends State<DivisionDesertGame>
     final subPrompt = isTwoStep
         ? (_subStep == 0 ? q.subPrompt1 : q.subPrompt2)
         : '';
-    final choices = isTwoStep
+    final rawChoices = isTwoStep
         ? (_subStep == 0 ? q.quotientChoices : q.remainderChoices)
         : q.choices;
+    final key = isTwoStep ? '${_zoneIdx}_${_qIdx}_$_subStep' : q;
+    final choices = _getShuffledChoices(rawChoices, key);
     final onAnswer = isTwoStep ? _onTwoStepAnswer : _onSimpleAnswer;
 
     return Scaffold(
@@ -528,7 +546,7 @@ class _DivState extends State<DivisionDesertGame>
                                       _MesaTile(
                                         label: choices[i],
                                         selected: _selectedIndex == i,
-                                        isCorrect: i == 0,
+                                        isCorrect: choices[i] == rawChoices[0],
                                         revealed: revealed,
                                         onTap: () => onAnswer(i),
                                       ),
@@ -541,7 +559,7 @@ class _DivState extends State<DivisionDesertGame>
                             Padding(
                               padding: const EdgeInsets.only(top: 18),
                               child: Text(
-                                '$_wrongReaction The answer was ${choices[0]}.',
+                                '$_wrongReaction The answer was ${rawChoices[0]}.',
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   color: Colors.white,

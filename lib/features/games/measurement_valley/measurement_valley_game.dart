@@ -201,9 +201,22 @@ class _MVState extends State<MeasurementValleyGame>
     _fadeCtrl.forward(from: 0);
   }
 
+  Object? _cachedQ;
+  List<String> _cachedChoices = [];
+
+  List<String> _getShuffledChoices(_MeasureQ q) {
+    if (!identical(_cachedQ, q)) {
+      _cachedQ = q;
+      _cachedChoices = List<String>.from(q.choices)..shuffle(_rng);
+    }
+    return _cachedChoices;
+  }
+
   void _onAnswer(int index) {
     if (_phase != _Phase.playing) return;
-    final isCorrect = index == 0;
+    final q = _zones[_zoneIdx].questions[_qIdx];
+    final choices = _getShuffledChoices(q);
+    final isCorrect = choices[index] == q.choices[0];
 
     setState(() {
       _selectedIndex = index;
@@ -397,6 +410,7 @@ class _MVState extends State<MeasurementValleyGame>
                                   ? math.sin(_wobbleAnim.value * math.pi * 6) *
                                       6
                                   : 0.0;
+                              final choices = _getShuffledChoices(q);
                               return Transform.translate(
                                 offset: Offset(dx, 0),
                                 child: Wrap(
@@ -404,13 +418,13 @@ class _MVState extends State<MeasurementValleyGame>
                                   runSpacing: 24,
                                   alignment: WrapAlignment.center,
                                   children: [
-                                    for (var i = 0; i < q.choices.length; i++)
+                                    for (var i = 0; i < choices.length; i++)
                                       _StoneButton(
-                                        label: q.choices[i],
+                                        label: choices[i],
                                         selected: _selectedIndex == i,
-                                        isCorrect: i == 0,
+                                        isCorrect: choices[i] == q.choices[0],
                                         revealed: revealed,
-                                        hopAnim: i == 0 ? _hopAnim : null,
+                                        hopAnim: choices[i] == q.choices[0] ? _hopAnim : null,
                                         onTap: () => _onAnswer(i),
                                       ),
                                   ],
