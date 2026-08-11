@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ProgressModel {
   final String uid;
   final String activityId;
@@ -25,21 +27,27 @@ class ProgressModel {
     this.timeTakenSeconds = 0,
   });
 
+  static DateTime _tsToDate(dynamic v) {
+    if (v == null) return DateTime.now();
+    if (v is Timestamp) return v.toDate();
+    if (v is num) return DateTime.fromMillisecondsSinceEpoch(v.toInt());
+    if (v is String) return DateTime.tryParse(v) ?? DateTime.now();
+    return DateTime.now();
+  }
+
   factory ProgressModel.fromMap(Map<String, dynamic> map) {
     return ProgressModel(
       uid: map['uid'] ?? '',
       activityId: map['activityId'] ?? '',
       activityTitle: map['activityTitle'] ?? '',
       subject: map['subject'] ?? '',
-      score: map['score'] ?? 0,
-      pointsEarned: map['pointsEarned'] ?? 0,
+      score: (map['score'] as num?)?.toInt() ?? 0,
+      pointsEarned: (map['pointsEarned'] as num?)?.toInt() ?? 0,
       completed: map['completed'] ?? false,
       verified: map['verified'] ?? false,
       proofUrl: map['proofUrl'],
-      completedAt: map['completedAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['completedAt'])
-          : DateTime.now(),
-      timeTakenSeconds: map['timeTakenSeconds'] ?? 0,
+      completedAt: _tsToDate(map['completedAt']),
+      timeTakenSeconds: (map['timeTakenSeconds'] as num?)?.toInt() ?? 0,
     );
   }
 

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ActivityModel {
   final String id;
   final String title;
@@ -25,6 +27,14 @@ class ActivityModel {
     required this.createdAt,
   });
 
+  static DateTime _tsToDate(dynamic v) {
+    if (v == null) return DateTime.now();
+    if (v is Timestamp) return v.toDate();
+    if (v is num) return DateTime.fromMillisecondsSinceEpoch(v.toInt());
+    if (v is String) return DateTime.tryParse(v) ?? DateTime.now();
+    return DateTime.now();
+  }
+
   factory ActivityModel.fromMap(Map<String, dynamic> map, String id) {
     return ActivityModel(
       id: id,
@@ -33,15 +43,13 @@ class ActivityModel {
       subject: map['subject'] ?? '',
       type: map['type'] ?? 'quiz',
       difficulty: map['difficulty'] ?? 'easy',
-      rewardPoints: map['rewardPoints'] ?? 10,
+      rewardPoints: (map['rewardPoints'] as num?)?.toInt() ?? 10,
       grade: map['grade'] ?? 'Grade 1',
       questions: (map['questions'] as List<dynamic>? ?? [])
           .map((q) => QuestionModel.fromMap(q))
           .toList(),
       requiresProof: map['requiresProof'] ?? false,
-      createdAt: map['createdAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['createdAt'])
-          : DateTime.now(),
+      createdAt: _tsToDate(map['createdAt']),
     );
   }
 

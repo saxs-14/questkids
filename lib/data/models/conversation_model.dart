@@ -23,18 +23,24 @@ class ConversationModel {
 
   List<String> get participants => [teacherUid, parentUid];
 
+  static DateTime? _tsToDateNullable(dynamic v) {
+    if (v == null) return null;
+    if (v is Timestamp) return v.toDate();
+    if (v is num) return DateTime.fromMillisecondsSinceEpoch(v.toInt());
+    if (v is String) return DateTime.tryParse(v);
+    return null;
+  }
+
   factory ConversationModel.fromMap(Map<String, dynamic> map, String id) {
     return ConversationModel(
       id: id,
-      teacherUid: map['teacherUid'] as String,
-      parentUid: map['parentUid'] as String,
-      childUid: map['childUid'] as String,
+      teacherUid: map['teacherUid'] as String? ?? '',
+      parentUid: map['parentUid'] as String? ?? '',
+      childUid: map['childUid'] as String? ?? '',
       childName: map['childName'] as String? ?? '',
       lastMessage: map['lastMessage'] as String? ?? '',
-      lastMessageAt: map['lastMessageAt'] is Timestamp
-          ? (map['lastMessageAt'] as Timestamp).toDate()
-          : null,
-      createdAt: (map['createdAt'] as Timestamp).toDate(),
+      lastMessageAt: _tsToDateNullable(map['lastMessageAt']),
+      createdAt: _tsToDateNullable(map['createdAt']) ?? DateTime.now(),
     );
   }
 

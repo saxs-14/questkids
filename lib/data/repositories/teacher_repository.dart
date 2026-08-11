@@ -25,13 +25,16 @@ class TeacherRepository {
     int totalAttempted = 0;
     int totalCompleted = 0;
 
-    for (final uid in learnerUids.take(30)) {
-      final sessSnap = await _db
+    final sessionsSnaps = await Future.wait(
+      learnerUids.take(30).map((uid) => _db
           .collection('game_sessions')
           .where('uid', isEqualTo: uid)
           .where('completedAt',
               isGreaterThanOrEqualTo: Timestamp.fromDate(thirtyDaysAgo))
-          .get();
+          .get()),
+    );
+
+    for (final sessSnap in sessionsSnaps) {
       totalAttempted += sessSnap.docs.length;
       for (final doc in sessSnap.docs) {
         final data = doc.data();
@@ -74,26 +77,31 @@ class TeacherRepository {
     final learnerUids = learnersSnap.docs.map((d) => d.id).toSet();
     if (learnerUids.isEmpty) return [];
 
-    final result = <Map<String, int>>[];
-    for (int i = 13; i >= 0; i--) {
+    final dayTasks = List.generate(14, (idx) {
+      final i = 13 - idx;
       final dayStart = DateTime.now().subtract(Duration(days: i));
       final dayKey = DateTime(dayStart.year, dayStart.month, dayStart.day);
       final dayEnd = dayKey.add(const Duration(days: 1));
-      final Set<String> active = {};
-      for (final uid in learnerUids.take(20)) {
-        final snap = await _db
-            .collection('game_sessions')
-            .where('uid', isEqualTo: uid)
-            .where('completedAt',
-                isGreaterThanOrEqualTo: Timestamp.fromDate(dayKey))
-            .where('completedAt', isLessThan: Timestamp.fromDate(dayEnd))
-            .limit(1)
-            .get();
-        if (snap.docs.isNotEmpty) active.add(uid);
-      }
-      result.add({'day': 14 - i, 'count': active.length});
-    }
-    return result;
+
+      return Future.wait(
+        learnerUids.take(20).map((uid) async {
+          final snap = await _db
+              .collection('game_sessions')
+              .where('uid', isEqualTo: uid)
+              .where('completedAt',
+                  isGreaterThanOrEqualTo: Timestamp.fromDate(dayKey))
+              .where('completedAt', isLessThan: Timestamp.fromDate(dayEnd))
+              .limit(1)
+              .get();
+          return snap.docs.isNotEmpty ? uid : null;
+        }),
+      ).then((activeUids) {
+        final count = activeUids.where((u) => u != null).length;
+        return {'day': 14 - i, 'count': count};
+      });
+    });
+
+    return await Future.wait(dayTasks);
   }
 
   /// Writes a broadcast doc the teacher owns; a Cloud Function
@@ -119,8 +127,8 @@ class TeacherRepository {
         .collection('users')
         .where('linkedTeacherUids', arrayContains: teacherUid)
         .get();
-    final rows = <Map<String, dynamic>>[];
-    for (final learner in learnersSnap.docs) {
+
+    final tasks = learnersSnap.docs.map((learner) async {
       final lData = learner.data();
       final sessSnap = await _db
           .collection('game_sessions')
@@ -128,9 +136,9 @@ class TeacherRepository {
           .orderBy('completedAt', descending: true)
           .limit(100)
           .get();
-      for (final doc in sessSnap.docs) {
+      return sessSnap.docs.map((doc) {
         final d = doc.data();
-        rows.add({
+        return {
           'name': '${lData['name'] ?? ''} ${lData['surname'] ?? ''}'.trim(),
           'grade': lData['grade'] ?? '',
           'subject': d['subject'] ?? '',
@@ -140,9 +148,11 @@ class TeacherRepository {
               (d['completedAt'] as Timestamp?)?.toDate().toIso8601String() ??
                   '',
           'timeSecs': d['timeTakenSeconds'] ?? 0,
-        });
-      }
-    }
-    return rows;
+        };
+      }).toList();
+    });
+
+    final nestedRows = await Future.wait(tasks);
+    return nestedRows.expand((r) => r).toList();
   }
 }

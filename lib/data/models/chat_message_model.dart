@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ChatMessageModel {
   final String id;
   final String text;
@@ -16,6 +18,14 @@ class ChatMessageModel {
     this.imageUrl,
     this.intent,
   });
+
+  static DateTime _tsToDate(dynamic v) {
+    if (v == null) return DateTime.now();
+    if (v is Timestamp) return v.toDate();
+    if (v is num) return DateTime.fromMillisecondsSinceEpoch(v.toInt());
+    if (v is String) return DateTime.tryParse(v) ?? DateTime.now();
+    return DateTime.now();
+  }
 
   factory ChatMessageModel.user(String text, {String? intent}) {
     return ChatMessageModel(
@@ -78,9 +88,7 @@ class ChatMessageModel {
       id: id,
       text: map['text'] ?? '',
       isUser: map['isUser'] ?? true,
-      timestamp: map['timestamp'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['timestamp'])
-          : DateTime.now(),
+      timestamp: _tsToDate(map['timestamp']),
       imageUrl: map['imageUrl'],
       intent: map['intent'] as String?,
     );

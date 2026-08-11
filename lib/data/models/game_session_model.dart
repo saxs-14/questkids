@@ -31,20 +31,28 @@ class GameSessionModel {
     this.metadata = const {},
   });
 
+  static DateTime _tsToDate(dynamic v) {
+    if (v == null) return DateTime.now();
+    if (v is Timestamp) return v.toDate();
+    if (v is num) return DateTime.fromMillisecondsSinceEpoch(v.toInt());
+    if (v is String) return DateTime.tryParse(v) ?? DateTime.now();
+    return DateTime.now();
+  }
+
   factory GameSessionModel.fromMap(String id, Map<String, dynamic> map) {
     return GameSessionModel(
       id: id,
-      uid: map['uid'] as String,
-      grade: map['grade'] as String,
-      subject: map['subject'] as String,
-      engineType: map['engineType'] as String,
-      score: (map['score'] as num).toInt(),
-      xpEarned: (map['xpEarned'] as num).toInt(),
-      coinsEarned: (map['coinsEarned'] as num).toInt(),
-      accuracy: (map['accuracy'] as num).toDouble(),
-      timeTakenSeconds: (map['timeTakenSeconds'] as num).toInt(),
-      completedAt: (map['completedAt'] as Timestamp).toDate(),
-      result: map['result'] as String,
+      uid: map['uid'] as String? ?? '',
+      grade: map['grade'] as String? ?? '',
+      subject: map['subject'] as String? ?? '',
+      engineType: map['engineType'] as String? ?? '',
+      score: (map['score'] as num?)?.toInt() ?? 0,
+      xpEarned: (map['xpEarned'] as num?)?.toInt() ?? 0,
+      coinsEarned: (map['coinsEarned'] as num?)?.toInt() ?? 0,
+      accuracy: (map['accuracy'] as num?)?.toDouble() ?? 0.0,
+      timeTakenSeconds: (map['timeTakenSeconds'] as num?)?.toInt() ?? 0,
+      completedAt: _tsToDate(map['completedAt']),
+      result: map['result'] as String? ?? 'complete',
       metadata: Map<String, dynamic>.from(map['metadata'] as Map? ?? {}),
     );
   }

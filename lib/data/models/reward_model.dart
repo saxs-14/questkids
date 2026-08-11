@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../core/constants/trading_post_catalog.dart';
 
 class RewardModel {
@@ -36,16 +37,16 @@ class RewardModel {
     this.equippedItemId = TradingPostCatalog.starterItemId,
   });
 
+  static DateTime _tsToDate(dynamic v) {
+    if (v == null) return DateTime.now();
+    if (v is Timestamp) return v.toDate();
+    if (v is num) return DateTime.fromMillisecondsSinceEpoch(v.toInt());
+    if (v is String) return DateTime.tryParse(v) ?? DateTime.now();
+    return DateTime.now();
+  }
+
   factory RewardModel.fromMap(Map<String, dynamic> map) {
     return RewardModel(
-      // Firestore's Web SDK can return an integer field as a JS double
-      // (most reliably reproduced right after a FieldValue.increment()
-      // write) -- goldBalance below already guards against this with
-      // (x as num?)?.toInt(); totalPoints/level/streakDays/lastActiveDate
-      // didn't, which meant a stream built on this model (RewardRepository
-      // .watchRewards) could throw and silently die on the very update
-      // that was supposed to refresh those fields. See the identical fix
-      // in UserModel.fromMap for the fuller incident writeup.
       uid: map['uid'] ?? '',
       totalPoints: (map['totalPoints'] as num?)?.toInt() ?? 0,
       level: (map['level'] as num?)?.toInt() ?? 1,
@@ -56,10 +57,7 @@ class RewardModel {
       achievements: (map['achievements'] as List<dynamic>? ?? [])
           .map((a) => AchievementModel.fromMap(a))
           .toList(),
-      lastActiveDate: map['lastActiveDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(
-              (map['lastActiveDate'] as num).toInt())
-          : DateTime.now(),
+      lastActiveDate: _tsToDate(map['lastActiveDate']),
       goldBalance: (map['goldBalance'] as num?)?.toInt() ?? 0,
       ownedItemIds: (map['ownedItemIds'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -110,9 +108,7 @@ class BadgeModel {
       description: map['description'] ?? '',
       icon: map['icon'] ?? '🏅',
       category: map['category'] ?? 'special',
-      earnedAt: map['earnedAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['earnedAt'])
-          : DateTime.now(),
+      earnedAt: RewardModel._tsToDate(map['earnedAt']),
     );
   }
 
@@ -148,10 +144,8 @@ class AchievementModel {
       id: map['id'] ?? '',
       title: map['title'] ?? '',
       description: map['description'] ?? '',
-      pointsAwarded: map['pointsAwarded'] ?? 0,
-      unlockedAt: map['unlockedAt'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['unlockedAt'])
-          : DateTime.now(),
+      pointsAwarded: (map['pointsAwarded'] as num?)?.toInt() ?? 0,
+      unlockedAt: RewardModel._tsToDate(map['unlockedAt']),
     );
   }
 

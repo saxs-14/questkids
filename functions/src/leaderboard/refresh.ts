@@ -60,12 +60,19 @@ function writeBoard(
 
 async function clearBoard(
   db: Firestore,
-  batch: WriteBatch,
   docId: string,
   period: "weekly" | "allTime"
-) {
+): Promise<void> {
   const existing = await db.collection("leaderboards").doc(docId).collection(period).get();
-  existing.docs.forEach((d) => batch.delete(d.ref));
+  if (existing.empty) return;
+
+  const docs = existing.docs;
+  for (let i = 0; i < docs.length; i += 400) {
+    const chunk = docs.slice(i, i + 400);
+    const batch = db.batch();
+    chunk.forEach((d) => batch.delete(d.ref));
+    await batch.commit();
+  }
 }
 
 // Exported separately (not just as the onSchedule body) so it can be
@@ -137,9 +144,9 @@ export async function runLeaderboardRefresh(db: Firestore): Promise<void> {
     }
 
     // ---- Overall (grade-wide) boards ----
+    await clearBoard(db, grade, "weekly");
+    await clearBoard(db, grade, "allTime");
     const batch = db.batch();
-    await clearBoard(db, batch, grade, "weekly");
-    await clearBoard(db, batch, grade, "allTime");
 
     const weeklyRanked = [...entries]
       .sort((a, b) => b.weeklyXp - a.weeklyXp)
@@ -158,9 +165,9 @@ export async function runLeaderboardRefresh(db: Firestore): Promise<void> {
     // ---- Per-subject boards ----
     for (const subject of SUBJECTS) {
       const docId = `${grade}_${subjectKey(subject)}`;
+      await clearBoard(db, docId, "weekly");
+      await clearBoard(db, docId, "allTime");
       const subjectBatch = db.batch();
-      await clearBoard(db, subjectBatch, docId, "weekly");
-      await clearBoard(db, subjectBatch, docId, "allTime");
 
       const subjectWeeklyRanked = [...entries]
         .map((e) => ({ ...e, xp: e.subjectWeeklyXp[subject] ?? 0 }))

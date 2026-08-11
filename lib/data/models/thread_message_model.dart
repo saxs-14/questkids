@@ -15,13 +15,21 @@ class ThreadMessageModel {
     required this.sentAt,
   });
 
+  static DateTime _tsToDate(dynamic v) {
+    if (v == null) return DateTime.now();
+    if (v is Timestamp) return v.toDate();
+    if (v is num) return DateTime.fromMillisecondsSinceEpoch(v.toInt());
+    if (v is String) return DateTime.tryParse(v) ?? DateTime.now();
+    return DateTime.now();
+  }
+
   factory ThreadMessageModel.fromMap(Map<String, dynamic> map, String id) {
     return ThreadMessageModel(
       id: id,
-      senderUid: map['senderUid'] as String,
-      senderRole: map['senderRole'] as String,
-      text: map['text'] as String,
-      sentAt: (map['sentAt'] as Timestamp).toDate(),
+      senderUid: map['senderUid'] as String? ?? '',
+      senderRole: map['senderRole'] as String? ?? '',
+      text: map['text'] as String? ?? '',
+      sentAt: _tsToDate(map['sentAt']),
     );
   }
 
