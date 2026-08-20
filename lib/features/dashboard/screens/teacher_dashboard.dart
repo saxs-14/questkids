@@ -500,6 +500,27 @@ class _HomeTab extends StatelessWidget {
                   },
                 ),
               const SizedBox(height: 28),
+              _CollapsibleSection(
+                title: 'Learners',
+                icon: Icons.group_outlined,
+                onAdd: () => _showAddLearnerDialog(context, teacherUid),
+                addTooltip: 'Add learner',
+                child: _ClassTab(teacherUid: teacherUid),
+              ),
+              _CollapsibleSection(
+                title: 'Activities',
+                icon: Icons.assignment_outlined,
+                onAdd: () => _showCreateActivitySheet(context, teacherUid),
+                addTooltip: 'Create activity',
+                child: _ActivitiesTab(teacherUid: teacherUid),
+              ),
+              _CollapsibleSection(
+                title: 'Analytics',
+                icon: Icons.analytics_outlined,
+                child: ClassAnalyticsScreen(
+                    teacherUid: teacherUid, embedded: true),
+              ),
+              const SizedBox(height: 8),
               Row(
                 children: [
                   const Text('⚡', style: TextStyle(fontSize: 18)),
@@ -551,6 +572,59 @@ class _HomeTab extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Collapsible section (Learners / Activities / Analytics on the Home tab)
+// ─────────────────────────────────────────────────────────────────────────────
+class _CollapsibleSection extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final Widget child;
+  final VoidCallback? onAdd;
+  final String? addTooltip;
+
+  const _CollapsibleSection({
+    required this.title,
+    required this.icon,
+    required this.child,
+    this.onAdd,
+    this.addTooltip,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+        color: Theme.of(context).brightness == Brightness.dark
+            ? const Color(0xFF1E1E2E)
+            : Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 8,
+              offset: const Offset(0, 2)),
+        ],
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: ExpansionTile(
+        leading: Icon(icon, color: _kPrimary),
+        title: Text(title, style: AppTextStyles.h4),
+        trailing: onAdd != null
+            ? IconButton(
+                icon: const Icon(Icons.add_circle_outline, color: _kPrimary),
+                tooltip: addTooltip,
+                onPressed: onAdd,
+              )
+            : null,
+        childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        expandedCrossAxisAlignment: CrossAxisAlignment.start,
+        children: [child],
+      ),
     );
   }
 }
