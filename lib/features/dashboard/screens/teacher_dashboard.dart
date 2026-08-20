@@ -41,7 +41,6 @@ class TeacherDashboard extends StatefulWidget {
 
 class _TeacherDashboardState extends State<TeacherDashboard> {
   int _selectedIndex = 0;
-  final _db = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -68,18 +67,6 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
       destinations: const [
         ResponsiveDestination(
             icon: Icons.home_outlined, activeIcon: Icons.home, label: 'Home'),
-        ResponsiveDestination(
-            icon: Icons.group_outlined,
-            activeIcon: Icons.group,
-            label: 'Class'),
-        ResponsiveDestination(
-            icon: Icons.assignment_outlined,
-            activeIcon: Icons.assignment,
-            label: 'Activities'),
-        ResponsiveDestination(
-            icon: Icons.analytics_outlined,
-            activeIcon: Icons.analytics,
-            label: 'Analytics'),
         ResponsiveDestination(
             icon: Icons.person_outline,
             activeIcon: Icons.person,
@@ -114,7 +101,7 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: GestureDetector(
-              onTap: () => setState(() => _selectedIndex = 4),
+              onTap: () => setState(() => _selectedIndex = 1),
               child: CircleAvatar(
                 backgroundColor: Colors.white24,
                 backgroundImage: user.avatarUrl != null
@@ -134,25 +121,6 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
           ),
         ],
       ),
-      floatingActionButton: _selectedIndex == 1
-          ? FloatingActionButton.extended(
-              heroTag: 'fab_class',
-              onPressed: () => _showAddLearnerDialog(context, uid),
-              backgroundColor: _kPrimary,
-              icon: const Icon(Icons.person_add, color: Colors.white),
-              label: const Text('Add Learner',
-                  style: TextStyle(color: Colors.white)),
-            )
-          : _selectedIndex == 2
-              ? FloatingActionButton.extended(
-                  heroTag: 'fab_activity',
-                  onPressed: () => _showCreateActivitySheet(context, uid),
-                  backgroundColor: _kPrimary,
-                  icon: const Icon(Icons.add, color: Colors.white),
-                  label: const Text('Create Activity',
-                      style: TextStyle(color: Colors.white)),
-                )
-              : null,
       body: Column(
         children: [
           const OfflineBanner(),
@@ -161,9 +129,6 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
               index: _selectedIndex,
               children: [
                 _HomeTab(teacherUid: uid),
-                _ClassTab(teacherUid: uid),
-                _ActivitiesTab(teacherUid: uid),
-                ClassAnalyticsScreen(teacherUid: uid),
                 const _ProfileTab(),
               ],
             ),
@@ -172,147 +137,151 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
       ),
     );
   }
+}
 
-  void _showAddLearnerDialog(BuildContext context, String teacherUid) {
-    final codeCtrl = TextEditingController();
+void _showAddLearnerDialog(BuildContext context, String teacherUid) {
+  final codeCtrl = TextEditingController();
 
-    showDialog(
-      context: context,
-      builder: (ctx) {
-        bool loading = false;
-        String? error;
+  showDialog(
+    context: context,
+    builder: (ctx) {
+      bool loading = false;
+      String? error;
 
-        return StatefulBuilder(
-          builder: (ctx, setS) => AlertDialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            title: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: _kPrimary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(Icons.link, color: _kPrimary),
+      return StatefulBuilder(
+        builder: (ctx, setS) => AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: _kPrimary.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                const SizedBox(width: 12),
-                const Text('Add Learner'),
-              ],
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Ask the learner for their 6-character class link code.',
-                  style: AppTextStyles.bodyMedium
-                      .copyWith(color: AppColors.textSecondary),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: codeCtrl,
-                  maxLength: 6,
-                  textCapitalization: TextCapitalization.characters,
-                  decoration: InputDecoration(
-                    labelText: 'Link Code (e.g. AB12CD)',
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                    prefixIcon:
-                        const Icon(Icons.vpn_key_outlined, color: _kPrimary),
-                    errorText: error,
-                  ),
-                  onChanged: (_) => setS(() => error = null),
-                ),
-              ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(ctx),
-                child: const Text('Cancel'),
+                child: const Icon(Icons.link, color: _kPrimary),
               ),
-              FilledButton(
-                style: FilledButton.styleFrom(backgroundColor: _kPrimary),
-                onPressed: loading
-                    ? null
-                    : () async {
-                        final code = codeCtrl.text.trim().toUpperCase();
-                        if (code.length != 6) {
-                          setS(() => error = 'Enter exactly 6 characters');
-                          return;
-                        }
-                        setS(() => loading = true);
-                        try {
-                          final q = await _db
-                              .collection('users')
-                              .where('childLinkCode', isEqualTo: code)
-                              .limit(1)
-                              .get();
-                          if (q.docs.isEmpty) {
-                            setS(() {
-                              error = 'No learner found with this code';
-                              loading = false;
-                            });
-                            return;
-                          }
-                          final learnerUid = q.docs.first.id;
-                          final batch = _db.batch();
-                          batch.update(
-                            _db.collection('users').doc(learnerUid),
-                            {
-                              'linkedTeacherUids':
-                                  FieldValue.arrayUnion([teacherUid])
-                            },
-                          );
-                          batch.update(
-                            _db.collection('users').doc(teacherUid),
-                            {
-                              'linkedChildrenUids':
-                                  FieldValue.arrayUnion([learnerUid])
-                            },
-                          );
-                          await batch.commit();
-                          if (ctx.mounted) Navigator.pop(ctx);
-                          if (context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Learner linked successfully!'),
-                                backgroundColor: AppColors.success,
-                              ),
-                            );
-                          }
-                        } catch (e) {
-                          setS(() {
-                            error = 'Error: ${e.toString()}';
-                            loading = false;
-                          });
-                        }
-                      },
-                child: loading
-                    ? const SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: CircularProgressIndicator(
-                            color: Colors.white, strokeWidth: 2),
-                      )
-                    : const Text('Link Learner'),
+              const SizedBox(width: 12),
+              const Text('Add Learner'),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Ask the learner for their 6-character class link code.',
+                style: AppTextStyles.bodyMedium
+                    .copyWith(color: AppColors.textSecondary),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: codeCtrl,
+                maxLength: 6,
+                textCapitalization: TextCapitalization.characters,
+                decoration: InputDecoration(
+                  labelText: 'Link Code (e.g. AB12CD)',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  prefixIcon:
+                      const Icon(Icons.vpn_key_outlined, color: _kPrimary),
+                  errorText: error,
+                ),
+                onChanged: (_) => setS(() => error = null),
               ),
             ],
           ),
-        );
-      },
-    );
-  }
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              style: FilledButton.styleFrom(backgroundColor: _kPrimary),
+              onPressed: loading
+                  ? null
+                  : () async {
+                      final code = codeCtrl.text.trim().toUpperCase();
+                      if (code.length != 6) {
+                        setS(() => error = 'Enter exactly 6 characters');
+                        return;
+                      }
+                      setS(() => loading = true);
+                      try {
+                        final q = await FirebaseFirestore.instance
+                            .collection('users')
+                            .where('childLinkCode', isEqualTo: code)
+                            .limit(1)
+                            .get();
+                        if (q.docs.isEmpty) {
+                          setS(() {
+                            error = 'No learner found with this code';
+                            loading = false;
+                          });
+                          return;
+                        }
+                        final learnerUid = q.docs.first.id;
+                        final batch = FirebaseFirestore.instance.batch();
+                        batch.update(
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(learnerUid),
+                          {
+                            'linkedTeacherUids':
+                                FieldValue.arrayUnion([teacherUid])
+                          },
+                        );
+                        batch.update(
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(teacherUid),
+                          {
+                            'linkedChildrenUids':
+                                FieldValue.arrayUnion([learnerUid])
+                          },
+                        );
+                        await batch.commit();
+                        if (ctx.mounted) Navigator.pop(ctx);
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Learner linked successfully!'),
+                              backgroundColor: AppColors.success,
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        setS(() {
+                          error = 'Error: ${e.toString()}';
+                          loading = false;
+                        });
+                      }
+                    },
+              child: loading
+                  ? const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(
+                          color: Colors.white, strokeWidth: 2),
+                    )
+                  : const Text('Link Learner'),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
 
-  void _showCreateActivitySheet(BuildContext context, String teacherUid) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
-      builder: (ctx) => _CreateActivitySheet(teacherUid: teacherUid),
-    );
-  }
+void _showCreateActivitySheet(BuildContext context, String teacherUid) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+    builder: (ctx) => _CreateActivitySheet(teacherUid: teacherUid),
+  );
 }
 
 void _showSendNotificationDialog(BuildContext context, String teacherUid) {
