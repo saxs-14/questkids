@@ -390,6 +390,13 @@ class AuthProvider extends ChangeNotifier {
     if (error.contains('operation-not-allowed')) {
       return 'Email/password sign-in is not enabled. Contact support.';
     }
-    return 'Something went wrong. Please try again.';
+    // None of the known Firebase Auth error codes matched -- surface a
+    // truncated version of the raw error instead of a purely generic
+    // message. Errors reaching this branch (e.g. from the Google sign-in
+    // popup flow) only ever show up in the browser console on web, which
+    // most users can't get to; putting the real text in the SnackBar makes
+    // an otherwise unreproducible failure self-diagnosing on the next try.
+    final truncated = error.length > 180 ? '${error.substring(0, 180)}…' : error;
+    return 'Something went wrong: $truncated';
   }
 }
