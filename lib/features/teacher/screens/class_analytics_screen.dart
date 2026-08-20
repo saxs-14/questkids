@@ -18,7 +18,15 @@ import '../widgets/weak_topic_list.dart';
 
 class ClassAnalyticsScreen extends StatefulWidget {
   final String teacherUid;
-  const ClassAnalyticsScreen({super.key, required this.teacherUid});
+  // When true, this screen is mounted inside another scrollable (the
+  // Teacher Dashboard's collapsible Analytics section) rather than filling
+  // a full page on its own -- its own SingleChildScrollView/RefreshIndicator
+  // must not compete for scroll gestures or demand unbounded height from a
+  // parent that can't give it. Defaults to false so the existing full-screen
+  // "Grade Report" Quick Action (Navigator.push) is unaffected.
+  final bool embedded;
+  const ClassAnalyticsScreen(
+      {super.key, required this.teacherUid, this.embedded = false});
 
   @override
   State<ClassAnalyticsScreen> createState() => _ClassAnalyticsScreenState();
@@ -130,12 +138,12 @@ class _ClassAnalyticsScreenState extends State<ClassAnalyticsScreen> {
     final completed = (_classData['totalCompleted'] as int?) ?? 0;
     final attempted = (_classData['totalAttempted'] as int?) ?? 0;
 
-    return RefreshIndicator(
-      onRefresh: _load,
-      child: SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(16),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    final content = SingleChildScrollView(
+      physics: widget.embedded
+          ? const NeverScrollableScrollPhysics()
+          : const AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(16),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
             _StatChip(
                 label: '${_classData['totalLearners'] ?? 0}', sub: 'Learners'),
@@ -186,8 +194,11 @@ class _ClassAnalyticsScreenState extends State<ClassAnalyticsScreen> {
             child: ActiveTrendChart(dailyData: _dailyActive),
           ),
         ]),
-      ),
     );
+
+    return widget.embedded
+        ? content
+        : RefreshIndicator(onRefresh: _load, child: content);
   }
 }
 
