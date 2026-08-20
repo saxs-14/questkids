@@ -759,7 +759,9 @@ class _ClassTab extends StatelessWidget {
             }
             final learners = learnerSnap.data!;
             return ListView.separated(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
               itemCount: learners.length,
               separatorBuilder: (_, __) => const SizedBox(height: 12),
               itemBuilder: (_, i) => _LearnerCard(
@@ -1302,7 +1304,9 @@ class _ActivitiesTab extends StatelessWidget {
         }
 
         return ListView.separated(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
           itemCount: docs.length,
           separatorBuilder: (_, __) => const SizedBox(height: 12),
           itemBuilder: (_, i) {
