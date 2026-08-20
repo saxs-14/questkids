@@ -336,7 +336,12 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> signOut() async {
     if (_user != null) {
-      await _notificationService.removeTokenOnSignOut(_user!.uid);
+      try {
+        await _notificationService.removeTokenOnSignOut(_user!.uid);
+      } catch (_) {
+        // Non-fatal: FCM token cleanup failing (e.g. no web push token,
+        // messaging permission issues) must never block a real sign-out.
+      }
     }
     await _userSubscription?.cancel();
     _userSubscription = null;
