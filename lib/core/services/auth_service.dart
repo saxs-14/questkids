@@ -436,7 +436,14 @@ class AuthService {
 
   // Sign Out
   Future<void> signOut() async {
-    await _googleSignIn.signOut();
+    try {
+      await _googleSignIn.signOut();
+    } catch (_) {
+      // Non-fatal: most sign-outs are email/password accounts that never
+      // established a Google session, and google_sign_in_web can throw here
+      // (e.g. GIS/FedCM not having a valid client set up) -- that must
+      // never stop the real _auth.signOut() below from running.
+    }
     await _auth.signOut();
   }
 
