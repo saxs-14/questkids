@@ -711,7 +711,7 @@ npx vercel list questkids
 
 Using a headless-browser script against `https://questkids-two.vercel.app` (the pattern already established this session in `C:\Users\mamag\.claude\jobs\c247f3b8\tmp\qk_*.js`, driving Chromium via the `playwright` package already available at `C:/Users/mamag/AppData/Roaming/npm/node_modules/n8n/node_modules/playwright`):
 
-1. Log in as the existing test teacher account (`claude.diagnostic.teacher2.20260820@questkids-test.dev` / `DiagTest#2026!`).
+1. Log in as a test teacher account (credentials kept out of this repo — see local notes, or register a fresh throwaway account through the normal sign-up flow).
 2. Screenshot the Home tab — confirm only two bottom-nav destinations (Home, Profile) appear, and three collapsed sections (Learners, Activities, Analytics) are visible below Recent Class Activity.
 3. Tap each section's title row — confirm it expands and its content renders without a Flutter red error screen or console `pageerror`.
 4. Tap the Learners section's add-icon — confirm the "Add Learner" dialog opens (same dialog as before).
