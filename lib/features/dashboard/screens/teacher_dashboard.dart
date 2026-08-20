@@ -579,7 +579,7 @@ class _HomeTab extends StatelessWidget {
 // ─────────────────────────────────────────────────────────────────────────────
 // Collapsible section (Learners / Activities / Analytics on the Home tab)
 // ─────────────────────────────────────────────────────────────────────────────
-class _CollapsibleSection extends StatelessWidget {
+class _CollapsibleSection extends StatefulWidget {
   final String title;
   final IconData icon;
   final Widget child;
@@ -593,6 +593,13 @@ class _CollapsibleSection extends StatelessWidget {
     this.onAdd,
     this.addTooltip,
   });
+
+  @override
+  State<_CollapsibleSection> createState() => _CollapsibleSectionState();
+}
+
+class _CollapsibleSectionState extends State<_CollapsibleSection> {
+  bool _everExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -612,18 +619,23 @@ class _CollapsibleSection extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: ExpansionTile(
-        leading: Icon(icon, color: _kPrimary),
-        title: Text(title, style: AppTextStyles.h4),
-        trailing: onAdd != null
+        leading: Icon(widget.icon, color: _kPrimary),
+        title: Text(widget.title, style: AppTextStyles.h4),
+        trailing: widget.onAdd != null
             ? IconButton(
                 icon: const Icon(Icons.add_circle_outline, color: _kPrimary),
-                tooltip: addTooltip,
-                onPressed: onAdd,
+                tooltip: widget.addTooltip,
+                onPressed: widget.onAdd,
               )
             : null,
         childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
-        children: [child],
+        onExpansionChanged: (expanded) {
+          if (expanded && !_everExpanded) {
+            setState(() => _everExpanded = true);
+          }
+        },
+        children: [_everExpanded ? widget.child : const SizedBox.shrink()],
       ),
     );
   }
