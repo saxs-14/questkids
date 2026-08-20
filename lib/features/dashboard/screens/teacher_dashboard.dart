@@ -48,7 +48,19 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
     final auth = context.watch<AuthProvider>();
     final theme = context.watch<ThemeProvider>();
     final user = auth.user;
-    final uid = user?.uid ?? '';
+
+    // Mid-sign-out, AuthProvider.signOut() calls notifyListeners() (clearing
+    // `user`) before the caller's subsequent Navigator.pushNamedAndRemoveUntil
+    // replaces this route -- context.watch rebuilds this widget in that gap
+    // with `user == null`. The tabs below (kept alive in an IndexedStack)
+    // build live StreamBuilders on `.doc(teacherUid)`; a coerced '' uid made
+    // that call throw "A document path must be a non-empty string" every
+    // sign-out. Bail out before any of that builds -- navigation to /login
+    // is already in flight.
+    if (user == null) {
+      return const SizedBox.shrink();
+    }
+    final uid = user.uid;
 
     return ResponsiveScaffold(
       selectedIndex: _selectedIndex,
@@ -78,7 +90,7 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Hi, ${user?.displayName ?? user?.name.split(' ').first ?? 'Teacher'}',
+              'Hi, ${user.displayName}',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
             ),
             const Text('Teacher Dashboard',
@@ -105,13 +117,13 @@ class _TeacherDashboardState extends State<TeacherDashboard> {
               onTap: () => setState(() => _selectedIndex = 4),
               child: CircleAvatar(
                 backgroundColor: Colors.white24,
-                backgroundImage: user?.avatarUrl != null
-                    ? CachedNetworkImageProvider(user!.avatarUrl!)
+                backgroundImage: user.avatarUrl != null
+                    ? CachedNetworkImageProvider(user.avatarUrl!)
                     : null,
-                child: user?.avatarUrl == null
+                child: user.avatarUrl == null
                     ? Text(
-                        user?.name.isNotEmpty == true
-                            ? user!.name[0].toUpperCase()
+                        user.name.isNotEmpty
+                            ? user.name[0].toUpperCase()
                             : '?',
                         style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.w700),
