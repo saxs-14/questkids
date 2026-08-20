@@ -600,6 +600,7 @@ class _CollapsibleSection extends StatefulWidget {
 
 class _CollapsibleSectionState extends State<_CollapsibleSection> {
   bool _everExpanded = false;
+  bool _expanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -621,20 +622,31 @@ class _CollapsibleSectionState extends State<_CollapsibleSection> {
       child: ExpansionTile(
         leading: Icon(widget.icon, color: _kPrimary),
         title: Text(widget.title, style: AppTextStyles.h4),
-        trailing: widget.onAdd != null
-            ? IconButton(
+        maintainState: true,
+        onExpansionChanged: (expanded) {
+          setState(() {
+            _expanded = expanded;
+            if (expanded) _everExpanded = true;
+          });
+        },
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (widget.onAdd != null)
+              IconButton(
                 icon: const Icon(Icons.add_circle_outline, color: _kPrimary),
                 tooltip: widget.addTooltip,
                 onPressed: widget.onAdd,
-              )
-            : null,
+              ),
+            AnimatedRotation(
+              turns: _expanded ? 0.5 : 0,
+              duration: const Duration(milliseconds: 200),
+              child: const Icon(Icons.expand_more),
+            ),
+          ],
+        ),
         childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
-        onExpansionChanged: (expanded) {
-          if (expanded && !_everExpanded) {
-            setState(() => _everExpanded = true);
-          }
-        },
         children: [_everExpanded ? widget.child : const SizedBox.shrink()],
       ),
     );
