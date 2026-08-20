@@ -144,56 +144,55 @@ class _ClassAnalyticsScreenState extends State<ClassAnalyticsScreen> {
           : const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.all(16),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(children: [
-            _StatChip(
-                label: '${_classData['totalLearners'] ?? 0}', sub: 'Learners'),
-            const SizedBox(width: 8),
-            _StatChip(label: '$attempted', sub: 'Quests'),
-            const SizedBox(width: 8),
-            _StatChip(
-              label:
-                  '${((_classData['completionRate'] ?? 0.0) * 100).toStringAsFixed(0)}%',
-              sub: 'Completion',
-            ),
-          ]),
-          const SizedBox(height: 12),
-          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            OutlinedButton.icon(
-              onPressed: _exporting ? null : _exportCsv,
-              icon: _exporting
-                  ? const SizedBox(
-                      width: 14,
-                      height: 14,
-                      child: CircularProgressIndicator(strokeWidth: 2))
-                  : const Icon(Icons.file_present, size: 18),
-              label: const Text('Export CSV'),
-            ),
-          ]),
-          const SizedBox(height: 12),
-          TeacherInsightCard(classData: _classData),
-          const SizedBox(height: 16),
-          _card(
-            title: 'Class Average by Subject',
-            subtitle: 'Red <60%, Amber 60–79%, Green 80%+',
-            child: ClassSubjectChart(subjectAvg: subjectAvg),
-          ),
-          _card(
-            title: 'Quest Completion Rate',
-            subtitle: 'Last 30 days',
-            child:
-                CompletionPieChart(completed: completed, attempted: attempted),
-          ),
-          _card(
-            title: 'Weak Topics',
-            subtitle: 'Subjects where class average is below 60%',
-            child: WeakTopicList(weakTopics: weakTopics),
-          ),
-          _card(
-            title: 'Active Learners Daily',
-            subtitle: 'Learners who completed at least 1 quest (last 14 days)',
-            child: ActiveTrendChart(dailyData: _dailyActive),
+        Row(children: [
+          _StatChip(
+              label: '${_classData['totalLearners'] ?? 0}', sub: 'Learners'),
+          const SizedBox(width: 8),
+          _StatChip(label: '$attempted', sub: 'Quests'),
+          const SizedBox(width: 8),
+          _StatChip(
+            label:
+                '${((_classData['completionRate'] ?? 0.0) * 100).toStringAsFixed(0)}%',
+            sub: 'Completion',
           ),
         ]),
+        const SizedBox(height: 12),
+        Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+          OutlinedButton.icon(
+            onPressed: _exporting ? null : _exportCsv,
+            icon: _exporting
+                ? const SizedBox(
+                    width: 14,
+                    height: 14,
+                    child: CircularProgressIndicator(strokeWidth: 2))
+                : const Icon(Icons.file_present, size: 18),
+            label: const Text('Export CSV'),
+          ),
+        ]),
+        const SizedBox(height: 12),
+        TeacherInsightCard(classData: _classData),
+        const SizedBox(height: 16),
+        _card(
+          title: 'Class Average by Subject',
+          subtitle: 'Red <60%, Amber 60–79%, Green 80%+',
+          child: ClassSubjectChart(subjectAvg: subjectAvg),
+        ),
+        _card(
+          title: 'Quest Completion Rate',
+          subtitle: 'Last 30 days',
+          child: CompletionPieChart(completed: completed, attempted: attempted),
+        ),
+        _card(
+          title: 'Weak Topics',
+          subtitle: 'Subjects where class average is below 60%',
+          child: WeakTopicList(weakTopics: weakTopics),
+        ),
+        _card(
+          title: 'Active Learners Daily',
+          subtitle: 'Learners who completed at least 1 quest (last 14 days)',
+          child: ActiveTrendChart(dailyData: _dailyActive),
+        ),
+      ]),
     );
 
     return widget.embedded
