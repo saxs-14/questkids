@@ -23,7 +23,7 @@ class AuthService {
     if (kIsWeb) {
       _googleSignIn = GoogleSignIn(
         clientId:
-            '882077922348-ohk1u6nqk3ujt5dn5k6ck4j4j4j4j4j4.apps.googleusercontent.com',
+            '882077922348-35dcuaavvhga57ftgapuatck8dmkeq60.apps.googleusercontent.com',
       );
     } else {
       _googleSignIn = GoogleSignIn();
