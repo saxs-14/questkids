@@ -931,6 +931,28 @@ class GameCatalog {
       coinsReward: 20,
       isFeatured: true,
     ),
+    GameCatalogEntry(
+      id: 'math_g4_multiples_grid',
+      title: 'Multiples Matrix',
+      description: 'Connect glowing 3D cubes in order of multiples on a 5x5 grid!',
+      grade: 'grade4',
+      grades: ['grade4', 'grade5', 'grade6'],
+      subject: 'Mathematics',
+      topicId: 'multiplication',
+      subtopicId: 'multiples_grid',
+      engineType: 'multiplesGrid',
+      emoji: '🎲',
+      color: AppColors.math,
+      learningObjective:
+          'Learners will identify and sequence multiples of numbers 2 to 12 across a matrix grid.',
+      mechanicReason:
+          'Tracing glowing paths between sequential multiples turns multiplication tables into a visual matrix quest.',
+      difficulty: 'medium',
+      xpReward: 120,
+      coinsReward: 25,
+      isNew: true,
+      isFeatured: true,
+    ),
 
     // NATURAL SCIENCES (10 games) ──────────────────────────────────────────────
     GameCatalogEntry(

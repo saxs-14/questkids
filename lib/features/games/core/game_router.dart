@@ -35,6 +35,7 @@ import '../maths_mountain/maths_mountain_game.dart';
 import '../matter_master/matter_master_game.dart';
 import '../measurement_valley/measurement_valley_game.dart';
 import '../multiple_chain/multiple_chain_game.dart';
+import '../multiples_grid/multiples_grid_game.dart';
 import '../multiples_merge/multiples_merge_game.dart';
 import '../multiplication_mountains/multiplication_mountains_game.dart';
 import '../noun_navigator/noun_navigator_game.dart';
@@ -109,6 +110,8 @@ class GameRouter extends StatelessWidget {
         MathsMountainGame(config: config, user: user),
       AppConstants.engineMultipleChain =>
         MultipleChainGame(config: config, user: user),
+      AppConstants.engineMultiplesGrid =>
+        MultiplesGridGame(config: config, user: user),
       AppConstants.engineAlphabetExplorer =>
         AlphabetExplorerGame(config: config, user: user),
       AppConstants.engineWordBuilder =>

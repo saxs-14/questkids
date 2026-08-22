@@ -91,13 +91,13 @@ class _PPState extends State<PunctuationPoliceGame> with TickerProviderStateMixi
       _GapQ(
           instruction: 'Tap where the comma belongs.',
           words: ['Before', 'we', 'start', "let's", 'warm', 'up.'],
-          gapOptions: [1, 2, 4],
-          correctOptionIdx: 1),
+          gapOptions: [0, 1, 2],
+          correctOptionIdx: 2),
       _GapQ(
           instruction: 'Tap where the comma belongs.',
           words: ['In', 'the', 'morning', 'the', 'birds', 'sing.'],
-          gapOptions: [1, 2, 4],
-          correctOptionIdx: 1),
+          gapOptions: [0, 1, 2],
+          correctOptionIdx: 2),
       _GapQ(
           instruction: 'Tap where the comma belongs.',
           words: ['After', 'school', 'we', 'play', 'soccer.'],
@@ -106,8 +106,8 @@ class _PPState extends State<PunctuationPoliceGame> with TickerProviderStateMixi
       _GapQ(
           instruction: 'Tap where the comma belongs.',
           words: ['Suddenly', 'the', 'lights', 'went', 'out.'],
-          gapOptions: [0, 2, 3],
-          correctOptionIdx: 0),
+          gapOptions: [1, 2, 0],
+          correctOptionIdx: 2),
     ]),
     _Zone.simple('Which Mark Fits?', [
       _SimpleQ(prompt: 'Watch out for that car___', choices: ['!', '?', '.']),

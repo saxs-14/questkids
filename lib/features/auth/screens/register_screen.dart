@@ -173,6 +173,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildStep0() {
+    final auth = context.watch<AuthProvider>();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -190,6 +192,59 @@ class _RegisterScreenState extends State<RegisterScreen> {
         AppButton(
           label: 'Next →',
           onPressed: () => setState(() => _step = 1),
+        ),
+        const SizedBox(height: 20),
+        Row(
+          children: [
+            const Expanded(child: Divider()),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text('or', style: AppTextStyles.bodySmall),
+            ),
+            const Expanded(child: Divider()),
+          ],
+        ),
+        const SizedBox(height: 16),
+        OutlinedButton.icon(
+          style: OutlinedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            side: BorderSide(
+              color: isDark ? Colors.white24 : Colors.grey.shade300,
+            ),
+          ),
+          onPressed: auth.isLoading
+              ? null
+              : () async {
+                  final success = await auth.signInWithGoogle(
+                    role: _role,
+                    grade: 'Grade 4',
+                  );
+                  if (success && mounted) {
+                    _navigateAfterRegister(auth);
+                  } else if (!success && mounted) {
+                    if (auth.errorMessage != null &&
+                        auth.errorMessage!.isNotEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(auth.errorMessage!),
+                          backgroundColor: AppColors.error,
+                        ),
+                      );
+                    }
+                  }
+                },
+          icon: const Text('G',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red)),
+          label: const Text(
+            'Sign Up with Google',
+            style: TextStyle(fontWeight: FontWeight.w600),
+          ),
         ),
       ],
     );

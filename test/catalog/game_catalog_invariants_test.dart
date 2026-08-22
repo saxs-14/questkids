@@ -22,6 +22,7 @@ void main() {
     AppConstants.engineSubtractionSafari,
     AppConstants.engineMathsMountain,
     AppConstants.engineMultipleChain,
+    AppConstants.engineMultiplesGrid,
     AppConstants.engineAlphabetExplorer,
     AppConstants.engineWordBuilder,
     AppConstants.enginePhonicsFun,

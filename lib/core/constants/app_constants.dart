@@ -41,6 +41,7 @@ class AppConstants {
   static const String engineSubtractionSafari = 'subtractionSafari';
   static const String engineMathsMountain = 'mathsMountain';
   static const String engineMultipleChain = 'multipleChain';
+  static const String engineMultiplesGrid = 'multiplesGrid';
   static const String engineAlphabetExplorer = 'alphabetExplorer';
   static const String engineWordBuilder = 'wordBuilder';
   static const String enginePhonicsFun = 'phonicsFun';

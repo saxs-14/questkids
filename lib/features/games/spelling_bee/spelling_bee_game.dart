@@ -83,20 +83,20 @@ class _SBState extends State<SpellingBeeGame> with TickerProviderStateMixin {
           wrongIndex: 1,
           correctSpelling: 'children'),
       _SentenceQ(
-          words: ['She', 'recieved', 'a', 'present', 'for', 'her', 'birthday.'],
-          wrongIndex: 1,
+          words: ['She', 'bought', 'a', 'recieved', 'present', 'today.'],
+          wrongIndex: 3,
           correctSpelling: 'received'),
       _SentenceQ(
           words: ['It', 'is', 'definately', 'going', 'to', 'rain', 'today.'],
           wrongIndex: 2,
           correctSpelling: 'definitely'),
       _SentenceQ(
-          words: ['The', 'beatiful', 'flowers', 'bloomed', 'in', 'spring.'],
-          wrongIndex: 1,
+          words: ['We', 'saw', 'many', 'beatiful', 'flowers', 'in', 'spring.'],
+          wrongIndex: 3,
           correctSpelling: 'beautiful'),
       _SentenceQ(
-          words: ['The', 'necesary', 'tools', 'were', 'in', 'the', 'box.'],
-          wrongIndex: 1,
+          words: ['Carefully', 'pack', 'all', 'the', 'necesary', 'tools.'],
+          wrongIndex: 4,
           correctSpelling: 'necessary'),
     ]),
     _Zone.simple('Choose the Correct Spelling', [

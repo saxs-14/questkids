@@ -83,7 +83,7 @@ class _PEState extends State<PoetryExplorerGame> with TickerProviderStateMixin {
       _RhymeQ(target: 'star', choices: ['far', 'sky', 'moon']),
     ]),
     _Zone.simple('Poetic Devices', [
-      _SimpleQ(prompt: 'A simile compares two things using...?', choices: ["'like' or 'as'", 'Only numbers', 'Only colours']),
+      _SimpleQ(prompt: 'A simile compares two things using...?', choices: ["'like' or 'as'", 'Only numbers', 'Only colors']),
       _SimpleQ(
           prompt: 'Which sentence is a SIMILE?',
           choices: ["'Her smile was like sunshine.'", "'Her smile was sunshine.'", "'She smiled brightly.'"]),
@@ -185,11 +185,11 @@ class _PEState extends State<PoetryExplorerGame> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _initAnims();
+    _initAnimations();
     _delayed(700, _startGame);
   }
 
-  void _initAnims() {
+  void _initAnimations() {
     _ambientCtrl = AnimationController(
         vsync: this, duration: const Duration(seconds: 6))
       ..repeat(reverse: true);

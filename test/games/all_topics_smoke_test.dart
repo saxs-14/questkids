@@ -78,6 +78,7 @@ void main() {
           entry.engineType == AppConstants.engineSubtractionSafari ||
           entry.engineType == AppConstants.engineMathsMountain ||
           entry.engineType == AppConstants.engineMultipleChain ||
+          entry.engineType == AppConstants.engineMultiplesGrid ||
           entry.engineType == AppConstants.engineAlphabetExplorer ||
           entry.engineType == AppConstants.engineWordBuilder ||
           entry.engineType == AppConstants.enginePhonicsFun ||

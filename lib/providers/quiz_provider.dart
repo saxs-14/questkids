@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../data/models/activity_model.dart';
 import '../data/repositories/activity_repository.dart';
@@ -88,11 +89,37 @@ class QuizProvider extends ChangeNotifier {
   }
 
   void startQuiz(ActivityModel activity) {
-    _currentActivity = activity;
+    final rng = math.Random();
+    final randomizedQuestions = activity.questions.map((q) {
+      if (q.options.isEmpty) return q;
+      final safeIndex = q.correctIndex.clamp(0, q.options.length - 1);
+      final correctText = q.options[safeIndex];
+      final shuffled = List<String>.from(q.options)..shuffle(rng);
+      final newIndex = shuffled.indexOf(correctText);
+      return QuestionModel(
+        question: q.question,
+        options: shuffled,
+        correctIndex: newIndex >= 0 ? newIndex : 0,
+        explanation: q.explanation,
+      );
+    }).toList();
+
+    _currentActivity = ActivityModel(
+      id: activity.id,
+      title: activity.title,
+      description: activity.description,
+      subject: activity.subject,
+      type: activity.type,
+      difficulty: activity.difficulty,
+      rewardPoints: activity.rewardPoints,
+      grade: activity.grade,
+      createdAt: activity.createdAt,
+      questions: randomizedQuestions,
+    );
     _currentQuestionIndex = 0;
     _selectedAnswerIndex = null;
     _isAnswerRevealed = false;
-    _userAnswers = List.filled(activity.questions.length, null);
+    _userAnswers = List.filled(randomizedQuestions.length, null);
     _correctCount = 0;
     _startTime = DateTime.now().millisecondsSinceEpoch;
     _state = QuizState.active;

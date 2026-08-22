@@ -337,29 +337,56 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 16),
                   OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      side: BorderSide(
+                        color: _isDark(context)
+                            ? Colors.white24
+                            : Colors.grey.shade300,
+                      ),
+                    ),
                     onPressed: auth.isLoading
                         ? null
                         : () async {
                             final success = await auth.signInWithGoogle(
                               role: 'parent',
-                              grade: 'Grade 1',
+                              grade: 'Grade 4',
                             );
-                            if (!success && context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(auth.errorMessage ??
-                                      'Google sign-in failed'),
-                                  backgroundColor: AppColors.error,
-                                ),
-                              );
+                            if (success && context.mounted) {
+                              final user = auth.user;
+                              if (user != null) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        NavigationService.getDashboard(user),
+                                  ),
+                                );
+                              }
+                            } else if (!success && context.mounted) {
+                              if (auth.errorMessage != null &&
+                                  auth.errorMessage!.isNotEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(auth.errorMessage!),
+                                    backgroundColor: AppColors.error,
+                                  ),
+                                );
+                              }
                             }
                           },
                     icon: const Text('G',
                         style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: Colors.red)),
-                    label: const Text('Continue with Google'),
+                    label: const Text(
+                      'Continue with Google',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ],
                 const SizedBox(height: 32),

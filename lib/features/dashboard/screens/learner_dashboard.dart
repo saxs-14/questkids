@@ -30,6 +30,7 @@ import '../../games/core/game_router.dart';
 import '../../games/core/game_theme.dart';
 import '../widgets/daily_missions_card.dart';
 import '../../../providers/mission_provider.dart';
+import 'grade4_activities_hub_screen.dart';
 
 // ---------------------------------------------------------------------------
 // Inline color constants (brand palette for the gaming dashboard)
@@ -240,6 +241,8 @@ class _LearnerHomeTab extends StatelessWidget {
                     goldBalance: rewards.goldBalance,
                     streakDays: _streakDays,
                     badgeCount: badgeCount),
+                const SizedBox(height: 20),
+                const _Grade4HubBannerCard(),
                 const SizedBox(height: 24),
                 const DailyMissionsCard(),
                 const SizedBox(height: 24),
@@ -483,6 +486,113 @@ class _StatsRow extends StatelessWidget {
             value: '$badgeCount',
             accentColor: _DC.badgeColor),
       ],
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Grade 4 Activities Hub Banner
+// ---------------------------------------------------------------------------
+class _Grade4HubBannerCard extends StatelessWidget {
+  const _Grade4HubBannerCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFF1E88E5), Color(0xFF0D47A1)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF1E88E5).withValues(alpha: 0.45),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(20),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const Grade4ActivitiesHubScreen(),
+              ),
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(18),
+            child: Row(
+              children: [
+                Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.white38),
+                  ),
+                  child: const Center(
+                    child: Text('🌟', style: TextStyle(fontSize: 28)),
+                  ),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFD54F),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Text(
+                          'GRADE 4 EXCLUSIVE',
+                          style: TextStyle(
+                            color: Color(0xFF0D47A1),
+                            fontSize: 10,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      const Text(
+                        'Learning Activities Hub',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      const Text(
+                        'English • Maths • Science • Social',
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.white,
+                  size: 18,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

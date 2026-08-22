@@ -316,6 +316,16 @@ class _LHState extends State<LiberationHeroesGame> with TickerProviderStateMixin
 
   Object? _cachedQ;
   List<String> _cachedChoices = [];
+  Object? _cachedHeroQ;
+  List<int> _cachedHeroOptions = [];
+
+  List<int> _getShuffledHeroOptions(_HeroQ q) {
+    if (!identical(_cachedHeroQ, q)) {
+      _cachedHeroQ = q;
+      _cachedHeroOptions = [q.correctHeroIdx, ...q.decoyIdx]..shuffle(_rng);
+    }
+    return _cachedHeroOptions;
+  }
 
   List<String> _getShuffledChoices(_SimpleQ q) {
     if (!identical(_cachedQ, q)) {
@@ -546,7 +556,7 @@ class _LHState extends State<LiberationHeroesGame> with TickerProviderStateMixin
 
   Widget _buildHeroQuestion(_HeroQ q) {
     final revealed = _phase == _Phase.correct || _phase == _Phase.wrong;
-    final options = [q.correctHeroIdx, ...q.decoyIdx]..shuffle(math.Random(q.correctHeroIdx));
+    final options = _getShuffledHeroOptions(q);
 
     return Column(
       children: [

@@ -33,6 +33,7 @@ import 'features/auth/screens/forgot_password_screen.dart';
 import 'features/profile/screens/settings_screen.dart';
 import 'features/profile/screens/edit_profile_screen.dart';
 import 'features/dashboard/screens/learner_dashboard.dart';
+import 'features/dashboard/screens/grade4_activities_hub_screen.dart';
 import 'features/dashboard/screens/parent_dashboard.dart';
 import 'features/dashboard/screens/teacher_dashboard.dart';
 import 'features/rewards/screens/trading_post_screen.dart';
@@ -172,6 +173,7 @@ class QuestKidsApp extends StatelessWidget {
         '/messages': (_) => const MessagesListScreen(),
         '/dashboard': (_) => const LearnerDashboard(),
         '/dashboard/learner': (_) => const LearnerDashboard(),
+        '/grade4_hub': (_) => const Grade4ActivitiesHubScreen(),
         '/dashboard/parent': (_) => const ParentDashboard(),
         '/dashboard/teacher': (_) => const TeacherDashboard(),
         '/trading_post': (_) => const TradingPostScreen(),
