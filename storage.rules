@@ -43,8 +43,15 @@ service firebase.storage {
       // Users can read their own proofs
       allow read: if isUser(uid);
 
-      // Teachers and admins can read proofs for verification
-      allow read: if hasRole('teacher') || hasRole('admin');
+      // Admins can read any proof for platform-wide moderation.
+      allow read: if hasRole('admin');
+
+      // Teachers can only read proofs for learners who have actually
+      // added them -- mirrors the linkedTeacherUids check firestore.rules
+      // applies to the matching users/{uid} read.
+      allow read: if hasRole('teacher') &&
+                      request.auth.uid in
+                        firestore.get(/databases/questkids/documents/users/$(uid)).data.linkedTeacherUids;
     }
 
     // ==================== ACTIVITY RESOURCES ====================
@@ -64,11 +71,11 @@ service firebase.storage {
     match /document_vault/{childUid}/{fileName} {
       allow write: if hasRole('parent') &&
                       childUid in
-                        firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+                        firestore.get(/databases/questkids/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
       allow read: if isUser(childUid) ||
                       (hasRole('parent') &&
                        childUid in
-                         firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.linkedChildrenUids);
+                         firestore.get(/databases/questkids/documents/users/$(request.auth.uid)).data.linkedChildrenUids);
     }
 
     // ==================== DEFAULT DENY ====================
