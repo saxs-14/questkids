@@ -51,7 +51,7 @@ service firebase.storage {
       // applies to the matching users/{uid} read.
       allow read: if hasRole('teacher') &&
                       request.auth.uid in
-                        firestore.get(/databases/questkids/documents/users/$(uid)).data.linkedTeacherUids;
+                        firestore.get(/databases/(default)/documents/users/$(uid)).data.linkedTeacherUids;
     }
 
     // ==================== ACTIVITY RESOURCES ====================
@@ -71,11 +71,11 @@ service firebase.storage {
     match /document_vault/{childUid}/{fileName} {
       allow write: if hasRole('parent') &&
                       childUid in
-                        firestore.get(/databases/questkids/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+                        firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
       allow read: if isUser(childUid) ||
                       (hasRole('parent') &&
                        childUid in
-                         firestore.get(/databases/questkids/documents/users/$(request.auth.uid)).data.linkedChildrenUids);
+                         firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.linkedChildrenUids);
     }
 
     // ==================== DEFAULT DENY ====================
