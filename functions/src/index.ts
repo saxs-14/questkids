@@ -121,15 +121,36 @@ export const cleanupOldEmails = onSchedule("every day 02:00", async () => {
 });
 
 /**
+ * Escape a value for safe interpolation into an HTML email body.
+ * @param {unknown} value - Raw value from Firestore (Admin SDK writes
+ *   bypass security rules, so this is defense-in-depth, not the only
+ *   guard -- treat every field as untrusted regardless of who wrote it).
+ * @return {string} HTML-escaped string.
+ */
+function escapeHtml(value: unknown): string {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+/**
  * Get email template by name and data.
  * @param {string} template - Template name.
- * @param {Record<string, string>} data - Template data.
+ * @param {Record<string, string>} rawData - Template data.
  * @return {string} HTML email content.
  */
 function getEmailTemplate(
   template: string,
-  data: {[key: string]: string}
+  rawData: {[key: string]: string}
 ): string {
+  const data: {[key: string]: string} = {};
+  for (const key of Object.keys(rawData ?? {})) {
+    data[key] = escapeHtml(rawData[key]);
+  }
+
   const templates: {[key: string]: string} = {
     welcome: `
       <h2>Welcome to QuestKids 2.0! 🎮</h2>

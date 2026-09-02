@@ -132,7 +132,22 @@ service cloud.firestore {
       // Parents can read and verify their children's progress
       allow read: if isParent() &&
                       resource.data.uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
-      allow update: if (isParent() || isTeacher()) &&
+
+      // Parents can verify progress only for their own linked children --
+      // was previously any isParent(), letting one parent falsify another
+      // family's progress records. Mirrors the read scoping directly above.
+      allow update: if isParent() &&
+                       resource.data.uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids &&
+                       request.resource.data.diff(resource.data).affectedKeys().hasOnly(['verified', 'proofUrl']);
+
+      // Teachers can verify progress only for learners who have actually
+      // added them -- mirrors the linkedTeacherUids check used for
+      // game_sessions/player_stats/game_progress reads elsewhere in this
+      // file. Was previously any isTeacher(), letting any teacher account
+      // falsify verification status on any learner system-wide.
+      allow update: if isTeacher() &&
+                       request.auth.uid in
+                         get(/databases/$(database)/documents/users/$(resource.data.uid)).data.linkedTeacherUids &&
                        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['verified', 'proofUrl']);
     }
 
@@ -234,15 +249,27 @@ service cloud.firestore {
       allow read: if isTeacher() && resource.data.teacherUid == request.auth.uid;
     }
 
-    // ==================== EMAILS (write-only queue) ====================
-    // Consumed by the sendEmail Cloud Function via the Admin SDK, which
-    // bypasses these rules entirely -- clients only ever need to create.
-    // Note: EmailService (the intended writer) currently has zero call
-    // sites anywhere in lib/ -- this rule is preparatory, not unblocking
-    // an active bug, so that the moment it's wired up it works correctly.
+    // ==================== EMAILS (Cloud Function only) ====================
+    // `allow create: if isSignedIn()` used to sit here on the theory that
+    // EmailService (the intended writer) has zero call sites in lib/, so it
+    // was "preparatory, not unblocking an active bug." That reasoning was
+    // wrong on two counts: the rule is the actual security boundary
+    // regardless of whether the app's own UI calls it -- any signed-in
+    // client (devtools, a direct SDK call) could already write `to`/
+    // `template`/`data` with no validation, and index.ts's sendEmail
+    // trigger sends real mail via the app's own SMTP identity to whatever
+    // `to` was given, with `data.*` interpolated unescaped into the HTML
+    // body -- an open relay + HTML-injection vector for any authenticated
+    // account, including a child's. And even if EmailService were wired
+    // up, it writes `templateName`/`templateData` while the trigger reads
+    // `template`/`data`, so it would've sent broken "template not found"
+    // mail anyway. Emails are now Cloud-Function/Admin-SDK-only, matching
+    // usage_ai/usage_ai_teacher below; any future in-app email flow should
+    // go through a callable that fixes the recipient server-side (e.g.
+    // request.auth.token.email) rather than trusting a client-supplied
+    // `to`.
     match /emails/{emailId} {
-      allow create: if isSignedIn();
-      allow read, update, delete: if false;
+      allow read, create, update, delete: if false;
     }
 
     // ==================== REWARDS COLLECTION ====================
