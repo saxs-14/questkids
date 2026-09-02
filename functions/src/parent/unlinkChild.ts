@@ -1,5 +1,6 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
+import { ENFORCE_APP_CHECK } from "../config";
 
 /**
  * Removes the caller's own link to a child. Self-service only -- a parent
@@ -11,7 +12,7 @@ import { getFirestore, FieldValue } from "firebase-admin/firestore";
  * and approveParentLinkRequest -- this completes both sides via the Admin
  * SDK after confirming the caller is actually currently linked.
  */
-export const unlinkParentChild = onCall(async (request) => {
+export const unlinkParentChild = onCall({ enforceAppCheck: ENFORCE_APP_CHECK }, async (request) => {
   if (!request.auth) {
     throw new HttpsError("unauthenticated", "You must be signed in.");
   }

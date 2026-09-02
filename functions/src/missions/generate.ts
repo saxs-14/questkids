@@ -109,7 +109,8 @@ If no games match the weak subjects, return {"missions":[]}`;
         };
       })
       .slice(0, 2);
-  } catch {
+  } catch (error) {
+    console.error(`getAdaptiveMissions: Gemini call failed for uid ${uid}`, error);
     return [];
   }
 }

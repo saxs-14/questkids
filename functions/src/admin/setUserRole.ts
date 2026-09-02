@@ -2,6 +2,7 @@ import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { beforeUserCreated } from "firebase-functions/v2/identity";
 import { onDocumentCreated } from "firebase-functions/v2/firestore";
 import * as admin from "firebase-admin";
+import { ENFORCE_APP_CHECK } from "../config";
 
 const VALID_ROLES = ["learner", "parent", "teacher", "admin"] as const;
 type Role = (typeof VALID_ROLES)[number];
@@ -12,7 +13,7 @@ type Role = (typeof VALID_ROLES)[number];
  * authorization — the `role` field mirrored onto the user doc is for
  * display purposes only and must never be trusted for access control.
  */
-export const setUserRole = onCall(async (request) => {
+export const setUserRole = onCall({ enforceAppCheck: ENFORCE_APP_CHECK }, async (request) => {
   if (!request.auth) {
     throw new HttpsError("unauthenticated", "You must be signed in.");
   }

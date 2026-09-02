@@ -1,5 +1,6 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
+import { ENFORCE_APP_CHECK } from "../config";
 
 /**
  * Completes the parent<->child link that no client can ever finish on its
@@ -21,7 +22,7 @@ import { getFirestore, FieldValue } from "firebase-admin/firestore";
  * which needs a different authorization model: link-code ownership or an
  * approved parent_link_requests entry, not this function).
  */
-export const linkRegisteredChild = onCall(async (request) => {
+export const linkRegisteredChild = onCall({ enforceAppCheck: ENFORCE_APP_CHECK }, async (request) => {
   if (!request.auth) {
     throw new HttpsError("unauthenticated", "You must be signed in.");
   }

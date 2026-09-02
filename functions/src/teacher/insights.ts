@@ -70,7 +70,8 @@ Focus on the weakest areas. No bullet points, no lists — just 2 clear sentence
       const result = await model.generateContent(prompt);
       const text = result.response.text()?.trim();
       return { text: text || "Focus on the identified weak subjects this week with targeted activities." };
-    } catch {
+    } catch (error) {
+      console.error(`getTeacherInsight: Gemini call failed for uid ${request.auth.uid}`, error);
       return {
         text: "Consider small group sessions for subjects below 60% " +
         "and celebrate strong performers to maintain motivation.",

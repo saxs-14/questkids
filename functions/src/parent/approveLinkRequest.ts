@@ -1,5 +1,6 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
+import { ENFORCE_APP_CHECK } from "../config";
 
 /**
  * Completes approving a "Link to Existing Child" request
@@ -21,7 +22,7 @@ import { getFirestore, FieldValue } from "firebase-admin/firestore";
  * PRIMARY parent's explicit approval of a specific pending request, not
  * from anything the requesting parent can assert about themselves.
  */
-export const approveParentLinkRequest = onCall(async (request) => {
+export const approveParentLinkRequest = onCall({ enforceAppCheck: ENFORCE_APP_CHECK }, async (request) => {
   if (!request.auth) {
     throw new HttpsError("unauthenticated", "You must be signed in.");
   }
