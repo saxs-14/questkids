@@ -29,5 +29,9 @@
     "eslint-plugin-import": "^2.25.4",
     "typescript": "^6.0.3"
   },
+  "overrides": {
+    "@google-cloud/storage": "^8.0.1",
+    "gaxios": "^7.3.1"
+  },
   "private": true
 }
