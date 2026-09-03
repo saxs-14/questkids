@@ -45,10 +45,21 @@ async function getAdaptiveMissions(
   // doesn't exist and compared against the wrong type, so it silently
   // matched zero progress docs for every learner.
   const thirtyDaysAgoMs = Date.now() - 30 * 24 * 60 * 60 * 1000;
-  const progressSnap = await db.collection("progress")
-    .where("uid", "==", uid)
-    .where("completedAt", ">=", thirtyDaysAgoMs)
-    .get();
+  let progressSnap;
+  try {
+    progressSnap = await db.collection("progress")
+      .where("uid", "==", uid)
+      .where("completedAt", ">=", thirtyDaysAgoMs)
+      .get();
+  } catch (error) {
+    // A failure here (missing index, transient outage) must not propagate --
+    // it runs inside a Promise.all() over every learner in the nightly batch,
+    // so one uncaught rejection previously aborted mission generation for
+    // every learner in that batch, not just this uid. See generateDailyMissions'
+    // own per-learner try/catch below for the same reasoning.
+    console.error(`getAdaptiveMissions: progress query failed for uid ${uid}`, error);
+    return [];
+  }
 
   const subjectScores: Record<string, number[]> = {};
   progressSnap.docs.forEach((d) => {
@@ -115,6 +126,84 @@ If no games match the weak subjects, return {"missions":[]}`;
   }
 }
 
+async function generateMissionsForLearner(
+  db: FirebaseFirestore.Firestore,
+  learnerDoc: FirebaseFirestore.QueryDocumentSnapshot,
+  uid: string,
+  dayIndex: number,
+  expiresAt: Timestamp,
+  generatedAt: Timestamp
+): Promise<void> {
+  // grade isn't always a string at runtime (missing/malformed docs) --
+  // `as string` is compile-time only, so guard with String() before
+  // calling .replace() or this throws "grade.replace is not a function".
+  const grade = String(learnerDoc.data()["grade"] ?? "Grade 1");
+  const gradeNum = parseInt(grade.replace(/\D/g, ""), 10) || 1;
+  const missions: MissionEntry[] = [];
+
+  // Tier 1: Teacher-assigned missions
+  const assignedSnap = await db
+    .collection("daily_missions").doc(uid)
+    .collection("assigned").limit(3).get();
+  assignedSnap.docs.forEach((d) => {
+    if (missions.length < 3) {
+      const data = d.data();
+      missions.push({
+        id: d.id,
+        gameId: (data["gameId"] as string) || "",
+        title: (data["title"] as string) || "Teacher Mission",
+        subject: (data["subject"] as string) || "General",
+        emoji: (data["emoji"] as string) || "📋",
+        xpBonus: 20,
+        completed: false,
+        source: "teacher",
+      });
+    }
+  });
+
+  // Tier 2: Adaptive Gemini missions
+  if (missions.length < 3) {
+    const adaptive = await getAdaptiveMissions(uid, String(gradeNum), dayIndex);
+    adaptive.forEach((m) => {
+      if (missions.length < 3) {
+        missions.push({
+          id: `adaptive_${m.gameId}_${Date.now()}`,
+          gameId: m.gameId,
+          title: m.title,
+          subject: m.subject,
+          emoji: m.emoji,
+          xpBonus: 15,
+          completed: false,
+          source: "adaptive",
+          reason: m.reason,
+        });
+      }
+    });
+  }
+
+  // Tier 3: Curated rotation to fill remaining slots
+  const catalog = MISSION_CATALOG[dayIndex] ?? MISSION_CATALOG[1];
+  catalog.forEach((m) => {
+    if (missions.length < 3 &&
+        !missions.some((existing) => existing.gameId === m.gameId)) {
+      missions.push({
+        id: `curated_${m.gameId}_${dayIndex}`,
+        gameId: m.gameId,
+        title: m.title,
+        subject: m.subject,
+        emoji: m.emoji,
+        xpBonus: 10,
+        completed: false,
+        source: "curated",
+      });
+    }
+  });
+
+  await db.collection("daily_missions").doc(uid)
+    .collection("today").doc("missions")
+    .set({ missions, generatedAt, expiresAt }, { merge: false });
+}
+
 export const generateDailyMissions = onSchedule(
   {
     schedule: "every day 00:00",
@@ -134,82 +223,25 @@ export const generateDailyMissions = onSchedule(
 
     const batchSize = 20;
     const learners = learnersSnap.docs;
+    let failedCount = 0;
 
     for (let i = 0; i < learners.length; i += batchSize) {
       const chunk = learners.slice(i, i + batchSize);
       await Promise.all(chunk.map(async (learnerDoc) => {
-        const uid = learnerDoc.id;
-        // grade isn't always a string at runtime (missing/malformed docs) --
-        // `as string` is compile-time only, so guard with String() before
-        // calling .replace() or this throws "grade.replace is not a function".
-        const grade = String(learnerDoc.data()["grade"] ?? "Grade 1");
-        const gradeNum = parseInt(grade.replace(/\D/g, ""), 10) || 1;
-        const missions: MissionEntry[] = [];
-
-        // Tier 1: Teacher-assigned missions
-        const assignedSnap = await db
-          .collection("daily_missions").doc(uid)
-          .collection("assigned").limit(3).get();
-        assignedSnap.docs.forEach((d) => {
-          if (missions.length < 3) {
-            const data = d.data();
-            missions.push({
-              id: d.id,
-              gameId: (data["gameId"] as string) || "",
-              title: (data["title"] as string) || "Teacher Mission",
-              subject: (data["subject"] as string) || "General",
-              emoji: (data["emoji"] as string) || "📋",
-              xpBonus: 20,
-              completed: false,
-              source: "teacher",
-            });
-          }
-        });
-
-        // Tier 2: Adaptive Gemini missions
-        if (missions.length < 3) {
-          const adaptive = await getAdaptiveMissions(uid, String(gradeNum), dayIndex);
-          adaptive.forEach((m) => {
-            if (missions.length < 3) {
-              missions.push({
-                id: `adaptive_${m.gameId}_${Date.now()}`,
-                gameId: m.gameId,
-                title: m.title,
-                subject: m.subject,
-                emoji: m.emoji,
-                xpBonus: 15,
-                completed: false,
-                source: "adaptive",
-                reason: m.reason,
-              });
-            }
-          });
+        try {
+          await generateMissionsForLearner(db, learnerDoc, learnerDoc.id, dayIndex, expiresAt, generatedAt);
+        } catch (error) {
+          // Promise.all rejects (skipping every remaining learner in this
+          // batch, and previously the whole function -- see the FAILED_PRECONDITION
+          // index bug this was written to survive) the instant any ONE learner
+          // throws, so isolate each learner's work instead of letting one bad
+          // document or transient error cost every other learner their missions.
+          failedCount++;
+          console.error(`generateDailyMissions: failed for uid ${learnerDoc.id}`, error);
         }
-
-        // Tier 3: Curated rotation to fill remaining slots
-        const catalog = MISSION_CATALOG[dayIndex] ?? MISSION_CATALOG[1];
-        catalog.forEach((m) => {
-          if (missions.length < 3 &&
-              !missions.some((existing) => existing.gameId === m.gameId)) {
-            missions.push({
-              id: `curated_${m.gameId}_${dayIndex}`,
-              gameId: m.gameId,
-              title: m.title,
-              subject: m.subject,
-              emoji: m.emoji,
-              xpBonus: 10,
-              completed: false,
-              source: "curated",
-            });
-          }
-        });
-
-        await db.collection("daily_missions").doc(uid)
-          .collection("today").doc("missions")
-          .set({ missions, generatedAt, expiresAt }, { merge: false });
       }));
     }
 
-    console.log(`Daily missions generated for ${learners.length} learners`);
+    console.log(`Daily missions generated for ${learners.length - failedCount}/${learners.length} learners`);
   }
 );
