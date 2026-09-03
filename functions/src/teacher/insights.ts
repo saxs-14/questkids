@@ -1,6 +1,6 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import * as admin from "firebase-admin";
+import { getFirestore, Transaction } from "firebase-admin/firestore";
 import { GEMINI_API_KEY } from "../secrets";
 import { ENFORCE_APP_CHECK, GEMINI_MODEL } from "../config";
 
@@ -11,9 +11,9 @@ const DAILY_INSIGHT_QUOTA = 20;
  * chat quota. */
 async function enforceInsightQuota(uid: string): Promise<void> {
   const today = new Date().toISOString().slice(0, 10);
-  const ref = admin.firestore().collection("usage_ai_teacher").doc(uid);
+  const ref = getFirestore().collection("usage_ai_teacher").doc(uid);
 
-  await admin.firestore().runTransaction(async (tx) => {
+  await getFirestore().runTransaction(async (tx: Transaction) => {
     const snap = await tx.get(ref);
     const data = snap.data();
     const count = data?.date === today ? (data.count as number) : 0;

@@ -1,7 +1,8 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { beforeUserCreated } from "firebase-functions/v2/identity";
 import { onDocumentCreated } from "firebase-functions/v2/firestore";
-import * as admin from "firebase-admin";
+import { getAuth } from "firebase-admin/auth";
+import { getFirestore } from "firebase-admin/firestore";
 import { ENFORCE_APP_CHECK } from "../config";
 
 const VALID_ROLES = ["learner", "parent", "teacher", "admin"] as const;
@@ -39,11 +40,11 @@ export const setUserRole = onCall({ enforceAppCheck: ENFORCE_APP_CHECK }, async 
     claims.classId = classId;
   }
 
-  await admin.auth().setCustomUserClaims(uid, claims);
+  await getAuth().setCustomUserClaims(uid, claims);
 
   // Mirror role onto the user doc for display/query convenience only —
   // never read back for authorization decisions.
-  await admin.firestore().collection("users").doc(uid).set(
+  await getFirestore().collection("users").doc(uid).set(
     { role, ...(claims.classId ? { classId: claims.classId } : {}) },
     { merge: true }
   );
@@ -96,10 +97,10 @@ export const grantSelfDeclaredRoleClaim = onDocumentCreated(
     if (role !== "parent" && role !== "teacher") return;
 
     const uid = event.params.uid;
-    const user = await admin.auth().getUser(uid);
+    const user = await getAuth().getUser(uid);
     if (user.customClaims?.role === role) return;
 
-    await admin.auth().setCustomUserClaims(uid, {
+    await getAuth().setCustomUserClaims(uid, {
       ...user.customClaims,
       role,
     });

@@ -1,5 +1,5 @@
 import { onDocumentCreated } from "firebase-functions/v2/firestore";
-import * as admin from "firebase-admin";
+import { getMessaging, SendResponse } from "firebase-admin/messaging";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
 
 /**
@@ -35,7 +35,7 @@ export const sendPushOnNotificationCreate = onDocumentCreated(
         return;
       }
 
-      const response = await admin.messaging().sendEachForMulticast({
+      const response = await getMessaging().sendEachForMulticast({
         tokens,
         notification: {
           title: data.title ?? "QuestKids",
@@ -47,7 +47,7 @@ export const sendPushOnNotificationCreate = onDocumentCreated(
       // Drop tokens FCM reports as no-longer-registered so the array
       // doesn't grow unboundedly with dead devices.
       const staleTokens: string[] = [];
-      response.responses.forEach((r, i) => {
+      response.responses.forEach((r: SendResponse, i: number) => {
         if (!r.success && r.error?.code === "messaging/registration-token-not-registered") {
           staleTokens.push(tokens[i]);
         }
