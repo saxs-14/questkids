@@ -1,13 +1,21 @@
 import { onSchedule } from "firebase-functions/v2/scheduler";
 import { getFirestore, Firestore, WriteBatch, Timestamp } from "firebase-admin/firestore";
 
-// Must match UserModel.grade values exactly ('grade1'..'grade7' -- see
-// lib/core/constants/labels.dart). A prior version of this file used
-// "Grade 1"-style values, which never matched any real user document, so
-// every leaderboard was silently empty.
+// Must match UserModel.grade values exactly as GradeSelector
+// (lib/features/auth/widgets/grade_selector.dart) writes them and as
+// LeaderboardScreen/LeaderboardRepository read them: 'Grade 1'..'Grade 7'.
+// A prior version of this file used 'grade1'..'grade7' -- that format
+// belongs to a different concept, GameCatalogEntry.grade / the
+// QuestLabels realm keys (lib/core/constants/labels.dart), not
+// UserModel.grade -- so the query on line ~90 below never matched any
+// real user document and every leaderboard doc id this function wrote
+// (`leaderboards/grade4/...`) was one the client never reads
+// (LeaderboardRepository builds `leaderboards/Grade 4/...` straight from
+// the signed-in user's own `grade` field). Leaderboards have been
+// silently empty for every grade since this file was written.
 const GRADES = [
-  "grade1", "grade2", "grade3", "grade4",
-  "grade5", "grade6", "grade7",
+  "Grade 1", "Grade 2", "Grade 3", "Grade 4",
+  "Grade 5", "Grade 6", "Grade 7",
 ];
 
 // Must match the `subject` values used in lib/core/constants/game_catalog.dart.
