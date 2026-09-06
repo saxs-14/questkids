@@ -402,12 +402,16 @@ class _SSState extends State<SubtractionSafariGame>
                     phase: _phase,
                     streak: _streak,
                     wrongReaction: _wrongReaction),
-                if (_phase == _Phase.zoneDone)
-                  _ZoneDone(zoneNum: _zoneIdx + 1),
                 const SizedBox(height: 12),
               ],
             ),
           ),
+
+          // Positioned.fill needs a Stack ancestor -- this must live
+          // here, not nested inside the SafeArea/Column above (it used
+          // to be, and crashed with a ParentDataWidget error the instant
+          // a player finished a zone).
+          if (_phase == _Phase.zoneDone) _ZoneDone(zoneNum: _zoneIdx + 1),
         ],
       ),
     );
@@ -538,23 +542,27 @@ class _SafariHeader extends StatelessWidget {
                         fontSize: 15,
                         fontWeight: FontWeight.w900)),
               ),
-              Column(
-                children: [
-                  Text(
-                    'Zone ${zoneIdx + 1}/$totalZones',
-                    style: const TextStyle(
-                        color: Color(0xFFFFE082),
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700),
-                  ),
-                  Text(
-                    zoneName,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w800),
-                  ),
-                ],
+              Flexible(
+                child: Column(
+                  children: [
+                    Text(
+                      'Zone ${zoneIdx + 1}/$totalZones',
+                      style: const TextStyle(
+                          color: Color(0xFFFFE082),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    Text(
+                      zoneName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w800),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(width: 54),
             ],
@@ -982,14 +990,15 @@ class _VictoryScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 12,
+                    runSpacing: 12,
                     children: [
                       _VBtn(
                           label: '🔄 Rescue Again',
                           onTap: onReplay,
                           primary: true),
-                      const SizedBox(width: 12),
                       _VBtn(label: '🗺️ Map', onTap: onExit, primary: false),
                     ],
                   ),
