@@ -394,12 +394,17 @@ class _AAState extends State<AdditionAdventureGame>
                         ),
                 ),
                 _FeedbackBanner(phase: _phase, streak: _streak),
-                if (_phase == _Phase.islandDone)
-                  _IslandDone(islandNum: _islandIdx + 1),
                 const SizedBox(height: 12),
               ],
             ),
           ),
+
+          // Positioned.fill needs a Stack ancestor -- this must live here,
+          // not nested inside the SafeArea/Column above (it used to be,
+          // and crashed with a ParentDataWidget error the instant a
+          // player finished an island).
+          if (_phase == _Phase.islandDone)
+            _IslandDone(islandNum: _islandIdx + 1),
         ],
       ),
     );
@@ -540,23 +545,27 @@ class _VoyageHeader extends StatelessWidget {
                         fontSize: 15,
                         fontWeight: FontWeight.w900)),
               ),
-              Column(
-                children: [
-                  Text(
-                    'Island ${islandIdx + 1}/$totalIslands',
-                    style: const TextStyle(
-                        color: Color(0xFFFFD54A),
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700),
-                  ),
-                  Text(
-                    islandName,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w800),
-                  ),
-                ],
+              Flexible(
+                child: Column(
+                  children: [
+                    Text(
+                      'Island ${islandIdx + 1}/$totalIslands',
+                      style: const TextStyle(
+                          color: Color(0xFFFFD54A),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    Text(
+                      islandName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w800),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(width: 54),
             ],
@@ -1044,14 +1053,15 @@ class _VictoryScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 12,
+                    runSpacing: 12,
                     children: [
                       _VBtn(
                           label: '🔄 Sail Again',
                           onTap: onReplay,
                           primary: true),
-                      const SizedBox(width: 12),
                       _VBtn(label: '🗺️ Map', onTap: onExit, primary: false),
                     ],
                   ),
