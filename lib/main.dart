@@ -20,6 +20,7 @@ import 'providers/ai_tutor_provider.dart';
 import 'providers/connectivity_provider.dart';
 import 'providers/mission_provider.dart';
 import 'providers/parent_provider.dart';
+import 'providers/quiz_provider.dart';
 import 'features/auth/screens/parent_child_setup_screen.dart';
 import 'features/parent/screens/link_child_screen.dart';
 import 'features/parent/screens/link_requests_screen.dart';
@@ -114,6 +115,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => RewardsProvider()),
         ChangeNotifierProvider(create: (_) => AiTutorProvider()),
         ChangeNotifierProvider(create: (_) => MissionProvider()),
+        ChangeNotifierProvider(create: (_) => QuizProvider()),
         ChangeNotifierProxyProvider<AuthProvider, ConnectivityProvider>(
           create: (_) => ConnectivityProvider(),
           update: (_, auth, connectivity) {

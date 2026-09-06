@@ -6,6 +6,7 @@ import '../../../providers/auth_provider.dart';
 import '../../../providers/connectivity_provider.dart';
 import '../../../core/services/offline_service.dart';
 import '../../../data/models/activity_model.dart';
+import '../../quests/screens/quiz_screen.dart';
 
 class OfflineScreen extends StatefulWidget {
   final bool embedded;
@@ -275,54 +276,89 @@ class _CachedQuestTile extends StatelessWidget {
     }
   }
 
+  Color get _difficultyColor {
+    switch (activity.difficulty) {
+      case 'easy':
+        return AppColors.green;
+      case 'hard':
+        return AppColors.error;
+      default:
+        return AppColors.orange;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardTheme.color,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: _color.withValues(alpha: 0.2)),
-      ),
-      child: Row(
-        children: [
-          Text(_emoji, style: const TextStyle(fontSize: 24)),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(activity.title,
-                    style: AppTextStyles.bodyMedium
-                        .copyWith(fontWeight: FontWeight.w700)),
-                Text(
-                    '${activity.subject} • '
-                    '${activity.questions.length} questions',
-                    style: AppTextStyles.bodySmall),
-              ],
-            ),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => QuizScreen(activity: activity)),
+        ),
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardTheme.color,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: _color.withValues(alpha: 0.2)),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: AppColors.green.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: const Row(
-              children: [
-                Icon(Icons.offline_pin, color: AppColors.green, size: 14),
-                SizedBox(width: 4),
-                Text('Cached',
-                    style: TextStyle(
-                      color: AppColors.green,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700,
-                    )),
-              ],
-            ),
+          child: Row(
+            children: [
+              Text(_emoji, style: const TextStyle(fontSize: 24)),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(activity.title,
+                        style: AppTextStyles.bodyMedium
+                            .copyWith(fontWeight: FontWeight.w700)),
+                    Row(
+                      children: [
+                        Text(
+                            '${activity.subject} • '
+                            '${activity.questions.length} questions • ',
+                            style: AppTextStyles.bodySmall),
+                        Text(
+                          activity.difficulty,
+                          style: AppTextStyles.bodySmall.copyWith(
+                            color: _difficultyColor,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppColors.green.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Row(
+                  children: [
+                    Icon(Icons.offline_pin, color: AppColors.green, size: 14),
+                    SizedBox(width: 4),
+                    Text('Cached',
+                        style: TextStyle(
+                          color: AppColors.green,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                        )),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 4),
+              const Icon(Icons.chevron_right, size: 20),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
