@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_text_styles.dart';
 
 class TeacherInsightCard extends StatefulWidget {
-  final Map<String, dynamic> classData;
-  const TeacherInsightCard({super.key, required this.classData});
+  const TeacherInsightCard({super.key});
 
   @override
   State<TeacherInsightCard> createState() => _TeacherInsightCardState();
@@ -24,15 +23,10 @@ class _TeacherInsightCardState extends State<TeacherInsightCard> {
   Future<void> _load() async {
     try {
       final fn = FirebaseFunctions.instanceFor(region: 'us-central1');
-      final result = await fn.httpsCallable('getTeacherInsight').call({
-        'subjectAvg': widget.classData['subjectAvg'] ?? {},
-        'totalLearners': widget.classData['totalLearners'] ?? 0,
-        'completionRate': widget.classData['completionRate'] ?? 0,
-        'weakTopics': (widget.classData['weakTopics'] as List?)
-                ?.map((w) => (w as Map)['subject'])
-                .toList() ??
-            [],
-      });
+      // getTeacherInsight recomputes class stats server-side from
+      // Firestore -- it no longer trusts client-supplied numbers, so
+      // there's nothing to pass here beyond the caller's own auth.
+      final result = await fn.httpsCallable('getTeacherInsight').call();
       if (mounted) {
         setState(() {
           _insight = (result.data as Map)['text'] as String?;

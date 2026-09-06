@@ -170,7 +170,7 @@ class _ClassAnalyticsScreenState extends State<ClassAnalyticsScreen> {
           ),
         ]),
         const SizedBox(height: 12),
-        TeacherInsightCard(classData: _classData),
+        const TeacherInsightCard(),
         const SizedBox(height: 16),
         _card(
           title: 'Class Average by Subject',
