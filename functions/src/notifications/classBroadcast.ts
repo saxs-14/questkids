@@ -11,13 +11,16 @@ export const onClassBroadcast = onDocumentCreated(
     const title: string = broadcast.title;
     const body: string = broadcast.body;
 
-    // UserModel.linkedTeacherUid is a single string field (a learner has
-    // one class), not an array -- this previously queried a field
-    // ("linkedTeacherUids", array-contains) that no learner doc has ever
-    // had, so class broadcasts silently reached nobody.
+    // linkedTeacherUids (plural, array) is the field the live "Add
+    // Learner" flow actually writes (teacher_dashboard.dart, via
+    // FieldValue.arrayUnion) and every other teacher-scoped query/rule in
+    // the app reads (TeacherRepository, firestore.rules, storage.rules).
+    // UserModel's singular linkedTeacherUid field is never written by any
+    // live code path -- a prior "fix" here swapped to that dead field,
+    // which meant class broadcasts silently reached nobody instead.
     const learnersSnap = await getFirestore()
       .collection("users")
-      .where("linkedTeacherUid", "==", teacherUid)
+      .where("linkedTeacherUids", "array-contains", teacherUid)
       .get();
     if (learnersSnap.empty) return;
 
