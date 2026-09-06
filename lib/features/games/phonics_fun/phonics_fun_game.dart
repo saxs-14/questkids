@@ -418,11 +418,16 @@ class _PFState extends State<PhonicsFunGame> with TickerProviderStateMixin {
                     picked: _picked,
                     onTapNest: _onTapNest,
                   ),
-                if (_phase == _Phase.zoneDone) _ZoneDone(zoneNum: _zoneIdx + 1),
                 const SizedBox(height: 12),
               ],
             ),
           ),
+
+          // Positioned.fill needs a Stack ancestor -- this must live
+          // here, not nested inside the SafeArea/Column above (it used
+          // to be, and crashed with a ParentDataWidget error the instant
+          // a player finished a zone).
+          if (_phase == _Phase.zoneDone) _ZoneDone(zoneNum: _zoneIdx + 1),
         ],
       ),
     );
@@ -572,7 +577,8 @@ class _MeadowHeader extends StatelessWidget {
                         fontSize: 15,
                         fontWeight: FontWeight.w900)),
               ),
-              Column(
+              Flexible(
+                child: Column(
                 children: [
                   Text(
                     'Zone ${zoneIdx + 1}/$totalZones',
@@ -583,12 +589,15 @@ class _MeadowHeader extends StatelessWidget {
                   ),
                   Text(
                     zoneName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         color: Color(0xFF0D47A1),
                         fontSize: 13,
                         fontWeight: FontWeight.w800),
                   ),
                 ],
+                ),
               ),
               const SizedBox(width: 54),
             ],
@@ -1038,14 +1047,15 @@ class _VictoryScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 12,
+                    runSpacing: 12,
                     children: [
                       _VBtn(
                           label: '🔄 Sort Again',
                           onTap: onReplay,
                           primary: true),
-                      const SizedBox(width: 12),
                       _VBtn(label: '🗺️ Map', onTap: onExit, primary: false),
                     ],
                   ),
