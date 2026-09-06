@@ -12,7 +12,7 @@ const path = require('path');
 const { classify, expectedEngines, SHARED_ENGINES } = require('./classify');
 const { validatePack } = require('./schemas');
 const { computeTiers, minItemsForTier } = require('./tiers');
-const { bandFor } = require('./difficulty');
+const { bandForLabel } = require('./difficulty');
 
 const ROOT = path.join(__dirname, '../..');
 const TOPICS_PATH = path.join(__dirname, 'topics.json');
@@ -172,12 +172,14 @@ function main() {
       for (const e of errors) fail(`${t.id} [${t.engine}, tier ${tier}, min ${min}]: ${e}`, t.id);
     }
 
-    // difficulty matches the grade band (re-derive from difficulty.js and
-    // compare — catches topics.json edits that drifted from the band)
-    const band = bandFor(t.grade);
+    // difficulty matches the label-adjusted grade band (re-derive from
+    // difficulty.js and compare — catches topics.json edits that drifted
+    // from the band). 'hard'/'easy' intentionally borrow the adjacent
+    // grade's band — see bandForLabel's doc comment.
+    const band = bandForLabel(t.grade, t.difficulty.label);
     for (const f of Object.keys(band)) {
       if (JSON.stringify(t.difficulty[f]) !== JSON.stringify(band[f])) {
-        fail(`${t.id}: difficulty.${f} is ${JSON.stringify(t.difficulty[f])}, grade band ${t.grade} says ${JSON.stringify(band[f])}`, t.id);
+        fail(`${t.id}: difficulty.${f} is ${JSON.stringify(t.difficulty[f])}, expected band (grade ${t.grade}, label ${t.difficulty.label}) says ${JSON.stringify(band[f])}`, t.id);
       }
     }
   }

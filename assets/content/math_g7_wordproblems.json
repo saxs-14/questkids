@@ -30,144 +30,144 @@
       "name": "Stage 2",
       "emoji": "🧠",
       "themeColorHex": "#FF6B35",
-      "question": "Aisha has R329 and spends R111 at the spaza shop. How much money is left?",
+      "question": "Aisha has R171 and spends R58 at the spaza shop. How much money is left?",
       "options": [
-        "R210",
-        "R214",
-        "R218",
-        "R216"
+        "R105",
+        "R109",
+        "R113",
+        "R111"
       ],
-      "correctOption": "R218",
-      "correctFeedback": "Yes! R218 is right — onward!",
-      "wrongFeedback": "Not quite — the answer is R218."
+      "correctOption": "R113",
+      "correctFeedback": "Yes! R113 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R113."
     },
     {
       "id": "math_g7_wordproblems_2",
       "name": "Stage 3",
       "emoji": "🧠",
       "themeColorHex": "#FF6B35",
-      "question": "Kagiso buys 3 pencils at the market stall, each costing R3. How much does Kagiso spend in total?",
+      "question": "Kagiso buys 3 pencils at the market stall, each costing R167. How much does Kagiso spend in total?",
       "options": [
-        "R9",
-        "R15",
-        "R3",
-        "R17"
+        "R501",
+        "R507",
+        "R495",
+        "R509"
       ],
-      "correctOption": "R9",
-      "correctFeedback": "Yes! R9 is right — onward!",
-      "wrongFeedback": "Not quite — the answer is R9."
+      "correctOption": "R501",
+      "correctFeedback": "Yes! R501 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R501."
     },
     {
       "id": "math_g7_wordproblems_3",
       "name": "Stage 4",
       "emoji": "🧠",
       "themeColorHex": "#FF6B35",
-      "question": "Nomvula shares 10 notebooks equally into 2 bags. How many notebooks go in each bag?",
+      "question": "Nomvula shares 928 notebooks equally into 2 bags. How many notebooks go in each bag?",
       "options": [
-        "7",
-        "6",
-        "5",
-        "2"
+        "466",
+        "465",
+        "464",
+        "461"
       ],
-      "correctOption": "5",
-      "correctFeedback": "Yes! 5 is right — onward!",
-      "wrongFeedback": "Not quite — the answer is 5."
+      "correctOption": "464",
+      "correctFeedback": "Yes! 464 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 464."
     },
     {
       "id": "math_g7_wordproblems_4",
       "name": "Stage 5",
       "emoji": "🧠",
       "themeColorHex": "#FF6B35",
-      "question": "Lerato buys 2 pencils at the market stall, each costing R3. How much does Lerato spend in total?",
+      "question": "Lerato buys 2 pencils at the market stall, each costing R182. How much does Lerato spend in total?",
       "options": [
-        "R6",
-        "R5",
-        "R15",
-        "R1"
+        "R364",
+        "R363",
+        "R373",
+        "R359"
       ],
-      "correctOption": "R6",
-      "correctFeedback": "Yes! R6 is right — onward!",
-      "wrongFeedback": "Not quite — the answer is R6."
+      "correctOption": "R364",
+      "correctFeedback": "Yes! R364 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R364."
     },
     {
       "id": "math_g7_wordproblems_5",
       "name": "Stage 6",
       "emoji": "🧠",
       "themeColorHex": "#FF6B35",
-      "question": "Zanele shares 16 notebooks equally into 8 bags. How many notebooks go in each bag?",
+      "question": "Zanele shares 504 notebooks equally into 8 bags. How many notebooks go in each bag?",
       "options": [
-        "2",
-        "3",
-        "5",
-        "1"
+        "63",
+        "64",
+        "66",
+        "60"
       ],
-      "correctOption": "2",
-      "correctFeedback": "Yes! 2 is right — onward!",
-      "wrongFeedback": "Not quite — the answer is 2."
+      "correctOption": "63",
+      "correctFeedback": "Yes! 63 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 63."
     },
     {
       "id": "math_g7_wordproblems_6",
       "name": "Stage 7",
       "emoji": "🧠",
       "themeColorHex": "#FF6B35",
-      "question": "Thabo buys 12 oranges at the grocery store, each costing R3. How much does Thabo spend in total?",
+      "question": "Thabo buys 12 oranges at the grocery store, each costing R210. How much does Thabo spend in total?",
       "options": [
-        "R40",
-        "R41",
-        "R29",
-        "R36"
+        "R2524",
+        "R2525",
+        "R2513",
+        "R2520"
       ],
-      "correctOption": "R36",
-      "correctFeedback": "Yes! R36 is right — onward!",
-      "wrongFeedback": "Not quite — the answer is R36."
+      "correctOption": "R2520",
+      "correctFeedback": "Yes! R2520 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R2520."
     },
     {
       "id": "math_g7_wordproblems_7",
       "name": "Stage 8",
       "emoji": "🧠",
       "themeColorHex": "#FF6B35",
-      "question": "Bongani buys 12 notebooks at the market stall, each costing R7. How much does Bongani spend in total?",
+      "question": "Bongani buys 12 notebooks at the market stall, each costing R655. How much does Bongani spend in total?",
       "options": [
-        "R80",
-        "R84",
-        "R81",
-        "R79"
+        "R7856",
+        "R7860",
+        "R7857",
+        "R7855"
       ],
-      "correctOption": "R84",
-      "correctFeedback": "Yes! R84 is right — onward!",
-      "wrongFeedback": "Not quite — the answer is R84."
+      "correctOption": "R7860",
+      "correctFeedback": "Yes! R7860 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R7860."
     },
     {
       "id": "math_g7_wordproblems_8",
       "name": "Stage 9",
       "emoji": "🧠",
       "themeColorHex": "#FF6B35",
-      "question": "Amahle shares 24 notebooks equally into 8 bags. How many notebooks go in each bag?",
+      "question": "Amahle shares 1280 notebooks equally into 8 bags. How many notebooks go in each bag?",
       "options": [
-        "1",
-        "3",
-        "5",
-        "2"
+        "158",
+        "160",
+        "162",
+        "159"
       ],
-      "correctOption": "3",
-      "correctFeedback": "Yes! 3 is right — onward!",
-      "wrongFeedback": "Not quite — the answer is 3."
+      "correctOption": "160",
+      "correctFeedback": "Yes! 160 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is 160."
     },
     {
       "id": "math_g7_wordproblems_9",
       "name": "Stage 10",
       "emoji": "🧠",
       "themeColorHex": "#FF6B35",
-      "question": "Nomvula buys 9 sweets at the school tuck shop, each costing R3. How much does Nomvula spend in total?",
+      "question": "Nomvula buys 9 sweets at the school tuck shop, each costing R119. How much does Nomvula spend in total?",
       "options": [
-        "R36",
-        "R27",
-        "R32",
-        "R35"
+        "R1080",
+        "R1071",
+        "R1076",
+        "R1079"
       ],
-      "correctOption": "R27",
-      "correctFeedback": "Yes! R27 is right — onward!",
-      "wrongFeedback": "Not quite — the answer is R27."
+      "correctOption": "R1071",
+      "correctFeedback": "Yes! R1071 is right — onward!",
+      "wrongFeedback": "Not quite — the answer is R1071."
     }
   ]
 }

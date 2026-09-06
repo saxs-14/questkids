@@ -64,6 +64,7 @@ function bodyFor(t, min) {
           emoji: t.emoji,
           colorHex: resolveColorHex(t.colorExpr),
           kind: WORD_PROBLEM_TOPICS[t.id],
+          range: t.difficulty.numberRange,
         });
         return { characterEmoji: t.emoji, stages };
       }

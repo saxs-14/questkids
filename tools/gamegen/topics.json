@@ -37,7 +37,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ems_g7_banking.json",
-    "sourceOrder": 120
+    "sourceOrder": 136
   },
   {
     "id": "ems_g7_budget",
@@ -77,7 +77,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ems_g7_budget.json",
-    "sourceOrder": 118
+    "sourceOrder": 134
   },
   {
     "id": "ems_g7_consumer",
@@ -117,7 +117,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ems_g7_consumer.json",
-    "sourceOrder": 123
+    "sourceOrder": 139
   },
   {
     "id": "ems_g7_economics",
@@ -157,7 +157,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/ems_g7_economics.json",
-    "sourceOrder": 116
+    "sourceOrder": 132
   },
   {
     "id": "ems_g7_entrepreneur",
@@ -197,7 +197,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ems_g7_entrepreneur.json",
-    "sourceOrder": 119
+    "sourceOrder": 135
   },
   {
     "id": "ems_g7_globaleconomy",
@@ -237,7 +237,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ems_g7_globaleconomy.json",
-    "sourceOrder": 125
+    "sourceOrder": 141
   },
   {
     "id": "ems_g7_profit",
@@ -277,7 +277,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ems_g7_profit.json",
-    "sourceOrder": 122
+    "sourceOrder": 138
   },
   {
     "id": "ems_g7_savings",
@@ -317,7 +317,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ems_g7_savings.json",
-    "sourceOrder": 124
+    "sourceOrder": 140
   },
   {
     "id": "ems_g7_supply_demand",
@@ -357,7 +357,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ems_g7_supply_demand.json",
-    "sourceOrder": 117
+    "sourceOrder": 133
   },
   {
     "id": "ems_g7_tax",
@@ -397,7 +397,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ems_g7_tax.json",
-    "sourceOrder": 121
+    "sourceOrder": 137
   },
   {
     "id": "eng_g1_alphabet",
@@ -600,6 +600,206 @@
     "sourceOrder": 6
   },
   {
+    "id": "eng_g2_alphabet",
+    "title": "Sight Word Safari",
+    "description": "Recognise common sight words and blend longer letter sounds!",
+    "grade": "grade2",
+    "grades": [
+      "grade2"
+    ],
+    "subject": "English",
+    "topicId": "phonics",
+    "subtopicId": "alphabet",
+    "engine": "adventureJourney",
+    "emoji": "🔤",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will recognise common sight words and blend longer letter sounds.",
+    "mechanicReason": "Making choices through a story connects sight words to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "bespoke": false,
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 65,
+    "coinsReward": 13,
+    "isNew": true,
+    "isFeatured": true,
+    "contentPack": "assets/content/eng_g2_alphabet.json",
+    "sourceOrder": 20
+  },
+  {
+    "id": "eng_g2_grammar",
+    "title": "Grammar Garden: Level 2",
+    "description": "Plant nouns, verbs, adjectives — and now pronouns too — in the right spot!",
+    "grade": "grade2",
+    "grades": [
+      "grade2"
+    ],
+    "subject": "English",
+    "topicId": "grammar",
+    "subtopicId": "parts_of_speech",
+    "engine": "runnerCollector",
+    "emoji": "🌻",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will plant nouns, verbs, adjectives and pronouns in the sentence.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell parts of speech apart.",
+    "cognitiveVerb": "word_classify",
+    "bespoke": false,
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 4,
+        "max": 5
+      },
+      "lives": 5,
+      "readingLevel": "developing",
+      "fractionsDecimals": false
+    },
+    "xpReward": 90,
+    "coinsReward": 18,
+    "isNew": true,
+    "isFeatured": false,
+    "contentPack": "assets/content/eng_g2_grammar.json",
+    "sourceOrder": 21
+  },
+  {
+    "id": "eng_g2_phonics",
+    "title": "Phonics Fun: Blends & Digraphs",
+    "description": "Blend consonant clusters and digraphs to read trickier words!",
+    "grade": "grade2",
+    "grades": [
+      "grade2"
+    ],
+    "subject": "English",
+    "topicId": "phonics",
+    "subtopicId": "blending",
+    "engine": "sequenceBuilder",
+    "emoji": "🎵",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will blend consonant clusters and digraphs to decode and read words.",
+    "mechanicReason": "Putting the steps in the right order breaks blending into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "bespoke": false,
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 65,
+    "coinsReward": 13,
+    "isNew": true,
+    "isFeatured": false,
+    "contentPack": "assets/content/eng_g2_phonics.json",
+    "sourceOrder": 22
+  },
+  {
+    "id": "eng_g2_reading",
+    "title": "Reading Rainbow: Level 2",
+    "description": "Read short paragraphs and answer 'who, what, where, why' questions!",
+    "grade": "grade2",
+    "grades": [
+      "grade2"
+    ],
+    "subject": "English",
+    "topicId": "reading",
+    "subtopicId": "comprehension",
+    "engine": "adventureJourney",
+    "emoji": "🌈",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will read short paragraphs and answer who/what/where/why comprehension questions.",
+    "mechanicReason": "Making choices through a story connects comprehension to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "bespoke": false,
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 4,
+        "max": 5
+      },
+      "lives": 5,
+      "readingLevel": "developing",
+      "fractionsDecimals": false
+    },
+    "xpReward": 90,
+    "coinsReward": 18,
+    "isNew": true,
+    "isFeatured": false,
+    "contentPack": "assets/content/eng_g2_reading.json",
+    "sourceOrder": 23
+  },
+  {
+    "id": "eng_g2_words",
+    "title": "Word Builder: Level 2",
+    "description": "Spell longer CVC and CVCC words by choosing the right letters!",
+    "grade": "grade2",
+    "grades": [
+      "grade2"
+    ],
+    "subject": "English",
+    "topicId": "spelling",
+    "subtopicId": "cvc_words",
+    "engine": "sequenceBuilder",
+    "emoji": "📝",
+    "colorExpr": "AppColors.english",
+    "capsObjective": "Learners will spell longer CVC and CVCC words by choosing the right letters.",
+    "mechanicReason": "Putting the steps in the right order breaks cvc words into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "bespoke": false,
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 65,
+    "coinsReward": 13,
+    "isNew": true,
+    "isFeatured": false,
+    "contentPack": "assets/content/eng_g2_words.json",
+    "sourceOrder": 24
+  },
+  {
     "id": "eng_g4_debate",
     "title": "Debate Duel",
     "description": "Choose your argument, support it with evidence and win the debate!",
@@ -623,23 +823,23 @@
       "label": "hard",
       "numberRange": {
         "min": 1,
-        "max": 1000
+        "max": 10000
       },
-      "timerSec": 20,
+      "timerSec": 15,
       "steps": {
-        "min": 5,
-        "max": 6
+        "min": 6,
+        "max": 7
       },
       "lives": 3,
       "readingLevel": "intermediate",
-      "fractionsDecimals": false
+      "fractionsDecimals": true
     },
     "xpReward": 120,
     "coinsReward": 24,
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g4_debate.json",
-    "sourceOrder": 54
+    "sourceOrder": 70
   },
   {
     "id": "eng_g4_grammar_nouns",
@@ -665,15 +865,15 @@
       "label": "easy",
       "numberRange": {
         "min": 1,
-        "max": 1000
+        "max": 999
       },
-      "timerSec": 20,
+      "timerSec": null,
       "steps": {
         "min": 5,
         "max": 6
       },
-      "lives": 3,
-      "readingLevel": "intermediate",
+      "lives": 4,
+      "readingLevel": "developing",
       "fractionsDecimals": false
     },
     "xpReward": 80,
@@ -681,7 +881,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g4_grammar_nouns.json",
-    "sourceOrder": 46
+    "sourceOrder": 62
   },
   {
     "id": "eng_g4_grammar_verbs",
@@ -723,7 +923,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g4_grammar_verbs.json",
-    "sourceOrder": 47
+    "sourceOrder": 63
   },
   {
     "id": "eng_g4_idioms",
@@ -749,23 +949,23 @@
       "label": "hard",
       "numberRange": {
         "min": 1,
-        "max": 1000
+        "max": 10000
       },
-      "timerSec": 20,
+      "timerSec": 15,
       "steps": {
-        "min": 5,
-        "max": 6
+        "min": 6,
+        "max": 7
       },
       "lives": 3,
       "readingLevel": "intermediate",
-      "fractionsDecimals": false
+      "fractionsDecimals": true
     },
     "xpReward": 120,
     "coinsReward": 24,
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g4_idioms.json",
-    "sourceOrder": 53
+    "sourceOrder": 69
   },
   {
     "id": "eng_g4_poetry",
@@ -807,7 +1007,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g4_poetry.json",
-    "sourceOrder": 52
+    "sourceOrder": 68
   },
   {
     "id": "eng_g4_punctuation",
@@ -849,7 +1049,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g4_punctuation.json",
-    "sourceOrder": 50
+    "sourceOrder": 66
   },
   {
     "id": "eng_g4_reading",
@@ -891,7 +1091,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/eng_g4_reading.json",
-    "sourceOrder": 45
+    "sourceOrder": 61
   },
   {
     "id": "eng_g4_spelling",
@@ -933,7 +1133,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g4_spelling.json",
-    "sourceOrder": 49
+    "sourceOrder": 65
   },
   {
     "id": "eng_g4_vocabulary",
@@ -975,7 +1175,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g4_vocabulary.json",
-    "sourceOrder": 48
+    "sourceOrder": 64
   },
   {
     "id": "eng_g4_writing",
@@ -1017,7 +1217,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g4_writing.json",
-    "sourceOrder": 51
+    "sourceOrder": 67
   },
   {
     "id": "eng_g7_comprehension",
@@ -1057,7 +1257,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/eng_g7_comprehension.json",
-    "sourceOrder": 70
+    "sourceOrder": 86
   },
   {
     "id": "eng_g7_debate",
@@ -1097,7 +1297,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g7_debate.json",
-    "sourceOrder": 76
+    "sourceOrder": 92
   },
   {
     "id": "eng_g7_essay",
@@ -1137,7 +1337,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g7_essay.json",
-    "sourceOrder": 74
+    "sourceOrder": 90
   },
   {
     "id": "eng_g7_figurative",
@@ -1177,7 +1377,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g7_figurative.json",
-    "sourceOrder": 72
+    "sourceOrder": 88
   },
   {
     "id": "eng_g7_grammar",
@@ -1217,7 +1417,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g7_grammar.json",
-    "sourceOrder": 71
+    "sourceOrder": 87
   },
   {
     "id": "eng_g7_media",
@@ -1257,7 +1457,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g7_media.json",
-    "sourceOrder": 77
+    "sourceOrder": 93
   },
   {
     "id": "eng_g7_oral",
@@ -1297,7 +1497,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g7_oral.json",
-    "sourceOrder": 79
+    "sourceOrder": 95
   },
   {
     "id": "eng_g7_poetry",
@@ -1337,7 +1537,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/eng_g7_poetry.json",
-    "sourceOrder": 75
+    "sourceOrder": 91
   },
   {
     "id": "eng_g7_spelling",
@@ -1377,7 +1577,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g7_spelling.json",
-    "sourceOrder": 78
+    "sourceOrder": 94
   },
   {
     "id": "eng_g7_vocabulary",
@@ -1417,7 +1617,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/eng_g7_vocabulary.json",
-    "sourceOrder": 73
+    "sourceOrder": 89
   },
   {
     "id": "ls_g1_body",
@@ -1625,6 +1825,206 @@
     "sourceOrder": 12
   },
   {
+    "id": "ls_g2_body",
+    "title": "My Body: Level 2",
+    "description": "Learn how your body systems work together to keep you healthy!",
+    "grade": "grade2",
+    "grades": [
+      "grade2"
+    ],
+    "subject": "Life Skills",
+    "topicId": "personal_care",
+    "subtopicId": "body_parts",
+    "engine": "adventureJourney",
+    "emoji": "🧍",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will learn how their body systems work together to keep them healthy.",
+    "mechanicReason": "Making choices through a story connects body systems to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "bespoke": false,
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 65,
+    "coinsReward": 13,
+    "isNew": true,
+    "isFeatured": false,
+    "contentPack": "assets/content/ls_g2_body.json",
+    "sourceOrder": 25
+  },
+  {
+    "id": "ls_g2_community",
+    "title": "My Community: Level 2",
+    "description": "Discover more community helpers and the tools they use to help us!",
+    "grade": "grade2",
+    "grades": [
+      "grade2"
+    ],
+    "subject": "Life Skills",
+    "topicId": "beginning_knowledge",
+    "subtopicId": "community_helpers",
+    "engine": "explorerMap",
+    "emoji": "🏘️",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will discover more community helpers and the tools they use to help us.",
+    "mechanicReason": "Exploring a map connects community helpers to real places, so it sticks.",
+    "cognitiveVerb": "locate_map",
+    "bespoke": false,
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 65,
+    "coinsReward": 13,
+    "isNew": true,
+    "isFeatured": false,
+    "contentPack": "assets/content/ls_g2_community.json",
+    "sourceOrder": 26
+  },
+  {
+    "id": "ls_g2_feelings",
+    "title": "Feelings Factory: Level 2",
+    "description": "Tell apart more feelings and learn healthy ways to handle each one!",
+    "grade": "grade2",
+    "grades": [
+      "grade2"
+    ],
+    "subject": "Life Skills",
+    "topicId": "social_skills",
+    "subtopicId": "emotions",
+    "engine": "runnerCollector",
+    "emoji": "😊",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will tell apart more feelings and learn healthy ways to handle each one.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell emotions apart.",
+    "cognitiveVerb": "word_classify",
+    "bespoke": false,
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 65,
+    "coinsReward": 13,
+    "isNew": true,
+    "isFeatured": false,
+    "contentPack": "assets/content/ls_g2_feelings.json",
+    "sourceOrder": 27
+  },
+  {
+    "id": "ls_g2_habits",
+    "title": "Healthy Habits: Level 2",
+    "description": "Build stronger habits around hygiene, nutrition, sleep and exercise!",
+    "grade": "grade2",
+    "grades": [
+      "grade2"
+    ],
+    "subject": "Life Skills",
+    "topicId": "health",
+    "subtopicId": "healthy_habits",
+    "engine": "runnerCollector",
+    "emoji": "🥗",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will build stronger habits around hygiene, nutrition, sleep and exercise.",
+    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell healthy habits apart.",
+    "cognitiveVerb": "word_classify",
+    "bespoke": false,
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 65,
+    "coinsReward": 13,
+    "isNew": true,
+    "isFeatured": false,
+    "contentPack": "assets/content/ls_g2_habits.json",
+    "sourceOrder": 28
+  },
+  {
+    "id": "ls_g2_safety",
+    "title": "Safety Squad: Level 2",
+    "description": "Learn safety rules for the road, water and being home alone!",
+    "grade": "grade2",
+    "grades": [
+      "grade2"
+    ],
+    "subject": "Life Skills",
+    "topicId": "safety",
+    "subtopicId": "personal_safety",
+    "engine": "adventureJourney",
+    "emoji": "🛡️",
+    "colorExpr": "AppColors.lifeSkills",
+    "capsObjective": "Learners will learn safety rules for the road, water and being home alone.",
+    "mechanicReason": "Making choices through a story connects personal safety to real situations you can relate to.",
+    "cognitiveVerb": "narrative_comprehension",
+    "bespoke": false,
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 65,
+    "coinsReward": 13,
+    "isNew": true,
+    "isFeatured": false,
+    "contentPack": "assets/content/ls_g2_safety.json",
+    "sourceOrder": 29
+  },
+  {
     "id": "ls_g4_career",
     "title": "Career Explorer",
     "description": "Discover different careers and the skills they require!",
@@ -1648,15 +2048,15 @@
       "label": "easy",
       "numberRange": {
         "min": 1,
-        "max": 1000
+        "max": 999
       },
-      "timerSec": 20,
+      "timerSec": null,
       "steps": {
         "min": 5,
         "max": 6
       },
-      "lives": 3,
-      "readingLevel": "intermediate",
+      "lives": 4,
+      "readingLevel": "developing",
       "fractionsDecimals": false
     },
     "xpReward": 80,
@@ -1664,7 +2064,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/ls_g4_career.json",
-    "sourceOrder": 55
+    "sourceOrder": 71
   },
   {
     "id": "ls_g4_environment",
@@ -1690,15 +2090,15 @@
       "label": "easy",
       "numberRange": {
         "min": 1,
-        "max": 1000
+        "max": 999
       },
-      "timerSec": 20,
+      "timerSec": null,
       "steps": {
         "min": 5,
         "max": 6
       },
-      "lives": 3,
-      "readingLevel": "intermediate",
+      "lives": 4,
+      "readingLevel": "developing",
       "fractionsDecimals": false
     },
     "xpReward": 80,
@@ -1706,7 +2106,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ls_g4_environment.json",
-    "sourceOrder": 59
+    "sourceOrder": 75
   },
   {
     "id": "ls_g4_finance",
@@ -1748,7 +2148,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ls_g4_finance.json",
-    "sourceOrder": 56
+    "sourceOrder": 72
   },
   {
     "id": "ls_g4_health",
@@ -1774,15 +2174,15 @@
       "label": "easy",
       "numberRange": {
         "min": 1,
-        "max": 1000
+        "max": 999
       },
-      "timerSec": 20,
+      "timerSec": null,
       "steps": {
         "min": 5,
         "max": 6
       },
-      "lives": 3,
-      "readingLevel": "intermediate",
+      "lives": 4,
+      "readingLevel": "developing",
       "fractionsDecimals": false
     },
     "xpReward": 80,
@@ -1790,7 +2190,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ls_g4_health.json",
-    "sourceOrder": 57
+    "sourceOrder": 73
   },
   {
     "id": "ls_g4_social",
@@ -1816,15 +2216,15 @@
       "label": "easy",
       "numberRange": {
         "min": 1,
-        "max": 1000
+        "max": 999
       },
-      "timerSec": 20,
+      "timerSec": null,
       "steps": {
         "min": 5,
         "max": 6
       },
-      "lives": 3,
-      "readingLevel": "intermediate",
+      "lives": 4,
+      "readingLevel": "developing",
       "fractionsDecimals": false
     },
     "xpReward": 80,
@@ -1832,7 +2232,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ls_g4_social.json",
-    "sourceOrder": 58
+    "sourceOrder": 74
   },
   {
     "id": "ls_g7_career",
@@ -1856,11 +2256,11 @@
       "label": "easy",
       "numberRange": {
         "min": 1,
-        "max": 100000
+        "max": 50000
       },
-      "timerSec": 10,
+      "timerSec": 12,
       "steps": {
-        "min": 7,
+        "min": 6,
         "max": 8
       },
       "lives": 3,
@@ -1872,7 +2272,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ls_g7_career.json",
-    "sourceOrder": 81
+    "sourceOrder": 97
   },
   {
     "id": "ls_g7_citizenship",
@@ -1912,7 +2312,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ls_g7_citizenship.json",
-    "sourceOrder": 83
+    "sourceOrder": 99
   },
   {
     "id": "ls_g7_digital",
@@ -1952,7 +2352,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ls_g7_digital.json",
-    "sourceOrder": 84
+    "sourceOrder": 100
   },
   {
     "id": "ls_g7_relationships",
@@ -1992,7 +2392,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/ls_g7_relationships.json",
-    "sourceOrder": 80
+    "sourceOrder": 96
   },
   {
     "id": "ls_g7_wellbeing",
@@ -2016,11 +2416,11 @@
       "label": "easy",
       "numberRange": {
         "min": 1,
-        "max": 100000
+        "max": 50000
       },
-      "timerSec": 10,
+      "timerSec": 12,
       "steps": {
-        "min": 7,
+        "min": 6,
         "max": 8
       },
       "lives": 3,
@@ -2032,7 +2432,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ls_g7_wellbeing.json",
-    "sourceOrder": 82
+    "sourceOrder": 98
   },
   {
     "id": "math_g1_addition",
@@ -2240,6 +2640,206 @@
     "sourceOrder": 2
   },
   {
+    "id": "math_g2_addition",
+    "title": "Addition Adventure: Level 2",
+    "description": "Solve addition sums up to 100 and collect stars!",
+    "grade": "grade2",
+    "grades": [
+      "grade2"
+    ],
+    "subject": "Mathematics",
+    "topicId": "operations",
+    "subtopicId": "addition",
+    "engine": "tugOfWar",
+    "emoji": "➕",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will solve addition sums up to 100 and collect stars.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of addition.",
+    "cognitiveVerb": "rapid_recall",
+    "bespoke": false,
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 65,
+    "coinsReward": 13,
+    "isNew": true,
+    "isFeatured": false,
+    "contentPack": "assets/content/math_g2_addition.json",
+    "sourceOrder": 15
+  },
+  {
+    "id": "math_g2_counting",
+    "title": "Number Counting Duel: Level 2",
+    "description": "Count and compare numbers up to 100, and start skip-counting by 2s, 5s and 10s!",
+    "grade": "grade2",
+    "grades": [
+      "grade2"
+    ],
+    "subject": "Mathematics",
+    "topicId": "numbers",
+    "subtopicId": "counting",
+    "engine": "numberCountingDuel",
+    "emoji": "🔢",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will count and compare numbers up to 100 and skip-count by 2s, 5s and 10s.",
+    "mechanicReason": "Racing to count and compare builds fast, confident number sense for counting.",
+    "cognitiveVerb": "count_compare",
+    "bespoke": false,
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 65,
+    "coinsReward": 13,
+    "isNew": true,
+    "isFeatured": true,
+    "contentPack": "assets/content/math_g2_counting.json",
+    "sourceOrder": 16
+  },
+  {
+    "id": "math_g2_mountain",
+    "title": "Maths Mountain: Level 2",
+    "description": "Climb higher by solving addition, subtraction and early multiplication facts!",
+    "grade": "grade2",
+    "grades": [
+      "grade2"
+    ],
+    "subject": "Mathematics",
+    "topicId": "operations",
+    "subtopicId": "mixed_operations",
+    "engine": "sequenceBuilder",
+    "emoji": "⛰️",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will climb higher by solving addition, subtraction and early multiplication facts.",
+    "mechanicReason": "Putting the steps in the right order breaks mixed operations into stages you can follow one by one.",
+    "cognitiveVerb": "order_sequence",
+    "bespoke": false,
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 4,
+        "max": 5
+      },
+      "lives": 5,
+      "readingLevel": "developing",
+      "fractionsDecimals": false
+    },
+    "xpReward": 90,
+    "coinsReward": 18,
+    "isNew": true,
+    "isFeatured": false,
+    "contentPack": "assets/content/math_g2_mountain.json",
+    "sourceOrder": 17
+  },
+  {
+    "id": "math_g2_multiples",
+    "title": "Multiple Chain: Level 2",
+    "description": "Link the multiples of 2, 5 and 10 to make a chain — break it and try again!",
+    "grade": "grade2",
+    "grades": [
+      "grade2"
+    ],
+    "subject": "Mathematics",
+    "topicId": "multiplication",
+    "subtopicId": "multiples",
+    "engine": "multiplesMerge",
+    "emoji": "🔗",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will link the multiples of 2, 5 and 10 to make a chain.",
+    "mechanicReason": "Matching and merging pairs helps you spot patterns and connections in multiples.",
+    "cognitiveVerb": "count_compare",
+    "bespoke": false,
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 100
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 4,
+        "max": 5
+      },
+      "lives": 5,
+      "readingLevel": "developing",
+      "fractionsDecimals": false
+    },
+    "xpReward": 90,
+    "coinsReward": 18,
+    "isNew": true,
+    "isFeatured": false,
+    "contentPack": "assets/content/math_g2_multiples.json",
+    "sourceOrder": 18
+  },
+  {
+    "id": "math_g2_subtraction",
+    "title": "Subtraction Safari: Level 2",
+    "description": "Hunt for the missing number in subtraction problems up to 100!",
+    "grade": "grade2",
+    "grades": [
+      "grade2"
+    ],
+    "subject": "Mathematics",
+    "topicId": "operations",
+    "subtopicId": "subtraction",
+    "engine": "tugOfWar",
+    "emoji": "➖",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will hunt for the missing number in subtraction problems up to 100.",
+    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of subtraction.",
+    "cognitiveVerb": "rapid_recall",
+    "bespoke": false,
+    "difficulty": {
+      "label": "easy",
+      "numberRange": {
+        "min": 1,
+        "max": 20
+      },
+      "timerSec": null,
+      "steps": {
+        "min": 3,
+        "max": 4
+      },
+      "lives": 5,
+      "readingLevel": "emergent",
+      "fractionsDecimals": false
+    },
+    "xpReward": 65,
+    "coinsReward": 13,
+    "isNew": true,
+    "isFeatured": false,
+    "contentPack": "assets/content/math_g2_subtraction.json",
+    "sourceOrder": 19
+  },
+  {
     "id": "math_g4_data",
     "title": "Data City",
     "description": "Read bar graphs, pictographs and tables to answer data questions!",
@@ -2279,7 +2879,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g4_data.json",
-    "sourceOrder": 18
+    "sourceOrder": 33
   },
   {
     "id": "math_g4_decimals",
@@ -2321,7 +2921,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g4_decimals.json",
-    "sourceOrder": 19
+    "sourceOrder": 34
   },
   {
     "id": "math_g4_division",
@@ -2363,7 +2963,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g4_division.json",
-    "sourceOrder": 21
+    "sourceOrder": 36
   },
   {
     "id": "math_g4_fractions",
@@ -2405,7 +3005,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/math_g4_fractions.json",
-    "sourceOrder": 15
+    "sourceOrder": 30
   },
   {
     "id": "math_g4_geometry",
@@ -2447,7 +3047,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g4_geometry.json",
-    "sourceOrder": 16
+    "sourceOrder": 31
   },
   {
     "id": "math_g4_measurement",
@@ -2489,7 +3089,49 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g4_measurement.json",
-    "sourceOrder": 17
+    "sourceOrder": 32
+  },
+  {
+    "id": "math_g4_multiples_grid",
+    "title": "Multiples Matrix",
+    "description": "Connect glowing 3D cubes in order of multiples on a 5x5 grid!",
+    "grade": "grade4",
+    "grades": [
+      "grade4",
+      "grade5",
+      "grade6"
+    ],
+    "subject": "Mathematics",
+    "topicId": "multiplication",
+    "subtopicId": "multiples_grid",
+    "engine": "multiplesGrid",
+    "emoji": "🎲",
+    "colorExpr": "AppColors.math",
+    "capsObjective": "Learners will identify and sequence multiples of numbers 2 to 12 across a matrix grid.",
+    "mechanicReason": "Tracing glowing paths between sequential multiples turns multiplication tables into a visual matrix quest.",
+    "cognitiveVerb": null,
+    "bespoke": true,
+    "difficulty": {
+      "label": "medium",
+      "numberRange": {
+        "min": 1,
+        "max": 1000
+      },
+      "timerSec": 20,
+      "steps": {
+        "min": 5,
+        "max": 6
+      },
+      "lives": 3,
+      "readingLevel": "intermediate",
+      "fractionsDecimals": false
+    },
+    "xpReward": 120,
+    "coinsReward": 25,
+    "isNew": true,
+    "isFeatured": true,
+    "contentPack": "assets/content/math_g4_multiples_grid.json",
+    "sourceOrder": 40
   },
   {
     "id": "math_g4_multiplication",
@@ -2531,7 +3173,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g4_multiplication.json",
-    "sourceOrder": 20
+    "sourceOrder": 35
   },
   {
     "id": "math_g4_patterns",
@@ -2573,7 +3215,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g4_patterns.json",
-    "sourceOrder": 22
+    "sourceOrder": 37
   },
   {
     "id": "math_g4_problems",
@@ -2599,23 +3241,23 @@
       "label": "hard",
       "numberRange": {
         "min": 1,
-        "max": 1000
+        "max": 10000
       },
-      "timerSec": 20,
+      "timerSec": 15,
       "steps": {
-        "min": 5,
-        "max": 6
+        "min": 6,
+        "max": 7
       },
       "lives": 3,
       "readingLevel": "intermediate",
-      "fractionsDecimals": false
+      "fractionsDecimals": true
     },
     "xpReward": 120,
     "coinsReward": 24,
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g4_problems.json",
-    "sourceOrder": 23
+    "sourceOrder": 38
   },
   {
     "id": "math_g4_timestable",
@@ -2657,7 +3299,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/math_g4_timestable.json",
-    "sourceOrder": 24
+    "sourceOrder": 39
   },
   {
     "id": "math_g7_algebra",
@@ -2697,7 +3339,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g7_algebra.json",
-    "sourceOrder": 61
+    "sourceOrder": 77
   },
   {
     "id": "math_g7_fractions",
@@ -2737,7 +3379,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g7_fractions.json",
-    "sourceOrder": 66
+    "sourceOrder": 82
   },
   {
     "id": "math_g7_geometry",
@@ -2777,7 +3419,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g7_geometry.json",
-    "sourceOrder": 63
+    "sourceOrder": 79
   },
   {
     "id": "math_g7_integers",
@@ -2817,7 +3459,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/math_g7_integers.json",
-    "sourceOrder": 60
+    "sourceOrder": 76
   },
   {
     "id": "math_g7_patterns",
@@ -2857,7 +3499,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g7_patterns.json",
-    "sourceOrder": 68
+    "sourceOrder": 84
   },
   {
     "id": "math_g7_percentage",
@@ -2897,7 +3539,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g7_percentage.json",
-    "sourceOrder": 65
+    "sourceOrder": 81
   },
   {
     "id": "math_g7_probability",
@@ -2937,7 +3579,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g7_probability.json",
-    "sourceOrder": 67
+    "sourceOrder": 83
   },
   {
     "id": "math_g7_ratio",
@@ -2977,7 +3619,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g7_ratio.json",
-    "sourceOrder": 62
+    "sourceOrder": 78
   },
   {
     "id": "math_g7_stats",
@@ -3017,7 +3659,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g7_stats.json",
-    "sourceOrder": 64
+    "sourceOrder": 80
   },
   {
     "id": "math_g7_wordproblems",
@@ -3057,7 +3699,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/math_g7_wordproblems.json",
-    "sourceOrder": 69
+    "sourceOrder": 85
   },
   {
     "id": "ns_g4_ecosystem",
@@ -3099,7 +3741,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/ns_g4_ecosystem.json",
-    "sourceOrder": 25
+    "sourceOrder": 41
   },
   {
     "id": "ns_g4_energy",
@@ -3141,7 +3783,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ns_g4_energy.json",
-    "sourceOrder": 27
+    "sourceOrder": 43
   },
   {
     "id": "ns_g4_lifecycle",
@@ -3167,15 +3809,15 @@
       "label": "easy",
       "numberRange": {
         "min": 1,
-        "max": 1000
+        "max": 999
       },
-      "timerSec": 20,
+      "timerSec": null,
       "steps": {
         "min": 5,
         "max": 6
       },
-      "lives": 3,
-      "readingLevel": "intermediate",
+      "lives": 4,
+      "readingLevel": "developing",
       "fractionsDecimals": false
     },
     "xpReward": 80,
@@ -3183,7 +3825,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ns_g4_lifecycle.json",
-    "sourceOrder": 28
+    "sourceOrder": 44
   },
   {
     "id": "ns_g4_matter",
@@ -3225,7 +3867,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ns_g4_matter.json",
-    "sourceOrder": 26
+    "sourceOrder": 42
   },
   {
     "id": "ns_g4_solar",
@@ -3267,7 +3909,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ns_g4_solar.json",
-    "sourceOrder": 29
+    "sourceOrder": 45
   },
   {
     "id": "ns_g4_weather",
@@ -3293,15 +3935,15 @@
       "label": "easy",
       "numberRange": {
         "min": 1,
-        "max": 1000
+        "max": 999
       },
-      "timerSec": 20,
+      "timerSec": null,
       "steps": {
         "min": 5,
         "max": 6
       },
-      "lives": 3,
-      "readingLevel": "intermediate",
+      "lives": 4,
+      "readingLevel": "developing",
       "fractionsDecimals": false
     },
     "xpReward": 80,
@@ -3309,7 +3951,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ns_g4_weather.json",
-    "sourceOrder": 30
+    "sourceOrder": 46
   },
   {
     "id": "sci_g7_atoms",
@@ -3349,7 +3991,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/sci_g7_atoms.json",
-    "sourceOrder": 96
+    "sourceOrder": 112
   },
   {
     "id": "sci_g7_cells",
@@ -3389,7 +4031,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/sci_g7_cells.json",
-    "sourceOrder": 98
+    "sourceOrder": 114
   },
   {
     "id": "sci_g7_ecosystems",
@@ -3429,7 +4071,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/sci_g7_ecosystems.json",
-    "sourceOrder": 99
+    "sourceOrder": 115
   },
   {
     "id": "sci_g7_energy",
@@ -3469,7 +4111,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/sci_g7_energy.json",
-    "sourceOrder": 97
+    "sourceOrder": 113
   },
   {
     "id": "sci_g7_foodchains",
@@ -3509,7 +4151,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/sci_g7_foodchains.json",
-    "sourceOrder": 101
+    "sourceOrder": 117
   },
   {
     "id": "sci_g7_forces",
@@ -3549,7 +4191,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/sci_g7_forces.json",
-    "sourceOrder": 103
+    "sourceOrder": 119
   },
   {
     "id": "sci_g7_health",
@@ -3589,7 +4231,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/sci_g7_health.json",
-    "sourceOrder": 105
+    "sourceOrder": 121
   },
   {
     "id": "sci_g7_mixtures",
@@ -3629,7 +4271,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/sci_g7_mixtures.json",
-    "sourceOrder": 104
+    "sourceOrder": 120
   },
   {
     "id": "sci_g7_physical",
@@ -3669,7 +4311,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/sci_g7_physical.json",
-    "sourceOrder": 100
+    "sourceOrder": 116
   },
   {
     "id": "sci_g7_reproduction",
@@ -3709,7 +4351,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/sci_g7_reproduction.json",
-    "sourceOrder": 102
+    "sourceOrder": 118
   },
   {
     "id": "ss_g4_ancient",
@@ -3751,7 +4393,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g4_ancient.json",
-    "sourceOrder": 40
+    "sourceOrder": 56
   },
   {
     "id": "ss_g4_biomes",
@@ -3793,7 +4435,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g4_biomes.json",
-    "sourceOrder": 39
+    "sourceOrder": 55
   },
   {
     "id": "ss_g4_climate",
@@ -3835,7 +4477,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g4_climate.json",
-    "sourceOrder": 37
+    "sourceOrder": 53
   },
   {
     "id": "ss_g4_colonial",
@@ -3861,23 +4503,23 @@
       "label": "hard",
       "numberRange": {
         "min": 1,
-        "max": 1000
+        "max": 10000
       },
-      "timerSec": 20,
+      "timerSec": 15,
       "steps": {
-        "min": 5,
-        "max": 6
+        "min": 6,
+        "max": 7
       },
       "lives": 3,
       "readingLevel": "intermediate",
-      "fractionsDecimals": false
+      "fractionsDecimals": true
     },
     "xpReward": 120,
     "coinsReward": 24,
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g4_colonial.json",
-    "sourceOrder": 42
+    "sourceOrder": 58
   },
   {
     "id": "ss_g4_democracy",
@@ -3919,7 +4561,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g4_democracy.json",
-    "sourceOrder": 44
+    "sourceOrder": 60
   },
   {
     "id": "ss_g4_heroes",
@@ -3961,7 +4603,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/ss_g4_heroes.json",
-    "sourceOrder": 43
+    "sourceOrder": 59
   },
   {
     "id": "ss_g4_indigenous",
@@ -4003,7 +4645,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g4_indigenous.json",
-    "sourceOrder": 41
+    "sourceOrder": 57
   },
   {
     "id": "ss_g4_maps",
@@ -4045,7 +4687,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/ss_g4_maps.json",
-    "sourceOrder": 35
+    "sourceOrder": 51
   },
   {
     "id": "ss_g4_provinces",
@@ -4071,15 +4713,15 @@
       "label": "easy",
       "numberRange": {
         "min": 1,
-        "max": 1000
+        "max": 999
       },
-      "timerSec": 20,
+      "timerSec": null,
       "steps": {
         "min": 5,
         "max": 6
       },
-      "lives": 3,
-      "readingLevel": "intermediate",
+      "lives": 4,
+      "readingLevel": "developing",
       "fractionsDecimals": false
     },
     "xpReward": 80,
@@ -4087,7 +4729,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g4_provinces.json",
-    "sourceOrder": 36
+    "sourceOrder": 52
   },
   {
     "id": "ss_g4_water",
@@ -4113,15 +4755,15 @@
       "label": "easy",
       "numberRange": {
         "min": 1,
-        "max": 1000
+        "max": 999
       },
-      "timerSec": 20,
+      "timerSec": null,
       "steps": {
         "min": 5,
         "max": 6
       },
-      "lives": 3,
-      "readingLevel": "intermediate",
+      "lives": 4,
+      "readingLevel": "developing",
       "fractionsDecimals": false
     },
     "xpReward": 80,
@@ -4129,7 +4771,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g4_water.json",
-    "sourceOrder": 38
+    "sourceOrder": 54
   },
   {
     "id": "ss_g7_apartheid",
@@ -4169,7 +4811,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/ss_g7_apartheid.json",
-    "sourceOrder": 85
+    "sourceOrder": 101
   },
   {
     "id": "ss_g7_climate",
@@ -4209,7 +4851,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_climate.json",
-    "sourceOrder": 89
+    "sourceOrder": 105
   },
   {
     "id": "ss_g7_democracy",
@@ -4249,7 +4891,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_democracy.json",
-    "sourceOrder": 88
+    "sourceOrder": 104
   },
   {
     "id": "ss_g7_globalisation",
@@ -4289,7 +4931,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_globalisation.json",
-    "sourceOrder": 94
+    "sourceOrder": 110
   },
   {
     "id": "ss_g7_leaders",
@@ -4329,7 +4971,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_leaders.json",
-    "sourceOrder": 87
+    "sourceOrder": 103
   },
   {
     "id": "ss_g7_neighbours",
@@ -4369,7 +5011,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_neighbours.json",
-    "sourceOrder": 91
+    "sourceOrder": 107
   },
   {
     "id": "ss_g7_population",
@@ -4409,7 +5051,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_population.json",
-    "sourceOrder": 93
+    "sourceOrder": 109
   },
   {
     "id": "ss_g7_rights",
@@ -4449,7 +5091,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_rights.json",
-    "sourceOrder": 95
+    "sourceOrder": 111
   },
   {
     "id": "ss_g7_rivers",
@@ -4489,7 +5131,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_rivers.json",
-    "sourceOrder": 90
+    "sourceOrder": 106
   },
   {
     "id": "ss_g7_settlement",
@@ -4529,7 +5171,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_settlement.json",
-    "sourceOrder": 92
+    "sourceOrder": 108
   },
   {
     "id": "ss_g7_timeline",
@@ -4569,7 +5211,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/ss_g7_timeline.json",
-    "sourceOrder": 86
+    "sourceOrder": 102
   },
   {
     "id": "tech_g4_circuit",
@@ -4595,23 +5237,23 @@
       "label": "hard",
       "numberRange": {
         "min": 1,
-        "max": 1000
+        "max": 10000
       },
-      "timerSec": 20,
+      "timerSec": 15,
       "steps": {
-        "min": 5,
-        "max": 6
+        "min": 6,
+        "max": 7
       },
       "lives": 3,
       "readingLevel": "intermediate",
-      "fractionsDecimals": false
+      "fractionsDecimals": true
     },
     "xpReward": 130,
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g4_circuit.json",
-    "sourceOrder": 33
+    "sourceOrder": 49
   },
   {
     "id": "tech_g4_coding",
@@ -4653,7 +5295,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g4_coding.json",
-    "sourceOrder": 32
+    "sourceOrder": 48
   },
   {
     "id": "tech_g4_machines",
@@ -4695,7 +5337,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g4_machines.json",
-    "sourceOrder": 31
+    "sourceOrder": 47
   },
   {
     "id": "tech_g4_robot",
@@ -4721,23 +5363,23 @@
       "label": "hard",
       "numberRange": {
         "min": 1,
-        "max": 1000
+        "max": 10000
       },
-      "timerSec": 20,
+      "timerSec": 15,
       "steps": {
-        "min": 5,
-        "max": 6
+        "min": 6,
+        "max": 7
       },
       "lives": 3,
       "readingLevel": "intermediate",
-      "fractionsDecimals": false
+      "fractionsDecimals": true
     },
     "xpReward": 130,
     "coinsReward": 26,
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/tech_g4_robot.json",
-    "sourceOrder": 34
+    "sourceOrder": 50
   },
   {
     "id": "tech_g7_circuit_parallel",
@@ -4777,7 +5419,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g7_circuit_parallel.json",
-    "sourceOrder": 107
+    "sourceOrder": 123
   },
   {
     "id": "tech_g7_circuit_series",
@@ -4817,7 +5459,7 @@
     "isNew": false,
     "isFeatured": true,
     "contentPack": "assets/content/tech_g7_circuit_series.json",
-    "sourceOrder": 106
+    "sourceOrder": 122
   },
   {
     "id": "tech_g7_design",
@@ -4857,7 +5499,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g7_design.json",
-    "sourceOrder": 108
+    "sourceOrder": 124
   },
   {
     "id": "tech_g7_electronics",
@@ -4897,7 +5539,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g7_electronics.json",
-    "sourceOrder": 111
+    "sourceOrder": 127
   },
   {
     "id": "tech_g7_impact",
@@ -4937,7 +5579,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g7_impact.json",
-    "sourceOrder": 114
+    "sourceOrder": 130
   },
   {
     "id": "tech_g7_innovation",
@@ -4977,7 +5619,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g7_innovation.json",
-    "sourceOrder": 115
+    "sourceOrder": 131
   },
   {
     "id": "tech_g7_materials",
@@ -5017,7 +5659,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g7_materials.json",
-    "sourceOrder": 112
+    "sourceOrder": 128
   },
   {
     "id": "tech_g7_mechanisms",
@@ -5057,7 +5699,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g7_mechanisms.json",
-    "sourceOrder": 110
+    "sourceOrder": 126
   },
   {
     "id": "tech_g7_structures",
@@ -5097,7 +5739,7 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g7_structures.json",
-    "sourceOrder": 109
+    "sourceOrder": 125
   },
   {
     "id": "tech_g7_systems",
@@ -5137,606 +5779,6 @@
     "isNew": false,
     "isFeatured": false,
     "contentPack": "assets/content/tech_g7_systems.json",
-    "sourceOrder": 113
-  },
-  {
-    "id": "eng_g2_alphabet",
-    "title": "Sight Word Safari",
-    "description": "Recognise common sight words and blend longer letter sounds!",
-    "grade": "grade2",
-    "grades": [
-      "grade2"
-    ],
-    "subject": "English",
-    "topicId": "phonics",
-    "subtopicId": "alphabet",
-    "engine": "adventureJourney",
-    "emoji": "🔤",
-    "colorExpr": "AppColors.english",
-    "capsObjective": "Learners will recognise common sight words and blend longer letter sounds.",
-    "mechanicReason": "Making choices through a story connects sight words to real situations you can relate to.",
-    "cognitiveVerb": "narrative_comprehension",
-    "difficulty": {
-      "label": "easy",
-      "numberRange": {
-        "min": 1,
-        "max": 100
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 4,
-        "max": 5
-      },
-      "lives": 5,
-      "readingLevel": "developing",
-      "fractionsDecimals": false
-    },
-    "xpReward": 65,
-    "coinsReward": 13,
-    "isNew": true,
-    "isFeatured": true,
-    "contentPack": "assets/content/eng_g2_alphabet.json",
-    "sourceOrder": 126,
-    "bespoke": false
-  },
-  {
-    "id": "eng_g2_grammar",
-    "title": "Grammar Garden: Level 2",
-    "description": "Plant nouns, verbs, adjectives — and now pronouns too — in the right spot!",
-    "grade": "grade2",
-    "grades": [
-      "grade2"
-    ],
-    "subject": "English",
-    "topicId": "grammar",
-    "subtopicId": "parts_of_speech",
-    "engine": "runnerCollector",
-    "emoji": "🌻",
-    "colorExpr": "AppColors.english",
-    "capsObjective": "Learners will plant nouns, verbs, adjectives and pronouns in the sentence.",
-    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell parts of speech apart.",
-    "cognitiveVerb": "word_classify",
-    "difficulty": {
-      "label": "medium",
-      "numberRange": {
-        "min": 1,
-        "max": 100
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 4,
-        "max": 5
-      },
-      "lives": 5,
-      "readingLevel": "developing",
-      "fractionsDecimals": false
-    },
-    "xpReward": 90,
-    "coinsReward": 18,
-    "isNew": true,
-    "isFeatured": false,
-    "contentPack": "assets/content/eng_g2_grammar.json",
-    "sourceOrder": 127,
-    "bespoke": false
-  },
-  {
-    "id": "eng_g2_phonics",
-    "title": "Phonics Fun: Blends & Digraphs",
-    "description": "Blend consonant clusters and digraphs to read trickier words!",
-    "grade": "grade2",
-    "grades": [
-      "grade2"
-    ],
-    "subject": "English",
-    "topicId": "phonics",
-    "subtopicId": "blending",
-    "engine": "sequenceBuilder",
-    "emoji": "🎵",
-    "colorExpr": "AppColors.english",
-    "capsObjective": "Learners will blend consonant clusters and digraphs to decode and read words.",
-    "mechanicReason": "Putting the steps in the right order breaks blending into stages you can follow one by one.",
-    "cognitiveVerb": "order_sequence",
-    "difficulty": {
-      "label": "easy",
-      "numberRange": {
-        "min": 1,
-        "max": 100
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 4,
-        "max": 5
-      },
-      "lives": 5,
-      "readingLevel": "developing",
-      "fractionsDecimals": false
-    },
-    "xpReward": 65,
-    "coinsReward": 13,
-    "isNew": true,
-    "isFeatured": false,
-    "contentPack": "assets/content/eng_g2_phonics.json",
-    "sourceOrder": 128,
-    "bespoke": false
-  },
-  {
-    "id": "eng_g2_reading",
-    "title": "Reading Rainbow: Level 2",
-    "description": "Read short paragraphs and answer 'who, what, where, why' questions!",
-    "grade": "grade2",
-    "grades": [
-      "grade2"
-    ],
-    "subject": "English",
-    "topicId": "reading",
-    "subtopicId": "comprehension",
-    "engine": "adventureJourney",
-    "emoji": "🌈",
-    "colorExpr": "AppColors.english",
-    "capsObjective": "Learners will read short paragraphs and answer who/what/where/why comprehension questions.",
-    "mechanicReason": "Making choices through a story connects comprehension to real situations you can relate to.",
-    "cognitiveVerb": "narrative_comprehension",
-    "difficulty": {
-      "label": "medium",
-      "numberRange": {
-        "min": 1,
-        "max": 100
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 4,
-        "max": 5
-      },
-      "lives": 5,
-      "readingLevel": "developing",
-      "fractionsDecimals": false
-    },
-    "xpReward": 90,
-    "coinsReward": 18,
-    "isNew": true,
-    "isFeatured": false,
-    "contentPack": "assets/content/eng_g2_reading.json",
-    "sourceOrder": 129,
-    "bespoke": false
-  },
-  {
-    "id": "eng_g2_words",
-    "title": "Word Builder: Level 2",
-    "description": "Spell longer CVC and CVCC words by choosing the right letters!",
-    "grade": "grade2",
-    "grades": [
-      "grade2"
-    ],
-    "subject": "English",
-    "topicId": "spelling",
-    "subtopicId": "cvc_words",
-    "engine": "sequenceBuilder",
-    "emoji": "📝",
-    "colorExpr": "AppColors.english",
-    "capsObjective": "Learners will spell longer CVC and CVCC words by choosing the right letters.",
-    "mechanicReason": "Putting the steps in the right order breaks cvc words into stages you can follow one by one.",
-    "cognitiveVerb": "order_sequence",
-    "difficulty": {
-      "label": "easy",
-      "numberRange": {
-        "min": 1,
-        "max": 100
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 4,
-        "max": 5
-      },
-      "lives": 5,
-      "readingLevel": "developing",
-      "fractionsDecimals": false
-    },
-    "xpReward": 65,
-    "coinsReward": 13,
-    "isNew": true,
-    "isFeatured": false,
-    "contentPack": "assets/content/eng_g2_words.json",
-    "sourceOrder": 130,
-    "bespoke": false
-  },
-  {
-    "id": "ls_g2_body",
-    "title": "My Body: Level 2",
-    "description": "Learn how your body systems work together to keep you healthy!",
-    "grade": "grade2",
-    "grades": [
-      "grade2"
-    ],
-    "subject": "Life Skills",
-    "topicId": "personal_care",
-    "subtopicId": "body_parts",
-    "engine": "adventureJourney",
-    "emoji": "🧍",
-    "colorExpr": "AppColors.lifeSkills",
-    "capsObjective": "Learners will learn how their body systems work together to keep them healthy.",
-    "mechanicReason": "Making choices through a story connects body systems to real situations you can relate to.",
-    "cognitiveVerb": "narrative_comprehension",
-    "difficulty": {
-      "label": "easy",
-      "numberRange": {
-        "min": 1,
-        "max": 100
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 4,
-        "max": 5
-      },
-      "lives": 5,
-      "readingLevel": "developing",
-      "fractionsDecimals": false
-    },
-    "xpReward": 65,
-    "coinsReward": 13,
-    "isNew": true,
-    "isFeatured": false,
-    "contentPack": "assets/content/ls_g2_body.json",
-    "sourceOrder": 131,
-    "bespoke": false
-  },
-  {
-    "id": "ls_g2_community",
-    "title": "My Community: Level 2",
-    "description": "Discover more community helpers and the tools they use to help us!",
-    "grade": "grade2",
-    "grades": [
-      "grade2"
-    ],
-    "subject": "Life Skills",
-    "topicId": "beginning_knowledge",
-    "subtopicId": "community_helpers",
-    "engine": "explorerMap",
-    "emoji": "🏘️",
-    "colorExpr": "AppColors.lifeSkills",
-    "capsObjective": "Learners will discover more community helpers and the tools they use to help us.",
-    "mechanicReason": "Exploring a map connects community helpers to real places, so it sticks.",
-    "cognitiveVerb": "locate_map",
-    "difficulty": {
-      "label": "easy",
-      "numberRange": {
-        "min": 1,
-        "max": 100
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 4,
-        "max": 5
-      },
-      "lives": 5,
-      "readingLevel": "developing",
-      "fractionsDecimals": false
-    },
-    "xpReward": 65,
-    "coinsReward": 13,
-    "isNew": true,
-    "isFeatured": false,
-    "contentPack": "assets/content/ls_g2_community.json",
-    "sourceOrder": 132,
-    "bespoke": false
-  },
-  {
-    "id": "ls_g2_feelings",
-    "title": "Feelings Factory: Level 2",
-    "description": "Tell apart more feelings and learn healthy ways to handle each one!",
-    "grade": "grade2",
-    "grades": [
-      "grade2"
-    ],
-    "subject": "Life Skills",
-    "topicId": "social_skills",
-    "subtopicId": "emotions",
-    "engine": "runnerCollector",
-    "emoji": "😊",
-    "colorExpr": "AppColors.lifeSkills",
-    "capsObjective": "Learners will tell apart more feelings and learn healthy ways to handle each one.",
-    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell emotions apart.",
-    "cognitiveVerb": "word_classify",
-    "difficulty": {
-      "label": "easy",
-      "numberRange": {
-        "min": 1,
-        "max": 100
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 4,
-        "max": 5
-      },
-      "lives": 5,
-      "readingLevel": "developing",
-      "fractionsDecimals": false
-    },
-    "xpReward": 65,
-    "coinsReward": 13,
-    "isNew": true,
-    "isFeatured": false,
-    "contentPack": "assets/content/ls_g2_feelings.json",
-    "sourceOrder": 133,
-    "bespoke": false
-  },
-  {
-    "id": "ls_g2_habits",
-    "title": "Healthy Habits: Level 2",
-    "description": "Build stronger habits around hygiene, nutrition, sleep and exercise!",
-    "grade": "grade2",
-    "grades": [
-      "grade2"
-    ],
-    "subject": "Life Skills",
-    "topicId": "health",
-    "subtopicId": "healthy_habits",
-    "engine": "runnerCollector",
-    "emoji": "🥗",
-    "colorExpr": "AppColors.lifeSkills",
-    "capsObjective": "Learners will build stronger habits around hygiene, nutrition, sleep and exercise.",
-    "mechanicReason": "Sorting the right answers on the run trains you to quickly tell healthy habits apart.",
-    "cognitiveVerb": "word_classify",
-    "difficulty": {
-      "label": "easy",
-      "numberRange": {
-        "min": 1,
-        "max": 100
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 4,
-        "max": 5
-      },
-      "lives": 5,
-      "readingLevel": "developing",
-      "fractionsDecimals": false
-    },
-    "xpReward": 65,
-    "coinsReward": 13,
-    "isNew": true,
-    "isFeatured": false,
-    "contentPack": "assets/content/ls_g2_habits.json",
-    "sourceOrder": 134,
-    "bespoke": false
-  },
-  {
-    "id": "ls_g2_safety",
-    "title": "Safety Squad: Level 2",
-    "description": "Learn safety rules for the road, water and being home alone!",
-    "grade": "grade2",
-    "grades": [
-      "grade2"
-    ],
-    "subject": "Life Skills",
-    "topicId": "safety",
-    "subtopicId": "personal_safety",
-    "engine": "adventureJourney",
-    "emoji": "🛡️",
-    "colorExpr": "AppColors.lifeSkills",
-    "capsObjective": "Learners will learn safety rules for the road, water and being home alone.",
-    "mechanicReason": "Making choices through a story connects personal safety to real situations you can relate to.",
-    "cognitiveVerb": "narrative_comprehension",
-    "difficulty": {
-      "label": "easy",
-      "numberRange": {
-        "min": 1,
-        "max": 100
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 4,
-        "max": 5
-      },
-      "lives": 5,
-      "readingLevel": "developing",
-      "fractionsDecimals": false
-    },
-    "xpReward": 65,
-    "coinsReward": 13,
-    "isNew": true,
-    "isFeatured": false,
-    "contentPack": "assets/content/ls_g2_safety.json",
-    "sourceOrder": 135,
-    "bespoke": false
-  },
-  {
-    "id": "math_g2_addition",
-    "title": "Addition Adventure: Level 2",
-    "description": "Solve addition sums up to 100 and collect stars!",
-    "grade": "grade2",
-    "grades": [
-      "grade2"
-    ],
-    "subject": "Mathematics",
-    "topicId": "operations",
-    "subtopicId": "addition",
-    "engine": "tugOfWar",
-    "emoji": "➕",
-    "colorExpr": "AppColors.math",
-    "capsObjective": "Learners will solve addition sums up to 100 and collect stars.",
-    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of addition.",
-    "cognitiveVerb": "rapid_recall",
-    "difficulty": {
-      "label": "easy",
-      "numberRange": {
-        "min": 1,
-        "max": 100
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 4,
-        "max": 5
-      },
-      "lives": 5,
-      "readingLevel": "developing",
-      "fractionsDecimals": false
-    },
-    "xpReward": 65,
-    "coinsReward": 13,
-    "isNew": true,
-    "isFeatured": false,
-    "contentPack": "assets/content/math_g2_addition.json",
-    "sourceOrder": 136,
-    "bespoke": false
-  },
-  {
-    "id": "math_g2_counting",
-    "title": "Number Counting Duel: Level 2",
-    "description": "Count and compare numbers up to 100, and start skip-counting by 2s, 5s and 10s!",
-    "grade": "grade2",
-    "grades": [
-      "grade2"
-    ],
-    "subject": "Mathematics",
-    "topicId": "numbers",
-    "subtopicId": "counting",
-    "engine": "numberCountingDuel",
-    "emoji": "🔢",
-    "colorExpr": "AppColors.math",
-    "capsObjective": "Learners will count and compare numbers up to 100 and skip-count by 2s, 5s and 10s.",
-    "mechanicReason": "Racing to count and compare builds fast, confident number sense for counting.",
-    "cognitiveVerb": "count_compare",
-    "difficulty": {
-      "label": "easy",
-      "numberRange": {
-        "min": 1,
-        "max": 100
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 4,
-        "max": 5
-      },
-      "lives": 5,
-      "readingLevel": "developing",
-      "fractionsDecimals": false
-    },
-    "xpReward": 65,
-    "coinsReward": 13,
-    "isNew": true,
-    "isFeatured": true,
-    "contentPack": "assets/content/math_g2_counting.json",
-    "sourceOrder": 137,
-    "bespoke": false
-  },
-  {
-    "id": "math_g2_mountain",
-    "title": "Maths Mountain: Level 2",
-    "description": "Climb higher by solving addition, subtraction and early multiplication facts!",
-    "grade": "grade2",
-    "grades": [
-      "grade2"
-    ],
-    "subject": "Mathematics",
-    "topicId": "operations",
-    "subtopicId": "mixed_operations",
-    "engine": "sequenceBuilder",
-    "emoji": "⛰️",
-    "colorExpr": "AppColors.math",
-    "capsObjective": "Learners will climb higher by solving addition, subtraction and early multiplication facts.",
-    "mechanicReason": "Putting the steps in the right order breaks mixed operations into stages you can follow one by one.",
-    "cognitiveVerb": "order_sequence",
-    "difficulty": {
-      "label": "medium",
-      "numberRange": {
-        "min": 1,
-        "max": 100
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 4,
-        "max": 5
-      },
-      "lives": 5,
-      "readingLevel": "developing",
-      "fractionsDecimals": false
-    },
-    "xpReward": 90,
-    "coinsReward": 18,
-    "isNew": true,
-    "isFeatured": false,
-    "contentPack": "assets/content/math_g2_mountain.json",
-    "sourceOrder": 138,
-    "bespoke": false
-  },
-  {
-    "id": "math_g2_multiples",
-    "title": "Multiple Chain: Level 2",
-    "description": "Link the multiples of 2, 5 and 10 to make a chain — break it and try again!",
-    "grade": "grade2",
-    "grades": [
-      "grade2"
-    ],
-    "subject": "Mathematics",
-    "topicId": "multiplication",
-    "subtopicId": "multiples",
-    "engine": "multiplesMerge",
-    "emoji": "🔗",
-    "colorExpr": "AppColors.math",
-    "capsObjective": "Learners will link the multiples of 2, 5 and 10 to make a chain.",
-    "mechanicReason": "Matching and merging pairs helps you spot patterns and connections in multiples.",
-    "cognitiveVerb": "count_compare",
-    "difficulty": {
-      "label": "medium",
-      "numberRange": {
-        "min": 1,
-        "max": 100
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 4,
-        "max": 5
-      },
-      "lives": 5,
-      "readingLevel": "developing",
-      "fractionsDecimals": false
-    },
-    "xpReward": 90,
-    "coinsReward": 18,
-    "isNew": true,
-    "isFeatured": false,
-    "contentPack": "assets/content/math_g2_multiples.json",
-    "sourceOrder": 139,
-    "bespoke": false
-  },
-  {
-    "id": "math_g2_subtraction",
-    "title": "Subtraction Safari: Level 2",
-    "description": "Hunt for the missing number in subtraction problems up to 100!",
-    "grade": "grade2",
-    "grades": [
-      "grade2"
-    ],
-    "subject": "Mathematics",
-    "topicId": "operations",
-    "subtopicId": "subtraction",
-    "engine": "tugOfWar",
-    "emoji": "➖",
-    "colorExpr": "AppColors.math",
-    "capsObjective": "Learners will hunt for the missing number in subtraction problems up to 100.",
-    "mechanicReason": "Answering fast head-to-head builds quick, confident recall of subtraction.",
-    "cognitiveVerb": "rapid_recall",
-    "difficulty": {
-      "label": "easy",
-      "numberRange": {
-        "min": 1,
-        "max": 100
-      },
-      "timerSec": null,
-      "steps": {
-        "min": 4,
-        "max": 5
-      },
-      "lives": 5,
-      "readingLevel": "developing",
-      "fractionsDecimals": false
-    },
-    "xpReward": 65,
-    "coinsReward": 13,
-    "isNew": true,
-    "isFeatured": false,
-    "contentPack": "assets/content/math_g2_subtraction.json",
-    "sourceOrder": 140,
-    "bespoke": false
+    "sourceOrder": 129
   }
 ]

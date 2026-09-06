@@ -72,4 +72,23 @@ function bandFor(grade) {
   return band;
 }
 
-module.exports = { BANDS, bandFor };
+const GRADE_ORDER = ['grade1', 'grade2', 'grade3', 'grade4', 'grade5', 'grade6', 'grade7'];
+
+/**
+ * A catalog entry's difficulty label ('easy'/'medium'/'hard'/'adaptive')
+ * used to be carried through as inert metadata — every entry in a grade
+ * got the same band regardless of label. Make it real: 'hard' borrows the
+ * next grade's band (bigger numbers, tighter timer, fewer lives), 'easy'
+ * borrows the previous grade's, 'medium'/'adaptive'/anything else stays
+ * on the entry's own grade. Clamped at grade1/grade7 — the extremes of
+ * either band already are the most lenient/toughest available.
+ */
+function bandForLabel(grade, label) {
+  const idx = GRADE_ORDER.indexOf(grade);
+  if (idx === -1) return bandFor(grade);
+  if (label === 'hard') return bandFor(GRADE_ORDER[Math.min(idx + 1, GRADE_ORDER.length - 1)]);
+  if (label === 'easy') return bandFor(GRADE_ORDER[Math.max(idx - 1, 0)]);
+  return bandFor(grade);
+}
+
+module.exports = { BANDS, bandFor, bandForLabel };

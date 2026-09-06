@@ -10,124 +10,124 @@
   "questionType": "subtraction",
   "sampleItems": [
     {
-      "question": "74 - 52 = ?",
+      "question": "15 - 11 = ?",
       "options": [
-        "18",
-        "27",
-        "26",
-        "22"
-      ],
-      "answerIndex": 3,
-      "hint": "Count back from 74.",
-      "explanation": "74 - 52 = 22."
-    },
-    {
-      "question": "86 - 79 = ?",
-      "options": [
-        "3",
+        "1",
         "9",
-        "2",
-        "7"
+        "8",
+        "4"
       ],
       "answerIndex": 3,
-      "hint": "Count back from 86.",
-      "explanation": "86 - 79 = 7."
+      "hint": "Count back from 15.",
+      "explanation": "15 - 11 = 4."
     },
     {
-      "question": "12 - 5 = ?",
+      "question": "18 - 16 = ?",
+      "options": [
+        "2",
+        "4",
+        "0",
+        "6"
+      ],
+      "answerIndex": 0,
+      "hint": "Count back from 18.",
+      "explanation": "18 - 16 = 2."
+    },
+    {
+      "question": "10 - 6 = ?",
       "options": [
         "4",
-        "11",
-        "7",
+        "6",
+        "2",
         "8"
+      ],
+      "answerIndex": 0,
+      "hint": "Count back from 10.",
+      "explanation": "10 - 6 = 4."
+    },
+    {
+      "question": "12 - 7 = ?",
+      "options": [
+        "10",
+        "1",
+        "2",
+        "5"
+      ],
+      "answerIndex": 3,
+      "hint": "Count back from 12.",
+      "explanation": "12 - 7 = 5."
+    },
+    {
+      "question": "3 - 1 = ?",
+      "options": [
+        "2",
+        "6",
+        "3",
+        "0"
+      ],
+      "answerIndex": 0,
+      "hint": "Count back from 3.",
+      "explanation": "3 - 1 = 2."
+    },
+    {
+      "question": "8 - 2 = ?",
+      "options": [
+        "1",
+        "3",
+        "6",
+        "2"
+      ],
+      "answerIndex": 2,
+      "hint": "Count back from 8.",
+      "explanation": "8 - 2 = 6."
+    },
+    {
+      "question": "12 - 11 = ?",
+      "options": [
+        "2",
+        "0",
+        "1",
+        "6"
       ],
       "answerIndex": 2,
       "hint": "Count back from 12.",
-      "explanation": "12 - 5 = 7."
+      "explanation": "12 - 11 = 1."
     },
     {
-      "question": "89 - 80 = ?",
+      "question": "12 - 9 = ?",
       "options": [
-        "13",
+        "0",
+        "3",
         "7",
-        "10",
-        "9"
-      ],
-      "answerIndex": 3,
-      "hint": "Count back from 89.",
-      "explanation": "89 - 80 = 9."
-    },
-    {
-      "question": "96 - 26 = ?",
-      "options": [
-        "65",
-        "69",
-        "71",
-        "70"
-      ],
-      "answerIndex": 3,
-      "hint": "Count back from 96.",
-      "explanation": "96 - 26 = 70."
-    },
-    {
-      "question": "57 - 14 = ?",
-      "options": [
-        "48",
-        "43",
-        "47",
-        "42"
+        "6"
       ],
       "answerIndex": 1,
-      "hint": "Count back from 57.",
-      "explanation": "57 - 14 = 43."
+      "hint": "Count back from 12.",
+      "explanation": "12 - 9 = 3."
     },
     {
-      "question": "11 - 4 = ?",
+      "question": "20 - 5 = ?",
       "options": [
-        "7",
+        "10",
+        "20",
+        "16",
+        "15"
+      ],
+      "answerIndex": 3,
+      "hint": "Count back from 20.",
+      "explanation": "20 - 5 = 15."
+    },
+    {
+      "question": "15 - 7 = ?",
+      "options": [
         "8",
-        "4",
-        "3"
+        "9",
+        "5",
+        "10"
       ],
       "answerIndex": 0,
-      "hint": "Count back from 11.",
-      "explanation": "11 - 4 = 7."
-    },
-    {
-      "question": "97 - 21 = ?",
-      "options": [
-        "75",
-        "77",
-        "71",
-        "76"
-      ],
-      "answerIndex": 3,
-      "hint": "Count back from 97.",
-      "explanation": "97 - 21 = 76."
-    },
-    {
-      "question": "90 - 51 = ?",
-      "options": [
-        "44",
-        "36",
-        "38",
-        "39"
-      ],
-      "answerIndex": 3,
-      "hint": "Count back from 90.",
-      "explanation": "90 - 51 = 39."
-    },
-    {
-      "question": "96 - 25 = ?",
-      "options": [
-        "71",
-        "73",
-        "68",
-        "69"
-      ],
-      "answerIndex": 0,
-      "hint": "Count back from 96.",
-      "explanation": "96 - 25 = 71."
+      "hint": "Count back from 15.",
+      "explanation": "15 - 7 = 8."
     }
   ]
 }

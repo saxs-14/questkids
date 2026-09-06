@@ -26,7 +26,12 @@ function wordProblem(rng, range) {
       correctOption: `R${correct}`,
     };
   } else if (kind === 1) {
-    const start = randInt(rng, 20, Math.max(30, range.max));
+    // Unlike the price/qty and groups branches below, this one has no
+    // natural /100-style divisor of its own -- it IS the money amount.
+    // Scale off range.max but cap at a realistic pocket-money ceiling
+    // instead of letting a grade7 numberRange (up to 100000) produce
+    // "Aisha has R31520" style nonsense.
+    const start = randInt(rng, 20, Math.min(500, Math.max(30, Math.floor(range.max / 50))));
     const spend = randInt(rng, 5, Math.floor(start / 2));
     const correct = start - spend;
     const { options, answerIndex } = buildOptions(rng, correct, () => Math.max(0, correct + randInt(rng, -8, 8) || 1));
@@ -48,8 +53,12 @@ function wordProblem(rng, range) {
   }
 }
 
-function probabilityProblem(rng) {
-  const total = randInt(rng, 6, 12);
+function probabilityProblem(rng, range) {
+  // No natural "probability range" concept, but scale the bag size (and
+  // therefore the fraction's denominator) off the topic's numberRange so
+  // 'hard' still means something here instead of a fixed 6-12 always.
+  const upper = Math.max(10, Math.min(24, Math.round(range.max / 5000) + 8));
+  const total = randInt(rng, 6, upper);
   const favourable = randInt(rng, 1, total - 1);
   const colours = ['red', 'blue', 'green', 'yellow'];
   const colour = colours[randInt(rng, 0, colours.length - 1)];
@@ -67,13 +76,13 @@ function probabilityProblem(rng) {
   };
 }
 
-function generateWordProblemStages(topicId, count, { emoji, colorHex, kind = 'money' }) {
+function generateWordProblemStages(topicId, count, { emoji, colorHex, kind = 'money', range = { min: 1, max: 1000 } }) {
   const rng = rngFor(seedFromString(topicId + '::wp'));
   const stages = [];
   const seen = new Set();
   let guard = 0;
   while (stages.length < count && guard++ < count * 30) {
-    const p = kind === 'probability' ? probabilityProblem(rng) : wordProblem(rng, { max: 1000 });
+    const p = kind === 'probability' ? probabilityProblem(rng, range) : wordProblem(rng, range);
     if (seen.has(p.question)) continue;
     seen.add(p.question);
     stages.push({

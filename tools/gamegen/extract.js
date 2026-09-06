@@ -15,7 +15,7 @@ const fs = require('fs');
 const path = require('path');
 const { parseCatalog } = require('./parse_catalog');
 const { classify, expectedEngines, VERB_LABELS, SHARED_ENGINES } = require('./classify');
-const { bandFor } = require('./difficulty');
+const { bandForLabel } = require('./difficulty');
 const { mechanicReasonFor } = require('./phrasing');
 
 const OUT_PATH = path.join(__dirname, 'topics.json');
@@ -80,7 +80,7 @@ function main() {
       bespoke,
       difficulty: {
         label: e.difficulty,
-        ...bandFor(e.grade),
+        ...bandForLabel(e.grade, e.difficulty),
       },
       xpReward: e.xpReward,
       coinsReward: e.coinsReward,

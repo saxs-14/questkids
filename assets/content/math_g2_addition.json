@@ -10,184 +10,184 @@
   "questionType": "addition",
   "sampleItems": [
     {
-      "question": "3 + 22 = ?",
+      "question": "1 + 5 = ?",
       "options": [
-        "30",
-        "25",
-        "29",
-        "23"
+        "11",
+        "6",
+        "10",
+        "4"
       ],
       "answerIndex": 1,
-      "hint": "Count on from 3.",
-      "explanation": "3 + 22 = 25."
+      "hint": "Count on from 1.",
+      "explanation": "1 + 5 = 6."
     },
     {
-      "question": "42 + 46 = ?",
+      "question": "8 + 10 = ?",
       "options": [
-        "86",
-        "89",
-        "88",
-        "85"
+        "16",
+        "19",
+        "18",
+        "15"
       ],
       "answerIndex": 2,
-      "hint": "Count on from 42.",
-      "explanation": "42 + 46 = 88."
+      "hint": "Count on from 8.",
+      "explanation": "8 + 10 = 18."
     },
     {
-      "question": "91 + 5 = ?",
+      "question": "18 + 1 = ?",
       "options": [
-        "99",
-        "96",
-        "94",
-        "101"
+        "22",
+        "19",
+        "17",
+        "24"
       ],
       "answerIndex": 1,
-      "hint": "Count on from 91.",
-      "explanation": "91 + 5 = 96."
+      "hint": "Count on from 18.",
+      "explanation": "18 + 1 = 19."
     },
     {
-      "question": "15 + 11 = ?",
+      "question": "3 + 3 = ?",
       "options": [
-        "26",
-        "24",
-        "22",
-        "28"
+        "6",
+        "4",
+        "2",
+        "8"
       ],
       "answerIndex": 0,
-      "hint": "Count on from 15.",
-      "explanation": "15 + 11 = 26."
+      "hint": "Count on from 3.",
+      "explanation": "3 + 3 = 6."
     },
     {
-      "question": "90 + 8 = ?",
+      "question": "18 + 2 = ?",
       "options": [
-        "95",
-        "98",
-        "99",
-        "94"
+        "17",
+        "20",
+        "21",
+        "16"
       ],
       "answerIndex": 1,
-      "hint": "Count on from 90.",
-      "explanation": "90 + 8 = 98."
+      "hint": "Count on from 18.",
+      "explanation": "18 + 2 = 20."
     },
     {
-      "question": "38 + 59 = ?",
+      "question": "8 + 12 = ?",
       "options": [
-        "98",
-        "102",
-        "99",
-        "97"
+        "21",
+        "25",
+        "22",
+        "20"
       ],
       "answerIndex": 3,
-      "hint": "Count on from 38.",
-      "explanation": "38 + 59 = 97."
+      "hint": "Count on from 8.",
+      "explanation": "8 + 12 = 20."
     },
     {
-      "question": "1 + 19 = ?",
+      "question": "1 + 4 = ?",
+      "options": [
+        "5",
+        "2",
+        "3",
+        "7"
+      ],
+      "answerIndex": 0,
+      "hint": "Count on from 1.",
+      "explanation": "1 + 4 = 5."
+    },
+    {
+      "question": "1 + 8 = ?",
+      "options": [
+        "9",
+        "8",
+        "14",
+        "4"
+      ],
+      "answerIndex": 0,
+      "hint": "Count on from 1.",
+      "explanation": "1 + 8 = 9."
+    },
+    {
+      "question": "11 + 7 = ?",
+      "options": [
+        "18",
+        "23",
+        "19",
+        "17"
+      ],
+      "answerIndex": 0,
+      "hint": "Count on from 11.",
+      "explanation": "11 + 7 = 18."
+    },
+    {
+      "question": "8 + 6 = ?",
+      "options": [
+        "14",
+        "10",
+        "13",
+        "11"
+      ],
+      "answerIndex": 0,
+      "hint": "Count on from 8.",
+      "explanation": "8 + 6 = 14."
+    },
+    {
+      "question": "7 + 7 = ?",
+      "options": [
+        "14",
+        "17",
+        "12",
+        "13"
+      ],
+      "answerIndex": 0,
+      "hint": "Count on from 7.",
+      "explanation": "7 + 7 = 14."
+    },
+    {
+      "question": "3 + 12 = ?",
+      "options": [
+        "17",
+        "18",
+        "19",
+        "15"
+      ],
+      "answerIndex": 3,
+      "hint": "Count on from 3.",
+      "explanation": "3 + 12 = 15."
+    },
+    {
+      "question": "9 + 11 = ?",
+      "options": [
+        "24",
+        "20",
+        "23",
+        "25"
+      ],
+      "answerIndex": 1,
+      "hint": "Count on from 9.",
+      "explanation": "9 + 11 = 20."
+    },
+    {
+      "question": "13 + 4 = ?",
       "options": [
         "20",
         "17",
-        "18",
-        "22"
-      ],
-      "answerIndex": 0,
-      "hint": "Count on from 1.",
-      "explanation": "1 + 19 = 20."
-    },
-    {
-      "question": "1 + 38 = ?",
-      "options": [
-        "39",
-        "38",
-        "44",
-        "34"
-      ],
-      "answerIndex": 0,
-      "hint": "Count on from 1.",
-      "explanation": "1 + 38 = 39."
-    },
-    {
-      "question": "53 + 33 = ?",
-      "options": [
-        "86",
-        "91",
-        "87",
-        "85"
-      ],
-      "answerIndex": 0,
-      "hint": "Count on from 53.",
-      "explanation": "53 + 33 = 86."
-    },
-    {
-      "question": "90 + 1 = ?",
-      "options": [
-        "94",
-        "90",
-        "92",
-        "91"
-      ],
-      "answerIndex": 3,
-      "hint": "Count on from 90.",
-      "explanation": "90 + 1 = 91."
-    },
-    {
-      "question": "41 + 29 = ?",
-      "options": [
-        "70",
-        "66",
-        "69",
-        "67"
-      ],
-      "answerIndex": 0,
-      "hint": "Count on from 41.",
-      "explanation": "41 + 29 = 70."
-    },
-    {
-      "question": "32 + 32 = ?",
-      "options": [
-        "64",
-        "67",
-        "62",
-        "63"
-      ],
-      "answerIndex": 0,
-      "hint": "Count on from 32.",
-      "explanation": "32 + 32 = 64."
-    },
-    {
-      "question": "15 + 59 = ?",
-      "options": [
-        "76",
-        "77",
-        "78",
-        "74"
-      ],
-      "answerIndex": 3,
-      "hint": "Count on from 15.",
-      "explanation": "15 + 59 = 74."
-    },
-    {
-      "question": "45 + 53 = ?",
-      "options": [
-        "102",
-        "98",
-        "101",
-        "103"
+        "14",
+        "18"
       ],
       "answerIndex": 1,
-      "hint": "Count on from 45.",
-      "explanation": "45 + 53 = 98."
+      "hint": "Count on from 13.",
+      "explanation": "13 + 4 = 17."
     },
     {
-      "question": "67 + 19 = ?",
+      "question": "9 + 10 = ?",
       "options": [
-        "89",
-        "86",
-        "83",
-        "87"
+        "22",
+        "19",
+        "24",
+        "17"
       ],
       "answerIndex": 1,
-      "hint": "Count on from 67.",
-      "explanation": "67 + 19 = 86."
+      "hint": "Count on from 9.",
+      "explanation": "9 + 10 = 19."
     }
   ]
 }
