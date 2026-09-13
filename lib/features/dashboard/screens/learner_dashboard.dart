@@ -82,6 +82,17 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
     final theme = context.watch<ThemeProvider>();
     final user = auth.user;
 
+    // Mid-sign-out, AuthProvider.signOut() calls notifyListeners() (clearing
+    // `user`) before the caller's subsequent Navigator.pushNamedAndRemoveUntil
+    // replaces this route -- context.watch rebuilds this widget in that gap
+    // with `user == null`. The tabs below (kept alive in an IndexedStack)
+    // build live StreamBuilders keyed by uid; bail out before any of that
+    // builds -- navigation to /login is already in flight. Same race as
+    // teacher_dashboard.dart's identical guard.
+    if (user == null) {
+      return const SizedBox.shrink();
+    }
+
     return ResponsiveScaffold(
       selectedIndex: _selectedIndex,
       onDestinationSelected: (i) => setState(() => _selectedIndex = i),
@@ -125,7 +136,7 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
             ),
             Text(
-              user?.grade ?? 'Grade 1',
+              user.grade,
               style: const TextStyle(fontSize: 11, color: Colors.white70),
             ),
           ],
@@ -150,13 +161,13 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
               onTap: () => setState(() => _selectedIndex = 4),
               child: CircleAvatar(
                 backgroundColor: Colors.white24,
-                backgroundImage: user?.avatarUrl != null
-                    ? NetworkImage(user!.avatarUrl!)
+                backgroundImage: user.avatarUrl != null
+                    ? NetworkImage(user.avatarUrl!)
                     : null,
-                child: user?.avatarUrl == null
+                child: user.avatarUrl == null
                     ? Text(
-                        user?.name.isNotEmpty == true
-                            ? user!.name[0].toUpperCase()
+                        user.name.isNotEmpty
+                            ? user.name[0].toUpperCase()
                             : '?',
                         style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.w700),

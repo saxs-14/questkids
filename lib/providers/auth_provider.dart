@@ -337,10 +337,23 @@ class AuthProvider extends ChangeNotifier {
   Future<void> signOut() async {
     if (_user != null) {
       try {
-        await _notificationService.removeTokenOnSignOut(_user!.uid);
+        // On web, FirebaseMessaging.getToken() awaits the FCM service
+        // worker's registration promise -- there is no
+        // web/firebase-messaging-sw.js in this project, so that promise
+        // never settles and getToken() (called inside
+        // removeTokenOnSignOut) hangs forever rather than throwing. The
+        // surrounding try/catch only guards against a thrown exception,
+        // never against a Future that simply never completes, so sign-out
+        // was hanging indefinitely on web with no error and no crash.
+        // Bound it explicitly so a stuck platform call can never block a
+        // real sign-out.
+        await _notificationService
+            .removeTokenOnSignOut(_user!.uid)
+            .timeout(const Duration(seconds: 5));
       } catch (_) {
-        // Non-fatal: FCM token cleanup failing (e.g. no web push token,
-        // messaging permission issues) must never block a real sign-out.
+        // Non-fatal: FCM token cleanup failing or timing out (e.g. no web
+        // push token, messaging permission issues) must never block a
+        // real sign-out.
       }
     }
     await _userSubscription?.cancel();

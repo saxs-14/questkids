@@ -50,6 +50,17 @@ class _ParentDashboardState extends State<ParentDashboard> {
     final theme = context.watch<ThemeProvider>();
     final user = auth.user;
 
+    // Mid-sign-out, AuthProvider.signOut() calls notifyListeners() (clearing
+    // `user`) before the caller's subsequent Navigator.pushNamedAndRemoveUntil
+    // replaces this route -- context.watch rebuilds this widget in that gap
+    // with `user == null`. The tabs below (kept alive in an IndexedStack)
+    // build live StreamBuilders keyed by uid; bail out before any of that
+    // builds -- navigation to /login is already in flight. Same race as
+    // teacher_dashboard.dart's identical guard.
+    if (user == null) {
+      return const SizedBox.shrink();
+    }
+
     return ResponsiveScaffold(
       selectedIndex: _selectedIndex,
       onDestinationSelected: (i) => setState(() => _selectedIndex = i),
@@ -78,7 +89,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Hi, ${user?.name.split(' ').first ?? 'Parent'} 👋',
+              'Hi, ${user.name.split(' ').first} 👋',
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
             ),
             const Text('Parent Dashboard',
@@ -104,13 +115,13 @@ class _ParentDashboardState extends State<ParentDashboard> {
               onTap: () => setState(() => _selectedIndex = 4),
               child: CircleAvatar(
                 backgroundColor: Colors.white24,
-                backgroundImage: user?.avatarUrl != null
-                    ? NetworkImage(user!.avatarUrl!)
+                backgroundImage: user.avatarUrl != null
+                    ? NetworkImage(user.avatarUrl!)
                     : null,
-                child: user?.avatarUrl == null
+                child: user.avatarUrl == null
                     ? Text(
-                        user?.name.isNotEmpty == true
-                            ? user!.name[0].toUpperCase()
+                        user.name.isNotEmpty
+                            ? user.name[0].toUpperCase()
                             : '?',
                         style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.w700),
