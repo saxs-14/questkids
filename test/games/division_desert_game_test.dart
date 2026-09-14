@@ -65,7 +65,7 @@ void main() {
     await tester.pump();
     for (var i = 0; i < 45; i++) {
       await tester.pump(const Duration(milliseconds: 100));
-      if (find.text('Desert Crossed!').evaluate().isNotEmpty) return;
+      if (find.text('Cookies Shared!').evaluate().isNotEmpty) return;
       if (until()) return;
     }
   }
@@ -153,7 +153,7 @@ void main() {
       }
     }
 
-    expect(find.textContaining('Desert'), findsWidgets,
+    expect(find.textContaining('Cookies Shared'), findsWidgets,
         reason: 'did not reach the victory screen after 20 questions');
   });
 }

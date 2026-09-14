@@ -8,22 +8,29 @@ import '../core/game_config.dart';
 import '../core/game_session_persistence.dart';
 
 // ────────────────────────────────────────────────────────────────────────────
-// Multiplication Mountains — Grade 4 Mathematics: multi-digit multiplication
+// Multiplication Mountains — "Animal Groups": Grade 4 Mathematics,
+// multi-digit multiplication (kept at its existing Grade 4 difficulty
+// per product decision -- this is a visual/copy reskin, not a
+// simplification)
 //
-// 4 Zones (5 questions each = 20 total):
-//   1. Grid Camp       — area-model (grid) diagram splits the multiplication
-//      into tens x multiplier and ones x multiplier
-//   2. Doubling Ridge   — doubling-chain diagram shows the repeated-doubling
-//      strategy for x2/x4/x8
-//   3. Break-Down Bluff — distributive-property word expression (text only)
-//   4. Summit Push      — direct multi-digit multiplication, hardest tier
+// 4 Levels (5 questions each = 20 total):
+//   Level 1 (Grid Camp)       — area-model (grid) diagram splits the
+//      multiplication into tens x multiplier and ones x multiplier
+//   Level 2 (Doubling Ridge)   — doubling-chain diagram shows the
+//      repeated-doubling strategy for x2/x4/x8
+//   Level 3 (Break-Down Bluff) — distributive-property word expression
+//      (text only)
+//   Level 4 (Summit Push)      — direct multi-digit multiplication,
+//      hardest tier
 //
 // Structurally distinct from every prior engine: the progress trail runs
 // VERTICALLY down the left edge of the screen (a climb) instead of
 // horizontally under the header like every other Grade 4 engine so far,
 // and two of the four zones show a CAPS-recommended multiplication
 // STRATEGY diagram (area-model grid, doubling chain) as visual scaffolding
-// above the answer choices, teaching the method, not just the answer.
+// above the answer choices, teaching the method, not just the answer --
+// deliberately kept intact by the pond reskin below, since these diagrams
+// are the actual teaching value, not surface theme.
 // Architecture: fully self-contained StatefulWidget.
 // ────────────────────────────────────────────────────────────────────────────
 
@@ -153,10 +160,10 @@ class _MMState extends State<MultiplicationMountainsGame>
     'Almost -- look at the working again!',
   ];
 
-  static const _skyTop = Color(0xFF2E4A6B);
-  static const _skyBottom = Color(0xFFEDEFF2);
-  static const _rock = Color(0xFF5C6B73);
-  static const _flagRed = Color(0xFFD64545);
+  static const _skyTop = Color(0xFF0288D1);
+  static const _skyBottom = Color(0xFFB2EBF2);
+  static const _rock = Color(0xFF1B5E20);
+  static const _flagRed = Color(0xFF2E7D32);
 
   late AnimationController _ambientCtrl;
   late AnimationController _fadeCtrl;
@@ -487,6 +494,7 @@ class _MMState extends State<MultiplicationMountainsGame>
                                           for (var i = 0; i < choices.length; i++)
                                             _FlagButton(
                                               label: choices[i],
+                                              colorIndex: i,
                                               selected: _selectedIndex == i,
                                               isCorrect: choices[i] == q.choices[0],
                                               revealed: revealed,
@@ -669,14 +677,25 @@ class _ChainDiagram extends StatelessWidget {
 
 // ── Flag button ──────────────────────────────────────────────────────────────
 
+// One distinct colour per choice slot (blue/green/yellow/red), matching
+// the reference spec's coloured-circle answer buttons.
+const _choicePalette = [
+  Color(0xFF1E88E5), // blue
+  Color(0xFF43A047), // green
+  Color(0xFFFDD835), // yellow
+  Color(0xFFE53935), // red
+];
+
 class _FlagButton extends StatelessWidget {
   final String label;
+  final int colorIndex;
   final bool selected;
   final bool isCorrect;
   final bool revealed;
   final VoidCallback onTap;
   const _FlagButton({
     required this.label,
+    required this.colorIndex,
     required this.selected,
     required this.isCorrect,
     required this.revealed,
@@ -685,7 +704,7 @@ class _FlagButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color fill = _MMState._flagRed;
+    Color fill = _choicePalette[colorIndex % _choicePalette.length];
     if (revealed && isCorrect) fill = const Color(0xFF4CAF7D);
     if (revealed && selected && !isCorrect) fill = const Color(0xFF8B8B8B);
 
@@ -741,8 +760,8 @@ class _MountainBgPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final farPaint = Paint()..color = const Color(0xFF9FB4C7);
-    final nearPaint = Paint()..color = const Color(0xFF7A93AB);
+    final farPaint = Paint()..color = const Color(0xFF80CBC4);
+    final nearPaint = Paint()..color = const Color(0xFF4DB6AC);
 
     Path peaks(double baseY, double amp, double phase) {
       final path = Path()..moveTo(0, size.height);
@@ -779,7 +798,8 @@ class _SnowShowerPainter extends CustomPainter {
       final y = (t * speed) * (size.height + 40) - 20;
       final x = startX + math.sin((t * 6) + i) * 12;
       final paint = Paint()
-        ..color = Colors.white.withValues(alpha: (1 - t).clamp(0.0, 1.0) * 0.9);
+        ..color = const Color(0xFFB2EBF2)
+            .withValues(alpha: (1 - t).clamp(0.0, 1.0) * 0.9);
       canvas.drawCircle(Offset(x, y), 3, paint);
     }
   }
@@ -807,7 +827,9 @@ class _MountainHeader extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(8, 8, 16, 4),
       child: Column(
         children: [
-          Text('Camp ${zoneIdx + 1}/$totalZones',
+          const Text('🐸 ANIMAL GROUPS',
+              style: TextStyle(color: _MMState._rock, fontSize: 11)),
+          Text('Level ${zoneIdx + 1} of $totalZones',
               style: const TextStyle(color: _MMState._rock, fontSize: 11)),
           Text(
             zoneName,
@@ -849,7 +871,7 @@ class _VerticalTrail extends StatelessWidget {
               children: [
                 for (var i = total - 1; i >= 0; i--)
                   Text(
-                    i < completed ? '🚩' : '·',
+                    i < completed ? '🐸' : '🪷',
                     style: TextStyle(
                       fontSize: i < completed ? 12 : 10,
                       color: i < completed ? null : _MMState._rock.withValues(alpha: 0.4),
@@ -887,7 +909,7 @@ class _ZoneDoneOverlay extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('⛰️', style: TextStyle(fontSize: 40)),
+              const Text('🐸', style: TextStyle(fontSize: 40)),
               const SizedBox(height: 8),
               Text('$completedZoneName complete!',
                   style: const TextStyle(
@@ -928,10 +950,10 @@ class _IntroScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('⛰️🧗', style: TextStyle(fontSize: 44)),
+                  Text('🐸🪷', style: TextStyle(fontSize: 44)),
                   SizedBox(height: 16),
                   Text(
-                    'Multiplication Mountains',
+                    'Animal Groups',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
@@ -941,8 +963,8 @@ class _IntroScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Climb higher by solving multi-digit multiplication --'
-                    ' use the grid and doubling strategies to reach the summit!',
+                    'Hop across the pond by solving multiplication --'
+                    ' use the grid and doubling strategies to reach the last lily pad!',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white70, fontSize: 14),
                   ),
@@ -991,9 +1013,9 @@ class _VictoryScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('🏆⛰️', style: TextStyle(fontSize: 48)),
+                  const Text('🏆🐸', style: TextStyle(fontSize: 48)),
                   const SizedBox(height: 12),
-                  const Text('Summit Reached!',
+                  const Text('Pond Crossed!',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 26,

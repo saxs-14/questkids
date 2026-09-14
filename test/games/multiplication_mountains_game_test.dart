@@ -43,7 +43,7 @@ void main() {
     await tester.pump();
     for (var i = 0; i < 45; i++) {
       await tester.pump(const Duration(milliseconds: 100));
-      if (find.text('Summit Reached!').evaluate().isNotEmpty) return;
+      if (find.text('Pond Crossed!').evaluate().isNotEmpty) return;
       final prompts = tester
           .widgetList<Text>(find.byType(Text))
           .map((w) => w.data ?? '')
@@ -88,7 +88,7 @@ void main() {
           reason: 'question "$prompt": expected "$expectedLabel" ($a×$b) to be correct');
     }
 
-    expect(find.textContaining('Summit'), findsWidgets,
+    expect(find.textContaining('Pond Crossed'), findsWidgets,
         reason: 'did not reach the victory screen after 20 questions');
   });
 }

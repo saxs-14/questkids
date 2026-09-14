@@ -8,16 +8,23 @@ import '../core/game_config.dart';
 import '../core/game_session_persistence.dart';
 
 // ────────────────────────────────────────────────────────────────────────────
-// Division Desert — Grade 4 Mathematics: division (sharing/grouping,
-// remainders, multiplication/division fact families)
+// Division Desert — "Share the Cookies": Grade 4 Mathematics, division
+// (sharing/grouping, remainders, multiplication/division fact families),
+// kept at its existing Grade 4 difficulty per product decision -- this is
+// a visual/copy reskin, not a simplification. (A follow-up could replace
+// Level 1's tap-a-choice flow with genuine drag-and-drop cookie sharing,
+// as originally requested -- not attempted here since it would change
+// the question-answering mechanic itself, not just the skin, and the
+// multi-step remainder flow in Level 2 needs its own design pass first.)
 //
-// 4 Zones (5 questions each = 20 total):
-//   1. Even Split    — exact division, no remainder (single-step MCQ)
-//   2. Leftover Oasis — division WITH a remainder, answered in TWO guided
-//      steps: first the quotient, then the remainder
-//   3. Fact Families  — derive a division fact from a given multiplication
-//      fact
-//   4. Desert Trek    — sharing/grouping word problems with remainders
+// 4 Levels (5 questions each = 20 total):
+//   Level 1 (Even Split)    — exact division, no remainder (single-step MCQ)
+//   Level 2 (Leftover Oasis) — division WITH a remainder, answered in TWO
+//      guided steps: first the quotient, then the remainder
+//   Level 3 (Fact Families)  — derive a division fact from a given
+//      multiplication fact
+//   Level 4 (Desert Trek)    — sharing/grouping word problems with
+//      remainders
 //
 // Structurally distinct from every prior engine: Leftover Oasis is the
 // first genuinely multi-step guided question in Grade 4 -- the learner
@@ -164,10 +171,10 @@ class _DivState extends State<DivisionDesertGame>
     'Almost -- count the groups again!',
   ];
 
-  static const _skyTop = Color(0xFF4FBDBD);
-  static const _skyBottom = Color(0xFFC1502E);
-  static const _mesa = Color(0xFF8B4A3B);
-  static const _sand = Color(0xFFE8A33D);
+  static const _skyTop = Color(0xFF8D6E63);
+  static const _skyBottom = Color(0xFFD7CCC8);
+  static const _mesa = Color(0xFF6D4C41);
+  static const _sand = Color(0xFFFFCA28);
 
   late AnimationController _ambientCtrl;
   late AnimationController _fadeCtrl;
@@ -555,6 +562,7 @@ class _DivState extends State<DivisionDesertGame>
                                     for (var i = 0; i < choices.length; i++)
                                       _MesaTile(
                                         label: choices[i],
+                                        colorIndex: i,
                                         selected: _selectedIndex == i,
                                         isCorrect: choices[i] == rawChoices[0],
                                         revealed: revealed,
@@ -622,14 +630,25 @@ class _DivState extends State<DivisionDesertGame>
 
 // ── Tile ─────────────────────────────────────────────────────────────────────
 
+// One distinct colour per choice slot (blue/green/yellow/red), matching
+// the reference spec's coloured-circle answer buttons.
+const _choicePalette = [
+  Color(0xFF1E88E5), // blue
+  Color(0xFF43A047), // green
+  Color(0xFFFDD835), // yellow
+  Color(0xFFE53935), // red
+];
+
 class _MesaTile extends StatelessWidget {
   final String label;
+  final int colorIndex;
   final bool selected;
   final bool isCorrect;
   final bool revealed;
   final VoidCallback onTap;
   const _MesaTile({
     required this.label,
+    required this.colorIndex,
     required this.selected,
     required this.isCorrect,
     required this.revealed,
@@ -638,7 +657,7 @@ class _MesaTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color fill = _DivState._mesa;
+    Color fill = _choicePalette[colorIndex % _choicePalette.length];
     if (revealed && isCorrect) fill = const Color(0xFF4CAF7D);
     if (revealed && selected && !isCorrect) fill = const Color(0xFFE05656);
 
@@ -697,8 +716,8 @@ class _MesaBgPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final farPaint = Paint()..color = const Color(0xFFB56B4A).withValues(alpha: 0.5);
-    final nearPaint = Paint()..color = const Color(0xFF8B4A3B).withValues(alpha: 0.6);
+    final farPaint = Paint()..color = const Color(0xFFBCAAA4).withValues(alpha: 0.5);
+    final nearPaint = Paint()..color = const Color(0xFF8D6E63).withValues(alpha: 0.6);
 
     void mesa(Paint paint, double baseY, double h, double x0, double w) {
       final rect = Rect.fromLTWH(x0, baseY - h, w, h + 200);
@@ -729,7 +748,7 @@ class _SandGustPainter extends CustomPainter {
       final x = (t * speed) * (size.width + 40) - 20;
       final y = startY + math.sin((t * 6) + i) * 10;
       final paint = Paint()
-        ..color = const Color(0xFFE8A33D)
+        ..color = const Color(0xFFFFCA28)
             .withValues(alpha: (1 - t).clamp(0.0, 1.0) * 0.8);
       canvas.drawCircle(Offset(x, y), 3, paint);
     }
@@ -763,12 +782,12 @@ class _DesertHeader extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Text('🏜️', style: TextStyle(fontSize: 22)),
+              const Text('🍪', style: TextStyle(fontSize: 22)),
               const SizedBox(width: 8),
               Expanded(
                 child: Column(
                   children: [
-                    Text('Zone ${zoneIdx + 1}/$totalZones',
+                    Text('Level ${zoneIdx + 1} of $totalZones',
                         style: const TextStyle(
                             color: Colors.white70, fontSize: 11)),
                     Text(
@@ -817,7 +836,7 @@ class _DivisionTrail extends StatelessWidget {
             children: [
               for (var i = 0; i < total; i++)
                 Text(
-                  i < completed ? '➗' : '·',
+                  i < completed ? '🍪' : '·',
                   style: TextStyle(
                     fontSize: i < completed ? 12 : 10,
                     color: i < completed ? Colors.white : Colors.white38,
@@ -854,7 +873,7 @@ class _ZoneDoneOverlay extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('🏺', style: TextStyle(fontSize: 40)),
+              const Text('🍪', style: TextStyle(fontSize: 40)),
               const SizedBox(height: 8),
               Text('$completedZoneName complete!',
                   style: const TextStyle(
@@ -895,10 +914,10 @@ class _IntroScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('🏜️🦂', style: TextStyle(fontSize: 44)),
+                  Text('🍪', style: TextStyle(fontSize: 44)),
                   SizedBox(height: 16),
                   Text(
-                    'Division Desert',
+                    'Share the Cookies',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 28,
@@ -907,8 +926,8 @@ class _IntroScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Divide and conquer -- share, group and work out '
-                    'what is left over to cross the desert!',
+                    'Share, group and work out '
+                    'what is left over to solve division!',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white70, fontSize: 14),
                   ),
@@ -957,9 +976,9 @@ class _VictoryScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('🏆🏜️', style: TextStyle(fontSize: 48)),
+                  const Text('🏆🍪', style: TextStyle(fontSize: 48)),
                   const SizedBox(height: 12),
-                  const Text('Desert Crossed!',
+                  const Text('Cookies Shared!',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 26,
