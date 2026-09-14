@@ -75,19 +75,19 @@ class _RQState extends State<ReadingQuestGame> with TickerProviderStateMixin {
           'untangled the string and passed the kite back down to Thabo. He was '
           'so happy that he shared his sandwich with Lindiwe to say thank you.',
       questions: [
-        _CompQ(prompt: "What colour was Thabo's kite?", choices: ['Red', 'Blue', 'Yellow']),
+        _CompQ(prompt: "Thabo's kite was _____ in colour.", choices: ['red', 'blue', 'yellow']),
         _CompQ(
-            prompt: 'Where was Thabo flying his kite?',
-            choices: ['At the park near his home', 'At school', 'At the beach']),
+            prompt: 'Thabo was flying his kite _____.',
+            choices: ['at the park near his home', 'at school', 'at the beach']),
         _CompQ(
-            prompt: 'What got the kite stuck?',
-            choices: ['It got tangled in a jacaranda tree', 'It fell in a river', 'A dog caught it']),
+            prompt: 'The kite got stuck because it _____.',
+            choices: ['got tangled in a jacaranda tree', 'fell in a river', 'was caught by a dog']),
         _CompQ(
-            prompt: "Who helped Thabo get his kite back?",
+            prompt: '_____ helped Thabo get his kite back.',
             choices: ['Lindiwe', 'His mother', 'A stranger']),
         _CompQ(
-            prompt: 'How did Thabo thank Lindiwe?',
-            choices: ['He shared his sandwich with her', 'He gave her money', 'He gave her the kite']),
+            prompt: 'Thabo thanked Lindiwe by _____.',
+            choices: ['sharing his sandwich with her', 'giving her money', 'giving her the kite']),
       ],
     ),
     _Zone(
@@ -104,31 +104,31 @@ class _RQState extends State<ReadingQuestGame> with TickerProviderStateMixin {
           'loudly whenever someone scored a goal.',
       questions: [
         _CompQ(
-            prompt: 'Where did the friends play soccer?',
-            choices: ['On the dusty field behind the school', 'In the street', 'At the beach']),
+            prompt: 'The friends played soccer _____.',
+            choices: ['on the dusty field behind the school', 'in the street', 'at the beach']),
         _CompQ(
-            prompt: "Whose garden did the ball roll into?",
-            choices: ["Mrs. Naidoo's garden", 'The school garden', "Sipho's garden"]),
+            prompt: 'The ball rolled into _____.',
+            choices: ["Mrs. Naidoo's garden", 'the school garden', "Sipho's garden"]),
         _CompQ(
-            prompt: 'Why was Sipho scared?',
+            prompt: 'Sipho was scared because he thought _____.',
             choices: [
-              'He thought Mrs. Naidoo would be angry',
-              'He thought he would get hurt',
-              'He thought he would lose the ball forever'
+              'Mrs. Naidoo would be angry',
+              'he would get hurt',
+              'he would lose the ball forever'
             ]),
         _CompQ(
-            prompt: 'What did Mrs. Naidoo do instead of getting angry?',
+            prompt: 'Instead of getting angry, Mrs. Naidoo _____.',
             choices: [
-              'She smiled and said accidents happen',
-              'She shouted at Sipho',
-              'She called his parents'
+              'smiled and said accidents happen',
+              'shouted at Sipho',
+              'called his parents'
             ]),
         _CompQ(
-            prompt: 'What did Mrs. Naidoo start doing after that day?',
+            prompt: 'After that day, Mrs. Naidoo started _____.',
             choices: [
-              'Watching and cheering at their matches',
-              'Growing more roses',
-              'Selling water to the players'
+              'watching and cheering at their matches',
+              'growing more roses',
+              'selling water to the players'
             ]),
       ],
     ),
@@ -147,24 +147,24 @@ class _RQState extends State<ReadingQuestGame> with TickerProviderStateMixin {
           'one year.',
       questions: [
         _CompQ(
-            prompt: 'What do worker bees collect from flowers?',
-            choices: ['Nectar', 'Pollen dust', 'Water only']),
+            prompt: 'Worker bees collect _____ from flowers.',
+            choices: ['nectar', 'pollen dust', 'water only']),
         _CompQ(
-            prompt: 'Where do bees store honey inside the hive?',
-            choices: ['In honeycombs', 'In flower petals', 'In their wings']),
+            prompt: 'Bees store honey inside the hive in _____.',
+            choices: ['honeycombs', 'flower petals', 'their wings']),
         _CompQ(
-            prompt: 'Why do bees fan the nectar with their wings?',
+            prompt: 'Bees fan the nectar with their wings to _____.',
             choices: [
-              'To remove extra water and thicken it',
-              'To cool down the hive',
-              'To scare away other insects'
+              'remove extra water and thicken it',
+              'cool down the hive',
+              'scare away other insects'
             ]),
         _CompQ(
-            prompt: 'What shape are the wax cells in a honeycomb?',
-            choices: ['Six-sided', 'Round', 'Square']),
+            prompt: 'The wax cells in a honeycomb are _____ shaped.',
+            choices: ['six-sided', 'round', 'square']),
         _CompQ(
-            prompt: 'What do bees do once the honey is ready?',
-            choices: ['Seal the cell with wax', 'Eat it all immediately', 'Throw it away']),
+            prompt: 'Once the honey is ready, bees _____.',
+            choices: ['seal the cell with wax', 'eat it all immediately', 'throw it away']),
       ],
     ),
     _Zone(
@@ -183,31 +183,31 @@ class _RQState extends State<ReadingQuestGame> with TickerProviderStateMixin {
           'plastic and glass to make recycling easier.',
       questions: [
         _CompQ(
-            prompt: 'What does recycling mean?',
+            prompt: 'Recycling means _____.',
             choices: [
-              'Turning old materials into new products',
-              'Burning all rubbish',
-              'Burying rubbish underground'
+              'turning old materials into new products',
+              'burning all rubbish',
+              'burying rubbish underground'
             ]),
         _CompQ(
-            prompt: 'What can plastic bottles be turned into?',
-            choices: ['New bottles or even clothing', 'Fresh water', 'Food']),
+            prompt: 'Plastic bottles can be turned into _____.',
+            choices: ['new bottles or even clothing', 'fresh water', 'food']),
         _CompQ(
-            prompt: 'What happens to glass jars when they are recycled?',
+            prompt: 'When glass jars are recycled, they are _____.',
             choices: [
-              'They are crushed and melted to make new glass',
-              'They are buried in the garden',
-              'They are thrown into the ocean'
+              'crushed and melted to make new glass',
+              'buried in the garden',
+              'thrown into the ocean'
             ]),
         _CompQ(
-            prompt: 'Which of these is NOT mentioned as a benefit of recycling?',
-            choices: ['Making people richer', 'Saving natural resources', 'Reducing pollution']),
+            prompt: 'Recycling is NOT known to _____.',
+            choices: ['make people richer', 'save natural resources', 'reduce pollution']),
         _CompQ(
-            prompt: 'What do many schools now have to make recycling easier?',
+            prompt: 'Many schools now have _____ to make recycling easier.',
             choices: [
-              'Separate bins for paper, plastic and glass',
-              'A recycling teacher',
-              'A rubbish truck'
+              'separate bins for paper, plastic and glass',
+              'a recycling teacher',
+              'a rubbish truck'
             ]),
       ],
     ),
@@ -562,12 +562,32 @@ class _RQState extends State<ReadingQuestGame> with TickerProviderStateMixin {
 
   Widget _buildQuestion(_CompQ q, bool revealed) {
     final choices = _getShuffledChoices(q);
+    final parts = q.prompt.split('_____');
     return Column(
       children: [
-        Text(
-          q.prompt,
+        const Text(
+          'Fill in the blank:',
+          style: TextStyle(color: Colors.white60, fontSize: 12, fontStyle: FontStyle.italic),
+        ),
+        const SizedBox(height: 8),
+        RichText(
           textAlign: TextAlign.center,
-          style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+          text: TextSpan(
+            style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+            children: [
+              TextSpan(text: parts[0]),
+              TextSpan(
+                text: revealed ? ' ${q.choices[0]} ' : '  _____  ',
+                style: const TextStyle(
+                  color: _RQState._accent,
+                  decoration: TextDecoration.underline,
+                  decorationColor: _RQState._accent,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              if (parts.length > 1) TextSpan(text: parts[1]),
+            ],
+          ),
         ),
         const SizedBox(height: 18),
         AnimatedBuilder(
@@ -898,8 +918,7 @@ class _IntroScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Read each passage carefully, then answer questions '
-                    'about it!',
+                    'Read each passage carefully, then fill in the blank!',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white70, fontSize: 14),
                   ),
