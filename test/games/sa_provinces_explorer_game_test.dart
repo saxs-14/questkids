@@ -9,8 +9,16 @@ import 'package:questkids/features/games/sa_provinces_explorer/sa_provinces_expl
 /// Completion coverage for SaProvincesExplorerGame (see
 /// addition_adventure_game_test.dart for why this doesn't attempt content
 /// verification -- fact-based content, nothing arithmetic to recompute).
-/// Taps the last-rendered GestureDetector each round and asserts the
-/// full playthrough completes without exceptions.
+///
+/// "Find the Province" and "Famous Landmarks" now use real
+/// Draggable/DragTarget (dragging a province-name chip onto the map)
+/// instead of tapping an already-labelled province button, so this drags
+/// from whichever Draggable<String> chip renders first onto whichever
+/// DragTarget<String> slot renders first each round -- any drop (right or
+/// wrong) advances the game via the same _applyAnswerResult path a tap
+/// used to, so this still drives a full playthrough to completion.
+/// "Provincial Capitals" and "Province Facts" are untouched multiple
+/// choice and still get tapped.
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   setupFirebaseCoreMocks();
@@ -52,11 +60,25 @@ void main() {
     for (var q = 0; q < 30; q++) {
       if (find.textContaining('Provinces Master!').evaluate().isNotEmpty) break;
 
-      final detectors = find.byType(GestureDetector);
-      final count = detectors.evaluate().length;
-      expect(count, greaterThan(0), reason: 'expected a tappable choice at question $q');
-      await tester.tap(detectors.last, warnIfMissed: false);
-      await tester.pump();
+      final draggables = find.byType(Draggable<String>);
+      final targets = find.byType(DragTarget<String>);
+      if (draggables.evaluate().isNotEmpty && targets.evaluate().isNotEmpty) {
+        final source = tester.getCenter(draggables.first);
+        final target = tester.getCenter(targets.first);
+        final gesture = await tester.startGesture(source);
+        await tester.pump(const Duration(milliseconds: 50));
+        await gesture.moveTo(target);
+        await tester.pump(const Duration(milliseconds: 50));
+        await gesture.up();
+        await tester.pump();
+      } else {
+        final detectors = find.byType(GestureDetector);
+        expect(detectors.evaluate().length, greaterThan(0),
+            reason: 'expected a tappable choice or draggable chip at question $q');
+        await tester.tap(detectors.last, warnIfMissed: false);
+        await tester.pump();
+      }
+
       for (var i = 0; i < 30; i++) {
         await tester.pump(const Duration(milliseconds: 100));
         if (find.textContaining('Provinces Master!').evaluate().isNotEmpty) break;

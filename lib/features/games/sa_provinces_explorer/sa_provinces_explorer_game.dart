@@ -64,7 +64,8 @@ const _provinceLabel = {
 class _MapQ {
   final String prompt;
   final String correct; // province id
-  const _MapQ({required this.prompt, required this.correct});
+  final List<String> decoys; // province ids offered alongside the correct one
+  const _MapQ({required this.prompt, required this.correct, required this.decoys});
 }
 
 class _SimpleQ {
@@ -100,11 +101,26 @@ class SaProvincesExplorerGame extends StatefulWidget {
 class _SPState extends State<SaProvincesExplorerGame> with TickerProviderStateMixin {
   static const _zoneTemplates = [
     _Zone.map('Find the Province', [
-      _MapQ(prompt: "Which province's capital is Cape Town?", correct: 'western_cape'),
-      _MapQ(prompt: "Which province's capital is Bloemfontein?", correct: 'free_state'),
-      _MapQ(prompt: "Which province's capital is Polokwane?", correct: 'limpopo'),
-      _MapQ(prompt: "Which province's capital is Kimberley?", correct: 'northern_cape'),
-      _MapQ(prompt: "Which province's capital is Pietermaritzburg?", correct: 'kzn'),
+      _MapQ(
+          prompt: "Which province's capital is Cape Town?",
+          correct: 'western_cape',
+          decoys: ['eastern_cape', 'northern_cape']),
+      _MapQ(
+          prompt: "Which province's capital is Bloemfontein?",
+          correct: 'free_state',
+          decoys: ['gauteng', 'north_west']),
+      _MapQ(
+          prompt: "Which province's capital is Polokwane?",
+          correct: 'limpopo',
+          decoys: ['mpumalanga', 'north_west']),
+      _MapQ(
+          prompt: "Which province's capital is Kimberley?",
+          correct: 'northern_cape',
+          decoys: ['western_cape', 'free_state']),
+      _MapQ(
+          prompt: "Which province's capital is Pietermaritzburg?",
+          correct: 'kzn',
+          decoys: ['mpumalanga', 'eastern_cape']),
     ]),
     _Zone.simple('Provincial Capitals', [
       _SimpleQ(
@@ -126,19 +142,24 @@ class _SPState extends State<SaProvincesExplorerGame> with TickerProviderStateMi
     _Zone.map('Famous Landmarks', [
       _MapQ(
           prompt: 'Table Mountain is a famous landmark in which province?',
-          correct: 'western_cape'),
+          correct: 'western_cape',
+          decoys: ['eastern_cape', 'northern_cape']),
       _MapQ(
           prompt: 'The Drakensberg Mountains stretch through which province?',
-          correct: 'kzn'),
+          correct: 'kzn',
+          decoys: ['free_state', 'mpumalanga']),
       _MapQ(
           prompt: 'The Blyde River Canyon is found in which province?',
-          correct: 'mpumalanga'),
+          correct: 'mpumalanga',
+          decoys: ['limpopo', 'gauteng']),
       _MapQ(
           prompt: 'The Kalahari Desert stretches into which province?',
-          correct: 'northern_cape'),
+          correct: 'northern_cape',
+          decoys: ['western_cape', 'north_west']),
       _MapQ(
           prompt: 'Addo Elephant National Park is found in which province?',
-          correct: 'eastern_cape'),
+          correct: 'eastern_cape',
+          decoys: ['kzn', 'western_cape']),
     ]),
     _Zone.simple('Province Facts', [
       _SimpleQ(
@@ -302,12 +323,23 @@ class _SPState extends State<SaProvincesExplorerGame> with TickerProviderStateMi
     _applyAnswerResult(isCorrect);
   }
 
-  void _onProvinceTap(String provinceId) {
+  void _onProvinceDrop(String provinceId) {
     if (_phase != _Phase.playing) return;
     final q = _zones[_zoneIdx].mapQs[_qIdx];
     final isCorrect = provinceId == q.correct;
     setState(() => _pickedProvince = provinceId);
     _applyAnswerResult(isCorrect);
+  }
+
+  Object? _cachedMapQ;
+  List<String> _cachedMapChoices = [];
+
+  List<String> _getShuffledMapChoices(_MapQ q) {
+    if (!identical(_cachedMapQ, q)) {
+      _cachedMapQ = q;
+      _cachedMapChoices = [q.correct, ...q.decoys]..shuffle(_rng);
+    }
+    return _cachedMapChoices;
   }
 
   void _applyAnswerResult(bool isCorrect) {
@@ -515,6 +547,7 @@ class _SPState extends State<SaProvincesExplorerGame> with TickerProviderStateMi
     const mapWidth = 280.0;
     const mapHeight = 300.0;
     final revealed = _phase == _Phase.correct || _phase == _Phase.wrong;
+    final choices = _getShuffledMapChoices(q);
 
     return Column(
       children: [
@@ -524,7 +557,13 @@ class _SPState extends State<SaProvincesExplorerGame> with TickerProviderStateMi
           textAlign: TextAlign.center,
           style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
         ),
-        const SizedBox(height: 18),
+        const SizedBox(height: 6),
+        const Text(
+          'Drag the province onto the map!',
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.white60, fontSize: 12, fontStyle: FontStyle.italic),
+        ),
+        const SizedBox(height: 14),
         SizedBox(
           width: mapWidth,
           height: mapHeight,
@@ -539,8 +578,11 @@ class _SPState extends State<SaProvincesExplorerGame> with TickerProviderStateMi
                   ),
                 ),
               ),
+              // Every real province is a drop target (not just the 3
+              // in play), so the map still reads as the whole country --
+              // only the ones actually offered below can ever be correct.
               for (final entry in _provincePositions.entries)
-                _provinceButton(entry.key, entry.value, mapWidth, mapHeight, q, revealed),
+                _provinceSlot(entry.key, entry.value, mapWidth, mapHeight, q, revealed),
             ],
           ),
         ),
@@ -553,43 +595,68 @@ class _SPState extends State<SaProvincesExplorerGame> with TickerProviderStateMi
               style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600),
             ),
           ),
+        const SizedBox(height: 20),
+        AnimatedBuilder(
+          animation: _shakeAnim,
+          builder: (context, _) {
+            final dx = _phase == _Phase.wrong
+                ? math.sin(_shakeAnim.value * math.pi * 6) * 5
+                : 0.0;
+            return Transform.translate(
+              offset: Offset(dx, 0),
+              child: Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                alignment: WrapAlignment.center,
+                children: [
+                  for (final id in choices) _ProvinceChip(id: id, used: revealed && id != q.correct),
+                ],
+              ),
+            );
+          },
+        ),
         const SizedBox(height: 24),
       ],
     );
   }
 
-  Widget _provinceButton(
+  Widget _provinceSlot(
       String id, Offset frac, double mapWidth, double mapHeight, _MapQ q, bool revealed) {
     final isCorrectProvince = id == q.correct;
     final isPicked = id == _pickedProvince;
+    const slotSize = 40.0;
 
-    Color fill = _card;
-    if (revealed && isCorrectProvince) fill = const Color(0xFF4CAF7D);
-    if (revealed && isPicked && !isCorrectProvince) fill = const Color(0xFFE05656);
-
-    const btnSize = 46.0;
     return Positioned(
-      left: frac.dx * mapWidth - btnSize / 2,
-      top: frac.dy * mapHeight - btnSize / 2,
-      child: GestureDetector(
-        onTap: () => _onProvinceTap(id),
-        child: Container(
-          width: btnSize,
-          height: btnSize,
-          decoration: BoxDecoration(
-            color: fill,
-            shape: BoxShape.circle,
-            border: Border.all(color: _gold, width: 1.5),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            _provinceLabel[id]!,
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.w800),
-          ),
-        ),
+      left: frac.dx * mapWidth - slotSize / 2,
+      top: frac.dy * mapHeight - slotSize / 2,
+      child: DragTarget<String>(
+        onWillAcceptWithDetails: (details) => _pickedProvince == null,
+        onAcceptWithDetails: (details) => _onProvinceDrop(id),
+        builder: (context, candidateData, rejectedData) {
+          final hovering = candidateData.isNotEmpty;
+          Color fill = hovering ? _gold.withValues(alpha: 0.35) : Colors.white10;
+          if (revealed && isCorrectProvince) fill = const Color(0xFF4CAF7D);
+          if (revealed && isPicked && !isCorrectProvince) fill = const Color(0xFFE05656);
+
+          return Container(
+            width: slotSize,
+            height: slotSize,
+            decoration: BoxDecoration(
+              color: fill,
+              shape: BoxShape.circle,
+              border: Border.all(
+                  color: revealed && (isCorrectProvince || isPicked) ? _gold : Colors.white38,
+                  width: 1.5),
+            ),
+            alignment: Alignment.center,
+            child: revealed && (isCorrectProvince || isPicked)
+                ? Text(
+                    _provinceLabel[id]!.split(' ').map((w) => w[0]).join(),
+                    style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w900),
+                  )
+                : null,
+          );
+        },
       ),
     );
   }
@@ -642,6 +709,39 @@ class _SPState extends State<SaProvincesExplorerGame> with TickerProviderStateMi
           ),
         const SizedBox(height: 20),
       ],
+    );
+  }
+}
+
+// ── Draggable province name chip ─────────────────────────────────────────────
+
+class _ProvinceChip extends StatelessWidget {
+  final String id;
+  final bool used;
+  const _ProvinceChip({required this.id, required this.used});
+
+  Widget _chip({double opacity = 1.0}) => Opacity(
+        opacity: opacity,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          decoration: BoxDecoration(
+            color: _SPState._card,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: _SPState._gold.withValues(alpha: 0.7), width: 2),
+          ),
+          child: Text(_provinceLabel[id]!,
+              style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w700)),
+        ),
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    if (used) return _chip(opacity: 0.35);
+    return Draggable<String>(
+      data: id,
+      feedback: Material(color: Colors.transparent, child: _chip()),
+      childWhenDragging: _chip(opacity: 0.3),
+      child: _chip(),
     );
   }
 }
@@ -888,7 +988,7 @@ class _IntroScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Tap your way across South Africa\'s 9 provinces, capitals '
+                    'Drag your way across South Africa\'s 9 provinces, capitals '
                     'and landmarks!',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white70, fontSize: 14),
