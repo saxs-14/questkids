@@ -43,6 +43,8 @@ const _partEmoji = {
   'controller': '🧠',
   'battery': '🔋',
   'motor': '⚡',
+  'speaker': '🔊',
+  'antenna': '📶',
 };
 const _partLabel = {
   'chassis': 'Chassis',
@@ -52,6 +54,8 @@ const _partLabel = {
   'controller': 'Controller',
   'battery': 'Battery',
   'motor': 'Motor',
+  'speaker': 'Speaker',
+  'antenna': 'Antenna',
 };
 
 // Cumulative-correct-count thresholds at which each avatar slot unlocks.
@@ -96,22 +100,27 @@ class RobotMakerGame extends StatefulWidget {
 
 class _RMState extends State<RobotMakerGame> with TickerProviderStateMixin {
   static const _zoneTemplates = [
-    _Zone.simple('Choose the Right Part', [
-      _SimpleQ(
-          prompt: "Your robot needs to move across the classroom floor. What part should you add?",
-          choices: ['Wheels', 'Sensor', 'Speaker']),
-      _SimpleQ(
-          prompt: "Your robot needs to sense when it's getting dark. What part should you add?",
-          choices: ['Light sensor', 'Gripper', 'Wheels']),
-      _SimpleQ(
-          prompt: 'Your robot needs to pick up a small ball. What part should you add?',
-          choices: ['Gripper arm', 'Battery', 'Wheels']),
-      _SimpleQ(
-          prompt: 'Your robot needs energy to run. What part should you add?',
-          choices: ['Battery', 'Sensor', 'Antenna']),
-      _SimpleQ(
-          prompt: "Your robot needs a 'brain' to control its actions. What part should you add?",
-          choices: ['Controller (circuit board)', 'Wheels', 'Gripper']),
+    _Zone.build('Choose the Right Part', [
+      _BuildQ(
+          description: 'Your robot needs to move across the classroom floor.',
+          correct: ['wheels'],
+          bank: ['wheels', 'sensor', 'speaker']),
+      _BuildQ(
+          description: "Your robot needs to sense when it's getting dark.",
+          correct: ['sensor'],
+          bank: ['sensor', 'gripper', 'wheels']),
+      _BuildQ(
+          description: 'Your robot needs to pick up a small ball.',
+          correct: ['gripper'],
+          bank: ['gripper', 'battery', 'wheels']),
+      _BuildQ(
+          description: 'Your robot needs energy to run.',
+          correct: ['battery'],
+          bank: ['battery', 'sensor', 'antenna']),
+      _BuildQ(
+          description: "Your robot needs a 'brain' to control its actions.",
+          correct: ['controller'],
+          bank: ['controller', 'wheels', 'gripper']),
     ]),
     _Zone.simple('The Design Process', [
       _SimpleQ(
@@ -345,17 +354,19 @@ class _RMState extends State<RobotMakerGame> with TickerProviderStateMixin {
     _applyAnswerResult(isCorrect);
   }
 
-  void _onTapBankPart(int bankIdx) {
+  // Accepts a drag from bank slot [bankIdx] dropped onto robot slot
+  // [slotIndex] -- unlike the old tap flow (which always routed a tap to
+  // whichever slot was next empty), a drag lands exactly where the
+  // learner dropped it, so an already-filled slot simply rejects the
+  // drop (see _BuildSlot's DragTarget.onWillAcceptWithDetails).
+  void _onDropPart(int slotIndex, int bankIdx) {
     if (_phase != _Phase.playing) return;
     final q = _zones[_zoneIdx].builds[_qIdx];
-    if (_bankUsed[bankIdx]) return;
-
-    final emptySlot = _placements.indexWhere((p) => p == null);
-    if (emptySlot == -1) return;
+    if (_bankUsed[bankIdx] || _placements[slotIndex] != null) return;
 
     setState(() {
       _bankUsed[bankIdx] = true;
-      _placements[emptySlot] = q.bank[bankIdx];
+      _placements[slotIndex] = q.bank[bankIdx];
     });
 
     if (!_placements.contains(null)) {
@@ -533,6 +544,7 @@ class _RMState extends State<RobotMakerGame> with TickerProviderStateMixin {
                   totalZones: _zones.length,
                   completedSteps: completedSteps,
                   totalSteps: total,
+                  totalXP: _totalXP,
                 ),
                 _RobotAvatar(correctCount: _correctCount),
                 Expanded(
@@ -583,10 +595,28 @@ class _RMState extends State<RobotMakerGame> with TickerProviderStateMixin {
     return Column(
       children: [
         const SizedBox(height: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: BoxDecoration(
+            color: _glow.withValues(alpha: 0.18),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: _glow, width: 1.5),
+          ),
+          child: Text('MISSION ${_qIdx + 1}',
+              style: const TextStyle(
+                  color: _glow, fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 0.5)),
+        ),
+        const SizedBox(height: 10),
         Text(
           q.description,
           textAlign: TextAlign.center,
           style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(height: 6),
+        const Text(
+          'Drag the correct part onto the robot!',
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.white60, fontSize: 12, fontStyle: FontStyle.italic),
         ),
         const SizedBox(height: 16),
         Wrap(
@@ -595,7 +625,11 @@ class _RMState extends State<RobotMakerGame> with TickerProviderStateMixin {
           alignment: WrapAlignment.center,
           children: [
             for (var i = 0; i < q.correct.length; i++)
-              _BuildSlot(id: _placements[i], index: i),
+              _BuildSlot(
+                id: _placements[i],
+                index: i,
+                onAccept: (bankIdx) => _onDropPart(i, bankIdx),
+              ),
           ],
         ),
         if (_phase == _Phase.wrong && _lastBuildCorrect == false)
@@ -624,8 +658,8 @@ class _RMState extends State<RobotMakerGame> with TickerProviderStateMixin {
                   for (var i = 0; i < q.bank.length; i++)
                     _PartChip(
                       id: q.bank[i],
+                      bankIndex: i,
                       used: _bankUsed[i],
-                      onTap: () => _onTapBankPart(i),
                     ),
                 ],
               ),
@@ -880,40 +914,52 @@ class _RobotAvatar extends StatelessWidget {
 class _BuildSlot extends StatelessWidget {
   final String? id;
   final int index;
-  const _BuildSlot({required this.id, required this.index});
+  final ValueChanged<int> onAccept;
+  const _BuildSlot({required this.id, required this.index, required this.onAccept});
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      width: 52,
-      height: 52,
-      decoration: BoxDecoration(
-        color: id != null ? _RMState._card : Colors.white10,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: id != null ? _RMState._glow : Colors.white38, width: 1.5),
-      ),
-      alignment: Alignment.center,
-      child: Text(
-        id != null ? _partEmoji[id]! : '${index + 1}',
-        style: TextStyle(fontSize: id != null ? 22 : 16, color: Colors.white70),
-      ),
+    return DragTarget<int>(
+      onWillAcceptWithDetails: (details) => id == null,
+      onAcceptWithDetails: (details) => onAccept(details.data),
+      builder: (context, candidateData, rejectedData) {
+        final hovering = candidateData.isNotEmpty;
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          width: 56,
+          height: 56,
+          decoration: BoxDecoration(
+            color: id != null
+                ? _RMState._card
+                : (hovering ? _RMState._glow.withValues(alpha: 0.25) : Colors.white10),
+            borderRadius: BorderRadius.circular(10),
+            border: id != null
+                ? Border.all(color: _RMState._glow, width: 1.5)
+                : Border.all(
+                    color: hovering ? _RMState._glow : Colors.white38,
+                    width: 1.5,
+                    style: BorderStyle.solid,
+                  ),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            id != null ? _partEmoji[id]! : '${index + 1}',
+            style: TextStyle(fontSize: id != null ? 24 : 16, color: Colors.white70),
+          ),
+        );
+      },
     );
   }
 }
 
 class _PartChip extends StatelessWidget {
   final String id;
+  final int bankIndex;
   final bool used;
-  final VoidCallback onTap;
-  const _PartChip({required this.id, required this.used, required this.onTap});
+  const _PartChip({required this.id, required this.bankIndex, required this.used});
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: used ? null : onTap,
-      child: Opacity(
-        opacity: used ? 0.35 : 1.0,
+  Widget _chip({double opacity = 1.0}) => Opacity(
+        opacity: opacity,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
           decoration: BoxDecoration(
@@ -931,7 +977,16 @@ class _PartChip extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    if (used) return _chip(opacity: 0.35);
+    return Draggable<int>(
+      data: bankIndex,
+      feedback: Material(color: Colors.transparent, child: _chip()),
+      childWhenDragging: _chip(opacity: 0.3),
+      child: _chip(),
     );
   }
 }
@@ -1035,12 +1090,14 @@ class _RobotHeader extends StatelessWidget {
   final int totalZones;
   final int completedSteps;
   final int totalSteps;
+  final int totalXP;
   const _RobotHeader({
     required this.zoneName,
     required this.zoneIdx,
     required this.totalZones,
     required this.completedSteps,
     required this.totalSteps,
+    required this.totalXP,
   });
 
   @override
@@ -1068,7 +1125,16 @@ class _RobotHeader extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(width: 30),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: _RMState._glow.withValues(alpha: 0.85),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text('⭐ $totalXP',
+                    style: const TextStyle(
+                        color: Color(0xFF141225), fontSize: 13, fontWeight: FontWeight.w900)),
+              ),
             ],
           ),
           const SizedBox(height: 8),
