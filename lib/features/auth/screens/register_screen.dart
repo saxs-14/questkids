@@ -7,7 +7,6 @@ import '../../../data/models/user_model.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../core/services/navigation_service.dart';
 import '../widgets/auth_text_field.dart';
-import '../widgets/role_selector.dart';
 import '../widgets/grade_selector.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -29,10 +28,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   String _title = 'Mr';
   String _gender = 'Male';
-  String _role = 'parent';
-
-  // Teacher
-  String _teacherGrade = 'Grade 1';
 
   // Parent
   final _childNameCtrl = TextEditingController();
@@ -45,8 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _registerChild = true;
   bool _consentGiven = false; // POPIA parent/guardian consent
 
-  int _step =
-      0; // 0 = role, 1 = details, 2 = child details (if parent), 3 = teacher details
+  int _step = 0; // 0 = your details, 1 = child details
 
   @override
   void dispose() {
@@ -75,7 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> _register() async {
     if (!_formKey.currentState!.validate()) return;
-    if (_role == 'parent' && _registerChild && !_consentGiven) {
+    if (_registerChild && !_consentGiven) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Please confirm parent/guardian consent to continue.'),
@@ -85,45 +79,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return;
     }
     final auth = context.read<AuthProvider>();
-    bool success = false;
+    bool success;
 
-    if (_role == 'teacher') {
-      success = await auth.registerTeacher(
-        email: _emailCtrl.text.trim(),
-        password: _passwordCtrl.text.trim(),
-        name: _nameCtrl.text.trim(),
-        surname: _surnameCtrl.text.trim(),
-        title: _title,
-        gender: _gender,
-        grade: _teacherGrade,
+    if (_registerChild) {
+      success = await auth.registerParent(
+        parentEmail: _emailCtrl.text.trim(),
+        parentPassword: _passwordCtrl.text.trim(),
+        parentName: _nameCtrl.text.trim(),
+        parentSurname: _surnameCtrl.text.trim(),
+        parentTitle: _title,
+        parentGender: _gender,
+        relationToChild: _relationToChild,
+        childName: _childNameCtrl.text.trim(),
+        childGender: _childGender,
+        childBirthDate: _childBirthDate,
+        childGrade: _childGrade,
+        childConsentGiven: _consentGiven,
       );
     } else {
-      if (_registerChild) {
-        success = await auth.registerParent(
-          parentEmail: _emailCtrl.text.trim(),
-          parentPassword: _passwordCtrl.text.trim(),
-          parentName: _nameCtrl.text.trim(),
-          parentSurname: _surnameCtrl.text.trim(),
-          parentTitle: _title,
-          parentGender: _gender,
-          relationToChild: _relationToChild,
-          childName: _childNameCtrl.text.trim(),
-          childGender: _childGender,
-          childBirthDate: _childBirthDate,
-          childGrade: _childGrade,
-          childConsentGiven: _consentGiven,
-        );
-      } else {
-        success = await auth.registerParent(
-          parentEmail: _emailCtrl.text.trim(),
-          parentPassword: _passwordCtrl.text.trim(),
-          parentName: _nameCtrl.text.trim(),
-          parentSurname: _surnameCtrl.text.trim(),
-          parentTitle: _title,
-          parentGender: _gender,
-          relationToChild: _relationToChild,
-        );
-      }
+      success = await auth.registerParent(
+        parentEmail: _emailCtrl.text.trim(),
+        parentPassword: _passwordCtrl.text.trim(),
+        parentName: _nameCtrl.text.trim(),
+        parentSurname: _surnameCtrl.text.trim(),
+        parentTitle: _title,
+        parentGender: _gender,
+        relationToChild: _relationToChild,
+      );
     }
 
     if (success && mounted) {
@@ -138,7 +120,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
-  // registerParent/registerTeacher already set AuthProvider.user before
+  // registerParent already sets AuthProvider.user before
   // resolving `success`, but the underlying createUserWithEmailAndPassword
   // call also fires Firebase's authStateChanges listener as a side effect,
   // which does its own async Firestore fetch and can briefly race the user
@@ -175,82 +157,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildStep0() {
     final auth = context.watch<AuthProvider>();
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text('Your Role', style: AppTextStyles.h2),
-        const SizedBox(height: 8),
-        Text('Choose how you will use QuestKids',
-            style: AppTextStyles.bodyMedium
-                .copyWith(color: AppColors.textSecondary)),
-        const SizedBox(height: 32),
-        RoleSelector(
-          selectedRole: _role,
-          onRoleChanged: (r) => setState(() => _role = r),
-        ),
-        const SizedBox(height: 32),
-        AppButton(
-          label: 'Next →',
-          onPressed: () => setState(() => _step = 1),
-        ),
-        const SizedBox(height: 20),
-        Row(
-          children: [
-            const Expanded(child: Divider()),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text('or', style: AppTextStyles.bodySmall),
-            ),
-            const Expanded(child: Divider()),
-          ],
-        ),
-        const SizedBox(height: 16),
-        OutlinedButton.icon(
-          style: OutlinedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 14),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            side: BorderSide(
-              color: isDark ? Colors.white24 : Colors.grey.shade300,
-            ),
-          ),
-          onPressed: auth.isLoading
-              ? null
-              : () async {
-                  final success = await auth.signInWithGoogle(
-                    role: _role,
-                    grade: 'Grade 4',
-                  );
-                  if (success && mounted) {
-                    _navigateAfterRegister(auth);
-                  } else if (!success && mounted) {
-                    if (auth.errorMessage != null &&
-                        auth.errorMessage!.isNotEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(auth.errorMessage!),
-                          backgroundColor: AppColors.error,
-                        ),
-                      );
-                    }
-                  }
-                },
-          icon: const Text('G',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.red)),
-          label: const Text(
-            'Sign Up with Google',
-            style: TextStyle(fontWeight: FontWeight.w600),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildStep1() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -331,15 +237,68 @@ class _RegisterScreenState extends State<RegisterScreen> {
           label: 'Next →',
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              setState(() => _step = _role == 'parent' ? 2 : 3);
+              setState(() => _step = 1);
             }
           },
+        ),
+        const SizedBox(height: 20),
+        Row(
+          children: [
+            const Expanded(child: Divider()),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text('or', style: AppTextStyles.bodySmall),
+            ),
+            const Expanded(child: Divider()),
+          ],
+        ),
+        const SizedBox(height: 16),
+        OutlinedButton.icon(
+          style: OutlinedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            side: BorderSide(
+              color: isDark ? Colors.white24 : Colors.grey.shade300,
+            ),
+          ),
+          onPressed: auth.isLoading
+              ? null
+              : () async {
+                  final success = await auth.signInWithGoogle(
+                    role: 'parent',
+                    grade: 'Grade 4',
+                  );
+                  if (success && mounted) {
+                    _navigateAfterRegister(auth);
+                  } else if (!success && mounted) {
+                    if (auth.errorMessage != null &&
+                        auth.errorMessage!.isNotEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(auth.errorMessage!),
+                          backgroundColor: AppColors.error,
+                        ),
+                      );
+                    }
+                  }
+                },
+          icon: const Text('G',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red)),
+          label: const Text(
+            'Sign Up with Google',
+            style: TextStyle(fontWeight: FontWeight.w600),
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildStep2Parent() {
+  Widget _buildStep1Parent() {
     final auth = context.watch<AuthProvider>();
     final isDark = Theme.of(context).brightness == Brightness.dark;
     Color unselectedCardColor() => isDark ? AppColors.cardDark : Colors.white;
@@ -479,27 +438,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildStep3Teacher() {
-    final auth = context.watch<AuthProvider>();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text('Class Details', style: AppTextStyles.h2),
-        const SizedBox(height: 16),
-        GradeSelector(
-          selectedGrade: _teacherGrade,
-          onGradeChanged: (g) => setState(() => _teacherGrade = g),
-        ),
-        const SizedBox(height: 32),
-        AppButton(
-          label: 'Create Account 🚀',
-          isLoading: auth.isLoading,
-          onPressed: _register,
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -510,8 +448,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           onPressed: () {
             if (_step == 0) {
               Navigator.pop(context);
-            } else if (_step == 3) {
-              setState(() => _step = 1);
             } else {
               setState(() => _step -= 1);
             }
@@ -528,11 +464,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 24),
                   child: Row(
-                    children: List.generate(4, (i) {
+                    children: List.generate(2, (i) {
                       final active = i <= _step;
                       return Expanded(
                         child: Container(
-                          margin: EdgeInsets.only(right: i < 3 ? 6 : 0),
+                          margin: EdgeInsets.only(right: i < 1 ? 6 : 0),
                           height: 6,
                           decoration: BoxDecoration(
                             color: active
@@ -547,9 +483,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 () {
                   if (_step == 0) return _buildStep0();
-                  if (_step == 1) return _buildStep1();
-                  if (_step == 2) return _buildStep2Parent();
-                  if (_step == 3) return _buildStep3Teacher();
+                  if (_step == 1) return _buildStep1Parent();
                   return const SizedBox();
                 }(),
               ],

@@ -88,7 +88,7 @@ class _LearnerDashboardState extends State<LearnerDashboard> {
     // with `user == null`. The tabs below (kept alive in an IndexedStack)
     // build live StreamBuilders keyed by uid; bail out before any of that
     // builds -- navigation to /login is already in flight. Same race as
-    // teacher_dashboard.dart's identical guard.
+    // parent_dashboard.dart's identical guard.
     if (user == null) {
       return const SizedBox.shrink();
     }

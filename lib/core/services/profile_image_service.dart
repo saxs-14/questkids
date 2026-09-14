@@ -6,7 +6,7 @@ import '../../data/repositories/user_repository.dart';
 import 'storage_service.dart';
 
 /// Handles the full pick → compress → upload → Firestore-update pipeline
-/// for profile avatars, across all roles (learner, parent, teacher).
+/// for profile avatars, across all roles (learner, parent, admin).
 class ProfileImageService {
   static final _picker = ImagePicker();
   static final _storage = StorageService();

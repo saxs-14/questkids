@@ -19,7 +19,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  // Parent / Teacher
+  // Parent
   final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
 
@@ -291,7 +291,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Center(
-                              child: Text('Parent / Teacher',
+                              child: Text('Parent',
                                   style: TextStyle(
                                     color: !_isChildLogin
                                         ? Colors.white

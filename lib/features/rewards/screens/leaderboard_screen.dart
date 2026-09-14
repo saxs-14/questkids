@@ -10,91 +10,34 @@ import '../widgets/leaderboard_entry_tile.dart';
 import '../widgets/own_rank_banner.dart';
 
 class LeaderboardScreen extends StatefulWidget {
-  /// When set, shows only the "My Class" board for this teacher, bypassing
-  /// AuthProvider (a teacher isn't a learner, so has no grade/own rank) --
-  /// used by the Teacher Dashboard's "View Leaderboard" quick action.
-  final String? teacherUid;
-
-  const LeaderboardScreen({super.key, this.teacherUid});
+  const LeaderboardScreen({super.key});
 
   @override
   State<LeaderboardScreen> createState() => _LeaderboardScreenState();
 }
 
-class _LeaderboardScreenState extends State<LeaderboardScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabCtrl;
+class _LeaderboardScreenState extends State<LeaderboardScreen> {
   final _repo = LeaderboardRepository();
   late String _grade;
   late String _uid;
   late String _avatarEmoji;
-  String? _teacherUid;
 
   @override
   void initState() {
     super.initState();
-    if (widget.teacherUid != null) {
-      _grade = '';
-      _uid = '';
-      _avatarEmoji = '👩‍🏫';
-      _teacherUid = widget.teacherUid;
-      _tabCtrl = TabController(length: 1, vsync: this);
-    } else {
-      final user = context.read<AuthProvider>().user;
-      _grade = user?.grade ?? 'Grade 1';
-      _uid = user?.uid ?? '';
-      _avatarEmoji = user?.avatarEmoji ?? '🦁';
-      _teacherUid = user?.linkedTeacherUid;
-      _tabCtrl =
-          TabController(length: _teacherUid != null ? 2 : 1, vsync: this);
-    }
-  }
-
-  @override
-  void dispose() {
-    _tabCtrl.dispose();
-    super.dispose();
+    final user = context.read<AuthProvider>().user;
+    _grade = user?.grade ?? 'Grade 1';
+    _uid = user?.uid ?? '';
+    _avatarEmoji = user?.avatarEmoji ?? '🦁';
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Material(
-          color: AppColors.primary,
-          child: TabBar(
-            controller: _tabCtrl,
-            labelColor: Colors.white,
-            unselectedLabelColor: Colors.white60,
-            indicatorColor: Colors.white,
-            tabs: [
-              if (widget.teacherUid == null) const Tab(text: 'Grade'),
-              if (_teacherUid != null) const Tab(text: 'My Class'),
-            ],
-          ),
-        ),
-        Expanded(
-          child: TabBarView(
-            controller: _tabCtrl,
-            children: [
-              if (widget.teacherUid == null)
-                _GradeBoard(
-                  grade: _grade,
-                  uid: _uid,
-                  avatarEmoji: _avatarEmoji,
-                  repo: _repo,
-                ),
-              if (_teacherUid != null)
-                _ClassBoard(
-                  teacherUid: _teacherUid!,
-                  uid: _uid,
-                  avatarEmoji: _avatarEmoji,
-                  repo: _repo,
-                ),
-            ],
-          ),
-        ),
-      ],
+    return _GradeBoard(
+      grade: _grade,
+      uid: _uid,
+      avatarEmoji: _avatarEmoji,
+      repo: _repo,
     );
   }
 }
@@ -205,73 +148,6 @@ class _GradeBoardState extends State<_GradeBoard> {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _ClassBoard extends StatelessWidget {
-  final String teacherUid;
-  final String uid;
-  final String avatarEmoji;
-  final LeaderboardRepository repo;
-
-  const _ClassBoard({
-    required this.teacherUid,
-    required this.uid,
-    required this.avatarEmoji,
-    required this.repo,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<List<LeaderboardEntry>>(
-      stream: repo.watchClassLeaderboard(teacherUid),
-      builder: (_, snap) {
-        if (!snap.hasData) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        final entries = snap.data!;
-        if (entries.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('🏫', style: TextStyle(fontSize: 56)),
-                const SizedBox(height: 12),
-                Text('No classmates yet', style: AppTextStyles.h3),
-                Text(
-                  'Your class leaderboard will appear here.',
-                  style: AppTextStyles.bodyMedium
-                      .copyWith(color: AppColors.textSecondary),
-                ),
-              ],
-            ),
-          );
-        }
-        final ownRaw = entries.where((e) => e.uid == uid);
-        final ownEntry = ownRaw.isNotEmpty ? ownRaw.first : null;
-        return Column(
-          children: [
-            const SizedBox(height: 8),
-            OwnRankBanner(
-              rank: ownEntry?.rank,
-              xp: ownEntry?.xp ?? 0,
-              avatarEmoji: avatarEmoji,
-            ),
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.only(top: 8, bottom: 24),
-                itemCount: entries.length,
-                itemBuilder: (_, i) => LeaderboardEntryTile(
-                  entry: entries[i],
-                  isOwnEntry: entries[i].uid == uid,
-                  animationIndex: i,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 }

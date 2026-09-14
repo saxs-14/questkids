@@ -94,7 +94,7 @@ class AuthService {
     }
   }
 
-  // A parent/teacher's Auth custom claim starts as 'learner', set
+  // A parent's Auth custom claim starts as 'learner', set
   // synchronously by the assignDefaultRole Cloud Function before this
   // doc even exists (it has no way to know the intended role at that
   // point). A separate Firestore trigger (grantSelfDeclaredRoleClaim,
@@ -102,7 +102,7 @@ class AuthService {
   // doc's self-declared role immediately after create, but that trigger
   // runs asynchronously server-side -- without waiting here, the
   // freshly-registered user would land on their dashboard with a stale
-  // 'learner' ID token, and every parent/teacher-gated Firestore read or
+  // 'learner' ID token, and every parent-gated Firestore read or
   // write (which authorize off the token claim, never this doc's role
   // field) would be denied until the SDK's own next natural token
   // refresh, up to an hour later. Bounded retry, not an indefinite wait:
@@ -122,7 +122,7 @@ class AuthService {
     }
   }
 
-  // Teacher/Standard Register
+  // Parent/Standard Register
   Future<UserModel?> registerWithEmail({
     required String email,
     required String password,
@@ -164,7 +164,7 @@ class AuthService {
       createdAt: DateTime.now(),
     );
     await _userRepo.createUser(userModel);
-    if (role == 'parent' || role == 'teacher') {
+    if (role == 'parent') {
       await _waitForRoleClaim(user, role);
     }
     await _rewardRepo.initRewards(user.uid);
@@ -369,7 +369,7 @@ class AuthService {
     return parentModel;
   }
 
-  // Email & Password Login (Parent / Teacher)
+  // Email & Password Login (Parent)
   Future<UserModel?> loginWithEmail({
     required String email,
     required String password,
@@ -422,7 +422,7 @@ class AuthService {
       createdAt: DateTime.now(),
     );
     await _userRepo.createUser(userModel);
-    if (role == 'parent' || role == 'teacher') {
+    if (role == 'parent') {
       await _waitForRoleClaim(user, role);
     }
     await _rewardRepo.initRewards(user.uid);

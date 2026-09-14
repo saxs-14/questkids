@@ -45,7 +45,7 @@ class AuthProvider extends ChangeNotifier {
         _user = null;
       } else {
         // A custom claim change (e.g. grantSelfDeclaredRoleClaim upgrading
-        // a fresh signup from 'learner' to 'parent'/'teacher') does NOT
+        // a fresh signup from 'learner' to 'parent') does NOT
         // retroactively update an already-issued ID token -- the SDK just
         // restores whatever token is cached in local persistence on every
         // app start/reload, with no automatic refresh. Confirmed live: a
@@ -103,44 +103,6 @@ class AuthProvider extends ChangeNotifier {
   void _setError(String? msg) {
     _errorMessage = msg;
     notifyListeners();
-  }
-
-  Future<bool> registerTeacher({
-    required String email,
-    required String password,
-    required String name,
-    required String surname,
-    required String title,
-    required String gender,
-    required String grade,
-  }) async {
-    _setLoading(true);
-    _setError(null);
-    try {
-      _user = await _authService.registerWithEmail(
-        email: email,
-        password: password,
-        name: name,
-        surname: surname,
-        title: title,
-        gender: gender,
-        role: 'teacher',
-        grade: grade,
-      );
-      _status = AuthStatus.authenticated;
-      try {
-        await AnalyticsService.logSignUp('teacher');
-      } catch (_) {
-        // Non-fatal: analytics failures must never block a real signup.
-      }
-      notifyListeners();
-      return true;
-    } catch (e) {
-      _setError(_friendlyError(e.toString()));
-      return false;
-    } finally {
-      _setLoading(false);
-    }
   }
 
   Future<bool> registerParent({

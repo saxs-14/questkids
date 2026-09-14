@@ -19,7 +19,6 @@ import { MAIL_SENDER } from "./config";
 export { questyChat, analyzeImage, getRecommendation, explainAnswer, generateHint } from "./gemini/proxy";
 export { refreshLeaderboards } from "./leaderboard/refresh";
 export { generateDailyMissions } from "./missions/generate";
-export { getTeacherInsight } from "./teacher/insights";
 export { setUserRole, assignDefaultRole, grantSelfDeclaredRoleClaim } from "./admin/setUserRole";
 export { linkRegisteredChild } from "./parent/linkChild";
 export { approveParentLinkRequest } from "./parent/approveLinkRequest";
@@ -27,8 +26,6 @@ export { unlinkParentChild } from "./parent/unlinkChild";
 export { sendPushOnNotificationCreate } from "./notifications/sendPush";
 export { onBadgeAwarded } from "./notifications/badgeAward";
 export { sendQuestReminders } from "./notifications/reminders";
-export { onNewMessage } from "./notifications/newMessage";
-export { onClassBroadcast } from "./notifications/classBroadcast";
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();

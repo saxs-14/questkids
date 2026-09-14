@@ -26,7 +26,6 @@ import 'features/parent/screens/link_child_screen.dart';
 import 'features/parent/screens/link_requests_screen.dart';
 import 'features/parent/screens/document_vault_screen.dart';
 import 'features/parent/screens/mood_checkin_screen.dart';
-import 'features/parent/screens/messages_list_screen.dart';
 import 'features/auth/screens/splash_screen.dart';
 import 'features/auth/screens/login_screen.dart';
 import 'features/auth/screens/register_screen.dart';
@@ -36,7 +35,7 @@ import 'features/profile/screens/edit_profile_screen.dart';
 import 'features/dashboard/screens/learner_dashboard.dart';
 import 'features/dashboard/screens/grade4_activities_hub_screen.dart';
 import 'features/dashboard/screens/parent_dashboard.dart';
-import 'features/dashboard/screens/teacher_dashboard.dart';
+import 'features/dashboard/screens/admin_dashboard.dart';
 import 'features/rewards/screens/trading_post_screen.dart';
 
 /// Shared between AuthProvider (to show a foreground push banner from a
@@ -172,12 +171,11 @@ class QuestKidsApp extends StatelessWidget {
         '/link_requests': (_) => const LinkRequestsScreen(),
         '/document_vault': (_) => const DocumentVaultScreen(),
         '/mood_checkin': (_) => const MoodCheckinScreen(),
-        '/messages': (_) => const MessagesListScreen(),
         '/dashboard': (_) => const LearnerDashboard(),
         '/dashboard/learner': (_) => const LearnerDashboard(),
         '/grade4_hub': (_) => const Grade4ActivitiesHubScreen(),
         '/dashboard/parent': (_) => const ParentDashboard(),
-        '/dashboard/teacher': (_) => const TeacherDashboard(),
+        '/dashboard/admin': (_) => const AdminDashboard(),
         '/trading_post': (_) => const TradingPostScreen(),
         '/splash': (_) => const SplashScreen(),
       },

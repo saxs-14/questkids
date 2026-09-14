@@ -45,20 +45,13 @@ service firebase.storage {
 
       // Admins can read any proof for platform-wide moderation.
       allow read: if hasRole('admin');
-
-      // Teachers can only read proofs for learners who have actually
-      // added them -- mirrors the linkedTeacherUids check firestore.rules
-      // applies to the matching users/{uid} read.
-      allow read: if hasRole('teacher') &&
-                      request.auth.uid in
-                        firestore.get(/databases/(default)/documents/users/$(uid)).data.linkedTeacherUids;
     }
 
     // ==================== ACTIVITY RESOURCES ====================
     match /activities/{activityId}/{allPaths=**} {
-      // Only teachers and admins can manage activity resources, and only
-      // valid, size-capped images.
-      allow write: if (hasRole('teacher') || hasRole('admin')) && isValidImage();
+      // Only admins can manage activity resources, and only valid,
+      // size-capped images.
+      allow write: if hasRole('admin') && isValidImage();
 
       // All signed-in users can read activity resources
       allow read: if isSignedIn();

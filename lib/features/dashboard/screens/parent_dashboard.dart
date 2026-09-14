@@ -56,7 +56,7 @@ class _ParentDashboardState extends State<ParentDashboard> {
     // with `user == null`. The tabs below (kept alive in an IndexedStack)
     // build live StreamBuilders keyed by uid; bail out before any of that
     // builds -- navigation to /login is already in flight. Same race as
-    // teacher_dashboard.dart's identical guard.
+    // learner_dashboard.dart's identical guard.
     if (user == null) {
       return const SizedBox.shrink();
     }
@@ -688,16 +688,6 @@ class _ParentHomeTabState extends State<_ParentHomeTab> {
               subtitle: const Text('Log how your child is feeling today'),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => Navigator.pushNamed(context, '/mood_checkin'),
-            ),
-          ),
-          const SizedBox(height: 12),
-          Card(
-            child: ListTile(
-              leading: const Icon(Icons.message_outlined),
-              title: const Text('Messages'),
-              subtitle: const Text("Chat with your child's teacher"),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => Navigator.pushNamed(context, '/messages'),
             ),
           ),
         ],

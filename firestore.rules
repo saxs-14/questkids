@@ -18,10 +18,6 @@ service cloud.firestore {
       return isSignedIn() && request.auth.token.role == 'admin';
     }
 
-    function isTeacher() {
-      return isSignedIn() && request.auth.token.role == 'teacher';
-    }
-
     function isParent() {
       return isSignedIn() && request.auth.token.role == 'parent';
     }
@@ -40,26 +36,26 @@ service cloud.firestore {
       // parent/guardian consent trail -- see CLAUDE.md §6.5 and
       // AppConstants.consentPolicyVersion. This is a server-side backstop;
       // the client (auth_service.dart) already always writes these fields
-      // in the same set() call as account creation. Parent/teacher accounts
+      // in the same set() call as account creation. Parent accounts
       // aren't children, so they never carry a consent trail -- self
-      // registration for those two roles just needs to be self-owned.
+      // registration for that role just needs to be self-owned.
       // linkedChildrenUids.size() == 0 is required on BOTH branches below,
-      // not just parent/teacher: it's a locked field (lockedUserFields()),
+      // not just parent: it's a locked field (lockedUserFields()),
       // so create is the only moment any client could ever set it, and
       // without this check on the learner branch too a hostile client
       // could create their OWN doc as role:'learner' (satisfying the
       // consent fields with arbitrary self-supplied strings) while
       // pre-populating linkedChildrenUids with another user's uid --
       // inert while their claim is 'learner', but exploitable the moment
-      // any future flow grants them a 'parent'/'teacher' claim, since
+      // any future flow grants them a 'parent' claim, since
       // every parent-read rule in this file authorizes off
       // get(users/$(request.auth.uid)).data.linkedChildrenUids without
       // ever checking the doc's role field. This is the actual, complete
       // fix for that laundering path -- an earlier version of this rule
-      // only added the check to the parent/teacher branch, which left the
+      // only added the check to the parent branch, which left the
       // learner branch as an equally-usable way in.
       //
-      // The birthDate == null check on the parent/teacher branch below is
+      // The birthDate == null check on the parent branch below is
       // NOT a comparable security boundary -- a hostile client can simply
       // send birthDate: null explicitly (omitting the key entirely does
       // NOT bypass this: reading an absent map key is an evaluation error
@@ -70,8 +66,8 @@ service cloud.firestore {
       // parentModel, signInWithGoogle's userModel -- all three always
       // leave it null) from ever accidentally satisfying that branch. The
       // POPIA consent trail is therefore client-declared, not
-      // server-enforced, for anyone who self-declares role:'parent'/
-      // 'teacher'; real enforcement is deferred to whatever grants the
+      // server-enforced, for anyone who self-declares role:'parent';
+      // real enforcement is deferred to whatever grants the
       // custom claim after create (see docs/DEFERRED.md -- that function
       // must NOT trust this doc's mirrored role field when deciding what
       // to grant, since a client can self-declare it).
@@ -87,7 +83,7 @@ service cloud.firestore {
                           request.resource.data.consentEmail.size() > 0 &&
                           request.resource.data.consentAt is int &&
                           request.resource.data.policyVersion is string) ||
-                         (request.resource.data.role in ['parent', 'teacher'] &&
+                         (request.resource.data.role == 'parent' &&
                           request.resource.data.get('birthDate', null) == null)
                        );
       allow update: if isUser(uid) &&
@@ -98,15 +94,7 @@ service cloud.firestore {
       allow read: if isParent() &&
                       uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
 
-      // Teachers can read learners they have actually added (the
-      // linkedTeacherUids array is written by
-      // teacher_dashboard.dart's _showAddLearnerDialog) -- not every
-      // learner in the system.
-      allow read: if isTeacher() &&
-                      request.auth.uid in resource.data.linkedTeacherUids;
-
       // Chats subcollection — child and their linked parent only.
-      // Teachers do NOT get access to AI chat logs.
       match /chats/{chatId} {
         allow read, write: if isUser(uid);
         allow read: if isParent() &&
@@ -117,8 +105,8 @@ service cloud.firestore {
     // ==================== ACTIVITIES COLLECTION ====================
     match /activities/{activityId} {
       allow read: if isSignedIn();
-      allow create: if (isTeacher() || isAdmin());
-      allow update: if (isTeacher() || isAdmin());
+      allow create: if isAdmin();
+      allow update: if isAdmin();
       allow delete: if isAdmin();
     }
 
@@ -138,16 +126,6 @@ service cloud.firestore {
       // family's progress records. Mirrors the read scoping directly above.
       allow update: if isParent() &&
                        resource.data.uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids &&
-                       request.resource.data.diff(resource.data).affectedKeys().hasOnly(['verified', 'proofUrl']);
-
-      // Teachers can verify progress only for learners who have actually
-      // added them -- mirrors the linkedTeacherUids check used for
-      // game_sessions/player_stats/game_progress reads elsewhere in this
-      // file. Was previously any isTeacher(), letting any teacher account
-      // falsify verification status on any learner system-wide.
-      allow update: if isTeacher() &&
-                       request.auth.uid in
-                         get(/databases/$(database)/documents/users/$(resource.data.uid)).data.linkedTeacherUids &&
                        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['verified', 'proofUrl']);
     }
 
@@ -217,38 +195,6 @@ service cloud.firestore {
                         resource.data.loggedByUid == request.auth.uid;
     }
 
-    // ==================== TEACHER-PARENT MESSAGING ====================
-    match /conversations/{conversationId} {
-      allow read: if isSignedIn() && request.auth.uid in resource.data.participants;
-      allow create: if isSignedIn() &&
-                        request.auth.uid in request.resource.data.participants &&
-                        (isTeacher() || isParent());
-      allow update: if isSignedIn() &&
-                        request.auth.uid in resource.data.participants &&
-                        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lastMessage', 'lastMessageAt']);
-
-      match /messages/{messageId} {
-        allow read: if isSignedIn() &&
-                        request.auth.uid in
-                          get(/databases/$(database)/documents/conversations/$(conversationId)).data.participants;
-        allow create: if isSignedIn() &&
-                          request.auth.uid in
-                            get(/databases/$(database)/documents/conversations/$(conversationId)).data.participants &&
-                          request.resource.data.senderUid == request.auth.uid;
-      }
-    }
-
-    // ==================== CLASS BROADCASTS (write-only queue) ====================
-    // Consumed by the onClassBroadcast Cloud Function, which fans this out
-    // to a notifications doc per linked learner via the Admin SDK
-    // (bypassing these rules) -- a teacher can't write a notifications doc
-    // for another uid directly.
-    match /class_broadcasts/{broadcastId} {
-      allow create: if isTeacher() &&
-                        request.resource.data.teacherUid == request.auth.uid;
-      allow read: if isTeacher() && resource.data.teacherUid == request.auth.uid;
-    }
-
     // ==================== EMAILS (Cloud Function only) ====================
     // `allow create: if isSignedIn()` used to sit here on the theory that
     // EmailService (the intended writer) has zero call sites in lib/, so it
@@ -264,7 +210,7 @@ service cloud.firestore {
     // up, it writes `templateName`/`templateData` while the trigger reads
     // `template`/`data`, so it would've sent broken "template not found"
     // mail anyway. Emails are now Cloud-Function/Admin-SDK-only, matching
-    // usage_ai/usage_ai_teacher below; any future in-app email flow should
+    // usage_ai below; any future in-app email flow should
     // go through a callable that fixes the recipient server-side (e.g.
     // request.auth.token.email) rather than trusting a client-supplied
     // `to`.
@@ -303,15 +249,9 @@ service cloud.firestore {
       allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
       allow update: if isSignedIn() && resource.data.uid == request.auth.uid;
 
-      // Parents and teachers can read their learners' sessions
+      // Parents can read their learners' sessions
       allow read: if isParent() &&
                       resource.data.uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
-      // Teachers can read sessions belonging to learners they've added --
-      // look up the learner's own linkedTeacherUids (game_sessions docs
-      // don't carry that array themselves, only the learner's uid).
-      allow read: if isTeacher() &&
-                      request.auth.uid in
-                        get(/databases/$(database)/documents/users/$(resource.data.uid)).data.linkedTeacherUids;
     }
 
     // ==================== PLAYER STATS ====================
@@ -319,11 +259,6 @@ service cloud.firestore {
       allow read, write: if isUser(uid);
       allow read: if isParent() &&
                       uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
-      // uid here is the learner's own uid (player_stats is keyed by it),
-      // so look up that learner's linkedTeacherUids directly.
-      allow read: if isTeacher() &&
-                      request.auth.uid in
-                        get(/databases/$(database)/documents/users/$(uid)).data.linkedTeacherUids;
     }
 
     // ==================== GAME PROGRESS (per-engine) ====================
@@ -334,11 +269,6 @@ service cloud.firestore {
         allow read, write: if isUser(uid);
         allow read: if isParent() &&
                         uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
-        // uid here is the learner's own uid (game_progress is keyed by
-        // it), so look up that learner's linkedTeacherUids directly.
-        allow read: if isTeacher() &&
-                        request.auth.uid in
-                          get(/databases/$(database)/documents/users/$(uid)).data.linkedTeacherUids;
       }
     }
 
@@ -361,7 +291,6 @@ service cloud.firestore {
 
     // ==================== DAILY MISSIONS ====================
     // Structure: daily_missions/{uid}/today/missions
-    //            daily_missions/{uid}/assigned/{missionId}  (teacher writes)
     match /daily_missions/{uid} {
       allow read: if isUser(uid);
       allow write: if false;
@@ -370,11 +299,6 @@ service cloud.firestore {
         allow read: if isUser(uid);
         allow update: if isUser(uid); // learner can mark completed
         allow create, delete: if false; // Cloud Functions only
-      }
-
-      match /assigned/{missionId} {
-        allow read: if isUser(uid);
-        allow write: if isTeacher();
       }
     }
 
@@ -397,14 +321,6 @@ service cloud.firestore {
     // ==================== AI USAGE QUOTA ====================
     // Written transactionally by the gemini proxy Cloud Functions only.
     match /usage_ai/{uid} {
-      allow read: if isUser(uid);
-      allow write: if false;
-    }
-
-    // Separate counter for getTeacherInsight so it never competes with a
-    // learner's Questy chat quota above — written transactionally by that
-    // Cloud Function only.
-    match /usage_ai_teacher/{uid} {
       allow read: if isUser(uid);
       allow write: if false;
     }

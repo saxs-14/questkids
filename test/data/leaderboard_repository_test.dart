@@ -12,12 +12,15 @@ void main() {
   });
 
   test('LeaderboardRepository can be constructed without touching surname data', () {
-    // Construction-only smoke test: watchClassLeaderboard's live Firestore
+    // Construction-only smoke test: watchGradeLeaderboard's live Firestore
     // stream can't be exercised without a Firestore emulator, but this
-    // guards against a compile-time regression and documents the
-    // POPIA-compliance intent via the source fix in this same commit --
-    // see the source diff for the actual behavioral fix (surname removed
-    // from the displayName field built in watchClassLeaderboard).
+    // guards against a compile-time regression. (watchClassLeaderboard was
+    // removed with the teacher role -- it queried `users` by
+    // linkedTeacherUid, a field nothing could write once
+    // teacher_dashboard.dart was deleted, and had no Firestore rule
+    // permitting a learner to read classmates' docs that way in the first
+    // place, so its StreamBuilder spun forever on a silent
+    // permission-denied error.)
     expect(() => LeaderboardRepository(), returnsNormally);
   });
 }

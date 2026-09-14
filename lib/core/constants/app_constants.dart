@@ -6,7 +6,7 @@ class AppConstants {
   // Roles
   static const String roleLearner = 'learner';
   static const String roleParent = 'parent';
-  static const String roleTeacher = 'teacher';
+  static const String roleAdmin = 'admin';
 
   // Subjects
   static const List<String> subjects = [

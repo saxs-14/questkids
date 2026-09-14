@@ -30,43 +30,6 @@ class LeaderboardRepository {
         .map((snap) => snap.docs.map(LeaderboardEntry.fromDoc).toList());
   }
 
-  Stream<List<LeaderboardEntry>> watchClassLeaderboard(String teacherUid) {
-    return _db
-        .collection('users')
-        .where('linkedTeacherUid', isEqualTo: teacherUid)
-        .snapshots()
-        .map((snap) {
-      final entries = snap.docs.map((doc) {
-        final data = doc.data();
-        return LeaderboardEntry(
-          uid: doc.id,
-          // Leaderboards are visible to every classmate -- never expose a
-          // surname here, matching functions/src/leaderboard/refresh.ts's
-          // first-name-only rule (see CLAUDE.md §6.5).
-          displayName: (data['name'] as String? ?? 'Learner').trim(),
-          avatarEmoji: data['avatarEmoji'] as String? ?? '🦁',
-          grade: data['grade'] as String? ?? 'Grade 1',
-          xp: (data['totalPoints'] as num?)?.toInt() ?? 0,
-          rank: 0,
-        );
-      }).toList();
-
-      entries.sort((a, b) => b.xp.compareTo(a.xp));
-      return entries
-          .asMap()
-          .entries
-          .map((e) => LeaderboardEntry(
-                uid: e.value.uid,
-                displayName: e.value.displayName,
-                avatarEmoji: e.value.avatarEmoji,
-                grade: e.value.grade,
-                xp: e.value.xp,
-                rank: e.key + 1,
-              ))
-          .toList();
-    });
-  }
-
   Future<int?> getOwnRank(
     String uid,
     String grade, {

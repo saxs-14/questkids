@@ -6,8 +6,8 @@ import '../../providers/auth_provider.dart';
 import 'app_button.dart';
 import 'app_dialog.dart';
 
-/// Settings entry + confirmed sign-out, shared by all three role profile
-/// tabs (learner/parent/teacher) instead of each dashboard re-implementing
+/// Settings entry + confirmed sign-out, shared by all role profile
+/// tabs (learner/parent/admin) instead of each dashboard re-implementing
 /// its own (previously inconsistent) version.
 class ProfileSettingsTile extends StatelessWidget {
   const ProfileSettingsTile({super.key});

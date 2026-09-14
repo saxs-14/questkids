@@ -2,11 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:questkids/data/models/activity_model.dart';
 import 'package:questkids/data/models/chat_message_model.dart';
-import 'package:questkids/data/models/conversation_model.dart';
 import 'package:questkids/data/models/game_session_model.dart';
 import 'package:questkids/data/models/progress_model.dart';
 import 'package:questkids/data/models/reward_model.dart';
-import 'package:questkids/data/models/thread_message_model.dart';
 
 void main() {
   group('Data Model Date & Numeric Resiliency Tests', () {
@@ -129,29 +127,6 @@ void main() {
       expect(model.coinsEarned, equals(10));
       expect(model.accuracy, equals(1.0));
       expect(model.completedAt, equals(DateTime.fromMillisecondsSinceEpoch(1700000000000)));
-    });
-
-    test('ConversationModel and ThreadMessageModel handle date formats safely', () {
-      final nowTs = Timestamp.now();
-      final convo = ConversationModel.fromMap({
-        'teacherUid': 't1',
-        'parentUid': 'p1',
-        'childUid': 'c1',
-        'lastMessageAt': nowTs,
-        'createdAt': 1700000000000,
-      }, 'c_id');
-
-      expect(convo.lastMessageAt, equals(nowTs.toDate()));
-      expect(convo.createdAt, equals(DateTime.fromMillisecondsSinceEpoch(1700000000000)));
-
-      final msg = ThreadMessageModel.fromMap({
-        'senderUid': 's1',
-        'senderRole': 'teacher',
-        'text': 'Hi',
-        'sentAt': nowTs,
-      }, 'm_id');
-
-      expect(msg.sentAt, equals(nowTs.toDate()));
     });
   });
 }

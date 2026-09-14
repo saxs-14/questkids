@@ -5,7 +5,7 @@ class UserModel {
   final String name;
   final String? surname;
   final String email;
-  final String role; // learner, parent, teacher
+  final String role; // learner, parent, admin
   final String? gender;
   final String? title; // Mr, Mrs, Ms, Dr
   final DateTime? birthDate; // For learners
@@ -29,7 +29,7 @@ class UserModel {
   final String? linkedTeacherUid; // for learners linked to a teacher's class
 
   String get displayName {
-    if (role == 'teacher' || role == 'parent') {
+    if (role == 'admin' || role == 'parent') {
       final t = title != null ? '$title ' : '';
       final s = surname != null && surname!.isNotEmpty ? surname! : name;
       return '$t$s'.trim();
