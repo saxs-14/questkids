@@ -95,7 +95,7 @@ class RobotMakerGame extends StatefulWidget {
 }
 
 class _RMState extends State<RobotMakerGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.simple('Choose the Right Part', [
       _SimpleQ(
           prompt: "Your robot needs to move across the classroom floor. What part should you add?",
@@ -227,6 +227,19 @@ class _RMState extends State<RobotMakerGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates -- keeps the deliberate
+  // zone-to-zone topic/difficulty progression (Choose the Right Part ->
+  // Design Process -> Build the Robot -> Robots at Work) intact, but
+  // randomizes the order of the questions *within* each zone so the same
+  // playthrough doesn't show the identical 20 questions in the identical
+  // order every single time (only each question's own choice order was
+  // ever randomized before this).
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.build
+        ? _Zone.build(z.name, List<_BuildQ>.from(z.builds)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

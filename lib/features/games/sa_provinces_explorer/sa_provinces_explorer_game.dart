@@ -98,7 +98,7 @@ class SaProvincesExplorerGame extends StatefulWidget {
 }
 
 class _SPState extends State<SaProvincesExplorerGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.map('Find the Province', [
       _MapQ(prompt: "Which province's capital is Cape Town?", correct: 'western_cape'),
       _MapQ(prompt: "Which province's capital is Bloemfontein?", correct: 'free_state'),
@@ -195,6 +195,14 @@ class _SPState extends State<SaProvincesExplorerGame> with TickerProviderStateMi
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.mapTap
+        ? _Zone.map(z.name, List<_MapQ>.from(z.mapQs)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

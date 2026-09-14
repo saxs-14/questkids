@@ -76,7 +76,7 @@ class ClimateQuestGame extends StatefulWidget {
 }
 
 class _CQState extends State<ClimateQuestGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.thermo('Set the Thermometer', [
       _ThermoQ(
           prompt: 'The Drakensberg mountains often get snow in winter. Set the thermometer to...',
@@ -188,6 +188,14 @@ class _CQState extends State<ClimateQuestGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.thermo
+        ? _Zone.thermo(z.name, List<_ThermoQ>.from(z.thermo)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

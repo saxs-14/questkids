@@ -64,7 +64,7 @@ class ColonialEraGame extends StatefulWidget {
 }
 
 class _CEState extends State<ColonialEraGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.voyage('Voyage Through Time', [
       _SimpleQ(
           prompt: 'Which event happened FIRST?',
@@ -199,6 +199,15 @@ class _CEState extends State<ColonialEraGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    final shuffled = List<_SimpleQ>.from(z.questions)..shuffle(_rng);
+    return z.kind == _Kind.voyage
+        ? _Zone.voyage(z.name, shuffled)
+        : _Zone.simple(z.name, shuffled);
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

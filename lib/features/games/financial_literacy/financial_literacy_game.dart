@@ -72,7 +72,7 @@ class FinancialLiteracyGame extends StatefulWidget {
 }
 
 class _FLState extends State<FinancialLiteracyGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.jar('Save or Spend?', [
       _JarQ(
         scenario: "You get R50 for your birthday. What's the smartest thing to do?",
@@ -234,6 +234,14 @@ class _FLState extends State<FinancialLiteracyGame> with TickerProviderStateMixi
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.jar
+        ? _Zone.jar(z.name, List<_JarQ>.from(z.jar)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

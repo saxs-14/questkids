@@ -67,7 +67,7 @@ class DivisionDesertGame extends StatefulWidget {
 
 class _DivState extends State<DivisionDesertGame>
     with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone(name: 'Even Split', kind: _Kind.simple, questions: [
       _DivQ(prompt: '24 ÷ 4 = ?', choices: ['6', '5', '7']),
       _DivQ(prompt: '45 ÷ 5 = ?', choices: ['9', '8', '10']),
@@ -194,6 +194,16 @@ class _DivState extends State<DivisionDesertGame>
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates
+      .map((z) => _Zone(
+            name: z.name,
+            kind: z.kind,
+            questions: List<_DivQ>.from(z.questions)..shuffle(_rng),
+          ))
+      .toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

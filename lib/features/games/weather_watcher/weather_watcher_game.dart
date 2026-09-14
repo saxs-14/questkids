@@ -95,7 +95,7 @@ class WeatherWatcherGame extends StatefulWidget {
 }
 
 class _WWState extends State<WeatherWatcherGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.cloud('Read the Sky', [
       _CloudQ(
           cloudType: 'cumulus',
@@ -219,6 +219,16 @@ class _WWState extends State<WeatherWatcherGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return switch (z.kind) {
+      _Kind.cloud => _Zone.cloud(z.name, List<_CloudQ>.from(z.clouds)..shuffle(_rng)),
+      _Kind.dashboard => _Zone.dashboard(z.name, List<_DashboardQ>.from(z.dashboards)..shuffle(_rng)),
+      _Kind.simple => _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng)),
+    };
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

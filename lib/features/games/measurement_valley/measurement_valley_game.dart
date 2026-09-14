@@ -51,7 +51,7 @@ class MeasurementValleyGame extends StatefulWidget {
 
 class _MVState extends State<MeasurementValleyGame>
     with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone('Length Lane', [
       _MeasureQ('100 cm = ? m', ['1 m', '10 m', '0.1 m']),
       _MeasureQ('5 m = ? cm', ['500 cm', '50 cm', '5000 cm']),
@@ -121,6 +121,12 @@ class _MVState extends State<MeasurementValleyGame>
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates
+      .map((z) => _Zone(z.name, List<_MeasureQ>.from(z.questions)..shuffle(_rng)))
+      .toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

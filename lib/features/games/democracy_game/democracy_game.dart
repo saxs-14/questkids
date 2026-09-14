@@ -59,7 +59,7 @@ class DemocracyGame extends StatefulWidget {
 }
 
 class _DGState extends State<DemocracyGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone('Cast Your Vote', [
       _SimpleQ(
           prompt: 'In a democracy, who gets to choose the government?',
@@ -176,6 +176,16 @@ class _DGState extends State<DemocracyGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates
+      .map((z) => _Zone(
+            z.name,
+            List<_SimpleQ>.from(z.questions)..shuffle(_rng),
+            isBallotZone: z.isBallotZone,
+          ))
+      .toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

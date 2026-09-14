@@ -73,7 +73,7 @@ class IdiomIslandGame extends StatefulWidget {
 }
 
 class _IIState extends State<IdiomIslandGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.chest('Crack the Idiom', [
       _ChestQ(
           idiom: "It's raining cats and dogs.",
@@ -182,6 +182,14 @@ class _IIState extends State<IdiomIslandGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.chest
+        ? _Zone.chest(z.name, List<_ChestQ>.from(z.chest)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

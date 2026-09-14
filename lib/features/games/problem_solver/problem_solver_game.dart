@@ -61,7 +61,7 @@ class ProblemSolverGame extends StatefulWidget {
 }
 
 class _PSState extends State<ProblemSolverGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone('Missing Persons', [
       _CaseQ(
           prompt: 'A detective drove 18 km, then 25 km more. '
@@ -208,6 +208,12 @@ class _PSState extends State<ProblemSolverGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates
+      .map((z) => _Zone(z.name, List<_CaseQ>.from(z.questions)..shuffle(_rng)))
+      .toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

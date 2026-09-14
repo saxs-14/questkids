@@ -63,7 +63,7 @@ class GeometryJungleGame extends StatefulWidget {
 
 class _GJState extends State<GeometryJungleGame>
     with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone('Shape Clearing', [
       _GeoQ(
           kind: _DiagramKind.shape2d,
@@ -193,6 +193,12 @@ class _GJState extends State<GeometryJungleGame>
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates
+      .map((z) => _Zone(z.name, List<_GeoQ>.from(z.questions)..shuffle(_rng)))
+      .toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

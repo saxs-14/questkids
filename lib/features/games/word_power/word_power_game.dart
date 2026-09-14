@@ -72,7 +72,7 @@ class WordPowerGame extends StatefulWidget {
 }
 
 class _WPState extends State<WordPowerGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.web('Synonym Match', [
       _WebQ(target: 'happy', choices: ['joyful', 'angry', 'tired']),
       _WebQ(target: 'big', choices: ['huge', 'tiny', 'quiet']),
@@ -177,6 +177,14 @@ class _WPState extends State<WordPowerGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.web
+        ? _Zone.web(z.name, List<_WebQ>.from(z.web)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

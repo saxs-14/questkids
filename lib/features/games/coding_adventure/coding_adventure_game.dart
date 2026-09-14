@@ -88,7 +88,7 @@ class CodingAdventureGame extends StatefulWidget {
 class _CAState extends State<CodingAdventureGame> with TickerProviderStateMixin {
   static const _gridSize = 3;
 
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.maze('Maze Runner', [
       _MazeQ(
           startCol: 0, startRow: 0, goalCol: 2, goalRow: 0,
@@ -208,6 +208,14 @@ class _CAState extends State<CodingAdventureGame> with TickerProviderStateMixin 
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.maze
+        ? _Zone.maze(z.name, List<_MazeQ>.from(z.mazes)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

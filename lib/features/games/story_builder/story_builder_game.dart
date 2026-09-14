@@ -78,7 +78,7 @@ class StoryBuilderGame extends StatefulWidget {
 }
 
 class _SToryState extends State<StoryBuilderGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.book('Which Part of the Story?', [
       _BookQ(
           sentence: 'Once upon a time, a young girl named Naledi lived in a small village.',
@@ -186,6 +186,14 @@ class _SToryState extends State<StoryBuilderGame> with TickerProviderStateMixin 
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.book
+        ? _Zone.book(z.name, List<_BookQ>.from(z.book)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

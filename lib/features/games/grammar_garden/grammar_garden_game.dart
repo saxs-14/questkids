@@ -69,7 +69,7 @@ class GrammarGardenGame extends StatefulWidget {
 }
 
 class _GGState extends State<GrammarGardenGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone('Capital Letter Corner', [
       _SentenceQ(correctTiles: ['The', 'sun', 'is', 'hot', '.'], errorIndex: 0, brokenText: 'the'),
       _SentenceQ(correctTiles: ['I', 'like', 'cats', '.'], errorIndex: 0, brokenText: 'i'),
@@ -132,6 +132,12 @@ class _GGState extends State<GrammarGardenGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates
+      .map((z) => _Zone(z.name, List<_SentenceQ>.from(z.sentences)..shuffle(_rng)))
+      .toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

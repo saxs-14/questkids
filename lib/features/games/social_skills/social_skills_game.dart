@@ -73,7 +73,7 @@ class SocialSkillsGame extends StatefulWidget {
 }
 
 class _SSState extends State<SocialSkillsGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.bridge('Build the Bridge', [
       _BridgeQ(
         prompt: "Your group project partner isn't doing their share of the work. What's the best first step?",
@@ -229,6 +229,14 @@ class _SSState extends State<SocialSkillsGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.bridge
+        ? _Zone.bridge(z.name, List<_BridgeQ>.from(z.bridge)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

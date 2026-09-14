@@ -84,7 +84,7 @@ class LiberationHeroesGame extends StatefulWidget {
 }
 
 class _LHState extends State<LiberationHeroesGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.hero('Who Is This Hero?', [
       _HeroQ(
           prompt:
@@ -226,6 +226,14 @@ class _LHState extends State<LiberationHeroesGame> with TickerProviderStateMixin
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.hero
+        ? _Zone.hero(z.name, List<_HeroQ>.from(z.hero)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

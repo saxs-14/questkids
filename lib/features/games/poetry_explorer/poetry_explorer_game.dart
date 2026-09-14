@@ -74,7 +74,7 @@ class PoetryExplorerGame extends StatefulWidget {
 }
 
 class _PEState extends State<PoetryExplorerGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.rhyme('Find the Rhyme', [
       _RhymeQ(target: 'cat', choices: ['hat', 'dog', 'sun']),
       _RhymeQ(target: 'light', choices: ['night', 'day', 'moon']),
@@ -166,6 +166,14 @@ class _PEState extends State<PoetryExplorerGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.rhyme
+        ? _Zone.rhyme(z.name, List<_RhymeQ>.from(z.rhymes)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

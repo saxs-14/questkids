@@ -78,7 +78,7 @@ class DataCityGame extends StatefulWidget {
 }
 
 class _DCState extends State<DataCityGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone(
       name: 'Skyline Bars',
       kind: _Kind.barRead,
@@ -270,6 +270,20 @@ class _DCState extends State<DataCityGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates
+      .map((z) => _Zone(
+            name: z.name,
+            kind: z.kind,
+            bars: z.bars,
+            pictoIcon: z.pictoIcon,
+            pictoPerIcon: z.pictoPerIcon,
+            table: z.table,
+            questions: List<_DataQ>.from(z.questions)..shuffle(_rng),
+          ))
+      .toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

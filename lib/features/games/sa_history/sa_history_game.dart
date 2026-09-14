@@ -96,7 +96,7 @@ class SaHistoryGame extends StatefulWidget {
 }
 
 class _SHState extends State<SaHistoryGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.people('Which People?', [
       _PeopleQ(
           prompt:
@@ -225,6 +225,14 @@ class _SHState extends State<SaHistoryGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.people
+        ? _Zone.people(z.name, List<_PeopleQ>.from(z.people)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

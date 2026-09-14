@@ -73,7 +73,7 @@ class FractionForestGame extends StatefulWidget {
 
 class _FFState extends State<FractionForestGame>
     with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone('Whole Woods', [
       _FractionQ(
         type: _DiagramType.pie,
@@ -300,6 +300,12 @@ class _FFState extends State<FractionForestGame>
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates
+      .map((z) => _Zone(z.name, List<_FractionQ>.from(z.questions)..shuffle(_rng)))
+      .toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

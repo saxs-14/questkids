@@ -94,7 +94,7 @@ class EcosystemsGame extends StatefulWidget {
 }
 
 class _EcoState extends State<EcosystemsGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.biome('Build the Biome', [
       _BiomeQ(biomeName: 'Fynbos', chips: [
         _Chip('Mediterranean (wet winter, dry summer)', _SlotType.climate, true),
@@ -239,6 +239,14 @@ class _EcoState extends State<EcosystemsGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.biome
+        ? _Zone.biome(z.name, List<_BiomeQ>.from(z.biomes)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

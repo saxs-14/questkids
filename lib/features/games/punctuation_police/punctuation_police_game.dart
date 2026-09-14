@@ -81,7 +81,7 @@ class PunctuationPoliceGame extends StatefulWidget {
 }
 
 class _PPState extends State<PunctuationPoliceGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.gap('Where Does It Go?', [
       _GapQ(
           instruction: 'Tap where the comma belongs.',
@@ -197,6 +197,14 @@ class _PPState extends State<PunctuationPoliceGame> with TickerProviderStateMixi
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.gap
+        ? _Zone.gap(z.name, List<_GapQ>.from(z.gaps)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

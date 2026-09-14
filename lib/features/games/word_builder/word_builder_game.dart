@@ -72,7 +72,7 @@ class WordBuilderGame extends StatefulWidget {
 }
 
 class _WBState extends State<WordBuilderGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone('Toy Box', [
       _WordQ('cat', '🐱'),
       _WordQ('dog', '🐶'),
@@ -139,6 +139,12 @@ class _WBState extends State<WordBuilderGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes word order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates
+      .map((z) => _Zone(z.name, List<_WordQ>.from(z.words)..shuffle(_rng)))
+      .toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

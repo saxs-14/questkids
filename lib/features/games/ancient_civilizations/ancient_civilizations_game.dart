@@ -74,7 +74,7 @@ class AncientCivilizationsGame extends StatefulWidget {
 }
 
 class _ACState extends State<AncientCivilizationsGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.dig('Excavate the Artifact', [
       _DigQ(
           prompt: 'This ancient Egyptian structure was built as a tomb for a pharaoh. What is it?',
@@ -208,6 +208,16 @@ class _ACState extends State<AncientCivilizationsGame> with TickerProviderStateM
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order
+  // (deliberate topic/difficulty progression) but randomizes question
+  // order within each zone so replays don't show the identical set in the
+  // identical order every time.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.dig
+        ? _Zone.dig(z.name, List<_DigQ>.from(z.dig)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

@@ -75,7 +75,7 @@ class _EEState extends State<EcosystemExplorerGame>
     with TickerProviderStateMixin {
   static const _slotLabels = ['Producer', 'Consumer', 'Predator'];
 
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.chain('Grassland Web', [
       _ChainQ(
           organisms: ['Grass', 'Grasshopper', 'Frog'],
@@ -192,6 +192,14 @@ class _EEState extends State<EcosystemExplorerGame>
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.chainBuild
+        ? _Zone.chain(z.name, List<_ChainQ>.from(z.chains)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

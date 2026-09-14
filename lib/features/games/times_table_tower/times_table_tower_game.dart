@@ -51,7 +51,7 @@ class TimesTableTowerGame extends StatefulWidget {
 
 class _TTState extends State<TimesTableTowerGame>
     with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone('Foundation Floor', [
       _TableQ(prompt: '4 × 5 = ?', choices: ['20', '16', '24']),
       _TableQ(prompt: '3 × 6 = ?', choices: ['18', '15', '21']),
@@ -121,6 +121,12 @@ class _TTState extends State<TimesTableTowerGame>
   final List<bool> _towerBricks = []; // true = gold/fast brick
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates
+      .map((z) => _Zone(z.name, List<_TableQ>.from(z.questions)..shuffle(_rng)))
+      .toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

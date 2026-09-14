@@ -64,7 +64,7 @@ class ReadingRainbowGame extends StatefulWidget {
 }
 
 class _RRState extends State<ReadingRainbowGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone('Story Meadow', [
       _StoryQ(['Seed', 'Sprout', 'Flower'], ['🌱', '🌿', '🌻']),
       _StoryQ(['Egg', 'Chick', 'Hen'], ['🥚', '🐤', '🐔']),
@@ -127,6 +127,12 @@ class _RRState extends State<ReadingRainbowGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes story order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates
+      .map((z) => _Zone(z.name, List<_StoryQ>.from(z.stories)..shuffle(_rng)))
+      .toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

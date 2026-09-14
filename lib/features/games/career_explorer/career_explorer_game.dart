@@ -72,7 +72,7 @@ class CareerExplorerGame extends StatefulWidget {
 }
 
 class _CEState extends State<CareerExplorerGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.badge('Try On the Career', [
       _BadgeQ(
         clue: 'I look after sick people and help them get better. I often work in a hospital.',
@@ -208,6 +208,14 @@ class _CEState extends State<CareerExplorerGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.badge
+        ? _Zone.badge(z.name, List<_BadgeQ>.from(z.badge)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

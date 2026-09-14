@@ -64,7 +64,7 @@ class _DDState extends State<DecimalDunesGame> with TickerProviderStateMixin {
   static const _lineMax = 2.0;
   static const _lineStep = 0.1;
 
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone(name: 'Dune Line', kind: _Kind.numberLine, questions: [
       _DDQ(prompt: 'Drag the camel to 0.3', target: 0.3),
       _DDQ(prompt: 'Drag the camel to 0.7', target: 0.7),
@@ -160,6 +160,16 @@ class _DDState extends State<DecimalDunesGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates
+      .map((z) => _Zone(
+            name: z.name,
+            kind: z.kind,
+            questions: List<_DDQ>.from(z.questions)..shuffle(_rng),
+          ))
+      .toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

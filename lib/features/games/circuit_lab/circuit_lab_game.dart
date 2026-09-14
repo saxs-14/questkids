@@ -102,7 +102,7 @@ class CircuitLabGame extends StatefulWidget {
 }
 
 class _CLState extends State<CircuitLabGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.circuit('Series Circuits', [
       _CircuitQ(
           description: 'Connect the battery to the bulb.',
@@ -240,6 +240,14 @@ class _CLState extends State<CircuitLabGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.circuit
+        ? _Zone.circuit(z.name, List<_CircuitQ>.from(z.circuits)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

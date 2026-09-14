@@ -71,7 +71,7 @@ class PhonicsFunGame extends StatefulWidget {
 }
 
 class _PFState extends State<PhonicsFunGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone('Sunny Meadow', 'Starts like Sun', '☀️', 'Starts like Moon', '🌙', [
       _CardQ('sock', '🧦', true),
       _CardQ('star', '⭐', true),
@@ -134,6 +134,14 @@ class _PFState extends State<PhonicsFunGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes card order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates
+      .map((z) => _Zone(z.name, z.nestALabel, z.nestAEmoji, z.nestBLabel,
+          z.nestBEmoji, List<_CardQ>.from(z.cards)..shuffle(_rng)))
+      .toList();
+
   FlutterTts? _tts;
 
   String get _uid => (widget.user?.uid as String?) ?? '';

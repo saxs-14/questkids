@@ -49,7 +49,7 @@ class NumberNinjaGame extends StatefulWidget {
 }
 
 class _NNState extends State<NumberNinjaGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone('Add Pattern Dojo', [
       _NinjaQ(prompt: '3, 6, 9, 12, ?', choices: ['15', '14', '18']),
       _NinjaQ(prompt: '5, 10, 15, 20, ?', choices: ['25', '24', '30']),
@@ -128,6 +128,12 @@ class _NNState extends State<NumberNinjaGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates
+      .map((z) => _Zone(z.name, List<_NinjaQ>.from(z.questions)..shuffle(_rng)))
+      .toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 

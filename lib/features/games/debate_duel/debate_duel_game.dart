@@ -77,7 +77,7 @@ class DebateDuelGame extends StatefulWidget {
 }
 
 class _DDState extends State<DebateDuelGame> with TickerProviderStateMixin {
-  static const _zones = [
+  static const _zoneTemplates = [
     _Zone.caseBuilding('Build Your Case', [
       _CaseQ(
         claim: 'Schools should have longer lunch breaks.',
@@ -253,6 +253,14 @@ class _DDState extends State<DebateDuelGame> with TickerProviderStateMixin {
   String _wrongReaction = '';
 
   final _rng = math.Random();
+
+  // Shuffled per-session copy of _zoneTemplates: preserves zone order but
+  // randomizes question order within each zone across replays.
+  late final List<_Zone> _zones = _zoneTemplates.map((z) {
+    return z.kind == _Kind.case_
+        ? _Zone.caseBuilding(z.name, List<_CaseQ>.from(z.caseQs)..shuffle(_rng))
+        : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
+  }).toList();
 
   String get _uid => (widget.user?.uid as String?) ?? '';
 
