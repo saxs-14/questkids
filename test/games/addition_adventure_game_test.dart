@@ -79,14 +79,14 @@ void main() {
       await tester.pump();
       for (var i = 0; i < 45; i++) {
         await tester.pump(const Duration(milliseconds: 100));
-        if (find.textContaining('Treasure Found!').evaluate().isNotEmpty) break;
+        if (find.textContaining('Great Harvest!').evaluate().isNotEmpty) break;
         if (!listEquals(currentChoices(tester), before)) break;
       }
       expect(tester.takeException(), isNull,
           reason: 'exception thrown answering question $q');
     }
 
-    expect(find.textContaining('Treasure Found!'), findsOneWidget,
+    expect(find.textContaining('Great Harvest!'), findsOneWidget,
         reason: 'did not reach the victory screen after 20 questions');
   });
 }

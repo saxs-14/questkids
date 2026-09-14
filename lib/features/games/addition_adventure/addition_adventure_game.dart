@@ -8,22 +8,23 @@ import '../core/game_config.dart';
 import '../core/game_session_persistence.dart';
 
 // ────────────────────────────────────────────────────────────────────────────
-// Addition Adventure — Grade 1 pirate treasure voyage
+// Addition Adventure — "Fruit Collector": Grade 1 orchard harvest
 //
-// 4 Islands (difficulty bands, sums up to 20 overall):
-//   1. Coral Cove       — sums to 5
-//   2. Palm Bay         — sums to 10
-//   3. Shipwreck Shoal  — sums to 15
-//   4. Treasure Island  — sums to 20
-// 5 questions per island = 20 total.
+// 4 Levels (difficulty bands, sums up to 20 overall):
+//   Level 1 — sums to 5
+//   Level 2 — sums to 10
+//   Level 3 — sums to 15
+//   Level 4 — sums to 20
+// 5 questions per level = 20 total.
 //
 // Deliberately NOT a duel-vs-opponent (Number Counting Duel already owns
-// that shape): this is a solo sailing journey. Two coin piles (the
-// addends) merge into a treasure chest instead of an object grid; answers
-// are bobbing sea shells instead of crystals; wrong answers get a gentle
-// splash instead of a shake; streaks trigger a coin shower instead of
-// fireworks. Architecture: fully self-contained StatefulWidget, no
-// external engine (same pattern as NumberCountingDuelGame).
+// that shape): this is a solo orchard harvest. Two fruit piles (the
+// addends) merge into a full basket instead of an object grid; answers
+// are colour-coded fruit-choice buttons instead of crystals; wrong
+// answers get a gentle wobble instead of a shake; streaks trigger a
+// falling-fruit shower instead of fireworks. Architecture: fully
+// self-contained StatefulWidget, no external engine (same pattern as
+// NumberCountingDuelGame).
 // ────────────────────────────────────────────────────────────────────────────
 
 enum _Phase { intro, question, correct, wrong, streak, islandDone, victory }
@@ -63,10 +64,10 @@ class AdditionAdventureGame extends StatefulWidget {
 class _AAState extends State<AdditionAdventureGame>
     with TickerProviderStateMixin {
   static const _islands = [
-    _Island('Coral Cove', 5),
-    _Island('Palm Bay', 10),
-    _Island('Shipwreck Shoal', 15),
-    _Island('Treasure Island', 20),
+    _Island('Level 1', 5),
+    _Island('Level 2', 10),
+    _Island('Level 3', 15),
+    _Island('Level 4', 20),
   ];
 
   // ── Animations ──────────────────────────────────────────────────────────
@@ -412,8 +413,8 @@ class _AAState extends State<AdditionAdventureGame>
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Ocean background CustomPainter — sun, sky, sea, distant island silhouettes.
-// Deliberately a bright daytime beach palette, the opposite of Number
+// Orchard background CustomPainter — sun, sky, rolling hills, fruit trees.
+// Deliberately a bright daytime garden palette, the opposite of Number
 // Counting Duel's purple night arena.
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -436,10 +437,10 @@ class _OceanPainter extends CustomPainter {
       Paint()
         ..shader = const LinearGradient(
           colors: [
-            Color(0xFF4FC3F7),
-            Color(0xFF29B6F6),
-            Color(0xFF0288D1),
-            Color(0xFF01579B),
+            Color(0xFF81D4FA),
+            Color(0xFFAED581),
+            Color(0xFF9CCC65),
+            Color(0xFF7CB342),
           ],
           stops: [0.0, 0.30, 0.65, 1.0],
           begin: Alignment.topCenter,
@@ -461,12 +462,12 @@ class _OceanPainter extends CustomPainter {
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 12),
     );
 
-    // Distant island silhouettes with palm tufts
-    _drawIsland(canvas, Offset(w * 0.12, h * 0.32), 30);
-    _drawIsland(canvas, Offset(w * 0.55, h * 0.28), 22);
+    // Fruit trees dotted across the rolling hills
+    _drawFruitTree(canvas, Offset(w * 0.12, h * 0.32), 30);
+    _drawFruitTree(canvas, Offset(w * 0.55, h * 0.28), 22);
 
-    // Gentle wave lines across the lower two-thirds
-    final wavePaint = Paint()
+    // Gentle rolling-hill lines across the lower two-thirds
+    final hillPaint = Paint()
       ..color = Colors.white.withValues(alpha: 0.18)
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
@@ -476,11 +477,11 @@ class _OceanPainter extends CustomPainter {
       for (double x = 0; x <= w; x += 24) {
         path.quadraticBezierTo(x + 12, y - 6, x + 24, y);
       }
-      canvas.drawPath(path, wavePaint);
+      canvas.drawPath(path, hillPaint);
     }
   }
 
-  void _drawIsland(Canvas canvas, Offset base, double size) {
+  void _drawFruitTree(Canvas canvas, Offset base, double size) {
     canvas.drawOval(
       Rect.fromCenter(center: base, width: size * 1.8, height: size * 0.7),
       Paint()..color = const Color(0xFF2E7D32).withValues(alpha: 0.55),
@@ -490,8 +491,14 @@ class _OceanPainter extends CustomPainter {
       ..strokeWidth = 3;
     canvas.drawLine(
         base + const Offset(0, -2), base + Offset(4, -size * 0.9), trunkPaint);
-    canvas.drawCircle(base + Offset(4, -size * 0.9), size * 0.32,
+    final canopyCenter = base + Offset(4, -size * 0.9);
+    canvas.drawCircle(canopyCenter, size * 0.32,
         Paint()..color = const Color(0xFF388E3C).withValues(alpha: 0.7));
+    // A few ripe apples peeking out of the canopy.
+    final applePaint = Paint()..color = const Color(0xFFE53935).withValues(alpha: 0.85);
+    canvas.drawCircle(canopyCenter + Offset(-size * 0.14, size * 0.06), size * 0.06, applePaint);
+    canvas.drawCircle(canopyCenter + Offset(size * 0.12, -size * 0.08), size * 0.06, applePaint);
+    canvas.drawCircle(canopyCenter + Offset(size * 0.02, size * 0.16), size * 0.06, applePaint);
   }
 
   @override
@@ -539,7 +546,7 @@ class _VoyageHeader extends StatelessWidget {
                   color: const Color(0xFFFFD54A).withValues(alpha: 0.85),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Text('🪙 $treasureCount',
+                child: Text('🍎 $treasureCount',
                     style: const TextStyle(
                         color: Color(0xFF3E2723),
                         fontSize: 15,
@@ -548,15 +555,15 @@ class _VoyageHeader extends StatelessWidget {
               Flexible(
                 child: Column(
                   children: [
-                    Text(
-                      'Island ${islandIdx + 1}/$totalIslands',
-                      style: const TextStyle(
+                    const Text(
+                      '🍎 FRUIT COLLECTOR',
+                      style: TextStyle(
                           color: Color(0xFFFFD54A),
                           fontSize: 11,
                           fontWeight: FontWeight.w700),
                     ),
                     Text(
-                      islandName,
+                      '$islandName of $totalIslands',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -622,7 +629,7 @@ class _ShipScene extends StatelessWidget {
         children: [
           Transform.translate(
             offset: Offset(dx, bobY),
-            child: const Text('⛵', style: TextStyle(fontSize: 56)),
+            child: const Text('🐿️', style: TextStyle(fontSize: 56)),
           ),
         ],
       );
@@ -668,10 +675,10 @@ class _QuestionArea extends StatelessWidget {
                   color: const Color(0xFFFFD54A).withValues(alpha: 0.50),
                   width: 1.5),
             ),
-            child: const Text(
-              'How many coins in the chest?',
+            child: Text(
+              '${q.a} + ${q.b} = ?',
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 18,
                 fontWeight: FontWeight.w900,
@@ -680,7 +687,7 @@ class _QuestionArea extends StatelessWidget {
             ),
           ),
 
-          // Two coin piles merging toward a chest in the middle
+          // Two fruit piles merging toward a full basket in the middle
           SizedBox(
             height: 90,
             child: Row(
@@ -689,7 +696,7 @@ class _QuestionArea extends StatelessWidget {
               children: [
                 Transform.translate(
                   offset: Offset(mergeVal * 26, 0),
-                  child: _CoinPile(count: q.a, color: const Color(0xFFFFD54A)),
+                  child: _FruitPile(count: q.a, emoji: '🍎'),
                 ),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8),
@@ -698,8 +705,7 @@ class _QuestionArea extends StatelessWidget {
                 ),
                 Transform.translate(
                   offset: Offset(-mergeVal * 26, 0),
-                  child: _CoinPile(
-                      count: q.b, color: const Color(0xFFB0BEC5)),
+                  child: _FruitPile(count: q.b, emoji: '🍊'),
                 ),
               ],
             ),
@@ -710,14 +716,17 @@ class _QuestionArea extends StatelessWidget {
             runSpacing: 14,
             alignment: WrapAlignment.center,
             children: q.choices
-                .map((c) => Transform.translate(
+                .asMap()
+                .entries
+                .map((e) => Transform.translate(
                       offset: Offset(0, bobVal * 0.5),
-                      child: _ShellBtn(
-                        value: c,
+                      child: _ChoiceBtn(
+                        value: e.value,
+                        colorIndex: e.key,
                         phase: phase,
                         picked: picked,
                         correct: q.correct,
-                        onTap: () => onAnswer(c),
+                        onTap: () => onAnswer(e.value),
                       ),
                     ))
                 .toList(),
@@ -728,10 +737,10 @@ class _QuestionArea extends StatelessWidget {
   }
 }
 
-class _CoinPile extends StatelessWidget {
+class _FruitPile extends StatelessWidget {
   final int count;
-  final Color color;
-  const _CoinPile({required this.count, required this.color});
+  final String emoji;
+  const _FruitPile({required this.count, required this.emoji});
 
   @override
   Widget build(BuildContext context) {
@@ -745,19 +754,7 @@ class _CoinPile extends StatelessWidget {
         alignment: WrapAlignment.center,
         children: [
           for (int i = 0; i < shown; i++)
-            Container(
-              width: 16,
-              height: 16,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: color,
-                border: Border.all(color: Colors.white, width: 1),
-                boxShadow: [
-                  BoxShadow(
-                      color: color.withValues(alpha: 0.6), blurRadius: 3)
-                ],
-              ),
-            ),
+            Text(emoji, style: const TextStyle(fontSize: 18)),
           if (count > shown)
             Text('+${count - shown}',
                 style: const TextStyle(
@@ -770,15 +767,26 @@ class _CoinPile extends StatelessWidget {
   }
 }
 
-class _ShellBtn extends StatelessWidget {
-  final int value, correct;
+// One distinct colour per choice slot (blue/green/yellow/red), matching
+// the reference spec's coloured-circle answer buttons instead of every
+// choice sharing the same teal.
+const _choicePalette = [
+  (Color(0xFF1E88E5), Color(0xFF1565C0)), // blue
+  (Color(0xFF43A047), Color(0xFF2E7D32)), // green
+  (Color(0xFFFDD835), Color(0xFFF9A825)), // yellow
+  (Color(0xFFE53935), Color(0xFFC62828)), // red
+];
+
+class _ChoiceBtn extends StatelessWidget {
+  final int value, correct, colorIndex;
   final _Phase phase;
   final int? picked;
   final VoidCallback onTap;
 
-  const _ShellBtn({
+  const _ChoiceBtn({
     required this.value,
     required this.correct,
+    required this.colorIndex,
     required this.phase,
     required this.picked,
     required this.onTap,
@@ -793,8 +801,9 @@ class _ShellBtn extends StatelessWidget {
     final isPickedThis = picked == value;
     final isCorrectThis = value == correct;
 
-    Color bg1 = const Color(0xFF00ACC1);
-    Color bg2 = const Color(0xFF00838F);
+    final palette = _choicePalette[colorIndex % _choicePalette.length];
+    Color bg1 = palette.$1;
+    Color bg2 = palette.$2;
     Color border = Colors.white.withValues(alpha: 0.35);
     Color textC = Colors.white;
 
@@ -865,13 +874,13 @@ class _FeedbackBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (text, bg) = switch (phase) {
-      _Phase.correct => ('⚓ Yo ho ho! Coins collected!', const Color(0xFF2E7D32)),
-      _Phase.wrong => ('🌊 Splash! Try again, matey!', const Color(0xFF01579B)),
+      _Phase.correct => ('🎉 Great job!', const Color(0xFF2E7D32)),
+      _Phase.wrong => ('Oops! Try again!', const Color(0xFF01579B)),
       _Phase.streak => (
-          '🏴‍☠️ ${streak}x TREASURE STREAK! 💰',
+          '🔥 ${streak}x FRUIT STREAK! ⭐',
           const Color(0xFFB8860B)
         ),
-      _Phase.islandDone => ('🗺️  Island Explored!', const Color(0xFF4A148C)),
+      _Phase.islandDone => ('✅ Level Complete!', const Color(0xFF4A148C)),
       _ => (null, Colors.transparent),
     };
     if (text == null) return const SizedBox(height: 40);
@@ -906,15 +915,15 @@ class _IslandDone extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('🏝️ ⛵ 🏝️', style: TextStyle(fontSize: 40)),
+              const Text('🧺 🍎 🧺', style: TextStyle(fontSize: 40)),
               const SizedBox(height: 12),
-              Text('Island $islandNum Explored!',
+              Text('Level $islandNum Complete!',
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 26,
                       fontWeight: FontWeight.w900)),
               const SizedBox(height: 8),
-              const Text('Setting sail for the next island!',
+              const Text('On to the next level!',
                   style: TextStyle(color: Colors.white70, fontSize: 15)),
             ],
           ),
@@ -934,20 +943,20 @@ class _IntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: Color(0xFF0288D1),
+      backgroundColor: Color(0xFF66BB6A),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('🏝️', style: TextStyle(fontSize: 72)),
+            Text('🍎', style: TextStyle(fontSize: 72)),
             SizedBox(height: 16),
-            Text('Addition Adventure',
+            Text('Fruit Collector',
                 style: TextStyle(
                     color: Color(0xFFFFD54A),
                     fontSize: 24,
                     fontWeight: FontWeight.w900)),
             SizedBox(height: 8),
-            Text('Set sail for treasure!',
+            Text('Collect fruit and solve addition!',
                 style: TextStyle(color: Colors.white70, fontSize: 16)),
           ],
         ),
@@ -995,7 +1004,7 @@ class _VictoryScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('🏆 Treasure Found!',
+                  const Text('🏆 Great Harvest!',
                       style: TextStyle(
                           color: Color(0xFFFFD54A),
                           fontSize: 32,
@@ -1027,7 +1036,7 @@ class _VictoryScreen extends StatelessWidget {
                       children: [
                         Column(
                           children: [
-                            const Text('🪙 Coins',
+                            const Text('🍎 Fruit',
                                 style: TextStyle(
                                     color: Colors.white70, fontSize: 12)),
                             Text('$correctCount',
@@ -1059,10 +1068,10 @@ class _VictoryScreen extends StatelessWidget {
                     runSpacing: 12,
                     children: [
                       _VBtn(
-                          label: '🔄 Sail Again',
+                          label: '🔄 Play Again',
                           onTap: onReplay,
                           primary: true),
-                      _VBtn(label: '🗺️ Map', onTap: onExit, primary: false),
+                      _VBtn(label: '🚪 Exit', onTap: onExit, primary: false),
                     ],
                   ),
                 ],
@@ -1139,7 +1148,7 @@ class _SplashPainter extends CustomPainter {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Coin shower particle painter (streak celebration) — falling gold coins,
+// Fruit shower particle painter (streak celebration) — falling fruit,
 // distinct from Number Counting Duel's radial firework bursts.
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -1155,6 +1164,8 @@ class _CoinShowerPainter extends CustomPainter {
             delay: _rng.nextDouble() * 0.4,
             speed: 0.7 + _rng.nextDouble() * 0.4,
             spin: _rng.nextDouble() * 6.28,
+            color: i.isEven ? const Color(0xFFE53935) : const Color(0xFFFFD54A),
+            ringColor: i.isEven ? const Color(0xFFB71C1C) : const Color(0xFFB8860B),
           ));
 
   @override
@@ -1171,13 +1182,13 @@ class _CoinShowerPainter extends CustomPainter {
       canvas.drawCircle(
         Offset.zero,
         7,
-        Paint()..color = const Color(0xFFFFD54A).withValues(alpha: alpha),
+        Paint()..color = c.color.withValues(alpha: alpha),
       );
       canvas.drawCircle(
         Offset.zero,
         7,
         Paint()
-          ..color = const Color(0xFFB8860B).withValues(alpha: alpha)
+          ..color = c.ringColor.withValues(alpha: alpha)
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1.5,
       );

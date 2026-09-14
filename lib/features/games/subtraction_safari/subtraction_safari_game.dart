@@ -8,24 +8,24 @@ import '../core/game_config.dart';
 import '../core/game_session_persistence.dart';
 
 // ────────────────────────────────────────────────────────────────────────────
-// Subtraction Safari — Grade 1 animal rescue mission
+// Subtraction Safari — "Pop the Balloons": Grade 1 party balloon count
 //
-// 4 Safari Zones (difficulty bands, subtraction within 20 overall):
-//   1. Watering Hole  — within 5
-//   2. Grasslands     — within 10
-//   3. Jungle Trail    — within 15
-//   4. Mountain Den    — within 20
-// 5 questions per zone = 20 total.
+// 4 Levels (difficulty bands, subtraction within 20 overall):
+//   Level 1 — within 5
+//   Level 2 — within 10
+//   Level 3 — within 15
+//   Level 4 — within 20
+// 5 questions per level = 20 total.
 //
 // Deliberately distinct from Number Counting Duel (vs-AI arena duel) and
-// Addition Adventure (solo sailing voyage, coins merging): this is a
-// rescue mission where animals visibly hop OUT of a cage (a "taking
-// away" visual for subtraction, not two piles merging), the player taps
-// how many are still waiting to be rescued, wrong answers get a silly
-// animal reaction instead of any punishment, and a streak triggers a
-// safari parade instead of fireworks or a coin shower. Architecture:
-// fully self-contained StatefulWidget, no external engine (same pattern
-// as NumberCountingDuelGame / AdditionAdventureGame).
+// Addition Adventure (solo orchard harvest, fruit piles merging): this is
+// a party scene where balloons visibly POP (a "taking away" visual for
+// subtraction, not two piles merging), the player taps how many balloons
+// are still floating, wrong answers get a silly reaction instead of any
+// punishment, and a streak triggers a balloon shower instead of
+// fireworks or a fruit shower. Architecture: fully self-contained
+// StatefulWidget, no external engine (same pattern as
+// NumberCountingDuelGame / AdditionAdventureGame).
 // ────────────────────────────────────────────────────────────────────────────
 
 enum _Phase { intro, question, correct, wrong, streak, zoneDone, victory }
@@ -67,17 +67,17 @@ class SubtractionSafariGame extends StatefulWidget {
 class _SSState extends State<SubtractionSafariGame>
     with TickerProviderStateMixin {
   static const _zones = [
-    _Zone('Watering Hole', 5, '🐸'),
-    _Zone('Grasslands', 10, '🦓'),
-    _Zone('Jungle Trail', 15, '🐒'),
-    _Zone('Mountain Den', 20, '🦁'),
+    _Zone('Level 1', 5, '🎈'),
+    _Zone('Level 2', 10, '🎈'),
+    _Zone('Level 3', 15, '🎈'),
+    _Zone('Level 4', 20, '🎈'),
   ];
 
   static const _wrongReactions = [
-    'The monkey giggled and hid again! 🙈 Try again!',
-    'The zebra did a silly wiggle! 🦓 Try again!',
-    'The lion cub tumbled over! 🦁 Try again!',
-    'Oopsie! The frog hopped the wrong way! 🐸 Try again!',
+    'Oopsie! Count again! 🎈 Try again!',
+    'So close! Try again! 🎈 Try again!',
+    'Not quite! Take another look! 🎈 Try again!',
+    'Almost! Count the floating balloons again!',
   ];
 
   // ── Animations ──────────────────────────────────────────────────────────
@@ -419,9 +419,9 @@ class _SSState extends State<SubtractionSafariGame>
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Savanna background CustomPainter — warm gold grass, blue sky, acacia
-// trees. Distinct from Number Counting Duel's purple night arena and
-// Addition Adventure's turquoise ocean.
+// Party background CustomPainter — pink-purple sky with floating balloon
+// clusters. Distinct from Number Counting Duel's purple night arena and
+// Addition Adventure's green orchard.
 // ─────────────────────────────────────────────────────────────────────────────
 
 class _SavannaBg extends StatelessWidget {
@@ -443,9 +443,9 @@ class _SavannaPainter extends CustomPainter {
       Paint()
         ..shader = const LinearGradient(
           colors: [
-            Color(0xFF87CEEB),
-            Color(0xFFFFD54F),
-            Color(0xFFE8A33D),
+            Color(0xFF81D4FA),
+            Color(0xFFCE93D8),
+            Color(0xFFAB47BC),
           ],
           stops: [0.0, 0.55, 1.0],
           begin: Alignment.topCenter,
@@ -460,12 +460,12 @@ class _SavannaPainter extends CustomPainter {
       Paint()..color = const Color(0xFFFFF9C4).withValues(alpha: 0.9),
     );
 
-    // Acacia tree silhouettes
-    _drawAcacia(canvas, Offset(w * 0.85, h * 0.30), 34);
-    _drawAcacia(canvas, Offset(w * 0.62, h * 0.24), 22);
+    // Floating balloon clusters
+    _drawBalloonCluster(canvas, Offset(w * 0.85, h * 0.30), 34);
+    _drawBalloonCluster(canvas, Offset(w * 0.62, h * 0.24), 22);
 
     // Distant hill line
-    final hillPaint = Paint()..color = const Color(0xFFC17A3D).withValues(alpha: 0.5);
+    final hillPaint = Paint()..color = const Color(0xFF8E24AA).withValues(alpha: 0.5);
     final hillPath = Path()
       ..moveTo(0, h * 0.42)
       ..quadraticBezierTo(w * 0.3, h * 0.36, w * 0.55, h * 0.42)
@@ -476,19 +476,21 @@ class _SavannaPainter extends CustomPainter {
     canvas.drawPath(hillPath, hillPaint);
   }
 
-  void _drawAcacia(Canvas canvas, Offset base, double size) {
-    final trunkPaint = Paint()
-      ..color = const Color(0xFF5D4037).withValues(alpha: 0.75)
-      ..strokeWidth = 4;
-    canvas.drawLine(base, base + Offset(0, -size), trunkPaint);
-    final canopyPaint = Paint()..color = const Color(0xFF33691E).withValues(alpha: 0.65);
-    canvas.drawOval(
-      Rect.fromCenter(
-          center: base + Offset(0, -size * 1.1),
-          width: size * 2.2,
-          height: size * 0.55),
-      canopyPaint,
-    );
+  void _drawBalloonCluster(Canvas canvas, Offset base, double size) {
+    final stringPaint = Paint()
+      ..color = const Color(0xFF5D4037).withValues(alpha: 0.6)
+      ..strokeWidth = 2;
+    canvas.drawLine(base, base + Offset(0, -size), stringPaint);
+    const colors = [Color(0xFFE53935), Color(0xFFFDD835), Color(0xFF43A047)];
+    for (int i = 0; i < colors.length; i++) {
+      canvas.drawOval(
+        Rect.fromCenter(
+            center: base + Offset((i - 1) * size * 0.4, -size * 1.1),
+            width: size * 0.5,
+            height: size * 0.65),
+        Paint()..color = colors[i].withValues(alpha: 0.75),
+      );
+    }
   }
 
   @override
@@ -536,7 +538,7 @@ class _SafariHeader extends StatelessWidget {
                   color: const Color(0xFF8BC34A).withValues(alpha: 0.90),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Text('🐾 $rescuedCount',
+                child: Text('🎈 $rescuedCount',
                     style: const TextStyle(
                         color: Color(0xFF1B3A0E),
                         fontSize: 15,
@@ -545,15 +547,15 @@ class _SafariHeader extends StatelessWidget {
               Flexible(
                 child: Column(
                   children: [
-                    Text(
-                      'Zone ${zoneIdx + 1}/$totalZones',
-                      style: const TextStyle(
+                    const Text(
+                      '🎈 POP THE BALLOONS',
+                      style: TextStyle(
                           color: Color(0xFFFFE082),
                           fontSize: 11,
                           fontWeight: FontWeight.w700),
                     ),
                     Text(
-                      zoneName,
+                      '$zoneName of $totalZones',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -596,7 +598,7 @@ class _SafariHeader extends StatelessWidget {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Cage scene: an animal that hops away on a correct answer
+// Balloon scene: a balloon that pops on a correct answer
 // ─────────────────────────────────────────────────────────────────────────────
 
 class _CageScene extends StatelessWidget {
@@ -614,24 +616,28 @@ class _CageScene extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hopping = phase == _Phase.correct || phase == _Phase.streak;
-    final dx = hopping ? hopProgress * 90 : 0.0;
-    final dy = hopping ? -math.sin(hopProgress * math.pi) * 30 : 0.0;
+    final popping = phase == _Phase.correct || phase == _Phase.streak;
+    final scale = popping ? (1 - hopProgress * 0.5) : 1.0;
+    final burstOpacity = popping ? math.sin(hopProgress * math.pi) : 0.0;
 
     return Stack(
       alignment: Alignment.center,
       children: [
         Transform.rotate(
           angle: swayAngle,
-          child: const Text('🌳', style: TextStyle(fontSize: 44)),
-        ),
-        Transform.translate(
-          offset: Offset(dx, dy),
-          child: Opacity(
-            opacity: hopping ? (1 - hopProgress * 0.6) : 1,
-            child: Text(animal, style: const TextStyle(fontSize: 52)),
+          child: Transform.scale(
+            scale: scale,
+            child: Opacity(
+              opacity: popping ? (1 - hopProgress) : 1,
+              child: Text(animal, style: const TextStyle(fontSize: 52)),
+            ),
           ),
         ),
+        if (popping)
+          Opacity(
+            opacity: burstOpacity,
+            child: const Text('💥', style: TextStyle(fontSize: 40)),
+          ),
       ],
     );
   }
@@ -674,8 +680,9 @@ class _QuestionArea extends StatelessWidget {
                   width: 1.5),
             ),
             child: Text(
-              '${q.total} $zoneAnimal were trapped. ${q.freed} hopped free!\n'
-              'How many still need rescuing?',
+              '${q.total} - ${q.freed} = ?\n'
+              '${q.total} balloons were floating. ${q.freed} popped!\n'
+              'How many balloons are left?',
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.white,
@@ -691,12 +698,15 @@ class _QuestionArea extends StatelessWidget {
             runSpacing: 14,
             alignment: WrapAlignment.center,
             children: q.choices
-                .map((c) => _SignpostBtn(
-                      value: c,
+                .asMap()
+                .entries
+                .map((e) => _SignpostBtn(
+                      value: e.value,
+                      colorIndex: e.key,
                       phase: phase,
                       picked: picked,
                       correct: q.correct,
-                      onTap: () => onAnswer(c),
+                      onTap: () => onAnswer(e.value),
                     ))
                 .toList(),
           ),
@@ -706,8 +716,17 @@ class _QuestionArea extends StatelessWidget {
   }
 }
 
+// One distinct colour per choice slot (blue/green/yellow/red), matching
+// the reference spec's coloured-circle answer buttons.
+const _choicePalette = [
+  Color(0xFF1E88E5), // blue
+  Color(0xFF43A047), // green
+  Color(0xFFFDD835), // yellow
+  Color(0xFFE53935), // red
+];
+
 class _SignpostBtn extends StatelessWidget {
-  final int value, correct;
+  final int value, correct, colorIndex;
   final _Phase phase;
   final int? picked;
   final VoidCallback onTap;
@@ -715,6 +734,7 @@ class _SignpostBtn extends StatelessWidget {
   const _SignpostBtn({
     required this.value,
     required this.correct,
+    required this.colorIndex,
     required this.phase,
     required this.picked,
     required this.onTap,
@@ -729,8 +749,8 @@ class _SignpostBtn extends StatelessWidget {
     final isPickedThis = picked == value;
     final isCorrectThis = value == correct;
 
-    Color plankColor = const Color(0xFF8D6E33);
-    Color border = const Color(0xFFD7B98E);
+    Color plankColor = _choicePalette[colorIndex % _choicePalette.length];
+    Color border = Colors.white.withValues(alpha: 0.6);
 
     if (isAnswered) {
       if (isCorrectThis) {
@@ -801,13 +821,13 @@ class _FeedbackBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (text, bg) = switch (phase) {
-      _Phase.correct => ('🐾 Rescue complete! Great counting!', const Color(0xFF558B2F)),
+      _Phase.correct => ('🎉 Great job!', const Color(0xFF558B2F)),
       _Phase.wrong => (wrongReaction, const Color(0xFFBF360C)),
       _Phase.streak => (
-          '🌟 ${streak}x RESCUE STREAK! 🎉',
+          '🌟 ${streak}x BALLOON STREAK! 🎉',
           const Color(0xFFEF6C00)
         ),
-      _Phase.zoneDone => ('🏞️  Zone Cleared!', const Color(0xFF33691E)),
+      _Phase.zoneDone => ('✅ Level Complete!', const Color(0xFF33691E)),
       _ => (null, Colors.transparent),
     };
     if (text == null) return const SizedBox(height: 40);
@@ -843,15 +863,15 @@ class _ZoneDone extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('🐾 🏞️ 🐾', style: TextStyle(fontSize: 40)),
+              const Text('🎈 🎉 🎈', style: TextStyle(fontSize: 40)),
               const SizedBox(height: 12),
-              Text('Zone $zoneNum Cleared!',
+              Text('Level $zoneNum Complete!',
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 26,
                       fontWeight: FontWeight.w900)),
               const SizedBox(height: 8),
-              const Text('Heading to the next safari zone!',
+              const Text('On to the next level!',
                   style: TextStyle(color: Colors.white70, fontSize: 15)),
             ],
           ),
@@ -871,21 +891,21 @@ class _IntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: Color(0xFFE8A33D),
+      backgroundColor: Color(0xFF5E35B1),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('🦁', style: TextStyle(fontSize: 72)),
+            Text('🎈', style: TextStyle(fontSize: 72)),
             SizedBox(height: 16),
-            Text('Subtraction Safari',
+            Text('Pop the Balloons',
                 style: TextStyle(
-                    color: Color(0xFF3E2723),
+                    color: Colors.white,
                     fontSize: 24,
                     fontWeight: FontWeight.w900)),
             SizedBox(height: 8),
-            Text('Rescue the animals!',
-                style: TextStyle(color: Color(0xFF5D4037), fontSize: 16)),
+            Text('Pop balloons and solve subtraction!',
+                style: TextStyle(color: Colors.white70, fontSize: 16)),
           ],
         ),
       ),
@@ -932,7 +952,7 @@ class _VictoryScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('🏆 Safari Complete!',
+                  const Text('🏆 Party Complete!',
                       style: TextStyle(
                           color: Color(0xFF3E2723),
                           fontSize: 30,
@@ -964,7 +984,7 @@ class _VictoryScreen extends StatelessWidget {
                       children: [
                         Column(
                           children: [
-                            const Text('🐾 Rescued',
+                            const Text('🎈 Popped',
                                 style: TextStyle(
                                     color: Colors.white70, fontSize: 12)),
                             Text('$rescuedCount',
@@ -996,10 +1016,10 @@ class _VictoryScreen extends StatelessWidget {
                     runSpacing: 12,
                     children: [
                       _VBtn(
-                          label: '🔄 Rescue Again',
+                          label: '🔄 Play Again',
                           onTap: onReplay,
                           primary: true),
-                      _VBtn(label: '🗺️ Map', onTap: onExit, primary: false),
+                      _VBtn(label: '🚪 Exit', onTap: onExit, primary: false),
                     ],
                   ),
                 ],
@@ -1048,16 +1068,16 @@ class _VBtn extends StatelessWidget {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Safari parade painter (streak celebration) — a row of animal
-// silhouettes marching across the screen, distinct from Number Counting
-// Duel's fireworks and Addition Adventure's coin shower.
+// Balloon parade painter (streak celebration) — a row of balloons
+// floating across the screen, distinct from Number Counting Duel's
+// fireworks and Addition Adventure's fruit shower.
 // ─────────────────────────────────────────────────────────────────────────────
 
 class _ParadePainter extends CustomPainter {
   final double t;
   _ParadePainter(this.t);
 
-  static const _paradeAnimals = ['🦓', '🦁', '🐒', '🐘', '🦒'];
+  static const _paradeAnimals = ['🎈', '🎈', '🎈', '🎈', '🎈'];
 
   @override
   void paint(Canvas canvas, Size size) {
