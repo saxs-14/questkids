@@ -44,8 +44,7 @@ export const requestParentLink = onCall(
       throw new HttpsError("not-found", "No child account was found for that code.");
     }
     const childUid = childSnap.id;
-    const primaryParentUid =
-      typeof child.parentUid === "string" ? child.parentUid : "";
+    const primaryParentUid = typeof child.parentUid === "string" ? child.parentUid : "";
 
     if (!primaryParentUid) {
       throw new HttpsError("failed-precondition", "This child does not have a primary parent yet.");
