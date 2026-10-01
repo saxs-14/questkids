@@ -43,8 +43,8 @@ export const recordGameSession = onCall(
     const progressionCatalogId =
       typeof metadataRecord.progressionCatalogId === "string" &&
       metadataRecord.progressionCatalogId.trim() ?
-      metadataRecord.progressionCatalogId.trim() :
-      catalogId;
+        metadataRecord.progressionCatalogId.trim() :
+        catalogId;
 
     const validProgressionCatalog =
       Boolean(progressionCatalogId) &&
