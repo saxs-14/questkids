@@ -80,8 +80,8 @@ export const recordGameSession = onCall(
       const engineSnap = await tx.get(engineRef);
       const rewardsSnap = await tx.get(rewardsRef);
       const levelRef = level !== null
-          ? db.collection("game_level_progress").doc(uid).collection("games").doc(catalogId)
-          : null;
+        ? db.collection("game_level_progress").doc(uid).collection("games").doc(catalogId)
+        : null;
       const levelSnap = levelRef == null ? null : await tx.get(levelRef);
 
       if (!userSnap.exists || userSnap.data()?.role !== "learner") {
