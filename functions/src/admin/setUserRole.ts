@@ -30,6 +30,12 @@ export const setUserRole = onCall({ enforceAppCheck: ENFORCE_APP_CHECK }, async 
   if (!uid || typeof uid !== "string") {
     throw new HttpsError("invalid-argument", "uid is required");
   }
+  if (uid === request.auth.uid) {
+    throw new HttpsError(
+      "failed-precondition",
+      "An admin cannot change their own role."
+    );
+  }
   if (!VALID_ROLES.includes(role)) {
     throw new HttpsError("invalid-argument", `role must be one of ${VALID_ROLES.join(", ")}`);
   }
