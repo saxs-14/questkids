@@ -26,6 +26,7 @@ export { approveParentLinkRequest } from "./parent/approveLinkRequest";
 export { unlinkParentChild } from "./parent/unlinkChild";
 export { requestParentLink } from "./parent/requestParentLink";
 export { resolveParentLinkRequest } from "./parent/resolveParentLinkRequest";
+export { lookupChildLinkCode } from "./parent/lookupChildLinkCode";
 export { sendPushOnNotificationCreate } from "./notifications/sendPush";
 export { onBadgeAwarded } from "./notifications/badgeAward";
 export { sendQuestReminders } from "./notifications/reminders";
