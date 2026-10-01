@@ -84,40 +84,8 @@ class ParentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> sendLinkRequest(
-      String childUid,
-      String linkMethod,
-      String requestingParentUid,
-      String requestingParentName,
-      String requestingParentEmail,
-      String requestingParentRole) async {
-    final child = await _parentRepo.findChildByCode(childUid);
-    // childUid param here should be real child uid or code; caller should pass childUid
-    final data = {
-      'requestingParentUid': requestingParentUid,
-      'requestingParentName': requestingParentName,
-      'requestingParentEmail': requestingParentEmail,
-      'requestingParentRole': requestingParentRole,
-      'childUid': childUid,
-      'childName': child?.name ?? '',
-      'primaryParentUid': child?.parentUid ?? '',
-      'status': 'pending',
-      'linkMethod': linkMethod,
-    };
-    await _parentRepo.sendLinkRequest(data);
-  }
-
-  Future<void> approveLinkRequest(
-      String requestId, String childUid, String requestingParentUid) async {
-    await _parentRepo.approveLinkRequest(
-        requestId, childUid, requestingParentUid);
-    // create notification
-    await _notifRepo.createNotification({
-      'recipientUid': requestingParentUid,
-      'title': 'Link approved',
-      'body': 'Your link request was approved. You can now monitor the child.',
-      'type': 'link_approved',
-    });
+  Future<void> approveLinkRequest(String requestId) async {
+    await _parentRepo.approveLinkRequest(requestId);
   }
 
   Future<void> declineLinkRequest(String requestId) async {
