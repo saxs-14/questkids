@@ -3,7 +3,6 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:uuid/uuid.dart';
 import '../models/game_session_model.dart';
 import '../models/curriculum_model.dart';
-import '../models/progress_model.dart';
 import '../../core/constants/app_constants.dart';
 
 /// Consolidated repository for all game engine data.
@@ -47,55 +46,7 @@ class GameRepository {
     return data['sessionId'] as String;
   }
 
-  Map<String, dynamic> _buildProgressMirror(String id, GameSessionModel s) {
-    return ProgressModel(
-      uid: s.uid,
-      activityId: id,
-      activityTitle: '${s.subject} – ${_engineLabel(s.engineType)}',
-      subject: s.subject,
-      score: s.score,
-      pointsEarned: s.xpEarned,
-      completed: s.result == 'win' || s.result == 'complete',
-      verified: false,
-      proofUrl: null,
-      completedAt: s.completedAt,
-      timeTakenSeconds: s.timeTakenSeconds,
-    ).toMap();
-  }
-
   // ── Player stats ─────────────────────────────────────────────────────────────
-
-  Future<void> _updatePlayerStats(GameSessionModel session) async {
-    final ref = _db.collection(AppConstants.colPlayerStats).doc(session.uid);
-    final isWin = session.result == 'win' || session.result == 'complete';
-
-    await _db.runTransaction((tx) async {
-      final snap = await tx.get(ref);
-      final e = snap.exists
-          ? Map<String, dynamic>.from(snap.data()!)
-          : <String, dynamic>{};
-
-      final newXp = (e['xp'] as num? ?? 0) + session.xpEarned;
-
-      tx.set(
-        ref,
-        {
-          'uid': session.uid,
-          'xp': newXp,
-          'coins': (e['coins'] as num? ?? 0) + session.coinsEarned,
-          'level': _calcLevel(newXp),
-          'gamesPlayed': (e['gamesPlayed'] as num? ?? 0) + 1,
-          'wins': (e['wins'] as num? ?? 0) + (isWin ? 1 : 0),
-          'losses': (e['losses'] as num? ?? 0) + (isWin ? 0 : 1),
-          'favoriteEngine': session.engineType,
-          'lastPlayedAt': Timestamp.fromDate(session.completedAt),
-          'achievements': e['achievements'] ?? [],
-          'unlockedWorlds': e['unlockedWorlds'] ?? [],
-        },
-        SetOptions(merge: true),
-      );
-    });
-  }
 
   Stream<Map<String, dynamic>?> watchPlayerStats(String uid) {
     return _db
@@ -112,47 +63,6 @@ class GameRepository {
   }
 
   // ── Per-engine progress ───────────────────────────────────────────────────────
-
-  Future<void> _updateGameProgress(GameSessionModel session) async {
-    final ref = _db
-        .collection(AppConstants.colGameProgress)
-        .doc(session.uid)
-        .collection('engines')
-        .doc(session.engineType);
-
-    final isWin = session.result == 'win' || session.result == 'complete';
-
-    await _db.runTransaction((tx) async {
-      final snap = await tx.get(ref);
-      final e = snap.exists
-          ? Map<String, dynamic>.from(snap.data()!)
-          : <String, dynamic>{};
-
-      final prevGames = (e['totalGames'] as num? ?? 0).toInt();
-      final prevAvg = (e['averageAccuracy'] as num? ?? 0.0).toDouble();
-      final newGames = prevGames + 1;
-      final newAvg = ((prevAvg * prevGames) + session.accuracy) / newGames;
-
-      final prevBest = (e['bestScore'] as num? ?? 0).toInt();
-
-      tx.set(
-        ref,
-        {
-          'engineType': session.engineType,
-          'subject': session.subject,
-          'grade': session.grade,
-          'totalGames': newGames,
-          'wins': (e['wins'] as num? ?? 0) + (isWin ? 1 : 0),
-          'losses': (e['losses'] as num? ?? 0) + (isWin ? 0 : 1),
-          'bestScore': session.score > prevBest ? session.score : prevBest,
-          'totalXP': (e['totalXP'] as num? ?? 0) + session.xpEarned,
-          'averageAccuracy': newAvg,
-          'lastPlayedAt': Timestamp.fromDate(session.completedAt),
-        },
-        SetOptions(merge: true),
-      );
-    });
-  }
 
   Future<Map<String, dynamic>?> getGameProgress(
       String uid, String engineType) async {
@@ -247,26 +157,11 @@ class GameRepository {
 
   // ── Helpers ───────────────────────────────────────────────────────────────────
 
-  // Matches RewardsService.getLevelFromPoints / RewardRepository.addPoints
-  // / the dashboard's level display -- kept as one formula everywhere so
-  // player_stats.level and rewards.level never disagree for the same XP.
-  int _calcLevel(num totalXp) => (totalXp ~/ 100) + 1;
-
   String _todayKey() {
     final now = DateTime.now();
     final m = now.month.toString().padLeft(2, '0');
     final d = now.day.toString().padLeft(2, '0');
     return '${now.year}-$m-$d';
-  }
-
-  String _engineLabel(String engineType) {
-    const labels = {
-      AppConstants.engineTugOfWar: 'Tug of War',
-      AppConstants.engineAdventureJourney: 'Adventure Journey',
-      AppConstants.engineRunnerCollector: 'Runner & Collector',
-      AppConstants.engineExplorerMap: 'Explorer Map',
-    };
-    return labels[engineType] ?? engineType;
   }
 
   // ── Grade 4 CAPS seed data ────────────────────────────────────────────────────
