@@ -173,7 +173,13 @@ class QuestKidsApp extends StatelessWidget {
         '/mood_checkin': (_) => const MoodCheckinScreen(),
         '/dashboard': (_) => const LearnerDashboard(),
         '/dashboard/learner': (_) => const LearnerDashboard(),
-        '/grade4_hub': (_) => Consumer<AuthProvider>(\n              builder: (context, auth, _) {\n                final user = auth.user;\n                if (user == null) return const LoginScreen();\n                return GradeFourGameLevelsScreen(user: user);\n              },\n            ),
+        '/grade4_hub': (_) => Consumer<AuthProvider>(
+              builder: (context, auth, _) {
+                final user = auth.user;
+                if (user == null) return const LoginScreen();
+                return GradeFourGameLevelsScreen(user: user);
+              },
+            ),
         '/dashboard/parent': (_) => const ParentDashboard(),
         '/dashboard/admin': (_) => const AdminDashboard(),
         '/trading_post': (_) => const TradingPostScreen(),
