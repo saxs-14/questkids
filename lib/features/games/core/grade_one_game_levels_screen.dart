@@ -119,7 +119,7 @@ class _GradeOneGameLevelsScreenState extends State<GradeOneGameLevelsScreen> {
                         Text(
                           progress.completed
                               ? 'All 10 levels completed!'
-                              : 'Level \${progress.currentLevel} is ready. Complete each level to unlock the next.',
+                              : 'Level ${progress.currentLevel} is ready. Complete each level to unlock the next.',
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             color: Colors.white,
@@ -216,7 +216,7 @@ class _LevelCard extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                'LEVEL \$level',
+                'LEVEL $level',
                 style: TextStyle(
                   fontWeight: FontWeight.w900,
                   color: accent,
@@ -226,7 +226,7 @@ class _LevelCard extends StatelessWidget {
               const SizedBox(height: 5),
               Text(
                 completed
-                    ? 'Completed\${bestScore == null ? '' : ' • \${bestScore}%'}'
+                    ? 'Completed${bestScore == null ? '' : ' • ${bestScore}%'}'
                     : unlocked
                         ? 'Tap to play'
                         : 'Locked',
