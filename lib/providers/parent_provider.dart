@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../data/models/user_model.dart';
 import '../data/repositories/parent_repository.dart';
-import '../data/repositories/notification_repository.dart';
 
 class ParentProvider extends ChangeNotifier {
   final ParentRepository _parentRepo = ParentRepository();
