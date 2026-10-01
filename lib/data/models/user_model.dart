@@ -26,7 +26,6 @@ class UserModel {
   final List<String> linkedChildrenUids;
   final String preferredLanguage;
   final String? fcmToken;
-  final String? linkedTeacherUid; // for learners linked to a teacher's class
 
   String get displayName {
     if (role == 'admin' || role == 'parent') {
@@ -132,7 +131,6 @@ class UserModel {
       linkedChildrenUids: List<String>.from(map['linkedChildrenUids'] ?? []),
       preferredLanguage: map['preferredLanguage'] ?? 'English',
       fcmToken: map['fcmToken'],
-      linkedTeacherUid: map['linkedTeacherUid'],
     );
   }
 
@@ -162,7 +160,6 @@ class UserModel {
       'linkedChildrenUids': linkedChildrenUids,
       'preferredLanguage': preferredLanguage,
       'fcmToken': fcmToken,
-      'linkedTeacherUid': linkedTeacherUid,
     };
   }
 
