@@ -46,7 +46,14 @@ export const recordGameSession = onCall(
         ? metadataRecord.progressionCatalogId.trim()
         : catalogId;
 
-    if (level !== null && (!catalogId || !LEVELLED_CATALOG.test(catalogId) || !progressionCatalogId || !LEVELLED_CATALOG.test(progressionCatalogId))) {
+    const validProgressionCatalog =
+      Boolean(progressionCatalogId) &&
+      LEVELLED_CATALOG.test(progressionCatalogId);
+
+    if (
+      level !== null &&
+      (!catalogId || !LEVELLED_CATALOG.test(catalogId) || !validProgressionCatalog)
+    ) {
       throw new HttpsError("invalid-argument", "Level progression is only valid for Grade 1 or Grade 4 game sessions.");
     }
     if (catalogId && LEVELLED_CATALOG.test(catalogId) && level === null) {
