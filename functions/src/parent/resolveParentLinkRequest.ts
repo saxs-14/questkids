@@ -12,9 +12,8 @@ export const resolveParentLinkRequest = onCall(
       throw new HttpsError("permission-denied", "Only parent accounts can resolve parent-link requests.");
     }
 
-    const requestId = typeof request.data?.requestId === "string"
-      ? request.data.requestId.trim()
-      : "";
+    const requestId =
+      typeof request.data?.requestId === "string" ? request.data.requestId.trim() : "";
     const action = request.data?.action;
 
     if (!requestId || !["approve", "decline", "cancel"].includes(action)) {
