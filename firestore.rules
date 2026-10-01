@@ -234,31 +234,60 @@ service cloud.firestore {
     }
 
     // ==================== GAME SESSIONS ====================
+    // Game results are server-authoritative. A child can read their own
+    // sessions; linked parents and admins can review them, but clients
+    // cannot create or modify scores, XP, coins or completion state.
     match /game_sessions/{sessionId} {
       allow read: if isSignedIn() && resource.data.uid == request.auth.uid;
-      allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
-      allow update: if isSignedIn() && resource.data.uid == request.auth.uid;
-
-      // Parents can read their learners' sessions
       allow read: if isParent() &&
                       resource.data.uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      allow read: if isAdmin();
+      allow write: if false;
     }
 
     // ==================== PLAYER STATS ====================
+    // Derived game statistics are written only by recordGameSession.
     match /player_stats/{uid} {
-      allow read, write: if isUser(uid);
+      allow read: if isUser(uid);
       allow read: if isParent() &&
                       uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      allow read: if isAdmin();
+      allow write: if false;
     }
 
     // ==================== GAME PROGRESS (per-engine) ====================
+    // Derived engine statistics are written only by recordGameSession.
     match /game_progress/{uid} {
-      allow read, write: if isUser(uid);
+      allow read: if isUser(uid);
+      allow read: if isParent() &&
+                      uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      allow read: if isAdmin();
+      allow write: if false;
 
       match /engines/{engineType} {
-        allow read, write: if isUser(uid);
+        allow read: if isUser(uid);
         allow read: if isParent() &&
                         uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+        allow read: if isAdmin();
+        allow write: if false;
+      }
+    }
+
+    // ==================== GRADE 1 GAME LEVEL PROGRESS ====================
+    // The server advances levels only after a valid recorded game result.
+    match /game_level_progress/{uid} {
+      allow read: if isUser(uid);
+      allow read: if isParent() &&
+                      uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      allow read: if isAdmin();
+      allow write: if false;
+
+      match /games/{catalogId} {
+        allow read: if isUser(uid);
+        allow read: if isParent() &&
+                        uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+        allow read: if isAdmin();
+        allow write: if false;
       }
     }
 
