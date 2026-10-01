@@ -131,24 +131,13 @@ service cloud.firestore {
     }
 
     // ==================== PARENT LINK REQUESTS ====================
-    // Fields: primaryParentUid (the already-linked parent who must
-    // approve), requestingParentUid (whoever is asking to be linked),
-    // status ('pending'|'approved'|'declined').
+    // Link-request writes are server-only. This prevents a client from
+    // inventing childUid, primaryParentUid, or requester identity.
     match /parent_link_requests/{requestId} {
-      allow create: if isParent() &&
-                        request.resource.data.requestingParentUid == request.auth.uid;
       allow read: if isParent() &&
                       (resource.data.primaryParentUid == request.auth.uid ||
                        resource.data.requestingParentUid == request.auth.uid);
-      // Either the primary parent (approve/decline) or the requesting
-      // parent (cancel their own still-pending request) may transition
-      // status -- the requester may only act while it's still pending,
-      // so they can't retroactively alter an already-resolved decision.
-      allow update: if isParent() &&
-                        ((resource.data.primaryParentUid == request.auth.uid) ||
-                         (resource.data.requestingParentUid == request.auth.uid &&
-                          resource.data.status == 'pending')) &&
-                        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'resolvedAt']);
+      allow write: if false;
     }
 
     // ==================== SHARED CALENDAR ====================
