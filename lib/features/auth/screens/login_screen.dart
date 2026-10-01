@@ -8,6 +8,7 @@ import '../../../core/services/navigation_service.dart';
 import '../widgets/auth_text_field.dart';
 import 'register_screen.dart';
 import 'forgot_password_screen.dart';
+import 'admin_login_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -389,7 +390,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ],
-                const SizedBox(height: 32),
+                const SizedBox(height: 20),
+                Center(
+                  child: TextButton.icon(
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AdminLoginScreen())),
+                    icon: const Icon(Icons.admin_panel_settings_outlined, size: 18),
+                    label: const Text('Admin Portal'),
+                  ),
+                ),
+                const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
