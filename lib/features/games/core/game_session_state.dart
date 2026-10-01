@@ -132,6 +132,10 @@ abstract class GameSessionState extends ChangeNotifier {
         timeTakenSeconds: _elapsed,
         completedAt: DateTime.now(),
         result: _result!.result,
+        metadata: {
+          if (config.catalogId != null) 'catalogId': config.catalogId,
+          if (config.extras['level'] != null) 'level': config.extras['level'],
+        },
       );
       await persistGameSession(session);
     }
