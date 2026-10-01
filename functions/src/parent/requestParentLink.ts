@@ -33,13 +33,17 @@ export const requestParentLink = onCall(
       throw new HttpsError("not-found", "No child account was found for that code.");
     }
     if (query.size > 1) {
-      throw new HttpsError("failed-precondition", "This link code is not unique. Ask the child to generate a new code.");
+      throw new HttpsError(
+        "failed-precondition",
+        "This link code is not unique. Ask the child to generate a new code."
+      );
     }
 
     const childSnap = query.docs[0];
     const child = childSnap.data();
     const childUid = childSnap.id;
-    const primaryParentUid = typeof child.parentUid === "string" ? child.parentUid : "";
+    const primaryParentUid =
+      typeof child.parentUid === "string" ? child.parentUid : "";
 
     if (!primaryParentUid) {
       throw new HttpsError("failed-precondition", "This child does not have a primary parent yet.");
@@ -79,7 +83,8 @@ export const requestParentLink = onCall(
       requestingParentName: typeof parent?.name === "string" ? parent.name : "Parent",
       requestingParentEmail: request.auth.token.email ?? "",
       status: "pending",
-      linkMethod: typeof request.data?.method === "string" ? request.data.method : "code",
+      linkMethod:
+        typeof request.data?.method === "string" ? request.data.method : "code",
       createdAt: FieldValue.serverTimestamp(),
     });
 
