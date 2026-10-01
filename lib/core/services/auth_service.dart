@@ -123,6 +123,22 @@ class AuthService {
   }
 
   // Parent/Standard Register
+  Future<UserModel?> loginAdmin({required String email, required String password}) async {
+    final cred = await _auth.signInWithEmailAndPassword(email: email, password: password);
+    final user = cred.user!;
+    final token = await user.getIdTokenResult(true);
+    if (token.claims?['role'] != 'admin') {
+      await _auth.signOut();
+      throw FirebaseAuthException(code: 'admin-access-denied', message: 'This account is not authorised for the QuestKids Admin Portal.');
+    }
+    final profile = await _userRepo.getUser(user.uid);
+    if (profile == null || profile.role != 'admin') {
+      await _auth.signOut();
+      throw FirebaseAuthException(code: 'admin-profile-missing', message: 'Admin profile is missing or invalid.');
+    }
+    return profile;
+  }
+
   Future<UserModel?> registerWithEmail({
     required String email,
     required String password,
