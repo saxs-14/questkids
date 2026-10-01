@@ -226,7 +226,7 @@ class _LevelCard extends StatelessWidget {
               const SizedBox(height: 5),
               Text(
                 completed
-                    ? 'Completed${bestScore == null ? '' : ' • ${bestScore}%'}'
+                    ? 'Completed${bestScore == null ? '' : ' • $bestScore%'}'
                     : unlocked
                         ? 'Tap to play'
                         : 'Locked',
