@@ -1,12 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:provider/provider.dart';
 import '../../../core/services/permission_service.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../data/models/user_model.dart';
 import '../../../data/repositories/parent_repository.dart';
-import '../../../providers/auth_provider.dart';
 
 class LinkChildScreen extends StatefulWidget {
   const LinkChildScreen({super.key});
