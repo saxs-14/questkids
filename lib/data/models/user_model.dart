@@ -79,7 +79,6 @@ class UserModel {
     this.linkedChildrenUids = const [],
     this.preferredLanguage = 'English',
     this.fcmToken,
-    this.linkedTeacherUid,
   });
 
   static DateTime? _tsToDate(dynamic v) {
