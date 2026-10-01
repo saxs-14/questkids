@@ -53,9 +53,9 @@ export const requestParentLink = onCall(
       throw new HttpsError("already-exists", "You are already the primary parent for this child.");
     }
 
-    const linkedParents = Array.isArray(child.linkedParentUids)
-      ? child.linkedParentUids.filter((v): v is string => typeof v === "string")
-      : [];
+    const linkedParents = Array.isArray(child.linkedParentUids) ? child.linkedParentUids.filter(
+      (v): v is string => typeof v === "string"
+    ) : [];
     if (linkedParents.includes(parentUid)) {
       throw new HttpsError("already-exists", "You are already linked to this child.");
     }
