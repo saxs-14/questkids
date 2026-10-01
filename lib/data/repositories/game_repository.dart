@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:uuid/uuid.dart';
 import '../models/game_session_model.dart';
 import '../models/curriculum_model.dart';
@@ -30,40 +31,20 @@ class GameRepository {
 
   /// Logs a completed game session and fans out to all derived collections.
   /// Returns the session ID.
+  /// Records a game session through the protected server-side callable.
+  /// The client never writes score, XP, coins, player stats, rewards or
+  /// level progression directly. This prevents tampering with game results.
   Future<String> logGameSession(GameSessionModel session) async {
-    final id = session.id.isNotEmpty ? session.id : _uuid.v4();
-
-    final batch = _db.batch();
-
-    // game_sessions/{id} — primary record
-    batch.set(
-      _db.collection(AppConstants.colGameSessions).doc(id),
-      {...session.toMap(), 'id': id},
-    );
-
-    // progress/{id} — mirrors to parent/teacher visibility
-    batch.set(
-      _db.collection(AppConstants.colProgress).doc(id),
-      _buildProgressMirror(id, session),
-    );
-
-    await batch.commit();
-
-    // Fan-out updates: non-critical, run in parallel. Each is caught
-    // individually so a failure in one can never propagate out of this
-    // function and abort the caller's subsequent reward-granting step --
-    // Future.wait alone does not achieve that: even with the default
-    // eagerError:false, it still rethrows the first error to its own
-    // caller once every future has settled. This is not hypothetical: a
-    // client write to leaderboards/{grade}/entries here previously did
-    // exactly that (always rules-denied, see the class doc comment),
-    // silently blocking every player's XP/coins grant after every game.
-    await Future.wait([
-      _updatePlayerStats(session).catchError((_) {}),
-      _updateGameProgress(session).catchError((_) {}),
-    ]);
-
-    return id;
+    final callable = FirebaseFunctions.instanceFor(region: 'us-central1')
+        .httpsCallable('recordGameSession');
+    final response = await callable.call({
+      'id': session.id.isNotEmpty ? session.id : _uuid.v4(),
+      ...session.toMap(),
+      'metadata': session.metadata,
+      'catalogId': session.metadata['catalogId'],
+    });
+    final data = Map<String, dynamic>.from(response.data as Map);
+    return data['sessionId'] as String;
   }
 
   Map<String, dynamic> _buildProgressMirror(String id, GameSessionModel s) {
