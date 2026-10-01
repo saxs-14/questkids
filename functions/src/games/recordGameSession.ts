@@ -42,9 +42,9 @@ export const recordGameSession = onCall(
     const level = levelRaw === undefined ? null : Math.round(numberInRange(levelRaw, 1, 10));
     const progressionCatalogId =
       typeof metadataRecord.progressionCatalogId === "string" &&
-      metadataRecord.progressionCatalogId.trim()
-        ? metadataRecord.progressionCatalogId.trim()
-        : catalogId;
+      metadataRecord.progressionCatalogId.trim() ?
+      metadataRecord.progressionCatalogId.trim() :
+      catalogId;
 
     const validProgressionCatalog =
       Boolean(progressionCatalogId) &&
