@@ -76,40 +76,37 @@ export const recordGameSession = onCall(
       }
 
       const userSnap = await tx.get(userRef);
+      const statsSnap = await tx.get(statsRef);
+      const engineSnap = await tx.get(engineRef);
+      const rewardsSnap = await tx.get(rewardsRef);
+      const levelRef = level !== null
+          ? db.collection("game_level_progress").doc(uid).collection("games").doc(catalogId)
+          : null;
+      const levelSnap = levelRef == null ? null : await tx.get(levelRef);
+
       if (!userSnap.exists || userSnap.data()?.role !== "learner") {
         throw new HttpsError("permission-denied", "The account is not an active child account.");
       }
 
-      if (level !== null) {
-        const levelRef = db.collection("game_level_progress").doc(uid).collection("games").doc(catalogId);
-        const levelSnap = await tx.get(levelRef);
-        const storedLevel = Math.max(1, Math.min(10, Number(levelSnap.data()?.currentLevel ?? 1)));
-
+      let storedLevel = 1;
+      if (levelSnap != null) {
+        storedLevel = Math.max(1, Math.min(10, Number(levelSnap.data()?.currentLevel ?? 1)));
         if (level !== storedLevel) {
           throw new HttpsError(
             "failed-precondition",
             `Play level ${storedLevel} next. Completed levels cannot be skipped.`
           );
         }
+      }
 
+      if (level !== null) {
         result = score >= 50 ? "complete" : "loss";
         xpEarned = Math.max(10, Math.round(score * 1.2) + (score >= 80 ? 10 : 0));
         coinsEarned = Math.max(1, Math.floor(xpEarned / 10));
-
         const nextLevel = score >= 50 ? Math.min(10, storedLevel + 1) : storedLevel;
         levelAdvanced = score >= 50 && nextLevel > storedLevel;
         completedAllLevels = score >= 50 && storedLevel === 10;
         currentLevel = nextLevel;
-
-        tx.set(levelRef, {
-          catalogId,
-          currentLevel: nextLevel,
-          highestCompletedLevel: completedAllLevels ? 10 : Math.max(0, nextLevel - 1),
-          lastScore: score,
-          bestScore: Math.max(Number(levelSnap.data()?.bestScore ?? 0), score),
-          completed: completedAllLevels,
-          updatedAt: FieldValue.serverTimestamp(),
-        }, { merge: true });
       } else {
         result = score >= 50 ? "win" : "loss";
       }
@@ -135,6 +132,18 @@ export const recordGameSession = onCall(
       };
 
       tx.create(sessionRef, sessionData);
+      if (levelRef != null && levelSnap != null) {
+        tx.set(levelRef, {
+          catalogId,
+          currentLevel,
+          highestCompletedLevel: completedAllLevels ? 10 : Math.max(0, currentLevel - 1),
+          lastScore: score,
+          bestScore: Math.max(Number(levelSnap.data()?.bestScore ?? 0), score),
+          completed: completedAllLevels,
+          updatedAt: FieldValue.serverTimestamp(),
+        }, { merge: true });
+      }
+
       tx.set(progressRef, {
         uid,
         activityId: sessionId,
@@ -149,7 +158,6 @@ export const recordGameSession = onCall(
         timeTakenSeconds,
       });
 
-      const statsSnap = await tx.get(statsRef);
       const stats = statsSnap.data() ?? {};
       const newXp = Number(stats.xp ?? 0) + xpEarned;
       tx.set(statsRef, {
@@ -166,7 +174,6 @@ export const recordGameSession = onCall(
         unlockedWorlds: Array.isArray(stats.unlockedWorlds) ? stats.unlockedWorlds : [],
       }, { merge: true });
 
-      const engineSnap = await tx.get(engineRef);
       const engine = engineSnap.data() ?? {};
       const previousGames = Number(engine.totalGames ?? 0);
       const newGames = previousGames + 1;
@@ -184,7 +191,6 @@ export const recordGameSession = onCall(
         lastPlayedAt: FieldValue.serverTimestamp(),
       }, { merge: true });
 
-      const rewardsSnap = await tx.get(rewardsRef);
       const rewards = rewardsSnap.data() ?? {};
       const totalPoints = Number(rewards.totalPoints ?? 0) + xpEarned;
       const gamesPlayed = Number(stats.gamesPlayed ?? 0) + 1;
