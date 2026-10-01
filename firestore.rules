@@ -32,6 +32,7 @@ service cloud.firestore {
     // ==================== USERS COLLECTION ====================
     match /users/{uid} {
       allow read: if isUser(uid);
+      allow read: if isAdmin();
       // POPIA: a learner account may only be created with a recorded
       // parent/guardian consent trail -- see CLAUDE.md §6.5 and
       // AppConstants.consentPolicyVersion. This is a server-side backstop;
