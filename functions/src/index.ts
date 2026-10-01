@@ -20,6 +20,7 @@ export { questyChat, analyzeImage, getRecommendation, explainAnswer, generateHin
 export { refreshLeaderboards } from "./leaderboard/refresh";
 export { generateDailyMissions } from "./missions/generate";
 export { setUserRole, assignDefaultRole, grantSelfDeclaredRoleClaim } from "./admin/setUserRole";
+export { setUserDisabled } from "./admin/setUserDisabled";
 export { linkRegisteredChild } from "./parent/linkChild";
 export { approveParentLinkRequest } from "./parent/approveLinkRequest";
 export { unlinkParentChild } from "./parent/unlinkChild";
