@@ -24,6 +24,7 @@ export { setUserDisabled } from "./admin/setUserDisabled";
 export { linkRegisteredChild } from "./parent/linkChild";
 export { approveParentLinkRequest } from "./parent/approveLinkRequest";
 export { unlinkParentChild } from "./parent/unlinkChild";
+export { recordGameSession } from "./games/recordGameSession";
 export { requestParentLink } from "./parent/requestParentLink";
 export { resolveParentLinkRequest } from "./parent/resolveParentLinkRequest";
 export { lookupChildLinkCode } from "./parent/lookupChildLinkCode";
