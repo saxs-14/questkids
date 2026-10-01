@@ -20,14 +20,14 @@ lib/
 │   └── theme/              # AppColors, AppTextStyles, ThemeProvider
 ├── data/
 │   ├── models/             # UserModel, DailyMission, LeaderboardEntry, ...
-│   └── repositories/       # ParentRepo, TeacherRepo, GameRepo, ...
+│   └── repositories/       # ParentRepo, AdminService, GameRepo, ...
 ├── features/
 │   ├── auth/               # LoginScreen, SplashScreen
-│   ├── dashboard/          # LearnerDashboard, ParentDashboard, TeacherDashboard
+│   ├── dashboard/          # LearnerDashboard, ParentDashboard, AdminDashboard
 │   ├── games/              # 8 game engines (core/ pattern)
 │   ├── parent/             # Analytics charts, ChildAnalyticsScreen
 │   ├── rewards/            # LeaderboardScreen, RewardsScreen
-│   └── teacher/            # ClassAnalyticsScreen, 5 chart widgets
+│   └── admin/            # ClassAnalyticsScreen, 5 chart widgets
 └── providers/              # AuthProvider, ParentProvider, MissionProvider
 ```
 
@@ -74,18 +74,18 @@ All functions are in `functions/src/` and exported from `index.ts`.
 
 - Gemini API key lives **only** in Firebase Secret Manager (production) and `functions/.env` (local)
 - Flutter client never touches the API key — all AI calls go through Cloud Functions
-- Firestore rules enforce role-based access (learner, parent, teacher)
+- Firestore rules enforce role-based access (learner, parent, admin)
 - `functions/.env` and `android/key.properties` are gitignored
 
 ## Data Model (Firestore)
 
 ```
-users/{uid}               — UserModel (role, grade, linkedTeacherUid, ...)
+users/{uid}               — UserModel (role, grade, linkedChildrenUids, ...)
 game_sessions/{id}        — completed game session with score, xp, subject
 progress/{id}             — activity progress (for parent verification)
 rewards/{uid}             — totalPoints, totalCoins, streakDays
 leaderboards/{grade}/weekly/{uid}  — weekly XP rank
 leaderboards/{grade}/allTime/{uid} — all-time XP rank
 daily_missions/{uid}/today/missions — 3 daily missions
-daily_missions/{uid}/assigned/{id}  — teacher-assigned missions
+daily_missions/{uid}/assigned/{id}  — admin-managed missions
 ```
