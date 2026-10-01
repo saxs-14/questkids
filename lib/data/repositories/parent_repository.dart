@@ -10,44 +10,32 @@ class ParentRepository {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final _uuid = const Uuid();
 
-  // Link requests
-  Future<void> sendLinkRequest(Map<String, dynamic> data) async {
-    final ref = _db.collection('parent_link_requests').doc();
-    data['id'] = ref.id;
-    data['createdAt'] = FieldValue.serverTimestamp();
-    data['status'] = data['status'] ?? 'pending';
-    await ref.set(data);
+  // Link requests are created and resolved only by protected Cloud Functions.
+  // The client never writes childUid/primaryParentUid directly.
+  Future<Map<String, dynamic>> requestParentLink(
+      String code, {String method = 'code'}) async {
+    final result = await FirebaseFunctions.instanceFor(region: 'us-central1')
+        .httpsCallable('requestParentLink')
+        .call({'code': code, 'method': method});
+    return Map<String, dynamic>.from(result.data as Map);
   }
 
-  // linkedChildrenUids is a locked field (no client write to it can ever
-  // succeed) and the child doc's linkedParentUids update is separately
-  // rejected on ownership (the primary parent is not the child) -- see
-  // functions/src/parent/approveLinkRequest.ts, which verifies the caller
-  // really is this request's primaryParentUid before completing both
-  // writes via the Admin SDK. childUid/requestingParentUid are no longer
-  // needed as params since the function reads them from the request doc
-  // itself server-side, but kept for call-site compatibility.
-  Future<void> approveLinkRequest(
-      String requestId, String childUid, String requestingParentUid) async {
+  Future<void> approveLinkRequest(String requestId) async {
     await FirebaseFunctions.instanceFor(region: 'us-central1')
-        .httpsCallable('approveParentLinkRequest')
-        .call({'requestId': requestId});
+        .httpsCallable('resolveParentLinkRequest')
+        .call({'requestId': requestId, 'action': 'approve'});
   }
 
   Future<void> declineLinkRequest(String requestId) async {
-    await _db.collection('parent_link_requests').doc(requestId).update({
-      'status': 'declined',
-      'resolvedAt': FieldValue.serverTimestamp(),
-    });
+    await FirebaseFunctions.instanceFor(region: 'us-central1')
+        .httpsCallable('resolveParentLinkRequest')
+        .call({'requestId': requestId, 'action': 'decline'});
   }
 
-  /// Cancels a still-pending outgoing request. Same effect as
-  /// [declineLinkRequest] (marks the request 'declined') but named for
-  /// the requesting parent's own action, not the primary parent's --
-  /// the Firestore rule for parent_link_requests separately allows each
-  /// side to make this same status transition from their own role.
   Future<void> cancelLinkRequest(String requestId) async {
-    await declineLinkRequest(requestId);
+    await FirebaseFunctions.instanceFor(region: 'us-central1')
+        .httpsCallable('resolveParentLinkRequest')
+        .call({'requestId': requestId, 'action': 'cancel'});
   }
 
   Stream<Map<String, dynamic>?> watchUserDoc(String uid) {
@@ -80,107 +68,30 @@ class ParentRepository {
   }
 
   // Child management
+  // Child identity is intentionally resolved by the protected callable.
+  // Direct collection queries by childLinkCode would expose a searchable
+  // cross-account lookup surface.
   Future<UserModel?> findChildByCode(String code) async {
-    final q = await _db
-        .collection('users')
-        .where('childLinkCode', isEqualTo: code)
-        .limit(1)
-        .get();
-    if (q.docs.isEmpty) return null;
-    final d = q.docs.first;
-    return UserModel.fromMap(d.data(), d.id);
+    try {
+      final result = await FirebaseFunctions.instanceFor(region: 'us-central1')
+          .httpsCallable('requestParentLink')
+          .call({'code': code, 'method': 'code'});
+      final data = Map<String, dynamic>.from(result.data as Map);
+      return UserModel(
+        uid: data['childUid'] as String,
+        name: data['childName'] as String? ?? 'Child',
+        email: '',
+        role: 'learner',
+        grade: data['grade'] as String? ?? 'Grade 1',
+        createdAt: DateTime.now(),
+      );
+    } catch (_) {
+      return null;
+    }
   }
 
-  Future<UserModel?> findChildByNameAndEmail(
-      String childName, String parentEmail) async {
-    final q = await _db
-        .collection('users')
-        .where('name', isEqualTo: childName)
-        .where('email', isEqualTo: parentEmail)
-        .limit(1)
-        .get();
-    if (q.docs.isEmpty) return null;
-    final d = q.docs.first;
-    return UserModel.fromMap(d.data(), d.id);
-  }
-
-  // Dead code as of 2026-08-03 -- grep finds zero callers anywhere in
-  // lib/. The live "link to an existing child" UI flow
-  // (link_child_screen.dart) goes through sendLinkRequest ->
-  // approveLinkRequest instead: the requesting parent submits a request,
-  // and only the child's PRIMARY parent can approve it. That's a
-  // deliberately different (and safer) authorization model than this
-  // method has -- this one has no concept of the primary parent's
-  // consent at all, so a naive fix (the same locked-field/ownership
-  // problem as approveLinkRequest, requiring the identical kind of
-  // Admin-SDK Cloud Function) would let any signed-in parent link
-  // themselves to an arbitrary child by uid alone. Left broken and
-  // unfixed rather than fixed-but-unreachable, since fixing it without
-  // also deciding whether/how it should require the primary parent's
-  // consent would just be adding a bypass no one's asked for yet.
-  Future<void> linkParentToChild(String parentUid, String childUid) async {
-    final childRef = _db.collection('users').doc(childUid);
-    final parentRef = _db.collection('users').doc(parentUid);
-    await _db.runTransaction((tx) async {
-      final childSnap = await tx.get(childRef);
-      final parentSnap = await tx.get(parentRef);
-
-      if (childSnap.exists) {
-        final linkedParents =
-            List<String>.from(childSnap.data()?['linkedParentUids'] ?? []);
-        if (!linkedParents.contains(parentUid)) linkedParents.add(parentUid);
-        tx.update(childRef, {'linkedParentUids': linkedParents});
-      }
-
-      if (parentSnap.exists) {
-        final linkedChildren =
-            List<String>.from(parentSnap.data()?['linkedChildrenUids'] ?? []);
-        if (!linkedChildren.contains(childUid)) linkedChildren.add(childUid);
-        tx.update(parentRef, {'linkedChildrenUids': linkedChildren});
-      }
-    });
-  }
-
-  // linkedChildrenUids is a locked field (no client write to it can ever
-  // succeed) and the child doc's linkedParentUids update is separately
-  // rejected on ownership -- see functions/src/parent/unlinkChild.ts,
-  // which is self-service only (a parent can remove their own link, not
-  // another parent's) and verifies the caller is actually currently
-  // linked before completing both writes via the Admin SDK. parentUid is
-  // no longer sent -- the function always derives identity from the
-  // caller's own auth token, never a client-supplied value -- but kept as
-  // a param for call-site compatibility.
-  Future<void> unlinkParentFromChild(String parentUid, String childUid) async {
-    await FirebaseFunctions.instanceFor(region: 'us-central1')
-        .httpsCallable('unlinkParentChild')
-        .call({'childUid': childUid});
-  }
-
-  Future<List<UserModel>> getLinkedChildren(List<String> childUids) async {
-    if (childUids.isEmpty) return [];
-    final snaps = await _db
-        .collection('users')
-        .where(FieldPath.documentId, whereIn: childUids)
-        .get();
-    return snaps.docs.map((d) => UserModel.fromMap(d.data(), d.id)).toList();
-  }
-
-  // Link code generation
-  String generateLinkCode() {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    final rnd = _uuid.v4().replaceAll('-', '').toUpperCase();
-    final code =
-        List.generate(6, (i) => chars[(rnd.codeUnitAt(i) + i) % chars.length])
-            .join();
-    return code;
-  }
-
-  Future<void> saveLinkCode(String childUid, String code) async {
-    await _db.collection('users').doc(childUid).update({
-      'childLinkCode': code,
-    });
-  }
-
+  // Name/email discovery was removed. A child's link code or QR code is
+  // the only supported discovery mechanism.
   // Calendar
   Future<void> addCalendarEvent(Map<String, dynamic> event) async {
     final ref = _db.collection('shared_calendar').doc();
