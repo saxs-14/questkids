@@ -29,10 +29,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
   Future<void> _loadCounts() async {
     try {
       final counts = await _service.getOverviewCounts();
-      if (mounted) setState(() {
-        _counts = counts;
-        _loadingCounts = false;
-      });
+      if (mounted) {
+        setState(() {
+          _counts = counts;
+          _loadingCounts = false;
+        });
+      }
     } catch (_) {
       if (mounted) setState(() => _loadingCounts = false);
     }
@@ -50,7 +52,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Role update failed: ' + e.toString())),
+          SnackBar(content: Text('Role update failed: $e')),
         );
       }
     }
@@ -67,7 +69,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Account update failed: ' + e.toString())),
+          SnackBar(content: Text('Account update failed: $e')),
         );
       }
     }
@@ -210,7 +212,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       stream: _service.watchUsers(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Center(child: Text('Unable to load users: ' + snapshot.error.toString()));
+          return Center(child: Text('Unable to load users: ${snapshot.error}'));
         }
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
@@ -244,7 +246,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                     child: Text(name.isEmpty ? '?' : name[0].toUpperCase()),
                   ),
                   title: Text(name),
-                  subtitle: Text(email + '\n' + role),
+                  subtitle: Text('$email\n$role'),
                   isThreeLine: true,
                   trailing: PopupMenuButton<String>(
                     onSelected: (value) async {
@@ -279,7 +281,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       stream: _service.watchAiReports(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Center(child: Text('Unable to load AI reports: ' + snapshot.error.toString()));
+          return Center(child: Text('Unable to load AI reports: ${snapshot.error}'));
         }
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
