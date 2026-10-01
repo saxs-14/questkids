@@ -2,7 +2,7 @@ import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { getFirestore, FieldValue, Timestamp } from "firebase-admin/firestore";
 import { ENFORCE_APP_CHECK } from "../config";
 
-const GRADE_ONE_CATALOG = /^(math_g1_|eng_g1_|ls_g1_)/;
+const LEVELLED_CATALOG = /^(math_g1_|eng_g1_|ls_g1_|math_g4_|ns_g4_|tech_g4_|ss_g4_)/;
 
 function numberInRange(value: unknown, min: number, max: number): number {
   if (typeof value !== "number" || !Number.isFinite(value)) {
@@ -40,10 +40,10 @@ export const recordGameSession = onCall(
     const levelRaw = (metadata as Record<string, unknown>).level;
     const level = levelRaw === undefined ? null : Math.round(numberInRange(levelRaw, 1, 10));
 
-    if (level !== null && (!catalogId || !GRADE_ONE_CATALOG.test(catalogId))) {
-      throw new HttpsError("invalid-argument", "Level progression is only valid for Grade 1 game sessions.");
+    if (level !== null && (!catalogId || !LEVELLED_CATALOG.test(catalogId))) {
+      throw new HttpsError("invalid-argument", "Level progression is only valid for Grade 1 or Grade 4 game sessions.");
     }
-    if (catalogId && GRADE_ONE_CATALOG.test(catalogId) && level === null) {
+    if (catalogId && LEVELLED_CATALOG.test(catalogId) && level === null) {
       throw new HttpsError("invalid-argument", "Grade 1 game sessions must include a level.");
     }
 
