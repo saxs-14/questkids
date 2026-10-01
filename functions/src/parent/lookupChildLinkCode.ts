@@ -21,7 +21,6 @@ export const lookupChildLinkCode = onCall(
     const db = getFirestore();
     const query = await db.collection("users")
       .where("childLinkCode", "==", code)
-      .where("role", "==", "learner")
       .limit(2)
       .get();
 
@@ -37,6 +36,9 @@ export const lookupChildLinkCode = onCall(
 
     const doc = query.docs[0];
     const data = doc.data();
+    if (data.role !== "learner") {
+      throw new HttpsError("not-found", "No child account was found for that code.");
+    }
     const linkedParents = Array.isArray(data.linkedParentUids) ? data.linkedParentUids : [];
     return {
       childUid: doc.id,
