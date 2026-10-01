@@ -37,10 +37,16 @@ export const recordGameSession = onCall(
     const accuracy = numberInRange(data.accuracy, 0, 1);
     const timeTakenSeconds = Math.round(numberInRange(data.timeTakenSeconds, 0, 7200));
 
-    const levelRaw = (metadata as Record<string, unknown>).level;
+    const metadataRecord = metadata as Record<string, unknown>;
+    const levelRaw = metadataRecord.level;
     const level = levelRaw === undefined ? null : Math.round(numberInRange(levelRaw, 1, 10));
+    const progressionCatalogId =
+      typeof metadataRecord.progressionCatalogId === "string" &&
+      metadataRecord.progressionCatalogId.trim()
+        ? metadataRecord.progressionCatalogId.trim()
+        : catalogId;
 
-    if (level !== null && (!catalogId || !LEVELLED_CATALOG.test(catalogId))) {
+    if (level !== null && (!catalogId || !LEVELLED_CATALOG.test(catalogId) || !progressionCatalogId || !LEVELLED_CATALOG.test(progressionCatalogId))) {
       throw new HttpsError("invalid-argument", "Level progression is only valid for Grade 1 or Grade 4 game sessions.");
     }
     if (catalogId && LEVELLED_CATALOG.test(catalogId) && level === null) {
@@ -79,7 +85,7 @@ export const recordGameSession = onCall(
       const statsSnap = await tx.get(statsRef);
       const engineSnap = await tx.get(engineRef);
       const rewardsSnap = await tx.get(rewardsRef);
-      const levelPath = db.collection("game_level_progress").doc(uid).collection("games").doc(catalogId);
+      const levelPath = db.collection("game_level_progress").doc(uid).collection("games").doc(progressionCatalogId);
       const levelRef = level !== null ? levelPath : null;
       const levelSnap = levelRef == null ? null : await tx.get(levelRef);
 
@@ -133,7 +139,7 @@ export const recordGameSession = onCall(
       tx.create(sessionRef, sessionData);
       if (levelRef != null && levelSnap != null) {
         tx.set(levelRef, {
-          catalogId,
+          catalogId: progressionCatalogId,
           currentLevel,
           highestCompletedLevel: completedAllLevels ? 10 : Math.max(0, currentLevel - 1),
           lastScore: score,
