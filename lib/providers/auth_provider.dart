@@ -154,6 +154,29 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  Future<bool> loginAdmin({required String email, required String password}) async {
+    _setLoading(true);
+    _setError(null);
+    try {
+      _user = await _authService.loginAdmin(email: email, password: password);
+      if (_user == null || _user!.role != 'admin') {
+        _status = AuthStatus.unauthenticated;
+        _setError('Admin access was not granted.');
+        return false;
+      }
+      _status = AuthStatus.authenticated;
+      try { await AnalyticsService.logLogin('admin'); } catch (_) {}
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _status = AuthStatus.unauthenticated;
+      _setError(_friendlyError(e.toString()));
+      return false;
+    } finally {
+      _setLoading(false);
+    }
+  }
+
   Future<bool> login({
     required String email,
     required String password,
@@ -362,6 +385,8 @@ class AuthProvider extends ChangeNotifier {
     if (error.contains('user-disabled')) {
       return 'This account has been disabled. Contact support.';
     }
+    if (error.contains('admin-access-denied')) return 'Admin access denied. Use an authorised administrator account.';
+    if (error.contains('admin-profile-missing')) return 'Admin profile is missing. Contact the system owner.';
     if (error.contains('operation-not-allowed')) {
       return 'Email/password sign-in is not enabled. Contact support.';
     }
