@@ -12,8 +12,7 @@ export const lookupChildLinkCode = onCall(
       throw new HttpsError("permission-denied", "Only parent accounts can look up a child.");
     }
 
-    const code =
-      typeof request.data?.code === "string" ? request.data.code.trim().toUpperCase() : "";
+    const code = typeof request.data?.code === "string" ? request.data.code.trim().toUpperCase() : "";
     if (!/^[A-Z0-9]{6}$/.test(code)) {
       throw new HttpsError("invalid-argument", "Enter the 6-character child link code.");
     }
