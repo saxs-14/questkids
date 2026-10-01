@@ -74,8 +74,8 @@ class ParentRepository {
   Future<UserModel?> findChildByCode(String code) async {
     try {
       final result = await FirebaseFunctions.instanceFor(region: 'us-central1')
-          .httpsCallable('requestParentLink')
-          .call({'code': code, 'method': 'code'});
+          .httpsCallable('lookupChildLinkCode')
+          .call({'code': code});
       final data = Map<String, dynamic>.from(result.data as Map);
       return UserModel(
         uid: data['childUid'] as String,
