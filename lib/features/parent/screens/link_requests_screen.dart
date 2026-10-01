@@ -41,8 +41,7 @@ class _LinkRequestsScreenState extends State<LinkRequestsScreen> {
                   trailing: Row(mainAxisSize: MainAxisSize.min, children: [
                     ElevatedButton(
                         onPressed: () async {
-                          await parent.approveLinkRequest(
-                              r['id'], r['childUid'], r['requestingParentUid']);
+                          await parent.approveLinkRequest(r['id']);
                         },
                         child: const Text('Approve')),
                     const SizedBox(width: 8),
