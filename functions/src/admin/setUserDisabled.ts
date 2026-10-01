@@ -1,5 +1,6 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { getAuth } from "firebase-admin/auth";
+import { getFirestore } from "firebase-admin/firestore";
 import { ENFORCE_APP_CHECK } from "../config";
 
 export const setUserDisabled = onCall(
@@ -24,6 +25,7 @@ export const setUserDisabled = onCall(
     }
 
     await getAuth().updateUser(uid, { disabled });
+    await getFirestore().collection("users").doc(uid).set({ disabled }, { merge: true });
     return { uid, disabled };
   }
 );
