@@ -76,6 +76,14 @@ export const resolveParentLinkRequest = onCall(
           status: "approved",
           resolvedAt: FieldValue.serverTimestamp(),
         });
+        tx.set(db.collection("notifications").doc(), {
+          recipientUid: requestingParentUid,
+          title: "Link approved",
+          body: "Your request to connect to the child has been approved.",
+          type: "link_approved",
+          isRead: false,
+          createdAt: FieldValue.serverTimestamp(),
+        });
         return;
       }
 
