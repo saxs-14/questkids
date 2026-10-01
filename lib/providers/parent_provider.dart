@@ -6,7 +6,6 @@ import '../data/repositories/notification_repository.dart';
 
 class ParentProvider extends ChangeNotifier {
   final ParentRepository _parentRepo = ParentRepository();
-  final NotificationRepository _notifRepo = NotificationRepository();
 
   List<UserModel> _linkedChildren = [];
   UserModel? _selectedChild;
