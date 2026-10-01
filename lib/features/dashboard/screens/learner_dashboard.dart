@@ -28,6 +28,7 @@ import '../../games/core/game_config.dart';
 import '../../games/core/game_intro_sheet.dart';
 import '../../games/core/game_router.dart';
 import '../../games/core/game_theme.dart';
+import '../../games/core/grade_one_game_levels_screen.dart';
 import '../widgets/daily_missions_card.dart';
 import '../../../providers/mission_provider.dart';
 import 'grade4_activities_hub_screen.dart';
@@ -875,6 +876,19 @@ class _CatalogGameCard extends StatelessWidget {
   });
 
   void _launch(BuildContext context) {
+    if (entry.grades.contains('grade1') && entry.grade == 'grade1') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => GradeOneGameLevelsScreen(
+            entry: entry,
+            user: user,
+          ),
+        ),
+      );
+      return;
+    }
+
     GameIntroSheet.show(
       context,
       entry: entry,
