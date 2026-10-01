@@ -25,7 +25,6 @@ export const requestParentLink = onCall(
     const parentUid = request.auth.uid;
     const query = await db.collection("users")
       .where("childLinkCode", "==", code)
-      .where("role", "==", "learner")
       .limit(2)
       .get();
 
@@ -41,6 +40,9 @@ export const requestParentLink = onCall(
 
     const childSnap = query.docs[0];
     const child = childSnap.data();
+    if (child.role !== "learner") {
+      throw new HttpsError("not-found", "No child account was found for that code.");
+    }
     const childUid = childSnap.id;
     const primaryParentUid =
       typeof child.parentUid === "string" ? child.parentUid : "";
