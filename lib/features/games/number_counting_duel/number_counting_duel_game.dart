@@ -335,6 +335,10 @@ class _NCDState extends State<NumberCountingDuelGame>
       timeTakenSeconds: 0,
       completedAt: DateTime.now(),
       result: isPerfect ? 'complete' : (isWin ? 'win' : 'loss'),
+      metadata: {
+        'catalogId': widget.config.catalogId,
+        'level': widget.config.extras['level'],
+      },
     );
     persistGameSession(session);
   }
