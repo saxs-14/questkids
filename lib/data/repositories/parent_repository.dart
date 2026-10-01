@@ -11,7 +11,6 @@ class ParentRepository {
   final _uuid = const Uuid();
 
   // Link requests are created and resolved only by protected Cloud Functions.
-  // The client never writes childUid/primaryParentUid directly.
   Future<Map<String, dynamic>> requestParentLink(
       String code, {String method = 'code'}) async {
     final result = await FirebaseFunctions.instanceFor(region: 'us-central1')
@@ -67,10 +66,8 @@ class ParentRepository {
         .map((s) => s.docs.map((d) => {...d.data(), 'id': d.id}).toList());
   }
 
-  // Child management
-  // Child identity is intentionally resolved by the protected callable.
-  // Direct collection queries by childLinkCode would expose a searchable
-  // cross-account lookup surface.
+  // Child identity is resolved by a protected callable; direct
+  // cross-account queries by childLinkCode are not exposed to clients.
   Future<UserModel?> findChildByCode(String code) async {
     try {
       final result = await FirebaseFunctions.instanceFor(region: 'us-central1')
@@ -90,8 +87,37 @@ class ParentRepository {
     }
   }
 
-  // Name/email discovery was removed. A child's link code or QR code is
-  // the only supported discovery mechanism.
+  Future<void> unlinkParentFromChild(String parentUid, String childUid) async {
+    await FirebaseFunctions.instanceFor(region: 'us-central1')
+        .httpsCallable('unlinkParentChild')
+        .call({'childUid': childUid});
+  }
+
+  Future<List<UserModel>> getLinkedChildren(List<String> childUids) async {
+    if (childUids.isEmpty) return [];
+    final snaps = await _db
+        .collection('users')
+        .where(FieldPath.documentId, whereIn: childUids)
+        .get();
+    return snaps.docs.map((d) => UserModel.fromMap(d.data(), d.id)).toList();
+  }
+
+  // Link code generation
+  String generateLinkCode() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    final rnd = _uuid.v4().replaceAll('-', '').toUpperCase();
+    return List.generate(
+      6,
+      (i) => chars[(rnd.codeUnitAt(i) + i) % chars.length],
+    ).join();
+  }
+
+  Future<void> saveLinkCode(String childUid, String code) async {
+    await _db.collection('users').doc(childUid).update({
+      'childLinkCode': code,
+    });
+  }
+
   // Calendar
   Future<void> addCalendarEvent(Map<String, dynamic> event) async {
     final ref = _db.collection('shared_calendar').doc();
