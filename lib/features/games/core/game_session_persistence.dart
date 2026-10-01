@@ -1,6 +1,5 @@
 import '../../../core/services/analytics_service.dart';
 import '../../../core/services/offline_service.dart';
-import '../../../core/services/rewards_service.dart';
 import '../../../data/models/game_session_model.dart';
 import '../../../data/repositories/game_repository.dart';
 
@@ -19,8 +18,8 @@ bool shouldQueueGameSessionOffline({
 }) =>
     !writeSucceeded;
 
-/// Logs a completed [session] to Firestore, records analytics, grants
-/// rewards, and falls back to the offline queue on failure. Shared by
+/// Logs a completed [session] through the protected server-side recorder,
+/// records analytics, and falls back to the offline queue on failure. Shared by
 /// [GameSessionState.finishSession] and any self-contained game widget
 /// that doesn't go through the GameEngine/GameSessionState architecture
 /// (currently only NumberCountingDuelGame) -- both need identical
@@ -41,13 +40,6 @@ Future<void> persistGameSession(GameSessionModel session) async {
         );
       } catch (_) {
         // Non-fatal: analytics failures must never affect gameplay.
-      }
-      try {
-        await RewardsService().grantGameSessionRewards(session);
-      } catch (_) {
-        // Non-fatal: the session itself is already saved; a failure
-        // here just means this session's XP won't show on the
-        // Rewards screen/dashboard until the next successful grant.
       }
     } catch (_) {
       writeSucceeded = false;
