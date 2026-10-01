@@ -66,9 +66,6 @@ export const resolveParentLinkRequest = onCall(
           throw new HttpsError("failed-precondition", "The accounts no longer have the required roles.");
         }
 
-        const linkedParents = Array.isArray(child.linkedParentUids) ? child.linkedParentUids : [];
-        const linkedChildren = Array.isArray(requester.linkedChildrenUids) ? requester.linkedChildrenUids : [];
-
         tx.update(childRef, {
           linkedParentUids: FieldValue.arrayUnion(requestingParentUid),
         });
@@ -79,8 +76,6 @@ export const resolveParentLinkRequest = onCall(
           status: "approved",
           resolvedAt: FieldValue.serverTimestamp(),
         });
-        void linkedParents;
-        void linkedChildren;
         return;
       }
 
