@@ -6,6 +6,7 @@ import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/services/navigation_service.dart';
 import '../../../providers/auth_provider.dart';
+import '../../dashboard/screens/demo_admin_dashboard.dart;
 
 class AdminLoginScreen extends StatefulWidget {
   const AdminLoginScreen({super.key});
@@ -106,6 +107,21 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                     ),
                     const SizedBox(height: 24),
                     AppButton(label: 'Enter Admin Portal', isLoading: auth.isLoading, onPressed: _signIn),
+                    const SizedBox(height: 12),
+                    OutlinedButton.icon(
+                      icon: const Icon(Icons.present_to_all_rounded),
+                      label: const Text("Today's Demo Admin Access"),
+                      onPressed: auth.isLoading
+                          ? null
+                          : () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const DemoAdminDashboard(),
+                                ),
+                              );
+                            },
+                    ),
                     const SizedBox(height: 16),
                     Text(
                       'Admin accounts are provisioned by an existing administrator. There is no public admin registration.',
