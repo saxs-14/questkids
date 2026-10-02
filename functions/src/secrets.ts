@@ -13,3 +13,4 @@ import { defineSecret } from "firebase-functions/params";
  */
 export const GEMINI_API_KEY = defineSecret("GEMINI_API_KEY");
 export const MAIL_PASSWORD = defineSecret("MAIL_PASSWORD");
+export const ADMIN_BOOTSTRAP_TOKEN = defineSecret("QUESTKIDS_ADMIN_BOOTSTRAP_TOKEN");
