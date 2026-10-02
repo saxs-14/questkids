@@ -23,6 +23,15 @@ export const bootstrapAdmin = onCall(
 
     const auth = getAuth();
     const db = getFirestore();
+    const bootstrapRef = db.collection("system").doc("adminBootstrap");
+    const bootstrapState = await bootstrapRef.get();
+
+    if (bootstrapState.data()?.completed === true) {
+      throw new HttpsError(
+        "failed-precondition",
+        "The QuestKids first-admin bootstrap has already been completed."
+      );
+    }
 
     let user;
     try {
