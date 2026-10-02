@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../core/services/permission_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
-import '../../../core/widgets/quest_boy_mascot.dart';
 import '../../../providers/ai_tutor_provider.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/rewards_provider.dart';
 import '../widgets/chat_bubble.dart';
 import '../widgets/quick_prompt_chip.dart';
+import '../widgets/questy_avatar.dart';
 import '../widgets/recommendation_card.dart';
 
 class AiTutorScreen extends StatefulWidget {
@@ -53,17 +52,16 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
       builder: (dialogContext) => AlertDialog(
         title: const Row(
           children: [
-            QuestBoyMascot(size: 28, state: QuestBoyState.waving),
-            SizedBox(width: 6),
-            Expanded(child: Text('Meet QuestBot!')),
+            Text('🤖 ', style: TextStyle(fontSize: 22)),
+            Expanded(child: Text('Meet Questy!')),
           ],
         ),
         content: const Text(
-          "QuestBot is an AI helper, not a real person. It's here to help "
-          'you learn — but it can make mistakes, so always check with a '
-          "teacher or parent too. A grown-up checks any answer you report, "
-          "and you should never share personal info (like your address or "
-          'phone number) with QuestBot.',
+          "Questy is an AI helper, not a real person. It's here to help you "
+          'learn — but it can make mistakes, so always check with a teacher '
+          "or parent too. A grown-up checks any answer you report, and you "
+          "should never share personal info (like your address or phone "
+          'number) with Questy.',
         ),
         actions: [
           TextButton(
@@ -104,29 +102,11 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
   }
 
   Future<void> _pickImage() async {
-    XFile? image;
-    try {
-      image = await _picker.pickImage(
-        source: ImageSource.gallery,
-        maxWidth: 1024,
-        imageQuality: 85,
-      );
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(PermissionService.friendlyMessage(e)),
-            action: PermissionService.isPermissionDenied(e)
-                ? const SnackBarAction(
-                    label: 'Settings',
-                    onPressed: PermissionService.openSettings,
-                  )
-                : null,
-          ),
-        );
-      }
-      return;
-    }
+    final image = await _picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 1024,
+      imageQuality: 85,
+    );
     if (image == null) return;
     final bytes = await image.readAsBytes();
     setState(() => _showQuickPrompts = false);
@@ -161,9 +141,8 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
   @override
   Widget build(BuildContext context) {
     final tutor = context.watch<AiTutorProvider>();
-    final authUser = context.read<AuthProvider>().user;
-    final firstName = authUser?.name.split(' ').first ?? 'there';
-    final userAvatarUrl = authUser?.avatarUrl;
+    final firstName =
+        context.read<AuthProvider>().user?.name.split(' ').first ?? 'there';
 
     final body = Column(
       children: [
@@ -185,10 +164,7 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
                   controller: _scrollCtrl,
                   padding: const EdgeInsets.all(16),
                   itemCount: tutor.messages.length,
-                  itemBuilder: (_, i) => ChatBubble(
-                    message: tutor.messages[i],
-                    userAvatarUrl: userAvatarUrl,
-                  ),
+                  itemBuilder: (_, i) => ChatBubble(message: tutor.messages[i]),
                 ),
         ),
 
@@ -228,15 +204,6 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
           ),
           child: Row(
             children: [
-              if (widget.embedded)
-                IconButton(
-                  icon: Icon(
-                    tutor.isMuted ? Icons.volume_off : Icons.volume_up,
-                    color: AppColors.primary,
-                  ),
-                  onPressed: () => context.read<AiTutorProvider>().toggleMute(),
-                  tooltip: tutor.isMuted ? 'Unmute QuestBot' : 'Mute QuestBot',
-                ),
               IconButton(
                 icon:
                     const Icon(Icons.image_outlined, color: AppColors.primary),
@@ -247,7 +214,7 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
                 child: TextField(
                   controller: _textCtrl,
                   decoration: InputDecoration(
-                    hintText: 'Ask QuestBot anything...',
+                    hintText: 'Ask Questy anything...',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(24),
                       borderSide: BorderSide.none,
@@ -293,12 +260,12 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
       appBar: AppBar(
         title: Row(
           children: [
-            const QuestBoyMascot(size: 38, state: QuestBoyState.waving),
+            const QuestyAvatar(size: 38),
             const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('QuestBot',
+                const Text('Questy',
                     style:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
                 Row(
@@ -312,7 +279,7 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
                       ),
                     ),
                     const SizedBox(width: 4),
-                    const Text('Your Quest Guide ✨',
+                    const Text('Your Learning Star ✨',
                         style: TextStyle(fontSize: 11, color: Colors.white70)),
                   ],
                 ),
@@ -322,11 +289,6 @@ class _AiTutorScreenState extends State<AiTutorScreen> {
         ),
         automaticallyImplyLeading: false,
         actions: [
-          IconButton(
-            icon: Icon(tutor.isMuted ? Icons.volume_off : Icons.volume_up),
-            onPressed: () => context.read<AiTutorProvider>().toggleMute(),
-            tooltip: tutor.isMuted ? 'Unmute QuestBot' : 'Mute QuestBot',
-          ),
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () {
@@ -360,7 +322,7 @@ class _WelcomeBanner extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
       child: Column(
         children: [
-          // Kids + QuestBot illustration
+          // Kids + Questy illustration
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -400,10 +362,10 @@ class _WelcomeBanner extends StatelessWidget {
                 ),
               ),
 
-              // QuestBot (center, bigger)
+              // Questy (center, bigger)
               Column(
                 children: [
-                  const QuestBoyMascot(size: 72, state: QuestBoyState.waving),
+                  const QuestyAvatar(size: 72),
                   const SizedBox(height: 6),
                   Container(
                     padding:
@@ -415,7 +377,7 @@ class _WelcomeBanner extends StatelessWidget {
                           color:
                               const Color(0xFFFFB800).withValues(alpha: 0.40)),
                     ),
-                    child: const Text('QuestBot',
+                    child: const Text('Questy',
                         style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w800,
@@ -471,7 +433,7 @@ class _WelcomeBanner extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            'I\'m QuestBot — your personal quest guide! ✨\nAsk me anything about school.',
+            'I\'m Questy — your personal learning star! ✨\nAsk me anything about school.',
             style: AppTextStyles.bodyMedium.copyWith(
               color: AppColors.textSecondary,
               height: 1.5,

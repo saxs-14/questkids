@@ -5,7 +5,6 @@ import { ENFORCE_APP_CHECK } from "../config";
 import { ADMIN_BOOTSTRAP_TOKEN } from "../secrets";
 
 const ADMIN_EMAIL = "questkid.game@gmail.com";
-const BOOTSTRAP_DOC = "system/adminBootstrap";
 
 export const bootstrapAdmin = onCall(
   {

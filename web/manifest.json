@@ -1,11 +1,11 @@
 {
-    "name": "questkids",
-    "short_name": "questkids",
+    "name": "QuestKids",
+    "short_name": "QuestKids",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#5C35F5",
     "theme_color": "#5C35F5",
-    "description": "QuestKids 2.0 - EdTech Learning Platform",
+    "description": "CAPS-aligned gamified learning for South African primary schoolers, Grades 1-7.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

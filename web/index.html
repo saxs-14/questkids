@@ -18,21 +18,69 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="QuestKids - EdTech Learning Platform">
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!--
+    TODO: replace https://questkids.vercel.app with the real production URL
+    once the app is deployed live, in ALL of: this file's canonical/OG/JSON-LD
+    tags below, web/robots.txt, and web/sitemap.xml.
+  -->
+  <title>QuestKids — CAPS-Aligned Learning Games for Grades 1-7 | South Africa</title>
+  <meta name="description" content="QuestKids turns the South African CAPS curriculum (Grades 1-7) into gamified learning adventures. Kids earn XP and badges while parents track real progress.">
+  <link rel="canonical" href="https://questkids.vercel.app/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="QuestKids">
+  <meta property="og:title" content="QuestKids — CAPS-Aligned Learning Games for Grades 1-7">
+  <meta property="og:description" content="Gamified, CAPS-aligned learning for South African primary schoolers. Kids play, earn XP and badges; parents see real progress.">
+  <meta property="og:url" content="https://questkids.vercel.app/">
+  <meta property="og:image" content="https://questkids.vercel.app/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_ZA">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="QuestKids — CAPS-Aligned Learning Games for Grades 1-7">
+  <meta name="twitter:description" content="Gamified, CAPS-aligned learning for South African primary schoolers. Kids play, earn XP and badges; parents see real progress.">
+  <meta name="twitter:image" content="https://questkids.vercel.app/og-image.jpg">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "QuestKids",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Web, Android",
+    "url": "https://questkids.vercel.app/",
+    "image": "https://questkids.vercel.app/og-image.jpg",
+    "description": "QuestKids turns the South African CAPS curriculum (Grades 1-7) into gamified learning adventures across Math, English, Science, Social Sciences, Technology and Life Skills.",
+    "audience": {
+      "@type": "EducationalAudience",
+      "educationalRole": ["student", "parent"]
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "ZAR"
+    }
+  }
+  </script>
+
   <!-- Google Sign-In Client ID -->
   <meta name="google-signin-client_id" content="882077922348-35dcuaavvhga57ftgapuatck8dmkeq60.apps.googleusercontent.com">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="questkids">
+  <meta name="apple-mobile-web-app-title" content="QuestKids">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>questkids</title>
   <link rel="manifest" href="manifest.json">
   <style>
     /* Improve cross-browser compatibility for mobile/text selection */
@@ -47,9 +95,67 @@
 
       text-decoration-skip-ink: auto;
     }
+
+    /*
+      Flutter web renders the app itself into a <canvas> (CanvasKit), which
+      carries no crawlable text and no real DOM headings/alt text. #seo-content
+      below is real, semantic HTML so search engines have actual indexable
+      content, and it doubles as a branded loading screen for real visitors
+      until the Flutter engine reports its first frame (see script at the
+      bottom of <body>).
+    */
+    #seo-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: 100vh;
+      box-sizing: border-box;
+      padding: 32px 16px;
+      text-align: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #F0F0FF;
+      color: #1a1a2e;
+    }
+    #seo-content img {
+      width: 120px;
+      height: 120px;
+      border-radius: 24px;
+    }
+    #seo-content h1 {
+      font-size: 1.5rem;
+      margin: 8px 0 0;
+      color: #3D1FA8;
+    }
+    #seo-content h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 20px 0 4px;
+    }
+    #seo-content p {
+      max-width: 560px;
+      margin: 0;
+      line-height: 1.5;
+    }
   </style>
 </head>
 <body>
+  <div id="seo-content">
+    <img src="icons/Icon-192.png" alt="QuestKids logo">
+    <h1>QuestKids — CAPS-Aligned Learning Games for Grades 1-7</h1>
+    <p>
+      QuestKids is a gamified learning platform for South African primary school
+      learners, aligned to the CAPS curriculum. Kids play curriculum-mapped games
+      across Math, English, Science, Social Sciences, Technology and Life Skills,
+      earning XP, coins and badges while chatting with Questy, an AI study buddy.
+    </p>
+    <h2>For Parents</h2>
+    <p>Link to your child's account, follow real progress, and know they're
+      learning something real while they play.</p>
+    <p>Loading QuestKids…</p>
+  </div>
+
   <!--
     You can customize the "flutter_bootstrap.js" script.
     This is useful to provide a custom configuration to the Flutter loader
@@ -59,5 +165,22 @@
     * https://docs.flutter.dev/platform-integration/web/initialization
   -->
   <script src="flutter_bootstrap.js" async></script>
+  <script>
+    (function () {
+      var hidden = false;
+      function hideSeoContent() {
+        if (hidden) return;
+        hidden = true;
+        var el = document.getElementById('seo-content');
+        if (el) el.style.display = 'none';
+      }
+      window.addEventListener('flutter-first-frame', hideSeoContent);
+      // Rare-case backstop only (e.g. flutter-first-frame stops firing in a
+      // future Flutter version) — long enough not to hide the loading
+      // message before the app has actually finished loading on a slow
+      // connection.
+      setTimeout(hideSeoContent, 30000);
+    })();
+  </script>
 </body>
 </html>
