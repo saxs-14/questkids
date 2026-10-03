@@ -109,16 +109,34 @@ async function enforceQuota(uid: string): Promise<void> {
   });
 }
 
-function getModel(withSystemPrompt = true) {
+function getModel(withSystemPrompt = true, childFirstName?: string) {
   const apiKey = GEMINI_API_KEY.value();
   if (!apiKey) throw new HttpsError("internal", "Gemini API key not configured");
   const genAI = new GoogleGenerativeAI(apiKey);
+  // childFirstName comes from the child's own Firestore profile (server-read,
+  // never client-supplied) -- using a name already on file is not the same
+  // as asking the child to give it in chat, which rule 5 above still forbids.
+  const namePrompt = `${SYSTEM_PROMPT}
+
+The child you're talking to is named ${childFirstName}. You already know
+this from their account -- use it naturally sometimes (like a tutor who
+knows their student's name), but don't overdo it or mention that you
+"know" it.`;
+  const prompt = childFirstName ? namePrompt : SYSTEM_PROMPT;
   return genAI.getGenerativeModel({
     model: GEMINI_MODEL,
     generationConfig: { temperature: 0.7, topK: 40, topP: 0.95, maxOutputTokens: 1024 },
     safetySettings: SAFETY_SETTINGS,
-    ...(withSystemPrompt ? { systemInstruction: { role: "system", parts: [{ text: SYSTEM_PROMPT }] } } : {}),
+    ...(withSystemPrompt ? { systemInstruction: { role: "system", parts: [{ text: prompt }] } } : {}),
   });
+}
+
+/** First name only -- "Thandeka Mokoena" -> "Thandeka". Never the surname. */
+function firstNameOf(fullName: unknown): string | undefined {
+  if (typeof fullName !== "string") return undefined;
+  const trimmed = fullName.trim();
+  if (!trimmed) return undefined;
+  return trimmed.split(/\s+/)[0].slice(0, 40);
 }
 
 const CALLABLE_OPTS = { enforceAppCheck: ENFORCE_APP_CHECK, secrets: [GEMINI_API_KEY] };
@@ -134,7 +152,10 @@ export const questyChat = onCall(CALLABLE_OPTS, async (request) => {
   const safeMessage = clampString(message, MAX_MESSAGE_CHARS, "message");
   const chatHistory = sanitizeHistory(history);
 
-  const model = getModel();
+  const profile = await getFirestore().collection("users").doc(uid).get();
+  const childFirstName = firstNameOf(profile.data()?.name);
+
+  const model = getModel(true, childFirstName);
   const chat = model.startChat({ history: chatHistory });
   const result = await chat.sendMessage(safeMessage);
   return { text: result.response.text() ?? "I did not understand that. Could you rephrase?" };
