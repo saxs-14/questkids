@@ -60,7 +60,7 @@ class AdminUserRow extends StatelessWidget {
       decoration: BoxDecoration(
         color: AdminColors.cardBottom,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AdminColors.borderGlow.withOpacity(0.25)),
+        border: Border.all(color: AdminColors.borderGlow.withValues(alpha: 0.25)),
       ),
       child: Row(
         children: [
@@ -98,7 +98,7 @@ class AdminUserRow extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: roleColor.withOpacity(0.18),
+              color: roleColor.withValues(alpha: 0.18),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(

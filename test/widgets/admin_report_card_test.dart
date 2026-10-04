@@ -54,6 +54,6 @@ void main() {
 
     final card = tester.widget<Container>(find.byType(Container).first);
     final border = (card.decoration as BoxDecoration).border as Border;
-    expect(border.top.color, AdminColors.severityAmber.withOpacity(0.5));
+    expect(border.top.color, AdminColors.severityAmber.withValues(alpha: 0.5));
   });
 }

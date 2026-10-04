@@ -25,7 +25,7 @@ class AdminStatCard extends StatelessWidget {
           colors: [AdminColors.cardTop, AdminColors.cardBottom],
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AdminColors.borderGlow.withOpacity(0.35)),
+        border: Border.all(color: AdminColors.borderGlow.withValues(alpha: 0.35)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

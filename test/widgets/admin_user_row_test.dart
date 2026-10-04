@@ -63,7 +63,7 @@ void main() {
             .first,
       );
       final color = (badge.decoration as BoxDecoration).color;
-      expect(color, entry.value.withOpacity(0.18));
+      expect(color, entry.value.withValues(alpha: 0.18));
     }
   });
 }

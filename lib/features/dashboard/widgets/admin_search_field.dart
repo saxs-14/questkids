@@ -15,7 +15,7 @@ class AdminSearchField extends StatelessWidget {
       decoration: BoxDecoration(
         color: AdminColors.cardBottom,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AdminColors.borderGlow.withOpacity(0.3)),
+        border: Border.all(color: AdminColors.borderGlow.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [

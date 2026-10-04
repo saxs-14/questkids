@@ -60,9 +60,9 @@ class AdminStatusPill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: AdminColors.statusOnline.withOpacity(0.15),
+        color: AdminColors.statusOnline.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AdminColors.statusOnline.withOpacity(0.4)),
+        border: Border.all(color: AdminColors.statusOnline.withValues(alpha: 0.4)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
