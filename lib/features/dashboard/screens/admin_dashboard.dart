@@ -3,9 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../core/services/admin_service.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/theme_provider.dart';
 import '../../../providers/auth_provider.dart';
+import '../theme/admin_colors.dart';
+import '../widgets/admin_header.dart';
+import '../widgets/admin_stat_card.dart';
+import '../widgets/admin_user_row.dart';
+import '../widgets/admin_report_card.dart';
+import '../widgets/admin_operations_card.dart';
+import '../widgets/admin_search_field.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
@@ -19,6 +24,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   int _tab = 0;
   Map<String, int> _counts = {};
   bool _loadingCounts = true;
+  String _userSearchQuery = '';
 
   @override
   void initState() {
@@ -78,7 +84,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthProvider>().user;
-    final theme = context.watch<ThemeProvider>();
 
     if (user == null || user.role != 'admin') {
       return const SizedBox.shrink();
@@ -87,13 +92,13 @@ class _AdminDashboardState extends State<AdminDashboard> {
     final pages = [_overview(), _users(), _safety(), _operations()];
 
     return Scaffold(
+      backgroundColor: AdminColors.bgPage,
       appBar: AppBar(
+        backgroundColor: AdminColors.bgPage,
+        elevation: 0,
+        foregroundColor: AdminColors.textPrimary,
         title: const Text('QuestKids Admin'),
         actions: [
-          IconButton(
-            icon: Icon(theme.isDark ? Icons.wb_sunny : Icons.nightlight_round),
-            onPressed: theme.toggleTheme,
-          ),
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: _loadCounts,
@@ -102,27 +107,29 @@ class _AdminDashboardState extends State<AdminDashboard> {
       ),
       body: pages[_tab],
       bottomNavigationBar: NavigationBar(
+        backgroundColor: AdminColors.cardBottom,
+        indicatorColor: AdminColors.brandPrimary.withValues(alpha: 0.3),
         selectedIndex: _tab,
         onDestinationSelected: (index) => setState(() => _tab = index),
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.dashboard_outlined),
-            selectedIcon: Icon(Icons.dashboard),
+            icon: Icon(Icons.dashboard_outlined, color: AdminColors.textSecondary),
+            selectedIcon: Icon(Icons.dashboard, color: AdminColors.textPrimary),
             label: 'Overview',
           ),
           NavigationDestination(
-            icon: Icon(Icons.people_outline),
-            selectedIcon: Icon(Icons.people),
+            icon: Icon(Icons.people_outline, color: AdminColors.textSecondary),
+            selectedIcon: Icon(Icons.people, color: AdminColors.textPrimary),
             label: 'Users',
           ),
           NavigationDestination(
-            icon: Icon(Icons.shield_outlined),
-            selectedIcon: Icon(Icons.shield),
+            icon: Icon(Icons.shield_outlined, color: AdminColors.textSecondary),
+            selectedIcon: Icon(Icons.shield, color: AdminColors.textPrimary),
             label: 'Safety',
           ),
           NavigationDestination(
-            icon: Icon(Icons.settings_outlined),
-            selectedIcon: Icon(Icons.settings),
+            icon: Icon(Icons.settings_outlined, color: AdminColors.textSecondary),
+            selectedIcon: Icon(Icons.settings, color: AdminColors.textPrimary),
             label: 'Operations',
           ),
         ],
@@ -132,7 +139,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   Widget _overview() {
     if (_loadingCounts) {
-      return const Center(child: CircularProgressIndicator());
+      return const Center(
+        child: CircularProgressIndicator(color: AdminColors.brandPrimary),
+      );
     }
 
     final cards = [
@@ -146,18 +155,25 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
     return RefreshIndicator(
       onRefresh: _loadCounts,
+      color: AdminColors.brandPrimary,
       child: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          Text(
-            'Platform Overview',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w800,
+          const Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: AdminSectionHeader(
+                  eyebrow: 'QUESTKIDS ADMIN',
+                  title: 'Platform Overview',
+                  subtitle:
+                      'Manage QuestKids users, curriculum, child safety and platform operations from one protected console.',
                 ),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'Manage QuestKids users, curriculum, child safety and platform operations from one protected console.',
+              ),
+              SizedBox(width: 12),
+              AdminStatusPill(label: 'All systems operational'),
+            ],
           ),
           const SizedBox(height: 20),
           GridView.builder(
@@ -172,36 +188,25 @@ class _AdminDashboardState extends State<AdminDashboard> {
             ),
             itemBuilder: (_, index) {
               final card = cards[index];
-              return Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(card[2] as IconData, color: AppColors.primary),
-                      const Spacer(),
-                      Text(
-                        (card[1] as int).toString(),
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                      Text(card[0] as String),
-                    ],
-                  ),
-                ),
+              return AdminStatCard(
+                icon: card[2] as IconData,
+                value: (card[1] as int).toString(),
+                label: card[0] as String,
               );
             },
           ),
           const SizedBox(height: 20),
-          _section('Admin responsibilities', const [
-            'User and account administration',
-            'Parent-child relationship oversight',
-            'Approved learning-content management',
-            'Questy and AI safety review',
-            'Missions, rewards and leaderboard operations',
-            'System health and configuration monitoring',
-          ]),
+          const AdminOperationsCard(
+            title: 'Admin responsibilities',
+            items: [
+              'User and account administration',
+              'Parent-child relationship oversight',
+              'Approved learning-content management',
+              'Questy and AI safety review',
+              'Missions, rewards and leaderboard operations',
+              'System health and configuration monitoring',
+            ],
+          ),
         ],
       ),
     );
@@ -212,61 +217,85 @@ class _AdminDashboardState extends State<AdminDashboard> {
       stream: _service.watchUsers(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Center(child: Text('Unable to load users: ${snapshot.error}'));
+          return Center(
+            child: Text(
+              'Unable to load users: ${snapshot.error}',
+              style: const TextStyle(color: AdminColors.textSecondary),
+            ),
+          );
         }
         if (!snapshot.hasData) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(color: AdminColors.brandPrimary),
+          );
         }
 
-        final docs = snapshot.data!.docs;
+        final query = _userSearchQuery.trim().toLowerCase();
+        final docs = snapshot.data!.docs.where((doc) {
+          if (query.isEmpty) return true;
+          final data = doc.data();
+          final name = (data['name'] ?? '').toString().toLowerCase();
+          final email = (data['email'] ?? '').toString().toLowerCase();
+          final role = (data['role'] ?? 'learner').toString().toLowerCase();
+          return name.contains(query) || email.contains(query) || role.contains(query);
+        }).toList();
 
         return ListView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(20),
           children: [
-            Text(
-              'User Management',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.w800,
-                  ),
+            const AdminSectionHeader(
+              eyebrow: 'QUESTKIDS ADMIN',
+              title: 'User Management',
+              subtitle:
+                  'Role changes and account disabling are performed through protected server-side operations.',
             ),
-            const SizedBox(height: 8),
-            const Text(
-              'Role changes and account disabling are performed through protected server-side operations.',
+            const SizedBox(height: 20),
+            AdminSearchField(
+              hintText: 'Search by name, email, or role…',
+              onChanged: (value) => setState(() => _userSearchQuery = value),
             ),
             const SizedBox(height: 16),
+            if (docs.isEmpty)
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: AdminColors.cardBottom,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Text(
+                  query.isEmpty ? 'No users found.' : 'No users match your search.',
+                  style: const TextStyle(color: AdminColors.textSecondary),
+                ),
+              ),
             ...docs.map((doc) {
               final data = doc.data();
               final role = (data['role'] ?? 'learner').toString();
               final name = (data['name'] ?? data['email'] ?? 'Unknown user').toString();
               final email = (data['email'] ?? '').toString();
 
-              return Card(
-                child: ListTile(
-                  leading: CircleAvatar(
-                    child: Text(name.isEmpty ? '?' : name[0].toUpperCase()),
-                  ),
-                  title: Text(name),
-                  subtitle: Text('$email\n$role'),
-                  isThreeLine: true,
-                  trailing: PopupMenuButton<String>(
-                    onSelected: (value) async {
-                      if (value == 'disable') {
-                        await _toggleDisabled(doc.id, true);
-                      } else if (value == 'enable') {
-                        await _toggleDisabled(doc.id, false);
-                      } else {
-                        await _changeRole(doc.id, value);
-                      }
-                    },
-                    itemBuilder: (_) => const [
-                      PopupMenuItem(value: 'learner', child: Text('Make Child')),
-                      PopupMenuItem(value: 'parent', child: Text('Make Parent')),
-                      PopupMenuItem(value: 'admin', child: Text('Make Admin')),
-                      PopupMenuDivider(),
-                      PopupMenuItem(value: 'disable', child: Text('Disable Account')),
-                      PopupMenuItem(value: 'enable', child: Text('Enable Account')),
-                    ],
-                  ),
+              return AdminUserRow(
+                name: name,
+                email: email,
+                role: adminRoleFromString(role),
+                trailing: PopupMenuButton<String>(
+                  icon: const Icon(Icons.more_vert, color: AdminColors.textSecondary),
+                  onSelected: (value) async {
+                    if (value == 'disable') {
+                      await _toggleDisabled(doc.id, true);
+                    } else if (value == 'enable') {
+                      await _toggleDisabled(doc.id, false);
+                    } else {
+                      await _changeRole(doc.id, value);
+                    }
+                  },
+                  itemBuilder: (_) => const [
+                    PopupMenuItem(value: 'learner', child: Text('Make Child')),
+                    PopupMenuItem(value: 'parent', child: Text('Make Parent')),
+                    PopupMenuItem(value: 'admin', child: Text('Make Admin')),
+                    PopupMenuDivider(),
+                    PopupMenuItem(value: 'disable', child: Text('Disable Account')),
+                    PopupMenuItem(value: 'enable', child: Text('Enable Account')),
+                  ],
                 ),
               );
             }),
@@ -281,50 +310,58 @@ class _AdminDashboardState extends State<AdminDashboard> {
       stream: _service.watchAiReports(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Center(child: Text('Unable to load AI reports: ${snapshot.error}'));
+          return Center(
+            child: Text(
+              'Unable to load AI reports: ${snapshot.error}',
+              style: const TextStyle(color: AdminColors.textSecondary),
+            ),
+          );
         }
         if (!snapshot.hasData) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(color: AdminColors.brandPrimary),
+          );
         }
 
         final docs = snapshot.data!.docs;
 
         return ListView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(20),
           children: [
-            Text(
-              'Child Safety & AI Review',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.w800,
-                  ),
+            const AdminSectionHeader(
+              eyebrow: 'QUESTKIDS ADMIN',
+              title: 'Child Safety & AI Review',
+              subtitle: 'Review Questy reports submitted by children or parents.',
             ),
-            const SizedBox(height: 8),
-            const Text('Review Questy reports submitted by children or parents.'),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             if (docs.isEmpty)
-              const Card(
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Text('No AI reports have been submitted.'),
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: AdminColors.cardBottom,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: const Text(
+                  'No AI reports have been submitted.',
+                  style: TextStyle(color: AdminColors.textSecondary),
                 ),
               ),
             ...docs.map((doc) {
               final data = doc.data();
-              final title = (data['reason'] ?? data['category'] ?? 'AI report').toString();
-              final detail = (data['message'] ?? data['details'] ?? 'No details provided').toString();
+              final reason = (data['reason'] ?? data['category'] ?? 'AI report').toString();
+              final detail = (data['messageText'] ??
+                      data['message'] ??
+                      data['details'] ??
+                      'No details provided')
+                  .toString();
 
-              return Card(
-                child: ListTile(
-                  leading: const Icon(Icons.flag_outlined, color: AppColors.primary),
-                  title: Text(title),
-                  subtitle: Text(detail, maxLines: 3, overflow: TextOverflow.ellipsis),
-                  trailing: TextButton(
-                    onPressed: () => _service.resolveAiReport(
-                      reportId: doc.id,
-                      status: 'resolved',
-                    ),
-                    child: const Text('Resolve'),
-                  ),
+              return AdminReportCard(
+                title: reason,
+                detail: detail,
+                severity: severityForReportReason(reason),
+                onResolve: () => _service.resolveAiReport(
+                  reportId: doc.id,
+                  status: 'resolved',
                 ),
               );
             }),
@@ -337,58 +374,42 @@ class _AdminDashboardState extends State<AdminDashboard> {
   Widget _operations() {
     return ListView(
       padding: const EdgeInsets.all(20),
-      children: [
-        Text(
-          'Platform Operations',
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.w800,
-              ),
+      children: const [
+        AdminSectionHeader(
+          eyebrow: 'QUESTKIDS ADMIN',
+          title: 'Platform Operations',
+          subtitle:
+              'System status readouts — operational controls are not yet wired to live data.',
         ),
-        const SizedBox(height: 16),
-        _section('Content', const [
-          'Manage approved activities and CAPS curriculum reference data.',
-          'Keep the game catalogue and learning objectives aligned.',
-        ]),
-        _section('Gamification', const [
-          'Monitor daily missions, rewards and leaderboard refreshes.',
-          'Investigate abnormal progress or reward activity.',
-        ]),
-        _section('Security', const [
-          'Admin access is claim-based, not controlled by a client role field.',
-          'Use the bootstrap script only for the first admin.',
-        ]),
-        _section('System health', const [
-          'Use Firebase logs, Crashlytics and deployment checks for operational monitoring.',
-        ]),
-      ],
-    );
-  }
-
-  Widget _section(String title, List<String> items) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: const TextStyle(fontWeight: FontWeight.w800)),
-            const SizedBox(height: 8),
-            ...items.map(
-              (item) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('•  '),
-                    Expanded(child: Text(item)),
-                  ],
-                ),
-              ),
-            ),
+        SizedBox(height: 20),
+        AdminOperationsCard(
+          title: 'Content',
+          items: [
+            'Manage approved activities and CAPS curriculum reference data.',
+            'Keep the game catalogue and learning objectives aligned.',
           ],
         ),
-      ),
+        AdminOperationsCard(
+          title: 'Gamification',
+          items: [
+            'Monitor daily missions, rewards and leaderboard refreshes.',
+            'Investigate abnormal progress or reward activity.',
+          ],
+        ),
+        AdminOperationsCard(
+          title: 'Security',
+          items: [
+            'Admin access is claim-based, not controlled by a client role field.',
+            'Use the bootstrap script only for the first admin.',
+          ],
+        ),
+        AdminOperationsCard(
+          title: 'System health',
+          items: [
+            'Use Firebase logs, Crashlytics and deployment checks for operational monitoring.',
+          ],
+        ),
+      ],
     );
   }
 }
