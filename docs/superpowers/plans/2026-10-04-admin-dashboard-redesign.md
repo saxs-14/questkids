@@ -1611,6 +1611,28 @@ git commit -m "feat(admin): restyle dashboard tabs in dark command-center theme"
 
 ---
 
+## Note (found during execution, Task 8)
+
+`flutter analyze` on the finished Task 8 file surfaced 16 info-level issues not caught by
+any single task's own analyze step: every `.withOpacity(x)` call across Tasks 2, 3, 4, 5,
+7, and 8's own file is deprecated in the installed Flutter SDK (`deprecated_member_use` —
+"Use .withValues() to avoid precision loss"), and grepping the rest of `lib/` confirmed
+the codebase has zero other `withOpacity` usages — this was a new inconsistency, not a
+pre-existing pattern. Fixed by replacing every `color.withOpacity(x)` with
+`color.withValues(alpha: x)` in all 6 widget files plus `admin_dashboard.dart`, and
+updating the two test files (`admin_user_row_test.dart`, `admin_report_card_test.dart`)
+that compared against a `withOpacity(x)`-derived expected `Color` to use
+`withValues(alpha: x)` too — `withOpacity` and `withValues` are not guaranteed to produce
+bit-identical `Color` values (the deprecation itself is about `withOpacity`'s 8-bit
+precision loss), so implementation and test expectations had to use the same call.
+Six `prefer_const_constructors`/`prefer_const_literals_to_create_immutables` infos in
+`admin_dashboard.dart` were also fixed by adding `const` where every child was already a
+compile-time constant. Shipped as two follow-up commits (`2b360fd` the deprecation fix
+across all affected files, `e1ee783` the dashboard rebuild itself) rather than rewriting
+Tasks 2–7's already-merged commits, per the "always create new commits" rule. Both
+commits are covered by Task 8 Steps 2–3's analyze/test verification, which passed clean
+(0 analyze issues, 396/396 tests) after the fix.
+
 ## Definition of Done (full plan)
 
 1. `flutter analyze` → 0 errors (CLAUDE.md §9.1).
