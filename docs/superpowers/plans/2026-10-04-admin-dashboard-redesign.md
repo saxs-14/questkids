@@ -525,15 +525,25 @@ void main() {
         ),
       ));
 
-      final badge = tester.widgetList<Container>(find.byType(Container)).firstWhere(
-            (c) => (c.decoration as BoxDecoration?)?.color != null,
-          );
+      final badge = tester.widget<Container>(
+        find
+            .ancestor(
+              of: find.text(entry.key.name),
+              matching: find.byType(Container),
+            )
+            .first,
+      );
       final color = (badge.decoration as BoxDecoration).color;
       expect(color, entry.value.withOpacity(0.18));
     }
   });
 }
 ```
+
+**Note (found during execution):** the first draft of the last test used
+`tester.widgetList<Container>(find.byType(Container)).firstWhere((c) => ... color != null)`,
+which matched the outer row `Container` (opaque `cardBottom`) instead of the badge — fixed
+by locating the `Container` ancestor of the role-label `Text` instead.
 
 - [ ] **Step 2: Run test to verify it fails**
 
