@@ -80,6 +80,9 @@ dependencies:
   flutter_image_compress: ^2.1.0
   permission_handler: ^11.3.0
   flutter_tts: ^4.0.0
+  # Plays QuestBot's neural-voice replies (synthesizeSpeech Cloud Function);
+  # flutter_tts above stays as the offline/failure fallback voice.
+  audioplayers: ^6.1.0
   # QR code generation (parent-child linking)
   qr_flutter: ^4.1.0
   # Calendar for parent shared events

@@ -17,6 +17,7 @@ import { MAIL_PASSWORD } from "./secrets";
 import { MAIL_SENDER } from "./config";
 
 export { questyChat, analyzeImage, getRecommendation, explainAnswer, generateHint } from "./gemini/proxy";
+export { synthesizeSpeech } from "./voice/synthesizeSpeech";
 export { refreshLeaderboards } from "./leaderboard/refresh";
 export { generateDailyMissions } from "./missions/generate";
 export { setUserRole, assignDefaultRole, grantSelfDeclaredRoleClaim } from "./admin/setUserRole";

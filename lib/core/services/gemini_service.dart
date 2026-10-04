@@ -122,4 +122,21 @@ class GeminiService {
       return 'You can do it! Think step by step. 💡';
     }
   }
+
+  /// Returns MP3 bytes for [text] using a cloud neural voice, or null on
+  /// any failure (quota, offline, server error) so the caller can fall
+  /// back to the on-device flutter_tts voice instead of going silent.
+  Future<Uint8List?> synthesizeSpeech(String text) async {
+    try {
+      final result = await _functions
+          .httpsCallable('synthesizeSpeech', options: _callTimeout)
+          .call({'text': text});
+      final base64Audio =
+          (result.data as Map<dynamic, dynamic>)['audioBase64'] as String?;
+      if (base64Audio == null || base64Audio.isEmpty) return null;
+      return base64Decode(base64Audio);
+    } catch (_) {
+      return null;
+    }
+  }
 }
