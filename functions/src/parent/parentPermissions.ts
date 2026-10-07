@@ -1,4 +1,4 @@
-import { onCall, HttpsError } from "firebase-functions/v2/https";
+import { onCall, HttpsError, CallableRequest } from "firebase-functions/v2/https";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
 import { ENFORCE_APP_CHECK } from "../config";
 
@@ -20,7 +20,7 @@ const DEFAULT_PERMISSIONS: Record<PermissionKey, boolean> = {
   manageCalendar: false,
 };
 
-function assertParent(request: Parameters<typeof onCall>[0] extends never ? never : any): string {
+function assertParent(request: CallableRequest): string {
   if (!request.auth) throw new HttpsError("unauthenticated", "You must be signed in.");
   if (request.auth.token.role !== "parent") {
     throw new HttpsError("permission-denied", "Only parent accounts can manage parent access.");
