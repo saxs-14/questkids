@@ -272,6 +272,16 @@ class ParentRepository {
     };
   }
 
+  Future<Map<String, dynamic>?> getLatestWeeklyReport(String childUid) async {
+    final snap = await _db.collection('weekly_reports')
+        .where('childUid', isEqualTo: childUid)
+        .orderBy('weekKey', descending: true)
+        .limit(1)
+        .get();
+    if (snap.docs.isEmpty) return null;
+    return snap.docs.first.data();
+  }
+
   Future<List<ProgressModel>> getChildProgress(String childUid,
       {int limit = 50}) async {
     final snaps = await _db
