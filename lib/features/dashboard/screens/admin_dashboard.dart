@@ -102,6 +102,16 @@ class _AdminDashboardState extends State<AdminDashboard> {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: _loadCounts,
+            tooltip: 'Refresh',
+          ),
+          IconButton(
+            icon: const Icon(Icons.logout_rounded),
+            tooltip: 'Log out',
+            onPressed: () async {
+              await context.read<AuthProvider>().signOut();
+              if (!context.mounted) return;
+              Navigator.pushNamedAndRemoveUntil(context, '/login', (_) => false);
+            },
           ),
         ],
       ),
