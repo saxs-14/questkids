@@ -32,6 +32,7 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
   Map<String, dynamic> _analytics = {};
   Map<String, double> _weeklyTrend = {};
   Map<String, int> _timeSpent = {};
+  Map<String, dynamic>? _weeklyReport;
   bool _loading = true;
   bool _exporting = false;
   bool _unlinking = false;
@@ -50,12 +51,14 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
       _repo.getChildAnalytics(widget.child.uid, from30, now),
       _repo.getWeeklyScoreTrend(widget.child.uid),
       _repo.getTimeSpentBySubject(widget.child.uid),
+      _repo.getLatestWeeklyReport(widget.child.uid),
     ]);
     if (mounted) {
       setState(() {
         _analytics = Map<String, dynamic>.from(results[0] as Map? ?? {});
         _weeklyTrend = Map<String, double>.from(results[1] as Map? ?? {});
         _timeSpent = Map<String, int>.from(results[2] as Map? ?? {});
+        _weeklyReport = results[3] as Map<String, dynamic>?;
         _loading = false;
       });
     }
@@ -191,6 +194,51 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
     }
   }
 
+  Widget _weeklyReportCard() {
+    final report = Map<String, dynamic>.from(_weeklyReport?['report'] as Map? ?? {});
+    final strengths = List<String>.from(report['strengths'] as List? ?? const []);
+    final focus = List<String>.from(report['focusAreas'] as List? ?? const []);
+    final plan = List<String>.from(report['nextWeekPlan'] as List? ?? const []);
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(colors: AppColors.rainbow),
+        borderRadius: BorderRadius.circular(22),
+      ),
+      child: DefaultTextStyle(
+        style: const TextStyle(color: Colors.white),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text('🤖 AI WEEKLY QUEST REPORT',
+              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 14)),
+          const SizedBox(height: 8),
+          Text(report['summary']?.toString() ?? 'Your weekly report is ready.',
+              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
+          if (strengths.isNotEmpty) ...[
+            const SizedBox(height: 12),
+            const Text('Strengths', style: TextStyle(fontWeight: FontWeight.w900)),
+            ...strengths.map((s) => Text('• ' + s)),
+          ],
+          if (focus.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            const Text('Focus next', style: TextStyle(fontWeight: FontWeight.w900)),
+            ...focus.map((s) => Text('• ' + s)),
+          ],
+          if (plan.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            const Text('Next week', style: TextStyle(fontWeight: FontWeight.w900)),
+            ...plan.map((s) => Text('• ' + s)),
+          ],
+          if (report['encouragement'] != null) ...[
+            const SizedBox(height: 10),
+            Text(report['encouragement'].toString(),
+                style: const TextStyle(fontWeight: FontWeight.w900)),
+          ],
+        ]),
+      ),
+    );
+  }
+
   Widget _chartCard(
       {required String title,
       required String subtitle,
@@ -294,6 +342,7 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
           ]),
           const SizedBox(height: 16),
 
+          if (_weeklyReport != null) _weeklyReportCard(),
           _chartCard(
             title: 'XP by Subject',
             subtitle: 'Average score per subject (last 30 days)',
