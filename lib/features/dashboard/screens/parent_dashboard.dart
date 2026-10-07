@@ -935,6 +935,25 @@ class _ParentProfileTab extends StatelessWidget {
           }),
           const SizedBox(height: 12),
           Builder(builder: (context) {
+            final primaryChildren = context.watch<ParentProvider>().linkedChildren
+                .where((child) => child.parentUid == user?.uid)
+                .toList();
+            if (primaryChildren.isEmpty) return const SizedBox.shrink();
+            return Card(
+              child: ListTile(
+                leading: const Icon(Icons.admin_panel_settings_outlined),
+                title: const Text('Linked Parent Access'),
+                subtitle: const Text('Choose what each secondary parent can see or do.'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => ParentAccessScreen(children: primaryChildren)),
+                ),
+              ),
+            );
+          }),
+          const SizedBox(height: 12),
+          Builder(builder: (context) {
             final children = context.watch<ParentProvider>().linkedChildren;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
