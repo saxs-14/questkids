@@ -7,6 +7,7 @@ import '../../../data/models/game_session_model.dart';
 import 'game_config.dart';
 import 'game_engine.dart';
 import 'game_session_persistence.dart';
+import '../../../core/services/game_celebration_service.dart';
 
 /// Abstract state controller for a game session.
 ///
@@ -43,6 +44,7 @@ abstract class GameSessionState extends ChangeNotifier {
   int _elapsed = 0;
   int _correctCount = 0;
   int _xpFromAnswers = 0;
+  int _streak = 0;
   int _questionIndex = 0;
   bool _finished = false;
   GameSessionResult? _result;
@@ -94,7 +96,13 @@ abstract class GameSessionState extends ChangeNotifier {
   /// formula. Returns true when the session ends.
   @protected
   bool recordAnswer(GameAnswerResult result) {
-    if (result.correct) _correctCount++;
+    if (result.correct) {
+      _correctCount++;
+      _streak++;
+      GameCelebrationService.correct(_streak);
+    } else {
+      _streak = 0;
+    }
     _xpFromAnswers += result.xpDelta;
     _questionIndex++;
     notifyListeners();
