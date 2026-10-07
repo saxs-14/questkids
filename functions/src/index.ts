@@ -34,6 +34,7 @@ export { lookupChildLinkCode } from "./parent/lookupChildLinkCode";
 export { sendPushOnNotificationCreate } from "./notifications/sendPush";
 export { onBadgeAwarded } from "./notifications/badgeAward";
 export { sendQuestReminders } from "./notifications/reminders";
+export { generateWeeklyGameReports } from "./reports/weeklyGameReport";
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();
