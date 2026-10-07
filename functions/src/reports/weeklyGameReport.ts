@@ -54,9 +54,10 @@ export const generateWeeklyGameReports = onSchedule(
         if (child.role !== "learner") continue;
 
         const scores = childSessions.map((s) => Number(s.score ?? 0));
-        const avgScore = scores.length
-          ? scores.reduce((a, b) => a + b, 0) / scores.length
-          : 0;
+        let avgScore = 0;
+        if (scores.length > 0) {
+          avgScore = scores.reduce((a, b) => a + b, 0) / scores.length;
+        }
 
         const subjects: Record<string, { games: number; total: number }> = {};
         for (const s of childSessions) {
@@ -93,8 +94,9 @@ Do not diagnose the child or make medical claims. Keep it educational and encour
         const raw = response.response.text().trim();
         let report: Record<string, unknown>;
         try {
-          report = JSON.parse(raw.replace(/^\`\`\`json\\s*/i, "").replace(/\s*\`\`\`$/, ""));
-        } catch (_) {
+          const cleaned = raw.replace("\`\`\`json", "").replace("\`\`\`", "").trim();
+          report = JSON.parse(cleaned);
+        } catch {
           report = {
             summary: raw.slice(0, 900),
             strengths: [],
