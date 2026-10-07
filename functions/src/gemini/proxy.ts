@@ -151,13 +151,16 @@ export const generateGameDraft = onCall(GAME_DRAFT_OPTS, async (request) => {
 
   const document = clampString(request.data?.document, 8000, "document");
   const model = getModel(false);
-  const prompt = `You are QuestKids' game design assistant. Convert this approved game-creation document into a PLAYABLE GAME DRAFT specification.
-This is a preview only: never publish it, never modify the game catalogue, and never invent a new Firebase collection.
+  const prompt = `You are QuestKids' game design assistant. Convert this approved game-creation document
+into a PLAYABLE GAME DRAFT specification. This is a preview only: never publish it,
+never modify the game catalogue, and never invent a new Firebase collection.
 
 Return JSON with:
-title, grade, subject, learningObjective, interactionType, questionCount, difficulty, gameplayLoop, feedbackRules, accessibilityNotes, contentRequirements.
+title, grade, subject, learningObjective, interactionType, questionCount, difficulty,
+gameplayLoop, feedbackRules, accessibilityNotes, contentRequirements.
 
-Prefer varied interactions such as tap, drag, swipe, sequence, matching, timed choice, or movement. Do not make every game a select/drop quiz.
+Prefer varied interactions such as tap, drag, swipe, sequence, matching, timed choice,
+or movement. Do not make every game a select/drop quiz.
 
 GAME CREATION DOCUMENT:
 ${document}`;
@@ -165,7 +168,7 @@ ${document}`;
   const response = await model.generateContent(prompt);
   const raw = response.response.text().trim();
   try {
-    const cleaned = raw.replace("\`\`\`json", "").replace("\`\`\`", "").trim();
+    const cleaned = raw.replace("```json", "").replace("```", "").trim();
     return { draft: JSON.parse(cleaned) };
   } catch {
     return { draft: { raw } };
