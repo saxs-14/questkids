@@ -66,11 +66,6 @@ export const resolveParentLinkRequest = onCall(
 
         tx.update(childRef, {
           linkedParentUids: FieldValue.arrayUnion(requestingParentUid),
-        });
-        tx.update(requesterRef, {
-          linkedChildrenUids: FieldValue.arrayUnion(childUid),
-        });
-        tx.update(childRef, {
           parentPermissions: {
             ...(child.parentPermissions ?? {}),
             [requestingParentUid]: {
@@ -81,6 +76,9 @@ export const resolveParentLinkRequest = onCall(
               manageCalendar: false,
             },
           },
+        });
+        tx.update(requesterRef, {
+          linkedChildrenUids: FieldValue.arrayUnion(childUid),
         });
         tx.update(requestRef, {
           status: "approved",
