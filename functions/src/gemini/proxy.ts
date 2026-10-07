@@ -142,14 +142,17 @@ function firstNameOf(fullName: unknown): string | undefined {
 const GAME_DRAFT_OPTS = { enforceAppCheck: ENFORCE_APP_CHECK, secrets: [GEMINI_API_KEY] };
 
 export const generateGameDraft = onCall(GAME_DRAFT_OPTS, async (request) => {
-  if (!request.auth) throw new HttpsError("unauthenticated", "You must be signed in.");
+  if (!request.auth) {
+    throw new HttpsError("unauthenticated", "You must be signed in.");
+  }
   if (request.auth.token.role !== "admin") {
     throw new HttpsError("permission-denied", "Only admins can generate game drafts.");
   }
 
   const document = clampString(request.data?.document, 8000, "document");
   const model = getModel(false);
-  const prompt = `You are QuestKids' game design assistant. Convert this approved game-creation document into a PLAYABLE GAME DRAFT specification. This is a preview only: never publish it, never modify the game catalogue, and never invent a new Firebase collection.
+  const prompt = `You are QuestKids' game design assistant. Convert this approved game-creation document into a PLAYABLE GAME DRAFT specification.
+This is a preview only: never publish it, never modify the game catalogue, and never invent a new Firebase collection.
 
 Return JSON with:
 title, grade, subject, learningObjective, interactionType, questionCount, difficulty, gameplayLoop, feedbackRules, accessibilityNotes, contentRequirements.
@@ -162,8 +165,9 @@ ${document}`;
   const response = await model.generateContent(prompt);
   const raw = response.response.text().trim();
   try {
-    return { draft: JSON.parse(raw.replace(/^\`\`\`json\\s*/i, "").replace(/\s*\`\`\`$/, "")) };
-  } catch (_) {
+    const cleaned = raw.replace("\`\`\`json", "").replace("\`\`\`", "").trim();
+    return { draft: JSON.parse(cleaned) };
+  } catch {
     return { draft: { raw } };
   }
 });
