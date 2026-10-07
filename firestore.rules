@@ -22,6 +22,21 @@ service cloud.firestore {
       return isSignedIn() && request.auth.token.role == 'parent';
     }
 
+    function isPrimaryParentOf(childUid) {
+      return isParent() &&
+             get(/databases/$(database)/documents/users/$(childUid)).data.parentUid == request.auth.uid;
+    }
+
+    function hasParentPermission(childUid, permission) {
+      return isParent() && (
+        isPrimaryParentOf(childUid) ||
+        get(/databases/$(database)/documents/users/$(childUid)).data
+          .get('parentPermissions', {})
+          .get(request.auth.uid, {})
+          .get(permission, false) == true
+      );
+    }
+
     // Fields that can only ever be changed by a trusted server context
     // (Cloud Functions using the Admin SDK bypass rules entirely, so this
     // simply blocks clients from writing them directly).
@@ -92,8 +107,7 @@ service cloud.firestore {
       allow delete: if isUser(uid);
 
       // Parents can read their linked children
-      allow read: if isParent() &&
-                      uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      allow read: if hasParentPermission(uid, 'viewProgress');
 
       // Chats subcollection — child and their linked parent only.
       match /chats/{chatId} {
@@ -119,14 +133,12 @@ service cloud.firestore {
                        !request.resource.data.diff(resource.data).affectedKeys().hasAny(['verified']);
 
       // Parents can read and verify their children's progress
-      allow read: if isParent() &&
-                      resource.data.uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      allow read: if hasParentPermission(resource.data.uid, 'viewProgress');
 
       // Parents can verify progress only for their own linked children --
       // was previously any isParent(), letting one parent falsify another
       // family's progress records. Mirrors the read scoping directly above.
-      allow update: if isParent() &&
-                       resource.data.uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids &&
+      allow update: if hasParentPermission(resource.data.uid, 'verifyProgress') &&
                        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['verified', 'proofUrl']);
     }
 
@@ -142,23 +154,15 @@ service cloud.firestore {
 
     // ==================== SHARED CALENDAR ====================
     match /shared_calendar/{eventId} {
-      allow create: if isParent() &&
-                        request.resource.data.childUid in
-                          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
-      allow read, update, delete: if isParent() &&
-                        resource.data.childUid in
-                          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      allow create: if hasParentPermission(request.resource.data.childUid, 'manageCalendar');
+      allow read, update, delete: if hasParentPermission(resource.data.childUid, 'manageCalendar');
       allow read: if isUser(resource.data.childUid);
     }
 
     // ==================== REMINDERS ====================
     match /reminders/{reminderId} {
-      allow create: if isParent() &&
-                        request.resource.data.childUid in
-                          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
-      allow read, update, delete: if isParent() &&
-                        resource.data.childUid in
-                          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      allow create: if hasParentPermission(request.resource.data.childUid, 'manageCalendar');
+      allow read, update, delete: if hasParentPermission(resource.data.childUid, 'manageCalendar');
     }
 
     // ==================== DOCUMENT VAULT ====================
@@ -173,12 +177,8 @@ service cloud.firestore {
 
     // ==================== MOOD CHECK-INS ====================
     match /mood_checkins/{checkinId} {
-      allow create: if isParent() &&
-                        request.resource.data.childUid in
-                          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
-      allow read: if isParent() &&
-                      resource.data.childUid in
-                        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      allow create: if hasParentPermission(request.resource.data.childUid, 'viewMood');
+      allow read: if hasParentPermission(resource.data.childUid, 'viewMood');
       // Scoped to the entry's own logger, not any linked parent, so one
       // parent can't delete another linked parent's mood log entry.
       allow delete: if isParent() &&
@@ -239,8 +239,7 @@ service cloud.firestore {
     // cannot create or modify scores, XP, coins or completion state.
     match /game_sessions/{sessionId} {
       allow read: if isSignedIn() && resource.data.uid == request.auth.uid;
-      allow read: if isParent() &&
-                      resource.data.uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      allow read: if hasParentPermission(resource.data.uid, 'viewProgress');
       allow read: if isAdmin();
       allow write: if false;
     }
@@ -326,6 +325,14 @@ service cloud.firestore {
     match /caps_curriculum/{id} {
       allow read: if isSignedIn();
       allow write: if isAdmin();
+    }
+
+    // ==================== AI WEEKLY REPORTS ====================
+    match /weekly_reports/{reportId} {
+      allow read: if isSignedIn() && resource.data.childUid == request.auth.uid;
+      allow read: if hasParentPermission(resource.data.childUid, 'viewReports');
+      allow read: if isAdmin();
+      allow write: if false;
     }
 
     // ==================== AI REPORTS ====================
