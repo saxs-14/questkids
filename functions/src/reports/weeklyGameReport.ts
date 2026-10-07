@@ -74,7 +74,7 @@ export const generateWeeklyGameReports = onSchedule(
           .join("\n");
 
         const prompt = `Create a short weekly learning report for a South African primary-school child.
-Child first name: ${String(child.name ?? "Learner").split(/\\s+/)[0]}
+Child first name: ${String(child.name ?? "Learner").split(/\s+/)[0]}
 Grade: ${child.grade ?? "Primary"}
 Games completed this week: ${childSessions.length}
 Overall average score: ${Math.round(avgScore)}%
