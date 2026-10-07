@@ -23,6 +23,7 @@ class _GradeFourGameLevelsScreenState extends State<GradeFourGameLevelsScreen> {
     'math_g4_measurement',
     'math_g4_data',
     'math_g4_decimals',
+    'math_g4_multiplication',
     'ns_g4_ecosystem',
     'ns_g4_energy',
     'ss_g4_maps',
