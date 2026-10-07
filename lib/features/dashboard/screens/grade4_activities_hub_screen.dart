@@ -291,7 +291,7 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: [
+        children: ([
           _buildCard(
             title: 'Spelling Bee',
             stars: 125,
@@ -348,7 +348,7 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: [
+        children: ([
           _buildCard(
             title: 'Multiples Matrix',
             stars: 180,
@@ -414,7 +414,7 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: [
+        children: ([
           _buildCard(
             title: 'Living vs Non-Living',
             stars: 160,
@@ -453,7 +453,7 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: [
+        children: ([
           _buildCard(
             title: 'Map Symbols Match',
             stars: 160,
