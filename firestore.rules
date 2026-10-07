@@ -112,8 +112,7 @@ service cloud.firestore {
       // Chats subcollection — child and their linked parent only.
       match /chats/{chatId} {
         allow read, write: if isUser(uid);
-        allow read: if isParent() &&
-                        uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+        allow read: if hasParentPermission(uid, 'viewProgress');
       }
     }
 
@@ -211,8 +210,7 @@ service cloud.firestore {
     // ==================== REWARDS COLLECTION ====================
     match /rewards/{uid} {
       allow read, write: if isUser(uid);
-      allow read: if isParent() &&
-                      uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      allow read: if hasParentPermission(uid, 'viewProgress');
     }
 
     // ==================== NOTIFICATIONS COLLECTION ====================
@@ -248,8 +246,7 @@ service cloud.firestore {
     // Derived game statistics are written only by recordGameSession.
     match /player_stats/{uid} {
       allow read: if isUser(uid);
-      allow read: if isParent() &&
-                      uid in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.linkedChildrenUids;
+      allow read: if hasParentPermission(uid, 'viewProgress');
       allow read: if isAdmin();
       allow write: if false;
     }
