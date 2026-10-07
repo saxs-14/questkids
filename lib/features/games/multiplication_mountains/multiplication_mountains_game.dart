@@ -509,7 +509,7 @@ class _MMState extends State<MultiplicationMountainsGame>
                                   Padding(
                                     padding: const EdgeInsets.only(top: 16),
                                     child: Text(
-                                      '$_wrongReaction The answer was ${q.choices[0]}.',
+                                      '$_wrongReaction Try the strategy above and work it out yourself!',
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                         color: _flagRed,
