@@ -29,6 +29,7 @@ export { unlinkParentChild } from "./parent/unlinkChild";
 export { recordGameSession } from "./games/recordGameSession";
 export { requestParentLink } from "./parent/requestParentLink";
 export { resolveParentLinkRequest } from "./parent/resolveParentLinkRequest";
+export { getParentAccess, setParentPermissions } from "./parent/parentPermissions";
 export { lookupChildLinkCode } from "./parent/lookupChildLinkCode";
 export { sendPushOnNotificationCreate } from "./notifications/sendPush";
 export { onBadgeAwarded } from "./notifications/badgeAward";
