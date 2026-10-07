@@ -139,6 +139,35 @@ function firstNameOf(fullName: unknown): string | undefined {
   return trimmed.split(/\s+/)[0].slice(0, 40);
 }
 
+const GAME_DRAFT_OPTS = { enforceAppCheck: ENFORCE_APP_CHECK, secrets: [GEMINI_API_KEY] };
+
+export const generateGameDraft = onCall(GAME_DRAFT_OPTS, async (request) => {
+  if (!request.auth) throw new HttpsError("unauthenticated", "You must be signed in.");
+  if (request.auth.token.role !== "admin") {
+    throw new HttpsError("permission-denied", "Only admins can generate game drafts.");
+  }
+
+  const document = clampString(request.data?.document, 8000, "document");
+  const model = getModel(false);
+  const prompt = `You are QuestKids' game design assistant. Convert this approved game-creation document into a PLAYABLE GAME DRAFT specification. This is a preview only: never publish it, never modify the game catalogue, and never invent a new Firebase collection.
+
+Return JSON with:
+title, grade, subject, learningObjective, interactionType, questionCount, difficulty, gameplayLoop, feedbackRules, accessibilityNotes, contentRequirements.
+
+Prefer varied interactions such as tap, drag, swipe, sequence, matching, timed choice, or movement. Do not make every game a select/drop quiz.
+
+GAME CREATION DOCUMENT:
+${document}`;
+
+  const response = await model.generateContent(prompt);
+  const raw = response.response.text().trim();
+  try {
+    return { draft: JSON.parse(raw.replace(/^\`\`\`json\\s*/i, "").replace(/\s*\`\`\`$/, "")) };
+  } catch (_) {
+    return { draft: { raw } };
+  }
+});
+
 const CALLABLE_OPTS = { enforceAppCheck: ENFORCE_APP_CHECK, secrets: [GEMINI_API_KEY] };
 
 export const questyChat = onCall(CALLABLE_OPTS, async (request) => {
