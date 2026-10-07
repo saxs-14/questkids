@@ -63,12 +63,10 @@ export const synthesizeSpeech = onCall(
       input: { text: safeText },
       voice: {
         languageCode: "en-US",
-        name: "en-US-Neural2-F",
+        name: "en-US-Chirp3-HD-Charon",
       },
       audioConfig: {
         audioEncoding: "MP3",
-        speakingRate: 0.95,
-        pitch: 1.0,
       },
     });
 
