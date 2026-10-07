@@ -673,16 +673,6 @@ class _ParentHomeTabState extends State<_ParentHomeTab> {
           const SizedBox(height: 20),
           Card(
             child: ListTile(
-              leading: const Icon(Icons.folder_outlined),
-              title: const Text('Document Vault'),
-              subtitle: const Text('School reports, medical notes and more'),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => Navigator.pushNamed(context, '/document_vault'),
-            ),
-          ),
-          const SizedBox(height: 12),
-          Card(
-            child: ListTile(
               leading: const Icon(Icons.mood_outlined),
               title: const Text('Mood Check-in'),
               subtitle: const Text('Log how your child is feeling today'),
