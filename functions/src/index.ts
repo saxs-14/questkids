@@ -16,7 +16,14 @@ import * as nodemailer from "nodemailer";
 import { MAIL_PASSWORD } from "./secrets";
 import { MAIL_SENDER } from "./config";
 
-export { questyChat, analyzeImage, getRecommendation, explainAnswer, generateHint, generateGameDraft } from "./gemini/proxy";
+export {
+  questyChat,
+  analyzeImage,
+  getRecommendation,
+  explainAnswer,
+  generateHint,
+  generateGameDraft,
+} from "./gemini/proxy";
 export { synthesizeSpeech } from "./voice/synthesizeSpeech";
 export { refreshLeaderboards } from "./leaderboard/refresh";
 export { generateDailyMissions } from "./missions/generate";
