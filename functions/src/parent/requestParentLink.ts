@@ -90,8 +90,12 @@ export const requestParentLink = onCall(
     await db.collection("notifications").doc().set({
       recipientUid: primaryParentUid,
       title: "New parent link request",
-      body:
-        `${typeof parent?.name === "string" ? parent.name : "Another parent"} wants to link to ${typeof child.name === "string" ? child.name : "your child"}. Review the request and choose what they can access.`,
+      body: [
+        typeof parent?.name === "string" ? parent.name : "Another parent",
+        "wants to link to",
+        typeof child.name === "string" ? child.name : "your child",
+        "and needs your approval.",
+      ].join(" "),
       type: "parent_link_request",
       isRead: false,
       createdAt: FieldValue.serverTimestamp(),
