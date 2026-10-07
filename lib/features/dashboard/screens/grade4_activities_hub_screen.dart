@@ -1267,99 +1267,189 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
     required String correctAnswer,
     required VoidCallback onSolved,
   }) {
-    final shuffled = List<String>.from(options)..shuffle(math.Random());
-    String? selected;
+    final rng = math.Random();
+    final mode = rng.nextInt(3); // 0=tap, 1=drag, 2=flick
+    final shuffled = List<String>.from(options)..shuffle(rng);
+    String? feedback;
 
     showDialog(
       context: context,
       builder: (ctx) => StatefulBuilder(
         builder: (context, setDialogState) {
-          final isCorrect = selected == correctAnswer;
-          final isAnswered = selected != null;
+          final header = Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(children: [
+                const Icon(Icons.auto_awesome, color: Colors.orange, size: 24),
+                const SizedBox(width: 8),
+                Expanded(child: Text(title,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18))),
+              ]),
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFFE8EAF6), Color(0xFFFFE4F0)],
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Text(prompt,
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                    textAlign: TextAlign.center),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                mode == 1
+                    ? '🎯 Drag the answer into the Questy zone!'
+                    : mode == 2
+                        ? '👆 Flick the answer card: swipe right if it is correct.'
+                        : '✨ Choose your answer — the layout changes every round.',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.w700, color: Colors.deepPurple),
+              ),
+            ],
+          );
+
+          Widget body;
+          if (mode == 1) {
+            body = Column(children: [
+              const SizedBox(height: 14),
+              DragTarget<String>(
+                onWillAcceptWithDetails: (_) => true,
+                onAcceptWithDetails: (details) {
+                  if (details.data == correctAnswer) {
+                    Navigator.of(ctx).pop();
+                    onSolved();
+                  } else {
+                    setDialogState(() => feedback = 'Not that one — try another! 🌈');
+                  }
+                },
+                builder: (context, candidates, rejects) => AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 22),
+                  decoration: BoxDecoration(
+                    color: candidates.isNotEmpty
+                        ? Colors.amber.shade100
+                        : Colors.blue.shade50,
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(color: Colors.deepPurple, width: 2),
+                  ),
+                  child: const Column(children: [
+                    Text('🧚', style: TextStyle(fontSize: 34)),
+                    SizedBox(height: 4),
+                    Text('DROP ANSWER HERE',
+                        style: TextStyle(fontWeight: FontWeight.w900)),
+                  ]),
+                ),
+              ),
+              const SizedBox(height: 14),
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                alignment: WrapAlignment.center,
+                children: shuffled.map((opt) => LongPressDraggable<String>(
+                  data: opt,
+                  feedback: Material(
+                    color: Colors.transparent,
+                    child: _challengeChip(opt, dragging: true),
+                  ),
+                  childWhenDragging: Opacity(
+                    opacity: .25,
+                    child: _challengeChip(opt),
+                  ),
+                  child: _challengeChip(opt),
+                )).toList(),
+              ),
+            ]);
+          } else if (mode == 2) {
+            body = Column(children: [
+              const SizedBox(height: 14),
+              ...shuffled.map((opt) => Dismissible(
+                key: ValueKey('${title}_${opt}'),
+                direction: DismissDirection.horizontal,
+                confirmDismiss: (direction) async {
+                  final saysCorrect = direction == DismissDirection.startToEnd;
+                  if (saysCorrect && opt == correctAnswer) {
+                    if (ctx.mounted) Navigator.of(ctx).pop();
+                    onSolved();
+                    return true;
+                  }
+                  setDialogState(() {
+                    feedback = saysCorrect
+                        ? 'Oops! Swipe left for an incorrect answer. Try again! 💪'
+                        : 'Keep searching — you can do it! 🔎';
+                  });
+                  return false;
+                },
+                background: Container(
+                  margin: const EdgeInsets.only(bottom: 8),
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.only(left: 18),
+                  decoration: BoxDecoration(
+                    color: Colors.green.shade100,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: const Text('✅ YES', style: TextStyle(fontWeight: FontWeight.w900)),
+                ),
+                secondaryBackground: Container(
+                  margin: const EdgeInsets.only(bottom: 8),
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.only(right: 18),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.shade100,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: const Text('❌ NO', style: TextStyle(fontWeight: FontWeight.w900)),
+                ),
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Center(child: Text(opt,
+                        style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 17))),
+                  ),
+                ),
+              )),
+            ]);
+          } else {
+            body = Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              alignment: WrapAlignment.center,
+              children: shuffled.map((opt) => ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.deepPurple,
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                ),
+                onPressed: () {
+                  if (opt == correctAnswer) {
+                    Navigator.of(ctx).pop();
+                    onSolved();
+                  } else {
+                    shuffled.shuffle(rng);
+                    setDialogState(() => feedback = 'Almost! The answers have moved — keep looking! 🎲');
+                  }
+                },
+                child: Text(opt, style: const TextStyle(fontWeight: FontWeight.w900)),
+              )).toList(),
+            );
+          }
 
           return AlertDialog(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-            title: Row(
-              children: [
-                const Icon(Icons.star, color: Colors.orange, size: 24),
-                const SizedBox(width: 8),
-                Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              ],
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE3F2FD),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Text(
-                    prompt,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF0D47A1),
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  alignment: WrapAlignment.center,
-                  children: shuffled.map((opt) {
-                    final isThisSelected = selected == opt;
-                    Color btnColor = Colors.white;
-                    if (isAnswered) {
-                      if (opt == correctAnswer) {
-                        btnColor = const Color(0xFFC8E6C9);
-                      } else if (isThisSelected) {
-                        btnColor = const Color(0xFFFFCDD2);
-                      }
-                    }
-
-                    return ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: btnColor,
-                        foregroundColor: Colors.black87,
-                        elevation: isThisSelected ? 4 : 1,
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          side: BorderSide(
-                            color: isThisSelected ? const Color(0xFF1E88E5) : Colors.grey.shade300,
-                            width: isThisSelected ? 2 : 1,
-                          ),
-                        ),
-                      ),
-                      onPressed: isAnswered
-                          ? null
-                          : () {
-                              setDialogState(() => selected = opt);
-                              if (opt == correctAnswer) {
-                                Future.delayed(const Duration(milliseconds: 900), () {
-                                  if (ctx.mounted) Navigator.of(ctx).pop();
-                                  onSolved();
-                                });
-                              }
-                            },
-                      child: Text(opt, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                    );
-                  }).toList(),
-                ),
-                if (isAnswered && !isCorrect) ...[
+            content: SingleChildScrollView(
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                header,
+                body,
+                if (feedback != null) ...[
                   const SizedBox(height: 12),
-                  const Text(
-                    'Try again! Tap the correct choice.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-                  ),
+                  Text(feedback!, textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.w800)),
                 ],
-              ],
+              ]),
             ),
             actions: [
               TextButton(
@@ -1370,6 +1460,23 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
           );
         },
       ),
+    );
+  }
+
+  Widget _challengeChip(String text, {bool dragging = false}) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: dragging
+              ? const [Color(0xFFFF4D6D), Color(0xFF9B5DE5)]
+              : const [Color(0xFF4D96FF), Color(0xFF2EC4B6)],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: const [BoxShadow(blurRadius: 6, offset: Offset(0, 3), color: Colors.black12)],
+      ),
+      child: Text(text,
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900)),
     );
   }
 
