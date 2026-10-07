@@ -336,7 +336,7 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
             previewWidget: _buildSynonymsPreview(),
             onTap: () => _openSynonymsModal(),
           ),
-        ],
+        ]..shuffle(math.Random())),
       ),
     );
   }
@@ -402,7 +402,7 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
             previewWidget: _buildMoneyGamePreview(),
             onTap: () => _openMoneyGameModal(),
           ),
-        ],
+        ]..shuffle(math.Random())),
       ),
     );
   }
@@ -441,7 +441,7 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
             previewWidget: _buildAnimalHabitatsPreview(),
             onTap: () => _openAnimalHabitatsModal(),
           ),
-        ],
+        ]..shuffle(math.Random())),
       ),
     );
   }
@@ -471,7 +471,7 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
             previewWidget: _buildCompassDirectionsPreview(),
             onTap: () => _openCompassDirectionsModal(),
           ),
-        ],
+        ]..shuffle(math.Random())),
       ),
     );
   }
