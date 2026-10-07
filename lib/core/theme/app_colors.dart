@@ -66,6 +66,11 @@ class AppColors {
     Color(0xFF7C4DFF),
     Color(0xFF9C27B0),
   ];
+
+  static const List<Color> rainbow = [
+    Color(0xFFFF4D6D), Color(0xFFFF9F1C), Color(0xFFFFD166),
+    Color(0xFF2EC4B6), Color(0xFF4D96FF), Color(0xFF9B5DE5),
+  ];
   static const List<Color> mathGradient = [
     Color(0xFFFF6B35),
     Color(0xFFFF9800)
