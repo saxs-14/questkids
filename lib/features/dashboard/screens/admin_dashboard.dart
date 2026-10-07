@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 import '../../../core/services/admin_service.dart';
 import '../../../providers/auth_provider.dart';
@@ -89,7 +90,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       return const SizedBox.shrink();
     }
 
-    final pages = [_overview(), _users(), _safety(), _operations()];
+    final pages = [_overview(), _users(), _safety(), _aiGameLab(), _operations()];
 
     return Scaffold(
       backgroundColor: AdminColors.bgPage,
@@ -136,6 +137,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
             icon: Icon(Icons.shield_outlined, color: AdminColors.textSecondary),
             selectedIcon: Icon(Icons.shield, color: AdminColors.textPrimary),
             label: 'Safety',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.auto_awesome_outlined, color: AdminColors.textSecondary),
+            selectedIcon: Icon(Icons.auto_awesome, color: AdminColors.textPrimary),
+            label: 'AI Lab',
           ),
           NavigationDestination(
             icon: Icon(Icons.settings_outlined, color: AdminColors.textSecondary),
@@ -378,6 +384,99 @@ class _AdminDashboardState extends State<AdminDashboard> {
           ],
         );
       },
+    );
+  }
+
+  Future<void> _generateDemoGame(String document) async {
+    try {
+      final result = await FirebaseFunctions.instanceFor(region: 'us-central1')
+          .httpsCallable('generateGameDraft')
+          .call({'document': document});
+      if (!mounted) return;
+      final data = Map<String, dynamic>.from(result.data as Map);
+      final draft = data['draft'];
+      await showDialog<void>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('AI Game Draft Preview'),
+          content: SingleChildScrollView(
+            child: SelectableText(draft is Map ? draft.entries.map((e) => '${e.key}: ${e.value}').join('\n\n') : draft.toString()),
+          ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Close')),
+          ],
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('AI draft generation failed: $e')),
+      );
+    }
+  }
+
+  Widget _aiGameLab() {
+    const docs = [
+      (
+        title: 'Demo 1 — Rainbow Number Rescue',
+        document: '''GAME CREATION DOCUMENT
+Grade: 1
+Subject: Mathematics
+Topic: Number bonds to 10
+Goal: Help a learner practise number bonds without relying only on multiple choice.
+Content: Use numbers 1–9 with missing partners to make 10.
+Interaction: Randomly choose between tap, drag, matching pairs and a short sequence challenge.
+Feedback: Celebrate correct answers and give a strategy hint after an error.
+Safety: No external links, no personal data, no purchases.''',
+      ),
+      (
+        title: 'Demo 2 — Animal Habitat Adventure',
+        document: '''GAME CREATION DOCUMENT
+Grade: 4
+Subject: Natural Sciences
+Topic: Animal habitats
+Goal: Match animals with suitable habitats and explain the reason.
+Content: Lion, penguin, frog, camel, fish and their habitats.
+Interaction: Randomly present a drag target, swipe decision, matching round or timed movement round.
+Feedback: Explain why the selected habitat is suitable instead of revealing answers before the learner tries.
+Safety: Child-friendly language and no personal data.''',
+      ),
+    ];
+
+    return ListView(
+      padding: const EdgeInsets.all(20),
+      children: [
+        const AdminSectionHeader(
+          eyebrow: 'QUESTKIDS AI LAB',
+          title: 'Game Creation Document Preview',
+          subtitle: 'Two dummy creation documents demonstrate how an approved brief is sent to Gemini for a draft. Drafts are previews only and do not add games to the catalogue.',
+        ),
+        const SizedBox(height: 18),
+        ...docs.map((item) => Card(
+          margin: const EdgeInsets.only(bottom: 16),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(item.title, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w900)),
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: AdminColors.bgPage,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: SelectableText(item.document),
+              ),
+              const SizedBox(height: 12),
+              FilledButton.icon(
+                onPressed: () => _generateDemoGame(item.document),
+                icon: const Icon(Icons.auto_awesome),
+                label: const Text('Send document to AI for draft'),
+              ),
+            ]),
+          ),
+        )),
+      ],
     );
   }
 
