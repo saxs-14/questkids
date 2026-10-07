@@ -94,7 +94,7 @@ Do not diagnose the child or make medical claims. Keep it educational and encour
         const raw = response.response.text().trim();
         let report: Record<string, unknown>;
         try {
-          const cleaned = raw.replace("\`\`\`json", "").replace("\`\`\`", "").trim();
+          const cleaned = raw.replace("```json", "").replace("```", "").trim();
           report = JSON.parse(cleaned);
         } catch {
           report = {
