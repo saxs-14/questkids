@@ -222,12 +222,12 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
           if (focus.isNotEmpty) ...[
             const SizedBox(height: 8),
             const Text('Focus next', style: TextStyle(fontWeight: FontWeight.w900)),
-            ...focus.map((s) => Text('• ' + s)),
+            ...focus.map((s) => Text('• $s')),
           ],
           if (plan.isNotEmpty) ...[
             const SizedBox(height: 8),
             const Text('Next week', style: TextStyle(fontWeight: FontWeight.w900)),
-            ...plan.map((s) => Text('• ' + s)),
+            ...plan.map((s) => Text('• $s')),
           ],
           if (report['encouragement'] != null) ...[
             const SizedBox(height: 10),
