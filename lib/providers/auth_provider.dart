@@ -409,4 +409,4 @@ String friendlyAuthError(String error) {
     // an otherwise unreproducible failure self-diagnosing on the next try.
     final truncated = error.length > 180 ? '${error.substring(0, 180)}…' : error;
     return 'Something went wrong: $truncated';
-}}
+}
