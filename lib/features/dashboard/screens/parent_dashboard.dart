@@ -22,6 +22,7 @@ import '../../../providers/parent_provider.dart';
 import '../../notifications/screens/notifications_screen.dart';
 import '../../offline/widgets/offline_banner.dart';
 import '../../parent/screens/child_analytics_screen.dart';
+import '../../parent/screens/parent_access_screen.dart';
 import '../widgets/child_card.dart';
 
 class ParentDashboard extends StatefulWidget {
