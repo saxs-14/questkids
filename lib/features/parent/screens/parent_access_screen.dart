@@ -97,7 +97,7 @@ class _ParentAccessScreenState extends State<ParentAccessScreen> {
           children: [
             if (widget.children.length > 1)
               DropdownButtonFormField<UserModel>(
-                value: _selectedChild,
+                initialValue: _selectedChild,
                 decoration: const InputDecoration(
                   labelText: 'Child',
                   prefixIcon: Icon(Icons.child_care),
@@ -194,7 +194,7 @@ class _ParentAccessScreenState extends State<ParentAccessScreen> {
       title: Text(title, style: const TextStyle(fontWeight: FontWeight.w700)),
       subtitle: Text(subtitle),
       value: parent['permissions']?[key] == true,
-      activeColor: AppColors.primary,
+      activeThumbColor: AppColors.primary,
       onChanged: (value) => _setPermission(parent, key, value),
     );
   }
