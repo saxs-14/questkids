@@ -58,7 +58,7 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
         _analytics = Map<String, dynamic>.from(results[0] ?? {});
         _weeklyTrend = Map<String, double>.from(results[1] as Map? ?? {});
         _timeSpent = Map<String, int>.from(results[2] as Map? ?? {});
-        _weeklyReport = results[3] as Map<String, dynamic>?;
+        _weeklyReport = results[3];
         _loading = false;
       });
     }
@@ -217,7 +217,7 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
           if (strengths.isNotEmpty) ...[
             const SizedBox(height: 12),
             const Text('Strengths', style: TextStyle(fontWeight: FontWeight.w900)),
-            ...strengths.map((s) => Text('• ' + s)),
+            ...strengths.map((s) => Text('• $s')),
           ],
           if (focus.isNotEmpty) ...[
             const SizedBox(height: 8),
