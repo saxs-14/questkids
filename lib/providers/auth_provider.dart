@@ -356,6 +356,12 @@ class AuthProvider extends ChangeNotifier {
   }
 
   String _friendlyError(String error) {
+    if (error.contains('child-incorrect-name')) {
+      return 'Incorrect name. Please check your name and try again.';
+    }
+    if (error.contains('child-incorrect-dob')) {
+      return 'Incorrect date of birth. Please check the date and try again.';
+    }
     // Firebase Auth v5+ merges wrong-password + user-not-found into invalid-credential
     if (error.contains('invalid-credential') ||
         error.contains('invalid-login-credentials')) {
