@@ -19,13 +19,13 @@ void main() {
 
   testWidgets('AdminUserRow shows name, email, role badge and trailing widget',
       (tester) async {
-    await tester.pumpWidget(MaterialApp(
+    await tester.pumpWidget(const MaterialApp(
       home: Scaffold(
         body: AdminUserRow(
           name: 'Thandeka Mokoena',
           email: 'thandeka@example.com',
           role: AdminRole.parent,
-          trailing: const Icon(Icons.more_vert),
+          trailing: Icon(Icons.more_vert),
         ),
       ),
     ));
