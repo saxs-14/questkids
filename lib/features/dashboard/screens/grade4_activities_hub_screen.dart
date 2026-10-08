@@ -1367,7 +1367,7 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
             body = Column(children: [
               const SizedBox(height: 14),
               ...shuffled.map((opt) => Dismissible(
-                key: ValueKey('${title}_${opt}'),
+                key: ValueKey('${title}_$opt'),
                 direction: DismissDirection.horizontal,
                 confirmDismiss: (direction) async {
                   final saysCorrect = direction == DismissDirection.startToEnd;
