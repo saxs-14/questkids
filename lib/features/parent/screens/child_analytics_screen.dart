@@ -55,7 +55,7 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
     ]);
     if (mounted) {
       setState(() {
-        _analytics = Map<String, dynamic>.from(results[0] as Map? ?? {});
+        _analytics = Map<String, dynamic>.from(results[0] ?? {});
         _weeklyTrend = Map<String, double>.from(results[1] as Map? ?? {});
         _timeSpent = Map<String, int>.from(results[2] as Map? ?? {});
         _weeklyReport = results[3] as Map<String, dynamic>?;
