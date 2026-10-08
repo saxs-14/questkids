@@ -356,6 +356,11 @@ class AuthProvider extends ChangeNotifier {
   }
 
   String _friendlyError(String error) {
+    return friendlyAuthError(error);
+  }
+}
+
+String friendlyAuthError(String error) {
     if (error.contains('child-incorrect-name')) {
       return 'Incorrect name. Please check your name and try again.';
     }
@@ -404,5 +409,4 @@ class AuthProvider extends ChangeNotifier {
     // an otherwise unreproducible failure self-diagnosing on the next try.
     final truncated = error.length > 180 ? '${error.substring(0, 180)}…' : error;
     return 'Something went wrong: $truncated';
-  }
-}
+}}
