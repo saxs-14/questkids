@@ -150,7 +150,6 @@ class _ParentAccessScreenState extends State<ParentAccessScreen> {
   }
 
   Widget _parentCard(Map<String, dynamic> parent) {
-    final permissions = Map<String, dynamic>.from(parent['permissions'] as Map? ?? {});
     return Card(
       margin: const EdgeInsets.only(bottom: 14),
       child: Padding(
