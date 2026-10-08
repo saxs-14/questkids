@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../config/emulator_config.dart';
@@ -398,18 +399,59 @@ class AuthService {
   }
 
   // Child Login (Name + Birthdate)
+  //
+  // Child accounts use a generated Firebase email/password internally, but
+  // the learner never sees those credentials. The server verifies the
+  // human-facing name + DOB first so the UI can report exactly which field
+  // is wrong instead of exposing Firebase's generic credential error.
   Future<UserModel?> loginChild({
     required String name,
     required DateTime birthDate,
   }) async {
-    final dummyEmail = _generateChildEmail(name, birthDate);
-    final dummyPassword = _generateChildPassword(birthDate);
+    try {
+      final callable = FirebaseFunctions.instance.httpsCallable(
+        'loginChild',
+        options: HttpsCallableOptions(
+          timeout: const Duration(seconds: 20),
+        ),
+      );
 
-    final cred = await _auth.signInWithEmailAndPassword(
-      email: dummyEmail,
-      password: dummyPassword,
-    );
-    return await _userRepo.getUser(cred.user!.uid);
+      final dateKey =
+          '${birthDate.year.toString().padLeft(4, '0')}-'
+          '${birthDate.month.toString().padLeft(2, '0')}-'
+          '${birthDate.day.toString().padLeft(2, '0')}';
+
+      final result = await callable.call({
+        'name': name.trim(),
+        'birthDate': dateKey,
+      });
+
+      final data = Map<String, dynamic>.from(result.data as Map);
+      final token = data['token'];
+      if (token is! String || token.isEmpty) {
+        throw FirebaseAuthException(
+          code: 'child-login-invalid-response',
+          message: 'Child login did not return a valid sign-in token.',
+        );
+      }
+
+      final cred = await _auth.signInWithCustomToken(token);
+      return await _userRepo.getUser(cred.user!.uid);
+    } on FirebaseFunctionsException catch (e) {
+      if (e.code == 'not-found') {
+        throw FirebaseAuthException(
+          code: 'child-incorrect-name',
+          message: 'Incorrect name.',
+        );
+      }
+      if (e.code == 'permission-denied') {
+        throw FirebaseAuthException(
+          code: 'child-incorrect-dob',
+          message: 'Incorrect date of birth.',
+        );
+      }
+      rethrow;
+    }
   }
 
   // Google Sign In
