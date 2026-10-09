@@ -100,7 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     } else {
       success = await auth.registerParent(
         parentEmail: _emailCtrl.text.trim(),
-        parentPassword: _passwordCtrl.text.trim(),
+        parentPassword: _passwordCtrl.text,
         parentName: _nameCtrl.text.trim(),
         parentSurname: _surnameCtrl.text.trim(),
         parentTitle: _title,
