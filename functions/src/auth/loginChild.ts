@@ -33,9 +33,10 @@ async function enforceLoginRateLimit(ip: string, normalizedName: string): Promis
     const snapshots = await Promise.all(refs.map((ref) => transaction.get(ref)));
     const updates = snapshots.map((snapshot, index) => {
       const data = snapshot.data();
-      const startedAt = typeof data?.windowStartedAt === "number"
-        ? data.windowStartedAt
-        : 0;
+      let startedAt = 0;
+      if (typeof data?.windowStartedAt === "number") {
+        startedAt = data.windowStartedAt;
+      }
       const inWindow = now - startedAt < RATE_WINDOW_MS && now >= startedAt;
       let attempts = 0;
       if (inWindow && typeof data?.attempts === "number") {
