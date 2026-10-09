@@ -1,5 +1,6 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
-import { getFirestore } from "firebase-admin/firestore";
+import { getFirestore, Timestamp } from "firebase-admin/firestore";
+import { onSchedule } from "firebase-functions/v2/scheduler";
 import { getAuth } from "firebase-admin/auth";
 import { createHash } from "node:crypto";
 import { ENFORCE_APP_CHECK } from "../config";
@@ -50,7 +51,7 @@ async function enforceLoginRateLimit(ip: string, normalizedName: string): Promis
         value: {
           windowStartedAt: inWindow ? startedAt : now,
           attempts: attempts + 1,
-          updatedAt: new Date(now),
+          updatedAt: Timestamp.fromMillis(now),
         },
       };
     });
@@ -166,4 +167,21 @@ export const loginChild = onCall(OPTIONS, async (request) => {
   });
 
   return { token: customToken };
+});
+
+/**
+ * Remove expired login throttling buckets. The stored identifiers are hashes,
+ * but stale records still need cleanup to keep this collection bounded.
+ */
+export const cleanupChildLoginAttempts = onSchedule("every day 03:15", async () => {
+  const cutoff = Timestamp.fromMillis(Date.now() - 24 * 60 * 60 * 1000);
+  const db = getFirestore();
+  const expired = await db.collection("security_login_attempts")
+    .where("updatedAt", "<", cutoff)
+    .limit(500)
+    .get();
+  if (expired.empty) return;
+  const batch = db.batch();
+  expired.docs.forEach((doc) => batch.delete(doc.ref));
+  await batch.commit();
 });
