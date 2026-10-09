@@ -26,6 +26,45 @@ function dateKeyInSouthAfrica(value: Date): string {
 }
 
 /**
+ * Supports the date formats already written by QuestKids:
+ * - Firestore Timestamp objects
+ * - milliseconds since epoch (UserModel.toMap format)
+ * - YYYY-MM-DD strings from older/imported records
+ */
+function storedBirthDateKey(value: unknown): string | null {
+  let date: Date;
+
+  if (typeof value === "number" && Number.isFinite(value)) {
+    date = new Date(value);
+  } else if (typeof value === "string") {
+    const normalized = value.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(normalized)) {
+      const parsed = new Date(`${normalized}T00:00:00.000Z`);
+      if (
+        Number.isNaN(parsed.getTime()) ||
+        parsed.toISOString().slice(0, 10) !== normalized
+      ) {
+        return null;
+      }
+      return normalized;
+    }
+    date = new Date(normalized);
+  } else if (
+    typeof value === "object" &&
+    value !== null &&
+    "toDate" in value &&
+    typeof (value as { toDate?: unknown }).toDate === "function"
+  ) {
+    date = (value as { toDate: () => Date }).toDate();
+  } else {
+    return null;
+  }
+
+  if (Number.isNaN(date.getTime())) return null;
+  return dateKeyInSouthAfrica(date);
+}
+
+/**
  * Verifies a child login before creating a Firebase custom token.
  *
  * We intentionally distinguish:
@@ -56,11 +95,9 @@ export const loginChild = onCall(OPTIONS, async (request) => {
     throw new HttpsError("not-found", "Incorrect name.");
   }
 
-  const matchingChild = learners.find((doc) => {
-    const stored = doc.data().birthDate;
-    if (!stored || typeof stored.toDate !== "function") return false;
-    return dateKeyInSouthAfrica(stored.toDate()) === birthDate;
-  });
+  const matchingChild = learners.find(
+    (doc) => storedBirthDateKey(doc.data().birthDate) === birthDate
+  );
 
   if (!matchingChild) {
     throw new HttpsError("permission-denied", "Incorrect date of birth.");
