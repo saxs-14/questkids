@@ -37,9 +37,10 @@ async function enforceLoginRateLimit(ip: string, normalizedName: string): Promis
         ? data.windowStartedAt
         : 0;
       const inWindow = now - startedAt < RATE_WINDOW_MS && now >= startedAt;
-      const attempts = inWindow && typeof data?.attempts === "number"
-        ? data.attempts
-        : 0;
+      let attempts = 0;
+      if (inWindow && typeof data?.attempts === "number") {
+        attempts = data.attempts;
+      }
       if (attempts >= keys[index].limit) {
         throw new HttpsError(
           "resource-exhausted",
