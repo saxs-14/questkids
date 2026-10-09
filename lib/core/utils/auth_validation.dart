@@ -27,8 +27,8 @@ class AuthValidation {
     }
     if (!RegExp(r'[A-Z]').hasMatch(password) ||
         !RegExp(r'[a-z]').hasMatch(password) ||
-        !RegExp(r'\\d').hasMatch(password) ||
-        !RegExp(r'[^A-Za-z0-9\\s]').hasMatch(password)) {
+        !RegExp(r'\d').hasMatch(password) ||
+        !RegExp(r'[^A-Za-z0-9\s]').hasMatch(password)) {
       return 'Include uppercase, lowercase, a number, and a symbol.';
     }
     return null;
