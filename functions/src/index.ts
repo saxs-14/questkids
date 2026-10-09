@@ -42,7 +42,7 @@ export { sendPushOnNotificationCreate } from "./notifications/sendPush";
 export { onBadgeAwarded } from "./notifications/badgeAward";
 export { sendQuestReminders } from "./notifications/reminders";
 export { generateWeeklyGameReports } from "./reports/weeklyGameReport";
-export { loginChild } from "./auth/loginChild";
+export { loginChild, cleanupChildLoginAttempts } from "./auth/loginChild";
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();
