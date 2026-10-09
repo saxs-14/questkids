@@ -17,7 +17,9 @@ Base: `main` at `6c0de931c5eaa20457e9da32eed83a61f649d96e`
 - Add shared registration validators for email format and a 12-character minimum password requiring uppercase, lowercase, number, and symbol.
 - Update the parent registration form to use the validators and avoid trimming password input before sending it to Firebase.
 - Add unit tests for valid/invalid email and password cases.
-- Restrict the general role-management callable from creating additional admin accounts, using the UID recorded by the one-time bootstrap flow.
+- Restrict the general role-management callable from creating additional admin accounts, using the UID recorded by the one-time bootstrap flow, and prevent that trust-anchor account from being demoted through the same endpoint.
+- Rate-limit child name/date-of-birth login attempts by hashed name/IP buckets and schedule cleanup of expired throttling records.
+- Preserve exact password characters during parent login as well as registration.
 
 ## Remaining Phase 1 work before deployment
 
