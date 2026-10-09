@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/utils/auth_validation.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../data/models/user_model.dart';
@@ -84,7 +85,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (_registerChild) {
       success = await auth.registerParent(
         parentEmail: _emailCtrl.text.trim(),
-        parentPassword: _passwordCtrl.text.trim(),
+        parentPassword: _passwordCtrl.text,
         parentName: _nameCtrl.text.trim(),
         parentSurname: _surnameCtrl.text.trim(),
         parentTitle: _title,
@@ -212,16 +213,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
           controller: _emailCtrl,
           prefixIcon: Icons.email_outlined,
           keyboardType: TextInputType.emailAddress,
-          validator: (v) => v!.isEmpty ? 'Required' : null,
+          validator: AuthValidation.emailError,
         ),
         const SizedBox(height: 16),
         AuthTextField(
           label: 'Password',
-          hint: 'Min 6 characters',
+          hint: '12+ chars: uppercase, lowercase, number, symbol',
           controller: _passwordCtrl,
           prefixIcon: Icons.lock_outline,
           isPassword: true,
-          validator: (v) => v!.length < 6 ? 'Min 6 chars' : null,
+          validator: AuthValidation.passwordError,
         ),
         const SizedBox(height: 16),
         AuthTextField(
