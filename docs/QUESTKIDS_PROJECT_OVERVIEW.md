@@ -255,13 +255,14 @@ duplicated or built on a wrong assumption.
    requires either a disposable staging Firebase project or a carefully
    scoped production dry-run with test accounts, neither of which has been
    set up.
-5. **Two parallel "approve a parent link request" code paths exist**:
-   `approveParentLinkRequest` (older, simpler) and `resolveParentLinkRequest`
-   (newer, handles approve/decline/cancel with role-revalidation and default
-   permissions). Both are exported and both work as tested, but having two
-   endpoints doing overlapping jobs is worth consolidating — confirm with
-   the Flutter client which one the UI actually calls today, then consider
-   deprecating the other.
+5. ~~Two parallel "approve a parent link request" code paths~~ — **RESOLVED
+   (2026-10-10)**. Confirmed the Flutter client only ever calls
+   `resolveParentLinkRequest` (never `approveParentLinkRequest` — grepped
+   every `.dart` file in the repo to be sure). Removed
+   `approveParentLinkRequest` and its test file entirely; it still needs an
+   explicit `firebase deploy --only functions` to actually stop running in
+   production (removing the export only stops it being *redeployed* —
+   track this as a pending deploy, not yet done as of this document).
 6. **A duplicate email-verification pattern**: `otp_code` (new, for action
    step-up) sits alongside the pre-existing `email_verification` template —
    these serve different purposes today but are worth keeping distinct

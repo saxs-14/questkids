@@ -34,7 +34,6 @@ export { getAdminPlatformReport } from "./admin/getAdminPlatformReport";
 export { bootstrapAdmin } from "./admin/bootstrapAdmin";
 export { linkRegisteredChild } from "./parent/linkChild";
 export { getParentLearningInsights } from "./parent/getParentLearningInsights";
-export { approveParentLinkRequest } from "./parent/approveLinkRequest";
 export { unlinkParentChild } from "./parent/unlinkChild";
 export { recordGameSession } from "./games/recordGameSession";
 export { requestParentLink } from "./parent/requestParentLink";

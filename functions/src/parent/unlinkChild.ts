@@ -10,7 +10,7 @@ import { verifyAndConsumeActionOtp } from "./actionOtp";
  * docs/DEFERRED.md). linkedChildrenUids is a locked field (no client write
  * to it can ever succeed) and the child's linkedParentUids update is
  * separately rejected on ownership, same root cause as linkRegisteredChild
- * and approveParentLinkRequest -- this completes both sides via the Admin
+ * and resolveParentLinkRequest -- this completes both sides via the Admin
  * SDK after confirming the caller is actually currently linked.
  *
  * Step-up protected: requires a one-time code emailed via

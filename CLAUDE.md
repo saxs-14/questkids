@@ -10,11 +10,17 @@
 ## 1. What this project is
 
 QuestKids is a Flutter + Firebase gamified learning platform for South African primary
-school learners (Grades 1–7), aligned to the CAPS curriculum. Three user roles:
+school learners (Grades 1–7), aligned to the CAPS curriculum. Two user roles exist today:
 
 - **Learner** — plays curriculum games, earns XP/coins/badges, chats with "Questy" (Gemini AI tutor)
 - **Parent** — links children via QR code, views analytics, verifies progress (POPIA "competent person")
-- **Teacher** — class analytics, assigns missions, verifies progress
+
+**"Teacher" is planned, not implemented** (verified 2026-10-10): `'teacher'` is not in
+`setUserRole`'s `VALID_ROLES`, there is no registration or role-grant path to it, no
+`lib/features/teacher/` directory, no `functions/src/teacher/`, and firestore.rules/
+storage.rules contain zero mentions of "teacher" anywhere. Earlier drafts of this file
+described a teacher dashboard/class-analytics feature as if it existed — it does not.
+Treat any future teacher work as new-feature design, not a bug fix to something broken.
 
 Target platforms: Android (primary), Web, iOS. Built by a solo student developer on a
 **memory-constrained Windows machine (~8GB RAM)** — never assume large heap builds work.
@@ -47,26 +53,40 @@ lib/
 │   └── repositories/                  # one repository per collection/domain
 ├── features/
 │   ├── auth/           # splash, login, register, parent-child setup
-│   ├── dashboard/      # learner / parent / teacher dashboards
+│   ├── dashboard/      # learner / parent / admin dashboards (no teacher dashboard exists)
 │   ├── games/
 │   │   ├── core/       # GameEngine (abstract), GameSessionState, GameRouter, GameConfig, GameTheme
-│   │   ├── tug_of_war/ adventure_journey/ runner_collector/ explorer_map/
-│   │   ├── multiples_merge/ sequence_builder/ circuit_builder/ budget_builder/
-│   │   └── number_counting_duel/
+│   │   └── tug_of_war/ adventure_journey/ runner_collector/ explorer_map/
+│   │       multiples_merge/ sequence_builder/ circuit_builder/ budget_builder/
+│   │       # ^ the only 8 engines actually using the GameEngine/GameSessionState layering above.
+│   │       # The other 56 (incl. number_counting_duel, despite its folder sitting near these 8)
+│   │       # are self-contained single-file StatefulWidgets with their own internal phase-enum
+│   │       # state machine -- verified 2026-10-10, not a second instance of the layered pattern.
 │   ├── ai_tutor/       # Questy chat UI
-│   ├── quests/ rewards/ parent/ teacher/ profile/ notifications/ offline/
-functions/src/          # Cloud Functions: gemini/, leaderboard/, missions/, teacher/, index.ts
+│   └── quests/ rewards/ parent/ profile/ notifications/ offline/   # no teacher/ directory
+functions/src/          # Cloud Functions: admin/, auth/, games/, gemini/, leaderboard/,
+                        # missions/, notifications/, parent/, reports/, voice/, index.ts
+                        # (no teacher/ -- see §1)
 firestore.rules         # Firestore security rules
 storage.rules           # Storage security rules
 android/ ios/ web/      # platform shells
-test/                   # only 4 test files exist — expand when touching engines
+test/                   # 406 Flutter widget/unit tests; functions/test/ has 280+ more
 ```
 
-## 4. Game engine architecture (STRICT — do not violate layering)
+## 4. Game engine architecture (STRICT for the layered engines — do not violate layering)
 
 ```
 GameRouter  →  <Engine>Game (widget)  →  <Engine>Session (state)  →  <Engine>Engine (pure rules)
 ```
+
+**Reality check (verified 2026-10-10):** only 8 of the 64 registered engines (Tug of War,
+Adventure Journey, Runner Collector, Explorer Map, Multiples Merge, Sequence Builder,
+Circuit Builder, Budget Builder) actually use this layering. The other 56 are
+self-contained single-file `StatefulWidget`s with their own internal phase-enum state
+machine and no separate Engine/Session split — this is the dominant pattern for
+everything added after the original 8, not a deviation from it. Both patterns are
+intentional and tested; "STRICT" below applies only if you're adding to or modifying one
+of the 8 layered engines.
 
 - `GameEngine` subclasses are **pure Dart**: no Flutter/widget imports. They implement
   `generateQuestions()`, `checkAnswer()`, `buildResult()`.
@@ -112,7 +132,11 @@ Release builds have OOM-killed the R8 minifier before. Rules:
 1. **No secrets in the repo.** Forbidden files/patterns: `serviceAccountKey*.json`, `*OAuth*Credentials*.json`, `.env`, private keys, Gmail app passwords. All must be in `.gitignore`. `firebase_options.dart` and `google-services.json` are Firebase *client* config (allowed), but everything with a `private_key` or `client_secret` is not.
 2. **All Gemini/AI calls go through Cloud Functions.** Every callable must check `request.auth` and (once enabled) App Check, and enforce a per-user daily quota.
 3. **Roles are custom claims** (`request.auth.token.role`), set only by an admin Cloud Function. Clients must NEVER be able to write `role`, `xp`, `coins`, `level`, or `linkedChildrenUids` on their own user document — Firestore rules must reject those field changes.
-4. **Teachers do not get global read access.** Teacher reads are scoped to their own class (`classId`/`teacherId` match). AI chat logs (`users/{uid}/chats`) are readable by the child and their linked parent only.
+4. **If a teacher role is ever implemented, it must never get global read access** —
+   scope reads to `classId`/`teacherId` match, the same standard every other role is held
+   to here. (No teacher role exists today — see §1 — so there is nothing to enforce yet;
+   this rule binds whoever builds it.) AI chat logs (`users/{uid}/chats`) are readable by
+   the child and their linked parent only.
 5. **Children's data (POPIA + Google Play Families):** every learner account requires recorded parent/guardian consent; no advertising-ID collection (AD_ID permission removed, analytics ad-id disabled); leaderboards show display names/avatars only — never surnames, emails, or school identifiers across schools.
 6. **AI content compliance:** every Questy message is labelled as AI-generated and carries a report/flag action that writes to the `ai_reports` collection (Google Play AI-Generated Content policy requirement).
 
@@ -140,3 +164,6 @@ Release builds have OOM-killed the R8 minifier before. Rules:
 4. No new files matching the forbidden-secrets patterns (`git status` reviewed)
 5. Catalog invariants (§4) hold if `game_catalog.dart` was touched
 6. Rules changes validated in the Firebase emulator before deploy
+7. For any `functions/src/` change: `npm run build && npm run lint && npm test` all pass
+   (the Jest suite runs against the real local Firestore/Storage/Auth emulator via
+   `firebase emulators:exec` — never production)
