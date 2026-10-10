@@ -109,8 +109,8 @@ export const getParentLearningInsights = onCall(
     });
     const subjectTotals = new Map<string, { count: number; totalScore: number }>();
     for (const session of sessions) {
-      const subject = typeof session.subject === "string" && session.subject.trim()
-        ? session.subject.slice(0, 60) : "General";
+      const subject = typeof session.subject === "string" && session.subject.trim() ?
+        session.subject.slice(0, 60) : "General";
       const bucket = subjectTotals.get(subject) ?? { count: 0, totalScore: 0 };
       bucket.count += 1;
       bucket.totalScore += session.score;
@@ -122,9 +122,9 @@ export const getParentLearningInsights = onCall(
       games: values.count,
       averageScore: Math.round(values.totalScore / values.count),
     }));
-    const averageScore = sessions.length
-      ? Math.round(sessions.reduce((sum, session) => sum + session.score, 0) / sessions.length)
-      : null;
+    const averageScore = sessions.length ?
+      Math.round(sessions.reduce((sum, session) => sum + session.score, 0) / sessions.length) :
+      null;
     const recentActivity = sessions.map((session) => ({
       subject: typeof session.subject === "string" ? session.subject.slice(0, 60) : "General",
       score: session.score,
