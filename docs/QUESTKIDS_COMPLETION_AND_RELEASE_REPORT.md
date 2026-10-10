@@ -212,17 +212,14 @@ Notable things found and verified along the way, not assumed:
   `name` and `surname` are separate Firestore fields, so the leaderboard's privacy
   guarantee (first name only, confirmed in CLAUDE.md §6.5) already holds correctly.
 
-**Still PARTIAL, not PASS — 3 of 35 functions remain:**
-- `assignDefaultRole` — intentionally not covered (§7): a one-line static
-  `beforeUserCreated` handler with no `.run()` test hook in the SDK's `BlockingFunction`
-  type; a real test would mean simulating Identity Platform's signed-JWT blocking-function
-  HTTP contract for a static return value.
-- `sendEmail` and `cleanupOldEmails` (both in `index.ts`) — blocked, not skipped:
-  importing that module calls `admin.initializeApp()` a second time against the test
-  harness's already-initialized app and throws. The fix is a one-line guard
-  (`if (getApps().length === 0)`) in `index.ts`'s own bootstrap code — safe and standard,
-  but a production change to shared bootstrap code, which this testing pass left alone
-  rather than touching casually. Worth a short follow-up session.
+**Update (same day, follow-up session — see §7d): FIXED.** `sendEmail`/`cleanupOldEmails`
+are now tested (commit `a715585`), and `requestActionOtp` (new, §7d) is tested too.
+**35 of 36 exported functions now have behavioral test coverage (97%)** — the "36" instead
+of "35" is `requestActionOtp`, added in §7d. Only one remains:
+- `assignDefaultRole` — intentionally not covered: a one-line static `beforeUserCreated`
+  handler with no `.run()` test hook in the SDK's `BlockingFunction` type; a real test
+  would mean simulating Identity Platform's signed-JWT blocking-function HTTP contract for
+  a static return value, which isn't proportionate.
 
 ## 6. Specific item investigated from the task brief: `pendingAiReports` calculation
 
@@ -337,35 +334,112 @@ change.
 doesn't touch rate limiting, notification idempotency, or AI response handling, which
 remain tracked below.
 
+## 7d. Follow-up session (2026-10-10): remaining test coverage, OTP, concurrency, prompt injection, overview doc
+
+A later follow-up in the same day, responding to "implement everything outstanding and
+make sure it works properly":
+
+**`sendEmail`/`cleanupOldEmails` test coverage (commit `a715585`).** Fixed the actual
+blocker named in §5's earlier update: `admin.initializeApp()` was called unconditionally
+in `index.ts`, which threw when a test file imported it after
+`test/setup/firebaseAdmin.ts` had already initialized the default app against the
+emulator. Guarded with `if (getApps().length === 0)` — harmless in the real Functions
+runtime, which only imports this module once. Added tests for both functions, including
+verifying the `emails/` HTML-escaping (the open-relay/injection fix documented in
+`firestore.rules`) actually works against real untrusted data.
+
+**Rate-limit concurrency (commit `f93c7f3`) — found and fixed a real bug, not a test
+artifact.** Firing many simultaneous `loginChild` requests against the same rate-limit
+bucket can exhaust Firestore's transaction retry budget with an `ABORTED: Transaction
+lock timeout` error. That error was propagating to the caller unconverted — a raw
+internal-looking failure instead of the intended "too many attempts" message, for exactly
+the traffic pattern (concurrent requests against one bucket) this rate limiter exists to
+handle gracefully. Fixed: the transaction is now wrapped so any non-`HttpsError` failure
+is converted to the same clean `resource-exhausted` message. The test for this went
+through two wrong iterations (an exact-count assertion that wasn't stable across runs,
+then a `maxAttempts` bump that didn't help and once let all 15 concurrent requests through
+cleanly) before landing on asserting only what's actually guaranteed and stayed stable
+across repeated runs: every result is one of the two clean, documented errors, never a
+raw one. Documented explicitly: this specific test methodology (same-process, same-client,
+maximally-simultaneous local-emulator load) has a known fidelity ceiling and isn't
+representative of how independent Cloud Functions instances behave against production
+Firestore.
+
+**AI prompt-injection hardening tests (commit `b99761b`).** Honestly scoped: verifies the
+defenses that exist in code (a forged `system`-role chat-history entry is stripped,
+malformed history entries are dropped, oversized text/history is truncated, no
+client-supplied field can become part of the system prompt) — explicitly does NOT claim
+to verify the model's own resistance to a cleverly-worded adversarial message, since that
+requires a real, non-deterministic, paid Gemini call this harness correctly avoids making.
+
+**Email OTP step-up implementation (commits `e4ec380`, `3855519`)** — the OTP item from
+Phase 1, scoped per your decision (email OTP, step-up for sensitive parent actions, not
+login/password-reset/signup-verification). `requestActionOtp`/`verifyAndConsumeActionOtp`
+in `functions/src/parent/actionOtp.ts`: 6-digit SHA-256-hashed code, 5-minute expiry,
+60-second resend cooldown, 5-attempt lockout, single-use. Wired into `unlinkParentChild`
+only — `setParentPermissions` was deliberately left out because its screen saves on every
+individual permission-switch toggle, so step-up there would mean an OTP prompt per toggle
+flip; that needs a batch/"Save changes" UI redesign first, which is separate work, not
+silently skipped. **Found and fixed a second real bug while writing the tests**: the
+original `verifyAndConsumeActionOtp` threw from inside the Firestore transaction on an
+incorrect code, which aborts the *entire* transaction — including the `attempts` counter
+update that was supposed to record the failed guess. The 5-attempt lockout never actually
+engaged; an attacker had unlimited guesses against the 6-digit code within the 5-minute
+window. Fixed by having the transaction return a status and throwing the matching
+`HttpsError` only after it commits. Client-side: a new `OtpVerificationDialog` wired into
+`child_analytics_screen.dart`'s existing unlink-confirm flow. `otp_challenges` is
+server-only in `firestore.rules` (deny all client read/write), matching the existing
+`usage_ai`/`security_login_attempts` pattern.
+
+**Project overview document (commits `42e109e`, `ee65cd9`)** — the document from the very
+first request of this entire session (a full MD+PDF explaining the whole project, for
+handoff to another AI assistant), finally produced after being superseded by the master-
+prompt audit work and not circled back to for most of the session. Caught and corrected a
+factual error in it before treating it as done: an initial draft said "32 of 35 functions
+tested, `sendEmail`/`cleanupOldEmails` still blocked" — stale, since both had already been
+fixed earlier in this same follow-up session. Corrected to the verified-against-source
+number (35 of 36) rather than trusting the running narrative.
+
+**286/286 Functions tests passing, 406/406 Flutter tests passing.** All commits verified
+green in real GitHub Actions runs.
+
+**Staging/manual walkthrough remains explicitly BLOCKED**, unchanged by the "make sure it
+works properly" instruction: no interactive browser/emulator session has been stood up for
+this, and per standing policy real credentials are never typed into a non-localhost
+target. The Flutter-side OTP dialog itself was verified via `flutter analyze` (0 issues)
+and the existing widget-test suite, not a live interactive run — doing that would need
+Firebase-emulator wiring in the Flutter app that doesn't exist today for *any* screen that
+calls a Cloud Function, a separate, pre-existing gap (see the project overview's
+suggestions section) rather than something specific to this feature.
+
 ## 7. Explicitly NOT attempted this session (honest accounting, not silence)
 
 Per the brief's own anti-fabrication rules, the following are reported as **NOT STARTED**
 or **BLOCKED**, not glossed over:
 
-- **OTP challenge implementation** (Phase 1 remaining item 1) — NOT STARTED, decision
-  made. You confirmed email OTP (not step-up re-auth) as the approach. This is still a
-  net-new feature (expiry, single-use, attempt limits, resend cooldown, server-side
-  verification) — implementation work, not yet started.
+- **OTP challenge implementation** (Phase 1 remaining item 1) — DONE (§7d). Email OTP
+  step-up, wired into `unlinkParentChild`. `setParentPermissions` deliberately not gated
+  yet (needs a UI redesign first, §7d).
 - **Full behavioral verification of Phases 2–5** — effectively DONE at the function
-  level: 32 of 35 functions now covered (§5), including the notification-idempotency case
-  and the AI cost-control/quota enforcement the brief specifically named. Only
-  `assignDefaultRole`, `sendEmail`, and `cleanupOldEmails` remain, each for a specific
-  documented technical reason, not time pressure (§5). **Still genuinely open:**
-  AI *prompt-injection* hardening specifically (the test suites verify quota/auth/
-  validation around the AI calls, not resistance to adversarial prompts), and rate-limit
-  *concurrency* (multiple simultaneous requests racing the same bucket, as opposed to the
-  sequential-attempts behavior already tested).
+  level: 35 of 36 functions now covered (§5, §7d), including the notification-idempotency
+  case and the AI cost-control/quota enforcement the brief specifically named. Only
+  `assignDefaultRole` remains, for a specific documented technical reason, not time
+  pressure. AI *prompt-injection* hardening is now tested at the code layer (§7d), with
+  the model's own behavior honestly flagged as unverifiable without a real paid API call.
+  Rate-limit *concurrency* is now tested too, with its own real bug found and fixed (§7d),
+  and its local-emulator-specific methodology ceiling documented rather than glossed over.
 - **Staging/manual walkthrough** (admin login, parent-child linking, full game session,
-  push notifications) in a real browser/device — BLOCKED on this session not having an
-  interactive browser pass scheduled for it yet, and per standing policy I don't type
-  real account passwords into any non-localhost target.
+  push notifications) in a real browser/device — still BLOCKED. No interactive
+  browser/emulator session has been stood up for this, and per standing policy I don't
+  type real account passwords into any non-localhost target. This is the one item in the
+  original brief still genuinely untouched.
 
 ## 8. What only you can authorize next
 
-- Priority order for the remaining §7 items — each is genuinely multi-hour-to-multi-day
-  work; doing all of them in one sweep isn't realistic without more sessions.
-- OTP: approach is decided (email OTP) — implementation itself still needs to be
-  scheduled.
+- The staging/manual walkthrough — needs either a disposable staging Firebase project or
+  a scoped production dry-run with test accounts; neither currently exists.
+- Whether to prioritize the `setParentPermissions` screen redesign (batch changes, confirm
+  once) so its own OTP step-up can be added.
 
 ## 9. Bottom line
 
@@ -375,23 +449,28 @@ backend), 1 missing Firestore index, a working Jest + Firestore-emulator test ha
 Cloud Functions wired into CI, a 64-engine game-feedback integration audit that found only
 8 of 64 engines reached Phase 2's spoken feedback and fixed the other 56 (§7a), a 50-test
 Firestore/Storage rules negative-test suite covering every previously-documented security
-fix in both rules files (§7c), and behavioral test coverage for **32 of 35 Cloud Functions
-(91%, up from 1)**, which along the way found and fixed a real, previously-unknown
-production bug in `recordGameSession` that crashed score-saving for certain non-levelled
-game sessions (§5). 252/252 tests passing. All verified green in real GitHub Actions
-runs, not just locally. **Confirmed already-fine (no action needed):** the
-previously-documented IAM blocker. **Confirmed correct (no fix needed):** the
-`pendingAiReports` formula. **Confirmed clean and closed:** the admin-account audit —
-exactly one admin account
-exists, confirmed by you as the intended sole admin, nothing to demote. **Genuinely not
-done, reported honestly:** OTP implementation (approach decided), the last 3 of 35
-Cloud Functions' test coverage (one intentional, two blocked on a one-line production fix
-— §5), AI prompt-injection hardening specifically, rate-limit concurrency, and staging
-verification — these remain real work, though now closer to a follow-up session than a
-multi-session undertaking.
+fix in both rules files (§7c), behavioral test coverage for **35 of 36 Cloud Functions
+(97%, up from 1)**, a full email-OTP step-up feature for sensitive parent actions (§7d),
+and a project overview document for AI-assistant handoff (§7d). Three real,
+previously-unknown production bugs were found and fixed along the way, every one of them
+while writing a test, not assumed: `recordGameSession` crashing on certain non-levelled
+game sessions (§5), the login rate limiter leaking a raw Firestore error under concurrent
+load instead of its intended clean message (§7d), and the OTP lockout's attempts counter
+never actually persisting because of a Firestore transaction-abort-discards-all-writes
+gotcha (§7d). 286/286 Functions tests and 406/406 Flutter tests passing. All verified
+green in real GitHub Actions runs, not just locally. **Confirmed already-fine (no action
+needed):** the previously-documented IAM blocker. **Confirmed correct (no fix needed):**
+the `pendingAiReports` formula. **Confirmed clean and closed:** the admin-account audit —
+exactly one admin account exists, confirmed by you as the intended sole admin, nothing to
+demote. **Genuinely not done, reported honestly:** `setParentPermissions`'s own OTP
+step-up (needs a UI redesign first), `assignDefaultRole`'s test coverage (no SDK test hook
+exists), true resistance of the AI model itself to adversarial prompts (as opposed to the
+code-layer defenses around it, which are tested), and the staging/manual walkthrough —
+the one item from the original brief still genuinely untouched.
 
-**Release readiness: closer, but still not staging-ready or production-ready as a whole
-system.** The infrastructure-level fixes plus 91% Cloud Function test coverage in this
-report make what's already merged both *work* in production and *mostly verified* — but
-OTP, prompt-injection hardening, and a real staging walkthrough are still open before the
-original five-phase work can be called fully verified.
+**Release readiness: closer still, but not staging-ready or production-ready as a whole
+system.** The infrastructure-level fixes plus 97% Cloud Function test coverage plus the
+OTP security feature in this report make what's already merged *work* in production,
+*mostly verified*, and *more secure* than when this session started — but a real staging
+walkthrough is the one thing standing between this and a genuine production-readiness
+claim.
