@@ -6,37 +6,31 @@ import 'package:uuid/uuid.dart';
 import '../../../data/models/game_session_model.dart';
 import 'game_config.dart';
 import 'game_engine.dart';
+import 'game_feedback_service.dart';
 import 'game_session_persistence.dart';
 import '../../../core/services/game_celebration_service.dart';
 
 /// Abstract state controller for a game session.
 ///
 /// Extends [ChangeNotifier] so a [ChangeNotifierProvider] can expose it
-/// to the widget tree.  Game UI widgets must NOT contain business logic —
+/// to the widget tree. Game UI widgets must NOT contain business logic —
 /// they read from this class and call [submitAnswer].
 ///
-/// Concrete subclasses (e.g. TugOfWarSession) provide [engine] and
-/// [questions], and override [submitAnswer] to handle engine-specific
-/// input (multiple-choice tap, numeric keypad, lane swipe, map tap…).
+/// Concrete subclasses provide [engine] and [questions], and override
+/// [submitAnswer] to handle engine-specific input.
 abstract class GameSessionState extends ChangeNotifier {
   final GameConfig config;
 
   GameSessionState(this.config);
 
-  // ── Abstract contract ──────────────────────────────────────────────────────
-
   /// The engine that owns question generation and scoring rules.
   GameEngine get engine;
 
-  /// All questions for this session.  Generated once at init.
+  /// All questions for this session. Generated once at init.
   List<Map<String, dynamic>> get questions;
 
-  /// Process a player answer.  Call [recordAnswer] inside to advance state.
-  /// For tug-of-war this is an [int]; for runner-collector it's a [String];
-  /// for explorer-map it's a [String] province id.
+  /// Process a player answer. Call [recordAnswer] inside to advance state.
   void submitAnswer(dynamic answer);
-
-  // ── Internal state ─────────────────────────────────────────────────────────
 
   final _uuid = const Uuid();
 
@@ -49,18 +43,12 @@ abstract class GameSessionState extends ChangeNotifier {
   bool _finished = false;
   GameSessionResult? _result;
 
-  // ── Read-only accessors ────────────────────────────────────────────────────
-
   int get elapsedSeconds => _elapsed;
   int get correctCount => _correctCount;
   int get xpFromAnswers => _xpFromAnswers;
   int get questionIndex => _questionIndex;
-  // The generated question list is the source of truth for length, not
-  // config.questionCount -- an engine session may generate fewer questions
-  // than that default (e.g. a demo/fallback content pack), and keying off
-  // the independent config value left currentQuestion returning null before
-  // totalQuestions was reached, permanently freezing the game screen.
-  int get totalQuestions => questions.isNotEmpty ? questions.length : config.questionCount;
+  int get totalQuestions =>
+      questions.isNotEmpty ? questions.length : config.questionCount;
   bool get isFinished => _finished;
   GameSessionResult? get result => _result;
 
@@ -70,38 +58,30 @@ abstract class GameSessionState extends ChangeNotifier {
   double get progressFraction =>
       totalQuestions > 0 ? _questionIndex / totalQuestions : 0;
 
-  // ── Lifecycle ──────────────────────────────────────────────────────────────
-
-  /// Start the session timer.  Call from [State.initState] after the first
-  /// frame or once the game UI is ready.
+  /// Start the session timer once the game UI is ready.
   void startSession() {
     _ticker = Timer.periodic(const Duration(seconds: 1), (_) {
       _elapsed++;
-      // Check time limit
       if (config.timeLimitSeconds > 0 && _elapsed >= config.timeLimitSeconds) {
         _ticker?.cancel();
-        finishSession(''); // uid will be passed by caller
+        finishSession('');
       }
       notifyListeners();
     });
   }
 
-  // ── Helpers for subclasses ─────────────────────────────────────────────────
-
-  /// Call inside [submitAnswer] to record the outcome of one answer and
-  /// advance to the next question. [result] carries both the correctness
-  /// and the real per-question XP (see [GameAnswerResult.xpDelta]) --
-  /// accumulated here so [finishSession] can pass a true per-question XP
-  /// total into [GameEngine.buildResult] instead of a flat correct-count
-  /// formula. Returns true when the session ends.
+  /// Record answer feedback centrally so every game using this session
+  /// controller gets the same optional spoken response.
   @protected
   bool recordAnswer(GameAnswerResult result) {
     if (result.correct) {
       _correctCount++;
       _streak++;
       GameCelebrationService.correct(_streak);
+      unawaited(GameFeedbackService.correct());
     } else {
       _streak = 0;
+      unawaited(GameFeedbackService.incorrect());
     }
     _xpFromAnswers += result.xpDelta;
     _questionIndex++;
@@ -109,8 +89,7 @@ abstract class GameSessionState extends ChangeNotifier {
     return _questionIndex >= totalQuestions;
   }
 
-  /// End the session, compute [result], save to Firestore.
-  /// [uid] may be empty during local tests; repository handles gracefully.
+  /// End the session, compute the result, and persist it when a UID is present.
   @protected
   Future<void> finishSession(String uid, {bool earlyWin = false}) async {
     if (_finished) return;
@@ -151,10 +130,6 @@ abstract class GameSessionState extends ChangeNotifier {
 
   bool _disposed = false;
 
-  /// Guards against the many `Future.delayed` callbacks in concrete sessions
-  /// (flash clears, round transitions, end-of-game) firing after the player has
-  /// quit and the session was disposed — which would otherwise throw
-  /// "A ChangeNotifier was used after being disposed".
   @override
   void notifyListeners() {
     if (_disposed) return;
