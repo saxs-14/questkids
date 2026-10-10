@@ -141,16 +141,18 @@ export const getParentLearningInsights = onCall(
         averageScore: null,
         subjects: [],
         insights: {
-          summary: "There are not enough scored game sessions yet to identify learning patterns. Your child can play a few games, then you can return for more specific suggestions.",
+          summary: "There are not enough scored game sessions yet to identify learning patterns. " +
+            "Your child can play a few games, then you can return for more specific suggestions.",
           strengths: [],
           focusAreas: [],
           actions: [
             "Choose one age-appropriate QuestKids game to play together.",
             "Ask your child to explain one thing they learned after playing.",
-            "Try another short session later so progress can be compared over time."
+            "Try another short session later so progress can be compared over time.",
           ],
-          disclaimer: "These suggestions are general encouragement, not a formal school assessment; no scored game sessions were available to analyse."
-        }
+          disclaimer: "These suggestions are general encouragement, not a formal school assessment; " +
+            "no scored game sessions were available to analyse.",
+        },
       };
     }
 
