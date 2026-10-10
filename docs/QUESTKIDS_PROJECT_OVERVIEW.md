@@ -199,15 +199,16 @@ a 60-second resend cooldown.
 ## 7. Testing Infrastructure
 
 - **Cloud Functions**: Jest against the real local Firebase emulator
-  (Firestore + Storage + Auth, never production). **32 of 35 exported
-  functions have behavioral tests** (286 tests total). The 3 that don't:
-  `assignDefaultRole` (the SDK's blocking-function type has no test hook),
-  `sendEmail`/`cleanupOldEmails` (blocked by one line in `index.ts`'s
-  bootstrap code — tracked, not yet fixed as of this doc). External services
-  with no emulator (`@google/generative-ai`, `@google-cloud/text-to-speech`,
-  `nodemailer`) are mocked so the surrounding business logic — quota, auth,
-  validation, error handling — is verified without a real paid API call or
-  a real email send.
+  (Firestore + Storage + Auth, never production). **35 of 36 exported
+  functions have behavioral tests** (286 tests total). The only one that
+  doesn't: `assignDefaultRole` — the SDK's `BlockingFunction` type has no
+  `.run()` test hook; a real test would mean simulating Identity Platform's
+  signed-JWT blocking-function HTTP contract for a one-line static return
+  value, which isn't proportionate. External services with no emulator
+  (`@google/generative-ai`, `@google-cloud/text-to-speech`, `nodemailer`)
+  are mocked so the surrounding business logic — quota, auth, validation,
+  error handling — is verified without a real paid API call or a real email
+  send.
 - **Firestore/Storage rules**: a dedicated negative-test suite
   (`@firebase/rules-unit-testing`, 50+ tests) asserting every
   previously-documented security fix stays denied.
@@ -230,11 +231,7 @@ duplicated or built on a wrong assumption.
    toggle; gating that with a step-up code would mean an OTP prompt per
    toggle flip. This needs a "batch changes, confirm once" redesign of that
    screen before OTP can be added sensibly.
-2. **`sendEmail`/`cleanupOldEmails` test coverage** — blocked by
-   `admin.initializeApp()` being called unconditionally in `index.ts`. Fix is
-   one line (`if (getApps().length === 0) { admin.initializeApp(); }`) —
-   tracked but genuinely not yet applied as of this document.
-3. **Rate-limit concurrency testing has a known methodology ceiling**: firing
+2. **Rate-limit concurrency testing has a known methodology ceiling**: firing
    many simultaneous requests from one Node process sharing one Firestore
    client (the only way to test this locally) produces genuinely
    non-deterministic results from the *emulator's* transaction-retry
@@ -244,7 +241,7 @@ duplicated or built on a wrong assumption.
    matters: no raw internal error ever reaches the caller. True
    production-scale concurrent-load testing would need a real staging
    environment, not the local emulator.
-4. **AI prompt-injection resistance** is verified only at the code layer
+3. **AI prompt-injection resistance** is verified only at the code layer
    (history role-filtering, truncation, no client-controlled field reaching
    the system prompt) — whether the model itself resists a cleverly-worded
    adversarial message is a property of Gemini's own behavior, which cannot
@@ -252,20 +249,20 @@ duplicated or built on a wrong assumption.
    paid API call. If this matters more than the current code-layer defenses
    provide, consider periodic manual red-teaming of the actual deployed
    `questyChat` endpoint.
-5. **Staging/manual walkthrough** — no environment has been walked through
+4. **Staging/manual walkthrough** — no environment has been walked through
    interactively end-to-end (admin login, parent-child linking, a full game
    session, push notification delivery) in a real browser/device. This
    requires either a disposable staging Firebase project or a carefully
    scoped production dry-run with test accounts, neither of which has been
    set up.
-6. **Two parallel "approve a parent link request" code paths exist**:
+5. **Two parallel "approve a parent link request" code paths exist**:
    `approveParentLinkRequest` (older, simpler) and `resolveParentLinkRequest`
    (newer, handles approve/decline/cancel with role-revalidation and default
    permissions). Both are exported and both work as tested, but having two
    endpoints doing overlapping jobs is worth consolidating — confirm with
    the Flutter client which one the UI actually calls today, then consider
    deprecating the other.
-7. **A duplicate email-verification pattern**: `otp_code` (new, for action
+6. **A duplicate email-verification pattern**: `otp_code` (new, for action
    step-up) sits alongside the pre-existing `email_verification` template —
    these serve different purposes today but are worth keeping distinct
    intentionally rather than by accident as the OTP feature potentially
