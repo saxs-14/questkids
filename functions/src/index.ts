@@ -41,6 +41,7 @@ export { requestParentLink } from "./parent/requestParentLink";
 export { resolveParentLinkRequest } from "./parent/resolveParentLinkRequest";
 export { getParentAccess, setParentPermissions } from "./parent/parentPermissions";
 export { lookupChildLinkCode } from "./parent/lookupChildLinkCode";
+export { requestActionOtp } from "./parent/actionOtp";
 export { sendPushOnNotificationCreate } from "./notifications/sendPush";
 export { onBadgeAwarded } from "./notifications/badgeAward";
 export { sendQuestReminders } from "./notifications/reminders";
@@ -198,6 +199,12 @@ function getEmailTemplate(
       <p>Click the link below to reset your password:</p>
       <a href="https://questkids.com/reset/${data.resetLink}">Reset Password</a>
       <p>Link expires in 24 hours.</p>
+    `,
+    otp_code: `
+      <h2>Your QuestKids Verification Code</h2>
+      <p>Use this code to confirm a sensitive account change:</p>
+      <p style="font-size: 32px; font-weight: 800; letter-spacing: 4px;">${data.code}</p>
+      <p>This code expires in 5 minutes. If you didn't request this, you can ignore this email.</p>
     `,
     achievement: `
       <h2>You Unlocked an Achievement! 🏆</h2>

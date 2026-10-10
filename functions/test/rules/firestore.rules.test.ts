@@ -368,6 +368,29 @@ describe("firestore.rules: ai_reports/{reportId}", () => {
   });
 });
 
+describe("firestore.rules: otp_challenges/{challengeId} (server-only)", () => {
+  it("denies a signed-in client reading an OTP challenge, even their own", async () => {
+    const parent = testEnv.authenticatedContext("parent-1", { role: "parent" });
+    await testEnv.withSecurityRulesDisabled(async (ctx) => {
+      await setDoc(doc(ctx.firestore(), "otp_challenges/parent-1_unlinkChild"), {
+        codeHash: "abc",
+        attempts: 0,
+      });
+    });
+    await assertFails(getDoc(doc(parent.firestore(), "otp_challenges/parent-1_unlinkChild")));
+  });
+
+  it("denies a signed-in client writing an OTP challenge directly", async () => {
+    const parent = testEnv.authenticatedContext("parent-1", { role: "parent" });
+    await assertFails(
+      setDoc(doc(parent.firestore(), "otp_challenges/parent-1_unlinkChild"), {
+        codeHash: "attacker-controlled",
+        attempts: 0,
+      })
+    );
+  });
+});
+
 describe("firestore.rules: default deny for unauthenticated access", () => {
   it("denies an unauthenticated client reading a user document", async () => {
     const anon = testEnv.unauthenticatedContext();

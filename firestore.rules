@@ -347,5 +347,14 @@ service cloud.firestore {
       allow read: if isUser(uid);
       allow write: if false;
     }
+
+    // ==================== OTP CHALLENGES (step-up verification) ====================
+    // Written and consumed exclusively by requestActionOtp /
+    // verifyAndConsumeActionOtp via the Admin SDK. A client must never be
+    // able to read the stored code hash or attempts counter -- the code
+    // itself only ever reaches the user via the emailed otp_code template.
+    match /otp_challenges/{challengeId} {
+      allow read, write: if false;
+    }
   }
 }
