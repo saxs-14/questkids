@@ -41,6 +41,8 @@ export { lookupChildLinkCode } from "./parent/lookupChildLinkCode";
 export { sendPushOnNotificationCreate } from "./notifications/sendPush";
 export { onBadgeAwarded } from "./notifications/badgeAward";
 export { sendQuestReminders } from "./notifications/reminders";
+export { notifyParentsOfGameSession } from "./notifications/parentGameActivity";
+export { notifyParentsOfLearnerInactivity } from "./notifications/parentInactivity";
 export { generateWeeklyGameReports } from "./reports/weeklyGameReport";
 export { loginChild, cleanupChildLoginAttempts } from "./auth/loginChild";
 
