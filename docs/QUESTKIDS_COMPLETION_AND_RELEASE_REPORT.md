@@ -142,21 +142,26 @@ sufficient — none of the five phases has a single automated *behavioral* test 
 its actual Cloud Function logic (authorization boundaries, rate-limit math, notification
 idempotency, AI-response handling). That gap is structural, not phase-specific — see §5.
 
-## 5. Structural finding: Functions has zero behavioral test coverage (NOT STARTED)
+## 5. Structural finding: Functions behavioral test coverage (PARTIAL — harness now exists)
 
-`functions/package.json` has **no `test` script**, and no test framework
-(`jest`/`mocha`/`firebase-functions-test`/`@firebase/rules-unit-testing`) is a dependency
-anywhere in the tree. CI's `functions` job only runs `build` (tsc) and `lint` (eslint) —
-neither exercises a single line of runtime behavior. Firebase emulators *are* already
-configured in `firebase.json` (auth/functions/firestore/storage/ui ports), so a test
-harness is installable and runnable locally — it simply doesn't exist yet.
+**Update (2026-10-10):** `functions/package.json` now has a real `test` script
+(`firebase emulators:exec ... jest`), backed by `jest` + `ts-jest` + `babel-jest` (the
+babel step downlevels `jose`, an ESM-only transitive dependency of
+`firebase-admin/auth`, to CommonJS so it's requireable from test files) and run against a
+real local Firestore emulator — never against production. CI's `functions` job now runs
+`npm test` after `build`/`lint`, with `actions/setup-java@v4` (JDK 21) added so the
+emulator can start on the runner. Verified green both locally and in a real GitHub
+Actions run (commit `3bb32e0`, run `38039643554`).
 
-This means every item in the task brief's Stage B–G ("verify that X authorization holds,"
-"test every relevant status," "add tests for success/failure/replay/expiry") has **no
-existing foundation to build on**. Standing up Jest + `firebase-functions-test` +
-`@firebase/rules-unit-testing`, then writing the negative-authorization tests for all 9
-newly-deployed functions plus the existing 26, is realistically its own multi-day
-engineering effort — not something to fabricate a false "tested" claim about here.
+One behavioral test file exists so far: `functions/test/admin/getAdminPlatformReport.test.ts`
+(5 tests — unauthenticated rejection, non-admin rejection, empty-DB happy path, role
+counting, and the `pendingAiReports = total − resolved` lifecycle math from §6 below).
+
+**Still PARTIAL, not PASS:** one function out of the 35 in `functions/src/` has coverage.
+The foundation Stage B–G of the task brief needs (negative-authorization tests, rate-limit
+math, notification idempotency, AI-response handling) **no longer has to be built from
+zero** — the harness, emulator wiring, and CI gate are in place — but writing that
+coverage for the other 34 functions is still real, multi-session work, tracked in §7.
 
 ## 6. Specific item investigated from the task brief: `pendingAiReports` calculation
 
@@ -196,11 +201,14 @@ or **BLOCKED**, not glossed over:
   real admin account is irreversible and explicitly requires authorization per the
   brief's own rules — this needs a decision from you on which UID is the intended sole
   admin before any audit output would be actionable.
-- **Firestore/Storage rules negative-test suite in the emulator** — NOT STARTED, blocked
-  on §5 (no test harness exists to build it in yet).
+- **Firestore/Storage rules negative-test suite in the emulator** — NOT STARTED. §5's
+  Jest/emulator harness now exists and could host these, but the rules-specific tests
+  themselves (via `@firebase/rules-unit-testing`) have not been written.
 - **Full behavioral verification of Phases 2–5** (rate-limit concurrency, notification
   idempotency on repeated scheduled runs, AI prompt-injection hardening, admin report
-  widget states) — NOT STARTED, same reason.
+  widget states beyond `getAdminPlatformReport`) — NOT STARTED. No longer blocked on a
+  missing harness (§5 fixed that); the remaining 34 functions simply don't have tests
+  written yet.
 - **Game-feedback (`GameFeedbackService`) integration audit across all 64 game engines**
   — NOT STARTED. Spot-checking 1–2 engines would not support a real claim about all 64;
   a real answer needs a scripted check across every engine file.
@@ -222,11 +230,14 @@ or **BLOCKED**, not glossed over:
 
 **Fixed and verified this session, with evidence:** CI/Vercel version-pin stability gap,
 one critical dependency vulnerability, 9 undeployed Cloud Functions (Phases 3–5's entire
-backend), 1 missing Firestore index. **Confirmed already-fine (no action needed):** the
+backend), 1 missing Firestore index, and (in a follow-up session) a working Jest +
+Firestore-emulator test harness for Cloud Functions, wired into CI and verified green in
+a real GitHub Actions run. **Confirmed already-fine (no action needed):** the
 previously-documented IAM blocker. **Confirmed correct (no fix needed):** the
-`pendingAiReports` formula. **Genuinely not done, reported honestly:** OTP, the Functions
-test harness, the full security/behavioral test suite, and staging verification — these
-remain real, substantial, multi-session work.
+`pendingAiReports` formula. **Genuinely not done, reported honestly:** OTP, the full
+security/behavioral test suite for the remaining 34 of 35 functions, the rules
+negative-test suite, and staging verification — these remain real, substantial,
+multi-session work; the test harness itself is no longer one of them.
 
 **Release readiness: NEITHER staging-ready nor production-ready as a whole system.** The
 infrastructure-level fixes in this report make what's already merged actually *work* in
