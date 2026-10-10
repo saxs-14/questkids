@@ -31,6 +31,7 @@ export { setUserRole, assignDefaultRole, grantSelfDeclaredRoleClaim } from "./ad
 export { setUserDisabled } from "./admin/setUserDisabled";
 export { bootstrapAdmin } from "./admin/bootstrapAdmin";
 export { linkRegisteredChild } from "./parent/linkChild";
+export { getParentLearningInsights } from "./parent/getParentLearningInsights";
 export { approveParentLinkRequest } from "./parent/approveLinkRequest";
 export { unlinkParentChild } from "./parent/unlinkChild";
 export { recordGameSession } from "./games/recordGameSession";
