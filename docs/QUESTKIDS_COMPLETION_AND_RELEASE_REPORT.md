@@ -131,16 +131,16 @@ query that needs it under load.
 
 | Phase | Code merged | Backend deployed | Automated tests | Verdict |
 |---|---|---|---|---|
-| 1 — Account security | Yes | Yes (and the IAM blocker is actually resolved) | 1 new test file (`auth_validation_test.dart`) — covers only email/password format validators, not rate limiting or IAM | **PARTIAL** |
+| 1 — Account security | Yes | Yes (and the IAM blocker is actually resolved) | Dart: 1 test file (`auth_validation_test.dart`, format validators only). Functions: `loginChild`, `cleanupChildLoginAttempts`, `setUserRole`, `grantSelfDeclaredRoleClaim`, `setUserDisabled`, `bootstrapAdmin` all now behaviorally tested (§5) — rate limiting, role-escalation blocks, bootstrap-admin protections all covered | **PARTIAL** (auth/role Functions now well-covered; rate-limiting concurrency and OTP still open) |
 | 2 — Game-answer feedback | Yes | N/A (client-only, `GameFeedbackService`) | None found for this service specifically — **integration gap found and fixed, see §7a** | **PASS** (feedback now reaches all 64 engines; still no automated test asserting it) |
-| 3 — Parent notifications | Yes | **Was FAIL, now PASS** (deployed this session) | None (no Functions test harness exists at all — see §5) | **PARTIAL** |
-| 4 — AI parent insights | Yes | **Was FAIL, now PASS** (deployed this session) | None | **PARTIAL** |
-| 5 — Admin platform reports | Yes | **Was FAIL, now PASS** (deployed this session) | None | **PARTIAL** |
+| 3 — Parent notifications | Yes | **Was FAIL, now PASS** (deployed this session) | All 5 notification Functions now behaviorally tested (§5), plus all 8 parent-link Functions — including the inactivity idempotency guard the brief specifically asked about | **PARTIAL** (Functions well-covered now; no Dart-side test for the notification UI itself) |
+| 4 — AI parent insights | Yes | **Was FAIL, now PASS** (deployed this session) | None yet — `getParentLearningInsights` is one of the 13 functions still in §7 | **PARTIAL** |
+| 5 — Admin platform reports | Yes | **Was FAIL, now PASS** (deployed this session) | `getAdminPlatformReport` (5 tests, pre-existing) | **PARTIAL** |
 
-No phase reaches PASS outright, because "deployed and builds clean" is necessary but not
-sufficient — none of the five phases has a single automated *behavioral* test exercising
-its actual Cloud Function logic (authorization boundaries, rate-limit math, notification
-idempotency, AI-response handling). That gap is structural, not phase-specific — see §5.
+No phase reaches PASS outright on Functions alone — several are now well-covered (§5), but
+"deployed and builds clean" plus "most of its Functions are tested" still isn't the same as
+every function having coverage, and none of the five phases has a Dart-side behavioral test
+for its actual UI. That gap is structural, not phase-specific — see §5.
 
 ## 5. Structural finding: Functions behavioral test coverage (PARTIAL — harness now exists)
 
@@ -153,15 +153,46 @@ real local Firestore emulator — never against production. CI's `functions` job
 emulator can start on the runner. Verified green both locally and in a real GitHub
 Actions run (commit `3bb32e0`, run `38039643554`).
 
-One behavioral test file exists so far: `functions/test/admin/getAdminPlatformReport.test.ts`
-(5 tests — unauthenticated rejection, non-admin rejection, empty-DB happy path, role
-counting, and the `pendingAiReports = total − resolved` lifecycle math from §6 below).
+**Update (2026-10-10, later the same day):** 21 of 35 exported functions now have
+behavioral test coverage (was 1 — just `getAdminPlatformReport`). Commits `497b949`
+(auth + role/account-admin: `loginChild`, `cleanupChildLoginAttempts`, `setUserRole`,
+`grantSelfDeclaredRoleClaim`, `setUserDisabled`, `bootstrapAdmin`), `dc4e44e`
+(parent-child link functions: `linkRegisteredChild`, `requestParentLink`,
+`resolveParentLinkRequest`, `approveParentLinkRequest`, `unlinkParentChild`,
+`getParentAccess`, `setParentPermissions`, `lookupChildLinkCode`), `cea82c3`
+(`recordGameSession`, see the bug fix below), and `d53ee44` (all 5 notification
+functions). The Auth emulator was added to the test run (`--only firestore,storage,auth`,
+was `firestore,storage`) since several of these need real custom-token/claims/user
+operations, not just Firestore. `firebase-admin/messaging` is mocked for
+`sendPushOnNotificationCreate` (no FCM emulator exists) to test the real surrounding
+Firestore logic without faking an actual push send.
 
-**Still PARTIAL, not PASS:** one function out of the 35 in `functions/src/` has coverage.
-The foundation Stage B–G of the task brief needs (negative-authorization tests, rate-limit
-math, notification idempotency, AI-response handling) **no longer has to be built from
-zero** — the harness, emulator wiring, and CI gate are in place — but writing that
-coverage for the other 34 functions is still real, multi-session work, tracked in §7.
+**A real, previously-unknown production bug was found and fixed along the way, not
+assumed:** `recordGameSession` unconditionally built a Firestore document path from
+`progressionCatalogId` before checking whether level-progression logic even applied. Any
+non-levelled game session that omits `catalogId` entirely crashed the transaction with a
+Firestore invalid-resource-path error instead of saving the learner's score/XP/coins.
+Confirmed reachable in production (not just a test artifact): `GameConfig.catalogId` is
+nullable, and `grade4_activities_hub_screen.dart`'s `_launchMultiplesGridGame`
+constructs its `GameConfig` with no `catalogId` at all. Fixed with a one-line reorder
+(only build that path when `level !== null`); no behavior change on any previously-valid
+path. `assignDefaultRole` was found to export cleanly but was intentionally not covered —
+see §7.
+
+`recordGameSession`'s test suite also directly verifies the replay-idempotency guarantee
+the task brief asked about: resubmitting the same `sessionId` returns the original
+result without double-awarding XP/coins (the function's own early-return-on-existing-
+session design), and `notifyParentsOfLearnerInactivity`'s suite verifies its
+`inactivityNotificationLevel` guard actually prevents re-notifying an already-sent
+threshold on a repeated daily run.
+
+200/200 tests passing, verified both locally and in real GitHub Actions runs on every
+commit above.
+
+**Still PARTIAL, not PASS:** 13 of 35 functions remain untested (all in `gemini/proxy.ts`,
+`voice/synthesizeSpeech.ts`, `leaderboard/refresh.ts`, `missions/generate.ts`,
+`parent/getParentLearningInsights.ts`, `reports/weeklyGameReport.ts`, and the two
+`sendEmail`/`cleanupOldEmails` triggers in `index.ts`), tracked in §7.
 
 ## 6. Specific item investigated from the task brief: `pendingAiReports` calculation
 
@@ -285,11 +316,14 @@ or **BLOCKED**, not glossed over:
   made. You confirmed email OTP (not step-up re-auth) as the approach. This is still a
   net-new feature (expiry, single-use, attempt limits, resend cooldown, server-side
   verification) — implementation work, not yet started.
-- **Full behavioral verification of Phases 2–5** (rate-limit concurrency, notification
-  idempotency on repeated scheduled runs, AI prompt-injection hardening, admin report
-  widget states beyond `getAdminPlatformReport`) — NOT STARTED. No longer blocked on a
-  missing harness (§5 fixed that); the remaining 34 functions simply don't have tests
-  written yet.
+- **Full behavioral verification of Phases 2–5** — IN PROGRESS, not NOT STARTED anymore:
+  21 of 35 functions now covered (§5), including the notification-idempotency case the
+  brief specifically named. Still untested: all 6 `gemini/proxy.ts` AI functions (AI
+  prompt-injection hardening is specifically here, unverified), `synthesizeSpeech`,
+  `refreshLeaderboards`, `generateDailyMissions`, `getParentLearningInsights`,
+  `generateWeeklyGameReports`, and the `sendEmail`/`cleanupOldEmails` triggers.
+  Rate-limit *concurrency* (multiple simultaneous requests racing the same bucket, as
+  opposed to the sequential-attempts behavior already tested) also remains unverified.
 - **Staging/manual walkthrough** (admin login, parent-child linking, full game session,
   push notifications) in a real browser/device — BLOCKED on this session not having an
   interactive browser pass scheduled for it yet, and per standing policy I don't type
@@ -308,10 +342,13 @@ or **BLOCKED**, not glossed over:
 one critical dependency vulnerability, 9 undeployed Cloud Functions (Phases 3–5's entire
 backend), 1 missing Firestore index, a working Jest + Firestore-emulator test harness for
 Cloud Functions wired into CI, a 64-engine game-feedback integration audit that found only
-8 of 64 engines reached Phase 2's spoken feedback and fixed the other 56 (§7a), and a
-50-test Firestore/Storage rules negative-test suite covering every previously-documented
-security fix in both rules files (§7c). All verified green in real GitHub Actions runs,
-not just locally. **Confirmed already-fine (no action needed):** the previously-documented
+8 of 64 engines reached Phase 2's spoken feedback and fixed the other 56 (§7a), a 50-test
+Firestore/Storage rules negative-test suite covering every previously-documented security
+fix in both rules files (§7c), and behavioral test coverage for 21 of 35 Cloud Functions
+(up from 1), which along the way found and fixed a real, previously-unknown production
+bug in `recordGameSession` that crashed score-saving for certain non-levelled game
+sessions (§5). All verified green in real GitHub Actions runs, not just locally.
+**Confirmed already-fine (no action needed):** the previously-documented
 IAM blocker. **Confirmed correct (no fix needed):** the `pendingAiReports` formula.
 **Confirmed clean and closed:** the admin-account audit — exactly one admin account
 exists, confirmed by you as the intended sole admin, nothing to demote. **Genuinely not
