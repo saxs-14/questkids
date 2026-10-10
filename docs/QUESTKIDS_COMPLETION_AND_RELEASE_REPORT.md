@@ -132,7 +132,7 @@ query that needs it under load.
 | Phase | Code merged | Backend deployed | Automated tests | Verdict |
 |---|---|---|---|---|
 | 1 — Account security | Yes | Yes (and the IAM blocker is actually resolved) | 1 new test file (`auth_validation_test.dart`) — covers only email/password format validators, not rate limiting or IAM | **PARTIAL** |
-| 2 — Game-answer feedback | Yes | N/A (client-only, `GameFeedbackService`) | None found for this service specifically | **PARTIAL** |
+| 2 — Game-answer feedback | Yes | N/A (client-only, `GameFeedbackService`) | None found for this service specifically — **integration gap found and fixed, see §7a** | **PASS** (feedback now reaches all 64 engines; still no automated test asserting it) |
 | 3 — Parent notifications | Yes | **Was FAIL, now PASS** (deployed this session) | None (no Functions test harness exists at all — see §5) | **PARTIAL** |
 | 4 — AI parent insights | Yes | **Was FAIL, now PASS** (deployed this session) | None | **PARTIAL** |
 | 5 — Admin platform reports | Yes | **Was FAIL, now PASS** (deployed this session) | None | **PARTIAL** |
@@ -187,20 +187,69 @@ resolved. Logged here as a UX defect for the admin dashboard, not fixed in this 
 (out of this audit's declared scope — flagging per the brief's own rule against silently
 expanding scope).
 
+## 7a. Game-feedback (`GameFeedbackService`) integration audit and fix (2026-10-10)
+
+The task brief asked for an integration audit of Phase 2's spoken answer feedback across
+all 64 game engines. **Scripted, not sampled:** `GameFeedbackService.correct()`/
+`.incorrect()` was referenced in exactly one place in the whole codebase —
+`GameSessionState.recordAnswer()`, the shared session controller. Mapping all 64
+`GameRouter` switch arms to their files and checking each for that wiring found **only 8
+of 64 engines (12.5%)** — the original architecture engines (Tug of War, Adventure
+Journey, Runner Collector, Explorer Map, Multiples Merge, Sequence Builder, Circuit
+Builder, Budget Builder) — actually reached it. The other 56 are self-contained
+`StatefulWidget`s added later that never touched the service at all, so most players got
+no spoken feedback despite Phase 2 being merged and building clean.
+
+Two side findings during the audit:
+- `number_counting_duel` is listed in CLAUDE.md as one of the "original 9" layered
+  engines, but in the actual code it's a standalone widget like the other 55 — doc/code
+  drift, noted but not corrected in CLAUDE.md this pass.
+- `phonics_fun` runs its own separate `FlutterTts` instance for word pronunciation,
+  unrelated to correct/incorrect feedback and bypassing the shared service (so it won't
+  respect the feedback on/off setting) — left as-is, out of this fix's scope.
+
+**Fixed, with your explicit go-ahead on scope (pilot first, then the rest):** all 56
+unwired engines now call `GameFeedbackService.correct()`/`.incorrect()` at their existing
+answer-handling branch — the same one-line call the shared controller already made, no
+architecture change. Three answer-handling shapes were found and handled per-file (not
+assumed): a dedicated `_onAnswer` with a local `correct`/`isCorrect` bool (9 engines), a
+shared `_applyAnswerResult(bool isCorrect)` used by multiple input modes (35 engines), and
+two engines (`multiples_grid`, `word_builder`) that don't use a win/lose quiz phase at all
+— their calls were added at their actual grid-tap/letter-tile correct/incorrect branches
+instead.
+
+Re-running the audit script after the fix: **64/64 engines wired.** `flutter analyze`: 0
+issues. `flutter test`: 406 passed, both before and after the full batch. Verified green
+in GitHub Actions. Commits: `f847f87` (5-engine pilot + an unrelated `flutter analyze`
+regression fix from the earlier `firebase-tools` devDependency pulling a stray Dart file
+into analysis scope) and `2f3bf52` (remaining 50 engines).
+
+**Still open:** no automated test asserts that `GameFeedbackService.correct()` is actually
+called on a correct answer for any of these 64 engines — this is a widget/unit-test gap,
+not an integration gap, and is tracked alongside the rest of the Flutter-side test
+coverage work in §8.
+
 ## 7. Explicitly NOT attempted this session (honest accounting, not silence)
 
 Per the brief's own anti-fabrication rules, the following are reported as **NOT STARTED**
 or **BLOCKED**, not glossed over:
 
-- **OTP challenge implementation** (Phase 1 remaining item 1) — NOT STARTED. This is a
+- **OTP challenge implementation** (Phase 1 remaining item 1) — NOT STARTED, decision
+  made. You confirmed email OTP (not step-up re-auth) as the approach. This is still a
   net-new feature (expiry, single-use, attempt limits, resend cooldown, server-side
-  verification) requiring its own design decision (email OTP vs. step-up auth vs.
-  neither) before implementation — a brainstorming/design pass, not a quick patch.
+  verification) — implementation work, not yet started.
 - **Audit of existing Firebase Auth users for unintended extra admins** (Phase 1 item 4)
-  — NOT STARTED. Requires enumerating real user accounts; deferred because demoting a
-  real admin account is irreversible and explicitly requires authorization per the
-  brief's own rules — this needs a decision from you on which UID is the intended sole
-  admin before any audit output would be actionable.
+  — **Read-only audit DONE (2026-10-10).** Queried Identity Platform directly (not
+  `firebase auth:export`, which the harness's own PII-handling policy correctly blocked
+  for dumping all 96 users' emails/names to disk — used a narrower Identity Toolkit REST
+  query instead, filtered to role claims only, and deleted the raw response immediately
+  after filtering). Result: exactly **one** account has `role: admin`
+  (`YwDx5AXvweaObsNKaVcxUxVEbc72`), enabled, with login history. Role breakdown across all
+  96 users: 50 none, 28 learner, 13 parent, 4 teacher, 1 admin. **No extra/unintended
+  admin found — awaiting your confirmation that this UID is the intended sole admin**
+  before this item can be marked fully closed (demoting or flagging any account still
+  requires your explicit authorization per the brief's own rules, but there is nothing to
+  demote here).
 - **Firestore/Storage rules negative-test suite in the emulator** — NOT STARTED. §5's
   Jest/emulator harness now exists and could host these, but the rules-specific tests
   themselves (via `@firebase/rules-unit-testing`) have not been written.
@@ -209,9 +258,6 @@ or **BLOCKED**, not glossed over:
   widget states beyond `getAdminPlatformReport`) — NOT STARTED. No longer blocked on a
   missing harness (§5 fixed that); the remaining 34 functions simply don't have tests
   written yet.
-- **Game-feedback (`GameFeedbackService`) integration audit across all 64 game engines**
-  — NOT STARTED. Spot-checking 1–2 engines would not support a real claim about all 64;
-  a real answer needs a scripted check across every engine file.
 - **Staging/manual walkthrough** (admin login, parent-child linking, full game session,
   push notifications) in a real browser/device — BLOCKED on this session not having an
   interactive browser pass scheduled for it yet, and per standing policy I don't type
@@ -219,25 +265,28 @@ or **BLOCKED**, not glossed over:
 
 ## 8. What only you can authorize next
 
-- Priority order for §7's items — each is genuinely multi-hour-to-multi-day work; doing
-  all of them in one sweep isn't realistic without more sessions.
-- Whether to demote/audit extra admin accounts (needs the intended sole-admin UID
-  confirmed first).
-- Whether OTP should exist at all for this product, and if so, which flow (email OTP vs.
-  step-up verification) — a design decision, not an implementation detail.
+- Confirm `YwDx5AXvweaObsNKaVcxUxVEbc72` is the intended sole admin UID (§7), so the
+  admin-account audit item can be marked fully closed.
+- Priority order for the remaining §7 items — each is genuinely multi-hour-to-multi-day
+  work; doing all of them in one sweep isn't realistic without more sessions.
+- OTP: approach is decided (email OTP) — implementation itself still needs to be
+  scheduled.
 
 ## 9. Bottom line
 
 **Fixed and verified this session, with evidence:** CI/Vercel version-pin stability gap,
 one critical dependency vulnerability, 9 undeployed Cloud Functions (Phases 3–5's entire
-backend), 1 missing Firestore index, and (in a follow-up session) a working Jest +
-Firestore-emulator test harness for Cloud Functions, wired into CI and verified green in
-a real GitHub Actions run. **Confirmed already-fine (no action needed):** the
-previously-documented IAM blocker. **Confirmed correct (no fix needed):** the
-`pendingAiReports` formula. **Genuinely not done, reported honestly:** OTP, the full
-security/behavioral test suite for the remaining 34 of 35 functions, the rules
-negative-test suite, and staging verification — these remain real, substantial,
-multi-session work; the test harness itself is no longer one of them.
+backend), 1 missing Firestore index, a working Jest + Firestore-emulator test harness for
+Cloud Functions wired into CI, and a 64-engine game-feedback integration audit that found
+only 8 of 64 engines reached Phase 2's spoken feedback and fixed the other 56 (§7a). All
+verified green in real GitHub Actions runs, not just locally. **Confirmed already-fine
+(no action needed):** the previously-documented IAM blocker. **Confirmed correct (no fix
+needed):** the `pendingAiReports` formula. **Confirmed clean (awaiting your sign-off):**
+the admin-account audit — exactly one admin account exists, no extras to demote.
+**Genuinely not done, reported honestly:** OTP implementation (approach decided), the
+full security/behavioral test suite for the remaining 34 of 35 Cloud Functions, the
+Firestore/Storage rules negative-test suite, and staging verification — these remain
+real, substantial, multi-session work.
 
 **Release readiness: NEITHER staging-ready nor production-ready as a whole system.** The
 infrastructure-level fixes in this report make what's already merged actually *work* in
