@@ -11,6 +11,7 @@ import { setGlobalOptions } from "firebase-functions";
 import { onDocumentCreated } from "firebase-functions/v2/firestore";
 import { onSchedule } from "firebase-functions/v2/scheduler";
 import * as admin from "firebase-admin";
+import { getApps } from "firebase-admin/app";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
 import * as nodemailer from "nodemailer";
 import { MAIL_PASSWORD } from "./secrets";
@@ -48,8 +49,15 @@ export { notifyParentsOfLearnerInactivity } from "./notifications/parentInactivi
 export { generateWeeklyGameReports } from "./reports/weeklyGameReport";
 export { loginChild, cleanupChildLoginAttempts } from "./auth/loginChild";
 
-// Initialize Firebase Admin SDK
-admin.initializeApp();
+// Initialize Firebase Admin SDK. Guarded because test files import this
+// module after test/setup/firebaseAdmin.ts has already initialized the
+// default app against the emulator -- a second unconditional
+// initializeApp() call throws "The default Firebase app already exists."
+// Harmless in production/the real Functions runtime, which only ever
+// imports this module once.
+if (getApps().length === 0) {
+  admin.initializeApp();
+}
 
 // Set global options for cost control
 setGlobalOptions({ maxInstances: 10 });
