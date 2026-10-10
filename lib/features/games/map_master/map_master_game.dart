@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../data/models/game_session_model.dart';
 import '../core/game_config.dart';
+import '../core/game_feedback_service.dart';
 import '../core/game_session_persistence.dart';
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -366,6 +367,8 @@ class _MMState extends State<MapMasterGame> with TickerProviderStateMixin {
   }
 
   void _applyAnswerResult(bool isCorrect) {
+    unawaited(
+        isCorrect ? GameFeedbackService.correct() : GameFeedbackService.incorrect());
     setState(() {
       _lastPickCorrect = isCorrect;
       if (isCorrect) {

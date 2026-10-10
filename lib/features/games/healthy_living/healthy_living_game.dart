@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../data/models/game_session_model.dart';
 import '../core/game_config.dart';
+import '../core/game_feedback_service.dart';
 import '../core/game_session_persistence.dart';
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -348,6 +349,8 @@ class _HLState extends State<HealthyLivingGame> with TickerProviderStateMixin {
   }
 
   void _applyAnswerResult(bool isCorrect) {
+    unawaited(
+        isCorrect ? GameFeedbackService.correct() : GameFeedbackService.incorrect());
     setState(() {
       if (isCorrect) {
         _correctCount++;

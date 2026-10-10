@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../data/models/game_session_model.dart';
 import '../core/game_config.dart';
+import '../core/game_feedback_service.dart';
 import '../core/game_session_persistence.dart';
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -253,6 +254,7 @@ class _WBState extends State<WordBuilderGame> with TickerProviderStateMixin {
     final nextChar = word[_filled.length].toUpperCase();
 
     if (tile.letter == nextChar) {
+      unawaited(GameFeedbackService.correct());
       setState(() {
         tile.consumed = true;
         _filled += word[_filled.length];
@@ -262,6 +264,7 @@ class _WBState extends State<WordBuilderGame> with TickerProviderStateMixin {
         _delayed(400, _onWordComplete);
       }
     } else {
+      unawaited(GameFeedbackService.incorrect());
       setState(() {
         _hadWrongTapThisWord = true;
         _wobbleTileId = tileId;

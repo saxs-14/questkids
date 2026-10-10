@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../data/models/game_session_model.dart';
 import '../core/game_config.dart';
+import '../core/game_feedback_service.dart';
 import '../core/game_session_persistence.dart';
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -216,6 +217,7 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
 
     if (cube.number == expectedMultiple && !_connectedIndices.contains(index)) {
       // Correct sequential multiple!
+      unawaited(GameFeedbackService.correct());
       _correctHits++;
       _streak++;
       _totalXP += 15 + (_streak ~/ 3) * 5;
@@ -245,6 +247,7 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
       }
     } else {
       // Incorrect cube tap
+      unawaited(GameFeedbackService.incorrect());
       _streak = 0;
       _shakeCtrl.forward(from: 0);
       setState(() {

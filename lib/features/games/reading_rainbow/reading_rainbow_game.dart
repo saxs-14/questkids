@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../data/models/game_session_model.dart';
 import '../core/game_config.dart';
+import '../core/game_feedback_service.dart';
 import '../core/game_session_persistence.dart';
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -241,6 +242,7 @@ class _RRState extends State<ReadingRainbowGame> with TickerProviderStateMixin {
         _streak = 0;
       }
     });
+    unawaited(correct ? GameFeedbackService.correct() : GameFeedbackService.incorrect());
 
     if (correct) {
       final isStreak = _streak > 0 && _streak % 3 == 0;

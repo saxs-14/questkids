@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../data/models/game_session_model.dart';
 import '../core/game_config.dart';
+import '../core/game_feedback_service.dart';
 import '../core/game_session_persistence.dart';
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -393,6 +394,8 @@ class _DCState extends State<DataCityGame> with TickerProviderStateMixin {
       }
       _phase = isCorrect ? _Phase.correct : _Phase.wrong;
     });
+    unawaited(
+        isCorrect ? GameFeedbackService.correct() : GameFeedbackService.incorrect());
 
     if (isCorrect) {
       _flashCtrl.forward(from: 0);

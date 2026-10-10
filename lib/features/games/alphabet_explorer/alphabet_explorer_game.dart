@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../data/models/game_session_model.dart';
 import '../core/game_config.dart';
+import '../core/game_feedback_service.dart';
 import '../core/game_session_persistence.dart';
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -212,6 +213,7 @@ class _AEState extends State<AlphabetExplorerGame>
     final correct = choice == q.correct;
 
     if (correct) {
+      unawaited(GameFeedbackService.correct());
       setState(() {
         _correctCount++;
         _streak++;
@@ -228,6 +230,7 @@ class _AEState extends State<AlphabetExplorerGame>
         _delayed(1200, _advance);
       }
     } else {
+      unawaited(GameFeedbackService.incorrect());
       setState(() {
         _streak = 0;
         _phase = _Phase.wrong;
