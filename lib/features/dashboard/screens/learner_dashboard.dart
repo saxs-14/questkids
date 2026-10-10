@@ -1,3 +1,4 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -1248,6 +1249,37 @@ class _ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<_ProfileTab> {
+  // Overrides widget.user!.childLinkCode after a successful regenerate --
+  // widget.user is a static snapshot passed down from the dashboard root,
+  // not a reactive AuthProvider read, so it won't pick up the new code on
+  // its own until the next full rebuild from a fresh user fetch.
+  String? _regeneratedLinkCode;
+  bool _regeneratingLinkCode = false;
+
+  Future<void> _regenerateLinkCode() async {
+    setState(() => _regeneratingLinkCode = true);
+    try {
+      final result = await FirebaseFunctions.instanceFor(region: 'us-central1')
+          .httpsCallable('regenerateChildLinkCode')
+          .call();
+      final newCode = (result.data as Map)['code'] as String;
+      if (mounted) {
+        setState(() => _regeneratedLinkCode = newCode);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('New code generated. The old code no longer works.')),
+        );
+      }
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not generate a new code. Please try again.')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _regeneratingLinkCode = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -1462,7 +1494,23 @@ class _ProfileTabState extends State<_ProfileTab> {
                     ),
                     const SizedBox(height: 16),
                     Center(
-                      child: ChildQrCode(code: widget.user!.childLinkCode!),
+                      child: ChildQrCode(
+                        code: _regeneratedLinkCode ?? widget.user!.childLinkCode!,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Center(
+                      child: TextButton.icon(
+                        onPressed: _regeneratingLinkCode ? null : _regenerateLinkCode,
+                        icon: _regeneratingLinkCode
+                            ? const SizedBox(
+                                width: 14,
+                                height: 14,
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              )
+                            : const Icon(Icons.refresh, size: 18),
+                        label: const Text('Regenerate Code'),
+                      ),
                     ),
                   ],
                 ),

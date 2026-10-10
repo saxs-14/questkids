@@ -35,6 +35,7 @@ export { bootstrapAdmin } from "./admin/bootstrapAdmin";
 export { linkRegisteredChild } from "./parent/linkChild";
 export { getParentLearningInsights } from "./parent/getParentLearningInsights";
 export { unlinkParentChild } from "./parent/unlinkChild";
+export { regenerateChildLinkCode } from "./parent/regenerateChildLinkCode";
 export { recordGameSession } from "./games/recordGameSession";
 export { requestParentLink } from "./parent/requestParentLink";
 export { resolveParentLinkRequest } from "./parent/resolveParentLinkRequest";

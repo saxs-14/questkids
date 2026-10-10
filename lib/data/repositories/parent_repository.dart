@@ -116,12 +116,6 @@ class ParentRepository {
     ).join();
   }
 
-  Future<void> saveLinkCode(String childUid, String code) async {
-    await _db.collection('users').doc(childUid).update({
-      'childLinkCode': code,
-    });
-  }
-
   // Calendar
   Future<void> addCalendarEvent(Map<String, dynamic> event) async {
     final ref = _db.collection('shared_calendar').doc();

@@ -41,7 +41,16 @@ service cloud.firestore {
     // (Cloud Functions using the Admin SDK bypass rules entirely, so this
     // simply blocks clients from writing them directly).
     function lockedUserFields() {
-      return ['role', 'xp', 'coins', 'level', 'linkedChildrenUids', 'uid', 'email'];
+      // childLinkCode added: the only post-create write path was the
+      // dead ParentProvider.generateChildLinkCode -> saveLinkCode client
+      // write, which let a client set its own (or, had the dead code
+      // ever been wired to a parent screen, anyone's) childLinkCode to
+      // an arbitrary value -- including copying another learner's code,
+      // which requestParentLink only turns into a "not unique" error
+      // rather than a takeover, but still grief the original child's
+      // ability to be linked. Regeneration now goes through
+      // regenerateChildLinkCode (Cloud Function, Admin SDK) instead.
+      return ['role', 'xp', 'coins', 'level', 'linkedChildrenUids', 'uid', 'email', 'childLinkCode'];
     }
 
     // ==================== USERS COLLECTION ====================

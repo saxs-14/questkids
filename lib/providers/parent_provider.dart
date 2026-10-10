@@ -126,9 +126,4 @@ class ParentProvider extends ChangeNotifier {
     return await _parentRepo.getChildAnalytics(childUid, from, to);
   }
 
-  String generateChildLinkCode(String childUid) {
-    final code = _parentRepo.generateLinkCode();
-    _parentRepo.saveLinkCode(childUid, code);
-    return code;
-  }
 }
