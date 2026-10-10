@@ -29,6 +29,7 @@ export { refreshLeaderboards } from "./leaderboard/refresh";
 export { generateDailyMissions } from "./missions/generate";
 export { setUserRole, assignDefaultRole, grantSelfDeclaredRoleClaim } from "./admin/setUserRole";
 export { setUserDisabled } from "./admin/setUserDisabled";
+export { getAdminPlatformReport } from "./admin/getAdminPlatformReport";
 export { bootstrapAdmin } from "./admin/bootstrapAdmin";
 export { linkRegisteredChild } from "./parent/linkChild";
 export { getParentLearningInsights } from "./parent/getParentLearningInsights";
