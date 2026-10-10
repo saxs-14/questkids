@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -36,6 +37,8 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
   bool _loading = true;
   bool _exporting = false;
   bool _unlinking = false;
+  bool _loadingAiInsights = false;
+  Map<String, dynamic>? _aiInsights;
 
   @override
   void initState() {
@@ -62,6 +65,79 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
         _loading = false;
       });
     }
+  }
+
+  Future<void> _generateAiInsights() async {
+    setState(() => _loadingAiInsights = true);
+    try {
+      final result = await FirebaseFunctions.instanceFor(region: 'us-central1')
+          .httpsCallable('getParentLearningInsights')
+          .call({'childUid': widget.child.uid});
+      final data = Map<String, dynamic>.from(result.data as Map);
+      if (mounted) setState(() => _aiInsights = Map<String, dynamic>.from(data['insights'] as Map? ?? {}));
+    } on FirebaseFunctionsException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(e.message ?? 'Could not generate AI insights. Please try again.'),
+        ));
+      }
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Could not generate AI insights. Check your connection and try again.'),
+        ));
+      }
+    } finally {
+      if (mounted) setState(() => _loadingAiInsights = false);
+    }
+  }
+
+  Widget _aiInsightsCard() {
+    final insights = _aiInsights;
+    if (insights == null) return const SizedBox.shrink();
+    List<String> stringsFor(String key) => (insights[key] as List? ?? const [])
+        .whereType<String>()
+        .take(3)
+        .toList();
+    final strengths = stringsFor('strengths');
+    final focus = stringsFor('focusAreas');
+    final actions = stringsFor('actions');
+    return _chartCard(
+      title: '✨ AI learning insights',
+      subtitle: 'Suggestions based on recorded game sessions, not a formal school assessment',
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(insights['summary']?.toString() ?? 'Review your child’s recent learning activity together.'),
+        if (strengths.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          const Text('Strengths', style: TextStyle(fontWeight: FontWeight.bold)),
+          ...strengths.map((value) => Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text('• $value'),
+          )),
+        ],
+        if (focus.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          const Text('Areas to practise', style: TextStyle(fontWeight: FontWeight.bold)),
+          ...focus.map((value) => Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text('• $value'),
+          )),
+        ],
+        if (actions.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          const Text('Try together', style: TextStyle(fontWeight: FontWeight.bold)),
+          ...actions.map((value) => Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text('• $value'),
+          )),
+        ],
+        if (insights['disclaimer'] != null) ...[
+          const SizedBox(height: 12),
+          Text(insights['disclaimer'].toString(),
+              style: AppTextStyles.bodySmall.copyWith(color: AppColors.textSecondary)),
+        ],
+      ]),
+    );
   }
 
   Future<void> _unlink() async {
@@ -340,9 +416,21 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
             const SizedBox(width: 8),
             _StatChip(label: '${_analytics['pointsEarned'] ?? 0}', sub: 'XP'),
           ]),
+          const SizedBox(height: 12),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: OutlinedButton.icon(
+              onPressed: _loadingAiInsights ? null : _generateAiInsights,
+              icon: _loadingAiInsights
+                  ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                  : const Icon(Icons.auto_awesome),
+              label: Text(_loadingAiInsights ? 'Preparing insights…' : 'Get AI learning insights'),
+            ),
+          ),
           const SizedBox(height: 16),
 
           if (_weeklyReport != null) _weeklyReportCard(),
+          _aiInsightsCard(),
           _chartCard(
             title: 'XP by Subject',
             subtitle: 'Average score per subject (last 30 days)',
