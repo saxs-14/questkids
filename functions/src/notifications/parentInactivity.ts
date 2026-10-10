@@ -59,7 +59,8 @@ export const notifyParentsOfLearnerInactivity = onSchedule(
             `${learnerName} may need a little encouragement 💛` :
             `Check in with ${learnerName} 💛`,
           body: threshold === 7 ?
-            `${learnerName} has not played QuestKids for 7 days. A little encouragement could help them get back to learning.` :
+            `${learnerName} has not played QuestKids for 7 days. ` +
+            "A little encouragement could help them get back to learning." :
             `${learnerName} has not played QuestKids for 3 days. Consider encouraging them to try a learning game.`,
           type: "parent_inactivity",
           recipientUid: parentUid,
