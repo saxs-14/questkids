@@ -31,21 +31,21 @@ export const getAdminPlatformReport = onCall(
       db.collection("weekly_reports").count().get(),
     ]);
 
-    const totalReports = counts[7].count ?? 0;
-    const resolvedReports = counts[8].count ?? 0;
+    const totalReports = counts[7].data().count ?? 0;
+    const resolvedReports = counts[8].data().count ?? 0;
     return {
       generatedAt: new Date().toISOString(),
-      users: counts[0].count ?? 0,
-      learners: counts[1].count ?? 0,
-      parents: counts[2].count ?? 0,
-      admins: counts[3].count ?? 0,
-      activities: counts[4].count ?? 0,
-      gameSessions: counts[5].count ?? 0,
-      gameSessionsLast7Days: counts[6].count ?? 0,
+      users: counts[0].data().count ?? 0,
+      learners: counts[1].data().count ?? 0,
+      parents: counts[2].data().count ?? 0,
+      admins: counts[3].data().count ?? 0,
+      activities: counts[4].data().count ?? 0,
+      gameSessions: counts[5].data().count ?? 0,
+      gameSessionsLast7Days: counts[6].data().count ?? 0,
       aiReports: totalReports,
       resolvedAiReports: resolvedReports,
       pendingAiReports: Math.max(0, totalReports - resolvedReports),
-      weeklyReports: counts[9].count ?? 0,
+      weeklyReports: counts[9].data().count ?? 0,
       periodDays: 7,
     };
   }
