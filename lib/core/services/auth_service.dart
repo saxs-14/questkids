@@ -495,7 +495,16 @@ class AuthService {
   // Sign Out
   Future<void> signOut() async {
     try {
-      await _googleSignIn.signOut();
+      // Same failure mode as removeTokenOnSignOut's FCM getToken() call
+      // (see AuthProvider.signOut) -- most sign-outs are email/password or
+      // child accounts that never established a Google/GIS session on web,
+      // and google_sign_in_web's signOut() can hang indefinitely waiting on
+      // an internal GIS promise that never settles, rather than throwing.
+      // A bare try/catch only guards a thrown exception, never a Future
+      // that simply never completes, so the real _auth.signOut() below
+      // never ran -- the user stayed signed in with no error. Bound it
+      // explicitly so a stuck platform call can never block a real sign-out.
+      await _googleSignIn.signOut().timeout(const Duration(seconds: 5));
     } catch (_) {
       // Non-fatal: most sign-outs are email/password accounts that never
       // established a Google session, and google_sign_in_web can throw here
