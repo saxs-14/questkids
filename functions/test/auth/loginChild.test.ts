@@ -136,6 +136,48 @@ describe("loginChild", () => {
       )
     ).rejects.toMatchObject({ code: "resource-exhausted" });
   }, 30000);
+
+  it(
+    "under true concurrency (15 simultaneous requests for the same bucket), " +
+      "every single result is one of the two clean, documented errors -- never " +
+      "a raw Firestore transaction-contention error reaching the caller",
+    async () => {
+      // NOTE on scope: this fires 15 simultaneous requests sharing one
+      // Firestore client/connection in one Node process, which is a much
+      // more adversarial pattern than independent Cloud Functions
+      // instances would produce in production, each with their own
+      // client. Under this specific harness, the local Firestore
+      // emulator's transaction-retry/lock behavior itself is not
+      // perfectly deterministic (confirmed empirically: how many of the
+      // 15 end up passing the rate check vs. getting rate-limited varies
+      // between runs). That's a documented limitation of testing
+      // Firestore transaction contention against the local emulator from
+      // a single process, not something this test can responsibly assert
+      // an exact bound on. What the fix below *does* guarantee, and what
+      // this test verifies reliably: a transaction that fails due to
+      // contention (Firestore's own ABORTED/lock-timeout) must never leak
+      // to the caller as a raw error -- it has to come back as the same
+      // clean "too many attempts" message a legitimate rate-limit hit
+      // would produce.
+      const ip = "198.51.100.30";
+      const results = await Promise.allSettled(
+        Array.from({ length: 15 }, () =>
+          loginChild.run(requestAs({ name: "Concurrent Target" }, ip))
+        )
+      );
+
+      const rejections = results.filter(
+        (r): r is PromiseRejectedResult => r.status === "rejected"
+      );
+      expect(rejections).toHaveLength(15); // none supplied a birthDate
+
+      for (const rejection of rejections) {
+        const code = (rejection.reason as { code?: string })?.code;
+        expect(["invalid-argument", "resource-exhausted"]).toContain(code);
+      }
+    },
+    30000
+  );
 });
 
 describe("cleanupChildLoginAttempts", () => {

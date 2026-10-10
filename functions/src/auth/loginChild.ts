@@ -29,38 +29,54 @@ async function enforceLoginRateLimit(ip: string, normalizedName: string): Promis
   ];
   const refs = keys.map(({ id }) => db.collection("security_login_attempts").doc(id));
 
-  await db.runTransaction(async (transaction) => {
-    const snapshots = await Promise.all(refs.map((ref) => transaction.get(ref)));
-    const updates = snapshots.map((snapshot, index) => {
-      const data = snapshot.data();
-      let startedAt = 0;
-      if (typeof data?.windowStartedAt === "number") {
-        startedAt = data.windowStartedAt;
+  try {
+    await db.runTransaction(async (transaction) => {
+      const snapshots = await Promise.all(refs.map((ref) => transaction.get(ref)));
+      const updates = snapshots.map((snapshot, index) => {
+        const data = snapshot.data();
+        let startedAt = 0;
+        if (typeof data?.windowStartedAt === "number") {
+          startedAt = data.windowStartedAt;
+        }
+        const inWindow = now - startedAt < RATE_WINDOW_MS && now >= startedAt;
+        let attempts = 0;
+        if (inWindow && typeof data?.attempts === "number") {
+          attempts = data.attempts;
+        }
+        if (attempts >= keys[index].limit) {
+          throw new HttpsError(
+            "resource-exhausted",
+            "Too many login attempts. Please wait 15 minutes and try again."
+          );
+        }
+        return {
+          ref: refs[index],
+          value: {
+            windowStartedAt: inWindow ? startedAt : now,
+            attempts: attempts + 1,
+            updatedAt: Timestamp.fromMillis(now),
+          },
+        };
+      });
+      for (const update of updates) {
+        transaction.set(update.ref, update.value);
       }
-      const inWindow = now - startedAt < RATE_WINDOW_MS && now >= startedAt;
-      let attempts = 0;
-      if (inWindow && typeof data?.attempts === "number") {
-        attempts = data.attempts;
-      }
-      if (attempts >= keys[index].limit) {
-        throw new HttpsError(
-          "resource-exhausted",
-          "Too many login attempts. Please wait 15 minutes and try again."
-        );
-      }
-      return {
-        ref: refs[index],
-        value: {
-          windowStartedAt: inWindow ? startedAt : now,
-          attempts: attempts + 1,
-          updatedAt: Timestamp.fromMillis(now),
-        },
-      };
     });
-    for (const update of updates) {
-      transaction.set(update.ref, update.value);
-    }
-  });
+  } catch (error) {
+    if (error instanceof HttpsError) throw error;
+    // A genuine brute-force attempt is many simultaneous requests against
+    // the SAME bucket document -- exactly the load pattern that can
+    // exhaust Firestore's transaction retry budget with an ABORTED
+    // "Transaction lock timeout" error. That error must never reach the
+    // caller as a raw/internal failure: treat contention on this bucket
+    // the same as hitting the rate limit itself, since both mean "too
+    // many requests for this name/IP right now."
+    console.error("enforceLoginRateLimit: transaction failed", error);
+    throw new HttpsError(
+      "resource-exhausted",
+      "Too many login attempts right now. Please wait a moment and try again."
+    );
+  }
 }
 
 function normalizeName(value: unknown): string {
