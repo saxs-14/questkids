@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -80,13 +80,17 @@ void main() async {
     return true;
   };
 
-  // Debug providers only for now -- functions/src/config.ts's
-  // ENFORCE_APP_CHECK stays false until Play Integrity (Android)/App
-  // Attest (iOS)/reCAPTCHA v3 (Web) are configured in the Firebase
-  // Console and this is swapped to the release providers. Activating
-  // App Check even in debug mode is still useful: it starts attaching
-  // (unenforced) tokens to requests now, so switching providers later
-  // doesn't require touching this call site again.
+  // functions/src/config.ts's ENFORCE_APP_CHECK stays false until this is
+  // verified end-to-end on a real release build and reCAPTCHA v3 is wired
+  // up for web -- but a release build now gets the REAL attestation
+  // providers (Play Integrity / App Attest), not debug tokens. A debug
+  // token is only valid for devices manually registered in the Firebase
+  // Console, which doesn't scale to real users, so shipping a release
+  // build with the debug provider would make App Check permanently
+  // unenforceable for production traffic even after this flag flips.
+  // Activating App Check even while ENFORCE_APP_CHECK is false is still
+  // useful: it starts attaching (unenforced) tokens to requests now, so
+  // enabling enforcement later doesn't require a new client release.
   //
   // Web is skipped entirely rather than activated with no webProvider --
   // FirebaseAppCheck.instance.activate() on web hangs indefinitely
@@ -96,8 +100,10 @@ void main() async {
   // reCAPTCHA v3 site key exists in the Firebase Console.
   if (!kIsWeb) {
     await FirebaseAppCheck.instance.activate(
-      androidProvider: AndroidProvider.debug,
-      appleProvider: AppleProvider.debug,
+      androidProvider:
+          kReleaseMode ? AndroidProvider.playIntegrity : AndroidProvider.debug,
+      appleProvider:
+          kReleaseMode ? AppleProvider.appAttest : AppleProvider.debug,
     );
   }
 
