@@ -94,8 +94,12 @@ class ParentProvider extends ChangeNotifier {
     await _parentRepo.cancelLinkRequest(requestId);
   }
 
-  Future<void> unlinkChild(String parentUid, String childUid) async {
-    await _parentRepo.unlinkParentFromChild(parentUid, childUid);
+  Future<void> unlinkChild(
+    String parentUid,
+    String childUid,
+    String otpCode,
+  ) async {
+    await _parentRepo.unlinkParentFromChild(parentUid, childUid, otpCode);
   }
 
   Future<void> addCalendarEvent(Map<String, dynamic> event) async {

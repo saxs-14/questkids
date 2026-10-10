@@ -11,6 +11,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/app_dialog.dart';
+import '../../../core/widgets/otp_verification_dialog.dart';
 import '../../../data/models/user_model.dart';
 import '../../../data/repositories/parent_repository.dart';
 import '../../../providers/auth_provider.dart';
@@ -157,23 +158,26 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
     final parentUid = context.read<AuthProvider>().user?.uid;
     if (parentUid == null) return;
     final parentProv = context.read<ParentProvider>();
+    final childName = widget.child.name;
 
     setState(() => _unlinking = true);
-    try {
-      await parentProv.unlinkChild(parentUid, widget.child.uid);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('${widget.child.name} has been unlinked.')));
-        Navigator.pop(context);
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() => _unlinking = false);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Could not unlink: ${e.toString()}'),
-          backgroundColor: AppColors.error,
-        ));
-      }
+
+    final verified = await OtpVerificationDialog.show(
+      context,
+      action: 'unlinkChild',
+      title: 'Verify to unlink $childName',
+      message: "We've emailed you a 6-digit code to confirm this change.",
+      onSubmit: (otpCode) =>
+          parentProv.unlinkChild(parentUid, widget.child.uid, otpCode),
+    );
+
+    if (!mounted) return;
+    if (verified) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('$childName has been unlinked.')));
+      Navigator.pop(context);
+    } else {
+      setState(() => _unlinking = false);
     }
   }
 

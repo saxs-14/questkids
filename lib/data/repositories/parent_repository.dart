@@ -87,10 +87,14 @@ class ParentRepository {
     }
   }
 
-  Future<void> unlinkParentFromChild(String parentUid, String childUid) async {
+  Future<void> unlinkParentFromChild(
+    String parentUid,
+    String childUid,
+    String otpCode,
+  ) async {
     await FirebaseFunctions.instanceFor(region: 'us-central1')
         .httpsCallable('unlinkParentChild')
-        .call({'childUid': childUid});
+        .call({'childUid': childUid, 'otpCode': otpCode});
   }
 
   Future<List<UserModel>> getLinkedChildren(List<String> childUids) async {
