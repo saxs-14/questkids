@@ -182,6 +182,8 @@ export const recordGameSession = onCall(
         losses: Number(stats.losses ?? 0) + (isWin ? 0 : 1),
         favoriteEngine: engineType,
         lastPlayedAt: FieldValue.serverTimestamp(),
+        // Reset inactivity alert thresholds whenever the learner plays again.
+        inactivityNotificationLevel: 0,
         achievements: Array.isArray(stats.achievements) ? stats.achievements : [],
         unlockedWorlds: Array.isArray(stats.unlockedWorlds) ? stats.unlockedWorlds : [],
       }, { merge: true });
