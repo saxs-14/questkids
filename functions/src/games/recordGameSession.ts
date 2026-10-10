@@ -92,8 +92,16 @@ export const recordGameSession = onCall(
       const statsSnap = await tx.get(statsRef);
       const engineSnap = await tx.get(engineRef);
       const rewardsSnap = await tx.get(rewardsRef);
-      const levelPath = db.collection("game_level_progress").doc(uid).collection("games").doc(progressionCatalogId);
-      const levelRef = level !== null ? levelPath : null;
+      // Only built when level !== null: validation above already guarantees
+      // progressionCatalogId is non-empty whenever that's the case. Building
+      // this path unconditionally crashes with a Firestore
+      // invalid-resource-path error for any non-levelled session that
+      // omits catalogId entirely -- a real path (e.g. Multiples Grid
+      // launched from the Grade 4 activities hub, which constructs its
+      // GameConfig with no catalogId at all).
+      const levelRef = level !== null ?
+        db.collection("game_level_progress").doc(uid).collection("games").doc(progressionCatalogId) :
+        null;
       const levelSnap = levelRef == null ? null : await tx.get(levelRef);
 
       if (!userSnap.exists || userSnap.data()?.role !== "learner") {
