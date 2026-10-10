@@ -405,14 +405,13 @@ number (35 of 36) rather than trusting the running narrative.
 **286/286 Functions tests passing, 406/406 Flutter tests passing.** All commits verified
 green in real GitHub Actions runs.
 
-**Staging/manual walkthrough remains explicitly BLOCKED**, unchanged by the "make sure it
-works properly" instruction: no interactive browser/emulator session has been stood up for
-this, and per standing policy real credentials are never typed into a non-localhost
-target. The Flutter-side OTP dialog itself was verified via `flutter analyze` (0 issues)
-and the existing widget-test suite, not a live interactive run — doing that would need
-Firebase-emulator wiring in the Flutter app that doesn't exist today for *any* screen that
-calls a Cloud Function, a separate, pre-existing gap (see the project overview's
-suggestions section) rather than something specific to this feature.
+**Staging/manual walkthrough: NOT actually blocked — corrected below (§7e).** This
+paragraph originally claimed Flutter-side Firebase-emulator wiring "doesn't exist today
+for any screen." That was wrong, and stated without ever checking `main.dart` first:
+`core/config/emulator_config.dart` already wires every Firebase service (Auth, Firestore,
+Functions, Storage) to the local emulator suite, documented in
+`docs/ENVIRONMENT_SETUP.md` §7, invoked via `flutter run --dart-define=USE_EMULATORS=true`.
+See §7e for what this actually unblocks.
 
 ## 7e. Final cleanup pass (2026-10-10): dead code, doc drift, last test gap closed
 

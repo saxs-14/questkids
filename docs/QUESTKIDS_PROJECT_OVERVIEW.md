@@ -285,19 +285,20 @@ duplicated or built on a wrong assumption.
 - **Rules-level tests for the subcollections under `game_level_progress` and
   `game_progress`** — covered at a high level in the current rules suite but
   not exhaustively per-engine.
-- **A lightweight Firebase-emulator wiring for Flutter widget/integration
-  tests.** Right now, every screen that calls a Cloud Function
-  (`parent_access_screen.dart`, `child_analytics_screen.dart`, etc.) has zero
-  Flutter-side test coverage of that call — the business logic is proven on
-  the Functions side, but the UI glue code calling it isn't. Adding
-  `useFunctionsEmulator`/`useFirestoreEmulator`/`useAuthEmulator` calls
-  behind a debug flag in `main.dart`, plus a documented way to point a test
-  run at the local emulator suite, would close this gap for every future
-  feature, not just OTP.
-- **Resolve the `number_counting_duel` doc/code drift** noted in §4 — either
-  correct CLAUDE.md to describe it accurately, or actually refactor it onto
-  the layered `GameEngine`/`GameSessionState` pattern to match what the doc
-  claims.
+- **Flutter-side widget/integration tests for screens that call a Cloud
+  Function** (`parent_access_screen.dart`, `child_analytics_screen.dart`,
+  etc.) still don't exist — but, corrected from an earlier wrong claim in
+  this document: the *infrastructure* to write them already does.
+  `core/config/emulator_config.dart`'s `connectToEmulatorsIfEnabled` wires
+  Auth/Firestore/Functions/Storage to the local emulator (see
+  `docs/ENVIRONMENT_SETUP.md` §7, `flutter run --dart-define=USE_EMULATORS=true`),
+  gated behind `kDebugMode`, and already handles the secondary `FirebaseApp`
+  instances `auth_service.dart` creates for child registration. What's
+  missing is only the *test-harness* layer on top of this — a documented way
+  to launch a `flutter test` integration run against a running emulator
+  suite, not the emulator connection itself.
+- `number_counting_duel`'s doc/code drift is now resolved — see CLAUDE.md §4
+  (updated 2026-10-10).
 
 ---
 
