@@ -1,9 +1,67 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
-import { getFirestore } from "firebase-admin/firestore";
+import { getFirestore, Timestamp } from "firebase-admin/firestore";
+import { onSchedule } from "firebase-functions/v2/scheduler";
 import { getAuth } from "firebase-admin/auth";
+import { createHash } from "node:crypto";
 import { ENFORCE_APP_CHECK } from "../config";
 
 const OPTIONS = { enforceAppCheck: ENFORCE_APP_CHECK };
+
+const RATE_WINDOW_MS = 15 * 60 * 1000;
+const MAX_NAME_ATTEMPTS = 10;
+const MAX_IP_ATTEMPTS = 60;
+
+function rateLimitKey(value: string): string {
+  return createHash("sha256").update(value).digest("hex");
+}
+
+/**
+ * Rate-limit attempts without persisting raw names or IP addresses.
+ * A per-name/IP bucket slows guessing one learner's DOB; an IP bucket
+ * limits broad name enumeration from one client/network.
+ */
+async function enforceLoginRateLimit(ip: string, normalizedName: string): Promise<void> {
+  const db = getFirestore();
+  const now = Date.now();
+  const keys = [
+    { id: rateLimitKey(`name:${ip}:${normalizedName}`), limit: MAX_NAME_ATTEMPTS },
+    { id: rateLimitKey(`ip:${ip}`), limit: MAX_IP_ATTEMPTS },
+  ];
+  const refs = keys.map(({ id }) => db.collection("security_login_attempts").doc(id));
+
+  await db.runTransaction(async (transaction) => {
+    const snapshots = await Promise.all(refs.map((ref) => transaction.get(ref)));
+    const updates = snapshots.map((snapshot, index) => {
+      const data = snapshot.data();
+      let startedAt = 0;
+      if (typeof data?.windowStartedAt === "number") {
+        startedAt = data.windowStartedAt;
+      }
+      const inWindow = now - startedAt < RATE_WINDOW_MS && now >= startedAt;
+      let attempts = 0;
+      if (inWindow && typeof data?.attempts === "number") {
+        attempts = data.attempts;
+      }
+      if (attempts >= keys[index].limit) {
+        throw new HttpsError(
+          "resource-exhausted",
+          "Too many login attempts. Please wait 15 minutes and try again."
+        );
+      }
+      return {
+        ref: refs[index],
+        value: {
+          windowStartedAt: inWindow ? startedAt : now,
+          attempts: attempts + 1,
+          updatedAt: Timestamp.fromMillis(now),
+        },
+      };
+    });
+    for (const update of updates) {
+      transaction.set(update.ref, update.value);
+    }
+  });
+}
 
 function normalizeName(value: unknown): string {
   if (typeof value !== "string") {
@@ -78,6 +136,9 @@ export const loginChild = onCall(OPTIONS, async (request) => {
   const name = normalizeName(request.data?.name);
   const birthDate = request.data?.birthDate;
 
+  const clientIp = request.rawRequest.ip || "unknown";
+  await enforceLoginRateLimit(clientIp, name.toLocaleLowerCase("en-ZA"));
+
   if (typeof birthDate !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(birthDate)) {
     throw new HttpsError("invalid-argument", "Date of birth is required.");
   }
@@ -108,4 +169,21 @@ export const loginChild = onCall(OPTIONS, async (request) => {
   });
 
   return { token: customToken };
+});
+
+/**
+ * Remove expired login throttling buckets. The stored identifiers are hashes,
+ * but stale records still need cleanup to keep this collection bounded.
+ */
+export const cleanupChildLoginAttempts = onSchedule("every day 03:15", async () => {
+  const cutoff = Timestamp.fromMillis(Date.now() - 24 * 60 * 60 * 1000);
+  const db = getFirestore();
+  const expired = await db.collection("security_login_attempts")
+    .where("updatedAt", "<", cutoff)
+    .limit(500)
+    .get();
+  if (expired.empty) return;
+  const batch = db.batch();
+  expired.docs.forEach((doc) => batch.delete(doc.ref));
+  await batch.commit();
 });

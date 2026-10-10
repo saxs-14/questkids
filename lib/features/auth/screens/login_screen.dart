@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       success = await auth.login(
         email: _emailCtrl.text.trim(),
-        password: _passwordCtrl.text.trim(),
+        password: _passwordCtrl.text,
       );
     }
 

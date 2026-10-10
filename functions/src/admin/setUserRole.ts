@@ -40,6 +40,34 @@ export const setUserRole = onCall({ enforceAppCheck: ENFORCE_APP_CHECK }, async 
     throw new HttpsError("invalid-argument", `role must be one of ${VALID_ROLES.join(", ")}`);
   }
 
+  // The bootstrap administrator is the trust anchor. No other admin may
+  // demote or otherwise alter that account through the general role API.
+  const bootstrap = await getFirestore()
+    .collection("system")
+    .doc("adminBootstrap")
+    .get();
+  const authorisedAdminUid = bootstrap.data()?.adminUid;
+  if (typeof authorisedAdminUid === "string" && uid === authorisedAdminUid && role !== "admin") {
+    throw new HttpsError(
+      "failed-precondition",
+      "The configured QuestKids administrator cannot be demoted through this endpoint."
+    );
+  }
+
+  // QuestKids uses a single bootstrap-authorized administrator. Do not allow
+  // this general role-management endpoint to create additional admins.
+  // The bootstrap document is written by bootstrapAdmin after granting the
+  // configured administrator account its claim. Existing extra admins are
+  // not automatically revoked here; they must be reviewed and demoted safely.
+  if (role === "admin") {
+    if (typeof authorisedAdminUid !== "string" || uid !== authorisedAdminUid) {
+      throw new HttpsError(
+        "permission-denied",
+        "Only the configured QuestKids administrator can hold the admin role."
+      );
+    }
+  }
+
   await getAuth().setCustomUserClaims(uid, { role });
 
   // Mirror role onto the user doc for display/query convenience only —
