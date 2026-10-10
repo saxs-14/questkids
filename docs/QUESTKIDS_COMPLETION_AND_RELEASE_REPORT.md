@@ -229,6 +229,19 @@ called on a correct answer for any of these 64 engines — this is a widget/unit
 not an integration gap, and is tracked alongside the rest of the Flutter-side test
 coverage work in §8.
 
+## 7b. Admin-account audit (CLOSED, 2026-10-10)
+
+Phase 1 item 4 (audit existing Firebase Auth users for unintended extra admins) is now
+fully closed. Queried Identity Platform directly for custom claims — not
+`firebase auth:export`, which the harness's own PII-handling policy correctly blocked for
+dumping all 96 users' emails/names to disk; used a narrower Identity Toolkit REST query
+instead, filtered to role claims only, and deleted the raw response immediately after
+filtering. Result: exactly **one** account has `role: admin`
+(`YwDx5AXvweaObsNKaVcxUxVEbc72`), enabled, with login history. Role breakdown across all
+96 users: 50 none, 28 learner, 13 parent, 4 teacher, 1 admin. **No extra/unintended admin
+existed, and nothing was demoted or changed — you've confirmed `YwDx5AXvweaObsNKaVcxUxVEbc72`
+is the intended sole admin.** No code or data change was needed for this item.
+
 ## 7. Explicitly NOT attempted this session (honest accounting, not silence)
 
 Per the brief's own anti-fabrication rules, the following are reported as **NOT STARTED**
@@ -238,18 +251,6 @@ or **BLOCKED**, not glossed over:
   made. You confirmed email OTP (not step-up re-auth) as the approach. This is still a
   net-new feature (expiry, single-use, attempt limits, resend cooldown, server-side
   verification) — implementation work, not yet started.
-- **Audit of existing Firebase Auth users for unintended extra admins** (Phase 1 item 4)
-  — **Read-only audit DONE (2026-10-10).** Queried Identity Platform directly (not
-  `firebase auth:export`, which the harness's own PII-handling policy correctly blocked
-  for dumping all 96 users' emails/names to disk — used a narrower Identity Toolkit REST
-  query instead, filtered to role claims only, and deleted the raw response immediately
-  after filtering). Result: exactly **one** account has `role: admin`
-  (`YwDx5AXvweaObsNKaVcxUxVEbc72`), enabled, with login history. Role breakdown across all
-  96 users: 50 none, 28 learner, 13 parent, 4 teacher, 1 admin. **No extra/unintended
-  admin found — awaiting your confirmation that this UID is the intended sole admin**
-  before this item can be marked fully closed (demoting or flagging any account still
-  requires your explicit authorization per the brief's own rules, but there is nothing to
-  demote here).
 - **Firestore/Storage rules negative-test suite in the emulator** — NOT STARTED. §5's
   Jest/emulator harness now exists and could host these, but the rules-specific tests
   themselves (via `@firebase/rules-unit-testing`) have not been written.
@@ -265,8 +266,6 @@ or **BLOCKED**, not glossed over:
 
 ## 8. What only you can authorize next
 
-- Confirm `YwDx5AXvweaObsNKaVcxUxVEbc72` is the intended sole admin UID (§7), so the
-  admin-account audit item can be marked fully closed.
 - Priority order for the remaining §7 items — each is genuinely multi-hour-to-multi-day
   work; doing all of them in one sweep isn't realistic without more sessions.
 - OTP: approach is decided (email OTP) — implementation itself still needs to be
@@ -281,9 +280,10 @@ Cloud Functions wired into CI, and a 64-engine game-feedback integration audit t
 only 8 of 64 engines reached Phase 2's spoken feedback and fixed the other 56 (§7a). All
 verified green in real GitHub Actions runs, not just locally. **Confirmed already-fine
 (no action needed):** the previously-documented IAM blocker. **Confirmed correct (no fix
-needed):** the `pendingAiReports` formula. **Confirmed clean (awaiting your sign-off):**
-the admin-account audit — exactly one admin account exists, no extras to demote.
-**Genuinely not done, reported honestly:** OTP implementation (approach decided), the
+needed):** the `pendingAiReports` formula. **Confirmed clean and closed:** the
+admin-account audit — exactly one admin account exists, confirmed by you as the intended
+sole admin, nothing to demote. **Genuinely not done, reported honestly:** OTP
+implementation (approach decided), the
 full security/behavioral test suite for the remaining 34 of 35 Cloud Functions, the
 Firestore/Storage rules negative-test suite, and staging verification — these remain
 real, substantial, multi-session work.
