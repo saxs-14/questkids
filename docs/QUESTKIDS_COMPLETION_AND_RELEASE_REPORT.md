@@ -176,8 +176,8 @@ Confirmed reachable in production (not just a test artifact): `GameConfig.catalo
 nullable, and `grade4_activities_hub_screen.dart`'s `_launchMultiplesGridGame`
 constructs its `GameConfig` with no `catalogId` at all. Fixed with a one-line reorder
 (only build that path when `level !== null`); no behavior change on any previously-valid
-path. `assignDefaultRole` was found to export cleanly but was intentionally not covered —
-see §7.
+path. `assignDefaultRole` was found to export cleanly; a test was added for it later this
+same session (§7e) after an earlier assumption that it was untestable turned out wrong.
 
 `recordGameSession`'s test suite also directly verifies the replay-idempotency guarantee
 the task brief asked about: resubmitting the same `sessionId` returns the original
@@ -214,12 +214,14 @@ Notable things found and verified along the way, not assumed:
 
 **Update (same day, follow-up session — see §7d): FIXED.** `sendEmail`/`cleanupOldEmails`
 are now tested (commit `a715585`), and `requestActionOtp` (new, §7d) is tested too.
-**35 of 36 exported functions now have behavioral test coverage (97%)** — the "36" instead
-of "35" is `requestActionOtp`, added in §7d. Only one remains:
-- `assignDefaultRole` — intentionally not covered: a one-line static `beforeUserCreated`
-  handler with no `.run()` test hook in the SDK's `BlockingFunction` type; a real test
-  would mean simulating Identity Platform's signed-JWT blocking-function HTTP contract for
-  a static return value, which isn't proportionate.
+**Update (§7e): now ALL 35 exported functions have behavioral test coverage (100%).**
+`approveParentLinkRequest` was removed as genuinely dead code (confirmed via a full-repo
+grep — the Flutter client only ever calls `resolveParentLinkRequest`), bringing the total
+back down to 35. `assignDefaultRole` was initially assumed untestable here (wrongly): the
+SDK's public `BlockingFunction` TypeScript type declares no `.run()`, but the *compiled
+runtime* (`firebase-functions/lib/v2/providers/identity.js`) attaches `.run = handler` the
+same as every other v2 trigger — verified directly against the installed package, not
+assumed, and a real test now exists for it.
 
 ## 6. Specific item investigated from the task brief: `pendingAiReports` calculation
 
@@ -412,6 +414,20 @@ Firebase-emulator wiring in the Flutter app that doesn't exist today for *any* s
 calls a Cloud Function, a separate, pre-existing gap (see the project overview's
 suggestions section) rather than something specific to this feature.
 
+## 7e. Final cleanup pass (2026-10-10): dead code, doc drift, last test gap closed
+
+A short final pass in response to "do all of them": removed `approveParentLinkRequest`
+(dead code, zero real callers — confirmed via full-repo grep) and its test; still needs an
+explicit `firebase deploy --only functions` to stop it running in production, not done
+here. Fixed three real doc/code drifts in CLAUDE.md, all verified before fixing, not
+assumed: "Teacher" was described as an implemented role (it isn't — `'teacher'` isn't in
+`setUserRole`'s `VALID_ROLES`, no registration path, no `lib/features/teacher/`, no
+`functions/src/teacher/`, zero mentions of "teacher" in either rules file); the repo map
+claimed a `functions/src/teacher/` directory and teacher dashboard that don't exist; and
+`number_counting_duel` was listed among the 8 layered engines despite being one of the 56
+self-contained ones. Also closed `assignDefaultRole`'s test gap (§5 update above) after
+discovering the earlier "untestable" conclusion was wrong.
+
 ## 7. Explicitly NOT attempted this session (honest accounting, not silence)
 
 Per the brief's own anti-fabrication rules, the following are reported as **NOT STARTED**
@@ -463,10 +479,10 @@ needed):** the previously-documented IAM blocker. **Confirmed correct (no fix ne
 the `pendingAiReports` formula. **Confirmed clean and closed:** the admin-account audit —
 exactly one admin account exists, confirmed by you as the intended sole admin, nothing to
 demote. **Genuinely not done, reported honestly:** `setParentPermissions`'s own OTP
-step-up (needs a UI redesign first), `assignDefaultRole`'s test coverage (no SDK test hook
-exists), true resistance of the AI model itself to adversarial prompts (as opposed to the
-code-layer defenses around it, which are tested), and the staging/manual walkthrough —
-the one item from the original brief still genuinely untouched.
+step-up (needs a UI redesign first), true resistance of the AI model itself to adversarial
+prompts (as opposed to the code-layer defenses around it, which are tested), and the
+staging/manual walkthrough — the one item from the original brief still genuinely
+untouched.
 
 **Release readiness: closer still, but not staging-ready or production-ready as a whole
 system.** The infrastructure-level fixes plus 97% Cloud Function test coverage plus the

@@ -199,12 +199,14 @@ a 60-second resend cooldown.
 ## 7. Testing Infrastructure
 
 - **Cloud Functions**: Jest against the real local Firebase emulator
-  (Firestore + Storage + Auth, never production). **35 of 36 exported
-  functions have behavioral tests** (286 tests total). The only one that
-  doesn't: `assignDefaultRole` — the SDK's `BlockingFunction` type has no
-  `.run()` test hook; a real test would mean simulating Identity Platform's
-  signed-JWT blocking-function HTTP contract for a one-line static return
-  value, which isn't proportionate. External services with no emulator
+  (Firestore + Storage + Auth, never production). **All 35 exported
+  functions have behavioral tests** (282 tests total, 100%).
+  `assignDefaultRole` was initially (wrongly) assumed untestable because the
+  SDK's public `BlockingFunction` TypeScript type declares no `.run()` — but
+  the compiled runtime (`firebase-functions/lib/v2/providers/identity.js`)
+  attaches `.run = handler` the same as every other v2 trigger type;
+  verified directly against the installed package before trusting it, and
+  a real test now exists. External services with no emulator
   (`@google/generative-ai`, `@google-cloud/text-to-speech`, `nodemailer`)
   are mocked so the surrounding business logic — quota, auth, validation,
   error handling — is verified without a real paid API call or a real email
