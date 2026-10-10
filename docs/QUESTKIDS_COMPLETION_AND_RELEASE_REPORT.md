@@ -242,6 +242,40 @@ filtering. Result: exactly **one** account has `role: admin`
 existed, and nothing was demoted or changed — you've confirmed `YwDx5AXvweaObsNKaVcxUxVEbc72`
 is the intended sole admin.** No code or data change was needed for this item.
 
+## 7c. Firestore/Storage rules negative-test suite (DONE, 2026-10-10)
+
+Added `@firebase/rules-unit-testing` (v6) against the real local Firestore and Storage
+emulators — never production. `functions/package.json`'s `test` script now starts both
+emulators (`--only firestore,storage`, was `firestore` only), so this runs automatically
+in the same CI step as the Functions behavioral tests, no workflow changes needed.
+
+Coverage is deliberately a **negative**-test suite, not a full positive-path suite: it
+asserts that the specific access patterns `firestore.rules`/`storage.rules`' own comments
+describe as previously-fixed vulnerabilities actually stay denied, plus a handful of
+corresponding positive cases to prove the rule isn't just denying everything:
+
+- `firestore.rules.test.ts` (32 tests): role self-escalation on user-doc create/update
+  (`admin`, `xp`, `coins`), the `linkedChildrenUids` pre-population laundering path on
+  create (the exact exploit the rule file's own comment documents), cross-family
+  `progress` read/verify isolation between unrelated parents, the `emails/` open-relay
+  path (any signed-in client writing freely), `game_sessions`/`usage_ai` rejecting all
+  client writes (server-authoritative data), `ai_reports` denying the reporter from
+  reading their own report back (admin-only read), and default-deny for unauthenticated
+  access.
+- `storage.rules.test.ts` (18 tests): avatar/progress-proof path isolation between users,
+  image content-type and 5MB size enforcement, `document_vault` cross-family isolation
+  (unlinked parent, and the child themself, both denied write), and the final
+  default-deny match for any unlisted path.
+
+50 new tests, all passing against the emulator (55 total in the `functions` test suite
+now, up from 5). Verified locally and confirmed green in GitHub Actions (commit `40c24d1`,
+run `38046301090`). `flutter analyze`/`flutter test` unaffected — this is a Functions-only
+change.
+
+**Still a gap:** this is rules coverage, not Cloud Function behavioral coverage — it
+doesn't touch rate limiting, notification idempotency, or AI response handling, which
+remain tracked below.
+
 ## 7. Explicitly NOT attempted this session (honest accounting, not silence)
 
 Per the brief's own anti-fabrication rules, the following are reported as **NOT STARTED**
@@ -251,9 +285,6 @@ or **BLOCKED**, not glossed over:
   made. You confirmed email OTP (not step-up re-auth) as the approach. This is still a
   net-new feature (expiry, single-use, attempt limits, resend cooldown, server-side
   verification) — implementation work, not yet started.
-- **Firestore/Storage rules negative-test suite in the emulator** — NOT STARTED. §5's
-  Jest/emulator harness now exists and could host these, but the rules-specific tests
-  themselves (via `@firebase/rules-unit-testing`) have not been written.
 - **Full behavioral verification of Phases 2–5** (rate-limit concurrency, notification
   idempotency on repeated scheduled runs, AI prompt-injection hardening, admin report
   widget states beyond `getAdminPlatformReport`) — NOT STARTED. No longer blocked on a
@@ -276,17 +307,18 @@ or **BLOCKED**, not glossed over:
 **Fixed and verified this session, with evidence:** CI/Vercel version-pin stability gap,
 one critical dependency vulnerability, 9 undeployed Cloud Functions (Phases 3–5's entire
 backend), 1 missing Firestore index, a working Jest + Firestore-emulator test harness for
-Cloud Functions wired into CI, and a 64-engine game-feedback integration audit that found
-only 8 of 64 engines reached Phase 2's spoken feedback and fixed the other 56 (§7a). All
-verified green in real GitHub Actions runs, not just locally. **Confirmed already-fine
-(no action needed):** the previously-documented IAM blocker. **Confirmed correct (no fix
-needed):** the `pendingAiReports` formula. **Confirmed clean and closed:** the
-admin-account audit — exactly one admin account exists, confirmed by you as the intended
-sole admin, nothing to demote. **Genuinely not done, reported honestly:** OTP
-implementation (approach decided), the
-full security/behavioral test suite for the remaining 34 of 35 Cloud Functions, the
-Firestore/Storage rules negative-test suite, and staging verification — these remain
-real, substantial, multi-session work.
+Cloud Functions wired into CI, a 64-engine game-feedback integration audit that found only
+8 of 64 engines reached Phase 2's spoken feedback and fixed the other 56 (§7a), and a
+50-test Firestore/Storage rules negative-test suite covering every previously-documented
+security fix in both rules files (§7c). All verified green in real GitHub Actions runs,
+not just locally. **Confirmed already-fine (no action needed):** the previously-documented
+IAM blocker. **Confirmed correct (no fix needed):** the `pendingAiReports` formula.
+**Confirmed clean and closed:** the admin-account audit — exactly one admin account
+exists, confirmed by you as the intended sole admin, nothing to demote. **Genuinely not
+done, reported honestly:** OTP implementation (approach decided), the full
+security/behavioral test suite for the remaining 34 of 35 Cloud Functions (rate limiting,
+notification idempotency, AI response handling — distinct from the rules coverage above),
+and staging verification — these remain real, substantial, multi-session work.
 
 **Release readiness: NEITHER staging-ready nor production-ready as a whole system.** The
 infrastructure-level fixes in this report make what's already merged actually *work* in
