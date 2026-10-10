@@ -186,13 +186,43 @@ session design), and `notifyParentsOfLearnerInactivity`'s suite verifies its
 `inactivityNotificationLevel` guard actually prevents re-notifying an already-sent
 threshold on a repeated daily run.
 
-200/200 tests passing, verified both locally and in real GitHub Actions runs on every
-commit above.
+**Update (same day, final pass):** commits `3293f3a` (all 6 `gemini/proxy.ts` AI
+functions) and `7439197` (`synthesizeSpeech`, `refreshLeaderboards`,
+`generateDailyMissions`, `getParentLearningInsights`, `generateWeeklyGameReports`) bring
+coverage to **32 of 35 functions (91%)**, up from 1 at the start of this session.
+`@google/generative-ai` and `@google-cloud/text-to-speech` are mocked where no emulator
+exists for the real service (no Gemini or TTS emulator), so these suites verify the real
+business logic around them — auth, quota/cost-control counters, input validation, cross-
+family isolation — not AI output quality, which can't be meaningfully asserted. 252/252
+tests passing.
 
-**Still PARTIAL, not PASS:** 13 of 35 functions remain untested (all in `gemini/proxy.ts`,
-`voice/synthesizeSpeech.ts`, `leaderboard/refresh.ts`, `missions/generate.ts`,
-`parent/getParentLearningInsights.ts`, `reports/weeklyGameReport.ts`, and the two
-`sendEmail`/`cleanupOldEmails` triggers in `index.ts`), tracked in §7.
+Notable things found and verified along the way, not assumed:
+- `getParentLearningInsights` (Phase 4's only untested function until now) enforces its
+  daily quota even on the zero-valid-sessions path that never calls Gemini at all — cost
+  control holds even when the AI itself is never invoked.
+- `generateDailyMissions`'s adaptive-mission tier returns `[]` when no Gemini key is
+  configured (its own documented fallback), which let the teacher-assigned/curated tiers
+  be tested without a second mock.
+- `runLeaderboardRefresh` (exported separately from its `onSchedule` wrapper specifically
+  because scheduled functions can't be triggered via the local emulator — a pattern this
+  file already used, now exploited for testing exactly as intended) fully replaces each
+  leaderboard on every run rather than merging in stale entries.
+- Started writing a leaderboard test on the wrong premise — that `name` held a combined
+  "First Last" string — and caught it by checking `UserModel` directly before trusting it:
+  `name` and `surname` are separate Firestore fields, so the leaderboard's privacy
+  guarantee (first name only, confirmed in CLAUDE.md §6.5) already holds correctly.
+
+**Still PARTIAL, not PASS — 3 of 35 functions remain:**
+- `assignDefaultRole` — intentionally not covered (§7): a one-line static
+  `beforeUserCreated` handler with no `.run()` test hook in the SDK's `BlockingFunction`
+  type; a real test would mean simulating Identity Platform's signed-JWT blocking-function
+  HTTP contract for a static return value.
+- `sendEmail` and `cleanupOldEmails` (both in `index.ts`) — blocked, not skipped:
+  importing that module calls `admin.initializeApp()` a second time against the test
+  harness's already-initialized app and throws. The fix is a one-line guard
+  (`if (getApps().length === 0)`) in `index.ts`'s own bootstrap code — safe and standard,
+  but a production change to shared bootstrap code, which this testing pass left alone
+  rather than touching casually. Worth a short follow-up session.
 
 ## 6. Specific item investigated from the task brief: `pendingAiReports` calculation
 
@@ -316,14 +346,15 @@ or **BLOCKED**, not glossed over:
   made. You confirmed email OTP (not step-up re-auth) as the approach. This is still a
   net-new feature (expiry, single-use, attempt limits, resend cooldown, server-side
   verification) — implementation work, not yet started.
-- **Full behavioral verification of Phases 2–5** — IN PROGRESS, not NOT STARTED anymore:
-  21 of 35 functions now covered (§5), including the notification-idempotency case the
-  brief specifically named. Still untested: all 6 `gemini/proxy.ts` AI functions (AI
-  prompt-injection hardening is specifically here, unverified), `synthesizeSpeech`,
-  `refreshLeaderboards`, `generateDailyMissions`, `getParentLearningInsights`,
-  `generateWeeklyGameReports`, and the `sendEmail`/`cleanupOldEmails` triggers.
-  Rate-limit *concurrency* (multiple simultaneous requests racing the same bucket, as
-  opposed to the sequential-attempts behavior already tested) also remains unverified.
+- **Full behavioral verification of Phases 2–5** — effectively DONE at the function
+  level: 32 of 35 functions now covered (§5), including the notification-idempotency case
+  and the AI cost-control/quota enforcement the brief specifically named. Only
+  `assignDefaultRole`, `sendEmail`, and `cleanupOldEmails` remain, each for a specific
+  documented technical reason, not time pressure (§5). **Still genuinely open:**
+  AI *prompt-injection* hardening specifically (the test suites verify quota/auth/
+  validation around the AI calls, not resistance to adversarial prompts), and rate-limit
+  *concurrency* (multiple simultaneous requests racing the same bucket, as opposed to the
+  sequential-attempts behavior already tested).
 - **Staging/manual walkthrough** (admin login, parent-child linking, full game session,
   push notifications) in a real browser/device — BLOCKED on this session not having an
   interactive browser pass scheduled for it yet, and per standing policy I don't type
@@ -344,20 +375,23 @@ backend), 1 missing Firestore index, a working Jest + Firestore-emulator test ha
 Cloud Functions wired into CI, a 64-engine game-feedback integration audit that found only
 8 of 64 engines reached Phase 2's spoken feedback and fixed the other 56 (§7a), a 50-test
 Firestore/Storage rules negative-test suite covering every previously-documented security
-fix in both rules files (§7c), and behavioral test coverage for 21 of 35 Cloud Functions
-(up from 1), which along the way found and fixed a real, previously-unknown production
-bug in `recordGameSession` that crashed score-saving for certain non-levelled game
-sessions (§5). All verified green in real GitHub Actions runs, not just locally.
-**Confirmed already-fine (no action needed):** the previously-documented
-IAM blocker. **Confirmed correct (no fix needed):** the `pendingAiReports` formula.
-**Confirmed clean and closed:** the admin-account audit — exactly one admin account
+fix in both rules files (§7c), and behavioral test coverage for **32 of 35 Cloud Functions
+(91%, up from 1)**, which along the way found and fixed a real, previously-unknown
+production bug in `recordGameSession` that crashed score-saving for certain non-levelled
+game sessions (§5). 252/252 tests passing. All verified green in real GitHub Actions
+runs, not just locally. **Confirmed already-fine (no action needed):** the
+previously-documented IAM blocker. **Confirmed correct (no fix needed):** the
+`pendingAiReports` formula. **Confirmed clean and closed:** the admin-account audit —
+exactly one admin account
 exists, confirmed by you as the intended sole admin, nothing to demote. **Genuinely not
-done, reported honestly:** OTP implementation (approach decided), the full
-security/behavioral test suite for the remaining 34 of 35 Cloud Functions (rate limiting,
-notification idempotency, AI response handling — distinct from the rules coverage above),
-and staging verification — these remain real, substantial, multi-session work.
+done, reported honestly:** OTP implementation (approach decided), the last 3 of 35
+Cloud Functions' test coverage (one intentional, two blocked on a one-line production fix
+— §5), AI prompt-injection hardening specifically, rate-limit concurrency, and staging
+verification — these remain real work, though now closer to a follow-up session than a
+multi-session undertaking.
 
-**Release readiness: NEITHER staging-ready nor production-ready as a whole system.** The
-infrastructure-level fixes in this report make what's already merged actually *work* in
-production; they do not constitute the security and behavioral test coverage the
-original five-phase work still needs before it can be called verified.
+**Release readiness: closer, but still not staging-ready or production-ready as a whole
+system.** The infrastructure-level fixes plus 91% Cloud Function test coverage in this
+report make what's already merged both *work* in production and *mostly verified* — but
+OTP, prompt-injection hardening, and a real staging walkthrough are still open before the
+original five-phase work can be called fully verified.
