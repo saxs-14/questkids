@@ -26,11 +26,13 @@ class _AdminDashboardState extends State<AdminDashboard> {
   Map<String, int> _counts = {};
   bool _loadingCounts = true;
   String _userSearchQuery = '';
+  late Future<Map<String, dynamic>> _platformReportFuture;
 
   @override
   void initState() {
     super.initState();
     _loadCounts();
+    _platformReportFuture = _service.getPlatformReport();
   }
 
   Future<void> _loadCounts() async {
@@ -90,7 +92,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       return const SizedBox.shrink();
     }
 
-    final pages = [_overview(), _users(), _safety(), _aiGameLab(), _operations()];
+    final pages = [_overview(), _users(), _safety(), _aiGameLab(), _reports(), _operations()];
 
     return Scaffold(
       backgroundColor: AdminColors.bgPage,
@@ -142,6 +144,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
             icon: Icon(Icons.auto_awesome_outlined, color: AdminColors.textSecondary),
             selectedIcon: Icon(Icons.auto_awesome, color: AdminColors.textPrimary),
             label: 'AI Lab',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.assessment_outlined, color: AdminColors.textSecondary),
+            selectedIcon: Icon(Icons.assessment, color: AdminColors.textPrimary),
+            label: 'Reports',
           ),
           NavigationDestination(
             icon: Icon(Icons.settings_outlined, color: AdminColors.textSecondary),
@@ -477,6 +484,132 @@ Safety: Child-friendly language and no personal data.''',
           ),
         )),
       ],
+    );
+  }
+
+  Widget _reports() {
+    return FutureBuilder<Map<String, dynamic>>(
+      future: _platformReportFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(color: AdminColors.brandPrimary),
+          );
+        }
+        if (snapshot.hasError) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.error_outline, size: 42),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'Platform report could not be loaded.',
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 12),
+                  FilledButton.icon(
+                    onPressed: () => setState(
+                      () => _platformReportFuture = _service.getPlatformReport(),
+                    ),
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Try again'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+
+        final report = snapshot.data ?? <String, dynamic>{};
+        int value(String key) => (report[key] as num?)?.toInt() ?? 0;
+        final cards = [
+          ['All users', value('users'), Icons.people_alt_outlined],
+          ['Learners', value('learners'), Icons.child_care_outlined],
+          ['Parents', value('parents'), Icons.family_restroom_outlined],
+          ['Admins', value('admins'), Icons.admin_panel_settings_outlined],
+          ['Game sessions', value('gameSessions'), Icons.sports_esports_outlined],
+          ['Sessions (7 days)', value('gameSessionsLast7Days'), Icons.date_range],
+          ['Activities', value('activities'), Icons.menu_book_outlined],
+          ['Weekly reports', value('weeklyReports'), Icons.summarize_outlined],
+          ['AI reports', value('aiReports'), Icons.flag_outlined],
+          ['Pending AI reports', value('pendingAiReports'), Icons.pending_actions],
+          ['Resolved AI reports', value('resolvedAiReports'), Icons.task_alt],
+        ];
+        final generatedAt = DateTime.tryParse(
+          (report['generatedAt'] ?? '').toString(),
+        );
+
+        return RefreshIndicator(
+          onRefresh: () async {
+            final future = _service.getPlatformReport();
+            setState(() => _platformReportFuture = future);
+            await future;
+          },
+          color: AdminColors.brandPrimary,
+          child: ListView(
+            padding: const EdgeInsets.all(20),
+            children: [
+              const AdminSectionHeader(
+                eyebrow: 'QUESTKIDS ADMIN',
+                title: 'Platform Reports',
+                subtitle:
+                    'Live aggregate usage and safety-review counts. This view does not expose individual learner scores or contact details.',
+              ),
+              const SizedBox(height: 8),
+              Text(
+                generatedAt == null
+                    ? 'Report timestamp unavailable'
+                    : 'Generated ${generatedAt.toLocal()}',
+                style: const TextStyle(color: AdminColors.textSecondary),
+              ),
+              const SizedBox(height: 18),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: cards.length,
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 220,
+                  mainAxisExtent: 112,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                ),
+                itemBuilder: (_, index) {
+                  final card = cards[index];
+                  return AdminStatCard(
+                    icon: card[2] as IconData,
+                    value: (card[1] as int).toString(),
+                    label: card[0] as String,
+                  );
+                },
+              ),
+              const SizedBox(height: 18),
+              const AdminOperationsCard(
+                title: 'How to read these figures',
+                items: [
+                  'Sessions (7 days) counts recorded game sessions with a completedAt timestamp in the last seven days.',
+                  'Pending AI reports means total AI reports minus those marked resolved.',
+                  'Weekly reports counts generated weekly report documents; it does not prove that notifications were delivered.',
+                  'These are aggregate operational metrics, not a formal assessment of any learner.',
+                ],
+              ),
+              const SizedBox(height: 12),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: OutlinedButton.icon(
+                  onPressed: () => setState(
+                    () => _platformReportFuture = _service.getPlatformReport(),
+                  ),
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Refresh report'),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

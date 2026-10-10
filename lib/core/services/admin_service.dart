@@ -46,4 +46,11 @@ class AdminService {
       'resolvedAt': FieldValue.serverTimestamp(),
     });
   }
+
+  Future<Map<String, dynamic>> getPlatformReport() async {
+    final result = await _functions
+        .httpsCallable('getAdminPlatformReport')
+        .call();
+    return Map<String, dynamic>.from(result.data as Map);
+  }
 }
