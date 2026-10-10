@@ -2,16 +2,36 @@ import "../setup/firebaseAdmin";
 import { getFirestore } from "firebase-admin/firestore";
 import { clearFirestoreEmulatorData } from "../setup/firestoreEmulator";
 import { getParentAccess, setParentPermissions } from "../../src/parent/parentPermissions";
+import { requestActionOtp } from "../../src/parent/actionOtp";
 
-function requestAs(data: Record<string, unknown>, auth?: { uid: string; role: string }) {
+function requestAs(
+  data: Record<string, unknown>,
+  auth?: { uid: string; role: string; email?: string }
+) {
   return {
     data,
     auth: auth
-      ? { uid: auth.uid, token: { role: auth.role } as never, rawToken: "test-token" }
+      ? {
+          uid: auth.uid,
+          token: { role: auth.role, email: auth.email } as never,
+          rawToken: "test-token",
+        }
       : undefined,
     rawRequest: {} as never,
     acceptsStreaming: false,
   } as never;
+}
+
+async function otpCodeFor(uid: string, email = "parent@example.com"): Promise<string> {
+  await requestActionOtp.run(
+    requestAs({ action: "setParentPermissions" }, { uid, role: "parent", email })
+  );
+  const snap = await getFirestore()
+    .collection("emails")
+    .where("to", "==", email)
+    .get();
+  const latest = snap.docs[snap.docs.length - 1].data();
+  return (latest.data as { code: string }).code;
 }
 
 async function seedChildWithSecondaryParent() {
@@ -143,14 +163,46 @@ describe("setParentPermissions", () => {
     ).rejects.toMatchObject({ code: "invalid-argument" });
   });
 
-  it("updates only known permission keys and ignores unknown ones", async () => {
+  it("rejects a missing OTP code", async () => {
     await seedChildWithSecondaryParent();
+    await expect(
+      setParentPermissions.run(
+        requestAs(
+          { childUid: "child-1", parentUid: "parent-2", permissions: { viewProgress: false } },
+          { uid: "parent-1", role: "parent" }
+        )
+      )
+    ).rejects.toMatchObject({ code: "invalid-argument" });
+  });
+
+  it("rejects an incorrect OTP code", async () => {
+    await seedChildWithSecondaryParent();
+    await otpCodeFor("parent-1");
+    await expect(
+      setParentPermissions.run(
+        requestAs(
+          {
+            childUid: "child-1",
+            parentUid: "parent-2",
+            permissions: { viewProgress: false },
+            otpCode: "000000",
+          },
+          { uid: "parent-1", role: "parent" }
+        )
+      )
+    ).rejects.toMatchObject({ code: "permission-denied" });
+  });
+
+  it("updates only known permission keys and ignores unknown ones, and consumes the OTP", async () => {
+    await seedChildWithSecondaryParent();
+    const code = await otpCodeFor("parent-1");
     const result = (await setParentPermissions.run(
       requestAs(
         {
           childUid: "child-1",
           parentUid: "parent-2",
           permissions: { verifyProgress: true, notARealPermission: true },
+          otpCode: code,
         },
         { uid: "parent-1", role: "parent" }
       )
@@ -169,5 +221,12 @@ describe("setParentPermissions", () => {
       .where("type", "==", "parent_permissions_updated")
       .get();
     expect(notifications.size).toBe(1);
+
+    // Single-use: the same code can't be replayed for a second save.
+    const challenge = await getFirestore()
+      .collection("otp_challenges")
+      .doc("parent-1_setParentPermissions")
+      .get();
+    expect(challenge.exists).toBe(false);
   });
 });

@@ -1,6 +1,8 @@
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/otp_verification_dialog.dart';
 import '../../../data/models/user_model.dart';
 
 class ParentAccessScreen extends StatefulWidget {
@@ -14,6 +16,11 @@ class ParentAccessScreen extends StatefulWidget {
 class _ParentAccessScreenState extends State<ParentAccessScreen> {
   UserModel? _selectedChild;
   List<Map<String, dynamic>> _parents = [];
+  // Last-saved permissions per secondary-parent uid, so pending edits in
+  // `_parents` can be compared against them to show "unsaved changes" and
+  // to support Discard without a round-trip to the server.
+  final Map<String, Map<String, bool>> _savedPermissions = {};
+  final Set<String> _saving = {};
   bool _loading = true;
   String? _error;
 
@@ -39,6 +46,11 @@ class _ParentAccessScreenState extends State<ParentAccessScreen> {
       _parents = (data['parents'] as List<dynamic>? ?? [])
           .map((p) => Map<String, dynamic>.from(p as Map))
           .toList();
+      _savedPermissions.clear();
+      for (final parent in _parents) {
+        _savedPermissions[parent['uid'] as String] =
+            Map<String, bool>.from(parent['permissions'] as Map? ?? {});
+      }
     } catch (e) {
       _error = 'Unable to load linked parent access.';
     } finally {
@@ -46,31 +58,57 @@ class _ParentAccessScreenState extends State<ParentAccessScreen> {
     }
   }
 
-  Future<void> _setPermission(
-    Map<String, dynamic> parent,
-    String key,
-    bool value,
-  ) async {
+  bool _hasPendingChanges(Map<String, dynamic> parent) {
+    final saved = _savedPermissions[parent['uid']] ?? const {};
+    final pending = Map<String, bool>.from(parent['permissions'] as Map? ?? {});
+    return !mapEquals(saved, pending);
+  }
+
+  void _editPermission(Map<String, dynamic> parent, String key, bool value) {
+    setState(() {
+      final updated = Map<String, dynamic>.from(parent['permissions'] as Map? ?? {});
+      updated[key] = value;
+      parent['permissions'] = updated;
+    });
+  }
+
+  void _discardChanges(Map<String, dynamic> parent) {
+    setState(() {
+      parent['permissions'] =
+          Map<String, bool>.from(_savedPermissions[parent['uid']] ?? const {});
+    });
+  }
+
+  Future<void> _saveChanges(Map<String, dynamic> parent) async {
     final child = _selectedChild;
     if (child == null) return;
-    final old = Map<String, dynamic>.from(parent['permissions'] as Map? ?? {});
-    final updated = {...old, key: value};
-    setState(() => parent['permissions'] = updated);
-    try {
-      await FirebaseFunctions.instanceFor(region: 'us-central1')
-          .httpsCallable('setParentPermissions')
-          .call({
-        'childUid': child.uid,
-        'parentUid': parent['uid'],
-        'permissions': updated,
-      });
-    } catch (_) {
-      if (mounted) {
-        setState(() => parent['permissions'] = old);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Permission change could not be saved.')),
-        );
-      }
+    final parentUid = parent['uid'] as String;
+    final pending = Map<String, bool>.from(parent['permissions'] as Map? ?? {});
+
+    final confirmed = await OtpVerificationDialog.show(
+      context,
+      action: 'setParentPermissions',
+      title: 'Confirm access changes',
+      message:
+          "Enter the 6-digit code we emailed you to confirm these permission changes for ${parent['name'] ?? 'this linked parent'}.",
+      onSubmit: (otpCode) async {
+        await FirebaseFunctions.instanceFor(region: 'us-central1')
+            .httpsCallable('setParentPermissions')
+            .call({
+          'childUid': child.uid,
+          'parentUid': parentUid,
+          'permissions': pending,
+          'otpCode': otpCode,
+        });
+      },
+    );
+
+    if (!mounted) return;
+    if (confirmed) {
+      setState(() => _savedPermissions[parentUid] = pending);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Access changes saved.')),
+      );
     }
   }
 
@@ -122,7 +160,7 @@ class _ParentAccessScreenState extends State<ParentAccessScreen> {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: const Text(
-                'You are the primary parent. Choose exactly what each linked parent can access.',
+                'You are the primary parent. Choose exactly what each linked parent can access, then save to confirm with a one-time code.',
                 style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
               ),
             ),
@@ -150,6 +188,10 @@ class _ParentAccessScreenState extends State<ParentAccessScreen> {
   }
 
   Widget _parentCard(Map<String, dynamic> parent) {
+    final parentUid = parent['uid'] as String;
+    final hasChanges = _hasPendingChanges(parent);
+    final isSaving = _saving.contains(parentUid);
+
     return Card(
       margin: const EdgeInsets.only(bottom: 14),
       child: Padding(
@@ -182,6 +224,43 @@ class _ParentAccessScreenState extends State<ParentAccessScreen> {
             _switch(parent, 'verifyProgress', 'Verify progress', 'Approve or verify completed learning work.'),
             _switch(parent, 'viewMood', 'View mood check-ins', 'See the child mood check-in history.'),
             _switch(parent, 'manageCalendar', 'Manage calendar', 'Create and manage shared calendar/reminders.'),
+            if (hasChanges) ...[
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  const Icon(Icons.info_outline, size: 16, color: AppColors.textSecondary),
+                  const SizedBox(width: 6),
+                  const Expanded(
+                    child: Text(
+                      'Unsaved changes',
+                      style: TextStyle(
+                          color: AppColors.textSecondary, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: isSaving ? null : () => _discardChanges(parent),
+                    child: const Text('Discard'),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: isSaving
+                        ? null
+                        : () async {
+                            setState(() => _saving.add(parentUid));
+                            await _saveChanges(parent);
+                            if (mounted) setState(() => _saving.remove(parentUid));
+                          },
+                    child: isSaving
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Text('Save Changes'),
+                  ),
+                ],
+              ),
+            ],
           ],
         ),
       ),
@@ -195,7 +274,7 @@ class _ParentAccessScreenState extends State<ParentAccessScreen> {
       subtitle: Text(subtitle),
       value: parent['permissions']?[key] == true,
       activeThumbColor: AppColors.primary,
-      onChanged: (value) => _setPermission(parent, key, value),
+      onChanged: (value) => _editPermission(parent, key, value),
     );
   }
 }

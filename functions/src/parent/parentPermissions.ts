@@ -1,6 +1,7 @@
 import { onCall, HttpsError, CallableRequest } from "firebase-functions/v2/https";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
 import { ENFORCE_APP_CHECK } from "../config";
+import { verifyAndConsumeActionOtp } from "./actionOtp";
 
 const PERMISSION_KEYS = [
   "viewProgress",
@@ -73,6 +74,13 @@ export const getParentAccess = onCall(
   },
 );
 
+/**
+ * Step-up protected: requires a one-time code emailed via
+ * requestActionOtp({action: "setParentPermissions"}) before this proceeds.
+ * The UI batches every toggle for a secondary parent into one pending edit
+ * and calls this once per "Save Changes" press, so this is a single OTP
+ * prompt per save, not per toggle flip.
+ */
 export const setParentPermissions = onCall(
   { enforceAppCheck: ENFORCE_APP_CHECK },
   async (request) => {
@@ -94,6 +102,8 @@ export const setParentPermissions = onCall(
     if (!incoming || typeof incoming !== "object") {
       throw new HttpsError("invalid-argument", "permissions must be an object.");
     }
+
+    await verifyAndConsumeActionOtp(primaryParentUid, "setParentPermissions", request.data?.otpCode);
 
     const clean: Record<string, boolean> = {};
     for (const key of PERMISSION_KEYS) {

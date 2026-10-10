@@ -258,6 +258,8 @@ class AuthProvider extends ChangeNotifier {
         notifyListeners();
         return true;
       }
+      _setError(
+          "Google sign-in didn't complete. Please try again, or sign in with email instead.");
       return false;
     } catch (e) {
       _setError(_friendlyError(e.toString()));

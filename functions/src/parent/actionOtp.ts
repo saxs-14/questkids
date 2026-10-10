@@ -11,12 +11,13 @@ const MAX_VERIFY_ATTEMPTS = 5;
  * Parent actions gated behind an email step-up code. Add an action here
  * (and have that action's own callable call verifyAndConsumeActionOtp)
  * only when it fits a single deliberate "press one button" confirmation --
- * see unlinkChild.ts. setParentPermissions was deliberately NOT added:
- * its screen saves on every individual switch toggle, so gating it the
- * same way would mean an OTP prompt per toggle flip. That needs a
- * batch/"Save changes" redesign first, which is a separate piece of work.
+ * see unlinkChild.ts. setParentPermissions now qualifies too: its screen
+ * (parent_access_screen.dart) batches every toggle flip into one pending
+ * local edit per secondary parent and only calls this action once, from a
+ * single "Save Changes" button -- so one OTP prompt per save, not per
+ * toggle.
  */
-export const SENSITIVE_PARENT_ACTIONS = ["unlinkChild"] as const;
+export const SENSITIVE_PARENT_ACTIONS = ["unlinkChild", "setParentPermissions"] as const;
 export type SensitiveParentAction = (typeof SENSITIVE_PARENT_ACTIONS)[number];
 
 function otpChallengeRef(uid: string, action: string) {

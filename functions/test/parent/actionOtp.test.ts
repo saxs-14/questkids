@@ -102,9 +102,13 @@ describe("verifyAndConsumeActionOtp", () => {
     await clearFirestoreEmulatorData();
   });
 
-  async function requestedCode(uid: string, email: string): Promise<string> {
+  async function requestedCode(
+    uid: string,
+    email: string,
+    action: string = "unlinkChild"
+  ): Promise<string> {
     await requestActionOtp.run(
-      requestAs({ action: "unlinkChild" }, { uid, role: "parent", email })
+      requestAs({ action }, { uid, role: "parent", email })
     );
     const emails = await latestEmailTo(email);
     return (emails[emails.length - 1].data as { code: string }).code;
@@ -176,15 +180,22 @@ describe("verifyAndConsumeActionOtp", () => {
     ).rejects.toMatchObject({ code: "failed-precondition" });
   });
 
-  it("scopes a code to the action it was requested for", async () => {
-    // Only "unlinkChild" is wired today, so this proves the lookup key
-    // includes the action by checking a code requested for one uid can't
-    // verify against a different uid's challenge (the realistic version
-    // of the same scoping bug, since there's only one action to test).
+  it("scopes a code to the uid it was requested for", async () => {
     const codeForParent1 = await requestedCode("parent-1", "p1@example.com");
     await requestedCode("parent-2", "p2@example.com");
     await expect(
       verifyAndConsumeActionOtp("parent-2", "unlinkChild", codeForParent1)
     ).rejects.toMatchObject({ code: "permission-denied" });
+  });
+
+  it("scopes a code to the action it was requested for, even for the same uid", async () => {
+    // Each action has its own challenge document (otp_challenges/{uid}_{action}),
+    // so a code requested for "unlinkChild" doesn't just fail to match the
+    // hash under "setParentPermissions" -- there is no challenge document
+    // there at all, which is why this is "not-found", not "incorrect".
+    const codeForUnlink = await requestedCode("parent-1", "p1@example.com", "unlinkChild");
+    await expect(
+      verifyAndConsumeActionOtp("parent-1", "setParentPermissions", codeForUnlink)
+    ).rejects.toMatchObject({ code: "failed-precondition" });
   });
 });
