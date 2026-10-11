@@ -47,8 +47,21 @@ class AuthService {
     return '$cleanName.$dateStr@questkids.child';
   }
 
-  String _generateChildPassword(DateTime birthDate) {
-    return 'Child@${birthDate.year}';
+  // This credential is never used again after the child's Auth account is
+  // created -- children sign in via loginChild (name + birth date -> a
+  // custom token), never via email/password -- so it only has to satisfy
+  // Firebase's configured password policy at creation time, not be
+  // memorable or re-derivable. The project's policy (set via the Identity
+  // Toolkit Admin API; see firestore project config) requires 12+ chars
+  // with upper/lower/numeric/special characters. The previous
+  // 'Child@${birthDate.year}' was only 10 characters, so it satisfied
+  // every character-class requirement but failed on length -- Firebase
+  // rejected every single child-account creation with
+  // PASSWORD_DOES_NOT_MEET_REQUIREMENTS once that policy was enforced,
+  // silently (the thrown error was swallowed well above this call),
+  // which is why no new child account could ever be created or linked.
+  static String generateChildPassword(DateTime birthDate) {
+    return 'Child@${birthDate.year}Quest!';
   }
 
   // firebase_crashlytics has no web implementation (its pubspec declares
@@ -69,7 +82,7 @@ class AuthService {
   // Deletes a just-created child's Firestore doc and Auth account after a
   // post-creation step (e.g. linkChild) failed. Without this, the child is
   // left as an orphaned account, and since _generateChildEmail/
-  // _generateChildPassword are deterministic on name+birthdate, every retry
+  // generateChildPassword are deterministic on name+birthdate, every retry
   // with the same details would then permanently fail with
   // email-already-in-use. `childFirestore`/`childFirebaseUser` must belong
   // to the same temp app the child was created in, authenticated as the
@@ -207,7 +220,7 @@ class AuthService {
       try {
         final tempAuth = FirebaseAuth.instanceFor(app: tempApp);
         final dummyEmail = _generateChildEmail(childName, childBirthDate);
-        final dummyPassword = _generateChildPassword(childBirthDate);
+        final dummyPassword = generateChildPassword(childBirthDate);
 
         final childCred = await tempAuth.createUserWithEmailAndPassword(
           email: dummyEmail,
@@ -317,7 +330,7 @@ class AuthService {
     try {
       final tempAuth = FirebaseAuth.instanceFor(app: tempApp);
       final dummyEmail = _generateChildEmail(childName, childBirthDate);
-      final dummyPassword = _generateChildPassword(childBirthDate);
+      final dummyPassword = generateChildPassword(childBirthDate);
 
       final childCred = await tempAuth.createUserWithEmailAndPassword(
         email: dummyEmail,
@@ -540,7 +553,7 @@ class AuthService {
     try {
       final tempAuth = FirebaseAuth.instanceFor(app: tempApp);
       final dummyEmail = _generateChildEmail(childName, childBirthDate);
-      final dummyPassword = _generateChildPassword(childBirthDate);
+      final dummyPassword = generateChildPassword(childBirthDate);
 
       final childCred = await tempAuth.createUserWithEmailAndPassword(
         email: dummyEmail,
