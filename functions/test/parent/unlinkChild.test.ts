@@ -19,9 +19,13 @@ function requestAs(data: Record<string, unknown>, auth?: { uid: string; role: st
   } as never;
 }
 
-async function otpCodeFor(uid: string, email = "parent@example.com"): Promise<string> {
+async function otpCodeFor(
+  uid: string,
+  email = "parent@example.com",
+  target = "child-1"
+): Promise<string> {
   await requestActionOtp.run(
-    requestAs({ action: "unlinkChild" }, { uid, role: "parent", email })
+    requestAs({ action: "unlinkChild", target }, { uid, role: "parent", email })
   );
   const snap = await getFirestore()
     .collection("emails")
@@ -80,7 +84,7 @@ describe("unlinkParentChild", () => {
   });
 
   it("rejects unlinking a child that doesn't exist (after a valid OTP)", async () => {
-    const code = await otpCodeFor("parent-1");
+    const code = await otpCodeFor("parent-1", "parent@example.com", "ghost");
     await expect(
       unlinkParentChild.run(
         requestAs(

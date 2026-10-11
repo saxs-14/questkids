@@ -103,7 +103,12 @@ export const setParentPermissions = onCall(
       throw new HttpsError("invalid-argument", "permissions must be an object.");
     }
 
-    await verifyAndConsumeActionOtp(primaryParentUid, "setParentPermissions", request.data?.otpCode);
+    await verifyAndConsumeActionOtp(
+      primaryParentUid,
+      "setParentPermissions",
+      request.data?.otpCode,
+      `${childUid}:${parentUid}`,
+    );
 
     const clean: Record<string, boolean> = {};
     for (const key of PERMISSION_KEYS) {

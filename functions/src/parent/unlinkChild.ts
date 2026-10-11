@@ -28,7 +28,7 @@ export const unlinkParentChild = onCall({ enforceAppCheck: ENFORCE_APP_CHECK }, 
     throw new HttpsError("invalid-argument", "childUid is required");
   }
 
-  await verifyAndConsumeActionOtp(parentUid, "unlinkChild", otpCode);
+  await verifyAndConsumeActionOtp(parentUid, "unlinkChild", otpCode, childUid);
 
   const db = getFirestore();
   const childRef = db.collection("users").doc(childUid);

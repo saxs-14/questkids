@@ -88,6 +88,7 @@ class _ParentAccessScreenState extends State<ParentAccessScreen> {
     final confirmed = await OtpVerificationDialog.show(
       context,
       action: 'setParentPermissions',
+      targetId: '${child.uid}:$parentUid',
       title: 'Confirm access changes',
       message:
           "Enter the 6-digit code we emailed you to confirm these permission changes for ${parent['name'] ?? 'this linked parent'}.",

@@ -6,6 +6,13 @@ import { ENFORCE_APP_CHECK } from "../config";
 const OTP_TTL_MS = 5 * 60 * 1000;
 const RESEND_COOLDOWN_MS = 60 * 1000;
 const MAX_VERIFY_ATTEMPTS = 5;
+// A single OTP cycle only allows 5 guesses before its challenge is
+// deleted, but nothing stopped an attacker from immediately requesting a
+// fresh code and getting another 5 guesses, indefinitely. This counter
+// persists across cycles (it survives challenge deletion/expiry) so
+// repeated wrong guesses across many codes still add up to a lockout.
+const MAX_FAILED_CYCLES = 10;
+const LOCKOUT_MS = 15 * 60 * 1000;
 
 /**
  * Parent actions gated behind an email step-up code. Add an action here
@@ -24,8 +31,19 @@ function otpChallengeRef(uid: string, action: string) {
   return getFirestore().collection("otp_challenges").doc(`${uid}_${action}`);
 }
 
-function hashOtpCode(code: string, uid: string, action: string): string {
-  return createHash("sha256").update(`${uid}:${action}:${code}`).digest("hex");
+function otpLockoutRef(uid: string, action: string) {
+  return getFirestore().collection("otp_lockouts").doc(`${uid}_${action}`);
+}
+
+function hashOtpCode(
+  code: string,
+  uid: string,
+  action: string,
+  target: string
+): string {
+  return createHash("sha256")
+    .update(`${uid}:${action}:${target}:${code}`)
+    .digest("hex");
 }
 
 function generateOtpCode(): string {
@@ -46,10 +64,30 @@ function requireSensitiveAction(data: unknown): SensitiveParentAction {
   return action as SensitiveParentAction;
 }
 
+function requireTarget(data: unknown): string {
+  const target = (data as { target?: unknown })?.target;
+  if (typeof target !== "string" || !target.trim()) {
+    throw new HttpsError(
+      "invalid-argument",
+      "target is required (identifies exactly what this code authorizes)."
+    );
+  }
+  return target.trim();
+}
+
 /**
  * Requests a 6-digit email verification code for a sensitive parent
  * action. The code is single-use and expires in 5 minutes; resending is
  * rate-limited to once every 60 seconds per uid+action.
+ *
+ * `target` identifies exactly what the code authorizes (e.g. the
+ * childUid being unlinked, or `${childUid}:${parentUid}` for a
+ * permissions change) and is re-derived from the real action's own
+ * parameters at verify time -- see verifyAndConsumeActionOtp. Without
+ * this, a code requested for one child/secondary-parent pair could be
+ * replayed against a different one for the same action type, since the
+ * code itself only ever proved "this parent confirmed *an*
+ * setParentPermissions/unlinkChild action", not which one.
  */
 export const requestActionOtp = onCall(
   { enforceAppCheck: ENFORCE_APP_CHECK },
@@ -64,8 +102,18 @@ export const requestActionOtp = onCall(
       );
     }
     const action = requireSensitiveAction(request.data);
+    const target = requireTarget(request.data);
     const uid = request.auth.uid;
     const ref = otpChallengeRef(uid, action);
+
+    const lockoutSnap = await otpLockoutRef(uid, action).get();
+    const lockedUntil = lockoutSnap.data()?.lockedUntil as Timestamp | undefined;
+    if (lockedUntil && Date.now() < lockedUntil.toMillis()) {
+      throw new HttpsError(
+        "resource-exhausted",
+        "Too many incorrect attempts. Try again later."
+      );
+    }
 
     const existing = await ref.get();
     const lastSentAt = existing.data()?.lastSentAt as Timestamp | undefined;
@@ -89,8 +137,9 @@ export const requestActionOtp = onCall(
     const code = generateOtpCode();
     const now = Date.now();
     await ref.set({
-      codeHash: hashOtpCode(code, uid, action),
+      codeHash: hashOtpCode(code, uid, action, target),
       action,
+      target,
       attempts: 0,
       expiresAt: Timestamp.fromMillis(now + OTP_TTL_MS),
       lastSentAt: Timestamp.fromMillis(now),
@@ -114,11 +163,17 @@ export const requestActionOtp = onCall(
  * consumes it (single-use). Call this from inside the action's own
  * callable (see unlinkChild.ts), before performing the action -- there is
  * no separate "verified" token to generate, store, or forget to check.
+ *
+ * `target` must be derived from the action's own real parameters (e.g.
+ * the childUid actually being unlinked), never trusted from the same
+ * client payload the otpCode came in on -- that's what stops a code
+ * requested for target A from being replayed against target B.
  */
 export async function verifyAndConsumeActionOtp(
   uid: string,
   action: SensitiveParentAction,
-  suppliedCode: unknown
+  suppliedCode: unknown,
+  target: string
 ): Promise<void> {
   if (typeof suppliedCode !== "string" || !/^\d{6}$/.test(suppliedCode)) {
     throw new HttpsError(
@@ -127,6 +182,16 @@ export async function verifyAndConsumeActionOtp(
     );
   }
   const ref = otpChallengeRef(uid, action);
+  const lockoutRef = otpLockoutRef(uid, action);
+
+  const lockoutSnap = await lockoutRef.get();
+  const lockedUntil = lockoutSnap.data()?.lockedUntil as Timestamp | undefined;
+  if (lockedUntil && Date.now() < lockedUntil.toMillis()) {
+    throw new HttpsError(
+      "resource-exhausted",
+      "Too many incorrect attempts. Try again later."
+    );
+  }
 
   // A transaction aborts ALL of its queued writes if the updateFunction
   // throws -- including a tx.update() made earlier in the same call. The
@@ -145,12 +210,18 @@ export async function verifyAndConsumeActionOtp(
       tx.delete(ref);
       return "expired" as const;
     }
+    if (data.target !== target) {
+      // Deliberately not deleted/counted as a failed attempt: this is
+      // the caller invoking the action against a different target than
+      // the one it requested a code for, not a wrong-guess attack.
+      return "target-mismatch" as const;
+    }
     const attempts = typeof data.attempts === "number" ? data.attempts : 0;
     if (attempts >= MAX_VERIFY_ATTEMPTS) {
       tx.delete(ref);
       return "too-many-attempts" as const;
     }
-    const expectedHash = hashOtpCode(suppliedCode, uid, action);
+    const expectedHash = hashOtpCode(suppliedCode, uid, action, target);
     if (expectedHash !== data.codeHash) {
       tx.update(ref, { attempts: attempts + 1 });
       return "incorrect" as const;
@@ -158,6 +229,31 @@ export async function verifyAndConsumeActionOtp(
     tx.delete(ref);
     return "ok" as const;
   });
+
+  if (outcome === "ok") {
+    // Clear any accumulated failure count now that a code was correctly
+    // entered -- the lockout is for sustained guessing, not a one-off
+    // earlier typo.
+    await lockoutRef.delete();
+    return;
+  }
+
+  if (outcome === "incorrect" || outcome === "too-many-attempts") {
+    await getFirestore().runTransaction(async (tx) => {
+      const snap = await tx.get(lockoutRef);
+      const failedCycles = (snap.data()?.failedCycles as number | undefined) ?? 0;
+      const nextFailedCycles =
+        outcome === "too-many-attempts" ? failedCycles + 1 : failedCycles;
+      if (nextFailedCycles >= MAX_FAILED_CYCLES) {
+        tx.set(lockoutRef, {
+          failedCycles: nextFailedCycles,
+          lockedUntil: Timestamp.fromMillis(Date.now() + LOCKOUT_MS),
+        });
+      } else if (nextFailedCycles !== failedCycles) {
+        tx.set(lockoutRef, { failedCycles: nextFailedCycles }, { merge: true });
+      }
+    });
+  }
 
   switch (outcome) {
   case "not-found":
@@ -167,6 +263,11 @@ export async function verifyAndConsumeActionOtp(
       "failed-precondition",
       "That verification code has expired. Request a new one."
     );
+  case "target-mismatch":
+    throw new HttpsError(
+      "failed-precondition",
+      "This code was issued for a different request. Request a new verification code."
+    );
   case "too-many-attempts":
     throw new HttpsError(
       "failed-precondition",
@@ -174,7 +275,5 @@ export async function verifyAndConsumeActionOtp(
     );
   case "incorrect":
     throw new HttpsError("permission-denied", "Incorrect verification code.");
-  case "ok":
-    return;
   }
 }

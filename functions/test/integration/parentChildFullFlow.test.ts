@@ -30,8 +30,13 @@ function requestAs(data: Record<string, unknown>, auth: { uid: string; role: str
   } as never;
 }
 
-async function otpCodeFor(uid: string, action: string, email: string): Promise<string> {
-  await requestActionOtp.run(requestAs({ action }, { uid, role: "parent", email }));
+async function otpCodeFor(
+  uid: string,
+  action: string,
+  email: string,
+  target: string
+): Promise<string> {
+  await requestActionOtp.run(requestAs({ action, target }, { uid, role: "parent", email }));
   const snap = await getFirestore().collection("emails").where("to", "==", email).get();
   const latest = snap.docs[snap.docs.length - 1].data();
   return (latest.data as { code: string }).code;
@@ -113,7 +118,12 @@ describe("full parent/child link + permissions + link-code lifecycle", () => {
     expect(access.parents[0].permissions.verifyProgress).toBe(false);
 
     // 5. Primary parent changes permissions through the OTP-gated flow.
-    const otpCode = await otpCodeFor("parent-primary", "setParentPermissions", "primary@example.com");
+    const otpCode = await otpCodeFor(
+      "parent-primary",
+      "setParentPermissions",
+      "primary@example.com",
+      "child-1:parent-secondary"
+    );
     const setResult = (await setParentPermissions.run(
       requestAs(
         {

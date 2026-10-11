@@ -163,13 +163,14 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 50));
 
-    // The OTP dialog requests a code as soon as it opens.
-    expect(
-      fakeFunctions.calls.where(
-        (c) => c.$1 == 'requestActionOtp' && (c.$2 as Map)['action'] == 'setParentPermissions',
-      ),
-      hasLength(1),
-    );
+    // The OTP dialog requests a code as soon as it opens, scoped to
+    // exactly this child+secondary-parent pair (see actionOtp.ts's
+    // target-mismatch check).
+    final otpRequests = fakeFunctions.calls
+        .where((c) => c.$1 == 'requestActionOtp' && (c.$2 as Map)['action'] == 'setParentPermissions')
+        .toList();
+    expect(otpRequests, hasLength(1));
+    expect((otpRequests.single.$2 as Map)['target'], 'child-1:parent-2');
 
     await tester.enterText(find.byType(TextField), '123456');
     await tester.tap(find.text('Verify'));

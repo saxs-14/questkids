@@ -14,6 +14,7 @@ class OtpVerificationDialog {
   static Future<bool> show(
     BuildContext context, {
     required String action,
+    required String targetId,
     required String title,
     required String message,
     required Future<void> Function(String otpCode) onSubmit,
@@ -23,6 +24,7 @@ class OtpVerificationDialog {
       barrierDismissible: false,
       builder: (ctx) => _OtpDialogContent(
         action: action,
+        targetId: targetId,
         title: title,
         message: message,
         onSubmit: onSubmit,
@@ -34,12 +36,14 @@ class OtpVerificationDialog {
 
 class _OtpDialogContent extends StatefulWidget {
   final String action;
+  final String targetId;
   final String title;
   final String message;
   final Future<void> Function(String otpCode) onSubmit;
 
   const _OtpDialogContent({
     required this.action,
+    required this.targetId,
     required this.title,
     required this.message,
     required this.onSubmit,
@@ -76,7 +80,7 @@ class _OtpDialogContentState extends State<_OtpDialogContent> {
     try {
       await FirebaseFunctions.instanceFor(region: 'us-central1')
           .httpsCallable('requestActionOtp')
-          .call({'action': widget.action});
+          .call({'action': widget.action, 'target': widget.targetId});
       if (mounted) _startResendCooldown();
     } on FirebaseFunctionsException catch (e) {
       if (mounted) {

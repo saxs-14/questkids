@@ -1,3 +1,5 @@
+import 'dart:async' show StreamSubscription;
+
 import 'package:flutter/material.dart';
 import '../data/models/reward_model.dart';
 import '../data/models/progress_model.dart';
@@ -18,6 +20,15 @@ class RewardsProvider extends ChangeNotifier {
   String? _errorMessage;
   int? _previousLevel;
   int? _leveledUpTo;
+
+  // RewardsProvider is a single app-lifetime instance (see main.dart's
+  // MultiProvider), so on a shared/kiosk device the next learner to sign
+  // in reuses it. Without tracking and cancelling these, watchRewards()
+  // layers new listeners on top of the previous learner's -- their XP/
+  // badges/progress stays visible (and their old listeners keep firing)
+  // until the new learner's own data happens to overwrite it.
+  StreamSubscription? _rewardsSub;
+  StreamSubscription? _progressSub;
 
   RewardModel? get rewards => _rewards;
   List<ProgressModel> get progressHistory => _progressHistory;
@@ -109,15 +120,44 @@ class RewardsProvider extends ChangeNotifier {
   }
 
   void watchRewards(String uid) {
-    _rewardRepo.watchRewards(uid).listen((r) {
+    _rewardsSub?.cancel();
+    _progressSub?.cancel();
+    _rewardsSub = _rewardRepo.watchRewards(uid).listen((r) {
       _rewards = r;
       _detectLevelUp();
       notifyListeners();
     });
-    _progressRepo.watchUserProgress(uid).listen((p) {
+    _progressSub = _progressRepo.watchUserProgress(uid).listen((p) {
       _progressHistory = p;
       notifyListeners();
     });
+  }
+
+  /// Cancels live Firestore listeners and clears all cached state. Must
+  /// run on sign-out so no learner's XP/badges/progress from this
+  /// session is visible to the next account that signs in on this
+  /// device.
+  void reset() {
+    _rewardsSub?.cancel();
+    _progressSub?.cancel();
+    _rewardsSub = null;
+    _progressSub = null;
+
+    _rewards = null;
+    _progressHistory = [];
+    _newlyEarnedBadges = [];
+    _errorMessage = null;
+    _previousLevel = null;
+    _leveledUpTo = null;
+    _walletError = null;
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _rewardsSub?.cancel();
+    _progressSub?.cancel();
+    super.dispose();
   }
 
   /// Compares the newly-loaded [level] against the last known level and

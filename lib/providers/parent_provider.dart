@@ -1,3 +1,5 @@
+import 'dart:async' show StreamSubscription;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../data/models/user_model.dart';
@@ -17,6 +19,19 @@ class ParentProvider extends ChangeNotifier {
   bool _isLoading = false;
   String? _errorMessage;
 
+  // ParentProvider is a single app-lifetime instance (see main.dart's
+  // MultiProvider) that outlives sign-out/sign-in. Without tracking and
+  // cancelling these, loadParentData() on a second account layers a new
+  // set of listeners on top of the previous account's -- the old
+  // listeners keep firing and the old data (_linkedChildren,
+  // _selectedChild, etc.) stays visible until the new account's own
+  // listeners happen to overwrite it, leaking one family's child data
+  // into another parent's freshly-created session.
+  StreamSubscription? _pendingRequestsSub;
+  StreamSubscription? _outgoingRequestsSub;
+  StreamSubscription? _linkedChildrenDocSub;
+  StreamSubscription? _pendingVerificationsSub;
+
   // Getters
   List<UserModel> get linkedChildren => _linkedChildren;
   UserModel? get selectedChild => _selectedChild;
@@ -35,16 +50,17 @@ class ParentProvider extends ChangeNotifier {
   }
 
   Future<void> loadParentData(String uid) async {
+    reset();
     _setLoading(true);
     try {
       // load pending requests
-      _parentRepo.watchPendingRequests(uid).listen((list) {
+      _pendingRequestsSub = _parentRepo.watchPendingRequests(uid).listen((list) {
         _pendingRequests = list;
         notifyListeners();
       });
 
       // outgoing requests
-      _parentRepo.watchOutgoingRequests(uid).listen((list) {
+      _outgoingRequestsSub = _parentRepo.watchOutgoingRequests(uid).listen((list) {
         _outgoingRequests = list;
         notifyListeners();
       });
@@ -61,7 +77,7 @@ class ParentProvider extends ChangeNotifier {
 
   void watchLinkedChildrenStream(String uid) {
     // watch user's document to get linked children uids
-    _parentRepo.watchUserDoc(uid).listen((data) {
+    _linkedChildrenDocSub = _parentRepo.watchUserDoc(uid).listen((data) {
       final children = List<String>.from(data?['linkedChildrenUids'] ?? []);
       // update linkedChildren list
       _parentRepo.getLinkedChildren(children).then((list) {
@@ -70,11 +86,49 @@ class ParentProvider extends ChangeNotifier {
       });
 
       // subscribe to pending verifications for these children
-      _parentRepo.watchPendingVerifications(children).listen((items) {
+      _pendingVerificationsSub?.cancel();
+      _pendingVerificationsSub =
+          _parentRepo.watchPendingVerifications(children).listen((items) {
         _pendingVerifications = items;
         notifyListeners();
       });
     });
+  }
+
+  /// Cancels every live Firestore listener and clears all cached state.
+  /// Must run before loading a different account's data (loadParentData
+  /// already does this) and on sign-out, so no linked-children/requests
+  /// data from one account is ever visible to the next account that signs
+  /// in on this device.
+  void reset() {
+    _pendingRequestsSub?.cancel();
+    _outgoingRequestsSub?.cancel();
+    _linkedChildrenDocSub?.cancel();
+    _pendingVerificationsSub?.cancel();
+    _pendingRequestsSub = null;
+    _outgoingRequestsSub = null;
+    _linkedChildrenDocSub = null;
+    _pendingVerificationsSub = null;
+
+    _linkedChildren = [];
+    _selectedChild = null;
+    _pendingRequests = [];
+    _pendingVerifications = [];
+    _outgoingRequests = [];
+    _calendarEvents.clear();
+    _documents.clear();
+    _moodHistory.clear();
+    _errorMessage = null;
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _pendingRequestsSub?.cancel();
+    _outgoingRequestsSub?.cancel();
+    _linkedChildrenDocSub?.cancel();
+    _pendingVerificationsSub?.cancel();
+    super.dispose();
   }
 
   void selectChild(UserModel child) {

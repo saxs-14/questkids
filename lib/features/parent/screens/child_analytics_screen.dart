@@ -165,6 +165,7 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
     final verified = await OtpVerificationDialog.show(
       context,
       action: 'unlinkChild',
+      targetId: widget.child.uid,
       title: 'Verify to unlink $childName',
       message: "We've emailed you a 6-digit code to confirm this change.",
       onSubmit: (otpCode) =>

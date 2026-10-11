@@ -365,5 +365,12 @@ service cloud.firestore {
     match /otp_challenges/{challengeId} {
       allow read, write: if false;
     }
+
+    // Persistent cross-code failed-attempt counter -- see
+    // MAX_FAILED_CYCLES in actionOtp.ts. Same rationale as
+    // otp_challenges: Admin-SDK-only, never client-readable or -writable.
+    match /otp_lockouts/{lockoutId} {
+      allow read, write: if false;
+    }
   }
 }

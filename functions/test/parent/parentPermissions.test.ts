@@ -22,9 +22,13 @@ function requestAs(
   } as never;
 }
 
-async function otpCodeFor(uid: string, email = "parent@example.com"): Promise<string> {
+async function otpCodeFor(
+  uid: string,
+  email = "parent@example.com",
+  target = "child-1:parent-2"
+): Promise<string> {
   await requestActionOtp.run(
-    requestAs({ action: "setParentPermissions" }, { uid, role: "parent", email })
+    requestAs({ action: "setParentPermissions", target }, { uid, role: "parent", email })
   );
   const snap = await getFirestore()
     .collection("emails")

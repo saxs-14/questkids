@@ -50,6 +50,16 @@ class MissionProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Cancels the live listener and clears cached missions. Must run on
+  /// sign-out so no account's missions are visible to the next account
+  /// that signs in on this device before watchMissions() re-subscribes.
+  void reset() {
+    _sub?.cancel();
+    _sub = null;
+    _missions = [];
+    notifyListeners();
+  }
+
   @override
   void dispose() {
     _sub?.cancel();

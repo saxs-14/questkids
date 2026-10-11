@@ -3,6 +3,8 @@ import { getFirestore } from "firebase-admin/firestore";
 import { clearFirestoreEmulatorData } from "../setup/firestoreEmulator";
 import { requestActionOtp, verifyAndConsumeActionOtp } from "../../src/parent/actionOtp";
 
+const TARGET = "child-1";
+
 function requestAs(data: Record<string, unknown>, auth?: { uid: string; role: string; email?: string }) {
   return {
     data,
@@ -30,14 +32,14 @@ describe("requestActionOtp", () => {
 
   it("rejects an unauthenticated caller", async () => {
     await expect(
-      requestActionOtp.run(requestAs({ action: "unlinkChild" }))
+      requestActionOtp.run(requestAs({ action: "unlinkChild", target: TARGET }))
     ).rejects.toMatchObject({ code: "unauthenticated" });
   });
 
   it("rejects a non-parent caller", async () => {
     await expect(
       requestActionOtp.run(
-        requestAs({ action: "unlinkChild" }, { uid: "learner-1", role: "learner" })
+        requestAs({ action: "unlinkChild", target: TARGET }, { uid: "learner-1", role: "learner" })
       )
     ).rejects.toMatchObject({ code: "permission-denied" });
   });
@@ -46,7 +48,18 @@ describe("requestActionOtp", () => {
     await expect(
       requestActionOtp.run(
         requestAs(
-          { action: "deleteEverything" },
+          { action: "deleteEverything", target: TARGET },
+          { uid: "parent-1", role: "parent", email: "parent@example.com" }
+        )
+      )
+    ).rejects.toMatchObject({ code: "invalid-argument" });
+  });
+
+  it("rejects a missing target", async () => {
+    await expect(
+      requestActionOtp.run(
+        requestAs(
+          { action: "unlinkChild" },
           { uid: "parent-1", role: "parent", email: "parent@example.com" }
         )
       )
@@ -56,7 +69,7 @@ describe("requestActionOtp", () => {
   it("rejects when there is no email address on file", async () => {
     await expect(
       requestActionOtp.run(
-        requestAs({ action: "unlinkChild" }, { uid: "parent-1", role: "parent" })
+        requestAs({ action: "unlinkChild", target: TARGET }, { uid: "parent-1", role: "parent" })
       )
     ).rejects.toMatchObject({ code: "failed-precondition" });
   });
@@ -64,7 +77,7 @@ describe("requestActionOtp", () => {
   it("sends a code via the emails collection using the otp_code template", async () => {
     const result = (await requestActionOtp.run(
       requestAs(
-        { action: "unlinkChild" },
+        { action: "unlinkChild", target: TARGET },
         { uid: "parent-1", role: "parent", email: "parent@example.com" }
       )
     )) as { sent: boolean; expiresInSeconds: number };
@@ -82,16 +95,16 @@ describe("requestActionOtp", () => {
       email: "fallback@example.com",
     });
     await requestActionOtp.run(
-      requestAs({ action: "unlinkChild" }, { uid: "parent-1", role: "parent" })
+      requestAs({ action: "unlinkChild", target: TARGET }, { uid: "parent-1", role: "parent" })
     );
     expect(await latestEmailTo("fallback@example.com")).toHaveLength(1);
   });
 
   it("rejects a resend within the 60-second cooldown", async () => {
     const auth = { uid: "parent-1", role: "parent", email: "parent@example.com" };
-    await requestActionOtp.run(requestAs({ action: "unlinkChild" }, auth));
+    await requestActionOtp.run(requestAs({ action: "unlinkChild", target: TARGET }, auth));
     await expect(
-      requestActionOtp.run(requestAs({ action: "unlinkChild" }, auth))
+      requestActionOtp.run(requestAs({ action: "unlinkChild", target: TARGET }, auth))
     ).rejects.toMatchObject({ code: "resource-exhausted" });
   });
 
@@ -105,10 +118,11 @@ describe("verifyAndConsumeActionOtp", () => {
   async function requestedCode(
     uid: string,
     email: string,
-    action: string = "unlinkChild"
+    action: string = "unlinkChild",
+    target: string = TARGET
   ): Promise<string> {
     await requestActionOtp.run(
-      requestAs({ action }, { uid, role: "parent", email })
+      requestAs({ action, target }, { uid, role: "parent", email })
     );
     const emails = await latestEmailTo(email);
     return (emails[emails.length - 1].data as { code: string }).code;
@@ -116,20 +130,20 @@ describe("verifyAndConsumeActionOtp", () => {
 
   it("rejects a malformed code", async () => {
     await expect(
-      verifyAndConsumeActionOtp("parent-1", "unlinkChild", "abc")
+      verifyAndConsumeActionOtp("parent-1", "unlinkChild", "abc", TARGET)
     ).rejects.toMatchObject({ code: "invalid-argument" });
   });
 
   it("rejects when no challenge has been requested yet", async () => {
     await expect(
-      verifyAndConsumeActionOtp("parent-1", "unlinkChild", "123456")
+      verifyAndConsumeActionOtp("parent-1", "unlinkChild", "123456", TARGET)
     ).rejects.toMatchObject({ code: "failed-precondition" });
   });
 
   it("rejects an incorrect code and records the attempt", async () => {
     await requestedCode("parent-1", "parent@example.com");
     await expect(
-      verifyAndConsumeActionOtp("parent-1", "unlinkChild", "000000")
+      verifyAndConsumeActionOtp("parent-1", "unlinkChild", "000000", TARGET)
     ).rejects.toMatchObject({ code: "permission-denied" });
     const doc = await getFirestore()
       .collection("otp_challenges")
@@ -141,7 +155,7 @@ describe("verifyAndConsumeActionOtp", () => {
   it("accepts the correct code and consumes it (single-use)", async () => {
     const code = await requestedCode("parent-1", "parent@example.com");
     await expect(
-      verifyAndConsumeActionOtp("parent-1", "unlinkChild", code)
+      verifyAndConsumeActionOtp("parent-1", "unlinkChild", code, TARGET)
     ).resolves.toBeUndefined();
 
     const doc = await getFirestore()
@@ -153,7 +167,7 @@ describe("verifyAndConsumeActionOtp", () => {
     // Reusing the same code a second time must fail -- there is no
     // challenge left to check it against.
     await expect(
-      verifyAndConsumeActionOtp("parent-1", "unlinkChild", code)
+      verifyAndConsumeActionOtp("parent-1", "unlinkChild", code, TARGET)
     ).rejects.toMatchObject({ code: "failed-precondition" });
   });
 
@@ -161,11 +175,11 @@ describe("verifyAndConsumeActionOtp", () => {
     await requestedCode("parent-1", "parent@example.com");
     for (let i = 0; i < 5; i++) {
       await expect(
-        verifyAndConsumeActionOtp("parent-1", "unlinkChild", "111111")
+        verifyAndConsumeActionOtp("parent-1", "unlinkChild", "111111", TARGET)
       ).rejects.toMatchObject({ code: "permission-denied" });
     }
     await expect(
-      verifyAndConsumeActionOtp("parent-1", "unlinkChild", "111111")
+      verifyAndConsumeActionOtp("parent-1", "unlinkChild", "111111", TARGET)
     ).rejects.toMatchObject({ code: "failed-precondition" });
   });
 
@@ -176,7 +190,7 @@ describe("verifyAndConsumeActionOtp", () => {
       .doc("parent-1_unlinkChild")
       .update({ expiresAt: new Date(Date.now() - 1000) });
     await expect(
-      verifyAndConsumeActionOtp("parent-1", "unlinkChild", code)
+      verifyAndConsumeActionOtp("parent-1", "unlinkChild", code, TARGET)
     ).rejects.toMatchObject({ code: "failed-precondition" });
   });
 
@@ -184,7 +198,7 @@ describe("verifyAndConsumeActionOtp", () => {
     const codeForParent1 = await requestedCode("parent-1", "p1@example.com");
     await requestedCode("parent-2", "p2@example.com");
     await expect(
-      verifyAndConsumeActionOtp("parent-2", "unlinkChild", codeForParent1)
+      verifyAndConsumeActionOtp("parent-2", "unlinkChild", codeForParent1, TARGET)
     ).rejects.toMatchObject({ code: "permission-denied" });
   });
 
@@ -195,7 +209,52 @@ describe("verifyAndConsumeActionOtp", () => {
     // there at all, which is why this is "not-found", not "incorrect".
     const codeForUnlink = await requestedCode("parent-1", "p1@example.com", "unlinkChild");
     await expect(
-      verifyAndConsumeActionOtp("parent-1", "setParentPermissions", codeForUnlink)
+      verifyAndConsumeActionOtp("parent-1", "setParentPermissions", codeForUnlink, TARGET)
     ).rejects.toMatchObject({ code: "failed-precondition" });
+  });
+
+  it("rejects a correct code verified against a different target, without consuming it", async () => {
+    // A code requested for "child-A" must not authorize the same action
+    // against "child-B" -- otherwise one OTP prompt could be replayed
+    // across different children/secondary-parents for the same action
+    // type (a confused-deputy replay).
+    const code = await requestedCode("parent-1", "parent@example.com", "unlinkChild", "child-A");
+    await expect(
+      verifyAndConsumeActionOtp("parent-1", "unlinkChild", code, "child-B")
+    ).rejects.toMatchObject({ code: "failed-precondition" });
+
+    // The mismatch must not have consumed or penalized the still-valid
+    // challenge -- verifying against the correct target still works.
+    await expect(
+      verifyAndConsumeActionOtp("parent-1", "unlinkChild", code, "child-A")
+    ).resolves.toBeUndefined();
+  });
+
+  it("locks the account out after repeatedly exhausting codes across many cycles", async () => {
+    const email = "parent@example.com";
+    // Exhausting a 5-attempt cycle deletes the challenge doc, so the next
+    // requestActionOtp call for the same uid+action is never blocked by
+    // the 60s resend cooldown -- this can run all 10 cycles back to back.
+    for (let cycle = 0; cycle < 10; cycle++) {
+      await requestedCode("parent-1", email);
+      for (let i = 0; i < 6; i++) {
+        await expect(
+          verifyAndConsumeActionOtp("parent-1", "unlinkChild", "000000", TARGET)
+        ).rejects.toMatchObject({
+          code: i < 5 ? "permission-denied" : "failed-precondition",
+        });
+      }
+    }
+
+    // The 11th cycle's request is rejected outright by the persistent
+    // lockout, before a new code is even generated.
+    await expect(
+      requestActionOtp.run(
+        requestAs(
+          { action: "unlinkChild", target: TARGET },
+          { uid: "parent-1", role: "parent", email }
+        )
+      )
+    ).rejects.toMatchObject({ code: "resource-exhausted" });
   });
 });
