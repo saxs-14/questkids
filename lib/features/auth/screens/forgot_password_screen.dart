@@ -24,10 +24,29 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   Future<void> _send() async {
-    if (_emailCtrl.text.isEmpty) return;
+    final email = _emailCtrl.text.trim();
+    if (email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Enter your email address first.'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+      return;
+    }
     final auth = context.read<AuthProvider>();
-    await auth.resetPassword(_emailCtrl.text.trim());
-    if (mounted) setState(() => _sent = true);
+    final success = await auth.resetPassword(email);
+    if (!mounted) return;
+    if (success) {
+      setState(() => _sent = true);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(auth.errorMessage ?? 'Could not send the reset email. Please try again.'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+    }
   }
 
   @override
