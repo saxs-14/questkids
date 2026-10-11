@@ -17,6 +17,45 @@ import '../core/game_session_persistence.dart';
 
 enum _Phase { intro, playing, streak, roundDone, victory }
 
+// Shared geometry for the 5x5 cube grid -- used both to hit-test which cube
+// a drag position is currently over, and by _LaserPathPainter to find each
+// cube's center. Must stay in sync with the GridView.builder's own
+// crossAxisCount/crossAxisSpacing/mainAxisSpacing below: a
+// SliverGridDelegateWithFixedCrossAxisCount with no explicit
+// childAspectRatio defaults to 1.0, so each cell is a square of
+// (totalSize - (gridSize-1)*spacing) / gridSize on a side.
+const int kMultiplesGridSize = 5;
+const double kMultiplesGridSpacing = 8.0;
+
+double gridCellExtentFor(double totalSize) =>
+    (totalSize - (kMultiplesGridSize - 1) * kMultiplesGridSpacing) / kMultiplesGridSize;
+
+Offset gridCubeCenter(int index, Size size) {
+  final cell = gridCellExtentFor(size.width);
+  final stride = cell + kMultiplesGridSpacing;
+  final col = index % kMultiplesGridSize;
+  final row = index ~/ kMultiplesGridSize;
+  return Offset(col * stride + cell / 2, row * stride + cell / 2);
+}
+
+/// Returns the cube index under [local], or null if the point falls
+/// outside the grid or in the gap between cubes (a gap is deliberately
+/// not a hit -- passing through it shouldn't count as entering any cube).
+int? hitTestGridCubeIndex(Offset local, Size size) {
+  final cell = gridCellExtentFor(size.width);
+  final stride = cell + kMultiplesGridSpacing;
+  if (local.dx < 0 || local.dy < 0 || local.dx >= size.width || local.dy >= size.height) {
+    return null;
+  }
+  final col = (local.dx / stride).floor();
+  final row = (local.dy / stride).floor();
+  if (col < 0 || col >= kMultiplesGridSize || row < 0 || row >= kMultiplesGridSize) return null;
+  final cellLeft = col * stride;
+  final cellTop = row * stride;
+  if (local.dx - cellLeft > cell || local.dy - cellTop > cell) return null;
+  return row * kMultiplesGridSize + col;
+}
+
 class _CubeItem {
   final int index;
   final int number;
@@ -71,6 +110,13 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
   final List<int> _connectedIndices = [];
   int? _lastTappedIndex;
   String _hintMessage = '';
+
+  // Drag-to-connect state: the player draws one continuous line across the
+  // grid, in a single drag, through the multiples in ascending order.
+  bool _isDragging = false;
+  Offset? _dragPosition;
+  int? _lastHoverIndex;
+  Size? _gridRenderSize;
 
   final math.Random _rng = math.Random();
   final List<Timer> _pendingTimers = [];
@@ -157,7 +203,7 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
     _connectedIndices.clear();
     _lastTappedIndex = null;
     _hintMessage =
-        'Connect the multiples of $base in order: $base → ${base * 2} → ${base * 3} ...';
+        'Drag through the multiples of $base in order: $base → ${base * 2} → ${base * 3} ...';
 
     final validMultiples = <int, int>{}; // stepIndex -> multiple
     for (int step = 1; step <= _targetChainLength; step++) {
@@ -208,7 +254,15 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
     });
   }
 
-  void _onCubeTap(int index) {
+  /// Evaluates a cube the drag path has just newly entered (called once per
+  /// distinct cube the pointer moves onto -- see _lastHoverIndex dedup in
+  /// the pan handlers below, so sitting still or wiggling within one cube
+  /// doesn't re-fire this repeatedly). Correct/incorrect handling is
+  /// unchanged from the original tap-based version: a wrong cube (including
+  /// re-entering an already-connected one) resets the streak and shows a
+  /// shake + hint, but never clears already-confirmed progress -- the
+  /// player can keep dragging (or start a fresh drag) from where they are.
+  void _evaluateCubeEntry(int index) {
     if (_phase != _Phase.playing) return;
     _totalTaps++;
 
@@ -242,11 +296,11 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
       } else {
         setState(() {
           final nextNumber = _currentBase * _currentStep;
-          _hintMessage = 'Great! Next find $nextNumber ($_currentBase × $_currentStep)';
+          _hintMessage = 'Great! Drag to $nextNumber ($_currentBase × $_currentStep)';
         });
       }
     } else {
-      // Incorrect cube tap
+      // Wrong cube crossed by the drag
       unawaited(GameFeedbackService.incorrect());
       _streak = 0;
       _shakeCtrl.forward(from: 0);
@@ -261,6 +315,46 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
               '${cube.number} is not the next multiple. Try finding $expectedMultiple ($_currentBase × $_currentStep)!';
         }
       });
+    }
+  }
+
+  void _handlePanDown(DragDownDetails details) {
+    _isDragging = true;
+    _lastHoverIndex = null; // fresh contact point -- always worth evaluating
+    _updateDragPosition(details.localPosition);
+  }
+
+  void _handlePanUpdate(DragUpdateDetails details) {
+    if (!_isDragging) return;
+    _updateDragPosition(details.localPosition);
+  }
+
+  void _handlePanEnd(DragEndDetails details) {
+    setState(() {
+      _isDragging = false;
+      _dragPosition = null;
+    });
+    _lastHoverIndex = null;
+  }
+
+  void _handlePanCancel() {
+    setState(() {
+      _isDragging = false;
+      _dragPosition = null;
+    });
+    _lastHoverIndex = null;
+  }
+
+  void _updateDragPosition(Offset local) {
+    final size = _gridRenderSize;
+    setState(() {
+      _dragPosition = local;
+    });
+    if (size == null || _phase != _Phase.playing) return;
+    final hit = hitTestGridCubeIndex(local, size);
+    if (hit != _lastHoverIndex) {
+      _lastHoverIndex = hit;
+      if (hit != null) _evaluateCubeEntry(hit);
     }
   }
 
@@ -447,40 +541,68 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
                   padding: const EdgeInsets.all(12),
                   child: AspectRatio(
                     aspectRatio: 1.0,
-                    child: Stack(
-                      children: [
-                        // Custom painter for connecting laser energy paths
-                        Positioned.fill(
-                          child: CustomPaint(
-                            painter: _LaserPathPainter(
-                              connectedIndices: _connectedIndices,
-                              glowPhase: _ambientGlowAnim.value,
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        // Cached for hit-testing in the pan handlers below --
+                        // reading layout size during build and stashing it
+                        // for later event handling is safe; this never
+                        // triggers a rebuild itself.
+                        _gridRenderSize = constraints.biggest;
+                        return Stack(
+                          children: [
+                            // Custom painter for connecting laser energy paths
+                            Positioned.fill(
+                              child: CustomPaint(
+                                painter: _LaserPathPainter(
+                                  connectedIndices: _connectedIndices,
+                                  glowPhase: _ambientGlowAnim.value,
+                                  liveEndpoint: _isDragging ? _dragPosition : null,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
 
-                        // 5x5 Matrix of cubes
-                        GridView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 5,
-                            crossAxisSpacing: 8,
-                            mainAxisSpacing: 8,
-                          ),
-                          itemCount: _gridCubes.length,
-                          itemBuilder: (context, index) {
-                            final cube = _gridCubes[index];
-                            final isConnected = _connectedIndices.contains(index);
-                            final isLatest = _lastTappedIndex == index;
+                            // 5x5 Matrix of cubes (visuals only -- all
+                            // gesture handling is the transparent overlay
+                            // below, not a per-cube GestureDetector)
+                            GridView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: kMultiplesGridSize,
+                                crossAxisSpacing: kMultiplesGridSpacing,
+                                mainAxisSpacing: kMultiplesGridSpacing,
+                              ),
+                              itemCount: _gridCubes.length,
+                              itemBuilder: (context, index) {
+                                final cube = _gridCubes[index];
+                                final isConnected = _connectedIndices.contains(index);
+                                final isLatest = _lastTappedIndex == index;
 
-                            return _buildCubeTile(
-                              cube: cube,
-                              isConnected: isConnected,
-                              isLatest: isLatest,
-                            );
-                          },
-                        ),
-                      ],
+                                return _buildCubeTile(
+                                  cube: cube,
+                                  isConnected: isConnected,
+                                  isLatest: isLatest,
+                                );
+                              },
+                            ),
+
+                            // Transparent overlay on top so the whole grid
+                            // is one continuous drag surface -- sits above
+                            // GridView in the Stack so it receives pointer
+                            // events first, instead of competing with
+                            // GridView's own (scroll-disabled but still
+                            // present) gesture recognizer.
+                            Positioned.fill(
+                              child: GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onPanDown: _handlePanDown,
+                                onPanUpdate: _handlePanUpdate,
+                                onPanEnd: _handlePanEnd,
+                                onPanCancel: _handlePanCancel,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -538,9 +660,7 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
           offset: Offset(shakeOffset, 0),
           child: Transform.scale(
             scale: scale,
-            child: GestureDetector(
-              onTap: () => _onCubeTap(cube.index),
-              child: AnimatedContainer(
+            child: AnimatedContainer(
                 duration: const Duration(milliseconds: 250),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14),
@@ -610,9 +730,8 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
                 ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
     );
   }
 
@@ -736,32 +855,29 @@ class _LaserPathPainter extends CustomPainter {
   final List<int> connectedIndices;
   final double glowPhase;
 
+  /// The live drag position, in the same local coordinate space as the
+  /// cube grid. When set, the laser extends one extra segment from the
+  /// last confirmed cube to this point, so the line visibly follows the
+  /// finger/cursor while a drag is in progress, not just once a cube is
+  /// confirmed.
+  final Offset? liveEndpoint;
+
   _LaserPathPainter({
     required this.connectedIndices,
     required this.glowPhase,
+    this.liveEndpoint,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (connectedIndices.length < 2) return;
+    final points = <Offset>[
+      for (final index in connectedIndices) gridCubeCenter(index, size),
+      if (liveEndpoint != null) liveEndpoint!,
+    ];
+    if (points.length < 2) return;
 
-    final cellWidth = size.width / 5;
-    final cellHeight = size.height / 5;
-
-    Offset getCenter(int index) {
-      final col = index % 5;
-      final row = index ~/ 5;
-      return Offset(
-        col * cellWidth + cellWidth / 2,
-        row * cellHeight + cellHeight / 2,
-      );
-    }
-
-    final path = Path();
-    path.moveTo(getCenter(connectedIndices[0]).dx, getCenter(connectedIndices[0]).dy);
-
-    for (int i = 1; i < connectedIndices.length; i++) {
-      final p = getCenter(connectedIndices[i]);
+    final path = Path()..moveTo(points.first.dx, points.first.dy);
+    for (final p in points.skip(1)) {
       path.lineTo(p.dx, p.dy);
     }
 
@@ -789,6 +905,7 @@ class _LaserPathPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _LaserPathPainter oldDelegate) {
     return oldDelegate.connectedIndices != connectedIndices ||
-        oldDelegate.glowPhase != glowPhase;
+        oldDelegate.glowPhase != glowPhase ||
+        oldDelegate.liveEndpoint != liveEndpoint;
   }
 }

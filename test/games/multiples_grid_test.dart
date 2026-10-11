@@ -4,7 +4,7 @@ import 'package:questkids/features/games/core/game_config.dart';
 import 'package:questkids/features/games/multiples_grid/multiples_grid_game.dart';
 
 void main() {
-  testWidgets('MultiplesGridGame renders 5x5 matrix and responds to cube taps',
+  testWidgets('MultiplesGridGame renders a 5x5 matrix with a drag surface',
       (tester) async {
     tester.view.physicalSize = const Size(360, 740);
     tester.view.devicePixelRatio = 1.0;
