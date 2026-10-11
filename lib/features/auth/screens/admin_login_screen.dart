@@ -1,9 +1,11 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/app_button.dart';
+import '../../../core/widgets/otp_verification_dialog.dart';
 import '../../../core/services/navigation_service.dart';
 import '../../../providers/auth_provider.dart';
 
@@ -34,19 +36,48 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
       password: _passwordController.text,
     );
     if (!mounted) return;
-    if (success && auth.user != null) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (_) => NavigationService.getDashboard(auth.user!)),
-        (_) => false,
+    if (!success || auth.user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(auth.errorMessage ?? 'Admin authentication failed.'),
+          backgroundColor: AppColors.error,
+        ),
       );
       return;
     }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(auth.errorMessage ?? 'Admin authentication failed.'),
-        backgroundColor: AppColors.error,
-      ),
+
+    // Email/password alone isn't enough for the most privileged role in
+    // the app -- a second factor is required before the portal opens.
+    // loginAdmin already fully authenticated this session in Firebase
+    // Auth, so a cancelled/failed code must sign back out rather than
+    // leave a live admin session sitting on the login screen.
+    final verified = await OtpVerificationDialog.show(
+      context,
+      action: 'adminLogin',
+      targetId: auth.user!.email,
+      title: 'Verify It\'s You',
+      message: 'For admin accounts, we also send a code to your email. Enter it to finish signing in.',
+      onSubmit: (otpCode) async {
+        await FirebaseFunctions.instanceFor(region: 'us-central1')
+            .httpsCallable('verifyAdminLoginOtp')
+            .call({'otpCode': otpCode});
+      },
+    );
+    if (!mounted) return;
+    if (!verified) {
+      await auth.signOut();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Admin sign-in cancelled.')),
+        );
+      }
+      return;
+    }
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (_) => NavigationService.getDashboard(auth.user!)),
+      (_) => false,
     );
   }
 
