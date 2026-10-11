@@ -86,10 +86,34 @@ describe("loginChild", () => {
     expect(typeof result.token).toBe("string");
   });
 
-  it("matches the name case-insensitively via the client's normalization", async () => {
+  it("tolerates extra surrounding whitespace in the typed name", async () => {
     await seedLearner("child-1", "Thandi", "2015-01-01");
     await expect(
       loginChild.run(requestAs({ name: "  Thandi  ", birthDate: "2015-01-01" }))
+    ).resolves.toMatchObject({ token: expect.any(String) });
+  });
+
+  it("matches a correctly-typed name regardless of letter case", async () => {
+    // A real regression: the old `.where("name", "==", name)` exact query
+    // only ever matched an input whose capitalization happened to be
+    // byte-identical to however the name was stored at registration --
+    // there is no way for a child/parent to know or reproduce that exact
+    // casing, so a perfectly correct name typed in a different case (very
+    // common -- autocapitalize, caps lock, etc.) always failed with
+    // "Incorrect name" even though it was right.
+    await seedLearner("child-1", "Thandi", "2015-01-01");
+    await expect(
+      loginChild.run(requestAs({ name: "thandi", birthDate: "2015-01-01" }))
+    ).resolves.toMatchObject({ token: expect.any(String) });
+    await expect(
+      loginChild.run(requestAs({ name: "THANDI", birthDate: "2015-01-01" }))
+    ).resolves.toMatchObject({ token: expect.any(String) });
+  });
+
+  it("collapses repeated internal whitespace in the typed name", async () => {
+    await seedLearner("child-1", "Thandi Smith", "2015-01-01");
+    await expect(
+      loginChild.run(requestAs({ name: "Thandi   Smith", birthDate: "2015-01-01" }))
     ).resolves.toMatchObject({ token: expect.any(String) });
   });
 

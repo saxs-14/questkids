@@ -90,6 +90,17 @@ function normalizeName(value: unknown): string {
   return name;
 }
 
+/**
+ * Case/whitespace-insensitive key for matching a stored learner name
+ * against what a child types in. Collapses repeated internal whitespace
+ * too, so "Pretty  Smith" and "pretty smith" are the same learner.
+ */
+function nameMatchKey(value: unknown): string {
+  return typeof value === "string" ?
+    value.trim().toLocaleLowerCase("en-ZA").replace(/\s+/g, " ") :
+    "";
+}
+
 function dateKeyInSouthAfrica(value: Date): string {
   return new Intl.DateTimeFormat("en-CA", {
     timeZone: "Africa/Johannesburg",
@@ -159,13 +170,27 @@ export const loginChild = onCall(OPTIONS, async (request) => {
     throw new HttpsError("invalid-argument", "Date of birth is required.");
   }
 
+  // Matching the stored name with a case-sensitive Firestore `==` query
+  // (the previous behavior) rejected a perfectly correct name typed with
+  // different capitalization or extra spacing than however it happened
+  // to be stored at registration -- a real child/parent has no way to
+  // know or reproduce the exact original casing, so this made login
+  // fail unpredictably for correctly-typed names. Query by role (an
+  // equally selective, indexed field) and compare names case/whitespace
+  // -insensitively in memory instead.
+  //
+  // NOTE: this reads every learner document on each login attempt. Fine
+  // at the current scale; if the learner collection grows large enough
+  // for this to matter, add an indexed `nameLower` field written at
+  // child-account creation and query on that instead.
   const snapshot = await getFirestore()
     .collection("users")
-    .where("name", "==", name)
+    .where("role", "==", "learner")
     .get();
 
+  const targetKey = nameMatchKey(name);
   const learners = snapshot.docs.filter(
-    (doc) => doc.data().role === "learner"
+    (doc) => nameMatchKey(doc.data().name) === targetKey
   );
 
   if (learners.length === 0) {

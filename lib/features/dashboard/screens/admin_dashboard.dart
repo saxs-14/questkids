@@ -1,7 +1,11 @@
+import 'dart:convert' show utf8;
+
 import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csv/csv.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import '../../../core/config/emulator_config.dart';
@@ -29,6 +33,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   Map<String, int> _counts = {};
   bool _loadingCounts = true;
   String _userSearchQuery = '';
+  bool _showDisabledOnly = false;
   late Future<Map<String, dynamic>> _platformReportFuture;
 
   final _draftDocumentController = TextEditingController();
@@ -50,6 +55,29 @@ class _AdminDashboardState extends State<AdminDashboard> {
   void dispose() {
     _draftDocumentController.dispose();
     super.dispose();
+  }
+
+  Future<void> _exportCsv(String suggestedName, List<List<dynamic>> rows) async {
+    try {
+      final csvContent = const ListToCsvConverter().convert(rows);
+      final location = await getSaveLocation(suggestedName: suggestedName);
+      if (location == null) return; // user cancelled
+      final file = XFile.fromData(
+        utf8.encode(csvContent),
+        mimeType: 'text/csv',
+        name: suggestedName,
+      );
+      await file.saveTo(location.path);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Exported $suggestedName.')),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Export failed: $e')),
+      );
+    }
   }
 
   Future<void> _loadCounts() async {
@@ -271,9 +299,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
         }
 
         final query = _userSearchQuery.trim().toLowerCase();
-        final docs = snapshot.data!.docs.where((doc) {
-          if (query.isEmpty) return true;
+        final allDocs = snapshot.data!.docs;
+        final disabledCount = allDocs.where((d) => d.data()['disabled'] == true).length;
+        final docs = allDocs.where((doc) {
           final data = doc.data();
+          if (_showDisabledOnly && data['disabled'] != true) return false;
+          if (query.isEmpty) return true;
           final name = (data['name'] ?? '').toString().toLowerCase();
           final email = (data['email'] ?? '').toString().toLowerCase();
           final role = (data['role'] ?? 'learner').toString().toLowerCase();
@@ -294,6 +325,42 @@ class _AdminDashboardState extends State<AdminDashboard> {
               hintText: 'Search by name, email, or role…',
               onChanged: (value) => setState(() => _userSearchQuery = value),
             ),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                FilterChip(
+                  label: Text('Disabled accounts ($disabledCount)'),
+                  selected: _showDisabledOnly,
+                  onSelected: (value) => setState(() => _showDisabledOnly = value),
+                  selectedColor: AdminColors.severityRed.withValues(alpha: 0.25),
+                  labelStyle: TextStyle(
+                    color: _showDisabledOnly ? AdminColors.severityRed : AdminColors.textSecondary,
+                  ),
+                  backgroundColor: AdminColors.cardBottom,
+                ),
+                OutlinedButton.icon(
+                  onPressed: docs.isEmpty
+                      ? null
+                      : () => _exportCsv('questkids_users.csv', [
+                            ['name', 'email', 'role', 'disabled'],
+                            ...docs.map((d) {
+                              final data = d.data();
+                              return [
+                                data['name'] ?? '',
+                                data['email'] ?? '',
+                                data['role'] ?? 'learner',
+                                data['disabled'] == true,
+                              ];
+                            }),
+                          ]),
+                  icon: const Icon(Icons.download_outlined, size: 18),
+                  label: const Text('Export CSV'),
+                ),
+              ],
+            ),
             const SizedBox(height: 16),
             if (docs.isEmpty)
               Container(
@@ -303,7 +370,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Text(
-                  query.isEmpty ? 'No users found.' : 'No users match your search.',
+                  _showDisabledOnly
+                      ? 'No disabled accounts.'
+                      : (query.isEmpty ? 'No users found.' : 'No users match your search.'),
                   style: const TextStyle(color: AdminColors.textSecondary),
                 ),
               ),
@@ -312,11 +381,13 @@ class _AdminDashboardState extends State<AdminDashboard> {
               final role = (data['role'] ?? 'learner').toString();
               final name = (data['name'] ?? data['email'] ?? 'Unknown user').toString();
               final email = (data['email'] ?? '').toString();
+              final disabled = data['disabled'] == true;
 
               return AdminUserRow(
                 name: name,
                 email: email,
                 role: adminRoleFromString(role),
+                disabled: disabled,
                 trailing: PopupMenuButton<String>(
                   icon: const Icon(Icons.more_vert, color: AdminColors.textSecondary),
                   onSelected: (value) async {
@@ -519,11 +590,24 @@ Safety: Child-friendly language and no personal data.''',
         TextField(
           controller: _draftDocumentController,
           maxLines: 10,
-          decoration: const InputDecoration(
+          style: const TextStyle(color: AdminColors.textPrimary),
+          cursorColor: AdminColors.textPrimary,
+          decoration: InputDecoration(
             labelText: 'Game creation document',
             hintText: 'GAME CREATION DOCUMENT\nGrade: ...\nSubject: ...\nTopic: ...\nGoal: ...',
-            border: OutlineInputBorder(),
+            labelStyle: const TextStyle(color: AdminColors.textSecondary),
+            hintStyle: const TextStyle(color: AdminColors.textSecondary),
             alignLabelWithHint: true,
+            filled: true,
+            fillColor: AdminColors.cardBottom,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: AdminColors.borderGlow.withValues(alpha: 0.4)),
+            ),
+            focusedBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+              borderSide: BorderSide(color: AdminColors.borderGlow),
+            ),
           ),
         ),
         const SizedBox(height: 12),
@@ -558,7 +642,10 @@ Safety: Child-friendly language and no personal data.''',
                       color: AdminColors.bgPage,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: SelectableText(_formatDraft(_lastDraft!['draft'])),
+                    child: SelectableText(
+                      _formatDraft(_lastDraft!['draft']),
+                      style: const TextStyle(color: AdminColors.textPrimary),
+                    ),
                   ),
                   const SizedBox(height: 12),
                   OutlinedButton.icon(
@@ -572,7 +659,14 @@ Safety: Child-friendly language and no personal data.''',
           ),
         ],
         const SizedBox(height: 24),
-        const Text('Review log', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+        const Text(
+          'Review log',
+          style: TextStyle(
+            fontWeight: FontWeight.w900,
+            fontSize: 16,
+            color: AdminColors.textPrimary,
+          ),
+        ),
         const SizedBox(height: 8),
         StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: _service.watchGameDrafts(),
@@ -739,15 +833,27 @@ Safety: Child-friendly language and no personal data.''',
                 ],
               ),
               const SizedBox(height: 12),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: OutlinedButton.icon(
-                  onPressed: () => setState(
-                    () => _platformReportFuture = _service.getPlatformReport(),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  OutlinedButton.icon(
+                    onPressed: () => setState(
+                      () => _platformReportFuture = _service.getPlatformReport(),
+                    ),
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Refresh report'),
                   ),
-                  icon: const Icon(Icons.refresh),
-                  label: const Text('Refresh report'),
-                ),
+                  OutlinedButton.icon(
+                    onPressed: () => _exportCsv('questkids_platform_report.csv', [
+                      ['metric', 'value'],
+                      ...cards.map((c) => [c[0], c[1]]),
+                      ['generatedAt', generatedAt?.toLocal().toString() ?? ''],
+                    ]),
+                    icon: const Icon(Icons.download_outlined, size: 18),
+                    label: const Text('Export CSV'),
+                  ),
+                ],
               ),
             ],
           ),

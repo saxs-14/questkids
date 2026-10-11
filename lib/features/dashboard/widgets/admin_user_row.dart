@@ -19,6 +19,7 @@ class AdminUserRow extends StatelessWidget {
   final String name;
   final String email;
   final AdminRole role;
+  final bool disabled;
   final Widget trailing;
 
   const AdminUserRow({
@@ -26,6 +27,7 @@ class AdminUserRow extends StatelessWidget {
     required this.name,
     required this.email,
     required this.role,
+    this.disabled = false,
     required this.trailing,
   });
 
@@ -60,10 +62,16 @@ class AdminUserRow extends StatelessWidget {
       decoration: BoxDecoration(
         color: AdminColors.cardBottom,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AdminColors.borderGlow.withValues(alpha: 0.25)),
+        border: Border.all(
+          color: disabled
+              ? AdminColors.severityRed.withValues(alpha: 0.5)
+              : AdminColors.borderGlow.withValues(alpha: 0.25),
+        ),
       ),
-      child: Row(
-        children: [
+      child: Opacity(
+        opacity: disabled ? 0.6 : 1,
+        child: Row(
+          children: [
           CircleAvatar(
             backgroundColor: AdminColors.brandPrimary,
             child: Text(
@@ -106,9 +114,28 @@ class AdminUserRow extends StatelessWidget {
               style: TextStyle(color: roleColor, fontSize: 12, fontWeight: FontWeight.bold),
             ),
           ),
+          if (disabled) ...[
+            const SizedBox(width: 6),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              decoration: BoxDecoration(
+                color: AdminColors.severityRed.withValues(alpha: 0.18),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Text(
+                'disabled',
+                style: TextStyle(
+                  color: AdminColors.severityRed,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
           const SizedBox(width: 8),
           trailing,
         ],
+        ),
       ),
     );
   }
