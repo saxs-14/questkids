@@ -177,10 +177,6 @@ class AuthService {
     );
     final user = cred.user!;
     await user.updateDisplayName(name);
-    // send email verification
-    try {
-      await user.sendEmailVerification();
-    } catch (_) {}
 
     final userModel = UserModel(
       uid: user.uid,
@@ -192,6 +188,12 @@ class AuthService {
       role: role,
       grade: grade,
       createdAt: DateTime.now(),
+      // Parents verify via the OTP flow (VerifyEmailScreen) right after
+      // registration, not Firebase's link-based sendEmailVerification --
+      // false here is what makes NavigationService.getDashboard route a
+      // freshly-registered parent there instead of straight to the
+      // dashboard.
+      emailVerified: false,
     );
     await _userRepo.createUser(userModel);
     if (role == 'parent') {
@@ -491,6 +493,12 @@ class AuthService {
       grade: grade,
       avatarUrl: user.photoURL,
       createdAt: DateTime.now(),
+      // Google already proved ownership of this address via OAuth --
+      // Firebase itself marks the underlying Auth user emailVerified for
+      // a Google sign-in, so mirror that instead of defaulting to false
+      // and sending someone who just proved their email through a second,
+      // redundant OTP gate.
+      emailVerified: user.emailVerified,
     );
     await _userRepo.createUser(userModel);
     if (role == 'parent') {

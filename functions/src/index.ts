@@ -50,6 +50,8 @@ export { notifyParentsOfGameSession } from "./notifications/parentGameActivity";
 export { notifyParentsOfLearnerInactivity } from "./notifications/parentInactivity";
 export { generateWeeklyGameReports } from "./reports/weeklyGameReport";
 export { loginChild, cleanupChildLoginAttempts } from "./auth/loginChild";
+export { verifyRegistrationEmail } from "./auth/verifyRegistrationEmail";
+export { verifyAdminLoginOtp } from "./auth/verifyAdminLoginOtp";
 
 // Initialize Firebase Admin SDK. Guarded because test files import this
 // module after test/setup/firebaseAdmin.ts has already initialized the

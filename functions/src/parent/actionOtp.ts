@@ -1,6 +1,7 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { getFirestore, FieldValue, Timestamp } from "firebase-admin/firestore";
 import { createHash, randomInt } from "node:crypto";
+import { resolveMx } from "node:dns/promises";
 import { ENFORCE_APP_CHECK } from "../config";
 
 const OTP_TTL_MS = 5 * 60 * 1000;
@@ -22,10 +23,90 @@ const LOCKOUT_MS = 15 * 60 * 1000;
  * (parent_access_screen.dart) batches every toggle flip into one pending
  * local edit per secondary parent and only calls this action once, from a
  * single "Save Changes" button -- so one OTP prompt per save, not per
- * toggle.
+ * toggle. "verifyEmail" and "adminLogin" also reuse it (from
+ * verifyRegistrationEmail.ts and verifyAdminLoginOtp.ts) -- target is the
+ * account's own email in both cases, not a child/parent uid. Despite the
+ * name, this list isn't parent-exclusive any more; ROLE_FOR_ACTION below
+ * is what actually gates who can request each one.
  */
-export const SENSITIVE_PARENT_ACTIONS = ["unlinkChild", "setParentPermissions"] as const;
+export const SENSITIVE_PARENT_ACTIONS = [
+  "unlinkChild",
+  "setParentPermissions",
+  "verifyEmail",
+  "adminLogin",
+] as const;
 export type SensitiveParentAction = (typeof SENSITIVE_PARENT_ACTIONS)[number];
+
+const ROLE_FOR_ACTION: Record<SensitiveParentAction, string> = {
+  unlinkChild: "parent",
+  setParentPermissions: "parent",
+  verifyEmail: "parent",
+  adminLogin: "admin",
+};
+
+// Best-effort list of well-known disposable/throwaway email providers.
+// These domains have real, working mail servers (an MX check alone won't
+// catch them) but exist specifically so the inbox can be abandoned right
+// after reading one message -- the opposite of what a parent's account
+// recovery/notification address needs. Not exhaustive; new ones appear
+// constantly, so this is a speed bump against the obvious cases, not a
+// guarantee.
+const DISPOSABLE_EMAIL_DOMAINS = new Set([
+  "mailinator.com",
+  "10minutemail.com",
+  "guerrillamail.com",
+  "guerrillamail.info",
+  "yopmail.com",
+  "trashmail.com",
+  "temp-mail.org",
+  "tempmail.com",
+  "discard.email",
+  "getnada.com",
+  "throwawaymail.com",
+  "sharklasers.com",
+  "maildrop.cc",
+  "fakeinbox.com",
+  "dispostable.com",
+  "mintemail.com",
+  "mailnesia.com",
+  "spamgourmet.com",
+  "33mail.com",
+  "moakt.com",
+]);
+
+/**
+ * Only used for the "verifyEmail" action, right before actually sending a
+ * code: a domain with no mail server at all can never receive the code,
+ * which is the clearest, zero-cost signal that an address is fake/typo'd
+ * (e.g. "@fake.fake" or "@gmial.com"). Deliberately not applied to the
+ * other sensitive actions -- an existing parent's email on file already
+ * proved deliverable when they verified it, and re-checking DNS on every
+ * step-up request would just add latency and a new failure mode for no
+ * benefit.
+ */
+async function assertEmailIsDeliverable(email: string): Promise<void> {
+  const domain = email.split("@")[1]?.toLowerCase();
+  if (!domain) {
+    throw new HttpsError("invalid-argument", "That doesn't look like a valid email address.");
+  }
+  if (DISPOSABLE_EMAIL_DOMAINS.has(domain)) {
+    throw new HttpsError(
+      "invalid-argument",
+      "Temporary/disposable email addresses aren't allowed. Please use a real email you can access long-term."
+    );
+  }
+  try {
+    const records = await resolveMx(domain);
+    if (!records.length) {
+      throw new Error("no MX records");
+    }
+  } catch {
+    throw new HttpsError(
+      "invalid-argument",
+      "This email address can't receive mail. Please check for typos or use a different address."
+    );
+  }
+}
 
 function otpChallengeRef(uid: string, action: string) {
   return getFirestore().collection("otp_challenges").doc(`${uid}_${action}`);
@@ -95,14 +176,14 @@ export const requestActionOtp = onCall(
     if (!request.auth) {
       throw new HttpsError("unauthenticated", "You must be signed in.");
     }
-    if (request.auth.token.role !== "parent") {
+    const action = requireSensitiveAction(request.data);
+    const requiredRole = ROLE_FOR_ACTION[action];
+    if (request.auth.token.role !== requiredRole) {
       throw new HttpsError(
         "permission-denied",
-        "Only parent accounts can request a verification code."
+        `Only ${requiredRole} accounts can request this verification code.`
       );
     }
-    const action = requireSensitiveAction(request.data);
-    const target = requireTarget(request.data);
     const uid = request.auth.uid;
     const ref = otpChallengeRef(uid, action);
 
@@ -132,6 +213,17 @@ export const requestActionOtp = onCall(
         "failed-precondition",
         "No email address is on file to send a verification code to."
       );
+    }
+
+    // verifyEmail's and adminLogin's target IS the account's own email --
+    // forced from the on-file address rather than trusting the client, so
+    // there's no way for the stored challenge and the later verify-time
+    // re-derivation (see verifyRegistrationEmail.ts / verifyAdminLoginOtp.ts)
+    // to ever disagree. Neither has a separate child/parent-pair target.
+    const emailIsTarget = action === "verifyEmail" || action === "adminLogin";
+    const target = emailIsTarget ? email : requireTarget(request.data);
+    if (action === "verifyEmail") {
+      await assertEmailIsDeliverable(email);
     }
 
     const code = generateOtpCode();

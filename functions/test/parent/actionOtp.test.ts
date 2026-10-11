@@ -108,6 +108,83 @@ describe("requestActionOtp", () => {
     ).rejects.toMatchObject({ code: "resource-exhausted" });
   });
 
+  it("rejects a parent requesting the admin-only adminLogin action", async () => {
+    await expect(
+      requestActionOtp.run(
+        requestAs(
+          { action: "adminLogin" },
+          { uid: "parent-1", role: "parent", email: "parent@example.com" }
+        )
+      )
+    ).rejects.toMatchObject({ code: "permission-denied" });
+  });
+
+  it("rejects an admin requesting the parent-only unlinkChild action", async () => {
+    await expect(
+      requestActionOtp.run(
+        requestAs(
+          { action: "unlinkChild", target: TARGET },
+          { uid: "admin-1", role: "admin", email: "admin@example.com" }
+        )
+      )
+    ).rejects.toMatchObject({ code: "permission-denied" });
+  });
+
+  it("sends an adminLogin code to an admin caller, binding target to their email", async () => {
+    const result = (await requestActionOtp.run(
+      requestAs(
+        { action: "adminLogin" },
+        { uid: "admin-1", role: "admin", email: "admin@example.com" }
+      )
+    )) as { sent: boolean };
+    expect(result.sent).toBe(true);
+    const doc = await getFirestore().collection("otp_challenges").doc("admin-1_adminLogin").get();
+    expect(doc.data()?.target).toBe("admin@example.com");
+  });
+
+  it("ignores a client-supplied target for verifyEmail, binding to the account's own email", async () => {
+    await requestActionOtp.run(
+      requestAs(
+        { action: "verifyEmail", target: "someone-else@example.com" },
+        { uid: "parent-1", role: "parent", email: "parent@example.com" }
+      )
+    );
+    const doc = await getFirestore().collection("otp_challenges").doc("parent-1_verifyEmail").get();
+    expect(doc.data()?.target).toBe("parent@example.com");
+  });
+
+  it("rejects verifyEmail for a domain with no mail server", async () => {
+    await expect(
+      requestActionOtp.run(
+        requestAs(
+          { action: "verifyEmail" },
+          { uid: "parent-1", role: "parent", email: "parent@nonexistent-domain-xyz123.invalid" }
+        )
+      )
+    ).rejects.toMatchObject({ code: "invalid-argument" });
+  });
+
+  it("rejects verifyEmail for a known disposable email domain", async () => {
+    await expect(
+      requestActionOtp.run(
+        requestAs(
+          { action: "verifyEmail" },
+          { uid: "parent-1", role: "parent", email: "parent@mailinator.com" }
+        )
+      )
+    ).rejects.toMatchObject({ code: "invalid-argument" });
+  });
+
+  it("accepts verifyEmail for a real, deliverable domain", async () => {
+    const result = (await requestActionOtp.run(
+      requestAs(
+        { action: "verifyEmail" },
+        { uid: "parent-1", role: "parent", email: "parent@gmail.com" }
+      )
+    )) as { sent: boolean };
+    expect(result.sent).toBe(true);
+  });
+
 });
 
 describe("verifyAndConsumeActionOtp", () => {

@@ -301,12 +301,15 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> resetPassword(String email) async {
+  Future<bool> resetPassword(String email) async {
     _setLoading(true);
+    _setError(null);
     try {
       await _authService.resetPassword(email);
+      return true;
     } catch (e) {
       _setError(_friendlyError(e.toString()));
+      return false;
     } finally {
       _setLoading(false);
     }
@@ -317,6 +320,17 @@ class AuthProvider extends ChangeNotifier {
   void updateAvatarUrl(String url) {
     if (_user != null) {
       _user = _user!.copyWith(avatarUrl: url);
+      notifyListeners();
+    }
+  }
+
+  /// Mirrors verifyRegistrationEmail's Firestore write into the in-memory
+  /// user immediately, so NavigationService.getDashboard's emailVerified
+  /// gate (see verify_email_screen.dart) sees the update on the very next
+  /// navigation without re-fetching the user doc.
+  void markEmailVerified() {
+    if (_user != null) {
+      _user = _user!.copyWith(emailVerified: true);
       notifyListeners();
     }
   }
