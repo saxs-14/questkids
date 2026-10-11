@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import '../../../core/services/permission_service.dart';
+import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/app_button.dart';
-import '../../../data/models/user_model.dart';
 import '../../../data/repositories/parent_repository.dart';
 
 class LinkChildScreen extends StatefulWidget {
@@ -17,7 +17,7 @@ class _LinkChildScreenState extends State<LinkChildScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final _codeCtrl = TextEditingController();
-  UserModel? _foundChild;
+  ChildLinkLookup? _foundChild;
   bool _loading = false;
   final ParentRepository _repo = ParentRepository();
 
@@ -41,6 +41,17 @@ class _LinkChildScreenState extends State<LinkChildScreen>
       _foundChild = child;
       _loading = false;
     });
+  }
+
+  /// requestParentLink itself rejects a request when the child has no
+  /// primary parent yet, when the caller already is the primary parent,
+  /// or when the caller is already linked -- this mirrors those same
+  /// checks so the button is disabled with a clear reason shown instead
+  /// of letting the user tap it and get a server error back.
+  bool get _canLink {
+    final child = _foundChild;
+    if (child == null) return false;
+    return child.hasPrimaryParent && !child.alreadyLinked && !child.isPrimaryParent;
   }
 
   Future<void> _sendLinkRequest(String linkMethod) async {
@@ -100,7 +111,7 @@ class _LinkChildScreenState extends State<LinkChildScreen>
                     if (_foundChild != null)
                       AppButton(
                           label: 'Confirm Link',
-                          onPressed: () => _sendLinkRequest('code')),
+                          onPressed: _canLink ? () => _sendLinkRequest('code') : null),
                   ]),
                 ),
 
@@ -177,7 +188,7 @@ class _LinkChildScreenState extends State<LinkChildScreen>
                             if (_foundChild != null)
                               AppButton(
                                   label: 'Confirm Link',
-                                  onPressed: () => _sendLinkRequest('qr')),
+                                  onPressed: _canLink ? () => _sendLinkRequest('qr') : null),
                           ],
                         ),
                 ),
@@ -189,14 +200,34 @@ class _LinkChildScreenState extends State<LinkChildScreen>
     );
   }
 
-  Widget _childPreview(UserModel child) {
+  Widget _childPreview(ChildLinkLookup child) {
+    String? statusMessage;
+    if (child.isPrimaryParent) {
+      statusMessage = 'You are this child\'s primary parent already.';
+    } else if (child.alreadyLinked) {
+      statusMessage = 'You are already linked to this child.';
+    } else if (!child.hasPrimaryParent) {
+      statusMessage = 'This child doesn\'t have a primary parent yet.';
+    }
+
     return Card(
-      child: ListTile(
-        leading: CircleAvatar(
-            child: Text(child.name.isNotEmpty ? child.name[0] : '?')),
-        title: Text(child.name),
-        subtitle: Text(child.grade),
-        trailing: Text(child.parentUid ?? 'Primary N/A'),
+      child: Column(
+        children: [
+          ListTile(
+            leading: CircleAvatar(
+                child: Text(child.name.isNotEmpty ? child.name[0] : '?')),
+            title: Text(child.name),
+            subtitle: Text(child.grade),
+          ),
+          if (statusMessage != null)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(statusMessage, style: const TextStyle(color: AppColors.error)),
+              ),
+            ),
+        ],
       ),
     );
   }

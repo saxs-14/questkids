@@ -255,8 +255,15 @@ class _LearnerHomeTab extends StatelessWidget {
                     streakDays: _streakDays,
                     badgeCount: badgeCount),
                 const SizedBox(height: 20),
-                const _Grade4HubBannerCard(),
-                const SizedBox(height: 24),
+                // Grade4ActivitiesHubScreen is genuinely Grade 4
+                // CAPS-curriculum content (see its own header comment) --
+                // this card was rendered unconditionally for every grade,
+                // so e.g. a Grade 1 learner saw and could open a Grade 4
+                // activity hub.
+                if (gradeKey == 'grade4') ...[
+                  const _Grade4HubBannerCard(),
+                  const SizedBox(height: 24),
+                ],
                 const DailyMissionsCard(),
                 const SizedBox(height: 24),
                 _DailyChallengeCard(user: user),

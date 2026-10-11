@@ -6,6 +6,29 @@ import 'package:uuid/uuid.dart';
 import '../models/user_model.dart';
 import '../models/progress_model.dart';
 
+/// Full result of looking up a child by their link code (lookupChildLinkCode).
+/// findChildByCode previously discarded everything except uid/name/grade,
+/// which is why the "Link to an Existing Child" screen could only ever show
+/// a meaningless "Primary N/A" trailing label -- it had no primary-parent
+/// field to read in the first place.
+class ChildLinkLookup {
+  final String childUid;
+  final String name;
+  final String grade;
+  final bool hasPrimaryParent;
+  final bool alreadyLinked;
+  final bool isPrimaryParent;
+
+  const ChildLinkLookup({
+    required this.childUid,
+    required this.name,
+    required this.grade,
+    required this.hasPrimaryParent,
+    required this.alreadyLinked,
+    required this.isPrimaryParent,
+  });
+}
+
 class ParentRepository {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final _uuid = const Uuid();
@@ -68,19 +91,19 @@ class ParentRepository {
 
   // Child identity is resolved by a protected callable; direct
   // cross-account queries by childLinkCode are not exposed to clients.
-  Future<UserModel?> findChildByCode(String code) async {
+  Future<ChildLinkLookup?> findChildByCode(String code) async {
     try {
       final result = await FirebaseFunctions.instanceFor(region: 'us-central1')
           .httpsCallable('lookupChildLinkCode')
           .call({'code': code});
       final data = Map<String, dynamic>.from(result.data as Map);
-      return UserModel(
-        uid: data['childUid'] as String,
+      return ChildLinkLookup(
+        childUid: data['childUid'] as String,
         name: data['childName'] as String? ?? 'Child',
-        email: '',
-        role: 'learner',
         grade: data['grade'] as String? ?? 'Grade 1',
-        createdAt: DateTime.now(),
+        hasPrimaryParent: data['hasPrimaryParent'] as bool? ?? false,
+        alreadyLinked: data['alreadyLinked'] as bool? ?? false,
+        isPrimaryParent: data['isPrimaryParent'] as bool? ?? false,
       );
     } catch (_) {
       return null;
