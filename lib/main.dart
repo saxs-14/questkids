@@ -81,23 +81,30 @@ void main() async {
   };
 
   // functions/src/config.ts's ENFORCE_APP_CHECK stays false until this is
-  // verified end-to-end on a real release build and reCAPTCHA v3 is wired
-  // up for web -- but a release build now gets the REAL attestation
-  // providers (Play Integrity / App Attest), not debug tokens. A debug
-  // token is only valid for devices manually registered in the Firebase
-  // Console, which doesn't scale to real users, so shipping a release
-  // build with the debug provider would make App Check permanently
-  // unenforceable for production traffic even after this flag flips.
-  // Activating App Check even while ENFORCE_APP_CHECK is false is still
-  // useful: it starts attaching (unenforced) tokens to requests now, so
-  // enabling enforcement later doesn't require a new client release.
+  // verified end-to-end on a real release build -- but a release build
+  // now gets the REAL attestation providers (Play Integrity / App Attest),
+  // not debug tokens. A debug token is only valid for devices manually
+  // registered in the Firebase Console, which doesn't scale to real
+  // users, so shipping a release build with the debug provider would
+  // make App Check permanently unenforceable for production traffic even
+  // after this flag flips. Activating App Check even while
+  // ENFORCE_APP_CHECK is false is still useful: it starts attaching
+  // (unenforced) tokens to requests now, so enabling enforcement later
+  // doesn't require a new client release.
   //
-  // Web is skipped entirely rather than activated with no webProvider --
-  // FirebaseAppCheck.instance.activate() on web hangs indefinitely
-  // without a ReCaptchaV3Provider site key (live-verified: it blocks
-  // main() before runApp() ever fires, producing a permanent blank
-  // white screen with no console error). Re-enable for web once a real
-  // reCAPTCHA v3 site key exists in the Firebase Console.
+  // Web stays skipped: a real reCAPTCHA Enterprise key now exists
+  // (6LfYiektAAAAAGeLoLViV8E9p2TMV6rdBGNUFzce, registered against this
+  // web app's App Check config), but activating with it still hangs
+  // main() before runApp() fires -- live-verified 2026-10-11 via a real
+  // (non-headless) Chrome instance driven over the DevTools Protocol:
+  // main() starts, network reachability to
+  // https://www.google.com/recaptcha/enterprise.js is confirmed fine
+  // (200 OK), yet the page never progresses past that and the title
+  // never updates, even after 60+ seconds. Root cause not yet isolated
+  // (possibly a domain-validation or grecaptcha.enterprise.ready() quirk
+  // specific to this integration) -- do not re-enable for web without
+  // debugging this further with real DevTools Network/JS-stack
+  // inspection, not just reachability checks.
   if (!kIsWeb) {
     await FirebaseAppCheck.instance.activate(
       androidProvider:
