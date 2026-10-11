@@ -107,6 +107,9 @@ dev_dependencies:
   flutter_launcher_icons: ^0.14.1
   # setupFirebaseCoreMocks() for tests that touch Firebase-backed repos
   firebase_core_platform_interface: ^6.0.3
+  # FirebaseFunctionsPlatform.instance fake for widget tests that call a
+  # Cloud Function directly -- see test/helpers/fake_firebase_functions.dart
+  cloud_functions_platform_interface: ^5.8.2
 
 # App launcher / favicon icons generated from the QuestKids logo.
 # Regenerate with: dart run flutter_launcher_icons
