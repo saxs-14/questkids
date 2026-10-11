@@ -5,8 +5,14 @@ import '../theme/admin_colors.dart';
 class AdminOperationsCard extends StatelessWidget {
   final String title;
   final List<String> items;
+  final Widget? trailing;
 
-  const AdminOperationsCard({super.key, required this.title, required this.items});
+  const AdminOperationsCard({
+    super.key,
+    required this.title,
+    required this.items,
+    this.trailing,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +54,10 @@ class AdminOperationsCard extends StatelessWidget {
               ),
             ),
           ),
+          if (trailing != null) ...[
+            const SizedBox(height: 10),
+            trailing!,
+          ],
         ],
       ),
     );

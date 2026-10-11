@@ -32,6 +32,7 @@ export { setUserRole, assignDefaultRole, grantSelfDeclaredRoleClaim } from "./ad
 export { setUserDisabled } from "./admin/setUserDisabled";
 export { getAdminPlatformReport } from "./admin/getAdminPlatformReport";
 export { bootstrapAdmin } from "./admin/bootstrapAdmin";
+export { adminRefreshLeaderboards, adminGenerateDailyMissions } from "./admin/adminOperations";
 export { linkRegisteredChild } from "./parent/linkChild";
 export { getParentLearningInsights } from "./parent/getParentLearningInsights";
 export { unlinkParentChild } from "./parent/unlinkChild";

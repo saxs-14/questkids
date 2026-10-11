@@ -53,4 +53,46 @@ class AdminService {
         .call();
     return Map<String, dynamic>.from(result.data as Map);
   }
+
+  Future<Map<String, dynamic>> generateGameDraft(String document) async {
+    final result = await _functions
+        .httpsCallable('generateGameDraft')
+        .call({'document': document});
+    return Map<String, dynamic>.from(result.data as Map);
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> watchGameDrafts() {
+    return _firestore
+        .collection('game_drafts')
+        .orderBy('createdAt', descending: true)
+        .limit(50)
+        .snapshots();
+  }
+
+  Future<void> saveGameDraft({
+    required String createdBy,
+    required String document,
+    required dynamic draft,
+  }) async {
+    await _firestore.collection('game_drafts').add({
+      'createdBy': createdBy,
+      'document': document,
+      'draft': draft,
+      'createdAt': FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> deleteGameDraft(String id) async {
+    await _firestore.collection('game_drafts').doc(id).delete();
+  }
+
+  Future<Map<String, dynamic>> refreshLeaderboards() async {
+    final result = await _functions.httpsCallable('adminRefreshLeaderboards').call();
+    return Map<String, dynamic>.from(result.data as Map);
+  }
+
+  Future<Map<String, dynamic>> generateDailyMissions() async {
+    final result = await _functions.httpsCallable('adminGenerateDailyMissions').call();
+    return Map<String, dynamic>.from(result.data as Map);
+  }
 }

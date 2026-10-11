@@ -204,6 +204,48 @@ async function generateMissionsForLearner(
     .set({ missions, generatedAt, expiresAt }, { merge: false });
 }
 
+// Exported separately (not just as the onSchedule body) so it can be
+// invoked directly -- same reasoning as runLeaderboardRefresh in
+// leaderboard/refresh.ts: scheduled functions can't be exercised from
+// the local emulator (no pubsub emulator) or triggered on demand by an
+// admin, so this is the only way to run the real logic from either the
+// admin console's "Generate daily missions now" button or a test.
+export async function runDailyMissionsGeneration(
+  db: FirebaseFirestore.Firestore
+): Promise<{ total: number; failed: number }> {
+  const expiresAt = Timestamp.fromDate(nextMidnightSAST());
+  const generatedAt = Timestamp.now();
+  const dayIndex = new Date().getDay();
+
+  const learnersSnap = await db.collection("users")
+    .where("role", "==", "learner")
+    .get();
+
+  const batchSize = 20;
+  const learners = learnersSnap.docs;
+  let failedCount = 0;
+
+  for (let i = 0; i < learners.length; i += batchSize) {
+    const chunk = learners.slice(i, i + batchSize);
+    await Promise.all(chunk.map(async (learnerDoc) => {
+      try {
+        await generateMissionsForLearner(db, learnerDoc, learnerDoc.id, dayIndex, expiresAt, generatedAt);
+      } catch (error) {
+        // Promise.all rejects (skipping every remaining learner in this
+        // batch, and previously the whole function -- see the FAILED_PRECONDITION
+        // index bug this was written to survive) the instant any ONE learner
+        // throws, so isolate each learner's work instead of letting one bad
+        // document or transient error cost every other learner their missions.
+        failedCount++;
+        console.error(`generateDailyMissions: failed for uid ${learnerDoc.id}`, error);
+      }
+    }));
+  }
+
+  console.log(`Daily missions generated for ${learners.length - failedCount}/${learners.length} learners`);
+  return { total: learners.length, failed: failedCount };
+}
+
 export const generateDailyMissions = onSchedule(
   {
     schedule: "every day 00:00",
@@ -212,36 +254,6 @@ export const generateDailyMissions = onSchedule(
     secrets: [GEMINI_API_KEY],
   },
   async () => {
-    const db = getFirestore();
-    const expiresAt = Timestamp.fromDate(nextMidnightSAST());
-    const generatedAt = Timestamp.now();
-    const dayIndex = new Date().getDay();
-
-    const learnersSnap = await db.collection("users")
-      .where("role", "==", "learner")
-      .get();
-
-    const batchSize = 20;
-    const learners = learnersSnap.docs;
-    let failedCount = 0;
-
-    for (let i = 0; i < learners.length; i += batchSize) {
-      const chunk = learners.slice(i, i + batchSize);
-      await Promise.all(chunk.map(async (learnerDoc) => {
-        try {
-          await generateMissionsForLearner(db, learnerDoc, learnerDoc.id, dayIndex, expiresAt, generatedAt);
-        } catch (error) {
-          // Promise.all rejects (skipping every remaining learner in this
-          // batch, and previously the whole function -- see the FAILED_PRECONDITION
-          // index bug this was written to survive) the instant any ONE learner
-          // throws, so isolate each learner's work instead of letting one bad
-          // document or transient error cost every other learner their missions.
-          failedCount++;
-          console.error(`generateDailyMissions: failed for uid ${learnerDoc.id}`, error);
-        }
-      }));
-    }
-
-    console.log(`Daily missions generated for ${learners.length - failedCount}/${learners.length} learners`);
+    await runDailyMissionsGeneration(getFirestore());
   }
 );

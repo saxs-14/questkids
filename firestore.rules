@@ -350,6 +350,17 @@ service cloud.firestore {
       allow update, delete: if isAdmin();
     }
 
+    // ==================== AI GAME-DRAFT REVIEW LOG ====================
+    // Admin-only record of game creation documents sent to generateGameDraft
+    // and the AI's resulting draft -- a review log only. Never read by the
+    // game catalogue or any other part of the app; adding a game still
+    // requires an actual code change (see CLAUDE.md §4).
+    match /game_drafts/{draftId} {
+      allow read, delete: if isAdmin();
+      allow create: if isAdmin() && request.resource.data.createdBy == request.auth.uid;
+      allow update: if false;
+    }
+
     // ==================== AI USAGE QUOTA ====================
     // Written transactionally by the gemini proxy Cloud Functions only.
     match /usage_ai/{uid} {

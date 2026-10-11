@@ -1,8 +1,11 @@
+import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_core/firebase_core.dart';
 
+import '../../../core/config/emulator_config.dart';
+import '../../../core/constants/game_catalog.dart';
 import '../../../core/services/admin_service.dart';
 import '../../../providers/auth_provider.dart';
 import '../theme/admin_colors.dart';
@@ -28,11 +31,25 @@ class _AdminDashboardState extends State<AdminDashboard> {
   String _userSearchQuery = '';
   late Future<Map<String, dynamic>> _platformReportFuture;
 
+  final _draftDocumentController = TextEditingController();
+  bool _generatingDraft = false;
+  Map<String, dynamic>? _lastDraft;
+  String? _lastDraftError;
+
+  bool _refreshingLeaderboards = false;
+  bool _generatingMissions = false;
+
   @override
   void initState() {
     super.initState();
     _loadCounts();
     _platformReportFuture = _service.getPlatformReport();
+  }
+
+  @override
+  void dispose() {
+    _draftDocumentController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadCounts() async {
@@ -394,39 +411,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
     );
   }
 
-  Future<void> _generateDemoGame(String document) async {
-    try {
-      final result = await FirebaseFunctions.instanceFor(region: 'us-central1')
-          .httpsCallable('generateGameDraft')
-          .call({'document': document});
-      if (!mounted) return;
-      final data = Map<String, dynamic>.from(result.data as Map);
-      final draft = data['draft'];
-      await showDialog<void>(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('AI Game Draft Preview'),
-          content: SingleChildScrollView(
-            child: SelectableText(draft is Map ? draft.entries.map((e) => '${e.key}: ${e.value}').join('\n\n') : draft.toString()),
-          ),
-          actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Close')),
-          ],
-        ),
-      );
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('AI draft generation failed: $e')),
-      );
-    }
-  }
-
-  Widget _aiGameLab() {
-    const docs = [
-      (
-        title: 'Demo 1 — Rainbow Number Rescue',
-        document: '''GAME CREATION DOCUMENT
+  static const _quickStartDocs = [
+    (
+      title: 'Quick start: Rainbow Number Rescue',
+      document: '''GAME CREATION DOCUMENT
 Grade: 1
 Subject: Mathematics
 Topic: Number bonds to 10
@@ -435,10 +423,10 @@ Content: Use numbers 1–9 with missing partners to make 10.
 Interaction: Randomly choose between tap, drag, matching pairs and a short sequence challenge.
 Feedback: Celebrate correct answers and give a strategy hint after an error.
 Safety: No external links, no personal data, no purchases.''',
-      ),
-      (
-        title: 'Demo 2 — Animal Habitat Adventure',
-        document: '''GAME CREATION DOCUMENT
+    ),
+    (
+      title: 'Quick start: Animal Habitat Adventure',
+      document: '''GAME CREATION DOCUMENT
 Grade: 4
 Subject: Natural Sciences
 Topic: Animal habitats
@@ -447,42 +435,197 @@ Content: Lion, penguin, frog, camel, fish and their habitats.
 Interaction: Randomly present a drag target, swipe decision, matching round or timed movement round.
 Feedback: Explain why the selected habitat is suitable instead of revealing answers before the learner tries.
 Safety: Child-friendly language and no personal data.''',
-      ),
-    ];
+    ),
+  ];
 
+  Future<void> _generateDraft() async {
+    final document = _draftDocumentController.text.trim();
+    if (document.isEmpty) {
+      setState(() => _lastDraftError = 'Write or load a game creation document first.');
+      return;
+    }
+    setState(() {
+      _generatingDraft = true;
+      _lastDraftError = null;
+      _lastDraft = null;
+    });
+    try {
+      final result = await _service.generateGameDraft(document);
+      if (!mounted) return;
+      setState(() => _lastDraft = result);
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => _lastDraftError = 'AI draft generation failed: $e');
+    } finally {
+      if (mounted) setState(() => _generatingDraft = false);
+    }
+  }
+
+  Future<void> _saveDraftToReviewLog() async {
+    final draft = _lastDraft;
+    final uid = context.read<AuthProvider>().user?.uid;
+    if (draft == null || uid == null) return;
+    try {
+      await _service.saveGameDraft(
+        createdBy: uid,
+        document: _draftDocumentController.text.trim(),
+        draft: draft['draft'],
+      );
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Draft saved to the review log.')),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not save draft: $e')),
+      );
+    }
+  }
+
+  String _formatDraft(dynamic draft) {
+    if (draft is Map) {
+      return draft.entries.map((e) => '${e.key}: ${e.value}').join('\n\n');
+    }
+    return draft.toString();
+  }
+
+  Widget _aiGameLab() {
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
         const AdminSectionHeader(
           eyebrow: 'QUESTKIDS AI LAB',
-          title: 'Game Creation Document Preview',
-          subtitle: 'Two dummy creation documents demonstrate how an approved brief is sent to Gemini for a draft. Drafts are previews only and do not add games to the catalogue.',
+          title: 'Game Creation Document Drafting',
+          subtitle:
+              'Write (or load a quick-start example), send it to Gemini for a draft, and optionally save it to the review log below. Drafts are previews only and never add games to the catalogue — a new engine still needs real code (see CLAUDE.md §4).',
         ),
-        const SizedBox(height: 18),
-        ...docs.map((item) => Card(
-          margin: const EdgeInsets.only(bottom: 16),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(item.title, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w900)),
-              const SizedBox(height: 10),
-              Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: AdminColors.bgPage,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: SelectableText(item.document),
-              ),
-              const SizedBox(height: 12),
-              FilledButton.icon(
-                onPressed: () => _generateDemoGame(item.document),
-                icon: const Icon(Icons.auto_awesome),
-                label: const Text('Send document to AI for draft'),
-              ),
-            ]),
+        const SizedBox(height: 16),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: _quickStartDocs
+              .map((item) => ActionChip(
+                    label: Text(item.title),
+                    onPressed: () => setState(() {
+                      _draftDocumentController.text = item.document;
+                      _lastDraft = null;
+                      _lastDraftError = null;
+                    }),
+                  ))
+              .toList(),
+        ),
+        const SizedBox(height: 16),
+        TextField(
+          controller: _draftDocumentController,
+          maxLines: 10,
+          decoration: const InputDecoration(
+            labelText: 'Game creation document',
+            hintText: 'GAME CREATION DOCUMENT\nGrade: ...\nSubject: ...\nTopic: ...\nGoal: ...',
+            border: OutlineInputBorder(),
+            alignLabelWithHint: true,
           ),
-        )),
+        ),
+        const SizedBox(height: 12),
+        FilledButton.icon(
+          onPressed: _generatingDraft ? null : _generateDraft,
+          icon: _generatingDraft
+              ? const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                )
+              : const Icon(Icons.auto_awesome),
+          label: const Text('Send document to AI for draft'),
+        ),
+        if (_lastDraftError != null) ...[
+          const SizedBox(height: 12),
+          Text(_lastDraftError!, style: const TextStyle(color: Colors.red)),
+        ],
+        if (_lastDraft != null) ...[
+          const SizedBox(height: 16),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('AI draft preview', style: TextStyle(fontWeight: FontWeight.w900)),
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: AdminColors.bgPage,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: SelectableText(_formatDraft(_lastDraft!['draft'])),
+                  ),
+                  const SizedBox(height: 12),
+                  OutlinedButton.icon(
+                    onPressed: _saveDraftToReviewLog,
+                    icon: const Icon(Icons.save_outlined),
+                    label: const Text('Save to review log'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+        const SizedBox(height: 24),
+        const Text('Review log', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+        const SizedBox(height: 8),
+        StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          stream: _service.watchGameDrafts(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Padding(
+                padding: EdgeInsets.all(20),
+                child: Center(child: CircularProgressIndicator(color: AdminColors.brandPrimary)),
+              );
+            }
+            final docs = snapshot.data!.docs;
+            if (docs.isEmpty) {
+              return const Padding(
+                padding: EdgeInsets.symmetric(vertical: 12),
+                child: Text('No drafts saved yet.', style: TextStyle(color: AdminColors.textSecondary)),
+              );
+            }
+            return Column(
+              children: docs.map((doc) {
+                final data = doc.data();
+                final createdAt = (data['createdAt'] as Timestamp?)?.toDate();
+                final document = (data['document'] ?? '').toString();
+                final title = document.split('\n').firstWhere(
+                      (l) => l.trim().isNotEmpty && !l.contains('GAME CREATION DOCUMENT'),
+                      orElse: () => document,
+                    );
+                return Card(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: ListTile(
+                    title: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
+                    subtitle: Text(createdAt == null ? 'Saved' : 'Saved ${createdAt.toLocal()}'),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete_outline),
+                      onPressed: () => _service.deleteGameDraft(doc.id),
+                    ),
+                    onTap: () => showDialog<void>(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        title: const Text('Saved draft'),
+                        content: SingleChildScrollView(
+                          child: SelectableText(_formatDraft(data['draft'])),
+                        ),
+                        actions: [
+                          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Close')),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            );
+          },
+        ),
       ],
     );
   }
@@ -613,32 +756,103 @@ Safety: Child-friendly language and no personal data.''',
     );
   }
 
+  Future<void> _runLeaderboardRefresh() async {
+    setState(() => _refreshingLeaderboards = true);
+    try {
+      await _service.refreshLeaderboards();
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Leaderboards refreshed.')),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Leaderboard refresh failed: $e')),
+      );
+    } finally {
+      if (mounted) setState(() => _refreshingLeaderboards = false);
+    }
+  }
+
+  Future<void> _runMissionsGeneration() async {
+    setState(() => _generatingMissions = true);
+    try {
+      final result = await _service.generateDailyMissions();
+      if (!mounted) return;
+      final total = result['total'] ?? 0;
+      final failed = result['failed'] ?? 0;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Missions generated for ${total - (failed as int)}/$total learners.')),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Mission generation failed: $e')),
+      );
+    } finally {
+      if (mounted) setState(() => _generatingMissions = false);
+    }
+  }
+
   Widget _operations() {
+    final bySubject = <String, int>{};
+    final engineTypes = <String>{};
+    for (final entry in GameCatalog.all) {
+      bySubject[entry.subject] = (bySubject[entry.subject] ?? 0) + 1;
+      engineTypes.add(entry.engineType);
+    }
+    final subjectSummary = bySubject.entries.map((e) => '${e.key}: ${e.value}').join(' · ');
+
     return ListView(
       padding: const EdgeInsets.all(20),
-      children: const [
-        AdminSectionHeader(
+      children: [
+        const AdminSectionHeader(
           eyebrow: 'QUESTKIDS ADMIN',
           title: 'Platform Operations',
-          subtitle:
-              'System status readouts — operational controls are not yet wired to live data.',
+          subtitle: 'Live catalogue stats and on-demand gamification maintenance jobs.',
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         AdminOperationsCard(
           title: 'Content',
           items: [
-            'Manage approved activities and CAPS curriculum reference data.',
-            'Keep the game catalogue and learning objectives aligned.',
+            '${GameCatalog.all.length} games across ${bySubject.length} subjects and ${engineTypes.length} engine types.',
+            subjectSummary,
           ],
         ),
         AdminOperationsCard(
           title: 'Gamification',
-          items: [
-            'Monitor daily missions, rewards and leaderboard refreshes.',
-            'Investigate abnormal progress or reward activity.',
+          items: const [
+            'Leaderboards normally refresh nightly at 01:00 SAST; daily missions at 00:00 SAST.',
+            'Run either job now to verify a fix or recover from a bad run, without waiting for the schedule.',
           ],
+          trailing: Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              OutlinedButton.icon(
+                onPressed: _refreshingLeaderboards ? null : _runLeaderboardRefresh,
+                icon: _refreshingLeaderboards
+                    ? const SizedBox(
+                        width: 14,
+                        height: 14,
+                        child: CircularProgressIndicator(strokeWidth: 2))
+                    : const Icon(Icons.leaderboard_outlined, size: 18),
+                label: const Text('Refresh leaderboards now'),
+              ),
+              OutlinedButton.icon(
+                onPressed: _generatingMissions ? null : _runMissionsGeneration,
+                icon: _generatingMissions
+                    ? const SizedBox(
+                        width: 14,
+                        height: 14,
+                        child: CircularProgressIndicator(strokeWidth: 2))
+                    : const Icon(Icons.flag_circle_outlined, size: 18),
+                label: const Text('Generate daily missions now'),
+              ),
+            ],
+          ),
         ),
-        AdminOperationsCard(
+        const AdminOperationsCard(
           title: 'Security',
           items: [
             'Admin access is claim-based, not controlled by a client role field.',
@@ -648,7 +862,9 @@ Safety: Child-friendly language and no personal data.''',
         AdminOperationsCard(
           title: 'System health',
           items: [
-            'Use Firebase logs, Crashlytics and deployment checks for operational monitoring.',
+            'Firebase project: ${Firebase.app().options.projectId}',
+            'Build mode: ${kReleaseMode ? 'Release' : 'Debug'}${emulatorsEnabled ? ' (connected to local emulators)' : ''}',
+            'Use Firebase logs, Crashlytics and deployment checks for deeper operational monitoring.',
           ],
         ),
       ],
