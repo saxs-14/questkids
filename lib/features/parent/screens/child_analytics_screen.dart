@@ -40,6 +40,8 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
   bool _unlinking = false;
   bool _loadingAiInsights = false;
   Map<String, dynamic>? _aiInsights;
+  List<String> _loadErrors = [];
+  int _loadGeneration = 0;
 
   @override
   void initState() {
@@ -47,25 +49,66 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
     _load();
   }
 
+  @override
+  void didUpdateWidget(covariant ChildAnalyticsScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.child.uid != widget.child.uid) {
+      _aiInsights = null;
+      _load();
+    }
+  }
+
   Future<void> _load() async {
-    setState(() => _loading = true);
-    final now = DateTime.now();
-    final from30 = now.subtract(const Duration(days: 30));
-    final results = await Future.wait([
-      _repo.getChildAnalytics(widget.child.uid, from30, now),
-      _repo.getWeeklyScoreTrend(widget.child.uid),
-      _repo.getTimeSpentBySubject(widget.child.uid),
-      _repo.getLatestWeeklyReport(widget.child.uid),
-    ]);
+    final generation = ++_loadGeneration;
+    final childUid = widget.child.uid;
     if (mounted) {
       setState(() {
-        _analytics = Map<String, dynamic>.from(results[0] ?? {});
-        _weeklyTrend = Map<String, double>.from(results[1] as Map? ?? {});
-        _timeSpent = Map<String, int>.from(results[2] as Map? ?? {});
-        _weeklyReport = results[3];
-        _loading = false;
+        _loading = true;
+        _loadErrors = [];
       });
     }
+    final now = DateTime.now();
+    final from30 = now.subtract(const Duration(days: 30));
+    final errors = <String>[];
+    Future<Object?> loadPart(
+      String label,
+      Future<Object?> Function() load,
+    ) async {
+      try {
+        return await load();
+      } catch (error) {
+        debugPrint('Unable to load parent report data ($label): $error');
+        errors.add(label);
+        return null;
+      }
+    }
+
+    final results = await Future.wait<Object?>([
+      loadPart(
+        'activity analytics',
+        () => _repo.getChildAnalytics(childUid, from30, now),
+      ),
+      loadPart('weekly score trend', () => _repo.getWeeklyScoreTrend(childUid)),
+      loadPart('time spent', () => _repo.getTimeSpentBySubject(childUid)),
+      loadPart('weekly report', () => _repo.getLatestWeeklyReport(childUid)),
+    ]);
+    if (!mounted || generation != _loadGeneration) return;
+    setState(() {
+      _analytics = Map<String, dynamic>.from(results[0] as Map? ?? {});
+      _weeklyTrend = {
+        for (final entry in (results[1] as Map? ?? {}).entries)
+          entry.key.toString(): (entry.value as num).toDouble(),
+      };
+      _timeSpent = {
+        for (final entry in (results[2] as Map? ?? {}).entries)
+          entry.key.toString(): (entry.value as num).toInt(),
+      };
+      _weeklyReport = results[3] == null
+          ? null
+          : Map<String, dynamic>.from(results[3] as Map);
+      _loadErrors = errors;
+      _loading = false;
+    });
   }
 
   Future<void> _generateAiInsights() async {
@@ -75,17 +118,22 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
           .httpsCallable('getParentLearningInsights')
           .call({'childUid': widget.child.uid});
       final data = Map<String, dynamic>.from(result.data as Map);
-      if (mounted) setState(() => _aiInsights = Map<String, dynamic>.from(data['insights'] as Map? ?? {}));
+      if (mounted) {
+        setState(() => _aiInsights =
+            Map<String, dynamic>.from(data['insights'] as Map? ?? {}));
+      }
     } on FirebaseFunctionsException catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(e.message ?? 'Could not generate AI insights. Please try again.'),
+          content: Text(
+              e.message ?? 'Could not generate AI insights. Please try again.'),
         ));
       }
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Could not generate AI insights. Check your connection and try again.'),
+          content: Text(
+              'Could not generate AI insights. Check your connection and try again.'),
         ));
       }
     } finally {
@@ -105,37 +153,43 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
     final actions = stringsFor('actions');
     return _chartCard(
       title: '✨ AI learning insights',
-      subtitle: 'Suggestions based on recorded game sessions, not a formal school assessment',
+      subtitle:
+          'Suggestions based on recorded game sessions, not a formal school assessment',
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(insights['summary']?.toString() ?? 'Review your child’s recent learning activity together.'),
+        Text(insights['summary']?.toString() ??
+            'Review your child’s recent learning activity together.'),
         if (strengths.isNotEmpty) ...[
           const SizedBox(height: 12),
-          const Text('Strengths', style: TextStyle(fontWeight: FontWeight.bold)),
+          const Text('Strengths',
+              style: TextStyle(fontWeight: FontWeight.bold)),
           ...strengths.map((value) => Padding(
-            padding: const EdgeInsets.only(top: 4),
-            child: Text('• $value'),
-          )),
+                padding: const EdgeInsets.only(top: 4),
+                child: Text('• $value'),
+              )),
         ],
         if (focus.isNotEmpty) ...[
           const SizedBox(height: 12),
-          const Text('Areas to practise', style: TextStyle(fontWeight: FontWeight.bold)),
+          const Text('Areas to practise',
+              style: TextStyle(fontWeight: FontWeight.bold)),
           ...focus.map((value) => Padding(
-            padding: const EdgeInsets.only(top: 4),
-            child: Text('• $value'),
-          )),
+                padding: const EdgeInsets.only(top: 4),
+                child: Text('• $value'),
+              )),
         ],
         if (actions.isNotEmpty) ...[
           const SizedBox(height: 12),
-          const Text('Try together', style: TextStyle(fontWeight: FontWeight.bold)),
+          const Text('Try together',
+              style: TextStyle(fontWeight: FontWeight.bold)),
           ...actions.map((value) => Padding(
-            padding: const EdgeInsets.only(top: 4),
-            child: Text('• $value'),
-          )),
+                padding: const EdgeInsets.only(top: 4),
+                child: Text('• $value'),
+              )),
         ],
         if (insights['disclaimer'] != null) ...[
           const SizedBox(height: 12),
           Text(insights['disclaimer'].toString(),
-              style: AppTextStyles.bodySmall.copyWith(color: AppColors.textSecondary)),
+              style: AppTextStyles.bodySmall
+                  .copyWith(color: AppColors.textSecondary)),
         ],
       ]),
     );
@@ -276,8 +330,10 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
   }
 
   Widget _weeklyReportCard() {
-    final report = Map<String, dynamic>.from(_weeklyReport?['report'] as Map? ?? {});
-    final strengths = List<String>.from(report['strengths'] as List? ?? const []);
+    final report =
+        Map<String, dynamic>.from(_weeklyReport?['report'] as Map? ?? {});
+    final strengths =
+        List<String>.from(report['strengths'] as List? ?? const []);
     final focus = List<String>.from(report['focusAreas'] as List? ?? const []);
     final plan = List<String>.from(report['nextWeekPlan'] as List? ?? const []);
     return Container(
@@ -294,20 +350,24 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
               style: TextStyle(fontWeight: FontWeight.w900, fontSize: 14)),
           const SizedBox(height: 8),
           Text(report['summary']?.toString() ?? 'Your weekly report is ready.',
-              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
+              style:
+                  const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
           if (strengths.isNotEmpty) ...[
             const SizedBox(height: 12),
-            const Text('Strengths', style: TextStyle(fontWeight: FontWeight.w900)),
+            const Text('Strengths',
+                style: TextStyle(fontWeight: FontWeight.w900)),
             ...strengths.map((s) => Text('• $s')),
           ],
           if (focus.isNotEmpty) ...[
             const SizedBox(height: 8),
-            const Text('Focus next', style: TextStyle(fontWeight: FontWeight.w900)),
+            const Text('Focus next',
+                style: TextStyle(fontWeight: FontWeight.w900)),
             ...focus.map((s) => Text('• $s')),
           ],
           if (plan.isNotEmpty) ...[
             const SizedBox(height: 8),
-            const Text('Next week', style: TextStyle(fontWeight: FontWeight.w900)),
+            const Text('Next week',
+                style: TextStyle(fontWeight: FontWeight.w900)),
             ...plan.map((s) => Text('• $s')),
           ],
           if (report['encouragement'] != null) ...[
@@ -362,6 +422,34 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
         physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.all(16),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          if (_loadErrors.isNotEmpty) ...[
+            Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppColors.error.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(12),
+                border:
+                    Border.all(color: AppColors.error.withValues(alpha: 0.3)),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.cloud_off_outlined, color: AppColors.error),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'Some report information could not be loaded. Check your connection or access permissions, then try again.',
+                      style: AppTextStyles.bodySmall,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: _loading ? null : _load,
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
+            ),
+          ],
           // Header row
           Row(children: [
             Container(
@@ -427,9 +515,14 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
             child: OutlinedButton.icon(
               onPressed: _loadingAiInsights ? null : _generateAiInsights,
               icon: _loadingAiInsights
-                  ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                  ? const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2))
                   : const Icon(Icons.auto_awesome),
-              label: Text(_loadingAiInsights ? 'Preparing insights…' : 'Get AI learning insights'),
+              label: Text(_loadingAiInsights
+                  ? 'Preparing insights…'
+                  : 'Get AI learning insights'),
             ),
           ),
           const SizedBox(height: 16),

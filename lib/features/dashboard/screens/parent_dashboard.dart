@@ -830,7 +830,9 @@ class _ParentReportsTabState extends State<_ParentReportsTab> {
   @override
   Widget build(BuildContext context) {
     final parentProv = context.watch<ParentProvider>();
-    final selected = parentProv.selectedChild;
+    final children = parentProv.linkedChildren;
+    final selected =
+        parentProv.selectedChild ?? (children.isNotEmpty ? children.first : null);
 
     if (selected == null) {
       return Center(
@@ -846,7 +848,10 @@ class _ParentReportsTabState extends State<_ParentReportsTab> {
       );
     }
 
-    return ChildAnalyticsScreen(child: selected);
+    return ChildAnalyticsScreen(
+      key: ValueKey(selected.uid),
+      child: selected,
+    );
   }
 }
 

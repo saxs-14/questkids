@@ -6,19 +6,38 @@ class AdminService {
   final FirebaseFunctions _functions = FirebaseFunctions.instance;
 
   Stream<QuerySnapshot<Map<String, dynamic>>> watchUsers() {
-    return _firestore.collection('users').orderBy('createdAt', descending: true).limit(100).snapshots();
+    return _firestore
+        .collection('users')
+        .orderBy('createdAt', descending: true)
+        .snapshots();
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> watchAiReports() {
-    return _firestore.collection('ai_reports').orderBy('createdAt', descending: true).limit(100).snapshots();
+    return _firestore
+        .collection('ai_reports')
+        .orderBy('createdAt', descending: true)
+        .limit(100)
+        .snapshots();
   }
 
   Future<Map<String, int>> getOverviewCounts() async {
     final results = await Future.wait([
       _firestore.collection('users').count().get(),
-      _firestore.collection('users').where('role', isEqualTo: 'parent').count().get(),
-      _firestore.collection('users').where('role', isEqualTo: 'learner').count().get(),
-      _firestore.collection('users').where('role', isEqualTo: 'admin').count().get(),
+      _firestore
+          .collection('users')
+          .where('role', isEqualTo: 'parent')
+          .count()
+          .get(),
+      _firestore
+          .collection('users')
+          .where('role', isEqualTo: 'learner')
+          .count()
+          .get(),
+      _firestore
+          .collection('users')
+          .where('role', isEqualTo: 'admin')
+          .count()
+          .get(),
       _firestore.collection('activities').count().get(),
       _firestore.collection('ai_reports').count().get(),
     ]);
@@ -33,14 +52,20 @@ class AdminService {
   }
 
   Future<void> setUserRole({required String uid, required String role}) async {
-    await _functions.httpsCallable('setUserRole').call({'uid': uid, 'role': role});
+    await _functions
+        .httpsCallable('setUserRole')
+        .call({'uid': uid, 'role': role});
   }
 
-  Future<void> setUserDisabled({required String uid, required bool disabled}) async {
-    await _functions.httpsCallable('setUserDisabled').call({'uid': uid, 'disabled': disabled});
+  Future<void> setUserDisabled(
+      {required String uid, required bool disabled}) async {
+    await _functions
+        .httpsCallable('setUserDisabled')
+        .call({'uid': uid, 'disabled': disabled});
   }
 
-  Future<void> resolveAiReport({required String reportId, required String status}) async {
+  Future<void> resolveAiReport(
+      {required String reportId, required String status}) async {
     await _firestore.collection('ai_reports').doc(reportId).update({
       'status': status,
       'resolvedAt': FieldValue.serverTimestamp(),
@@ -48,9 +73,8 @@ class AdminService {
   }
 
   Future<Map<String, dynamic>> getPlatformReport() async {
-    final result = await _functions
-        .httpsCallable('getAdminPlatformReport')
-        .call();
+    final result =
+        await _functions.httpsCallable('getAdminPlatformReport').call();
     return Map<String, dynamic>.from(result.data as Map);
   }
 
@@ -87,12 +111,14 @@ class AdminService {
   }
 
   Future<Map<String, dynamic>> refreshLeaderboards() async {
-    final result = await _functions.httpsCallable('adminRefreshLeaderboards').call();
+    final result =
+        await _functions.httpsCallable('adminRefreshLeaderboards').call();
     return Map<String, dynamic>.from(result.data as Map);
   }
 
   Future<Map<String, dynamic>> generateDailyMissions() async {
-    final result = await _functions.httpsCallable('adminGenerateDailyMissions').call();
+    final result =
+        await _functions.httpsCallable('adminGenerateDailyMissions').call();
     return Map<String, dynamic>.from(result.data as Map);
   }
 }

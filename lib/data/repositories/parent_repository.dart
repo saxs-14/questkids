@@ -266,8 +266,8 @@ class ParentRepository {
       final data = d.data();
       final score = (data['score'] ?? 0).toDouble();
       totalScore += score;
-      points += (data['pointsEarned'] ?? 0) as int;
-      final subject = data['subject'] ?? 'General';
+      points += (data['pointsEarned'] as num?)?.toInt() ?? 0;
+      final subject = data['subject'] as String? ?? 'General';
       subjectScores.putIfAbsent(subject, () => []).add(score);
     }
 

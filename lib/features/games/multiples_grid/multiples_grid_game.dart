@@ -28,7 +28,8 @@ const int kMultiplesGridSize = 5;
 const double kMultiplesGridSpacing = 8.0;
 
 double gridCellExtentFor(double totalSize) =>
-    (totalSize - (kMultiplesGridSize - 1) * kMultiplesGridSpacing) / kMultiplesGridSize;
+    (totalSize - (kMultiplesGridSize - 1) * kMultiplesGridSpacing) /
+    kMultiplesGridSize;
 
 Offset gridCubeCenter(int index, Size size) {
   final cell = gridCellExtentFor(size.width);
@@ -44,12 +45,20 @@ Offset gridCubeCenter(int index, Size size) {
 int? hitTestGridCubeIndex(Offset local, Size size) {
   final cell = gridCellExtentFor(size.width);
   final stride = cell + kMultiplesGridSpacing;
-  if (local.dx < 0 || local.dy < 0 || local.dx >= size.width || local.dy >= size.height) {
+  if (local.dx < 0 ||
+      local.dy < 0 ||
+      local.dx >= size.width ||
+      local.dy >= size.height) {
     return null;
   }
   final col = (local.dx / stride).floor();
   final row = (local.dy / stride).floor();
-  if (col < 0 || col >= kMultiplesGridSize || row < 0 || row >= kMultiplesGridSize) return null;
+  if (col < 0 ||
+      col >= kMultiplesGridSize ||
+      row < 0 ||
+      row >= kMultiplesGridSize) {
+    return null;
+  }
   final cellLeft = col * stride;
   final cellTop = row * stride;
   if (local.dx - cellLeft > cell || local.dy - cellTop > cell) return null;
@@ -110,13 +119,12 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
   final List<int> _connectedIndices = [];
   int? _lastTappedIndex;
   String _hintMessage = '';
-  // Briefly highlights the cube holding the next correct multiple when the
-  // player asks for a hint -- see _showHint.
-  int? _hintedIndex;
 
   // Drag-to-connect state: the player draws one continuous line across the
   // grid, in a single drag, through the multiples in ascending order.
   bool _isDragging = false;
+  int? _activePointer;
+  Offset? _pointerDownPosition;
   Offset? _dragPosition;
   int? _lastHoverIndex;
   Size? _gridRenderSize;
@@ -205,9 +213,8 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
     _currentStep = 1;
     _connectedIndices.clear();
     _lastTappedIndex = null;
-    _hintedIndex = null;
     _hintMessage =
-        'Drag through the multiples of $base in order: $base → ${base * 2} → ${base * 3} ...';
+        'Find the smallest multiple of $base, then count on by $base.';
 
     final validMultiples = <int, int>{}; // stepIndex -> multiple
     for (int step = 1; step <= _targetChainLength; step++) {
@@ -259,45 +266,47 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
     });
   }
 
-  /// Picks which of the 25 grid slots hold the 10 target multiples, in
-  /// chain order, via a random walk: each step's slot is chosen from the
-  /// unused slots nearest (by Chebyshev/grid distance) to the previous
-  /// step's slot, widening the search radius only if nothing is free
-  /// within it. A plain shuffle-and-take could put step 1 in one corner
-  /// and step 2 across the grid, forcing a long, confusing drag between
-  /// consecutive numbers -- this keeps the chain visually readable as a
-  /// path instead of a scatter.
+  /// Finds a randomized, non-repeating orthogonal path so every next multiple
+  /// is in a cube directly beside the previous one. Backtracking avoids a
+  /// random walk dead end that would otherwise force a long jump.
   List<int> _proximitySlotIndices() {
-    final available = List<int>.generate(25, (i) => i);
-    final result = <int>[available.removeAt(_rng.nextInt(available.length))];
+    List<int>? findPath(List<int> path, Set<int> used) {
+      if (path.length == _targetChainLength) return List<int>.from(path);
 
-    while (result.length < _targetChainLength) {
-      final prev = result.last;
-      final prevRow = prev ~/ kMultiplesGridSize;
-      final prevCol = prev % kMultiplesGridSize;
+      final current = path.last;
+      final row = current ~/ kMultiplesGridSize;
+      final col = current % kMultiplesGridSize;
+      final candidates = <int>[
+        if (row > 0) current - kMultiplesGridSize,
+        if (row < kMultiplesGridSize - 1) current + kMultiplesGridSize,
+        if (col > 0) current - 1,
+        if (col < kMultiplesGridSize - 1) current + 1,
+      ]..shuffle(_rng);
 
-      var radius = 1;
-      List<int> candidates = const [];
-      while (candidates.isEmpty) {
-        candidates = available.where((idx) {
-          final row = idx ~/ kMultiplesGridSize;
-          final col = idx % kMultiplesGridSize;
-          final dist = math.max((row - prevRow).abs(), (col - prevCol).abs());
-          return dist <= radius;
-        }).toList();
-        radius++;
+      for (final next in candidates) {
+        if (!used.add(next)) continue;
+        path.add(next);
+        final result = findPath(path, used);
+        if (result != null) return result;
+        path.removeLast();
+        used.remove(next);
       }
-
-      final next = candidates[_rng.nextInt(candidates.length)];
-      available.remove(next);
-      result.add(next);
+      return null;
     }
-    return result;
+
+    final startingSlots = List<int>.generate(25, (index) => index)
+      ..shuffle(_rng);
+    for (final start in startingSlots) {
+      final path = findPath([start], {start});
+      if (path != null) return path;
+    }
+    throw StateError(
+        'Could not generate a $kMultiplesGridSize×$kMultiplesGridSize multiple path.');
   }
 
   /// Evaluates a cube the drag path has just newly entered (called once per
   /// distinct cube the pointer moves onto -- see _lastHoverIndex dedup in
-  /// the pan handlers below, so sitting still or wiggling within one cube
+  /// the pointer handlers below, so sitting still or wiggling within one cube
   /// doesn't re-fire this repeatedly). Correct/incorrect handling is
   /// unchanged from the original tap-based version: a wrong cube (including
   /// re-entering an already-connected one) resets the streak and shows a
@@ -336,8 +345,8 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
         _onRoundCompleted();
       } else {
         setState(() {
-          final nextNumber = _currentBase * _currentStep;
-          _hintMessage = 'Great! Drag to $nextNumber ($_currentBase × $_currentStep)';
+          _hintMessage =
+              'Great! Keep adding $_currentBase and follow the connected path.';
         });
       }
     } else {
@@ -347,72 +356,79 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
       _shakeCtrl.forward(from: 0);
       setState(() {
         if (_connectedIndices.contains(index)) {
-          _hintMessage = 'Already connected! Look for $expectedMultiple next.';
+          _hintMessage =
+              'That cube is already in your path. Keep moving to a new cube.';
         } else if (cube.isMultiple && cube.stepIndex > _currentStep) {
           _hintMessage =
-              '${cube.number} is a multiple, but connect in order! Find $expectedMultiple first.';
+              'Good spot, but connect the multiples in order. Find the next step first.';
         } else {
           _hintMessage =
-              '${cube.number} is not the next multiple. Try finding $expectedMultiple ($_currentBase × $_currentStep)!';
+              'Not the next step. Count on by $_currentBase and try another cube.';
         }
       });
     }
   }
 
-  /// Briefly glows the cube holding the next correct multiple, so a stuck
-  /// player can see exactly where to drag next instead of only being told
-  /// the number via _hintMessage and having to re-scan the whole grid for
-  /// it themselves.
+  /// Gives a strategy clue without identifying the answer cube or number.
   void _showHint() {
     if (_phase != _Phase.playing) return;
-    final expectedMultiple = _currentBase * _currentStep;
-    final target = _gridCubes.firstWhere((c) => c.number == expectedMultiple);
-    setState(() => _hintedIndex = target.index);
-    _delayed(1800, () {
-      if (mounted && _hintedIndex == target.index) {
-        setState(() => _hintedIndex = null);
-      }
-    });
-  }
-
-  void _handlePanDown(DragDownDetails details) {
-    _isDragging = true;
-    _lastHoverIndex = null; // fresh contact point -- always worth evaluating
-    _updateDragPosition(details.localPosition);
-  }
-
-  void _handlePanUpdate(DragUpdateDetails details) {
-    if (!_isDragging) return;
-    _updateDragPosition(details.localPosition);
-  }
-
-  void _handlePanEnd(DragEndDetails details) {
     setState(() {
-      _isDragging = false;
-      _dragPosition = null;
+      _hintMessage = _connectedIndices.isEmpty
+          ? 'Hint: start with the smallest multiple in the matrix.'
+          : 'Hint: count on by $_currentBase from the last cube in your path.';
     });
+  }
+
+  void _handlePointerDown(PointerDownEvent event) {
+    if (_activePointer != null) return;
+    _activePointer = event.pointer;
+    _pointerDownPosition = event.localPosition;
     _lastHoverIndex = null;
   }
 
-  void _handlePanCancel() {
-    setState(() {
-      _isDragging = false;
-      _dragPosition = null;
-    });
+  void _handlePointerMove(PointerMoveEvent event) {
+    if (event.pointer != _activePointer) return;
+    final downPosition = _pointerDownPosition;
+    if (downPosition == null) return;
+
+    if (!_isDragging) {
+      if ((event.localPosition - downPosition).distance < 12) return;
+      _isDragging = true;
+      _updateDragPosition(downPosition);
+    }
+    _updateDragPosition(event.localPosition);
+  }
+
+  void _handlePointerEnd(PointerEvent event) {
+    if (event.pointer != _activePointer) return;
+    if (_isDragging) {
+      setState(() {
+        _isDragging = false;
+        _dragPosition = null;
+      });
+    }
+    _activePointer = null;
+    _pointerDownPosition = null;
     _lastHoverIndex = null;
   }
 
   void _updateDragPosition(Offset local) {
     final size = _gridRenderSize;
-    setState(() {
-      _dragPosition = local;
-    });
-    if (size == null || _phase != _Phase.playing) return;
-    final hit = hitTestGridCubeIndex(local, size);
-    if (hit != _lastHoverIndex) {
-      _lastHoverIndex = hit;
-      if (hit != null) _evaluateCubeEntry(hit);
+    if (size != null && _phase == _Phase.playing) {
+      final start = _dragPosition ?? _pointerDownPosition ?? local;
+      final delta = local - start;
+      final sampleSpacing = math.max(1.0, gridCellExtentFor(size.width) / 2);
+      final sampleCount = math.max(1, (delta.distance / sampleSpacing).ceil());
+
+      for (var sample = 1; sample <= sampleCount; sample++) {
+        final point = start + delta * (sample / sampleCount);
+        final hit = hitTestGridCubeIndex(point, size);
+        if (hit == _lastHoverIndex) continue;
+        _lastHoverIndex = hit;
+        if (hit != null) _evaluateCubeEntry(hit);
+      }
     }
+    setState(() => _dragPosition = local);
   }
 
   void _onRoundCompleted() {
@@ -441,7 +457,8 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
   }
 
   void _persistSession() {
-    final accuracy = _totalTaps > 0 ? (_correctHits / _totalTaps).clamp(0.0, 1.0) : 1.0;
+    final accuracy =
+        _totalTaps > 0 ? (_correctHits / _totalTaps).clamp(0.0, 1.0) : 1.0;
     final isWin = accuracy >= 0.6;
     final totalQuestions = _targetChainLength * _baseMultipliers.length;
 
@@ -486,7 +503,8 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
+          icon: const Icon(Icons.arrow_back_ios_new,
+              color: Colors.white, size: 20),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
@@ -501,7 +519,7 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
         centerTitle: true,
         actions: [
           IconButton(
-            tooltip: 'Hint: show the next number',
+            tooltip: 'Get a hint',
             icon: const Icon(Icons.lightbulb, color: Color(0xFFFFD54F)),
             onPressed: _showHint,
           ),
@@ -548,7 +566,8 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
@@ -563,7 +582,8 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
@@ -588,7 +608,9 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
                 _hintMessage,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: _streak > 2 ? const Color(0xFFFFCA28) : Colors.white.withValues(alpha: 0.85),
+                  color: _streak > 2
+                      ? const Color(0xFFFFCA28)
+                      : Colors.white.withValues(alpha: 0.85),
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                 ),
@@ -605,7 +627,7 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
                     aspectRatio: 1.0,
                     child: LayoutBuilder(
                       builder: (context, constraints) {
-                        // Cached for hit-testing in the pan handlers below --
+                        // Cached for hit-testing in the pointer handlers below --
                         // reading layout size during build and stashing it
                         // for later event handling is safe; this never
                         // triggers a rebuild itself.
@@ -618,7 +640,8 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
                                 painter: _LaserPathPainter(
                                   connectedIndices: _connectedIndices,
                                   glowPhase: _ambientGlowAnim.value,
-                                  liveEndpoint: _isDragging ? _dragPosition : null,
+                                  liveEndpoint:
+                                      _isDragging ? _dragPosition : null,
                                 ),
                               ),
                             ),
@@ -628,7 +651,8 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
                             // below, not a per-cube GestureDetector)
                             GridView.builder(
                               physics: const NeverScrollableScrollPhysics(),
-                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: kMultiplesGridSize,
                                 crossAxisSpacing: kMultiplesGridSpacing,
                                 mainAxisSpacing: kMultiplesGridSpacing,
@@ -636,14 +660,14 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
                               itemCount: _gridCubes.length,
                               itemBuilder: (context, index) {
                                 final cube = _gridCubes[index];
-                                final isConnected = _connectedIndices.contains(index);
+                                final isConnected =
+                                    _connectedIndices.contains(index);
                                 final isLatest = _lastTappedIndex == index;
 
                                 return _buildCubeTile(
                                   cube: cube,
                                   isConnected: isConnected,
                                   isLatest: isLatest,
-                                  isHinted: _hintedIndex == index,
                                 );
                               },
                             ),
@@ -655,12 +679,12 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
                             // GridView's own (scroll-disabled but still
                             // present) gesture recognizer.
                             Positioned.fill(
-                              child: GestureDetector(
+                              child: Listener(
                                 behavior: HitTestBehavior.opaque,
-                                onPanDown: _handlePanDown,
-                                onPanUpdate: _handlePanUpdate,
-                                onPanEnd: _handlePanEnd,
-                                onPanCancel: _handlePanCancel,
+                                onPointerDown: _handlePointerDown,
+                                onPointerMove: _handlePointerMove,
+                                onPointerUp: _handlePointerEnd,
+                                onPointerCancel: _handlePointerEnd,
                               ),
                             ),
                           ],
@@ -676,7 +700,8 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
             if (_streak >= 2)
               Container(
                 margin: const EdgeInsets.only(bottom: 12),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     colors: [Color(0xFFFF5252), Color(0xFFFF7A00)],
@@ -708,103 +733,94 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
     required _CubeItem cube,
     required bool isConnected,
     required bool isLatest,
-    required bool isHinted,
   }) {
     final isTablet = MediaQuery.of(context).size.width > 600;
     return AnimatedBuilder(
+      key: ValueKey('multiples_grid_cube_${cube.number}'),
       animation: Listenable.merge([_ambientGlowAnim, _shakeAnim, _pulseAnim]),
       builder: (context, child) {
         final double scale = isLatest ? _pulseAnim.value : 1.0;
-        final double shakeOffset =
-            (_shakeCtrl.isAnimating && !isConnected)
-                ? math.sin(_shakeAnim.value * math.pi * 8) * 4
-                : 0.0;
+        final double shakeOffset = (_shakeCtrl.isAnimating && !isConnected)
+            ? math.sin(_shakeAnim.value * math.pi * 8) * 4
+            : 0.0;
 
         return Transform.translate(
           offset: Offset(shakeOffset, 0),
           child: Transform.scale(
             scale: scale,
             child: AnimatedContainer(
-                duration: const Duration(milliseconds: 250),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: isConnected
-                        ? [
-                            const Color(0xFFFFD54F),
-                            const Color(0xFFFF8F00),
-                            const Color(0xFFE65100),
-                          ]
-                        : [
-                            const Color(0xFFFF7043),
-                            const Color(0xFFE64A19),
-                            const Color(0xFFBF360C),
-                          ],
+              duration: const Duration(milliseconds: 250),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: isConnected
+                      ? [
+                          const Color(0xFFFFD54F),
+                          const Color(0xFFFF8F00),
+                          const Color(0xFFE65100),
+                        ]
+                      : [
+                          const Color(0xFFFF7043),
+                          const Color(0xFFE64A19),
+                          const Color(0xFFBF360C),
+                        ],
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: isConnected
+                        ? const Color(0xFFFFB300)
+                            .withValues(alpha: 0.8 * _ambientGlowAnim.value)
+                        : const Color(0xFFD84315).withValues(alpha: 0.4),
+                    blurRadius: isConnected ? 16 : 6,
+                    spreadRadius: isConnected ? 2 : 0,
+                    offset: const Offset(0, 4),
                   ),
-                  boxShadow: [
-                    if (isHinted)
-                      BoxShadow(
-                        color: Colors.white.withValues(alpha: 0.9 * _ambientGlowAnim.value),
-                        blurRadius: 22,
-                        spreadRadius: 4,
-                      )
-                    else
-                      BoxShadow(
-                        color: isConnected
-                            ? const Color(0xFFFFB300).withValues(alpha: 0.8 * _ambientGlowAnim.value)
-                            : const Color(0xFFD84315).withValues(alpha: 0.4),
-                        blurRadius: isConnected ? 16 : 6,
-                        spreadRadius: isConnected ? 2 : 0,
-                        offset: const Offset(0, 4),
+                ],
+                border: Border.all(
+                  color: isConnected
+                      ? Colors.white.withValues(alpha: 0.9)
+                      : Colors.white.withValues(alpha: 0.2),
+                  width: isConnected ? 2.5 : 1.0,
+                ),
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${cube.number}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: isTablet ? 22 : 18,
+                        fontWeight: FontWeight.w900,
+                        shadows: [
+                          Shadow(
+                            color: Colors.black.withValues(alpha: 0.5),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (isConnected)
+                      Container(
+                        margin: const EdgeInsets.only(top: 2),
+                        width: 6,
+                        height: 6,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        ),
                       ),
                   ],
-                  border: Border.all(
-                    color: isHinted
-                        ? Colors.white
-                        : isConnected
-                            ? Colors.white.withValues(alpha: 0.9)
-                            : Colors.white.withValues(alpha: 0.2),
-                    width: isHinted ? 3.5 : (isConnected ? 2.5 : 1.0),
-                  ),
-                ),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '${cube.number}',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: isTablet ? 22 : 18,
-                          fontWeight: FontWeight.w900,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withValues(alpha: 0.5),
-                              blurRadius: 4,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                      ),
-                      if (isConnected)
-                        Container(
-                          margin: const EdgeInsets.only(top: 2),
-                          width: 6,
-                          height: 6,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                          ),
-                        ),
-                    ],
-                  ),
                 ),
               ),
             ),
-          );
-        },
+          ),
+        );
+      },
     );
   }
 
@@ -864,7 +880,8 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.white,
                       side: const BorderSide(color: Colors.white54),
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -878,7 +895,8 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFFF9800),
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),

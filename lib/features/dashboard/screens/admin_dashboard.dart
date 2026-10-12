@@ -34,6 +34,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   bool _loadingCounts = true;
   String _userSearchQuery = '';
   bool _showDisabledOnly = false;
+  final _userSearchController = TextEditingController();
   late Future<Map<String, dynamic>> _platformReportFuture;
 
   final _draftDocumentController = TextEditingController();
@@ -53,11 +54,13 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   @override
   void dispose() {
+    _userSearchController.dispose();
     _draftDocumentController.dispose();
     super.dispose();
   }
 
-  Future<void> _exportCsv(String suggestedName, List<List<dynamic>> rows) async {
+  Future<void> _exportCsv(
+      String suggestedName, List<List<dynamic>> rows) async {
     try {
       final csvContent = const ListToCsvConverter().convert(rows);
       final location = await getSaveLocation(suggestedName: suggestedName);
@@ -117,7 +120,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
       await _service.setUserDisabled(uid: uid, disabled: disabled);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(disabled ? 'Account disabled.' : 'Account enabled.')),
+          SnackBar(
+              content:
+                  Text(disabled ? 'Account disabled.' : 'Account enabled.')),
         );
       }
     } catch (e) {
@@ -137,7 +142,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
       return const SizedBox.shrink();
     }
 
-    final pages = [_overview(), _users(), _safety(), _aiGameLab(), _reports(), _operations()];
+    final pages = [
+      _overview(),
+      _users(),
+      _safety(),
+      _aiGameLab(),
+      _reports(),
+      _operations()
+    ];
 
     return Scaffold(
       backgroundColor: AdminColors.bgPage,
@@ -158,7 +170,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
             onPressed: () async {
               await context.read<AuthProvider>().signOut();
               if (!context.mounted) return;
-              Navigator.pushNamedAndRemoveUntil(context, '/login', (_) => false);
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/login', (_) => false);
             },
           ),
         ],
@@ -171,7 +184,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
         onDestinationSelected: (index) => setState(() => _tab = index),
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.dashboard_outlined, color: AdminColors.textSecondary),
+            icon: Icon(Icons.dashboard_outlined,
+                color: AdminColors.textSecondary),
             selectedIcon: Icon(Icons.dashboard, color: AdminColors.textPrimary),
             label: 'Overview',
           ),
@@ -186,17 +200,22 @@ class _AdminDashboardState extends State<AdminDashboard> {
             label: 'Safety',
           ),
           NavigationDestination(
-            icon: Icon(Icons.auto_awesome_outlined, color: AdminColors.textSecondary),
-            selectedIcon: Icon(Icons.auto_awesome, color: AdminColors.textPrimary),
+            icon: Icon(Icons.auto_awesome_outlined,
+                color: AdminColors.textSecondary),
+            selectedIcon:
+                Icon(Icons.auto_awesome, color: AdminColors.textPrimary),
             label: 'AI Lab',
           ),
           NavigationDestination(
-            icon: Icon(Icons.assessment_outlined, color: AdminColors.textSecondary),
-            selectedIcon: Icon(Icons.assessment, color: AdminColors.textPrimary),
+            icon: Icon(Icons.assessment_outlined,
+                color: AdminColors.textSecondary),
+            selectedIcon:
+                Icon(Icons.assessment, color: AdminColors.textPrimary),
             label: 'Reports',
           ),
           NavigationDestination(
-            icon: Icon(Icons.settings_outlined, color: AdminColors.textSecondary),
+            icon:
+                Icon(Icons.settings_outlined, color: AdminColors.textSecondary),
             selectedIcon: Icon(Icons.settings, color: AdminColors.textPrimary),
             label: 'Operations',
           ),
@@ -300,116 +319,153 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
         final query = _userSearchQuery.trim().toLowerCase();
         final allDocs = snapshot.data!.docs;
-        final disabledCount = allDocs.where((d) => d.data()['disabled'] == true).length;
+        final disabledCount =
+            allDocs.where((d) => d.data()['disabled'] == true).length;
         final docs = allDocs.where((doc) {
           final data = doc.data();
           if (_showDisabledOnly && data['disabled'] != true) return false;
           if (query.isEmpty) return true;
-          final name = (data['name'] ?? '').toString().toLowerCase();
-          final email = (data['email'] ?? '').toString().toLowerCase();
+          final searchableFields = [
+            data['name'],
+            data['surname'],
+            data['displayName'],
+            data['email'],
+            doc.id,
+            data['role'] ?? 'learner',
+          ].map((value) => value?.toString().toLowerCase() ?? '');
+          final searchableText = searchableFields.join(' ');
           final role = (data['role'] ?? 'learner').toString().toLowerCase();
-          return name.contains(query) || email.contains(query) || role.contains(query);
+          return searchableText.contains(query) || role.contains(query);
         }).toList();
 
-        return ListView(
-          padding: const EdgeInsets.all(20),
+        return Column(
           children: [
-            const AdminSectionHeader(
-              eyebrow: 'QUESTKIDS ADMIN',
-              title: 'User Management',
-              subtitle:
-                  'Role changes and account disabling are performed through protected server-side operations.',
+            const Padding(
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: AdminSectionHeader(
+                eyebrow: 'QUESTKIDS ADMIN',
+                title: 'User Management',
+                subtitle:
+                    'Role changes and account disabling are performed through protected server-side operations.',
+              ),
             ),
-            const SizedBox(height: 20),
-            AdminSearchField(
-              hintText: 'Search by name, email, or role…',
-              onChanged: (value) => setState(() => _userSearchQuery = value),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: AdminSearchField(
+                controller: _userSearchController,
+                hintText: 'Search by name, email, role, or user ID…',
+                onChanged: (value) => setState(() => _userSearchQuery = value),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  FilterChip(
+                    label: Text('Disabled accounts ($disabledCount)'),
+                    selected: _showDisabledOnly,
+                    onSelected: (value) =>
+                        setState(() => _showDisabledOnly = value),
+                    selectedColor:
+                        AdminColors.severityRed.withValues(alpha: 0.25),
+                    labelStyle: TextStyle(
+                      color: _showDisabledOnly
+                          ? AdminColors.severityRed
+                          : AdminColors.textSecondary,
+                    ),
+                    backgroundColor: AdminColors.cardBottom,
+                  ),
+                  OutlinedButton.icon(
+                    onPressed: docs.isEmpty
+                        ? null
+                        : () => _exportCsv('questkids_users.csv', [
+                              ['name', 'email', 'role', 'disabled'],
+                              ...docs.map((d) {
+                                final data = d.data();
+                                return [
+                                  data['name'] ?? '',
+                                  data['email'] ?? '',
+                                  data['role'] ?? 'learner',
+                                  data['disabled'] == true,
+                                ];
+                              }),
+                            ]),
+                    icon: const Icon(Icons.download_outlined, size: 18),
+                    label: const Text('Export CSV'),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 12),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                FilterChip(
-                  label: Text('Disabled accounts ($disabledCount)'),
-                  selected: _showDisabledOnly,
-                  onSelected: (value) => setState(() => _showDisabledOnly = value),
-                  selectedColor: AdminColors.severityRed.withValues(alpha: 0.25),
-                  labelStyle: TextStyle(
-                    color: _showDisabledOnly ? AdminColors.severityRed : AdminColors.textSecondary,
-                  ),
-                  backgroundColor: AdminColors.cardBottom,
-                ),
-                OutlinedButton.icon(
-                  onPressed: docs.isEmpty
-                      ? null
-                      : () => _exportCsv('questkids_users.csv', [
-                            ['name', 'email', 'role', 'disabled'],
-                            ...docs.map((d) {
-                              final data = d.data();
-                              return [
-                                data['name'] ?? '',
-                                data['email'] ?? '',
-                                data['role'] ?? 'learner',
-                                data['disabled'] == true,
-                              ];
-                            }),
-                          ]),
-                  icon: const Icon(Icons.download_outlined, size: 18),
-                  label: const Text('Export CSV'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            if (docs.isEmpty)
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: AdminColors.cardBottom,
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Text(
-                  _showDisabledOnly
-                      ? 'No disabled accounts.'
-                      : (query.isEmpty ? 'No users found.' : 'No users match your search.'),
-                  style: const TextStyle(color: AdminColors.textSecondary),
-                ),
-              ),
-            ...docs.map((doc) {
-              final data = doc.data();
-              final role = (data['role'] ?? 'learner').toString();
-              final name = (data['name'] ?? data['email'] ?? 'Unknown user').toString();
-              final email = (data['email'] ?? '').toString();
-              final disabled = data['disabled'] == true;
+            Expanded(
+              child: docs.isEmpty
+                  ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Text(
+                          _showDisabledOnly
+                              ? 'No disabled accounts.'
+                              : (query.isEmpty
+                                  ? 'No users found.'
+                                  : 'No users match your search.'),
+                          style:
+                              const TextStyle(color: AdminColors.textSecondary),
+                        ),
+                      ),
+                    )
+                  : ListView.builder(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                      itemCount: docs.length,
+                      itemBuilder: (context, index) {
+                        final doc = docs[index];
+                        final data = doc.data();
+                        final role = (data['role'] ?? 'learner').toString();
+                        final name =
+                            (data['name'] ?? data['email'] ?? 'Unknown user')
+                                .toString();
+                        final email = (data['email'] ?? '').toString();
+                        final disabled = data['disabled'] == true;
 
-              return AdminUserRow(
-                name: name,
-                email: email,
-                role: adminRoleFromString(role),
-                disabled: disabled,
-                trailing: PopupMenuButton<String>(
-                  icon: const Icon(Icons.more_vert, color: AdminColors.textSecondary),
-                  onSelected: (value) async {
-                    if (value == 'disable') {
-                      await _toggleDisabled(doc.id, true);
-                    } else if (value == 'enable') {
-                      await _toggleDisabled(doc.id, false);
-                    } else {
-                      await _changeRole(doc.id, value);
-                    }
-                  },
-                  itemBuilder: (_) => const [
-                    PopupMenuItem(value: 'learner', child: Text('Make Child')),
-                    PopupMenuItem(value: 'parent', child: Text('Make Parent')),
-                    PopupMenuItem(value: 'admin', child: Text('Make Admin')),
-                    PopupMenuDivider(),
-                    PopupMenuItem(value: 'disable', child: Text('Disable Account')),
-                    PopupMenuItem(value: 'enable', child: Text('Enable Account')),
-                  ],
-                ),
-              );
-            }),
+                        return AdminUserRow(
+                          name: name,
+                          email: email,
+                          role: adminRoleFromString(role),
+                          disabled: disabled,
+                          trailing: PopupMenuButton<String>(
+                            icon: const Icon(Icons.more_vert,
+                                color: AdminColors.textSecondary),
+                            onSelected: (value) async {
+                              if (value == 'disable') {
+                                await _toggleDisabled(doc.id, true);
+                              } else if (value == 'enable') {
+                                await _toggleDisabled(doc.id, false);
+                              } else {
+                                await _changeRole(doc.id, value);
+                              }
+                            },
+                            itemBuilder: (_) => const [
+                              PopupMenuItem(
+                                  value: 'learner', child: Text('Make Child')),
+                              PopupMenuItem(
+                                  value: 'parent', child: Text('Make Parent')),
+                              PopupMenuItem(
+                                  value: 'admin', child: Text('Make Admin')),
+                              PopupMenuDivider(),
+                              PopupMenuItem(
+                                  value: 'disable',
+                                  child: Text('Disable Account')),
+                              PopupMenuItem(
+                                  value: 'enable',
+                                  child: Text('Enable Account')),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+            ),
           ],
         );
       },
@@ -442,7 +498,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
             const AdminSectionHeader(
               eyebrow: 'QUESTKIDS ADMIN',
               title: 'Child Safety & AI Review',
-              subtitle: 'Review Questy reports submitted by children or parents.',
+              subtitle:
+                  'Review Questy reports submitted by children or parents.',
             ),
             const SizedBox(height: 20),
             if (docs.isEmpty)
@@ -459,7 +516,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
               ),
             ...docs.map((doc) {
               final data = doc.data();
-              final reason = (data['reason'] ?? data['category'] ?? 'AI report').toString();
+              final reason = (data['reason'] ?? data['category'] ?? 'AI report')
+                  .toString();
               final detail = (data['messageText'] ??
                       data['message'] ??
                       data['details'] ??
@@ -512,7 +570,8 @@ Safety: Child-friendly language and no personal data.''',
   Future<void> _generateDraft() async {
     final document = _draftDocumentController.text.trim();
     if (document.isEmpty) {
-      setState(() => _lastDraftError = 'Write or load a game creation document first.');
+      setState(() =>
+          _lastDraftError = 'Write or load a game creation document first.');
       return;
     }
     setState(() {
@@ -594,7 +653,8 @@ Safety: Child-friendly language and no personal data.''',
           cursorColor: AdminColors.textPrimary,
           decoration: InputDecoration(
             labelText: 'Game creation document',
-            hintText: 'GAME CREATION DOCUMENT\nGrade: ...\nSubject: ...\nTopic: ...\nGoal: ...',
+            hintText:
+                'GAME CREATION DOCUMENT\nGrade: ...\nSubject: ...\nTopic: ...\nGoal: ...',
             labelStyle: const TextStyle(color: AdminColors.textSecondary),
             hintStyle: const TextStyle(color: AdminColors.textSecondary),
             alignLabelWithHint: true,
@@ -602,7 +662,8 @@ Safety: Child-friendly language and no personal data.''',
             fillColor: AdminColors.cardBottom,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: AdminColors.borderGlow.withValues(alpha: 0.4)),
+              borderSide: BorderSide(
+                  color: AdminColors.borderGlow.withValues(alpha: 0.4)),
             ),
             focusedBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -617,7 +678,8 @@ Safety: Child-friendly language and no personal data.''',
               ? const SizedBox(
                   width: 16,
                   height: 16,
-                  child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                  child: CircularProgressIndicator(
+                      strokeWidth: 2, color: Colors.white),
                 )
               : const Icon(Icons.auto_awesome),
           label: const Text('Send document to AI for draft'),
@@ -634,7 +696,8 @@ Safety: Child-friendly language and no personal data.''',
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('AI draft preview', style: TextStyle(fontWeight: FontWeight.w900)),
+                  const Text('AI draft preview',
+                      style: TextStyle(fontWeight: FontWeight.w900)),
                   const SizedBox(height: 10),
                   Container(
                     padding: const EdgeInsets.all(14),
@@ -674,14 +737,17 @@ Safety: Child-friendly language and no personal data.''',
             if (!snapshot.hasData) {
               return const Padding(
                 padding: EdgeInsets.all(20),
-                child: Center(child: CircularProgressIndicator(color: AdminColors.brandPrimary)),
+                child: Center(
+                    child: CircularProgressIndicator(
+                        color: AdminColors.brandPrimary)),
               );
             }
             final docs = snapshot.data!.docs;
             if (docs.isEmpty) {
               return const Padding(
                 padding: EdgeInsets.symmetric(vertical: 12),
-                child: Text('No drafts saved yet.', style: TextStyle(color: AdminColors.textSecondary)),
+                child: Text('No drafts saved yet.',
+                    style: TextStyle(color: AdminColors.textSecondary)),
               );
             }
             return Column(
@@ -690,14 +756,19 @@ Safety: Child-friendly language and no personal data.''',
                 final createdAt = (data['createdAt'] as Timestamp?)?.toDate();
                 final document = (data['document'] ?? '').toString();
                 final title = document.split('\n').firstWhere(
-                      (l) => l.trim().isNotEmpty && !l.contains('GAME CREATION DOCUMENT'),
+                      (l) =>
+                          l.trim().isNotEmpty &&
+                          !l.contains('GAME CREATION DOCUMENT'),
                       orElse: () => document,
                     );
                 return Card(
                   margin: const EdgeInsets.only(bottom: 10),
                   child: ListTile(
-                    title: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
-                    subtitle: Text(createdAt == null ? 'Saved' : 'Saved ${createdAt.toLocal()}'),
+                    title: Text(title,
+                        maxLines: 1, overflow: TextOverflow.ellipsis),
+                    subtitle: Text(createdAt == null
+                        ? 'Saved'
+                        : 'Saved ${createdAt.toLocal()}'),
                     trailing: IconButton(
                       icon: const Icon(Icons.delete_outline),
                       onPressed: () => _service.deleteGameDraft(doc.id),
@@ -710,7 +781,9 @@ Safety: Child-friendly language and no personal data.''',
                           child: SelectableText(_formatDraft(data['draft'])),
                         ),
                         actions: [
-                          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Close')),
+                          TextButton(
+                              onPressed: () => Navigator.pop(ctx),
+                              child: const Text('Close')),
                         ],
                       ),
                     ),
@@ -749,7 +822,8 @@ Safety: Child-friendly language and no personal data.''',
                   const SizedBox(height: 12),
                   FilledButton.icon(
                     onPressed: () => setState(
-                      () => _platformReportFuture = _service.getPlatformReport(),
+                      () =>
+                          _platformReportFuture = _service.getPlatformReport(),
                     ),
                     icon: const Icon(Icons.refresh),
                     label: const Text('Try again'),
@@ -767,12 +841,24 @@ Safety: Child-friendly language and no personal data.''',
           ['Learners', value('learners'), Icons.child_care_outlined],
           ['Parents', value('parents'), Icons.family_restroom_outlined],
           ['Admins', value('admins'), Icons.admin_panel_settings_outlined],
-          ['Game sessions', value('gameSessions'), Icons.sports_esports_outlined],
-          ['Sessions (7 days)', value('gameSessionsLast7Days'), Icons.date_range],
+          [
+            'Game sessions',
+            value('gameSessions'),
+            Icons.sports_esports_outlined
+          ],
+          [
+            'Sessions (7 days)',
+            value('gameSessionsLast7Days'),
+            Icons.date_range
+          ],
           ['Activities', value('activities'), Icons.menu_book_outlined],
           ['Weekly reports', value('weeklyReports'), Icons.summarize_outlined],
           ['AI reports', value('aiReports'), Icons.flag_outlined],
-          ['Pending AI reports', value('pendingAiReports'), Icons.pending_actions],
+          [
+            'Pending AI reports',
+            value('pendingAiReports'),
+            Icons.pending_actions
+          ],
           ['Resolved AI reports', value('resolvedAiReports'), Icons.task_alt],
         ];
         final generatedAt = DateTime.tryParse(
@@ -839,13 +925,15 @@ Safety: Child-friendly language and no personal data.''',
                 children: [
                   OutlinedButton.icon(
                     onPressed: () => setState(
-                      () => _platformReportFuture = _service.getPlatformReport(),
+                      () =>
+                          _platformReportFuture = _service.getPlatformReport(),
                     ),
                     icon: const Icon(Icons.refresh),
                     label: const Text('Refresh report'),
                   ),
                   OutlinedButton.icon(
-                    onPressed: () => _exportCsv('questkids_platform_report.csv', [
+                    onPressed: () =>
+                        _exportCsv('questkids_platform_report.csv', [
                       ['metric', 'value'],
                       ...cards.map((c) => [c[0], c[1]]),
                       ['generatedAt', generatedAt?.toLocal().toString() ?? ''],
@@ -888,7 +976,9 @@ Safety: Child-friendly language and no personal data.''',
       final total = result['total'] ?? 0;
       final failed = result['failed'] ?? 0;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Missions generated for ${total - (failed as int)}/$total learners.')),
+        SnackBar(
+            content: Text(
+                'Missions generated for ${total - (failed as int)}/$total learners.')),
       );
     } catch (e) {
       if (!mounted) return;
@@ -907,7 +997,8 @@ Safety: Child-friendly language and no personal data.''',
       bySubject[entry.subject] = (bySubject[entry.subject] ?? 0) + 1;
       engineTypes.add(entry.engineType);
     }
-    final subjectSummary = bySubject.entries.map((e) => '${e.key}: ${e.value}').join(' · ');
+    final subjectSummary =
+        bySubject.entries.map((e) => '${e.key}: ${e.value}').join(' · ');
 
     return ListView(
       padding: const EdgeInsets.all(20),
@@ -915,7 +1006,8 @@ Safety: Child-friendly language and no personal data.''',
         const AdminSectionHeader(
           eyebrow: 'QUESTKIDS ADMIN',
           title: 'Platform Operations',
-          subtitle: 'Live catalogue stats and on-demand gamification maintenance jobs.',
+          subtitle:
+              'Live catalogue stats and on-demand gamification maintenance jobs.',
         ),
         const SizedBox(height: 20),
         AdminOperationsCard(
@@ -936,7 +1028,8 @@ Safety: Child-friendly language and no personal data.''',
             runSpacing: 8,
             children: [
               OutlinedButton.icon(
-                onPressed: _refreshingLeaderboards ? null : _runLeaderboardRefresh,
+                onPressed:
+                    _refreshingLeaderboards ? null : _runLeaderboardRefresh,
                 icon: _refreshingLeaderboards
                     ? const SizedBox(
                         width: 14,

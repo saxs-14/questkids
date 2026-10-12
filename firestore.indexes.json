@@ -138,6 +138,14 @@
         { "fieldPath": "uid", "order": "ASCENDING" },
         { "fieldPath": "completedAt", "order": "DESCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "weekly_reports",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "childUid", "order": "ASCENDING" },
+        { "fieldPath": "weekKey", "order": "DESCENDING" }
+      ]
     }
   ],
   "fieldOverrides": []
