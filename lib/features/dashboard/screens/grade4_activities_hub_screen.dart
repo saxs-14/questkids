@@ -1360,7 +1360,16 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
                 spacing: 10,
                 runSpacing: 10,
                 alignment: WrapAlignment.center,
-                children: shuffled.map((opt) => LongPressDraggable<String>(
+                // Draggable, not LongPressDraggable: this page's own
+                // SingleChildScrollView is a vertical-scroll gesture
+                // ancestor, and a LongPressDraggable's hold-then-move
+                // timing window lets that ancestor win the gesture arena
+                // before the long-press registers -- which is exactly why
+                // the drag mode went unresponsive on web/desktop (mouse
+                // drags have no meaningful "hold still" phase to wait
+                // out). A plain Draggable claims the gesture on the first
+                // move instead, so it no longer loses that race.
+                children: shuffled.map((opt) => Draggable<String>(
                   data: opt,
                   feedback: Material(
                     color: Colors.transparent,
@@ -1450,7 +1459,13 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
           }
 
           return Scaffold(
-            appBar: AppBar(title: Text(title)),
+            // Explicit dark backdrop, matching every other game's themed
+            // dark backgrounds -- without this these pages fell back to
+            // the app theme's near-white scaffoldBackgroundColor, which is
+            // why any Colors.white text not sitting inside its own colored
+            // box (e.g. feedback text) was effectively invisible.
+            backgroundColor: const Color(0xFF14213D),
+            appBar: AppBar(title: Text(title), backgroundColor: const Color(0xFF14213D)),
             body: SafeArea(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(20),
@@ -1501,7 +1516,9 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
       builder: (ctx) => StatefulBuilder(
         builder: (context, setDialogState) {
           return Scaffold(
+            backgroundColor: const Color(0xFF14213D),
             appBar: AppBar(
+              backgroundColor: const Color(0xFF14213D),
               title: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -1517,7 +1534,7 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
                 child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(hint, textAlign: TextAlign.center, style: TextStyle(color: Colors.grey.shade700)),
+                Text(hint, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white70)),
                 const SizedBox(height: 14),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -1595,7 +1612,9 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
       builder: (ctx) => StatefulBuilder(
         builder: (context, setDialogState) {
           return Scaffold(
+            backgroundColor: const Color(0xFF14213D),
             appBar: AppBar(
+              backgroundColor: const Color(0xFF14213D),
               title: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -1678,14 +1697,23 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
       builder: (ctx) => StatefulBuilder(
         builder: (context, setDialogState) {
           return Scaffold(
-            appBar: AppBar(title: Text(title)),
+            // Explicit dark backdrop, matching every other game's themed
+            // dark backgrounds -- without this these pages fell back to
+            // the app theme's near-white scaffoldBackgroundColor, which is
+            // why any Colors.white text not sitting inside its own colored
+            // box (e.g. feedback text) was effectively invisible.
+            backgroundColor: const Color(0xFF14213D),
+            appBar: AppBar(title: Text(title), backgroundColor: const Color(0xFF14213D)),
             body: SafeArea(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(20),
                 child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('Tap an item on the left, then its match on the right:'),
+                const Text(
+                  'Tap an item on the left, then its match on the right:',
+                  style: TextStyle(color: Colors.white),
+                ),
                 const SizedBox(height: 16),
                 Row(
                   children: [

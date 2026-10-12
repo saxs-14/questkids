@@ -62,6 +62,90 @@ const _provinceLabel = {
   'eastern_cape': 'Eastern Cape',
 };
 
+// ────────────────────────────────────────────────────────────────────────────
+// Voronoi map shapes: there's no real province-boundary dataset bundled in
+// this app (no network access to fetch one, and hand-tracing 9 provinces'
+// actual coastlines/borders from memory would be guesswork dressed up as
+// precision). What IS available is _provincePositions -- each province's
+// approximate real relative location -- so each province's "shape" on the
+// map is just the Voronoi cell of its centroid: the region of the map
+// closer to that centroid than to any other. This is mathematically
+// guaranteed to be non-overlapping and gap-free, and because the centroids
+// are already roughly geographically correct, the resulting cells read as
+// a genuine partitioned country map (adjacent, irregular, differently
+// sized) rather than a uniform grid or a ring of circles -- a defensible
+// stylised approximation given the constraint, not a claim of surveyed
+// accuracy.
+// ────────────────────────────────────────────────────────────────────────────
+
+/// Clips the convex polygon [subject] to the half-plane of points closer to
+/// [a] than to [b] (Sutherland-Hodgman against the perpendicular bisector
+/// of a/b). Expressed as a linear inequality so no sqrt/trig is needed:
+/// |P-A|² < |P-B|²  <=>  2·P·(B-A) < |B|²-|A|².
+List<Offset> clipCloserTo(List<Offset> subject, Offset a, Offset b) {
+  if (subject.isEmpty) return subject;
+  final bMinusA = b - a;
+  final threshold = (b.dx * b.dx + b.dy * b.dy - a.dx * a.dx - a.dy * a.dy) / 2;
+  bool inside(Offset p) => (p.dx * bMinusA.dx + p.dy * bMinusA.dy) < threshold;
+
+  Offset intersect(Offset p1, Offset p2) {
+    final d = p2 - p1;
+    final denom = d.dx * bMinusA.dx + d.dy * bMinusA.dy;
+    if (denom == 0) return p1;
+    final t = ((threshold - (p1.dx * bMinusA.dx + p1.dy * bMinusA.dy)) / denom).clamp(0.0, 1.0);
+    return p1 + d * t;
+  }
+
+  final output = <Offset>[];
+  for (var i = 0; i < subject.length; i++) {
+    final current = subject[i];
+    final previous = subject[(i - 1 + subject.length) % subject.length];
+    final currentIn = inside(current);
+    final previousIn = inside(previous);
+    if (currentIn) {
+      if (!previousIn) output.add(intersect(previous, current));
+      output.add(current);
+    } else if (previousIn) {
+      output.add(intersect(previous, current));
+    }
+  }
+  return output;
+}
+
+/// The Voronoi cell for [id] among [centroids], clipped to the rectangle
+/// (0,0)-(size.width,size.height).
+List<Offset> voronoiCell(String id, Map<String, Offset> centroids, Size size) {
+  var polygon = <Offset>[
+    Offset.zero,
+    Offset(size.width, 0),
+    Offset(size.width, size.height),
+    Offset(0, size.height),
+  ];
+  final a = centroids[id]!;
+  for (final entry in centroids.entries) {
+    if (entry.key == id) continue;
+    polygon = clipCloserTo(polygon, a, entry.value);
+    if (polygon.isEmpty) break;
+  }
+  return polygon;
+}
+
+/// Which province's Voronoi cell [point] falls in -- just the nearest
+/// centroid, which is the defining property of a Voronoi cell, so hit
+/// testing needs none of the polygon math that drawing one does.
+String nearestProvince(Offset point, Map<String, Offset> centroids) {
+  var best = centroids.keys.first;
+  var bestDist = double.infinity;
+  for (final entry in centroids.entries) {
+    final d = (entry.value - point).distanceSquared;
+    if (d < bestDist) {
+      bestDist = d;
+      best = entry.key;
+    }
+  }
+  return best;
+}
+
 class _MapQ {
   final String prompt;
   final String correct; // province id

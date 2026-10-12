@@ -18,16 +18,16 @@ import '../core/game_session_persistence.dart';
 // registered ONLY against eng_g4_grammar_verbs.
 //
 // 4 Zones (5 questions each = 20 total):
-//   1. Which Tense Fits?      — a sentence has a blank; tap the correctly
+//   1. Which Tense Fits?      — a sentence has a blank; type the correctly
 //      conjugated verb form and watch it fill the blank in the sentence
-//      itself
+//      itself (checked case/whitespace-insensitively, see _normalizeTyped)
 //   2. Present Tense           — recall MCQ
 //   3. Past Tense               — recall MCQ
 //   4. Future Tense & Irregular Verbs — recall MCQ
 //
 // Structurally distinct from every prior engine: Zone 1 is the first
-// fill-in-the-blank where the tapped answer's TEXT is spliced directly
-// into a live sentence (the blank literally becomes the word you chose),
+// fill-in-the-blank where the typed answer's TEXT is spliced directly
+// into a live sentence (the blank literally becomes the word you typed),
 // rather than classifying an existing highlighted word (Noun Navigator)
 // or filling a typed diagram slot (Ecosystems/Circuit Lab).
 // Architecture: fully self-contained StatefulWidget.
@@ -191,6 +191,7 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
   _Phase _phase = _Phase.intro;
   int? _selectedIndex;
   String? _filledWord;
+  final TextEditingController _answerCtrl = TextEditingController();
 
   String _wrongReaction = '';
 
@@ -261,6 +262,7 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
     _flashCtrl.dispose();
     _burstCtrl.dispose();
     _shakeCtrl.dispose();
+    _answerCtrl.dispose();
     super.dispose();
   }
 
@@ -274,6 +276,7 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
       _phase = _Phase.playing;
       _selectedIndex = null;
       _filledWord = null;
+      _answerCtrl.clear();
     });
     _fadeCtrl.forward(from: 0);
   }
@@ -289,14 +292,18 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
     return _cachedChoices;
   }
 
-  void _onBlankAnswer(int index, _BlankQ q) {
+  /// Normalises for comparison only (trim, lowercase, collapse internal
+  /// whitespace) -- the spelling itself still has to be exact, this just
+  /// stops stray spaces/casing from failing a correct answer.
+  String _normalizeTyped(String s) =>
+      s.trim().toLowerCase().replaceAll(RegExp(r'\s+'), ' ');
+
+  void _onBlankSubmit(_BlankQ q) {
     if (_phase != _Phase.playing) return;
-    final choices = _getShuffledChoices(q);
-    final isCorrect = choices[index] == q.choices[0];
-    setState(() {
-      _selectedIndex = index;
-      _filledWord = choices[index];
-    });
+    final typed = _answerCtrl.text;
+    if (typed.trim().isEmpty) return;
+    final isCorrect = _normalizeTyped(typed) == _normalizeTyped(q.choices[0]);
+    setState(() => _filledWord = typed.trim());
     _applyAnswerResult(isCorrect);
   }
 
@@ -360,6 +367,7 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
             _qIdx = 0;
             _selectedIndex = null;
             _filledWord = null;
+            _answerCtrl.clear();
             _phase = _Phase.playing;
           });
           _fadeCtrl.forward(from: 0);
@@ -370,6 +378,7 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
         _qIdx = next;
         _selectedIndex = null;
         _filledWord = null;
+        _answerCtrl.clear();
         _phase = _Phase.playing;
       });
       _fadeCtrl.forward(from: 0);
@@ -513,7 +522,6 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
   }
 
   Widget _buildBlankQuestion(_BlankQ q, bool revealed) {
-    final choices = _getShuffledChoices(q);
     return Column(
       children: [
         const SizedBox(height: 8),
@@ -555,19 +563,47 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
                 : 0.0;
             return Transform.translate(
               offset: Offset(dx, 0),
-              child: Wrap(
-                spacing: 14,
-                runSpacing: 14,
-                alignment: WrapAlignment.center,
+              // Column, not a fixed-width Row: a Row with a fixed-width
+              // TextField plus a button's own intrinsic width overflowed
+              // on narrow screens (caught by the widget test at 360px).
+              // Stacking removes any horizontal-space arithmetic entirely.
+              child: Column(
                 children: [
-                  for (var i = 0; i < choices.length; i++)
-                    _SimpleTile(
-                      label: choices[i],
-                      selected: _selectedIndex == i,
-                      isCorrect: choices[i] == q.choices[0],
-                      revealed: revealed,
-                      onTap: () => _onBlankAnswer(i, q),
+                  TextField(
+                    controller: _answerCtrl,
+                    enabled: !revealed,
+                    autocorrect: false,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                    decoration: InputDecoration(
+                      hintText: 'Type the missing word(s)',
+                      hintStyle: const TextStyle(color: Colors.white38),
+                      filled: true,
+                      fillColor: const Color(0xFF1A0C08),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: _lava.withValues(alpha: 0.6)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: _lava, width: 2),
+                      ),
+                      disabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: _lava.withValues(alpha: 0.3)),
+                      ),
                     ),
+                    onSubmitted: (_) => _onBlankSubmit(q),
+                  ),
+                  const SizedBox(height: 12),
+                  ElevatedButton(
+                    onPressed: revealed ? null : () => _onBlankSubmit(q),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _lava,
+                      foregroundColor: const Color(0xFF1A0C08),
+                    ),
+                    child: const Text('Check'),
+                  ),
                 ],
               ),
             );

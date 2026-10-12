@@ -110,6 +110,9 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
   final List<int> _connectedIndices = [];
   int? _lastTappedIndex;
   String _hintMessage = '';
+  // Briefly highlights the cube holding the next correct multiple when the
+  // player asks for a hint -- see _showHint.
+  int? _hintedIndex;
 
   // Drag-to-connect state: the player draws one continuous line across the
   // grid, in a single drag, through the multiples in ascending order.
@@ -202,6 +205,7 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
     _currentStep = 1;
     _connectedIndices.clear();
     _lastTappedIndex = null;
+    _hintedIndex = null;
     _hintMessage =
         'Drag through the multiples of $base in order: $base → ${base * 2} → ${base * 3} ...';
 
@@ -210,9 +214,10 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
       validMultiples[step] = base * step;
     }
 
-    // Distribute 10 target multiples across 25 grid slots
-    final allGridIndices = List<int>.generate(25, (i) => i)..shuffle(_rng);
-    final targetSlotIndices = allGridIndices.take(_targetChainLength).toList();
+    // Distribute the 10 target multiples across 25 grid slots so
+    // consecutive steps in the chain land near each other, not scattered
+    // at random across the whole grid -- see _proximitySlotIndices.
+    final targetSlotIndices = _proximitySlotIndices();
 
     final cubes = List<_CubeItem?>.filled(25, null);
 
@@ -252,6 +257,42 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
       _gridCubes = cubes.cast<_CubeItem>();
       _phase = _Phase.playing;
     });
+  }
+
+  /// Picks which of the 25 grid slots hold the 10 target multiples, in
+  /// chain order, via a random walk: each step's slot is chosen from the
+  /// unused slots nearest (by Chebyshev/grid distance) to the previous
+  /// step's slot, widening the search radius only if nothing is free
+  /// within it. A plain shuffle-and-take could put step 1 in one corner
+  /// and step 2 across the grid, forcing a long, confusing drag between
+  /// consecutive numbers -- this keeps the chain visually readable as a
+  /// path instead of a scatter.
+  List<int> _proximitySlotIndices() {
+    final available = List<int>.generate(25, (i) => i);
+    final result = <int>[available.removeAt(_rng.nextInt(available.length))];
+
+    while (result.length < _targetChainLength) {
+      final prev = result.last;
+      final prevRow = prev ~/ kMultiplesGridSize;
+      final prevCol = prev % kMultiplesGridSize;
+
+      var radius = 1;
+      List<int> candidates = const [];
+      while (candidates.isEmpty) {
+        candidates = available.where((idx) {
+          final row = idx ~/ kMultiplesGridSize;
+          final col = idx % kMultiplesGridSize;
+          final dist = math.max((row - prevRow).abs(), (col - prevCol).abs());
+          return dist <= radius;
+        }).toList();
+        radius++;
+      }
+
+      final next = candidates[_rng.nextInt(candidates.length)];
+      available.remove(next);
+      result.add(next);
+    }
+    return result;
   }
 
   /// Evaluates a cube the drag path has just newly entered (called once per
@@ -316,6 +357,22 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
         }
       });
     }
+  }
+
+  /// Briefly glows the cube holding the next correct multiple, so a stuck
+  /// player can see exactly where to drag next instead of only being told
+  /// the number via _hintMessage and having to re-scan the whole grid for
+  /// it themselves.
+  void _showHint() {
+    if (_phase != _Phase.playing) return;
+    final expectedMultiple = _currentBase * _currentStep;
+    final target = _gridCubes.firstWhere((c) => c.number == expectedMultiple);
+    setState(() => _hintedIndex = target.index);
+    _delayed(1800, () {
+      if (mounted && _hintedIndex == target.index) {
+        setState(() => _hintedIndex = null);
+      }
+    });
   }
 
   void _handlePanDown(DragDownDetails details) {
@@ -443,6 +500,11 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
         ),
         centerTitle: true,
         actions: [
+          IconButton(
+            tooltip: 'Hint: show the next number',
+            icon: const Icon(Icons.lightbulb, color: Color(0xFFFFD54F)),
+            onPressed: _showHint,
+          ),
           Container(
             margin: const EdgeInsets.only(right: 12),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -581,6 +643,7 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
                                   cube: cube,
                                   isConnected: isConnected,
                                   isLatest: isLatest,
+                                  isHinted: _hintedIndex == index,
                                 );
                               },
                             ),
@@ -645,6 +708,7 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
     required _CubeItem cube,
     required bool isConnected,
     required bool isLatest,
+    required bool isHinted,
   }) {
     final isTablet = MediaQuery.of(context).size.width > 600;
     return AnimatedBuilder(
@@ -680,20 +744,29 @@ class _MultiplesGridGameState extends State<MultiplesGridGame>
                           ],
                   ),
                   boxShadow: [
-                    BoxShadow(
-                      color: isConnected
-                          ? const Color(0xFFFFB300).withValues(alpha: 0.8 * _ambientGlowAnim.value)
-                          : const Color(0xFFD84315).withValues(alpha: 0.4),
-                      blurRadius: isConnected ? 16 : 6,
-                      spreadRadius: isConnected ? 2 : 0,
-                      offset: const Offset(0, 4),
-                    ),
+                    if (isHinted)
+                      BoxShadow(
+                        color: Colors.white.withValues(alpha: 0.9 * _ambientGlowAnim.value),
+                        blurRadius: 22,
+                        spreadRadius: 4,
+                      )
+                    else
+                      BoxShadow(
+                        color: isConnected
+                            ? const Color(0xFFFFB300).withValues(alpha: 0.8 * _ambientGlowAnim.value)
+                            : const Color(0xFFD84315).withValues(alpha: 0.4),
+                        blurRadius: isConnected ? 16 : 6,
+                        spreadRadius: isConnected ? 2 : 0,
+                        offset: const Offset(0, 4),
+                      ),
                   ],
                   border: Border.all(
-                    color: isConnected
-                        ? Colors.white.withValues(alpha: 0.9)
-                        : Colors.white.withValues(alpha: 0.2),
-                    width: isConnected ? 2.5 : 1.0,
+                    color: isHinted
+                        ? Colors.white
+                        : isConnected
+                            ? Colors.white.withValues(alpha: 0.9)
+                            : Colors.white.withValues(alpha: 0.2),
+                    width: isHinted ? 3.5 : (isConnected ? 2.5 : 1.0),
                   ),
                 ),
                 child: Center(

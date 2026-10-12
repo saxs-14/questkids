@@ -9,8 +9,11 @@ import 'package:questkids/features/games/verb_volcano/verb_volcano_game.dart';
 /// Completion coverage for VerbVolcanoGame (see
 /// addition_adventure_game_test.dart for why this doesn't attempt content
 /// verification -- fact-based content, nothing arithmetic to recompute).
-/// Taps the last-rendered GestureDetector each round and asserts the
-/// full playthrough completes without exceptions.
+/// Zone 1 (type-the-missing-word) is answered by typing arbitrary text and
+/// pressing Check -- right or wrong, _applyAnswerResult always advances,
+/// same as a blind tap on an MCQ zone. Every other zone taps the
+/// last-rendered GestureDetector. Asserts the full playthrough completes
+/// without exceptions.
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   setupFirebaseCoreMocks();
@@ -51,6 +54,22 @@ void main() {
 
     for (var q = 0; q < 30; q++) {
       if (find.textContaining('Volcano Conqueror!').evaluate().isNotEmpty) break;
+
+      // Zone 1: type an answer (right or wrong, both advance) and submit.
+      final textField = find.byType(TextField);
+      if (textField.evaluate().isNotEmpty) {
+        await tester.enterText(textField, 'test answer');
+        await tester.pump();
+        await tester.tap(find.widgetWithText(ElevatedButton, 'Check'), warnIfMissed: false);
+        await tester.pump();
+        for (var i = 0; i < 30; i++) {
+          await tester.pump(const Duration(milliseconds: 100));
+          if (find.textContaining('Volcano Conqueror!').evaluate().isNotEmpty) break;
+        }
+        expect(tester.takeException(), isNull,
+            reason: 'exception thrown answering blank question $q');
+        continue;
+      }
 
       final detectors = find.byType(GestureDetector);
       final count = detectors.evaluate().length;

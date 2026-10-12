@@ -9,8 +9,11 @@ import 'package:questkids/features/games/healthy_living/healthy_living_game.dart
 /// Completion coverage for HealthyLivingGame (see
 /// addition_adventure_game_test.dart for why this doesn't attempt content
 /// verification -- fact-based content, nothing arithmetic to recompute).
-/// Taps the last-rendered GestureDetector each round and asserts the
-/// full playthrough completes without exceptions.
+/// Zone 1 (tap the day's pictures in order) is order-sensitive -- unlike
+/// an MCQ, a wrong tap does NOT advance, so it's answered by tapping each
+/// day_step_N key in ascending order rather than blindly tapping the last
+/// GestureDetector. Every other zone taps the last-rendered GestureDetector.
+/// Asserts the full playthrough completes without exceptions.
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   setupFirebaseCoreMocks();
@@ -48,6 +51,21 @@ void main() {
       originalOnError?.call(details);
     };
     addTearDown(() => FlutterError.onError = originalOnError);
+
+    // Zone 1: tap each day-step picture in ascending chronological order.
+    if (find.byKey(const ValueKey('day_step_1')).evaluate().isNotEmpty) {
+      for (var order = 1; order <= 5; order++) {
+        final tile = find.byKey(ValueKey('day_step_$order'));
+        if (tile.evaluate().isEmpty) continue; // already placed
+        await tester.tap(tile, warnIfMissed: false);
+        await tester.pump();
+        for (var i = 0; i < 20; i++) {
+          await tester.pump(const Duration(milliseconds: 100));
+        }
+        expect(tester.takeException(), isNull,
+            reason: 'exception thrown tapping day step $order');
+      }
+    }
 
     for (var q = 0; q < 30; q++) {
       if (find.textContaining('Wellness Champion!').evaluate().isNotEmpty) break;

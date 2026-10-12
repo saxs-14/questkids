@@ -17,30 +17,34 @@ import '../core/game_session_persistence.dart';
 // other catalog entries. This engine (engineType 'healthyLiving') is
 // registered ONLY against ls_g4_health.
 //
-// 4 Zones (5 questions each = 20 total):
-//   1. Balance Your Day    — given a health choice, tap the healthiest
-//      option; a slowly "breathing" (pulsing) wellness circle gains an
-//      orbiting habit icon in a fixed slot around it for each correct pick
+// 4 Zones (5 steps/questions each = 20 total):
+//   1. Balance Your Day    — a picture for each part of the day, shuffled;
+//      tap them in the correct chronological order (wake up -> breakfast
+//      -> school -> play -> sleep). No caption on the pictures themselves --
+//      the point is recognising the stage from the image alone.
 //   2. Nutrition & Exercise  — recall MCQ
 //   3. Hygiene & Sleep       — recall MCQ
 //   4. Mind & Emotions       — recall MCQ
 //
-// Structurally distinct from every prior engine: Zone 1's breathing
-// central circle with icons accumulating in fixed orbit slots around it
-// is a new combination -- unlike Financial Literacy's falling coin jar,
-// Debate Duel's growing star row, or Career Explorer's card flip.
+// Structurally distinct from every prior engine: Zone 1 is an
+// order-sensitive picture-tap sequence (correctness depends on WHICH step
+// you tap next, not picking from a set of choices) -- unlike Financial
+// Literacy's falling coin jar, Debate Duel's growing star row, or Career
+// Explorer's card flip.
 // Architecture: fully self-contained StatefulWidget.
 // ────────────────────────────────────────────────────────────────────────────
 
 enum _Phase { intro, playing, correct, wrong, streak, zoneDone, victory }
 
-enum _Kind { orbit, simple }
+enum _Kind { dayOrder, simple }
 
-class _OrbitQ {
-  final String prompt;
-  final String icon;
-  final List<String> choices; // [0] correct (healthiest choice)
-  const _OrbitQ({required this.prompt, required this.icon, required this.choices});
+/// One picture in the "Balance Your Day" ordering sequence. [order] is the
+/// 1-based correct position; the picture itself carries no label (see the
+/// doc comment above).
+class _DayStep {
+  final String emoji;
+  final int order;
+  const _DayStep({required this.emoji, required this.order});
 }
 
 class _SimpleQ {
@@ -52,16 +56,16 @@ class _SimpleQ {
 class _Zone {
   final String name;
   final _Kind kind;
-  final List<_OrbitQ> orbit;
+  final List<_DayStep> daySteps;
   final List<_SimpleQ> simple;
-  const _Zone.orbit(this.name, this.orbit)
-      : kind = _Kind.orbit,
+  const _Zone.dayOrder(this.name, this.daySteps)
+      : kind = _Kind.dayOrder,
         simple = const [];
   const _Zone.simple(this.name, this.simple)
       : kind = _Kind.simple,
-        orbit = const [];
+        daySteps = const [];
 
-  int get length => kind == _Kind.orbit ? orbit.length : simple.length;
+  int get length => kind == _Kind.dayOrder ? daySteps.length : simple.length;
 }
 
 class HealthyLivingGame extends StatefulWidget {
@@ -75,44 +79,12 @@ class HealthyLivingGame extends StatefulWidget {
 
 class _HLState extends State<HealthyLivingGame> with TickerProviderStateMixin {
   static const _zoneTemplates = [
-    _Zone.orbit('Balance Your Day', [
-      _OrbitQ(
-        prompt: 'Which is the healthiest way to start your day?',
-        icon: '🍽️',
-        choices: [
-          'Eating a good breakfast and brushing your teeth',
-          'Skipping breakfast to sleep a bit longer',
-          'Eating sweets for breakfast',
-        ],
-      ),
-      _OrbitQ(
-        prompt: 'Which drink is best for keeping your body hydrated?',
-        icon: '💧',
-        choices: ['Water', 'Fizzy cooldrink', 'Sugary juice'],
-      ),
-      _OrbitQ(
-        prompt: 'How much sleep does a Grade 4 learner usually need each night?',
-        icon: '😴',
-        choices: ['About 9 to 11 hours', 'About 3 to 4 hours', 'It does not matter at all'],
-      ),
-      _OrbitQ(
-        prompt: 'Which of these is the best way to manage stress or big feelings?',
-        icon: '🧘',
-        choices: [
-          'Taking slow, deep breaths and talking to someone you trust',
-          'Bottling up your feelings and never talking about them',
-          'Shouting at whoever is nearby',
-        ],
-      ),
-      _OrbitQ(
-        prompt: 'Which activity helps keep your body strong and healthy?',
-        icon: '🏃',
-        choices: [
-          'Regular exercise, like walking, running or playing sport',
-          'Sitting still all day every day',
-          'Watching TV for many hours without moving',
-        ],
-      ),
+    _Zone.dayOrder('Balance Your Day', [
+      _DayStep(emoji: '🌅', order: 1), // Wake up
+      _DayStep(emoji: '🍳', order: 2), // Breakfast
+      _DayStep(emoji: '🏫', order: 3), // School / learning
+      _DayStep(emoji: '⚽', order: 4), // Play / exercise
+      _DayStep(emoji: '🌙', order: 5), // Bedtime / sleep
     ]),
     _Zone.simple('Nutrition & Exercise', [
       _SimpleQ(
@@ -206,22 +178,26 @@ class _HLState extends State<HealthyLivingGame> with TickerProviderStateMixin {
   late AnimationController _flashCtrl;
   late AnimationController _burstCtrl;
   late AnimationController _shakeCtrl;
-  late AnimationController _breatheCtrl;
-  late AnimationController _iconPopCtrl;
 
   late Animation<double> _ambientAnim;
   late Animation<double> _fadeAnim;
   late Animation<double> _flashAnim;
   late Animation<double> _burstAnim;
   late Animation<double> _shakeAnim;
-  late Animation<double> _breatheAnim;
 
   int _zoneIdx = 0;
   int _qIdx = 0;
   int _correctCount = 0;
   int _streak = 0;
   int _totalXP = 0;
-  int _filledSlots = 0;
+  // Which day-step orders have been correctly tapped so far in Zone 1 --
+  // _qIdx alone can't say WHICH steps are done, since the player can try
+  // them in any screen order even though only one is accepted at a time.
+  final Set<int> _placedStepOrders = {};
+  // Unlike _phase == _Phase.wrong (cleared automatically when _advance()
+  // moves on), a bad day-step tap never changes _phase -- see
+  // _onDayStepTap -- so this drives the "try again" hint on its own timer.
+  bool _dayOrderShowHint = false;
 
   _Phase _phase = _Phase.intro;
   int? _selectedIndex;
@@ -233,8 +209,8 @@ class _HLState extends State<HealthyLivingGame> with TickerProviderStateMixin {
   // Shuffled per-session copy of _zoneTemplates: preserves zone order but
   // randomizes question order within each zone across replays.
   late final List<_Zone> _zones = _zoneTemplates.map((z) {
-    return z.kind == _Kind.orbit
-        ? _Zone.orbit(z.name, List<_OrbitQ>.from(z.orbit)..shuffle(_rng))
+    return z.kind == _Kind.dayOrder
+        ? _Zone.dayOrder(z.name, List<_DayStep>.from(z.daySteps)..shuffle(_rng))
         : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
   }).toList();
 
@@ -277,12 +253,6 @@ class _HLState extends State<HealthyLivingGame> with TickerProviderStateMixin {
 
     _shakeCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 450));
     _shakeAnim = CurvedAnimation(parent: _shakeCtrl, curve: Curves.easeInOut);
-
-    _breatheCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 3000))
-      ..repeat(reverse: true);
-    _breatheAnim = CurvedAnimation(parent: _breatheCtrl, curve: Curves.easeInOut);
-
-    _iconPopCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
   }
 
   @override
@@ -296,8 +266,6 @@ class _HLState extends State<HealthyLivingGame> with TickerProviderStateMixin {
     _flashCtrl.dispose();
     _burstCtrl.dispose();
     _shakeCtrl.dispose();
-    _breatheCtrl.dispose();
-    _iconPopCtrl.dispose();
     super.dispose();
   }
 
@@ -308,7 +276,8 @@ class _HLState extends State<HealthyLivingGame> with TickerProviderStateMixin {
       _correctCount = 0;
       _streak = 0;
       _totalXP = 0;
-      _filledSlots = 0;
+      _placedStepOrders.clear();
+      _dayOrderShowHint = false;
       _phase = _Phase.playing;
       _selectedIndex = null;
     });
@@ -326,17 +295,30 @@ class _HLState extends State<HealthyLivingGame> with TickerProviderStateMixin {
     return _cachedChoices;
   }
 
-  void _onOrbitAnswer(int index) {
+  /// Handles a tap on a day-step picture. Correct routes through the same
+  /// _applyAnswerResult/_advance path every MCQ answer uses (_qIdx tracks
+  /// "how many steps placed so far"). Wrong deliberately skips both -- like
+  /// the water cycle's drag-to-label zone, a bad tap should just bounce
+  /// back and let the child try again among the remaining pictures, not
+  /// consume one of the 5 ordering slots.
+  void _onDayStepTap(_DayStep step) {
     if (_phase != _Phase.playing) return;
-    final q = _zones[_zoneIdx].orbit[_qIdx];
-    final choices = _getShuffledChoices(q);
-    final isCorrect = choices[index] == q.choices[0];
-    setState(() => _selectedIndex = index);
-    if (isCorrect) {
-      setState(() => _filledSlots++);
-      _iconPopCtrl.forward(from: 0);
+    final expectedOrder = _qIdx + 1;
+    if (step.order == expectedOrder) {
+      setState(() => _placedStepOrders.add(step.order));
+      _applyAnswerResult(true);
+    } else {
+      unawaited(GameFeedbackService.incorrect());
+      setState(() {
+        _streak = 0;
+        _wrongReaction = _wrongReactions[_rng.nextInt(_wrongReactions.length)];
+        _dayOrderShowHint = true;
+      });
+      _shakeCtrl.forward(from: 0);
+      _delayed(1500, () {
+        if (mounted) setState(() => _dayOrderShowHint = false);
+      });
     }
-    _applyAnswerResult(isCorrect);
   }
 
   void _onSimpleAnswer(int index) {
@@ -510,8 +492,8 @@ class _HLState extends State<HealthyLivingGame> with TickerProviderStateMixin {
                     opacity: _fadeAnim,
                     child: SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: zone.kind == _Kind.orbit
-                          ? _buildOrbitQuestion(zone.orbit[_qIdx], revealed)
+                      child: zone.kind == _Kind.dayOrder
+                          ? _buildDayOrderZone(zone)
                           : _buildSimpleQuestion(zone.simple[_qIdx], revealed),
                     ),
                   ),
@@ -549,65 +531,69 @@ class _HLState extends State<HealthyLivingGame> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildOrbitQuestion(_OrbitQ q, bool revealed) {
-    final icons = _zones[0].orbit.map((o) => o.icon).toList();
-    final choices = _getShuffledChoices(q);
+  Widget _buildDayOrderZone(_Zone zone) {
+    final placedInOrder = zone.daySteps
+        .where((s) => _placedStepOrders.contains(s.order))
+        .toList()
+      ..sort((a, b) => a.order.compareTo(b.order));
+
     return Column(
       children: [
         const SizedBox(height: 8),
-        _WellnessCircle(
-          filledSlots: _filledSlots,
-          icons: icons,
-          breatheAnim: _breatheAnim,
-          popCtrl: _iconPopCtrl,
+        const Text(
+          'Tap the pictures in the order of your day.',
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700),
         ),
-        const SizedBox(height: 16),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: const Color(0xFF0A1E20),
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: _gold.withValues(alpha: 0.5), width: 2),
-          ),
-          child: Text(
-            q.prompt,
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
-          ),
-        ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 18),
         AnimatedBuilder(
           animation: _shakeAnim,
           builder: (context, _) {
-            final dx = _phase == _Phase.wrong
-                ? math.sin(_shakeAnim.value * math.pi * 6) * 6
+            final dx = _shakeAnim.value > 0
+                ? math.sin(_shakeAnim.value * math.pi * 6) * 6 * _shakeAnim.value
                 : 0.0;
             return Transform.translate(
               offset: Offset(dx, 0),
-              child: Column(
+              child: Wrap(
+                spacing: 14,
+                runSpacing: 14,
+                alignment: WrapAlignment.center,
                 children: [
-                  for (var i = 0; i < choices.length; i++)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: _ChoiceTile(
-                        label: choices[i],
-                        selected: _selectedIndex == i,
-                        isCorrect: choices[i] == q.choices[0],
-                        revealed: revealed,
-                        onTap: () => _onOrbitAnswer(i),
-                      ),
+                  for (final step in zone.daySteps)
+                    _DayStepTile(
+                      key: ValueKey('day_step_${step.order}'),
+                      step: step,
+                      placed: _placedStepOrders.contains(step.order),
+                      onTap: () => _onDayStepTap(step),
                     ),
                 ],
               ),
             );
           },
         ),
-        if (_phase == _Phase.wrong)
+        const SizedBox(height: 20),
+        if (placedInOrder.isNotEmpty) ...[
+          Text(
+            'Your day so far:',
+            style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 12, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            alignment: WrapAlignment.center,
+            children: [
+              for (var i = 0; i < placedInOrder.length; i++) ...[
+                if (i > 0) const Text('→', style: TextStyle(color: Colors.white54, fontSize: 16)),
+                Text(placedInOrder[i].emoji, style: const TextStyle(fontSize: 22)),
+              ],
+            ],
+          ),
+        ],
+        if (_dayOrderShowHint)
           Padding(
-            padding: const EdgeInsets.only(top: 4),
+            padding: const EdgeInsets.only(top: 16),
             child: Text(
-              '$_wrongReaction The healthiest choice was: "${q.choices[0]}"',
+              '$_wrongReaction Not that one yet -- try a different picture.',
               textAlign: TextAlign.center,
               style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600),
             ),
@@ -669,127 +655,50 @@ class _HLState extends State<HealthyLivingGame> with TickerProviderStateMixin {
   }
 }
 
-// ── Wellness circle (breathing centre + orbiting habit icons) ──────────────
+// ── Day-step tile (Balance Your Day picture, no caption) ────────────────────
 
-class _WellnessCircle extends StatelessWidget {
-  final int filledSlots;
-  final List<String> icons;
-  final Animation<double> breatheAnim;
-  final AnimationController popCtrl;
-  const _WellnessCircle({
-    required this.filledSlots,
-    required this.icons,
-    required this.breatheAnim,
-    required this.popCtrl,
-  });
-
-  static const _radius = 68.0;
-  static const _boxSize = 190.0;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: _boxSize,
-      height: _boxSize,
-      child: AnimatedBuilder(
-        animation: Listenable.merge([breatheAnim, popCtrl]),
-        builder: (context, _) {
-          final breathe = 0.92 + breatheAnim.value * 0.16;
-          final popT = Curves.easeOutBack.transform(popCtrl.value.clamp(0.0, 1.0));
-          return Stack(
-            alignment: Alignment.center,
-            children: [
-              // Breathing central circle
-              Transform.scale(
-                scale: breathe,
-                child: Container(
-                  width: 76,
-                  height: 76,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _HLState._gold.withValues(alpha: 0.22),
-                    border: Border.all(color: _HLState._gold, width: 2.5),
-                  ),
-                  alignment: Alignment.center,
-                  child: const Text('🧘', style: TextStyle(fontSize: 30)),
-                ),
-              ),
-              // Orbiting habit icons, one per filled slot
-              for (var i = 0; i < filledSlots; i++)
-                Builder(builder: (context) {
-                  final angle = -math.pi / 2 + i * (2 * math.pi / icons.length);
-                  final isNewest = i == filledSlots - 1;
-                  final scale = isNewest ? popT : 1.0;
-                  final dx = math.cos(angle) * _radius;
-                  final dy = math.sin(angle) * _radius;
-                  return Transform.translate(
-                    offset: Offset(dx, dy),
-                    child: Transform.scale(
-                      scale: scale,
-                      child: Container(
-                        width: 34,
-                        height: 34,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: _HLState._card,
-                          border: Border.all(color: _HLState._gold, width: 1.5),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(icons[i], style: const TextStyle(fontSize: 16)),
-                      ),
-                    ),
-                  );
-                }),
-            ],
-          );
-        },
-      ),
-    );
-  }
-}
-
-// ── Choice tile (scenario answers, full-width) ──────────────────────────────
-
-class _ChoiceTile extends StatelessWidget {
-  final String label;
-  final bool selected;
-  final bool isCorrect;
-  final bool revealed;
+class _DayStepTile extends StatelessWidget {
+  final _DayStep step;
+  final bool placed;
   final VoidCallback onTap;
-  const _ChoiceTile({
-    required this.label,
-    required this.selected,
-    required this.isCorrect,
-    required this.revealed,
-    required this.onTap,
-  });
+  const _DayStepTile({super.key, required this.step, required this.placed, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    Color fill = _HLState._card;
-    if (revealed && isCorrect) fill = const Color(0xFF4CAF7D);
-    if (revealed && selected && !isCorrect) fill = const Color(0xFFE05656);
-
     return GestureDetector(
-      onTap: revealed ? null : onTap,
+      onTap: placed ? null : onTap,
       child: Container(
-        width: double.infinity,
-        constraints: const BoxConstraints(minHeight: 56),
-        alignment: Alignment.centerLeft,
+        width: 72,
+        height: 72,
         decoration: BoxDecoration(
-          color: fill,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: _HLState._gold.withValues(alpha: 0.8), width: 2),
+          color: placed ? _HLState._gold.withValues(alpha: 0.25) : _HLState._card,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: placed ? _HLState._gold : Colors.white24,
+            width: placed ? 2.5 : 1.5,
+          ),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        child: Text(
-          label,
-          style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w700),
+        alignment: Alignment.center,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Opacity(
+              opacity: placed ? 0.55 : 1.0,
+              child: Text(step.emoji, style: const TextStyle(fontSize: 34)),
+            ),
+            if (placed)
+              const Positioned(
+                bottom: 4,
+                right: 4,
+                child: Icon(Icons.check_circle, color: Color(0xFF4CAF7D), size: 18),
+              ),
+          ],
         ),
       ),
     );
   }
 }
+
 
 // ── Simple tile (MCQ) ────────────────────────────────────────────────────────
 
