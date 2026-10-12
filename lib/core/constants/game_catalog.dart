@@ -1231,22 +1231,26 @@ class GameCatalog {
       coinsReward: 20,
     ),
     GameCatalogEntry(
+      // id kept as ss_g4_water (its old Social Sciences prefix) rather than
+      // renamed to match its new subject -- it's an opaque key, and
+      // renaming it would orphan any already-stored completion/progress
+      // records keyed against it for zero real benefit.
       id: 'ss_g4_water',
       title: 'Water Cycle',
       description:
           'Follow water through evaporation, condensation and precipitation!',
       grade: 'grade4',
       grades: ['grade4', 'grade5', 'grade6'],
-      subject: 'Social Sciences',
-      topicId: 'geography',
+      subject: 'Natural Sciences',
+      topicId: 'weather',
       subtopicId: 'water_cycle',
       engineType: 'waterCycle',
       emoji: '💧',
-      color: AppColors.socialSciences,
+      color: AppColors.science,
       learningObjective:
           'Learners will follow water through evaporation, condensation and precipitation.',
       mechanicReason:
-          'Watching a single droplet actually travel and transform around the looped cycle diagram as you answer makes the water cycle a journey you follow, not a list you memorise.',
+          'Dragging each process word onto where it actually happens on an illustrated scene turns the water cycle into something you place, not just a list you memorise.',
       difficulty: 'easy',
       xpReward: 80,
       coinsReward: 16,

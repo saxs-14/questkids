@@ -7,57 +7,50 @@ import '../../../data/models/game_session_model.dart';
 import '../core/game_config.dart';
 import '../core/game_feedback_service.dart';
 import '../core/game_session_persistence.dart';
+import '../sequence_builder/water_cycle_scene.dart';
 
 // ────────────────────────────────────────────────────────────────────────────
-// Water Cycle — Grade 4 Social Sciences: evaporation, condensation,
+// Water Cycle — Grade 4 Natural Sciences: evaporation, condensation,
 // precipitation and collection
 //
 // NOTE: this is a DIFFERENT engine from sequence_builder/ (engineType
 // 'sequenceBuilder'), which is a shared generic engine still used by 15
 // other catalog entries. This engine (engineType 'waterCycle') is
-// registered ONLY against ss_g4_water.
+// registered ONLY against ss_g4_water. It does import and reuse that
+// engine's WaterCycleScene backdrop painter for Zone 1's diagram, though.
 //
-// 4 Zones (5 questions each = 20 total):
-//   1. Guide the Droplet   — pick what happens next; a droplet visually
-//      travels around a looped cycle diagram, changing form (wave, vapour,
-//      cloud, rain, river) at each correct stage
+// 4 Zones (19 total steps):
+//   1. Label the Water Cycle — drag 4 process terms (Evaporation,
+//      Condensation, Precipitation, Collection) onto the matching spot on
+//      an illustrated water-cycle scene; 4 placements, any order
 //   2. Water Cycle Vocabulary — recall MCQ (evaporation, condensation, ...)
 //   3. What Happens When... — recall MCQ (cause and effect reasoning)
 //   4. Water Cycle in Nature — recall MCQ (sources, importance, conservation)
 //
-// Structurally distinct from every prior engine: Zone 1 is the first
-// looped-path journey where a single character travels a closed circuit
-// and visually TRANSFORMS (not just relocates) at each stage, unlike
-// Coding Adventure's grid movement or Life Cycles' order-flexible circular
-// taps.
+// Zone 1's drag-to-label interaction reuses the same _applyAnswerResult/
+// _advance scoring path as every MCQ zone on a correct drop, but a wrong
+// drop deliberately skips both -- see _onDiagramDrop for why.
 // Architecture: fully self-contained StatefulWidget.
 // ────────────────────────────────────────────────────────────────────────────
 
 enum _Phase { intro, playing, correct, wrong, streak, zoneDone, victory }
 
-enum _Kind { droplet, simple }
+enum _Kind { simple, diagramLabel }
 
-// The 5 stops around the loop (index matches _stagePositions/_stageEmoji).
-const _stageNames = ['Ocean', 'Vapour', 'Cloud', 'Rain', 'River'];
-const _stageEmoji = ['🌊', '💨', '☁️', '🌧️', '🏞️'];
-const _stagePositions = [
-  Offset(0.22, 0.85), // Ocean -- bottom-left
-  Offset(0.10, 0.45), // Vapour -- rising, left-mid
-  Offset(0.50, 0.10), // Cloud -- top-centre
-  Offset(0.88, 0.45), // Rain -- falling, right-mid
-  Offset(0.78, 0.85), // River -- collection, bottom-right
-];
-
-class _DropletQ {
-  final String prompt;
-  final List<String> choices; // [0] correct
-  final int fromStage; // 0..4
-  final int toStage; // 0..4 (5 wraps to 0)
-  const _DropletQ({
-    required this.prompt,
-    required this.choices,
-    required this.fromStage,
-    required this.toStage,
+/// One draggable term in the "Label the Water Cycle" diagram zone.
+/// [position] is fractional (0..1) placement over the WaterCycleScene
+/// backdrop, chosen to sit near where that process is actually drawn
+/// (see water_cycle_scene.dart's paint() for the underlying coordinates).
+class _DiagramTerm {
+  final String id;
+  final String label;
+  final String emoji;
+  final Offset position;
+  const _DiagramTerm({
+    required this.id,
+    required this.label,
+    required this.emoji,
+    required this.position,
   });
 }
 
@@ -70,16 +63,16 @@ class _SimpleQ {
 class _Zone {
   final String name;
   final _Kind kind;
-  final List<_DropletQ> droplet;
   final List<_SimpleQ> simple;
-  const _Zone.droplet(this.name, this.droplet)
-      : kind = _Kind.droplet,
-        simple = const [];
+  final List<_DiagramTerm> diagramTerms;
   const _Zone.simple(this.name, this.simple)
       : kind = _Kind.simple,
-        droplet = const [];
+        diagramTerms = const [];
+  const _Zone.diagramLabel(this.name, this.diagramTerms)
+      : kind = _Kind.diagramLabel,
+        simple = const [];
 
-  int get length => kind == _Kind.droplet ? droplet.length : simple.length;
+  int get length => kind == _Kind.simple ? simple.length : diagramTerms.length;
 }
 
 class WaterCycleGame extends StatefulWidget {
@@ -93,34 +86,32 @@ class WaterCycleGame extends StatefulWidget {
 
 class _WCState extends State<WaterCycleGame> with TickerProviderStateMixin {
   static const _zoneTemplates = [
-    _Zone.droplet('Guide the Droplet', [
-      _DropletQ(
-          prompt: 'The sun heats the ocean and warms the water. What happens next?',
-          choices: ['Evaporation', 'Precipitation', 'Collection'],
-          fromStage: 0,
-          toStage: 1),
-      _DropletQ(
-          prompt: 'Water vapour rises into the sky and cools down. What happens next?',
-          choices: ['Condensation', 'Evaporation', 'Collection'],
-          fromStage: 1,
-          toStage: 2),
-      _DropletQ(
-          prompt:
-              'Tiny water droplets gather together in clouds until they get heavy. What happens next?',
-          choices: ['Precipitation', 'Evaporation', 'Condensation'],
-          fromStage: 2,
-          toStage: 3),
-      _DropletQ(
-          prompt: 'Rain falls from the clouds onto the land. Where does the water go next?',
-          choices: ['Collection (rivers and oceans)', 'Evaporation', 'Condensation'],
-          fromStage: 3,
-          toStage: 4),
-      _DropletQ(
-          prompt:
-              'The water has collected in the river and flows back to the ocean. What starts the cycle again?',
-          choices: ['The sun heats it and evaporation begins again', 'It freezes forever', 'It disappears'],
-          fromStage: 4,
-          toStage: 0),
+    _Zone.diagramLabel('Label the Water Cycle', [
+      // Positions sit near where WaterCycleScene actually draws each
+      // process (see water_cycle_scene.dart's paint()): vapour rises
+      // left-of-centre over the sea, clouds sit upper-right, rain falls
+      // in a column right-of-centre, and the river/sea occupy the
+      // bottom-left.
+      _DiagramTerm(
+          id: 'evaporation',
+          label: 'Evaporation',
+          emoji: '💨',
+          position: Offset(0.25, 0.55)),
+      _DiagramTerm(
+          id: 'condensation',
+          label: 'Condensation',
+          emoji: '☁️',
+          position: Offset(0.68, 0.28)),
+      _DiagramTerm(
+          id: 'precipitation',
+          label: 'Precipitation',
+          emoji: '🌧️',
+          position: Offset(0.65, 0.55)),
+      _DiagramTerm(
+          id: 'collection',
+          label: 'Collection',
+          emoji: '🌊',
+          position: Offset(0.35, 0.82)),
     ]),
     _Zone.simple('Water Cycle Vocabulary', [
       _SimpleQ(
@@ -250,7 +241,12 @@ class _WCState extends State<WaterCycleGame> with TickerProviderStateMixin {
 
   _Phase _phase = _Phase.intro;
   int? _selectedIndex;
-  int _dropletStage = 0;
+  final Set<String> _placedTermIds = {};
+  // Unlike _phase == _Phase.wrong (which the MCQ flow clears automatically
+  // when _advance() moves to the next question), a bad drag drop never
+  // changes _phase -- so this flag drives the diagram zone's own "try
+  // again" hint and is cleared on a timer instead.
+  bool _diagramShowHint = false;
 
   String _wrongReaction = '';
 
@@ -259,8 +255,8 @@ class _WCState extends State<WaterCycleGame> with TickerProviderStateMixin {
   // Shuffled per-session copy of _zoneTemplates: preserves zone order but
   // randomizes question order within each zone across replays.
   late final List<_Zone> _zones = _zoneTemplates.map((z) {
-    return z.kind == _Kind.droplet
-        ? _Zone.droplet(z.name, List<_DropletQ>.from(z.droplet)..shuffle(_rng))
+    return z.kind == _Kind.diagramLabel
+        ? _Zone.diagramLabel(z.name, List<_DiagramTerm>.from(z.diagramTerms)..shuffle(_rng))
         : _Zone.simple(z.name, List<_SimpleQ>.from(z.simple)..shuffle(_rng));
   }).toList();
 
@@ -333,7 +329,8 @@ class _WCState extends State<WaterCycleGame> with TickerProviderStateMixin {
       _totalXP = 0;
       _phase = _Phase.playing;
       _selectedIndex = null;
-      _dropletStage = 0;
+      _placedTermIds.clear();
+      _diagramShowHint = false;
     });
     _fadeCtrl.forward(from: 0);
   }
@@ -349,15 +346,30 @@ class _WCState extends State<WaterCycleGame> with TickerProviderStateMixin {
     return _cachedChoices;
   }
 
-  void _onDropletAnswer(int index, _DropletQ q) {
+  /// Handles a term chip dropped on a diagram target. A correct drop
+  /// routes through the same _applyAnswerResult/_advance path every other
+  /// answer uses, so streak/XP/zone-completion all work unchanged. A wrong
+  /// drop deliberately does NOT call _applyAnswerResult/_advance -- unlike
+  /// an MCQ tap (one shot, always moves to the next question), a bad drop
+  /// here should just bounce back and let the child keep trying the same
+  /// set of remaining terms, not consume one of the 4 placement "slots".
+  void _onDiagramDrop(String droppedTermId, _DiagramTerm target) {
     if (_phase != _Phase.playing) return;
-    final choices = _getShuffledChoices(q);
-    final isCorrect = choices[index] == q.choices[0];
-    setState(() {
-      _selectedIndex = index;
-      if (isCorrect) _dropletStage = q.toStage;
-    });
-    _applyAnswerResult(isCorrect);
+    if (droppedTermId == target.id) {
+      setState(() => _placedTermIds.add(target.id));
+      _applyAnswerResult(true);
+    } else {
+      unawaited(GameFeedbackService.incorrect());
+      setState(() {
+        _streak = 0;
+        _wrongReaction = _wrongReactions[_rng.nextInt(_wrongReactions.length)];
+        _diagramShowHint = true;
+      });
+      _shakeCtrl.forward(from: 0);
+      _delayed(1500, () {
+        if (mounted) setState(() => _diagramShowHint = false);
+      });
+    }
   }
 
   void _onSimpleAnswer(int index) {
@@ -531,8 +543,8 @@ class _WCState extends State<WaterCycleGame> with TickerProviderStateMixin {
                     opacity: _fadeAnim,
                     child: SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: zone.kind == _Kind.droplet
-                          ? _buildDropletQuestion(zone.droplet[_qIdx], revealed)
+                      child: zone.kind == _Kind.diagramLabel
+                          ? _buildDiagramLabelZone(zone)
                           : _buildSimpleQuestion(zone.simple[_qIdx], revealed),
                     ),
                   ),
@@ -570,17 +582,18 @@ class _WCState extends State<WaterCycleGame> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildDropletQuestion(_DropletQ q, bool revealed) {
-    const boxWidth = 260.0;
-    const boxHeight = 220.0;
+  Widget _buildDiagramLabelZone(_Zone zone) {
+    const boxWidth = 300.0;
+    const boxHeight = 260.0;
+    final remaining = zone.diagramTerms.where((t) => !_placedTermIds.contains(t.id)).toList();
 
     return Column(
       children: [
         const SizedBox(height: 8),
-        Text(
-          q.prompt,
+        const Text(
+          'Drag each word onto where it happens in the picture.',
           textAlign: TextAlign.center,
-          style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700),
+          style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700),
         ),
         const SizedBox(height: 16),
         SizedBox(
@@ -589,45 +602,49 @@ class _WCState extends State<WaterCycleGame> with TickerProviderStateMixin {
           child: Stack(
             children: [
               Positioned.fill(
-                child: CustomPaint(painter: _CyclePathPainter()),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(18),
+                  child: AnimatedBuilder(
+                    animation: _ambientAnim,
+                    builder: (context, _) =>
+                        WaterCycleScene(revealed: 4, t: _ambientAnim.value),
+                  ),
+                ),
               ),
-              for (var i = 0; i < _stagePositions.length; i++)
+              for (final term in zone.diagramTerms)
                 Positioned(
-                  left: _stagePositions[i].dx * boxWidth - 20,
-                  top: _stagePositions[i].dy * boxHeight - 14,
-                  child: SizedBox(
-                    width: 40,
-                    child: Text(
-                      _stageNames[i],
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.white54, fontSize: 9, fontWeight: FontWeight.w700),
-                    ),
-                  ),
+                  left: term.position.dx * boxWidth - 48,
+                  top: term.position.dy * boxHeight - 20,
+                  child: _placedTermIds.contains(term.id)
+                      ? _PlacedTermBadge(key: ValueKey('wc_placed_${term.id}'), term: term)
+                      : DragTarget<String>(
+                          onWillAcceptWithDetails: (_) => true,
+                          onAcceptWithDetails: (details) =>
+                              _onDiagramDrop(details.data, term),
+                          builder: (context, candidates, rejects) => Container(
+                            key: ValueKey('wc_target_${term.id}'),
+                            width: 96,
+                            height: 40,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: candidates.isNotEmpty
+                                  ? Colors.white.withValues(alpha: 0.4)
+                                  : Colors.white.withValues(alpha: 0.18),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.white70, width: 1.5),
+                            ),
+                            child: const Icon(Icons.add, color: Colors.white70, size: 18),
+                          ),
+                        ),
                 ),
-              AnimatedPositioned(
-                duration: const Duration(milliseconds: 600),
-                curve: Curves.easeInOut,
-                left: _stagePositions[_dropletStage].dx * boxWidth - 18,
-                top: _stagePositions[_dropletStage].dy * boxHeight - 18,
-                child: SizedBox(
-                  width: 36,
-                  height: 36,
-                  child: Center(
-                    child: Text(_stageEmoji[_dropletStage], style: const TextStyle(fontSize: 28)),
-                  ),
-                ),
-              ),
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 18),
         AnimatedBuilder(
           animation: _shakeAnim,
           builder: (context, _) {
-            final dx = _phase == _Phase.wrong
-                ? math.sin(_shakeAnim.value * math.pi * 6) * 6
-                : 0.0;
-            final choices = _getShuffledChoices(q);
+            final dx = math.sin(_shakeAnim.value * math.pi * 6) * 6 * _shakeAnim.value;
             return Transform.translate(
               offset: Offset(dx, 0),
               child: Wrap(
@@ -635,24 +652,35 @@ class _WCState extends State<WaterCycleGame> with TickerProviderStateMixin {
                 runSpacing: 12,
                 alignment: WrapAlignment.center,
                 children: [
-                  for (var i = 0; i < choices.length; i++)
-                    _SimpleTile(
-                      label: choices[i],
-                      selected: _selectedIndex == i,
-                      isCorrect: choices[i] == q.choices[0],
-                      revealed: revealed,
-                      onTap: () => _onDropletAnswer(i, q),
+                  for (final term in remaining)
+                    Draggable<String>(
+                      key: ValueKey('wc_chip_${term.id}'),
+                      data: term.id,
+                      feedback: Material(
+                        color: Colors.transparent,
+                        child: _TermChip(term: term, dragging: true),
+                      ),
+                      childWhenDragging: Opacity(opacity: 0.3, child: _TermChip(term: term)),
+                      child: _TermChip(term: term),
                     ),
                 ],
               ),
             );
           },
         ),
-        if (_phase == _Phase.wrong)
+        if (remaining.isEmpty && _phase == _Phase.playing)
+          const Padding(
+            padding: EdgeInsets.only(top: 12),
+            child: Text(
+              'All labelled! 🎉',
+              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700),
+            ),
+          )
+        else if (_diagramShowHint && remaining.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(top: 14),
             child: Text(
-              '$_wrongReaction The answer was ${q.choices[0]}.',
+              '$_wrongReaction Try a different word for that spot.',
               textAlign: TextAlign.center,
               style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600),
             ),
@@ -758,42 +786,66 @@ class _SimpleTile extends StatelessWidget {
   }
 }
 
-// ── Painters ─────────────────────────────────────────────────────────────────
+// ── Diagram-label chips ──────────────────────────────────────────────────────
 
-class _CyclePathPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.white24
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
-    final path = Path();
-    final points = _stagePositions
-        .map((p) => Offset(p.dx * size.width, p.dy * size.height))
-        .toList();
-    path.moveTo(points[0].dx, points[0].dy);
-    for (var i = 1; i < points.length; i++) {
-      path.lineTo(points[i].dx, points[i].dy);
-    }
-    path.lineTo(points[0].dx, points[0].dy);
-    _drawDashedPath(canvas, path, paint);
-  }
-
-  void _drawDashedPath(Canvas canvas, Path path, Paint paint) {
-    const dashWidth = 5.0;
-    const dashSpace = 4.0;
-    for (final metric in path.computeMetrics()) {
-      var distance = 0.0;
-      while (distance < metric.length) {
-        final next = math.min(distance + dashWidth, metric.length);
-        canvas.drawPath(metric.extractPath(distance, next), paint);
-        distance = next + dashSpace;
-      }
-    }
-  }
+class _TermChip extends StatelessWidget {
+  final _DiagramTerm term;
+  final bool dragging;
+  const _TermChip({required this.term, this.dragging = false});
 
   @override
-  bool shouldRepaint(covariant _CyclePathPainter oldDelegate) => false;
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        color: dragging ? const Color(0xFF4CAF7D) : _WCState._card,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: _WCState._sky.withValues(alpha: 0.7), width: 2),
+        boxShadow: dragging
+            ? const [BoxShadow(blurRadius: 8, offset: Offset(0, 3), color: Colors.black26)]
+            : null,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(term.emoji, style: const TextStyle(fontSize: 16)),
+          const SizedBox(width: 6),
+          Text(
+            term.label,
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 13),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PlacedTermBadge extends StatelessWidget {
+  final _DiagramTerm term;
+  const _PlacedTermBadge({super.key, required this.term});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: BoxDecoration(
+        color: const Color(0xFF4CAF7D),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.white, width: 1.5),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(term.emoji, style: const TextStyle(fontSize: 14)),
+          const SizedBox(width: 4),
+          Text(
+            term.label,
+            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 11),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _RippleBgPainter extends CustomPainter {
