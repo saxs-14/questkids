@@ -30,6 +30,25 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
 
   final Set<String> _completedActivities = {};
 
+  @override
+  void initState() {
+    super.initState();
+    // The dashboard banner that links here is already grade4-gated (see
+    // learner_dashboard.dart), but this screen had no check of its own --
+    // the banner was the *only* thing stopping another grade from landing
+    // on Grade 4 CAPS content. Guard the destination too, not just the
+    // entry point. Deferred to post-frame since popping during initState
+    // (before the first frame/route is fully attached) is unsafe.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final grade = context.read<AuthProvider>().user?.grade ?? '';
+      final gradeKey = grade.toLowerCase().replaceAll(' ', '');
+      if (gradeKey != 'grade4') {
+        Navigator.of(context).pop();
+      }
+    });
+  }
+
   void _onActivityCompleted(String activityId, int stars, int coins) {
     setState(() {
       _completedActivities.add(activityId);
@@ -1272,20 +1291,12 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
     final shuffled = List<String>.from(options)..shuffle(rng);
     String? feedback;
 
-    showDialog(
-      context: context,
+    Navigator.of(context).push(MaterialPageRoute(
       builder: (ctx) => StatefulBuilder(
         builder: (context, setDialogState) {
           final header = Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(children: [
-                const Icon(Icons.auto_awesome, color: Colors.orange, size: 24),
-                const SizedBox(width: 8),
-                Expanded(child: Text(title,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18))),
-              ]),
-              const SizedBox(height: 12),
               Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
@@ -1438,29 +1449,27 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
             );
           }
 
-          return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-            content: SingleChildScrollView(
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
-                header,
-                body,
-                if (feedback != null) ...[
-                  const SizedBox(height: 12),
-                  Text(feedback!, textAlign: TextAlign.center,
-                      style: const TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.w800)),
-                ],
-              ]),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(ctx).pop(),
-                child: const Text('Close'),
+          return Scaffold(
+            appBar: AppBar(title: Text(title)),
+            body: SafeArea(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  header,
+                  const SizedBox(height: 20),
+                  body,
+                  if (feedback != null) ...[
+                    const SizedBox(height: 12),
+                    Text(feedback!, textAlign: TextAlign.center,
+                        style: const TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.w800)),
+                  ],
+                ]),
               ),
-            ],
+            ),
           );
         },
       ),
-    );
+    ));
   }
 
   Widget _challengeChip(String text, {bool dragging = false}) {
@@ -1488,20 +1497,24 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
   }) {
     String typed = '';
 
-    showDialog(
-      context: context,
+    Navigator.of(context).push(MaterialPageRoute(
       builder: (ctx) => StatefulBuilder(
         builder: (context, setDialogState) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-            title: Row(
-              children: [
-                const Text('🐝', style: TextStyle(fontSize: 24)),
-                const SizedBox(width: 8),
-                Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-              ],
+          return Scaffold(
+            appBar: AppBar(
+              title: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text('🐝', style: TextStyle(fontSize: 22)),
+                  const SizedBox(width: 8),
+                  Text(title),
+                ],
+              ),
             ),
-            content: Column(
+            body: SafeArea(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(hint, textAlign: TextAlign.center, style: TextStyle(color: Colors.grey.shade700)),
@@ -1561,11 +1574,13 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
                   label: const Text('Clear'),
                 ),
               ],
+                ),
+              ),
             ),
           );
         },
       ),
-    );
+    ));
   }
 
   void _showWordBuilderDialog({
@@ -1576,20 +1591,24 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
     List<String> currentLetters = [];
     final available = List<String>.from(letters)..shuffle(math.Random());
 
-    showDialog(
-      context: context,
+    Navigator.of(context).push(MaterialPageRoute(
       builder: (ctx) => StatefulBuilder(
         builder: (context, setDialogState) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-            title: const Row(
-              children: [
-                Text('🐶', style: TextStyle(fontSize: 24)),
-                SizedBox(width: 8),
-                Text('Word Builder', style: TextStyle(fontWeight: FontWeight.bold)),
-              ],
+          return Scaffold(
+            appBar: AppBar(
+              title: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('🐶', style: TextStyle(fontSize: 22)),
+                  SizedBox(width: 8),
+                  Text('Word Builder'),
+                ],
+              ),
             ),
-            content: Column(
+            body: SafeArea(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text('Spell: PUPPY', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
@@ -1636,11 +1655,13 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
                   child: const Text('Reset Letters'),
                 ),
               ],
+                ),
+              ),
             ),
           );
         },
       ),
-    );
+    ));
   }
 
   void _showMatchDialog({
@@ -1653,14 +1674,15 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
     String? selectedKey;
     final matched = <String>{};
 
-    showDialog(
-      context: context,
+    Navigator.of(context).push(MaterialPageRoute(
       builder: (ctx) => StatefulBuilder(
         builder: (context, setDialogState) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-            title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-            content: Column(
+          return Scaffold(
+            appBar: AppBar(title: Text(title)),
+            body: SafeArea(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text('Tap an item on the left, then its match on the right:'),
@@ -1735,10 +1757,12 @@ class _Grade4ActivitiesHubScreenState extends State<Grade4ActivitiesHubScreen> {
                   ],
                 ),
               ],
+                ),
+              ),
             ),
           );
         },
       ),
-    );
+    ));
   }
 }
