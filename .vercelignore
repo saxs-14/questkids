@@ -1,0 +1,24 @@
+# Vercel builds the Flutter web app from source.
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub/
+.pub-cache/
+coverage/
+test/
+
+# Backend and non-web platform sources are deployed separately.
+functions/
+android/
+ios/
+macos/
+windows/
+linux/
+
+# Local tooling and generated state.
+.git/
+.vercel/
+.firebase/
+node_modules/

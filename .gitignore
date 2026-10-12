@@ -203,3 +203,5 @@ build_output.txt
 # Claude internal
 .claude/launch.json
 .superpowers/
+
+.vercel
