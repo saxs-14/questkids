@@ -29,6 +29,7 @@ class AdminDashboard extends StatefulWidget {
 
 class _AdminDashboardState extends State<AdminDashboard> {
   final _service = AdminService();
+  late final Stream<QuerySnapshot<Map<String, dynamic>>> _usersStream;
   int _tab = 0;
   Map<String, int> _counts = {};
   bool _loadingCounts = true;
@@ -48,6 +49,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   @override
   void initState() {
     super.initState();
+    _usersStream = _service.watchUsers();
     _loadCounts();
     _platformReportFuture = _service.getPlatformReport();
   }
@@ -301,7 +303,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   Widget _users() {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-      stream: _service.watchUsers(),
+      stream: _usersStream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Center(

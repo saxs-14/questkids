@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../theme/admin_colors.dart';
 
-class AdminSearchField extends StatefulWidget {
+class AdminSearchField extends StatelessWidget {
   final String hintText;
   final ValueChanged<String> onChanged;
   final TextEditingController controller;
@@ -13,36 +13,6 @@ class AdminSearchField extends StatefulWidget {
     required this.onChanged,
     required this.controller,
   });
-
-  @override
-  State<AdminSearchField> createState() => _AdminSearchFieldState();
-}
-
-class _AdminSearchFieldState extends State<AdminSearchField> {
-  @override
-  void initState() {
-    super.initState();
-    widget.controller.addListener(_onControllerChanged);
-  }
-
-  @override
-  void didUpdateWidget(covariant AdminSearchField oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.controller != widget.controller) {
-      oldWidget.controller.removeListener(_onControllerChanged);
-      widget.controller.addListener(_onControllerChanged);
-    }
-  }
-
-  @override
-  void dispose() {
-    widget.controller.removeListener(_onControllerChanged);
-    super.dispose();
-  }
-
-  void _onControllerChanged() {
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +29,9 @@ class _AdminSearchFieldState extends State<AdminSearchField> {
           const SizedBox(width: 10),
           Expanded(
             child: TextField(
-              controller: widget.controller,
+              controller: controller,
               cursorColor: AdminColors.textAccent,
-              onChanged: widget.onChanged,
+              onChanged: onChanged,
               style: const TextStyle(
                 color: AdminColors.textPrimary,
                 fontSize: 16,
@@ -72,22 +42,25 @@ class _AdminSearchFieldState extends State<AdminSearchField> {
                 border: InputBorder.none,
                 isDense: true,
                 contentPadding: const EdgeInsets.symmetric(vertical: 14),
-                hintText: widget.hintText,
+                hintText: hintText,
                 hintStyle: const TextStyle(color: AdminColors.textSecondary),
-                suffixIcon: widget.controller.text.isEmpty
-                    ? null
-                    : IconButton(
-                        tooltip: 'Clear search',
-                        icon: const Icon(
-                          Icons.close,
-                          color: AdminColors.textSecondary,
-                          size: 18,
+                suffixIcon: ValueListenableBuilder<TextEditingValue>(
+                  valueListenable: controller,
+                  builder: (context, value, _) => value.text.isEmpty
+                      ? const SizedBox.shrink()
+                      : IconButton(
+                          tooltip: 'Clear search',
+                          icon: const Icon(
+                            Icons.close,
+                            color: AdminColors.textSecondary,
+                            size: 18,
+                          ),
+                          onPressed: () {
+                            controller.clear();
+                            onChanged('');
+                          },
                         ),
-                        onPressed: () {
-                          widget.controller.clear();
-                          widget.onChanged('');
-                        },
-                      ),
+                ),
               ),
             ),
           ),

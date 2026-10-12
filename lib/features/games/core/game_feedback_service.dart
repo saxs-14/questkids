@@ -41,15 +41,22 @@ class GameFeedbackService {
     }
   }
 
-  static Future<void> correct() => _speak('Correct! Great job!');
+  static Future<void> correct({String message = 'Correct! Great job!'}) =>
+      _speak(message);
 
-  static Future<void> incorrect() => _speak('Not quite. Try again!');
+  static Future<void> incorrect({String message = 'Not quite. Try again!'}) =>
+      _speak(message);
+
+  static Future<void> readQuestion(String question) => _speak(question);
 
   static Future<void> _speak(String message) async {
     if (!_enabled) return;
     try {
       await initialize();
-      if (_enabled) await _tts.speak(message);
+      if (_enabled) {
+        await _tts.stop();
+        await _tts.speak(message);
+      }
     } catch (_) {
       // Voice feedback is optional; never interrupt an answer flow.
     }

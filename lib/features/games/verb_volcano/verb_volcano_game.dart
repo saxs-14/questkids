@@ -39,13 +39,24 @@ class _BlankQ {
   final String before;
   final String after;
   final List<String> choices; // [0] correct
-  const _BlankQ({required this.before, required this.after, required this.choices});
+  final String hint;
+  const _BlankQ({
+    required this.before,
+    required this.after,
+    required this.choices,
+    required this.hint,
+  });
 }
 
 class _SimpleQ {
   final String prompt;
   final List<String> choices; // [0] correct
-  const _SimpleQ({required this.prompt, required this.choices});
+  final String hint;
+  const _SimpleQ({
+    required this.prompt,
+    required this.choices,
+    required this.hint,
+  });
 }
 
 class _Zone {
@@ -78,84 +89,113 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
       _BlankQ(
           before: 'Yesterday, Thabo ',
           after: ' to school.',
-          choices: ['walked', 'walks', 'will walk']),
+          choices: ['walked', 'walks', 'will walk'],
+          hint: '“Yesterday” tells you the action already happened.'),
       _BlankQ(
           before: 'Every morning, my mother ',
           after: ' coffee.',
-          choices: ['drinks', 'drank', 'will drink']),
+          choices: ['drinks', 'drank', 'will drink'],
+          hint: '“Every morning” describes something that happens regularly.'),
       _BlankQ(
           before: 'Tomorrow, we ',
           after: ' our grandmother.',
-          choices: ['will visit', 'visited', 'visit']),
+          choices: ['will visit', 'visited', 'visit'],
+          hint: '“Tomorrow” tells you the action is still to come.'),
       _BlankQ(
           before: 'Right now, the dog ',
           after: ' loudly.',
-          choices: ['is barking', 'barked', 'will bark']),
+          choices: ['is barking', 'barked', 'will bark'],
+          hint: '“Right now” describes an action happening at this moment.'),
       _BlankQ(
           before: 'Last year, she ',
           after: ' to Durban.',
-          choices: ['moved', 'moves', 'will move']),
+          choices: ['moved', 'moves', 'will move'],
+          hint: '“Last year” tells you the action already happened.'),
     ]),
     _Zone.simple('Present Tense', [
       _SimpleQ(
           prompt: 'The present tense describes an action that...?',
-          choices: ['Is happening now or happens regularly', 'Already happened', 'Will happen later']),
+          choices: ['Is happening now or happens regularly', 'Already happened', 'Will happen later'],
+          hint: 'Think about actions happening now or repeated as a routine.'),
       _SimpleQ(
           prompt: 'Which sentence is in the PRESENT tense?',
           choices: [
             "'She plays the piano every day.'",
             "'She played the piano yesterday.'",
             "'She will play the piano tomorrow.'"
-          ]),
+          ],
+          hint: 'Look for the sentence describing a regular action.'),
       _SimpleQ(
           prompt: "For most verbs, the present tense with 'he/she/it' adds which letter(s)?",
-          choices: ['-s', '-ed', '-ing']),
+          choices: ['-s', '-ed', '-ing'],
+          hint: 'For example: “she walks”.'),
       _SimpleQ(
           prompt: "Which is the correct present tense form: 'He ___ to school every day.'",
-          choices: ['walks', 'walked', 'will walk']),
+          choices: ['walks', 'walked', 'will walk'],
+          hint: '“Every day” is a routine, and “he” usually adds a letter to the verb.'),
       _SimpleQ(
           prompt: "What does '-ing' added to a verb usually show?",
-          choices: ['An action happening right now', 'An action from long ago', 'An action that will never happen']),
+          choices: ['An action happening right now', 'An action from long ago', 'An action that will never happen'],
+          hint: 'Think of what someone is doing at this moment.'),
     ]),
     _Zone.simple('Past Tense', [
       _SimpleQ(
           prompt: 'The past tense describes an action that...?',
-          choices: ['Already happened', 'Is happening now', 'Will happen in the future']),
+          choices: ['Already happened', 'Is happening now', 'Will happen in the future'],
+          hint: 'Past-tense actions are finished before now.'),
       _SimpleQ(
           prompt: 'Most regular verbs form the past tense by adding...?',
-          choices: ['-ed', '-s', '-ing']),
-      _SimpleQ(prompt: "What is the past tense of 'go'?", choices: ['went', 'goed', 'going']),
-      _SimpleQ(prompt: "What is the past tense of 'eat'?", choices: ['ate', 'eated', 'eating']),
+          choices: ['-ed', '-s', '-ing'],
+          hint: 'Regular verbs often use the same two-letter ending as “walked”.'),
+      _SimpleQ(
+        prompt: "What is the past tense of 'go'?",
+        choices: ['went', 'goed', 'going'],
+        hint: 'This is an irregular verb, so it does not use the regular ending.',
+      ),
+      _SimpleQ(
+        prompt: "What is the past tense of 'eat'?",
+        choices: ['ate', 'eated', 'eating'],
+        hint: 'This irregular verb changes its vowel sound in the past.',
+      ),
       _SimpleQ(
           prompt: 'Which sentence is in the PAST tense?',
           choices: [
             "'They visited the museum last week.'",
             "'They visit the museum often.'",
             "'They will visit the museum soon.'"
-          ]),
+          ],
+          hint: 'Look for a time clue that says the visit has already happened.'),
     ]),
     _Zone.simple('Future Tense & Irregular Verbs', [
       _SimpleQ(
           prompt: 'The future tense describes an action that...?',
-          choices: ['Will happen later', 'Already happened', 'Is happening right now']),
-      _SimpleQ(prompt: 'Which word usually shows the future tense?', choices: ["'Will'", "'Was'", "'Did'"]),
+          choices: ['Will happen later', 'Already happened', 'Is happening right now'],
+          hint: 'Future-tense actions have not happened yet.'),
+      _SimpleQ(
+        prompt: 'Which word usually shows the future tense?',
+        choices: ["'Will'", "'Was'", "'Did'"],
+        hint: 'This word often comes just before the main verb.'),
       _SimpleQ(
           prompt: 'Which sentence is in the FUTURE tense?',
           choices: [
             "'We will travel to Durban next month.'",
             "'We travelled to Durban last month.'",
             "'We travel to Durban every year.'"
-          ]),
+          ],
+          hint: 'Look for the sentence about an action that has not happened yet.'),
       _SimpleQ(
           prompt: 'An IRREGULAR verb is one that...?',
           choices: [
             'Does not follow the normal -ed rule in the past tense',
             'Is always in the present tense',
             'Cannot be used in sentences'
-          ]),
+          ],
+          hint: 'Think about verbs like “go” that change instead of adding -ed.'),
       _SimpleQ(
-          prompt: "What is the past tense of the irregular verb 'see'?",
-          choices: ['saw', 'seed', 'seeing']),
+        prompt: "What is the past tense of the irregular verb 'see'?",
+        choices: ['saw', 'seed', 'seeing'],
+        hint: 'Its past tense changes the vowel and ends with the same sound as “more”.',
+      ),
     ]),
   ];
 
@@ -191,7 +231,7 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
   _Phase _phase = _Phase.intro;
   int? _selectedIndex;
   String? _filledWord;
-  final TextEditingController _answerCtrl = TextEditingController();
+  bool _showHint = false;
 
   String _wrongReaction = '';
 
@@ -262,7 +302,6 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
     _flashCtrl.dispose();
     _burstCtrl.dispose();
     _shakeCtrl.dispose();
-    _answerCtrl.dispose();
     super.dispose();
   }
 
@@ -276,7 +315,7 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
       _phase = _Phase.playing;
       _selectedIndex = null;
       _filledWord = null;
-      _answerCtrl.clear();
+      _showHint = false;
     });
     _fadeCtrl.forward(from: 0);
   }
@@ -292,18 +331,21 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
     return _cachedChoices;
   }
 
-  /// Normalises for comparison only (trim, lowercase, collapse internal
-  /// whitespace) -- the spelling itself still has to be exact, this just
-  /// stops stray spaces/casing from failing a correct answer.
+  /// Normalises text for reliable answer comparisons.
   String _normalizeTyped(String s) =>
       s.trim().toLowerCase().replaceAll(RegExp(r'\s+'), ' ');
 
-  void _onBlankSubmit(_BlankQ q) {
+  void _onBlankAnswer(_BlankQ q, int index) {
     if (_phase != _Phase.playing) return;
-    final typed = _answerCtrl.text;
-    if (typed.trim().isEmpty) return;
-    final isCorrect = _normalizeTyped(typed) == _normalizeTyped(q.choices[0]);
-    setState(() => _filledWord = typed.trim());
+    final choices = _getShuffledChoices(q);
+    if (index < 0 || index >= choices.length) return;
+    final answer = choices[index];
+    final isCorrect =
+        _normalizeTyped(answer) == _normalizeTyped(q.choices[0]);
+    setState(() {
+      _selectedIndex = index;
+      _filledWord = answer;
+    });
     _applyAnswerResult(isCorrect);
   }
 
@@ -311,22 +353,25 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
     if (_phase != _Phase.playing) return;
     final q = _zones[_zoneIdx].simple[_qIdx];
     final choices = _getShuffledChoices(q);
-    final isCorrect = choices[index] == q.choices[0];
+    if (index < 0 || index >= choices.length) return;
+    final isCorrect =
+        _normalizeTyped(choices[index]) == _normalizeTyped(q.choices[0]);
     setState(() => _selectedIndex = index);
     _applyAnswerResult(isCorrect);
   }
 
   void _applyAnswerResult(bool isCorrect) {
-    unawaited(
-        isCorrect ? GameFeedbackService.correct() : GameFeedbackService.incorrect());
+    unawaited(isCorrect
+        ? GameFeedbackService.correct(message: 'Correct! You chose the right verb tense.')
+        : GameFeedbackService.incorrect(
+            message: 'Not quite. Use the hint to think about when the action happens.',
+          ));
     setState(() {
       if (isCorrect) {
         _correctCount++;
         _streak++;
-        _totalXP += 10;
       } else {
         _streak = 0;
-        _totalXP += 2;
         _wrongReaction = _wrongReactions[_rng.nextInt(_wrongReactions.length)];
       }
       _phase = isCorrect ? _Phase.correct : _Phase.wrong;
@@ -339,25 +384,26 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
         _delayed(300, () {
           setState(() => _phase = _Phase.streak);
           _burstCtrl.forward(from: 0);
-          _delayed(1600, _advance);
+          _delayed(1600, () => unawaited(_advance()));
         });
       } else {
-        _delayed(1200, _advance);
+        _delayed(1200, () => unawaited(_advance()));
       }
     } else {
       _shakeCtrl.forward(from: 0);
-      _delayed(1800, _advance);
+      _delayed(1800, () => unawaited(_advance()));
     }
   }
 
-  void _advance() {
+  Future<void> _advance() async {
     if (!mounted) return;
     final zone = _zones[_zoneIdx];
     final next = _qIdx + 1;
 
     if (next >= zone.length) {
       if (_zoneIdx + 1 >= _zones.length) {
-        _persistSession();
+        await _persistSession();
+        if (!mounted) return;
         setState(() => _phase = _Phase.victory);
       } else {
         setState(() => _phase = _Phase.zoneDone);
@@ -367,7 +413,7 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
             _qIdx = 0;
             _selectedIndex = null;
             _filledWord = null;
-            _answerCtrl.clear();
+            _showHint = false;
             _phase = _Phase.playing;
           });
           _fadeCtrl.forward(from: 0);
@@ -378,24 +424,20 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
         _qIdx = next;
         _selectedIndex = null;
         _filledWord = null;
-        _answerCtrl.clear();
+        _showHint = false;
         _phase = _Phase.playing;
       });
       _fadeCtrl.forward(from: 0);
     }
   }
 
-  void _persistSession() {
+  Future<void> _persistSession() async {
     final total = _totalQuestions;
     final accuracy = total > 0 ? _correctCount / total : 0.0;
-    final isPerfect = _correctCount == total;
-    final isWin = _correctCount > total / 2;
-    var xp = _totalXP;
-    if (isPerfect) {
-      xp += 100;
-    } else if (isWin) {
-      xp += 50;
-    }
+    final score = (accuracy * 100).round();
+    final isWin = score >= 50;
+    final xp = math.max(10, (score * 1.2).round());
+    final coins = math.max(1, xp ~/ 10);
     setState(() => _totalXP = xp);
 
     final uid = _uid;
@@ -406,9 +448,9 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
       grade: widget.config.grade,
       subject: widget.config.subject,
       engineType: widget.config.engineType,
-      score: (accuracy * 100).round(),
+      score: score,
       xpEarned: xp,
-      coinsEarned: xp ~/ 10,
+      coinsEarned: coins,
       accuracy: accuracy,
       timeTakenSeconds: 0,
       completedAt: DateTime.now(),
@@ -420,7 +462,7 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
         'totalQuestions': total,
       },
     );
-    persistGameSession(session);
+    await persistGameSession(session);
   }
 
   // ── Build ────────────────────────────────────────────────────────────────
@@ -522,6 +564,7 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
   }
 
   Widget _buildBlankQuestion(_BlankQ q, bool revealed) {
+    final choices = _getShuffledChoices(q);
     return Column(
       children: [
         const SizedBox(height: 8),
@@ -554,66 +597,54 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
             ),
           ),
         ),
-        const SizedBox(height: 22),
-        AnimatedBuilder(
-          animation: _shakeAnim,
-          builder: (context, _) {
-            final dx = _phase == _Phase.wrong
-                ? math.sin(_shakeAnim.value * math.pi * 6) * 6
-                : 0.0;
-            return Transform.translate(
-              offset: Offset(dx, 0),
-              // Column, not a fixed-width Row: a Row with a fixed-width
-              // TextField plus a button's own intrinsic width overflowed
-              // on narrow screens (caught by the widget test at 360px).
-              // Stacking removes any horizontal-space arithmetic entirely.
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _answerCtrl,
-                    enabled: !revealed,
-                    autocorrect: false,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
-                    decoration: InputDecoration(
-                      hintText: 'Type the missing word(s)',
-                      hintStyle: const TextStyle(color: Colors.white38),
-                      filled: true,
-                      fillColor: const Color(0xFF1A0C08),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: _lava.withValues(alpha: 0.6)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: _lava, width: 2),
-                      ),
-                      disabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: _lava.withValues(alpha: 0.3)),
-                      ),
-                    ),
-                    onSubmitted: (_) => _onBlankSubmit(q),
-                  ),
-                  const SizedBox(height: 12),
-                  ElevatedButton(
-                    onPressed: revealed ? null : () => _onBlankSubmit(q),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: _lava,
-                      foregroundColor: const Color(0xFF1A0C08),
-                    ),
-                    child: const Text('Check'),
-                  ),
-                ],
-              ),
-            );
-          },
+        const SizedBox(height: 12),
+        _questionTools(
+          spokenQuestion: '${q.before} blank ${q.after}',
+          hint: q.hint,
+          choices: choices,
         ),
+        const SizedBox(height: 14),
+        Wrap(
+          spacing: 14,
+          runSpacing: 14,
+          alignment: WrapAlignment.center,
+          children: [
+            for (var i = 0; i < choices.length; i++)
+              _SimpleTile(
+                label: choices[i],
+                selected: _selectedIndex == i,
+                isCorrect: _phase == _Phase.correct &&
+                    _normalizeTyped(choices[i]) == _normalizeTyped(q.choices[0]),
+                revealed: revealed,
+                onTap: () => _onBlankAnswer(q, i),
+              ),
+          ],
+        ),
+        if (_phase == _Phase.correct)
+          const Padding(
+            padding: EdgeInsets.only(top: 14),
+            child: Text(
+              'Correct! You chose the right verb tense.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color(0xFF8FE0AE),
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          const SizedBox(height: 22),
+          const Text(
+            'Choose the verb that completes the sentence.',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white70, fontSize: 13),
+          ),
+          const SizedBox(height: 12),
         if (_phase == _Phase.wrong)
           Padding(
             padding: const EdgeInsets.only(top: 16),
             child: Text(
-              '$_wrongReaction The answer was ${q.choices[0]}.',
+              '$_wrongReaction Hint: ${q.hint}',
               textAlign: TextAlign.center,
               style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
             ),
@@ -633,7 +664,13 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
           textAlign: TextAlign.center,
           style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
         ),
-        const SizedBox(height: 22),
+        const SizedBox(height: 12),
+        _questionTools(
+          spokenQuestion: q.prompt,
+          hint: q.hint,
+          choices: choices,
+        ),
+        const SizedBox(height: 14),
         AnimatedBuilder(
           animation: _shakeAnim,
           builder: (context, _) {
@@ -651,7 +688,9 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
                     _SimpleTile(
                       label: choices[i],
                       selected: _selectedIndex == i,
-                      isCorrect: choices[i] == q.choices[0],
+                      isCorrect: _phase == _Phase.correct &&
+                          _normalizeTyped(choices[i]) ==
+                              _normalizeTyped(q.choices[0]),
                       revealed: revealed,
                       onTap: () => _onSimpleAnswer(i),
                     ),
@@ -660,16 +699,73 @@ class _VVState extends State<VerbVolcanoGame> with TickerProviderStateMixin {
             );
           },
         ),
+        if (_phase == _Phase.correct)
+          const Padding(
+            padding: EdgeInsets.only(top: 14),
+            child: Text(
+              'Correct! You chose the right verb tense.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color(0xFF8FE0AE),
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
         if (_phase == _Phase.wrong)
           Padding(
             padding: const EdgeInsets.only(top: 16),
             child: Text(
-              '$_wrongReaction The answer was ${q.choices[0]}.',
+              '$_wrongReaction Hint: ${q.hint}',
               textAlign: TextAlign.center,
               style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
             ),
           ),
         const SizedBox(height: 20),
+      ],
+    );
+  }
+
+  Widget _questionTools({
+    required String spokenQuestion,
+    required String hint,
+    required List<String> choices,
+  }) {
+    return Column(
+      children: [
+        Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 8,
+          children: [
+            OutlinedButton.icon(
+              onPressed: () => unawaited(
+                GameFeedbackService.readQuestion(
+                  '$spokenQuestion The options are: ${choices.join(', ')}.',
+                ),
+              ),
+              icon: const Icon(Icons.volume_up, size: 18),
+              label: const Text('Read question'),
+            ),
+            TextButton.icon(
+              onPressed: () => setState(() => _showHint = !_showHint),
+              icon: const Icon(Icons.lightbulb_outline, size: 18),
+              label: Text(_showHint ? 'Hide hint' : 'Hint'),
+            ),
+          ],
+        ),
+        if (_showHint)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text(
+              hint,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Color(0xFFFFD180),
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
       ],
     );
   }
