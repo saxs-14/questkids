@@ -584,9 +584,19 @@ class AuthService {
         createdAt: DateTime.now(),
       );
 
+      // Unlike registerWithEmail's child branch, this path never generated
+      // a childLinkCode -- every child added via "Add Child" from an
+      // existing parent's dashboard ended up with childLinkCode: null,
+      // silently hiding the QR/code share card on their own dashboard
+      // (learner_dashboard.dart gates it on childLinkCode != null) and
+      // leaving them with no way for a second parent to link in.
+      final parentRepo = ParentRepository();
+      final code = parentRepo.generateLinkCode();
+
       final childFirestore = FirebaseFirestore.instanceFor(app: tempApp);
       await childFirestore.collection('users').doc(childUid).set({
         ...childModel.toMap(),
+        'childLinkCode': code,
         'consentGivenBy': consentGivenBy,
         'consentEmail': consentEmail,
         'consentAt': DateTime.now().millisecondsSinceEpoch,
