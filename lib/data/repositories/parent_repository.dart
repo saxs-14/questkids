@@ -303,6 +303,17 @@ class ParentRepository {
     return snap.docs.first.data();
   }
 
+  Future<List<Map<String, dynamic>>> getChildAiReports(String childUid,
+      {int limit = 20}) async {
+    final snap = await _db
+        .collection('ai_reports')
+        .where('uid', isEqualTo: childUid)
+        .orderBy('createdAt', descending: true)
+        .limit(limit)
+        .get();
+    return snap.docs.map((doc) => {...doc.data(), 'id': doc.id}).toList();
+  }
+
   Future<List<ProgressModel>> getChildProgress(String childUid,
       {int limit = 50}) async {
     final snaps = await _db

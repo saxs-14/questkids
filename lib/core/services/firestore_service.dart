@@ -26,8 +26,8 @@ class FirestoreService {
   Future<void> updateRewards(String uid, Map<String, dynamic> data) =>
       _db.collection('rewards').doc(uid).set(data, SetOptions(merge: true));
 
-  // AI reports — flags on a QuestBot message, reviewed by admins only.
-  // See firestore.rules: create by the reporting user, read by admin claim.
+  // AI reports — flags on a QuestBot message, reviewed by admins and
+  // available to a linked parent with viewReports permission.
   Future<void> reportAiMessage({
     required String uid,
     required String messageText,

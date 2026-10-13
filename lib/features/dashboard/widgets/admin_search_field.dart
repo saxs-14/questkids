@@ -33,9 +33,12 @@ class AdminSearchField extends StatelessWidget {
               cursorColor: AdminColors.textAccent,
               onChanged: onChanged,
               style: const TextStyle(
-                color: AdminColors.textPrimary,
-                fontSize: 16,
+                color: AdminColors.textAccent,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                decoration: TextDecoration.none,
               ),
+              cursorWidth: 2,
               textInputAction: TextInputAction.search,
               maxLines: 1,
               decoration: InputDecoration(

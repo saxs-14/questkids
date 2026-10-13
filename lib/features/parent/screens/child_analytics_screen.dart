@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:path_provider/path_provider.dart';
@@ -35,6 +36,7 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
   Map<String, double> _weeklyTrend = {};
   Map<String, int> _timeSpent = {};
   Map<String, dynamic>? _weeklyReport;
+  List<Map<String, dynamic>> _aiReports = [];
   bool _loading = true;
   bool _exporting = false;
   bool _unlinking = false;
@@ -91,6 +93,7 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
       loadPart('weekly score trend', () => _repo.getWeeklyScoreTrend(childUid)),
       loadPart('time spent', () => _repo.getTimeSpentBySubject(childUid)),
       loadPart('weekly report', () => _repo.getLatestWeeklyReport(childUid)),
+      loadPart('flagged AI messages', () => _repo.getChildAiReports(childUid)),
     ]);
     if (!mounted || generation != _loadGeneration) return;
     setState(() {
@@ -106,6 +109,10 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
       _weeklyReport = results[3] == null
           ? null
           : Map<String, dynamic>.from(results[3] as Map);
+      _aiReports = (results[4] as List? ?? const [])
+          .whereType<Map>()
+          .map((report) => Map<String, dynamic>.from(report))
+          .toList();
       _loadErrors = errors;
       _loading = false;
     });
@@ -380,6 +387,76 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
     );
   }
 
+  Widget _aiReportsCard() {
+    return _chartCard(
+      title: 'Questy messages reported',
+      subtitle: 'Messages your child asked a grown-up to review',
+      child: _loadErrors.contains('flagged AI messages')
+          ? const Text(
+              'Reported messages could not be loaded. Check access or '
+              'connection, then use Retry above.',
+            )
+          : _aiReports.isEmpty
+              ? const Text('There are no flagged Questy messages to review.')
+              : Column(
+                  children: [
+                    for (var i = 0; i < _aiReports.length; i++) ...[
+                      if (i > 0) const Divider(height: 24),
+                      _reportedMessage(_aiReports[i]),
+                    ],
+                  ],
+                ),
+    );
+  }
+
+  Widget _reportedMessage(Map<String, dynamic> report) {
+    final createdAt = report['createdAt'];
+    final date = createdAt is Timestamp
+        ? createdAt.toDate()
+        : createdAt is DateTime
+            ? createdAt
+            : null;
+    final dateLabel = date == null
+        ? 'Date unavailable'
+        : '${date.day}/${date.month}/${date.year}';
+    final status = report['status']?.toString() ?? 'pending';
+    final isResolved = status == 'resolved';
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            const Icon(Icons.flag_outlined, color: AppColors.primary),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                report['reason']?.toString() ?? 'Questy message reported',
+                style: const TextStyle(fontWeight: FontWeight.w700),
+              ),
+            ),
+            Text(
+              isResolved ? 'Reviewed' : 'Needs review',
+              style: AppTextStyles.bodySmall.copyWith(
+                color: isResolved ? AppColors.success : AppColors.textSecondary,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 6),
+        Text(
+          report['messageText']?.toString() ?? 'No message text was saved.',
+          style: AppTextStyles.bodySmall,
+        ),
+        const SizedBox(height: 4),
+        Text(
+          dateLabel,
+          style:
+              AppTextStyles.bodySmall.copyWith(color: AppColors.textSecondary),
+        ),
+      ],
+    );
+  }
+
   Widget _chartCard(
       {required String title,
       required String subtitle,
@@ -527,7 +604,21 @@ class _ChildAnalyticsScreenState extends State<ChildAnalyticsScreen> {
           ),
           const SizedBox(height: 16),
 
-          if (_weeklyReport != null) _weeklyReportCard(),
+          if (_weeklyReport != null)
+            _weeklyReportCard()
+          else
+            _chartCard(
+              title: '🤖 AI weekly quest report',
+              subtitle: 'A weekly summary of your child’s learning activity',
+              child: Text(
+                _loadErrors.contains('weekly report')
+                    ? 'The weekly report could not be loaded. Check access or '
+                        'connection, then use Retry above.'
+                    : 'No weekly report is available yet. Reports are prepared '
+                        'after your child has completed games for the week.',
+              ),
+            ),
+          _aiReportsCard(),
           _aiInsightsCard(),
           _chartCard(
             title: 'XP by Subject',

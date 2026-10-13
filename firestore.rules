@@ -342,11 +342,12 @@ service cloud.firestore {
     }
 
     // ==================== AI REPORTS ====================
-    // Child (or parent, via client) flags a Questy message; only admins can
-    // review reports. Reporter cannot read back other users' reports.
+    // Child flags a Questy message. Admins review all reports; linked parents
+    // with viewReports permission can review flags submitted by their child.
     match /ai_reports/{reportId} {
       allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
       allow read: if isAdmin();
+      allow read: if hasParentPermission(resource.data.uid, 'viewReports');
       allow update, delete: if isAdmin();
     }
 

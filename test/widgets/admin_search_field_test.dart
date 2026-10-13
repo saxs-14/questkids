@@ -10,11 +10,13 @@ void main() {
     final controller = TextEditingController();
     addTearDown(controller.dispose);
     await tester.pumpWidget(MaterialApp(
-      home: Scaffold(
-        body: AdminSearchField(
-          hintText: 'Search by name, email, or role…',
-          onChanged: (value) => typed = value,
-          controller: controller,
+      home: StatefulBuilder(
+        builder: (context, setState) => Scaffold(
+          body: AdminSearchField(
+            hintText: 'Search by name, email, or role…',
+            onChanged: (value) => setState(() => typed = value),
+            controller: controller,
+          ),
         ),
       ),
     ));
@@ -26,8 +28,12 @@ void main() {
     expect(typed, 'thandeka');
     expect(find.text('thandeka'), findsOneWidget);
     expect(
-      tester.widget<TextField>(find.byType(TextField)).style?.color,
-      AdminColors.textPrimary,
+      tester.widget<EditableText>(find.byType(EditableText)).style.color,
+      AdminColors.textAccent,
+    );
+    expect(
+      tester.widget<EditableText>(find.byType(EditableText)).style.fontWeight,
+      FontWeight.w700,
     );
     expect(find.byTooltip('Clear search'), findsOneWidget);
 

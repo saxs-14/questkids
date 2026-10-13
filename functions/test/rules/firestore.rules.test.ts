@@ -1,5 +1,16 @@
 import { RulesTestEnvironment, assertFails, assertSucceeds } from "@firebase/rules-unit-testing";
-import { deleteDoc, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  orderBy,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { createRulesTestEnv } from "./testEnv";
 
 let testEnv: RulesTestEnvironment;
@@ -352,6 +363,51 @@ describe("firestore.rules: ai_reports/{reportId}", () => {
     await assertFails(getDoc(doc(alice.firestore(), "ai_reports/report-1")));
   });
 
+  it("allows a linked parent with viewReports permission to read the child's flags", async () => {
+    const parent = testEnv.authenticatedContext("parent-1", { role: "parent" });
+    await testEnv.withSecurityRulesDisabled(async (ctx) => {
+      await setDoc(doc(ctx.firestore(), "users/child-1"), {
+        ...learnerDoc("child-1"),
+        parentUid: "parent-1",
+      });
+      await setDoc(doc(ctx.firestore(), "ai_reports/report-1"), {
+        uid: "child-1",
+        messageText: "Flagged Questy response",
+        reason: "Confusing or wrong answer",
+        createdAt: new Date(),
+      });
+    });
+    const reportsQuery = query(
+      collection(parent.firestore(), "ai_reports"),
+      where("uid", "==", "child-1"),
+      orderBy("createdAt", "desc")
+    );
+    const reports = await getDocs(reportsQuery);
+    expect(reports.size).toBe(1);
+  });
+
+  it("denies an unrelated parent from reading the child's flags", async () => {
+    const parent = testEnv.authenticatedContext("parent-2", { role: "parent" });
+    await testEnv.withSecurityRulesDisabled(async (ctx) => {
+      await setDoc(doc(ctx.firestore(), "users/child-1"), {
+        ...learnerDoc("child-1"),
+        parentUid: "parent-1",
+      });
+      await setDoc(doc(ctx.firestore(), "ai_reports/report-1"), {
+        uid: "child-1",
+        messageText: "Flagged Questy response",
+        reason: "Confusing or wrong answer",
+        createdAt: new Date(),
+      });
+    });
+    const reportsQuery = query(
+      collection(parent.firestore(), "ai_reports"),
+      where("uid", "==", "child-1"),
+      orderBy("createdAt", "desc")
+    );
+    await assertFails(getDocs(reportsQuery));
+  });
+
   it("allows an admin to read and resolve a report", async () => {
     const admin = testEnv.authenticatedContext("admin-1", { role: "admin" });
     await testEnv.withSecurityRulesDisabled(async (ctx) => {
@@ -364,6 +420,44 @@ describe("firestore.rules: ai_reports/{reportId}", () => {
     await assertSucceeds(getDoc(doc(admin.firestore(), "ai_reports/report-1")));
     await assertSucceeds(
       updateDoc(doc(admin.firestore(), "ai_reports/report-1"), { status: "resolved" })
+    );
+  });
+});
+
+describe("firestore.rules: weekly_reports/{reportId}", () => {
+  it("allows a linked parent with viewReports permission to read the child's weekly report", async () => {
+    const parent = testEnv.authenticatedContext("parent-1", { role: "parent" });
+    await testEnv.withSecurityRulesDisabled(async (ctx) => {
+      await setDoc(doc(ctx.firestore(), "users/child-1"), {
+        ...learnerDoc("child-1"),
+        parentUid: "parent-1",
+      });
+      await setDoc(doc(ctx.firestore(), "weekly_reports/child-1_2026-10-12"), {
+        childUid: "child-1",
+        weekKey: "2026-10-12",
+        report: { summary: "Great week!" },
+      });
+    });
+    await assertSucceeds(
+      getDoc(doc(parent.firestore(), "weekly_reports/child-1_2026-10-12"))
+    );
+  });
+
+  it("denies an unrelated parent from reading the child's weekly report", async () => {
+    const parent = testEnv.authenticatedContext("parent-2", { role: "parent" });
+    await testEnv.withSecurityRulesDisabled(async (ctx) => {
+      await setDoc(doc(ctx.firestore(), "users/child-1"), {
+        ...learnerDoc("child-1"),
+        parentUid: "parent-1",
+      });
+      await setDoc(doc(ctx.firestore(), "weekly_reports/child-1_2026-10-12"), {
+        childUid: "child-1",
+        weekKey: "2026-10-12",
+        report: { summary: "Great week!" },
+      });
+    });
+    await assertFails(
+      getDoc(doc(parent.firestore(), "weekly_reports/child-1_2026-10-12"))
     );
   });
 });
