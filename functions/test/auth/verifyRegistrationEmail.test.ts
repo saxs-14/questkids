@@ -60,7 +60,10 @@ describe("verifyRegistrationEmail", () => {
       verifyRegistrationEmail.run(
         requestAs({ otpCode: "000000" }, { uid: "parent-wrong-code", email: "wrongcode@gmail.com" })
       )
-    ).rejects.toMatchObject({ code: "permission-denied" });
+    ).rejects.toMatchObject({
+      code: "permission-denied",
+      message: "Incorrect verification code.",
+    });
   });
 
   it("marks the Auth user and Firestore doc verified on a correct code", async () => {
@@ -76,6 +79,22 @@ describe("verifyRegistrationEmail", () => {
     expect(authUser.emailVerified).toBe(true);
 
     const doc = await getFirestore().collection("users").doc("parent-verified").get();
+    expect(doc.data()?.emailVerified).toBe(true);
+  });
+
+  it("repairs the Firestore mirror when Auth verification succeeded on an earlier attempt", async () => {
+    await createTestUser("parent-retry-verified", "retry@gmail.com");
+    await getAuth().updateUser("parent-retry-verified", { emailVerified: true });
+
+    const result = (await verifyRegistrationEmail.run(
+      requestAs({ otpCode: "000000" }, {
+        uid: "parent-retry-verified",
+        email: "retry@gmail.com",
+      })
+    )) as { verified: boolean };
+
+    expect(result.verified).toBe(true);
+    const doc = await getFirestore().collection("users").doc("parent-retry-verified").get();
     expect(doc.data()?.emailVerified).toBe(true);
   });
 });

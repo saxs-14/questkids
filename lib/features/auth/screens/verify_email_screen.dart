@@ -23,6 +23,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
   final _codeCtrl = TextEditingController();
   bool _sendingCode = true;
   bool _submitting = false;
+  bool _verified = false;
   String? _error;
   int _resendCooldownSeconds = 0;
 
@@ -87,21 +88,27 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
       _error = null;
     });
     try {
-      await FirebaseFunctions.instanceFor(region: 'us-central1')
+      final result = await FirebaseFunctions.instanceFor(region: 'us-central1')
           .httpsCallable('verifyRegistrationEmail')
           .call({'otpCode': code});
+      if (result.data is! Map || result.data['verified'] != true) {
+        throw StateError('Email verification was not confirmed.');
+      }
       if (!mounted) return;
       final auth = context.read<AuthProvider>();
       auth.markEmailVerified();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => NavigationService.getDashboard(auth.user!)),
-      );
+      setState(() {
+        _verified = true;
+        _submitting = false;
+      });
     } on FirebaseFunctionsException catch (e) {
       if (mounted) {
         setState(() {
           _submitting = false;
-          _error = e.message ?? 'Verification failed. Please try again.';
+          _error = e.message ??
+              (e.code == 'permission-denied'
+                  ? 'Incorrect verification code. Please check it and try again.'
+                  : 'Verification failed. Please try again.');
         });
       }
     } catch (_) {
@@ -112,6 +119,18 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
         });
       }
     }
+  }
+
+  void _continueToDashboard() {
+    final user = context.read<AuthProvider>().user;
+    if (user == null) {
+      setState(() => _error = 'Your account could not be loaded. Please sign in again.');
+      return;
+    }
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => NavigationService.getDashboard(user)),
+    );
   }
 
   Future<void> _signOut() async {
@@ -140,17 +159,29 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Icon(Icons.mark_email_unread_outlined, size: 72, color: AppColors.primary),
+              Icon(
+                _verified ? Icons.mark_email_read_outlined : Icons.mark_email_unread_outlined,
+                size: 72,
+                color: _verified ? Colors.green : AppColors.primary,
+              ),
               const SizedBox(height: 24),
-              Text('One more step', style: AppTextStyles.h2, textAlign: TextAlign.center),
+              Text(
+                _verified ? 'Email verified!' : 'One more step',
+                style: AppTextStyles.h2,
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: 12),
               Text(
-                'We sent a 6-digit code to $email. Enter it below to finish setting up your account.',
+                _verified
+                    ? 'Your parent account is ready. Continue to your dashboard.'
+                    : 'We sent a 6-digit code to $email. Enter it below to finish setting up your account.',
                 style: AppTextStyles.bodyMedium,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
-              if (_sendingCode)
+              if (_verified)
+                const SizedBox.shrink()
+              else if (_sendingCode)
                 const Center(child: CircularProgressIndicator())
               else
                 TextField(
@@ -172,19 +203,26 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                 Text(_error!, style: const TextStyle(color: AppColors.error), textAlign: TextAlign.center),
               ],
               const SizedBox(height: 16),
-              TextButton(
-                onPressed: _resendCooldownSeconds > 0 || _sendingCode ? null : _requestCode,
-                child: Text(
-                  _resendCooldownSeconds > 0
-                      ? 'Resend code in ${_resendCooldownSeconds}s'
-                      : 'Resend code',
+              if (!_verified)
+                TextButton(
+                  onPressed: _resendCooldownSeconds > 0 || _sendingCode || _submitting
+                      ? null
+                      : _requestCode,
+                  child: Text(
+                    _resendCooldownSeconds > 0
+                        ? 'Resend code in ${_resendCooldownSeconds}s'
+                        : 'Resend code',
+                  ),
                 ),
-              ),
               const SizedBox(height: 16),
               AppButton(
-                label: 'Verify',
+                label: _verified ? 'Continue to dashboard' : 'Verify',
                 isLoading: _submitting,
-                onPressed: _submitting || _sendingCode ? null : _verify,
+                onPressed: _verified
+                    ? _continueToDashboard
+                    : _submitting || _sendingCode
+                        ? null
+                        : _verify,
               ),
             ],
           ),

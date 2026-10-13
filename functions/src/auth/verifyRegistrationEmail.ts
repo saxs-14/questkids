@@ -22,7 +22,8 @@ export const verifyRegistrationEmail = onCall(
     const { otpCode } = request.data as { otpCode?: unknown };
 
     const db = getFirestore();
-    const userSnap = await db.collection("users").doc(uid).get();
+    const userRef = db.collection("users").doc(uid);
+    const userSnap = await userRef.get();
     const email = request.auth.token.email ?? userSnap.data()?.email;
     if (typeof email !== "string" || !email) {
       throw new HttpsError(
@@ -31,10 +32,18 @@ export const verifyRegistrationEmail = onCall(
       );
     }
 
+    const authUser = await getAuth().getUser(uid);
+    if (authUser.emailVerified) {
+      // Recover safely if Auth was updated but the Firestore mirror write
+      // failed during an earlier attempt; the OTP has already been consumed.
+      await userRef.update({ emailVerified: true });
+      return { verified: true };
+    }
+
     await verifyAndConsumeActionOtp(uid, "verifyEmail", otpCode, email);
 
     await getAuth().updateUser(uid, { emailVerified: true });
-    await db.collection("users").doc(uid).update({ emailVerified: true });
+    await userRef.update({ emailVerified: true });
 
     return { verified: true };
   }

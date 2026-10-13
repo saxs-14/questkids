@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../providers/auth_provider.dart';
+import '../../../providers/parent_provider.dart';
 import '../widgets/auth_text_field.dart';
 import '../widgets/grade_selector.dart';
 
@@ -50,11 +51,16 @@ class _ParentChildSetupScreenState extends State<ParentChildSetupScreen> {
       );
       return;
     }
-    setState(() => _isProcessing = true);
     final auth = context.read<AuthProvider>();
-    // assume current user is parent
     final parent = auth.user;
-    if (parent == null) return;
+    if (parent == null) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Your parent account could not be loaded. Please sign in again.'),
+      ));
+      return;
+    }
+    final parentProvider = context.read<ParentProvider>();
+    setState(() => _isProcessing = true);
     final success = await auth.createChildForParent(
       parentUid: parent.uid,
       childName: _childNameCtrl.text.trim(),
@@ -66,14 +72,28 @@ class _ParentChildSetupScreenState extends State<ParentChildSetupScreen> {
       consentEmail: parent.email,
     );
 
+    var refreshed = true;
+    if (success) {
+      try {
+        await parentProvider.refreshLinkedChildren(parent.uid);
+      } catch (_) {
+        refreshed = false;
+      }
+    }
+
+    if (!mounted) return;
     setState(() => _isProcessing = false);
-    if (success && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Child created and linked successfully')));
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(refreshed
+            ? 'Child created and linked successfully'
+            : 'Child is linked, but the dashboard could not refresh. Please try again.'),
+      ));
       Navigator.pop(context);
-    } else if (mounted) {
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to create child')));
+        SnackBar(content: Text(auth.errorMessage ?? 'Failed to create child')),
+      );
     }
   }
 

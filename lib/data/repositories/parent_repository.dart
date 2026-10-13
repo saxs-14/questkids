@@ -68,6 +68,11 @@ class ParentRepository {
         .map((doc) => doc.data());
   }
 
+  Future<Map<String, dynamic>?> getUserDoc(String uid) async {
+    final snap = await _db.collection('users').doc(uid).get();
+    return snap.data();
+  }
+
   Stream<List<Map<String, dynamic>>> watchPendingRequests(
       String primaryParentUid) {
     return _db

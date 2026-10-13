@@ -31,6 +31,7 @@ class ParentProvider extends ChangeNotifier {
   StreamSubscription? _outgoingRequestsSub;
   StreamSubscription? _linkedChildrenDocSub;
   StreamSubscription? _pendingVerificationsSub;
+  int _linkedChildrenLoadGeneration = 0;
 
   // Getters
   List<UserModel> get linkedChildren => _linkedChildren;
@@ -49,7 +50,8 @@ class ParentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _recordListenerError(String source, Object error, StackTrace stackTrace) {
+  void _recordListenerError(
+      String source, Object error, StackTrace stackTrace) {
     debugPrint('Parent data stream failed ($source): $error\n$stackTrace');
     _errorMessage = 'Some parent data could not be refreshed. Check your '
         'connection or access permissions, then retry.';
@@ -61,7 +63,8 @@ class ParentProvider extends ChangeNotifier {
     _setLoading(true);
     try {
       // load pending requests
-      _pendingRequestsSub = _parentRepo.watchPendingRequests(uid).listen((list) {
+      _pendingRequestsSub =
+          _parentRepo.watchPendingRequests(uid).listen((list) {
         _pendingRequests = list;
         notifyListeners();
       }, onError: (Object error, StackTrace stackTrace) {
@@ -69,7 +72,8 @@ class ParentProvider extends ChangeNotifier {
       });
 
       // outgoing requests
-      _outgoingRequestsSub = _parentRepo.watchOutgoingRequests(uid).listen((list) {
+      _outgoingRequestsSub =
+          _parentRepo.watchOutgoingRequests(uid).listen((list) {
         _outgoingRequests = list;
         notifyListeners();
       }, onError: (Object error, StackTrace stackTrace) {
@@ -102,16 +106,38 @@ class ParentProvider extends ChangeNotifier {
       });
     }, onError: (Object error, StackTrace stackTrace) {
       _recordListenerError('linked children', error, stackTrace);
-      });
+    });
   }
 
-  Future<void> _loadLinkedChildren(List<String> childUids) async {
+  Future<void> refreshLinkedChildren(String parentUid) async {
     try {
-    final children = await _parentRepo.getLinkedChildren(childUids);
-    _linkedChildren = children;
-    notifyListeners();
+      final parent = await _parentRepo.getUserDoc(parentUid);
+      if (parent == null) {
+        throw StateError('Parent account data is missing.');
+      }
+      final children = List<String>.from(parent['linkedChildrenUids'] ?? []);
+      await _loadLinkedChildren(children, rethrowOnError: true);
     } catch (error, stackTrace) {
-    _recordListenerError('linked child profiles', error, stackTrace);
+      _recordListenerError('linked child refresh', error, stackTrace);
+      rethrow;
+    }
+  }
+
+  Future<void> _loadLinkedChildren(
+    List<String> childUids, {
+    bool rethrowOnError = false,
+  }) async {
+    final generation = ++_linkedChildrenLoadGeneration;
+    try {
+      final children = await _parentRepo.getLinkedChildren(childUids);
+      if (generation != _linkedChildrenLoadGeneration) return;
+      _linkedChildren = children;
+      notifyListeners();
+    } catch (error, stackTrace) {
+      if (generation == _linkedChildrenLoadGeneration) {
+        _recordListenerError('linked child profiles', error, stackTrace);
+      }
+      if (rethrowOnError) rethrow;
     }
   }
 
@@ -184,8 +210,8 @@ class ParentProvider extends ChangeNotifier {
     await _parentRepo.deleteCalendarEvent(eventId);
   }
 
-  Future<void> logMoodCheckin(String childUid, String loggedByUid,
-      String mood, String emoji, String? note) async {
+  Future<void> logMoodCheckin(String childUid, String loggedByUid, String mood,
+      String emoji, String? note) async {
     await _parentRepo.logMood({
       'childUid': childUid,
       'loggedByUid': loggedByUid,
@@ -199,5 +225,4 @@ class ParentProvider extends ChangeNotifier {
       String childUid, DateTime from, DateTime to) async {
     return await _parentRepo.getChildAnalytics(childUid, from, to);
   }
-
 }
