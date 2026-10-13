@@ -1,58 +1,81 @@
+import 'package:flutter/foundation.dart' show debugPrint;
+import 'package:cloud_functions/cloud_functions.dart';
 import '../../data/models/activity_model.dart';
-import '../../data/models/progress_model.dart';
 import '../../data/models/reward_model.dart';
 import '../../data/repositories/activity_repository.dart';
-import '../../data/repositories/progress_repository.dart';
-import '../../data/repositories/reward_repository.dart';
-import '../../data/repositories/user_repository.dart';
+import '../../data/repositories/quiz_submission_repository.dart';
 import 'offline_service.dart';
 
 class QuizService {
   final ActivityRepository _activityRepo = ActivityRepository();
-  final ProgressRepository _progressRepo = ProgressRepository();
-  final RewardRepository _rewardRepo = RewardRepository();
-  final UserRepository _userRepo = UserRepository();
+  final QuizSubmissionRepository _submissionRepo = QuizSubmissionRepository();
 
   Future<void> submitQuiz({
     required String uid,
     required ActivityModel activity,
-    required int correctAnswers,
-    required int totalQuestions,
+    required String submissionId,
+    required List<String> answers,
     required int timeTakenSeconds,
   }) async {
     final offlineService = OfflineService();
-    final score = totalQuestions > 0
-        ? ((correctAnswers / totalQuestions) * 100).round()
-        : 0;
-    final pointsEarned = _calculatePoints(
-      score: score,
-      basePoints: activity.rewardPoints,
-      timeTakenSeconds: timeTakenSeconds,
-    );
-
-    final progress = ProgressModel(
-      uid: uid,
-      activityId: activity.id,
-      activityTitle: activity.title,
-      subject: activity.subject,
-      score: score,
-      pointsEarned: pointsEarned,
-      completed: true,
-      verified: false,
-      completedAt: DateTime.now(),
-      timeTakenSeconds: timeTakenSeconds,
-    );
-
-    final isOnline = await offlineService.isOnline();
+    if (answers.isEmpty || answers.length != activity.questions.length) {
+      throw StateError('Every question must have an answer before saving.');
+    }
+    var isOnline = false;
+    try {
+      isOnline = await offlineService.isOnline();
+    } catch (error, stackTrace) {
+      debugPrint('Could not check connectivity; preserving quiz locally: '
+          '$error\n$stackTrace');
+    }
+    final payload = {
+      'uid': uid,
+      'submissionId': submissionId,
+      'activityId': activity.id,
+      'answers': answers,
+      'timeTakenSeconds': timeTakenSeconds,
+    };
     if (isOnline) {
-      await _progressRepo.saveProgress(progress);
-      await _rewardRepo.addPoints(uid, pointsEarned);
-      await _userRepo.addPoints(uid, pointsEarned);
-    } else {
-      await offlineService.saveProgressOffline(progress);
-      // Update local rewards cache
+      try {
+        await _submissionRepo.submit(
+          submissionId: submissionId,
+          activityId: activity.id,
+          answers: answers,
+          timeTakenSeconds: timeTakenSeconds,
+        );
+        return;
+      } catch (error, stackTrace) {
+        if (error is FirebaseFunctionsException &&
+            const {
+              'invalid-argument',
+              'not-found',
+              'permission-denied',
+              'failed-precondition',
+            }.contains(error.code)) {
+          rethrow;
+        }
+        debugPrint('Quiz submission failed online; saving for retry: '
+            '$error\n$stackTrace');
+      }
+    }
+
+    await offlineService.saveQuizSubmissionOffline(payload);
+    try {
       final cachedRewards = await offlineService.getCachedRewards(uid);
       if (cachedRewards != null) {
+        final correctAnswers = activity.questions
+            .asMap()
+            .entries
+            .where((entry) =>
+                answers[entry.key] ==
+                entry.value.options[entry.value.correctIndex])
+            .length;
+        final score = ((correctAnswers / answers.length) * 100).round();
+        final pointsEarned = _calculatePoints(
+          score: score,
+          basePoints: activity.rewardPoints,
+          timeTakenSeconds: timeTakenSeconds,
+        );
         final updated = RewardModel(
           uid: uid,
           totalPoints: cachedRewards.totalPoints + pointsEarned,
@@ -64,6 +87,9 @@ class QuizService {
         );
         await offlineService.cacheRewards(updated);
       }
+    } catch (error, stackTrace) {
+      debugPrint('Quiz was queued, but its local rewards cache could not be '
+          'updated: $error\n$stackTrace');
     }
   }
 

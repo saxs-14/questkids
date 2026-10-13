@@ -38,6 +38,7 @@ export { getParentLearningInsights } from "./parent/getParentLearningInsights";
 export { unlinkParentChild } from "./parent/unlinkChild";
 export { regenerateChildLinkCode } from "./parent/regenerateChildLinkCode";
 export { recordGameSession } from "./games/recordGameSession";
+export { submitQuizResult } from "./quests/submitQuizResult";
 export { requestParentLink } from "./parent/requestParentLink";
 export { resolveParentLinkRequest } from "./parent/resolveParentLinkRequest";
 export { getParentAccess, setParentPermissions } from "./parent/parentPermissions";
@@ -130,24 +131,27 @@ export const sendEmail = onDocumentCreated(
 
 // Cloud Function: Clean up old emails (daily at 2 AM)
 export const cleanupOldEmails = onSchedule("every day 02:00", async () => {
-  try {
-    const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  const db = getFirestore();
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  let deletedCount = 0;
 
-    const batch = getFirestore().batch();
-    const snapshot = await getFirestore()
+  let hasMore = true;
+  while (hasMore) {
+    const snapshot = await db
       .collection("emails")
       .where("createdAt", "<", thirtyDaysAgo)
+      .limit(450)
       .get();
+    hasMore = snapshot.size === 450;
+    if (snapshot.empty) continue;
 
-    snapshot.docs.forEach((doc) => {
-      batch.delete(doc.ref);
-    });
-
+    const batch = db.batch();
+    snapshot.docs.forEach((doc) => batch.delete(doc.ref));
     await batch.commit();
-    console.log(`Deleted ${snapshot.docs.length} old email records`);
-  } catch (error) {
-    console.error("Error cleaning up old emails:", error);
+    deletedCount += snapshot.size;
   }
+
+  console.log(`Deleted ${deletedCount} old email records`);
 });
 
 /**

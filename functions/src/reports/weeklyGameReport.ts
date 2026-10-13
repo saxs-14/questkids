@@ -16,7 +16,12 @@ function weekKey(date: Date): string {
 }
 
 export const generateWeeklyGameReports = onSchedule(
-  { schedule: "every monday 06:00", timeZone: "Africa/Johannesburg" },
+  {
+    schedule: "every monday 06:00",
+    timeZone: "Africa/Johannesburg",
+    retryCount: 3,
+    maxRetrySeconds: 3600,
+  },
   async () => {
     const db = getFirestore();
     const now = new Date();
@@ -37,8 +42,7 @@ export const generateWeeklyGameReports = onSchedule(
 
     const apiKey = GEMINI_API_KEY.value();
     if (!apiKey) {
-      console.error("GEMINI_API_KEY is not configured; weekly reports skipped.");
-      return;
+      throw new Error("GEMINI_API_KEY is not configured; weekly reports cannot be generated.");
     }
 
     const model = new GoogleGenerativeAI(apiKey).getGenerativeModel({
@@ -46,6 +50,7 @@ export const generateWeeklyGameReports = onSchedule(
       generationConfig: { temperature: 0.45, maxOutputTokens: 700 },
     });
 
+    const failures: string[] = [];
     for (const [childUid, childSessions] of byChild.entries()) {
       try {
         const childSnap = await db.collection("users").doc(childUid).get();
@@ -129,20 +134,31 @@ Do not diagnose the child or make medical claims. Keep it educational and encour
         }, { merge: true });
 
         for (const parentUid of linkedParents) {
-          await db.collection("notifications").doc().set({
-            recipientUid: parentUid,
-            title: "Weekly QuestKids report is ready",
-            body: `The AI progress report for ${child.name ?? "your child"} is ready to view.`,
-            type: "weekly_game_report",
-            childUid,
-            reportId: reportRef.id,
-            isRead: false,
-            createdAt: FieldValue.serverTimestamp(),
+          const notificationRef = db.collection("notifications")
+            .doc(`${childUid}_${key}_${parentUid}_weekly_report`);
+          await db.runTransaction(async (transaction) => {
+            const notification = await transaction.get(notificationRef);
+            if (notification.exists) return;
+            transaction.create(notificationRef, {
+              recipientUid: parentUid,
+              title: "Weekly QuestKids report is ready",
+              body: `The AI progress report for ${child.name ?? "your child"} is ready to view.`,
+              type: "weekly_game_report",
+              childUid,
+              reportId: reportRef.id,
+              isRead: false,
+              createdAt: FieldValue.serverTimestamp(),
+            });
           });
         }
       } catch (error) {
         console.error(`Weekly report failed for child ${childUid}`, error);
+        failures.push(childUid);
       }
+    }
+
+    if (failures.length > 0) {
+      throw new Error(`Weekly reports failed for ${failures.length} learner(s): ${failures.join(", ")}`);
     }
   },
 );

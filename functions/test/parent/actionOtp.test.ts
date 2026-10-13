@@ -1,8 +1,12 @@
 import "../setup/firebaseAdmin";
 import { getFirestore } from "firebase-admin/firestore";
+import { resolveMx } from "node:dns/promises";
 import { clearFirestoreEmulatorData } from "../setup/firestoreEmulator";
 import { requestActionOtp, verifyAndConsumeActionOtp } from "../../src/parent/actionOtp";
 
+jest.mock("node:dns/promises", () => ({ resolveMx: jest.fn() }));
+
+const mockResolveMx = jest.mocked(resolveMx);
 const TARGET = "child-1";
 
 function requestAs(data: Record<string, unknown>, auth?: { uid: string; role: string; email?: string }) {
@@ -28,6 +32,7 @@ async function latestEmailTo(to: string) {
 describe("requestActionOtp", () => {
   beforeEach(async () => {
     await clearFirestoreEmulatorData();
+    mockResolveMx.mockResolvedValue([{ exchange: "mail.example.com", priority: 10 }]);
   });
 
   it("rejects an unauthenticated caller", async () => {
@@ -154,6 +159,9 @@ describe("requestActionOtp", () => {
   });
 
   it("rejects verifyEmail for a domain with no mail server", async () => {
+    mockResolveMx.mockRejectedValueOnce(
+      Object.assign(new Error("domain does not exist"), { code: "ENOTFOUND" }),
+    );
     await expect(
       requestActionOtp.run(
         requestAs(
@@ -162,6 +170,20 @@ describe("requestActionOtp", () => {
         )
       )
     ).rejects.toMatchObject({ code: "invalid-argument" });
+  });
+
+  it("reports an unavailable error when MX lookup cannot be completed", async () => {
+    mockResolveMx.mockRejectedValueOnce(
+      Object.assign(new Error("DNS service unavailable"), { code: "ECONNREFUSED" }),
+    );
+    await expect(
+      requestActionOtp.run(
+        requestAs(
+          { action: "verifyEmail" },
+          { uid: "parent-1", role: "parent", email: "parent@gmail.com" }
+        )
+      )
+    ).rejects.toMatchObject({ code: "unavailable" });
   });
 
   it("rejects verifyEmail for a known disposable email domain", async () => {

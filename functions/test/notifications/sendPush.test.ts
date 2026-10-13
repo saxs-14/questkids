@@ -62,10 +62,37 @@ describe("sendPushOnNotificationCreate", () => {
     } as never);
 
     expect(mockSendEachForMulticast).toHaveBeenCalledWith(
-      expect.objectContaining({ tokens: ["token-a", "token-b"] })
+      expect.objectContaining({
+        tokens: ["token-a", "token-b"],
+        android: {
+          priority: "high",
+          notification: {
+            channelId: "questkids_notifications",
+            sound: "default",
+          },
+        },
+      })
     );
     const updated = await ref.get();
     expect(updated.data()?.pushSent).toBe(true);
+  });
+
+  it("supports notifications that use the legacy targetUid field", async () => {
+    await getFirestore().collection("users").doc("child-1").set({
+      fcmTokens: ["token-a"],
+    });
+    mockSendEachForMulticast.mockResolvedValue({
+      responses: [{ success: true }],
+    });
+    const event = await createdEventForRealDoc({
+      targetUid: "child-1",
+      title: "Legacy notification",
+      body: "Still delivered",
+    });
+
+    await sendPushOnNotificationCreate.run(event);
+
+    expect(mockSendEachForMulticast).toHaveBeenCalledTimes(1);
   });
 
   it("removes a token FCM reports as no-longer-registered", async () => {
@@ -90,7 +117,7 @@ describe("sendPushOnNotificationCreate", () => {
     expect(user.data()?.fcmTokens).toEqual(["good-token"]);
   });
 
-  it("marks the notification pushSent:false with an error when FCM throws", async () => {
+  it("records the failure and throws so transient FCM errors are retried", async () => {
     await getFirestore().collection("users").doc("child-1").set({
       fcmTokens: ["token-a"],
     });
@@ -98,13 +125,48 @@ describe("sendPushOnNotificationCreate", () => {
     const ref = getFirestore().collection("notifications").doc();
     const data = { recipientUid: "child-1", title: "Hi" };
     await ref.set(data);
-    await sendPushOnNotificationCreate.run({
+    await expect(sendPushOnNotificationCreate.run({
       data: { data: () => data, ref },
       params: { notificationId: ref.id },
-    } as never);
+    } as never)).rejects.toThrow("FCM is down");
 
     const updated = await ref.get();
     expect(updated.data()?.pushSent).toBe(false);
-    expect(updated.data()?.pushError).toContain("FCM is down");
+    expect(updated.data()?.pushError).toBe(
+      "FCM delivery request failed; an automatic retry is scheduled.",
+    );
+  });
+
+  it("retries only tokens that did not succeed on the previous attempt", async () => {
+    await getFirestore().collection("users").doc("child-1").set({
+      fcmTokens: ["token-a", "token-b"],
+    });
+    mockSendEachForMulticast
+      .mockResolvedValueOnce({
+        responses: [
+          { success: true },
+          { success: false, error: { code: "messaging/server-unavailable", message: "retry" } },
+        ],
+      })
+      .mockResolvedValueOnce({ responses: [{ success: true }] });
+    const ref = getFirestore().collection("notifications").doc();
+    const data = { recipientUid: "child-1", title: "Hi" };
+    await ref.set(data);
+    const event = {
+      data: { data: () => data, ref },
+      params: { notificationId: ref.id },
+    } as never;
+
+    await expect(sendPushOnNotificationCreate.run(event)).rejects.toThrow(
+      "could not deliver",
+    );
+    await sendPushOnNotificationCreate.run(event);
+
+    expect(mockSendEachForMulticast.mock.calls[0][0].tokens).toEqual([
+      "token-a",
+      "token-b",
+    ]);
+    expect(mockSendEachForMulticast.mock.calls[1][0].tokens).toEqual(["token-b"]);
+    expect((await ref.get()).data()?.pushSent).toBe(true);
   });
 });

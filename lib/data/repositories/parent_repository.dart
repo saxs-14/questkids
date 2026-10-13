@@ -34,8 +34,8 @@ class ParentRepository {
   final _uuid = const Uuid();
 
   // Link requests are created and resolved only by protected Cloud Functions.
-  Future<Map<String, dynamic>> requestParentLink(
-      String code, {String method = 'code'}) async {
+  Future<Map<String, dynamic>> requestParentLink(String code,
+      {String method = 'code'}) async {
     final result = await FirebaseFunctions.instanceFor(region: 'us-central1')
         .httpsCallable('requestParentLink')
         .call({'code': code, 'method': method});
@@ -105,8 +105,9 @@ class ParentRepository {
         alreadyLinked: data['alreadyLinked'] as bool? ?? false,
         isPrimaryParent: data['isPrimaryParent'] as bool? ?? false,
       );
-    } catch (_) {
-      return null;
+    } on FirebaseFunctionsException catch (error) {
+      if (error.code == 'not-found') return null;
+      rethrow;
     }
   }
 
@@ -294,7 +295,8 @@ class ParentRepository {
   }
 
   Future<Map<String, dynamic>?> getLatestWeeklyReport(String childUid) async {
-    final snap = await _db.collection('weekly_reports')
+    final snap = await _db
+        .collection('weekly_reports')
         .where('childUid', isEqualTo: childUid)
         .orderBy('weekKey', descending: true)
         .limit(1)

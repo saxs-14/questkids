@@ -1,70 +1,140 @@
+import { createHash } from "crypto";
 import { onDocumentCreated } from "firebase-functions/v2/firestore";
 import { getMessaging, SendResponse } from "firebase-admin/messaging";
-import { getFirestore, FieldValue } from "firebase-admin/firestore";
+import { FieldValue, getFirestore } from "firebase-admin/firestore";
+
+const TOKEN_BATCH_SIZE = 500;
+
+function tokenFingerprint(token: string): string {
+  return createHash("sha256").update(token).digest("hex");
+}
 
 /**
- * Cloud Function: send an FCM push whenever a document is created in the
- * 'notifications' collection, regardless of which function or client wrote
- * it. This is the single delivery point so future notification-creation
- * call sites don't each need their own push-sending code.
+ * Deliver notification documents through FCM. Successful tokens are recorded
+ * before proceeding so a retry only targets tokens that have not succeeded.
  */
 export const sendPushOnNotificationCreate = onDocumentCreated(
-  "notifications/{notificationId}",
+  { document: "notifications/{notificationId}", retry: true },
   async (event) => {
-    const data = event.data?.data();
-    if (!data) {
-      console.error("No notification data found");
+    if (!event.data) throw new Error("Notification event did not include a document.");
+
+    const notificationRef = event.data.ref;
+    const notificationSnap = await notificationRef.get();
+    const data = notificationSnap.data();
+    if (!data) throw new Error("Notification document disappeared before delivery.");
+    if (data.pushSent === true) return;
+
+    const recipientUid = data.recipientUid ?? data.targetUid;
+    if (typeof recipientUid !== "string" || recipientUid.length === 0) {
+      await notificationRef.update({
+        pushSent: false,
+        pushError: "Notification is missing a valid recipientUid.",
+      });
       return;
     }
 
-    const recipientUid: string | undefined = data.recipientUid;
-    if (!recipientUid) {
-      console.error("Notification has no recipientUid, skipping push");
+    const userSnap = await getFirestore().collection("users").doc(recipientUid).get();
+    const tokens = Array.isArray(userSnap.data()?.fcmTokens) ?
+      [...new Set((userSnap.data()?.fcmTokens as unknown[])
+        .filter((token): token is string => typeof token === "string" && token.length > 0))] :
+      [];
+    if (tokens.length === 0) {
+      await notificationRef.update({
+        pushSent: false,
+        pushError: "Recipient has no registered FCM tokens.",
+      });
       return;
     }
 
-    try {
-      const userDoc = await getFirestore()
-        .collection("users")
-        .doc(recipientUid)
-        .get();
-      const tokens: string[] = userDoc.data()?.fcmTokens ?? [];
+    const delivered = new Set(
+      Array.isArray(data.pushDeliveredTokenHashes) ?
+        data.pushDeliveredTokenHashes.filter((token: unknown): token is string =>
+          typeof token === "string") :
+        []
+    );
+    const pending = tokens.filter((token) => !delivered.has(tokenFingerprint(token)));
+    const staleTokens: string[] = [];
+    const retryErrors: string[] = [];
 
-      if (tokens.length === 0) {
-        console.log(`No FCM tokens for ${recipientUid}, skipping push`);
-        return;
+    for (let start = 0; start < pending.length; start += TOKEN_BATCH_SIZE) {
+      const batch = pending.slice(start, start + TOKEN_BATCH_SIZE);
+      let response;
+      try {
+        response = await getMessaging().sendEachForMulticast({
+          tokens: batch,
+          notification: {
+            title: typeof data.title === "string" ? data.title : "QuestKids",
+            body: typeof data.body === "string" ? data.body : "",
+          },
+          data: {
+            type: typeof data.type === "string" ? data.type : "general",
+            notificationId: event.params.notificationId,
+          },
+          android: {
+            priority: "high",
+            notification: {
+              channelId: "questkids_notifications",
+              sound: "default",
+            },
+          },
+          apns: {
+            payload: { aps: { sound: "default", contentAvailable: true } },
+          },
+        });
+      } catch (error) {
+        console.error("FCM multicast request failed; delivery will be retried.", error);
+        await notificationRef.update({
+          pushSent: false,
+          pushError: "FCM delivery request failed; an automatic retry is scheduled.",
+          pushAttemptedAt: FieldValue.serverTimestamp(),
+        });
+        throw error;
       }
 
-      const response = await getMessaging().sendEachForMulticast({
-        tokens,
-        notification: {
-          title: data.title ?? "QuestKids",
-          body: data.body ?? "",
-        },
-        data: { type: data.type ?? "general", notificationId: event.params.notificationId },
-      });
-
-      // Drop tokens FCM reports as no-longer-registered so the array
-      // doesn't grow unboundedly with dead devices.
-      const staleTokens: string[] = [];
-      response.responses.forEach((r: SendResponse, i: number) => {
-        if (!r.success && r.error?.code === "messaging/registration-token-not-registered") {
-          staleTokens.push(tokens[i]);
+      const deliveredBatch: string[] = [];
+      response.responses.forEach((result: SendResponse, index: number) => {
+        if (result.success) {
+          deliveredBatch.push(tokenFingerprint(batch[index]));
+        } else if (
+          result.error?.code === "messaging/registration-token-not-registered" ||
+          result.error?.code === "messaging/invalid-registration-token"
+        ) {
+          staleTokens.push(batch[index]);
+        } else {
+          retryErrors.push(
+            `${tokenFingerprint(batch[index])}: ${result.error?.code ?? "unknown-error"}`
+          );
         }
       });
-      if (staleTokens.length > 0) {
-        await getFirestore()
-          .collection("users")
-          .doc(recipientUid)
-          .update({ fcmTokens: FieldValue.arrayRemove(...staleTokens) });
-      }
 
-      await event.data?.ref.update({
-        pushSent: true,
-        pushSentAt: FieldValue.serverTimestamp(),
-      });
-    } catch (error) {
-      console.error("Error sending push notification:", error);
-      await event.data?.ref.update({ pushSent: false, pushError: String(error) });
+      if (deliveredBatch.length > 0) {
+        await notificationRef.update({
+          pushDeliveredTokenHashes: FieldValue.arrayUnion(...deliveredBatch),
+        });
+      }
     }
-  });
+
+    if (staleTokens.length > 0) {
+      await getFirestore()
+        .collection("users")
+        .doc(recipientUid)
+        .update({ fcmTokens: FieldValue.arrayRemove(...staleTokens) });
+    }
+
+    if (retryErrors.length > 0) {
+      const error = new Error(`FCM could not deliver to ${retryErrors.length} token(s).`);
+      await notificationRef.update({
+        pushSent: false,
+        pushError: `${error.message} ${retryErrors.slice(0, 5).join("; ")}`,
+        pushAttemptedAt: FieldValue.serverTimestamp(),
+      });
+      throw error;
+    }
+
+    await notificationRef.update({
+      pushSent: true,
+      pushSentAt: FieldValue.serverTimestamp(),
+      pushError: FieldValue.delete(),
+    });
+  }
+);

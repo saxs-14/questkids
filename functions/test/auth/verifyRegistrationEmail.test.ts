@@ -1,9 +1,14 @@
 import "../setup/firebaseAdmin";
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
+import { resolveMx } from "node:dns/promises";
 import { clearFirestoreEmulatorData } from "../setup/firestoreEmulator";
 import { verifyRegistrationEmail } from "../../src/auth/verifyRegistrationEmail";
 import { requestActionOtp } from "../../src/parent/actionOtp";
+
+jest.mock("node:dns/promises", () => ({ resolveMx: jest.fn() }));
+
+const mockResolveMx = jest.mocked(resolveMx);
 
 function requestAs(data: Record<string, unknown>, auth?: { uid: string; email?: string }) {
   return {
@@ -37,6 +42,7 @@ async function otpCodeFor(uid: string, email: string): Promise<string> {
 describe("verifyRegistrationEmail", () => {
   beforeEach(async () => {
     await clearFirestoreEmulatorData();
+    mockResolveMx.mockResolvedValue([{ exchange: "mail.example.com", priority: 10 }]);
   });
 
   it("rejects an unauthenticated caller", async () => {

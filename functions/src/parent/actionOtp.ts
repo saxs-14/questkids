@@ -95,12 +95,27 @@ async function assertEmailIsDeliverable(email: string): Promise<void> {
       "Temporary/disposable email addresses aren't allowed. Please use a real email you can access long-term."
     );
   }
+  let records: Awaited<ReturnType<typeof resolveMx>>;
   try {
-    const records = await resolveMx(domain);
-    if (!records.length) {
-      throw new Error("no MX records");
+    records = await resolveMx(domain);
+  } catch (error) {
+    const errorCode =
+      typeof error === "object" && error !== null && "code" in error ?
+        error.code :
+        undefined;
+    if (errorCode !== "ENODATA" && errorCode !== "ENOTFOUND") {
+      console.error("Unable to check email MX records.", error);
+      throw new HttpsError(
+        "unavailable",
+        "We couldn't check this email address right now. Please try again."
+      );
     }
-  } catch {
+    throw new HttpsError(
+      "invalid-argument",
+      "This email address can't receive mail. Please check for typos or use a different address."
+    );
+  }
+  if (!records.length) {
     throw new HttpsError(
       "invalid-argument",
       "This email address can't receive mail. Please check for typos or use a different address."

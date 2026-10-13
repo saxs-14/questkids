@@ -28,7 +28,21 @@ class NotificationsScreen extends StatelessWidget {
         title: const Text('Notifications'),
         actions: [
           TextButton(
-            onPressed: () => repo.markAllAsRead(uid),
+            onPressed: () async {
+              try {
+                await repo.markAllAsRead(uid);
+              } catch (error, stackTrace) {
+                debugPrint('Could not mark notifications as read: '
+                    '$error\n$stackTrace');
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Could not update notifications. Please retry.'),
+                    ),
+                  );
+                }
+              }
+            },
             child: const Text('Mark all read', style: TextStyle(color: Colors.white)),
           ),
         ],
@@ -40,7 +54,9 @@ class NotificationsScreen extends StatelessWidget {
             return const AppLoadingView(message: 'Loading notifications...');
           }
           if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return const Center(
+              child: Text('Notifications could not be loaded. Check your connection and retry.'),
+            );
           }
 
           final notifications = snapshot.data ?? [];
@@ -89,9 +105,20 @@ class NotificationsScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                onTap: () {
-                  if (!notif.isRead) {
-                    repo.markAsRead(notif.id);
+                onTap: () async {
+                  if (notif.isRead) return;
+                  try {
+                    await repo.markAsRead(notif.id);
+                  } catch (error, stackTrace) {
+                    debugPrint('Could not mark notification as read: '
+                        '$error\n$stackTrace');
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Could not update this notification. Please retry.'),
+                        ),
+                      );
+                    }
                   }
                 },
               );

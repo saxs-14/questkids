@@ -25,7 +25,8 @@ class MissionProvider extends ChangeNotifier {
 
   Future<void> completeMission(
       String uid, String missionId, String gameId) async {
-    await _repo.completeMission(uid, missionId, gameId);
+    final completedNow = await _repo.completeMission(uid, missionId, gameId);
+    if (!completedNow) return;
     try {
       await AnalyticsService.logQuestComplete(gameId);
     } catch (_) {

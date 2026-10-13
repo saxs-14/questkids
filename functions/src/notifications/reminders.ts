@@ -20,7 +20,8 @@ export const sendQuestReminders = onSchedule(
       .where("role", "==", "learner")
       .get();
 
-    const batch = db.batch();
+    let batch = db.batch();
+    let batchSize = 0;
     let remindersSent = 0;
 
     for (const userDoc of usersSnap.docs) {
@@ -46,8 +47,15 @@ export const sendQuestReminders = onSchedule(
         createdAt: FieldValue.serverTimestamp(),
       });
       remindersSent++;
+      batchSize++;
+
+      if (batchSize === 450) {
+        await batch.commit();
+        batch = db.batch();
+        batchSize = 0;
+      }
     }
 
-    if (remindersSent > 0) await batch.commit();
+    if (batchSize > 0) await batch.commit();
     console.log(`Sent ${remindersSent} quest reminders`);
   });

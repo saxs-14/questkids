@@ -32,7 +32,9 @@ class RewardRepository {
 
   Future<void> addPoints(String uid, int points) async {
     final current = await getRewards(uid);
-    if (current == null) return;
+    if (current == null) {
+      throw StateError('Your rewards profile is not ready yet.');
+    }
     final newTotal = current.totalPoints + points;
     final newLevel = (newTotal ~/ 100) + 1;
     await _rewards.doc(uid).update({

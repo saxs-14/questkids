@@ -20,16 +20,19 @@ class DocumentVaultScreen extends StatefulWidget {
 class _DocumentVaultScreenState extends State<DocumentVaultScreen> {
   final _repo = ParentRepository();
   bool _uploading = false;
+  Stream<List<Map<String, dynamic>>>? _documentsStream;
+  String? _documentsChildUid;
+  final Set<String> _deletingDocuments = {};
 
   Future<void> _pickAndUpload(String childUid, String parentUid) async {
     const typeGroup = XTypeGroup(
       label: 'documents',
       extensions: ['pdf', 'jpg', 'jpeg', 'png', 'doc', 'docx'],
     );
-    final file = await openFile(acceptedTypeGroups: [typeGroup]);
-    if (file == null) return;
     setState(() => _uploading = true);
     try {
+      final file = await openFile(acceptedTypeGroups: [typeGroup]);
+      if (file == null) return;
       final bytes = await file.readAsBytes();
       await _repo.uploadDocument(
         childUid: childUid,
@@ -41,13 +44,37 @@ class _DocumentVaultScreenState extends State<DocumentVaultScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Document uploaded')));
       }
-    } catch (e) {
+    } catch (error, stackTrace) {
+      debugPrint('Unable to upload vault document: $error\n$stackTrace');
       if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Upload failed: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Document upload failed. Please try again.'),
+        ));
       }
     } finally {
       if (mounted) setState(() => _uploading = false);
+    }
+  }
+
+  Future<void> _deleteDocument(String documentId) async {
+    if (!_deletingDocuments.add(documentId)) return;
+    setState(() {});
+    try {
+      await _repo.deleteDocument(documentId);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Document deleted.')));
+      }
+    } catch (error, stackTrace) {
+      debugPrint('Unable to delete vault document: $error\n$stackTrace');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Document could not be deleted. Please try again.'),
+        ));
+      }
+    } finally {
+      _deletingDocuments.remove(documentId);
+      if (mounted) setState(() {});
     }
   }
 
@@ -62,6 +89,10 @@ class _DocumentVaultScreenState extends State<DocumentVaultScreen> {
         appBar: AppBar(title: const Text('Document Vault')),
         body: const Center(child: Text('Select a child first.')),
       );
+    }
+    if (_documentsChildUid != child.uid) {
+      _documentsChildUid = child.uid;
+      _documentsStream = _repo.watchDocuments(child.uid);
     }
 
     return Scaffold(
@@ -78,8 +109,25 @@ class _DocumentVaultScreenState extends State<DocumentVaultScreen> {
         label: Text(_uploading ? 'Uploading...' : 'Upload'),
       ),
       body: StreamBuilder<List<Map<String, dynamic>>>(
-        stream: _repo.watchDocuments(child.uid),
+        stream: _documentsStream,
         builder: (context, snap) {
+          if (snap.hasError) {
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                      'Documents could not be loaded. Check your connection and try again.'),
+                  TextButton(
+                    onPressed: () => setState(() {
+                      _documentsStream = _repo.watchDocuments(child.uid);
+                    }),
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
+            );
+          }
           if (!snap.hasData) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -105,8 +153,16 @@ class _DocumentVaultScreenState extends State<DocumentVaultScreen> {
                       style: AppTextStyles.bodyMedium),
                   subtitle: Text(dateStr),
                   trailing: IconButton(
-                    icon: const Icon(Icons.delete_outline),
-                    onPressed: () => _repo.deleteDocument(d['id'] as String),
+                    icon: _deletingDocuments.contains(d['id'])
+                        ? const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.delete_outline),
+                    onPressed: _deletingDocuments.contains(d['id'])
+                        ? null
+                        : () => _deleteDocument(d['id'] as String),
                   ),
                 ),
               );

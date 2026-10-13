@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_core_platform_interface/test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:questkids/data/models/game_session_model.dart';
+import 'package:questkids/data/models/progress_model.dart';
 import 'package:questkids/core/services/local_storage_service.dart';
 import 'package:questkids/core/services/offline_service.dart';
 
@@ -10,12 +12,16 @@ import 'package:questkids/core/services/offline_service.dart';
 class _FakeLocalStorage extends LocalStorageService {
   final Map<String, List<Map<String, dynamic>>> _tables = {};
   int _nextId = 1;
+  bool failPendingSyncInsert = false;
 
   List<Map<String, dynamic>> _rows(String table) =>
       _tables.putIfAbsent(table, () => []);
 
   @override
   Future<void> insert(String table, Map<String, dynamic> data) async {
+    if (table == 'pending_sync' && failPendingSyncInsert) {
+      throw StateError('Local queue is unavailable.');
+    }
     final row = Map<String, dynamic>.from(data);
     if (table == 'pending_sync' && row['id'] == null) {
       row['id'] = _nextId++;
@@ -81,6 +87,98 @@ void main() {
         () => service.applyPendingSyncItem('some_future_type', {}),
         throwsA(isA<StateError>()),
       );
+    });
+
+    test('saves progress in the durable queue and exposes it offline',
+        () async {
+      final service = OfflineService();
+      final progress = ProgressModel(
+        uid: 'learner-1',
+        activityId: 'quiz-1',
+        activityTitle: 'Number quest',
+        subject: 'Mathematics',
+        score: 80,
+        pointsEarned: 12,
+        completed: true,
+        completedAt: DateTime.utc(2026, 10, 13),
+        timeTakenSeconds: 35,
+      );
+
+      await service.saveProgressOffline(progress);
+
+      final pending = await service.getPendingSync();
+      expect(pending, hasLength(1));
+      expect(pending.single['type'], 'progress');
+      expect(
+        (await service.getCachedProgress('learner-1')).single.activityId,
+        'quiz-1',
+      );
+      expect(await service.getCachedProgress('another-learner'), isEmpty);
+    });
+
+    test('does not report offline progress saved if queue persistence fails',
+        () async {
+      fake.failPendingSyncInsert = true;
+      final service = OfflineService();
+      final progress = ProgressModel(
+        uid: 'learner-1',
+        activityId: 'quiz-1',
+        activityTitle: 'Number quest',
+        subject: 'Mathematics',
+        score: 80,
+        pointsEarned: 12,
+        completedAt: DateTime.utc(2026, 10, 13),
+      );
+
+      await expectLater(
+        service.saveProgressOffline(progress),
+        throwsA(isA<StateError>()),
+      );
+      expect(await service.getPendingSync(), isEmpty);
+      expect(await service.getCachedProgress('learner-1'), isEmpty);
+    });
+
+    test('persists game sessions with the same stable ID used for retries',
+        () async {
+      final service = OfflineService();
+      final session = GameSessionModel(
+        id: 'session-stable-1',
+        uid: 'learner-1',
+        grade: 'Grade 4',
+        subject: 'Mathematics',
+        engineType: 'multiplesMerge',
+        score: 90,
+        xpEarned: 20,
+        coinsEarned: 2,
+        accuracy: 0.9,
+        timeTakenSeconds: 45,
+        completedAt: DateTime.utc(2026, 10, 13),
+        result: 'win',
+      );
+
+      await service.saveGameSessionOffline(session);
+
+      final queued = await service.getPendingSync();
+      expect(queued.single['type'], 'game_session');
+      expect(queued.single['dataJson'], contains('"id":"session-stable-1"'));
+    });
+
+    test('keeps quiz submissions bound to the account that created them',
+        () async {
+      final service = OfflineService();
+      await service.saveQuizSubmissionOffline({
+        'uid': 'learner-1',
+        'submissionId': 'submission-1',
+        'activityId': 'activity-1',
+        'answers': ['A'],
+        'timeTakenSeconds': 20,
+      });
+
+      final pending = await service.getPendingSync();
+      expect(pending.single['type'], 'quiz_submission');
+      expect(pending.single['dataJson'], contains('"uid":"learner-1"'));
+      expect(pending.single['dataJson'],
+          contains('"submissionId":"submission-1"'));
     });
   });
 

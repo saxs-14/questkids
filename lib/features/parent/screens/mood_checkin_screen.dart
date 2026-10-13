@@ -28,6 +28,9 @@ class _MoodCheckinScreenState extends State<MoodCheckinScreen> {
   final _noteCtrl = TextEditingController();
   String? _selectedMood;
   bool _logging = false;
+  Stream<List<Map<String, dynamic>>>? _historyStream;
+  String? _historyChildUid;
+  final Set<String> _deletingEntries = {};
 
   @override
   void dispose() {
@@ -36,7 +39,9 @@ class _MoodCheckinScreenState extends State<MoodCheckinScreen> {
   }
 
   Future<void> _logMood(String childUid, String parentUid) async {
-    final mood = _moods.firstWhere((m) => m['label'] == _selectedMood);
+    final selectedMood = _selectedMood;
+    if (selectedMood == null || _logging) return;
+    final mood = _moods.firstWhere((m) => m['label'] == selectedMood);
     setState(() => _logging = true);
     try {
       await context.read<ParentProvider>().logMoodCheckin(
@@ -47,13 +52,42 @@ class _MoodCheckinScreenState extends State<MoodCheckinScreen> {
             _noteCtrl.text.trim().isEmpty ? null : _noteCtrl.text.trim(),
           );
       _noteCtrl.clear();
+      if (!mounted) return;
       setState(() => _selectedMood = null);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Mood logged')));
+    } catch (error, stackTrace) {
+      debugPrint('Unable to save mood check-in: $error\n$stackTrace');
       if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Mood logged')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Mood check-in could not be saved. Please try again.'),
+        ));
       }
     } finally {
       if (mounted) setState(() => _logging = false);
+    }
+  }
+
+  Future<void> _deleteMoodEntry(String entryId) async {
+    if (!_deletingEntries.add(entryId)) return;
+    setState(() {});
+    try {
+      await _repo.deleteMoodEntry(entryId);
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Mood entry deleted.')));
+      }
+    } catch (error, stackTrace) {
+      debugPrint('Unable to delete mood check-in: $error\n$stackTrace');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content:
+              Text('Mood entry could not be deleted. Please try again.'),
+        ));
+      }
+    } finally {
+      _deletingEntries.remove(entryId);
+      if (mounted) setState(() {});
     }
   }
 
@@ -68,6 +102,10 @@ class _MoodCheckinScreenState extends State<MoodCheckinScreen> {
         appBar: AppBar(title: const Text('Mood Check-in')),
         body: const Center(child: Text('Select a child first.')),
       );
+    }
+    if (_historyChildUid != child.uid) {
+      _historyChildUid = child.uid;
+      _historyStream = _repo.watchMoodHistory(child.uid);
     }
 
     return Scaffold(
@@ -124,8 +162,25 @@ class _MoodCheckinScreenState extends State<MoodCheckinScreen> {
           const Divider(height: 1),
           Expanded(
             child: StreamBuilder<List<Map<String, dynamic>>>(
-              stream: _repo.watchMoodHistory(child.uid),
+              stream: _historyStream,
               builder: (context, snap) {
+                if (snap.hasError) {
+                  return Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                            'Mood history could not be loaded. Check your connection and try again.'),
+                        TextButton(
+                          onPressed: () => setState(() {
+                            _historyStream = _repo.watchMoodHistory(child.uid);
+                          }),
+                          child: const Text('Retry'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
                 if (!snap.hasData) {
                   return const Center(child: CircularProgressIndicator());
                 }
@@ -157,10 +212,18 @@ class _MoodCheckinScreenState extends State<MoodCheckinScreen> {
                           ].join(' — '),
                         ),
                         trailing: IconButton(
-                          icon: const Icon(Icons.delete_outline,
-                              color: AppColors.textSecondary),
-                          onPressed: () =>
-                              _repo.deleteMoodEntry(e['id'] as String),
+                          icon: _deletingEntries.contains(e['id'])
+                              ? const SizedBox(
+                                  width: 18,
+                                  height: 18,
+                                  child: CircularProgressIndicator(
+                                      strokeWidth: 2),
+                                )
+                              : const Icon(Icons.delete_outline,
+                                  color: AppColors.textSecondary),
+                          onPressed: _deletingEntries.contains(e['id'])
+                              ? null
+                              : () => _deleteMoodEntry(e['id'] as String),
                         ),
                       ),
                     );

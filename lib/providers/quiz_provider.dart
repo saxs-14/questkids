@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import '../data/models/activity_model.dart';
 import '../data/repositories/activity_repository.dart';
 import '../core/services/quiz_service.dart';
@@ -20,6 +21,7 @@ class QuizProvider extends ChangeNotifier {
   List<int?> _userAnswers = [];
   int _correctCount = 0;
   int _startTime = 0;
+  String? _submissionId;
   String? _errorMessage;
   String _selectedSubject = 'All';
 
@@ -66,7 +68,8 @@ class QuizProvider extends ChangeNotifier {
         }
       }
       _state = QuizState.idle;
-    } catch (e) {
+    } catch (error, stackTrace) {
+      debugPrint('Unable to save quiz result: $error\n$stackTrace');
       _activities = await offlineService.getCachedActivities(grade);
       if (_activities.isNotEmpty) {
         _state = QuizState.idle;
@@ -122,6 +125,7 @@ class QuizProvider extends ChangeNotifier {
     _userAnswers = List.filled(randomizedQuestions.length, null);
     _correctCount = 0;
     _startTime = DateTime.now().millisecondsSinceEpoch;
+    _submissionId = const Uuid().v4();
     _state = QuizState.active;
     notifyListeners();
   }
@@ -157,21 +161,30 @@ class QuizProvider extends ChangeNotifier {
   Future<void> submitQuiz(String uid) async {
     if (_currentActivity == null) return;
     _state = QuizState.loading;
+    _errorMessage = null;
     notifyListeners();
     try {
-      final timeTaken =
-          (DateTime.now().millisecondsSinceEpoch - _startTime) ~/ 1000;
+      final timeTaken = ((DateTime.now().millisecondsSinceEpoch - _startTime) ~/
+              1000)
+          .clamp(0, 7200)
+          .toInt();
       await _quizService.submitQuiz(
         uid: uid,
         activity: _currentActivity!,
-        correctAnswers: _correctCount,
-        totalQuestions: totalQuestions,
+        submissionId: _submissionId!,
+        answers: List.generate(_userAnswers.length, (index) {
+          final answerIndex = _userAnswers[index];
+          if (answerIndex == null) return '';
+          return _currentActivity!.questions[index].options[answerIndex];
+        }),
         timeTakenSeconds: timeTaken,
       );
       _state = QuizState.complete;
-    } catch (e) {
+    } catch (e, stackTrace) {
+      debugPrint('Unable to submit quiz result: $e\n$stackTrace');
       _state = QuizState.error;
-      _errorMessage = 'Failed to save results.';
+      _errorMessage = 'Could not save quest results. Check your connection '
+          'and try again.';
     }
     notifyListeners();
   }
@@ -184,6 +197,7 @@ class QuizProvider extends ChangeNotifier {
     _isAnswerRevealed = false;
     _userAnswers = [];
     _correctCount = 0;
+    _submissionId = null;
     notifyListeners();
   }
 

@@ -43,6 +43,8 @@ class SettingsScreen extends StatelessWidget {
             builder: (context, auth, _) {
               final granted = auth.notificationPermission ==
                   NotificationPermissionState.granted;
+              final unavailable = auth.notificationPermission ==
+                  NotificationPermissionState.unavailable;
               return Card(
                 child: ListTile(
                   leading: Icon(
@@ -56,26 +58,32 @@ class SettingsScreen extends StatelessWidget {
                   subtitle: Text(
                     granted
                         ? 'On'
-                        : 'Off — turn this on in Settings to get badge and '
-                            'quest reminders',
+                        : unavailable
+                            ? 'Setup could not finish. Check your connection '
+                                'and retry.'
+                            : 'Off — turn this on in Settings to get badge '
+                                'and quest reminders',
                     style: AppTextStyles.bodySmall,
                   ),
                   trailing: granted
                       ? null
                       : TextButton(
                           onPressed: () async {
-                            try {
-                              await PermissionService.openSettings();
-                            } catch (_) {
-                              // Not supported on this platform (e.g. web) --
-                              // still re-check status below rather than
-                              // leaving the button silently inert.
-                            }
-                            if (context.mounted) {
-                              await auth.refreshNotificationPermission();
+                            if (unavailable) {
+                              await auth.retryNotificationSetup();
+                            } else {
+                              try {
+                                await PermissionService.openSettings();
+                              } catch (_) {
+                                // Web has no OS settings page; refresh the
+                                // browser's current notification permission.
+                              }
+                              if (context.mounted) {
+                                await auth.refreshNotificationPermission();
+                              }
                             }
                           },
-                          child: const Text('Open Settings'),
+                          child: Text(unavailable ? 'Retry' : 'Open Settings'),
                         ),
                 ),
               );

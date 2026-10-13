@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../core/services/offline_service.dart';
 
@@ -13,6 +15,7 @@ class ConnectivityProvider extends ChangeNotifier {
   int _pendingSyncCount = 0;
   String? _uid;
   StreamSubscription? _subscription;
+  bool _disposed = false;
 
   ConnectionStatus get status => _status;
   bool get isSyncing => _isSyncing;
@@ -31,13 +34,19 @@ class ConnectivityProvider extends ChangeNotifier {
   void setUid(String? uid) {
     if (_uid == uid) return;
     _uid = uid;
+    unawaited(_refreshPendingCountSafely());
   }
 
   Future<void> _init() async {
-    final isOnline = await _offlineService.isOnline();
-    _status = isOnline ? ConnectionStatus.online : ConnectionStatus.offline;
-    await updatePendingCount();
-
+    try {
+      final isOnline = await _offlineService.isOnline();
+      _status = isOnline ? ConnectionStatus.online : ConnectionStatus.offline;
+      await updatePendingCount();
+    } catch (error, stackTrace) {
+      debugPrint('Could not initialize offline status: $error\n$stackTrace');
+      _status = ConnectionStatus.offline;
+      _syncMessage = 'Offline status could not be checked.';
+    }
     _subscription = _offlineService.connectivityStream.listen((online) {
       final newStatus =
           online ? ConnectionStatus.online : ConnectionStatus.offline;
@@ -52,10 +61,16 @@ class ConnectivityProvider extends ChangeNotifier {
             syncNow(uid);
           }
         } else {
-          updatePendingCount();
+          unawaited(_refreshPendingCountSafely());
         }
       }
+    }, onError: (Object error, StackTrace stackTrace) {
+      debugPrint('Connectivity updates failed: $error\n$stackTrace');
+      _status = ConnectionStatus.offline;
+      _syncMessage = 'Connection status could not be checked.';
+      if (!_disposed) notifyListeners();
     });
+    if (!_disposed) notifyListeners();
   }
 
   Future<void> syncNow(String uid) async {
@@ -65,27 +80,54 @@ class ConnectivityProvider extends ChangeNotifier {
     _syncMessage = 'Syncing your progress...';
     notifyListeners();
 
-    final result = await _offlineService.syncToFirestore(uid);
-
-    _isSyncing = false;
-    _status =
-        result.success ? ConnectionStatus.online : ConnectionStatus.offline;
-    _syncMessage = result.message;
-    await updatePendingCount();
+    var success = false;
+    try {
+      final result = await _offlineService.syncToFirestore(uid);
+      success = result.success;
+      _syncMessage = result.message;
+    } catch (error, stackTrace) {
+      debugPrint('Offline data sync failed: $error\n$stackTrace');
+      _syncMessage = 'Sync failed. Your saved work is still queued. Please retry.';
+    } finally {
+      _isSyncing = false;
+      _status = success ? ConnectionStatus.online : ConnectionStatus.offline;
+      try {
+        await updatePendingCount();
+      } catch (error, stackTrace) {
+        debugPrint('Could not refresh pending sync count: $error\n$stackTrace');
+      }
+      if (!_disposed) notifyListeners();
+    }
 
     await Future.delayed(const Duration(seconds: 3));
     _syncMessage = null;
-    notifyListeners();
+    if (!_disposed) notifyListeners();
   }
 
   Future<void> updatePendingCount() async {
     final pending = await _offlineService.getPendingSync();
-    _pendingSyncCount = pending.length;
-    notifyListeners();
+    final uid = _uid;
+    _pendingSyncCount = pending.where((item) {
+      if (uid == null || uid.isEmpty) return false;
+      final data = jsonDecode(item['dataJson'] as String) as Map<String, dynamic>;
+      return (data['uid'] ?? data['userId']) == uid;
+    }).length;
+    if (!_disposed) notifyListeners();
+  }
+
+  Future<void> _refreshPendingCountSafely() async {
+    try {
+      await updatePendingCount();
+    } catch (error, stackTrace) {
+      debugPrint('Could not count pending offline work: $error\n$stackTrace');
+      _syncMessage = 'Saved work status could not be loaded.';
+      if (!_disposed) notifyListeners();
+    }
   }
 
   @override
   void dispose() {
+    _disposed = true;
     _subscription?.cancel();
     super.dispose();
   }

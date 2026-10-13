@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/foundation.dart' show visibleForTesting;
+import 'package:flutter/foundation.dart' show debugPrint, visibleForTesting;
+import 'package:uuid/uuid.dart';
 import '../../data/models/activity_model.dart';
 import '../../data/models/game_session_model.dart';
 import '../../data/models/progress_model.dart';
@@ -12,7 +14,6 @@ import '../../data/repositories/progress_repository.dart';
 import '../../data/repositories/reward_repository.dart';
 import '../../data/repositories/user_repository.dart';
 import 'local_storage_service.dart';
-import 'rewards_service.dart';
 
 class OfflineService {
   final LocalStorageService _store = LocalStorageService.instance;
@@ -122,28 +123,19 @@ class OfflineService {
   // ── Progress caching & sync ───────────────────────────
 
   Future<void> saveProgressOffline(ProgressModel progress) async {
-    await _store.insert('progress', {
-      'uid': progress.uid,
-      'activityId': progress.activityId,
-      'activityTitle': progress.activityTitle,
-      'subject': progress.subject,
-      'score': progress.score,
-      'pointsEarned': progress.pointsEarned,
-      'completed': progress.completed ? 1 : 0,
-      'verified': progress.verified ? 1 : 0,
-      'proofUrl': progress.proofUrl,
-      'completedAt': progress.completedAt.millisecondsSinceEpoch,
-      'timeTakenSeconds': progress.timeTakenSeconds,
-      'synced': 0,
-    });
-
     await _addToPendingSync(
       type: 'progress',
-      data: progress.toMap(),
+      data: {
+        ...progress.toMap(),
+        '_progressId': const Uuid().v4(),
+      },
     );
   }
 
   Future<void> saveGameSessionOffline(GameSessionModel session) async {
+    if (session.id.isEmpty) {
+      throw StateError('A game session needs a stable ID before it can be saved offline.');
+    }
     final map = session.toMap();
     // Timestamp isn't JSON-serializable; store completedAt as millis and
     // convert back in applyPendingSyncItem's 'game_session' case.
@@ -154,6 +146,19 @@ class OfflineService {
     );
   }
 
+  Future<void> saveQuizSubmissionOffline(Map<String, dynamic> data) async {
+    final uid = data['uid'];
+    final submissionId = data['submissionId'];
+    if (uid is! String || uid.isEmpty ||
+        submissionId is! String || submissionId.isEmpty) {
+      throw ArgumentError('Offline quiz data must include its owner and submission ID.');
+    }
+    await _addToPendingSync(
+      type: 'quiz_submission',
+      data: data,
+    );
+  }
+
   Future<List<ProgressModel>> getCachedProgress(String uid) async {
     final rows = await _store.query(
       'progress',
@@ -161,7 +166,7 @@ class OfflineService {
       whereArgs: [uid],
       orderBy: 'completedAt DESC',
     );
-    return rows
+    final cached = rows
         .map((row) => ProgressModel(
               uid: row['uid'] as String,
               activityId: row['activityId'] as String,
@@ -175,9 +180,26 @@ class OfflineService {
               completedAt: DateTime.fromMillisecondsSinceEpoch(
                   row['completedAt'] as int),
               timeTakenSeconds: row['timeTakenSeconds'] as int,
-            ))
-        .toList();
+            ));
+    final byKey = <String, ProgressModel>{
+      for (final progress in cached) _progressCacheKey(progress): progress,
+    };
+
+    for (final item in await getPendingSync()) {
+      if (item['type'] != 'progress') continue;
+      final data = jsonDecode(item['dataJson'] as String) as Map<String, dynamic>;
+      if (data['uid'] != uid) continue;
+      final progress = ProgressModel.fromMap(data);
+      byKey.putIfAbsent(_progressCacheKey(progress), () => progress);
+    }
+
+    final result = byKey.values.toList()
+      ..sort((a, b) => b.completedAt.compareTo(a.completedAt));
+    return result;
   }
+
+  String _progressCacheKey(ProgressModel progress) =>
+      '${progress.uid}:${progress.activityId}:${progress.completedAt.millisecondsSinceEpoch}:${progress.score}';
 
   // ── Rewards caching ───────────────────────────────────
 
@@ -270,10 +292,18 @@ class OfflineService {
   /// unhandled item as synced.
   @visibleForTesting
   Future<void> applyPendingSyncItem(
-      String type, Map<String, dynamic> data) async {
+    String type,
+    Map<String, dynamic> data, {
+    String? queueId,
+  }) async {
     switch (type) {
       case 'progress':
-        await _progressRepo.saveProgress(ProgressModel.fromMap(data));
+        final progressData = Map<String, dynamic>.from(data);
+        final progressId = progressData.remove('_progressId') as String? ??
+            (queueId == null ? null : 'offline_$queueId');
+        final progress = ProgressModel.fromMap(progressData);
+        await _progressRepo.saveProgress(progress, progressId: progressId);
+        await _cacheProgress(progress);
         return;
       case 'game_session':
         final map = Map<String, dynamic>.from(data);
@@ -281,15 +311,16 @@ class OfflineService {
             Timestamp.fromMillisecondsSinceEpoch(map['completedAt'] as int);
         final session = GameSessionModel.fromMap(data['id'] as String, map);
         await _gameRepo.logGameSession(session);
-        try {
-          await RewardsService().grantGameSessionRewards(session);
-        } catch (_) {
-          // Non-fatal and deliberately not rethrown: logGameSession's
-          // fan-out writes (player_stats etc.) are additive, not
-          // idempotent, so letting this failure propagate would cause
-          // syncToFirestore to retry the whole item and double-count
-          // player_stats XP on the next sync attempt.
-        }
+        return;
+      case 'quiz_submission':
+        final callable = FirebaseFunctions.instanceFor(region: 'us-central1')
+            .httpsCallable('submitQuizResult');
+        await callable.call({
+          'submissionId': data['submissionId'],
+          'activityId': data['activityId'],
+          'answers': data['answers'],
+          'timeTakenSeconds': data['timeTakenSeconds'],
+        });
         return;
       default:
         throw StateError('Unknown pending sync type: $type');
@@ -304,13 +335,25 @@ class OfflineService {
 
     final pending = await getPendingSync();
     if (pending.isEmpty) {
-      return SyncResult(
-          success: true, message: 'Everything is up to date', synced: 0);
+      try {
+        await _syncFromFirestore(uid);
+        return SyncResult(
+            success: true, message: 'Everything is up to date', synced: 0);
+      } catch (error, stackTrace) {
+        debugPrint('Unable to refresh cached data from Firestore: '
+            '$error\n$stackTrace');
+        return SyncResult(
+          success: false,
+          message: 'Could not refresh your saved data. Please retry.',
+          synced: 0,
+        );
+      }
     }
 
     int syncedCount = 0;
     final errors = <String>[];
 
+    var deferredCount = 0;
     for (final item in pending) {
       try {
         final id = item['id'] as int;
@@ -318,7 +361,13 @@ class OfflineService {
         final data =
             jsonDecode(item['dataJson'] as String) as Map<String, dynamic>;
 
-        await applyPendingSyncItem(type, data);
+        final itemUid = data['uid'] ?? data['userId'];
+        if (itemUid != uid) {
+          deferredCount++;
+          continue;
+        }
+
+        await applyPendingSyncItem(type, data, queueId: '$id');
 
         await removePendingSync(id);
         syncedCount++;
@@ -328,43 +377,73 @@ class OfflineService {
       }
     }
 
-    await _syncFromFirestore(uid);
+    try {
+      await _syncFromFirestore(uid);
+    } catch (error, stackTrace) {
+      debugPrint('Unable to refresh cached data from Firestore: '
+          '$error\n$stackTrace');
+      errors.add('Failed to refresh local data');
+    }
 
     return SyncResult(
       success: errors.isEmpty,
-      message: errors.isEmpty
-          ? 'Synced $syncedCount items successfully'
-          : '${errors.length} items failed to sync',
+      message: [
+        if (errors.isEmpty)
+          'Synced $syncedCount items successfully'
+        else
+          '${errors.length} items failed to sync',
+        if (deferredCount > 0)
+          '$deferredCount items are saved for a different account',
+      ].join('. '),
       synced: syncedCount,
     );
   }
 
   Future<void> _syncFromFirestore(String uid) async {
-    try {
-      final user = await _userRepo.getUser(uid);
-      if (user != null) await cacheUser(user);
+    final user = await _userRepo.getUser(uid);
+    if (user != null) await cacheUser(user);
 
-      final rewards = await _rewardRepo.getRewards(uid);
-      if (rewards != null) await cacheRewards(rewards);
+    final rewards = await _rewardRepo.getRewards(uid);
+    if (rewards != null) await cacheRewards(rewards);
 
-      final progress = await _progressRepo.getUserProgress(uid);
-      for (final p in progress) {
-        await _store.insert('progress', {
-          'uid': p.uid,
-          'activityId': p.activityId,
-          'activityTitle': p.activityTitle,
-          'subject': p.subject,
-          'score': p.score,
-          'pointsEarned': p.pointsEarned,
-          'completed': p.completed ? 1 : 0,
-          'verified': p.verified ? 1 : 0,
-          'proofUrl': p.proofUrl,
-          'completedAt': p.completedAt.millisecondsSinceEpoch,
-          'timeTakenSeconds': p.timeTakenSeconds,
-          'synced': 1,
-        });
-      }
-    } catch (_) {}
+    final progress = await _progressRepo.getUserProgress(uid);
+    for (final p in progress) {
+      await _cacheProgress(p);
+    }
+  }
+
+  Future<void> _cacheProgress(ProgressModel progress) async {
+    final completedAt = progress.completedAt.millisecondsSinceEpoch;
+    final existing = await _store.query(
+      'progress',
+      where: 'uid = ?',
+      whereArgs: [progress.uid],
+    );
+    final matching = existing.where((row) =>
+        row['activityId'] == progress.activityId &&
+        row['completedAt'] == completedAt &&
+        row['score'] == progress.score);
+    final values = {
+      'uid': progress.uid,
+      'activityId': progress.activityId,
+      'activityTitle': progress.activityTitle,
+      'subject': progress.subject,
+      'score': progress.score,
+      'pointsEarned': progress.pointsEarned,
+      'completed': progress.completed ? 1 : 0,
+      'verified': progress.verified ? 1 : 0,
+      'proofUrl': progress.proofUrl,
+      'completedAt': completedAt,
+      'timeTakenSeconds': progress.timeTakenSeconds,
+      'synced': 1,
+    };
+    final matchingIterator = matching.iterator;
+    final cached = matchingIterator.moveNext() ? matchingIterator.current : null;
+    if (cached != null) {
+      await _store.update('progress', values, 'id = ?', [cached['id']]);
+    } else {
+      await _store.insert('progress', values);
+    }
   }
 
   // ── App settings ──────────────────────────────────────

@@ -35,12 +35,31 @@ class _LinkChildScreenState extends State<LinkChildScreen>
   }
 
   Future<void> _verifyCode() async {
-    setState(() => _loading = true);
-    final child = await _repo.findChildByCode(_codeCtrl.text.trim());
+    if (_loading) return;
     setState(() {
-      _foundChild = child;
-      _loading = false;
+      _loading = true;
+      _foundChild = null;
     });
+    try {
+      final child = await _repo.findChildByCode(_codeCtrl.text.trim());
+      if (!mounted) return;
+      setState(() => _foundChild = child);
+      if (child == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No child was found for that code.')),
+        );
+      }
+    } catch (error, stackTrace) {
+      debugPrint('Unable to verify child link code: $error\n$stackTrace');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Could not verify the code. Check your connection and try again.'),
+        ));
+      }
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
   }
 
   /// requestParentLink itself rejects a request when the child has no
@@ -51,7 +70,9 @@ class _LinkChildScreenState extends State<LinkChildScreen>
   bool get _canLink {
     final child = _foundChild;
     if (child == null) return false;
-    return child.hasPrimaryParent && !child.alreadyLinked && !child.isPrimaryParent;
+    return child.hasPrimaryParent &&
+        !child.alreadyLinked &&
+        !child.isPrimaryParent;
   }
 
   Future<void> _sendLinkRequest(String linkMethod) async {
@@ -62,7 +83,9 @@ class _LinkChildScreenState extends State<LinkChildScreen>
       await _repo.requestParentLink(code, method: linkMethod);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Link request sent to the child’s primary parent.')),
+          const SnackBar(
+              content:
+                  Text('Link request sent to the child’s primary parent.')),
         );
         Navigator.pop(context);
       }
@@ -111,7 +134,8 @@ class _LinkChildScreenState extends State<LinkChildScreen>
                     if (_foundChild != null)
                       AppButton(
                           label: 'Confirm Link',
-                          onPressed: _canLink ? () => _sendLinkRequest('code') : null),
+                          onPressed:
+                              _canLink ? () => _sendLinkRequest('code') : null),
                   ]),
                 ),
 
@@ -184,11 +208,14 @@ class _LinkChildScreenState extends State<LinkChildScreen>
                             const Text(
                                 'Point the camera at your child\'s link QR code.'),
                             const SizedBox(height: 12),
-                            if (_foundChild != null) _childPreview(_foundChild!),
+                            if (_foundChild != null)
+                              _childPreview(_foundChild!),
                             if (_foundChild != null)
                               AppButton(
                                   label: 'Confirm Link',
-                                  onPressed: _canLink ? () => _sendLinkRequest('qr') : null),
+                                  onPressed: _canLink
+                                      ? () => _sendLinkRequest('qr')
+                                      : null),
                           ],
                         ),
                 ),
@@ -224,7 +251,8 @@ class _LinkChildScreenState extends State<LinkChildScreen>
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(statusMessage, style: const TextStyle(color: AppColors.error)),
+                child: Text(statusMessage,
+                    style: const TextStyle(color: AppColors.error)),
               ),
             ),
         ],

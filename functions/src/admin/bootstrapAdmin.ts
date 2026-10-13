@@ -36,10 +36,20 @@ export const bootstrapAdmin = onCall(
     try {
       user = await auth.getUserByEmail(ADMIN_EMAIL);
     } catch (error) {
-      console.error("QuestKids admin bootstrap could not find the account.", error);
+      const errorCode =
+        typeof error === "object" && error !== null && "code" in error ?
+          error.code :
+          undefined;
+      if (errorCode === "auth/user-not-found") {
+        throw new HttpsError(
+          "failed-precondition",
+          "The configured admin Authentication account does not exist yet."
+        );
+      }
+      console.error("QuestKids admin bootstrap could not look up the account.", error);
       throw new HttpsError(
-        "failed-precondition",
-        "The configured admin Authentication account does not exist yet."
+        "unavailable",
+        "Unable to verify the configured admin account right now. Please try again."
       );
     }
 

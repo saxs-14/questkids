@@ -80,7 +80,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
     _transCtrl.forward();
   }
 
-  void _onNext(QuizProvider quiz, String uid) async {
+  Future<void> _onNext(QuizProvider quiz, String uid) async {
     if (!quiz.isAnswerRevealed) {
       quiz.revealAnswer();
 
@@ -109,19 +109,32 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
         }
       }
     } else if (quiz.isLastQuestion) {
-      quiz.submitQuiz(uid).then((_) {
-        if (mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (_) => ChangeNotifierProvider.value(
-                value: quiz,
-                child: const QuizResultScreen(),
-              ),
+      await quiz.submitQuiz(uid);
+      if (!mounted) return;
+      if (quiz.state != QuizState.complete) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              quiz.errorMessage ??
+                  'Could not save quest results. Please try again.',
             ),
-          );
-        }
-      });
+            action: SnackBarAction(
+              label: 'Retry',
+              onPressed: () => _onNext(quiz, uid),
+            ),
+          ),
+        );
+        return;
+      }
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => ChangeNotifierProvider.value(
+            value: quiz,
+            child: const QuizResultScreen(),
+          ),
+        ),
+      );
     } else {
       _transCtrl.reverse().then((_) {
         quiz.nextQuestion();

@@ -5,7 +5,12 @@ import '../theme/app_colors.dart';
 /// is in the foreground (FirebaseMessaging.onMessage doesn't show anything
 /// on its own on either platform).
 class NotificationBanner {
-  static void show(BuildContext context, {required String title, required String body}) {
+  static void show(
+    BuildContext context, {
+    required String title,
+    required String body,
+    VoidCallback? onView,
+  }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(
@@ -23,6 +28,12 @@ class NotificationBanner {
             ),
           ],
         ),
+        action: onView == null
+            ? null
+            : SnackBarAction(
+                label: 'View',
+                onPressed: onView,
+              ),
         duration: const Duration(seconds: 5),
       ),
     );

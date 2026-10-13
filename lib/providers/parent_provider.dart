@@ -1,4 +1,4 @@
-import 'dart:async' show StreamSubscription;
+import 'dart:async' show StreamSubscription, unawaited;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +49,13 @@ class ParentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void _recordListenerError(String source, Object error, StackTrace stackTrace) {
+    debugPrint('Parent data stream failed ($source): $error\n$stackTrace');
+    _errorMessage = 'Some parent data could not be refreshed. Check your '
+        'connection or access permissions, then retry.';
+    notifyListeners();
+  }
+
   Future<void> loadParentData(String uid) async {
     reset();
     _setLoading(true);
@@ -57,12 +64,16 @@ class ParentProvider extends ChangeNotifier {
       _pendingRequestsSub = _parentRepo.watchPendingRequests(uid).listen((list) {
         _pendingRequests = list;
         notifyListeners();
+      }, onError: (Object error, StackTrace stackTrace) {
+        _recordListenerError('link requests', error, stackTrace);
       });
 
       // outgoing requests
       _outgoingRequestsSub = _parentRepo.watchOutgoingRequests(uid).listen((list) {
         _outgoingRequests = list;
         notifyListeners();
+      }, onError: (Object error, StackTrace stackTrace) {
+        _recordListenerError('outgoing requests', error, stackTrace);
       });
 
       // pending verifications (for linked children)
@@ -79,20 +90,29 @@ class ParentProvider extends ChangeNotifier {
     // watch user's document to get linked children uids
     _linkedChildrenDocSub = _parentRepo.watchUserDoc(uid).listen((data) {
       final children = List<String>.from(data?['linkedChildrenUids'] ?? []);
-      // update linkedChildren list
-      _parentRepo.getLinkedChildren(children).then((list) {
-        _linkedChildren = list;
-        notifyListeners();
-      });
+      unawaited(_loadLinkedChildren(children));
 
-      // subscribe to pending verifications for these children
       _pendingVerificationsSub?.cancel();
       _pendingVerificationsSub =
           _parentRepo.watchPendingVerifications(children).listen((items) {
         _pendingVerifications = items;
         notifyListeners();
+      }, onError: (Object error, StackTrace stackTrace) {
+        _recordListenerError('pending verifications', error, stackTrace);
       });
-    });
+    }, onError: (Object error, StackTrace stackTrace) {
+      _recordListenerError('linked children', error, stackTrace);
+      });
+  }
+
+  Future<void> _loadLinkedChildren(List<String> childUids) async {
+    try {
+    final children = await _parentRepo.getLinkedChildren(childUids);
+    _linkedChildren = children;
+    notifyListeners();
+    } catch (error, stackTrace) {
+    _recordListenerError('linked child profiles', error, stackTrace);
+    }
   }
 
   /// Cancels every live Firestore listener and clears all cached state.

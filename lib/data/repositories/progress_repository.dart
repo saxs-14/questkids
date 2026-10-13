@@ -7,8 +7,15 @@ class ProgressRepository {
 
   CollectionReference get _progress => _db.collection(AppConstants.colProgress);
 
-  Future<void> saveProgress(ProgressModel progress) async {
-    await _progress.add(progress.toMap());
+  Future<void> saveProgress(
+    ProgressModel progress, {
+    String? progressId,
+  }) async {
+    if (progressId == null) {
+      await _progress.add(progress.toMap());
+      return;
+    }
+    await _progress.doc(progressId).set(progress.toMap());
   }
 
   Future<List<ProgressModel>> getUserProgress(String uid) async {

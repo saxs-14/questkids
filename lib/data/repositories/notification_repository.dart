@@ -39,11 +39,13 @@ class NotificationRepository {
         .where('recipientUid', isEqualTo: uid)
         .where('read', isEqualTo: false)
         .get();
-    final batch = _firestore.batch();
-    for (final d in snaps.docs) {
-      batch.update(d.reference, {'read': true, 'isRead': true});
+    for (var start = 0; start < snaps.docs.length; start += 450) {
+      final batch = _firestore.batch();
+      for (final doc in snaps.docs.skip(start).take(450)) {
+        batch.update(doc.reference, {'read': true, 'isRead': true});
+      }
+      await batch.commit();
     }
-    await batch.commit();
   }
 
   Future<int> getUnreadCount(String uid) async {

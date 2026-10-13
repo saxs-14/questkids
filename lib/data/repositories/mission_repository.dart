@@ -22,7 +22,7 @@ class MissionRepository {
     });
   }
 
-  Future<void> completeMission(
+  Future<bool> completeMission(
     String uid,
     String missionId,
     String gameId,
@@ -33,27 +33,33 @@ class MissionRepository {
         .collection('today')
         .doc('missions');
 
-    await _db.runTransaction((tx) async {
+    return _db.runTransaction((tx) async {
       final snap = await tx.get(docRef);
-      if (!snap.exists) return;
+      if (!snap.exists) {
+        throw StateError('Today\'s missions could not be found.');
+      }
 
       final data = snap.data() ?? {};
       final missions = List<Map<String, dynamic>>.from(
           (data['missions'] as List<dynamic>? ?? [])
               .map((m) => Map<String, dynamic>.from(m as Map)));
 
-      bool found = false;
+      var found = false;
       for (final m in missions) {
-        if (m['id'] == missionId && !(m['completed'] as bool? ?? false)) {
+        if (m['id'] == missionId) {
+          found = true;
+          if (m['completed'] as bool? ?? false) return false;
           m['completed'] = true;
           m['completedAt'] = FieldValue.serverTimestamp();
-          found = true;
           break;
         }
       }
-      if (!found) return;
+      if (!found) {
+        throw StateError('This mission is no longer available.');
+      }
 
       tx.update(docRef, {'missions': missions});
+      return true;
     });
   }
 }

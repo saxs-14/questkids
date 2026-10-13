@@ -1,5 +1,5 @@
 import "../setup/firebaseAdmin";
-import { getFirestore } from "firebase-admin/firestore";
+import { getFirestore, Timestamp } from "firebase-admin/firestore";
 import { clearFirestoreEmulatorData } from "../setup/firestoreEmulator";
 import { runLeaderboardRefresh } from "../../src/leaderboard/refresh";
 
@@ -28,9 +28,17 @@ describe("runLeaderboardRefresh", () => {
     await clearFirestoreEmulatorData();
   });
 
-  it("writes nothing for a grade with no learners", async () => {
-    await runLeaderboardRefresh(getFirestore());
-    const board = await getFirestore()
+  it("clears stale entries for a grade with no learners", async () => {
+    const db = getFirestore();
+    await db
+      .collection("leaderboards")
+      .doc("Grade 1")
+      .collection("allTime")
+      .doc("stale-uid")
+      .set({ uid: "stale-uid", xp: 999, rank: 1 });
+
+    await runLeaderboardRefresh(db);
+    const board = await db
       .collection("leaderboards")
       .doc("Grade 1")
       .collection("allTime")
@@ -85,6 +93,27 @@ describe("runLeaderboardRefresh", () => {
       .doc("child-1")
       .get();
     expect(allTime.data()?.xp).toBe(300); // from rewards.totalPoints, not progress
+  });
+
+  it("counts server-written Timestamp progress on weekly boards", async () => {
+    const db = getFirestore();
+    await seedLearner("child-1", "Grade 2", "Thandi", 25, []);
+    await db.collection("progress").doc("server-session").set({
+      uid: "child-1",
+      subject: "Mathematics",
+      pointsEarned: 25,
+      completedAt: Timestamp.now(),
+    });
+
+    await runLeaderboardRefresh(db);
+
+    const weekly = await db
+      .collection("leaderboards")
+      .doc("Grade 2")
+      .collection("weekly")
+      .doc("child-1")
+      .get();
+    expect(weekly.data()?.xp).toBe(25);
   });
 
   it("splits weekly/all-time XP per subject into separate subject boards", async () => {

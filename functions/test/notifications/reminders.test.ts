@@ -71,4 +71,30 @@ describe("sendQuestReminders", () => {
     expect(await remindersFor("child-2")).toHaveLength(0);
     expect(await remindersFor("child-3")).toHaveLength(1);
   });
+
+  it("splits reminder writes into batches below Firestore's 500-write limit", async () => {
+    const db = getFirestore();
+    for (let start = 0; start < 501; start += 250) {
+      const batch = db.batch();
+      const end = Math.min(start + 250, 501);
+      for (let index = start; index < end; index++) {
+        const uid = `child-${index}`;
+        batch.set(db.collection("users").doc(uid), { uid, role: "learner" });
+        batch.set(
+          db.collection("daily_missions").doc(uid)
+            .collection("today").doc("missions"),
+          { missions: [{ completed: false }] }
+        );
+      }
+      await batch.commit();
+    }
+
+    await sendQuestReminders.run({} as never);
+
+    const reminders = await db.collection("notifications")
+      .where("type", "==", "reminder")
+      .count()
+      .get();
+    expect(reminders.data().count).toBe(501);
+  });
 });

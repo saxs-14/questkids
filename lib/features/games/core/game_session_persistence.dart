@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show debugPrint;
 import '../../../core/services/analytics_service.dart';
 import '../../../core/services/offline_service.dart';
 import '../../../data/models/game_session_model.dart';
@@ -26,7 +27,13 @@ bool shouldQueueGameSessionOffline({
 /// online/offline/rewards handling, so this is the one place it lives.
 Future<void> persistGameSession(GameSessionModel session) async {
   final offlineService = OfflineService();
-  final online = await offlineService.isOnline();
+  var online = false;
+  try {
+    online = await offlineService.isOnline();
+  } catch (error, stackTrace) {
+    debugPrint('Could not check connectivity; preserving game session locally: '
+        '$error\n$stackTrace');
+  }
   var writeSucceeded = false;
   if (online) {
     try {
@@ -41,8 +48,10 @@ Future<void> persistGameSession(GameSessionModel session) async {
       } catch (_) {
         // Non-fatal: analytics failures must never affect gameplay.
       }
-    } catch (_) {
+    } catch (error, stackTrace) {
       writeSucceeded = false;
+      debugPrint('Online game-session save failed; queuing it for sync: '
+          '$error\n$stackTrace');
     }
   }
   if (shouldQueueGameSessionOffline(

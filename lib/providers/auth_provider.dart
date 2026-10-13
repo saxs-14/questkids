@@ -41,6 +41,7 @@ class AuthProvider extends ChangeNotifier {
       _userSubscription = null;
 
       if (firebaseUser == null) {
+        await _notificationService.stopListening();
         _status = AuthStatus.unauthenticated;
         _user = null;
       } else {
@@ -59,18 +60,22 @@ class AuthProvider extends ChangeNotifier {
         // refresh call is a no-op if the token was already current.
         try {
           await firebaseUser.getIdTokenResult(true);
-        } catch (_) {
+        } catch (error, stackTrace) {
           // Non-fatal: worst case the user proceeds with a stale claim
           // until the SDK's own next natural refresh.
+          debugPrint('Could not refresh the auth role claim: '
+              '$error\n$stackTrace');
         }
         _user = await _userRepo.getUser(firebaseUser.uid);
         _status = AuthStatus.authenticated;
-        _notificationPermission =
-            await _notificationService.init(firebaseUser.uid, navigatorKey);
+        _notificationPermission = await _notificationService
+            .init(firebaseUser.uid, navigatorKey);
         try {
           await _rewardsService.updateStreak(firebaseUser.uid);
-        } catch (_) {
+        } catch (error, stackTrace) {
           // Non-fatal: streak update failing must never block login.
+          debugPrint('Could not update the learner streak: '
+              '$error\n$stackTrace');
         }
         // Live-stream the user doc rather than relying solely on the
         // one-time fetch above, so fields written elsewhere (e.g.
@@ -92,6 +97,18 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> refreshNotificationPermission() async {
     _notificationPermission = await _notificationService.currentStatus();
+    if (_notificationPermission == NotificationPermissionState.granted) {
+      await retryNotificationSetup();
+      return;
+    }
+    notifyListeners();
+  }
+
+  Future<void> retryNotificationSetup() async {
+    final userId = _user?.uid;
+    if (userId == null) return;
+    _notificationPermission =
+        await _notificationService.init(userId, navigatorKey);
     notifyListeners();
   }
 
@@ -141,8 +158,10 @@ class AuthProvider extends ChangeNotifier {
       _status = AuthStatus.authenticated;
       try {
         await AnalyticsService.logSignUp('parent');
-      } catch (_) {
+      } catch (error, stackTrace) {
         // Non-fatal: analytics failures must never block a real signup.
+        debugPrint('Signup analytics failed: $error');
+        debugPrintStack(stackTrace: stackTrace);
       }
       notifyListeners();
       return true;
@@ -338,23 +357,15 @@ class AuthProvider extends ChangeNotifier {
   Future<void> signOut() async {
     if (_user != null) {
       try {
-        // On web, FirebaseMessaging.getToken() awaits the FCM service
-        // worker's registration promise -- there is no
-        // web/firebase-messaging-sw.js in this project, so that promise
-        // never settles and getToken() (called inside
-        // removeTokenOnSignOut) hangs forever rather than throwing. The
-        // surrounding try/catch only guards against a thrown exception,
-        // never against a Future that simply never completes, so sign-out
-        // was hanging indefinitely on web with no error and no crash.
-        // Bound it explicitly so a stuck platform call can never block a
-        // real sign-out.
         await _notificationService
             .removeTokenOnSignOut(_user!.uid)
             .timeout(const Duration(seconds: 5));
-      } catch (_) {
+      } catch (error, stackTrace) {
         // Non-fatal: FCM token cleanup failing or timing out (e.g. no web
         // push token, messaging permission issues) must never block a
         // real sign-out.
+        debugPrint('FCM token cleanup failed; continuing sign-out: '
+            '$error\n$stackTrace');
       }
     }
     await _userSubscription?.cancel();

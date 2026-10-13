@@ -25,7 +25,7 @@ describe("generateWeeklyGameReports", () => {
     });
   });
 
-  it("skips entirely (no crash, no report) when GEMINI_API_KEY is not configured", async () => {
+  it("fails visibly when GEMINI_API_KEY is not configured", async () => {
     delete process.env.GEMINI_API_KEY;
     const db = getFirestore();
     await db.collection("users").doc("child-1").set({ role: "learner", name: "Thandi" });
@@ -36,7 +36,9 @@ describe("generateWeeklyGameReports", () => {
       completedAt: Timestamp.now(),
     });
 
-    await generateWeeklyGameReports.run({} as never);
+    await expect(generateWeeklyGameReports.run({} as never)).rejects.toThrow(
+      "GEMINI_API_KEY is not configured",
+    );
     expect(mockGenerateContent).not.toHaveBeenCalled();
     const reports = await db.collection("weekly_reports").get();
     expect(reports.empty).toBe(true);
@@ -91,6 +93,12 @@ describe("generateWeeklyGameReports", () => {
         .get();
       expect(notifsP1.size).toBe(1);
       expect(notifsP2.size).toBe(1);
+
+      await generateWeeklyGameReports.run({} as never);
+      expect((await db.collection("notifications")
+        .where("recipientUid", "==", "parent-1")
+        .where("type", "==", "weekly_game_report")
+        .get()).size).toBe(1);
     });
 
     it("excludes sessions older than 7 days", async () => {
@@ -150,6 +158,25 @@ describe("generateWeeklyGameReports", () => {
       await generateWeeklyGameReports.run({} as never);
       const reports = await db.collection("weekly_reports").get();
       expect(reports.docs[0].data().report.summary).toContain("not json");
+    });
+
+    it("fails the scheduled run when report generation fails so it can be retried", async () => {
+      const db = getFirestore();
+      await db.collection("users").doc("child-1").set({
+        role: "learner",
+        name: "Thandi",
+      });
+      await db.collection("game_sessions").doc("s1").set({
+        uid: "child-1",
+        score: 90,
+        subject: "Mathematics",
+        completedAt: Timestamp.now(),
+      });
+      mockGenerateContent.mockRejectedValueOnce(new Error("Gemini unavailable"));
+
+      await expect(generateWeeklyGameReports.run({} as never)).rejects.toThrow(
+        "failed for 1 learner",
+      );
     });
   });
 });

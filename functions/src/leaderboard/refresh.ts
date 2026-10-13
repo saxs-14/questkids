@@ -66,20 +66,25 @@ function writeBoard(
   });
 }
 
-async function clearBoard(
+async function replaceBoard(
   db: Firestore,
   docId: string,
-  period: "weekly" | "allTime"
+  period: "weekly" | "allTime",
+  ranked: { uid: string; displayName: string; avatarEmoji: string; grade: string; xp: number }[],
+  now: Timestamp
 ): Promise<void> {
-  const existing = await db.collection("leaderboards").doc(docId).collection(period).get();
-  if (existing.empty) return;
+  const board = db.collection("leaderboards").doc(docId).collection(period);
+  const batch = db.batch();
+  writeBoard(db, batch, docId, period, ranked, now);
+  await batch.commit();
 
-  const docs = existing.docs;
-  for (let i = 0; i < docs.length; i += 400) {
-    const chunk = docs.slice(i, i + 400);
-    const batch = db.batch();
-    chunk.forEach((d) => batch.delete(d.ref));
-    await batch.commit();
+  const activeUids = new Set(ranked.map((entry) => entry.uid));
+  const existing = await board.get();
+  const stale = existing.docs.filter((doc) => !activeUids.has(doc.id));
+  for (let i = 0; i < stale.length; i += 400) {
+    const cleanup = db.batch();
+    stale.slice(i, i + 400).forEach((doc) => cleanup.delete(doc.ref));
+    await cleanup.commit();
   }
 }
 
@@ -97,8 +102,6 @@ export async function runLeaderboardRefresh(db: Firestore): Promise<void> {
       .where("role", "==", "learner")
       .where("grade", "==", grade)
       .get();
-
-    if (usersSnap.empty) continue;
 
     const entries: Entry[] = [];
 
@@ -123,7 +126,10 @@ export async function runLeaderboardRefresh(db: Firestore): Promise<void> {
         const data = d.data();
         const points = (data["pointsEarned"] as number) ?? 0;
         const subject = data["subject"] as string | undefined;
-        const completedAtMs = data["completedAt"] as number | undefined;
+        const completedAtValue = data["completedAt"];
+        const completedAtMs = completedAtValue instanceof Timestamp ?
+          completedAtValue.toMillis() :
+          typeof completedAtValue === "number" ? completedAtValue : undefined;
         const isRecent =
             completedAtMs !== undefined && completedAtMs >= sevenDaysAgo.getTime();
 
@@ -152,44 +158,30 @@ export async function runLeaderboardRefresh(db: Firestore): Promise<void> {
     }
 
     // ---- Overall (grade-wide) boards ----
-    await clearBoard(db, grade, "weekly");
-    await clearBoard(db, grade, "allTime");
-    const batch = db.batch();
-
     const weeklyRanked = [...entries]
       .sort((a, b) => b.weeklyXp - a.weeklyXp)
       .slice(0, 50)
       .map((e) => ({ ...e, xp: e.weeklyXp }));
-    writeBoard(db, batch, grade, "weekly", weeklyRanked, now);
-
     const allTimeRanked = [...entries]
       .sort((a, b) => b.allTimeXp - a.allTimeXp)
       .slice(0, 50)
       .map((e) => ({ ...e, xp: e.allTimeXp }));
-    writeBoard(db, batch, grade, "allTime", allTimeRanked, now);
-
-    await batch.commit();
+    await replaceBoard(db, grade, "weekly", weeklyRanked, now);
+    await replaceBoard(db, grade, "allTime", allTimeRanked, now);
 
     // ---- Per-subject boards ----
     for (const subject of SUBJECTS) {
       const docId = `${grade}_${subjectKey(subject)}`;
-      await clearBoard(db, docId, "weekly");
-      await clearBoard(db, docId, "allTime");
-      const subjectBatch = db.batch();
-
       const subjectWeeklyRanked = [...entries]
         .map((e) => ({ ...e, xp: e.subjectWeeklyXp[subject] ?? 0 }))
         .sort((a, b) => b.xp - a.xp)
         .slice(0, 50);
-      writeBoard(db, subjectBatch, docId, "weekly", subjectWeeklyRanked, now);
-
       const subjectAllTimeRanked = [...entries]
         .map((e) => ({ ...e, xp: e.subjectAllTimeXp[subject] ?? 0 }))
         .sort((a, b) => b.xp - a.xp)
         .slice(0, 50);
-      writeBoard(db, subjectBatch, docId, "allTime", subjectAllTimeRanked, now);
-
-      await subjectBatch.commit();
+      await replaceBoard(db, docId, "weekly", subjectWeeklyRanked, now);
+      await replaceBoard(db, docId, "allTime", subjectAllTimeRanked, now);
     }
 
     console.log(`Leaderboard refreshed for ${grade}`);
@@ -197,7 +189,12 @@ export async function runLeaderboardRefresh(db: Firestore): Promise<void> {
 }
 
 export const refreshLeaderboards = onSchedule(
-  { schedule: "every day 01:00", timeZone: "Africa/Johannesburg" },
+  {
+    schedule: "every day 01:00",
+    timeZone: "Africa/Johannesburg",
+    retryCount: 3,
+    maxRetrySeconds: 3600,
+  },
   async () => {
     await runLeaderboardRefresh(getFirestore());
   }
