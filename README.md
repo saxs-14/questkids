@@ -1,3 +1,5 @@
+<p align="center"><img src=".github/assets/banner.svg" width="100%" alt="QuestKids banner"/></p>
+
 # QuestKids
 
 QuestKids is a gamified learning platform for South African primary school
